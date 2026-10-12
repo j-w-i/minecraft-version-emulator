@@ -1,0 +1,8 @@
+.upstream/
+.gradle/
+build/
+run/
+.run/
+.idea/
+*.log
+local.properties
