@@ -1,0 +1,322 @@
+{
+  "schemaVersion": 1,
+  "reviewStatus": "WORKER_GENERATED_PENDING_PARENT_VERIFICATION",
+  "scope": "The complete mobile-entity (mob) set and the complete set of food items with their direct health-restore amounts, for the four requested Infdev builds (20100227, 20100325, 20100420, 20100611), extracted from archive-hosted client jars whose SHA-1 was verified against an independently published value. inf-20100618 is included separately because it is the only Infdev build Mojang itself publishes; it is NOT a substitute for 20100611. This file is a value/existence table: it is not a licence to copy Minecraft code and contains no Minecraft source or assets.",
+
+  "provenanceStandard": "The project owner explicitly authorised obtaining these builds from reputable archives of old Minecraft versions (Omniarchive, or the BetaCraft launcher's version repository), on the conditions that (a) the archive and the exact download URL are named, (b) each jar's SHA-1 is verified against an expected value published by a source independent of the download, (c) per jar the archive name, exact URL, expected SHA-1, the place that expectation is published, the computed SHA-1 and the byte size are all recorded, (d) a jar with no independently published hash is either not used or is marked HASH_NOT_INDEPENDENTLY_PUBLISHED, (e) a build that cannot be obtained is reported as UNOBTAINABLE rather than substituted, and (f) Mojang-published builds are labelled separately and are never presented as substitutes for unpublished ones. Computing a hash of a file one has just downloaded proves nothing and was never treated as verification.",
+
+  "method": {
+    "tooling": "A purpose-written standard-library Python class-file parser plus a bytecode walker and an abstract interpreter (small JVM subset) were written for this task. No decompiler, no Gradle, no Minecraft launch, no internet-sourced code. All jars, extracts and scratch files live under %TEMP%\\mce-infdev\\; nothing was written into the repository except this file.",
+    "jarFormatVariant": "These jars do NOT use the standard JVM class-file attribute layout. In every class of every jar examined, an attribute's length is a 4-byte field instead of the 2-byte field the JVM specification defines. This was established empirically rather than assumed: parsing the 747 .class entries of the b1.7.3 client with a 2-byte attribute length fails on essentially every class, while a 4-byte attribute length parses 747/747 classes exactly to the last byte, with zero bytes left over and zero truncated. An early version of the analyser was therefore wrong and was discarded before any value was reported from it.",
+    "classFileParserCrossCheck": "The parser was independently cross-checked against a value the project had already recorded from a different worker: the b1.7.3 entity-registry class file jc.class must be SHA-1 4f6bb330149cde1f8971a67ebc0c6e7d63e51103 and 3076 bytes. This task's parser extracted jc.class and computed SHA-1 4f6bb330149cde1f8971a67ebc0c6e7d63e51103, 3076 bytes - an exact match. That is the strongest available evidence that the four referenced class files are being read correctly.",
+    "classIdentificationIsStructural": "No class or field was located by searching for a name I expected. The entity registry was located as 'the class that declares a private static registrar method taking a java.lang.Class and a java.lang.String and returning void, and that calls it once per registered name', and the registered names were then read out of the constant pool rather than guessed. The health/heal mechanism was located as 'the class containing an (I)V method that reads and writes one of its own int fields and compares a constant 20', and the stored value was located by decompiling the constructor. Only after a class was located structurally was its name read off and recorded.",
+    "caseSensitivity": "Everything is case-sensitive. Constant-pool UTF8 entries are kept as exact byte-decoded strings and all matching is exact-string matching, so a single-character obfuscated field is never conflated with a differently-cased one. This matters specifically here: in the b1.7.3 item registry the food fields are gm.h (apple), gm.S (bread), gm.D (mushroomStew), gm.ao (porkchopRaw), gm.ap (porkchopCooked), gm.ar (appleGold), gm.aS (fishRaw), gm.aT (fishCooked) and gm.ba (cookie) - note that gm has a distinct lower-case field a of its own, and that obfuscated names such as gm.S and gm.s are different fields. Every value below cites owner.field explicitly.",
+    "entitySetDefinition": "For each build, 'the complete mob entity set' is taken to be the set of registered entity classes that are not one of the non-mob entities (arrows, item stacks, paintings, primed TNT, falling sand, minecarts, boats). For builds with a name registry, membership is read from that registry. For builds without one, membership is taken from the client's entity renderer registration table, which maps each entity class to a renderer and is the equivalent per-build, in-jar enumeration. Mob renderers are additionally identified by version-internal evidence where available (/mob/sheep_fur.png, /mob/spider_eyes.png)."
+  },
+
+  "selfCheck": {
+    "requirement": "Reproduce Beta 1.7.3 exactly: 14 mobs and 10 food heal values, from its client jar SHA-1 43db9b498cb67058d2e12d394e6507722e71bb45, 1,465,375 bytes, before trusting the method on older jars.",
+    "jarProvenance": {
+      "expectedSha1": "43db9b498cb67058d2e12d394e6507722e71bb45",
+      "hashPublishedWhere": "Mojang's official version metadata: https://piston-meta.mojang.com/v1/packages/44f6969326bd45aa00dcd3c4ca3a7c05ebb24c04/b1.7.3.json (reached from https://launchermeta.mojang.com/mc/game/version_manifest.json, id=b1.7.3), field downloads.client.sha1; download URL field downloads.client.url = https://launcher.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar",
+      "computedSha1": "43db9b498cb67058d2e12d394e6507722e71bb45",
+      "bytes": 1465375,
+      "match": true,
+      "note": "A first attempt used the URL pattern https://launchermeta.mojang.com/v1/packages/<sha1>/client.jar, which returned a 215-byte BlobNotFound XML error instead of a jar; the URL was corrected to the downloads.client.url value from the metadata above. The 215-byte error body was never treated as a jar."
+    },
+    "mobs": {
+      "howFound": "The entity-name registry was located structurally as the only class in the jar whose <clinit> calls a private static registrar a(Class,String,int) with reflection/HashMap scaffolding: class jc, with four static java.util.Map fields (jc.a, jc.b, jc.c, jc.d) and registrar jc.a(Ljava/lang/Class;Ljava/lang/String;I)V. Enumerating that <clinit> yielded 20 registrations: 10 mobs, 8 non-mob entities and the two base classes Mob and Monster.",
+      "registeredMobs": ["Chicken", "Cow", "Creeper", "Ghast", "Giant", "Pig", "PigZombie", "Sheep", "Skeleton", "Slime", "Spider", "Squid", "Wolf", "Zombie"],
+      "registeredNonMobEntities": ["Arrow", "Boat", "FallingSand", "Item", "Minecart", "Painting", "PrimedTnt", "Snowball"],
+      "alsoRegisteredBaseClasses": ["Mob", "Monster"],
+      "expected": 14,
+      "observed": 14,
+      "match": true
+    },
+    "foods": {
+      "howFound": "The heal mechanism was located structurally: class yw (extends the item base class gm) has a private int field yw.a; its constructor yw.<init>(IIZ)V assigns iload_1 (parameter 2) into yw.a (bytecode at offsets 5-7: aload_0, iload_1, putfield yw.a:I); its item-use override yw.a(Liz;Lfd;Lgs;)Liz; loads yw.a and calls gs.c(I)V (offsets 10-15). Inspecting gm.<clinit> with the abstract interpreter recovered every item's constructor arguments, giving the 9 item foods below. The tenth (cake) was located as the only non-yw heal call in the jar: class um (extends block base uu, block id 92) method um.c(Lfd;IIILgs;)V calls gs.c(I)V with a constant 3, guarded by gs.Y < 20.",
+      "unit": "health points, where 20 points = a full health bar and hearts = points / 2. The heal argument is added directly to the living entity's health field and clamped to a maximum of 20 (Beta 1.7.3 class ls method c(int): this.Y += n; if (this.Y > 20) this.Y = 20).",
+      "values": {
+        "apple": 4, "mushroomStew": 10, "bread": 5, "porkchopRaw": 3, "porkchopCooked": 8,
+        "appleGold": 42, "fishRaw": 2, "fishCooked": 5, "cookie": 1, "cake": 3
+      },
+      "ownerFieldCitations": {
+        "apple": "gm.h = new yw(4, 4, false) (beta registry item id 4)",
+        "mushroomStew": "gm.D = new bz(26, 10) (bz extends yw and forwards argument 2 into yw.a; item id 26)",
+        "bread": "gm.S = new yw(41, 5, false) (item id 41)",
+        "porkchopRaw": "gm.ao = new yw(63, 3, true) (item id 63)",
+        "porkchopCooked": "gm.ap = new yw(64, 8, true) (item id 64)",
+        "appleGold": "gm.ar = new yw(66, 42, false) (item id 66)",
+        "fishRaw": "gm.aS = new yw(93, 2, false) (item id 93)",
+        "fishCooked": "gm.aT = new yw(94, 5, false) (item id 94)",
+        "cookie": "gm.ba = new qk(101, 1, false, 8) (qk extends yw, argument 2 is the heal, argument 4 is stack size; item id 101)",
+        "cake": "uu.bh = new um(92, 121) (cake block, block id 92); the heal literal 3 is in um.c(Lfd;IIILgs;)V, not in any item constructor"
+      },
+      "expected": 10,
+      "observed": 10,
+      "match": true
+    },
+    "verdict": "MATCHED EXACTLY. Beta 1.7.3 reproduced 14/14 mobs and 10/10 food values. The method was therefore treated as trustworthy for the older jars.",
+    "failuresEncounteredAndFixedBeforeTrusting": [
+      "The first class parser assumed the JVM-spec 2-byte attribute length and produced garbage (e.g. 5 of 834 classes parsed); it was abandoned, not worked around.",
+      "An early attempt to read the b1.7.3 client jar from the https://launchermeta.mojang.com/v1/packages/<sha1>/client.jar pattern returned a 215-byte XML error body; that file was discarded and the correct downloads.client.url used instead.",
+      "The constant-pool slot loop was initially off by one (cp_count is max_index+1); this produced a misreading of every class and was fixed before any value was reported."
+    ]
+  },
+
+  "unitStatement": {
+    "unit": "health points (half-hearts)",
+    "max": 20,
+    "heartsEqualsPointsOverTwo": true,
+    "evidencePerBuild": "In every one of the five Infdev jars there is exactly one method of shape (I)V that reads and writes one of its own int fields and compares the constant 20; it is the health-modifier. Its health-field names are recorded per build below. No Infdev build has any other health-restoration path (see foods[].evidence)."
+  },
+
+  "versions": [
+    {
+      "id": "Infdev 20100227 (jar inf-20100227-1433)",
+      "modernerBetaPreset": "infdev_227",
+      "archive": "Omniarchive Vault BETA (archive of old Minecraft versions), directory /archive/java/client-infdev/",
+      "archiveUrl": "https://vault.omniarchive.uk/archive/java/client-infdev/inf-20100227-1433.jar",
+      "expectedSha1": "78ba00379a9c55e692a55c9b9464a2c7f46281a9",
+      "hashPublishedWhere": "Version metadata document https://meta.celestia.sh/versions/v1/inf-20100227-1433.json, field downloads.client.sha1 - an independently published metadata catalogue (the same metadata the Minecraft Wiki's Infdev 20100611 article links as the version's .json download record). That document's downloads.client.url points at the Omniarchive URL above. This is the Omniarchive Vault file, not a launcher-published build (Mojang publishes no Infdev build with this id).",
+      "computedSha1": "78ba00379a9c55e692a55c9b9464a2c7f46281a9",
+      "bytes": 509103,
+      "sizeAlsoPublishedAt": "https://vault.omniarchive.uk/archive/java/client-infdev/index.html lists the same file (509103 bytes), so size agrees between the archive index and the metadata document.",
+      "provenanceStatus": "ARCHIVE_VERIFIED",
+      "entityRegistryClass": "NONE (no entity name registry exists in this jar)",
+      "entityRegistryClassEvidence": "No class in this jar declares a registrar of the form (Class,String)->void, and no class contains the registered entity names as string constants. The only (Class,String)-taking (I)V-free methods are in paulscode/sound/SoundSystemConfig (setCodec, addLibrary, removeLibrary) which is the LWJGL sound-config class, not an entity registry. A case-sensitive search of every constant pool in the jar for Mob, Monster, Creeper, Skeleton, Spider, Giant, Zombie, Pig, Sheep, Arrow, Item, Painting, PrimedTnt, FallingSand, Minecart, Chicken, Cow, Slime, Ghast, Squid, Wolf, Snowball and Boat returns ZERO hits.",
+      "entityNames": [],
+      "mobs": [],
+      "mobSetBasis": "The name-based entity registry does not exist in this build, so there is no registered mob set to report. Twelve entity-derived classes do exist in the jar (net/minecraft/a/c/a/a, a/c/a/b, a/c/a/c, a/c/a/d, a/c/a/e, a/c/a/f, a/c/b/a, a/c/b/b, a/c/b/c, a/c/c, a/c/e/a, client/g/a) and the client has a renderer for each of the seven concrete mob classes, but NOTHING IN THE JAR EVER INSTANTIATES ANY MOB: a scan of every 'new' instruction in all 289 classes finds zero construction of net/minecraft/a/c/a/a, a/c/a/b, a/c/a/c, a/c/a/d, a/c/a/f, a/c/b/b or a/c/b/c. The only entity-family constructions in the whole jar are net/minecraft/a/c/c/a (primed TNT, constructed in net/minecraft/a/a/b/h), net/minecraft/a/c/c/b (item stack, constructed in net/minecraft/a/a/b/f, net/minecraft/a/a/b/x and net/minecraft/a/b/n) and net/minecraft/a/c/d/a (arrow, constructed in net/minecraft/a/b/e and net/minecraft/a/c/a/c). All three are non-mob entities. The mob classes are reachable only as instanceof/checkcast targets or superclass links, which is dead or client-side-only code. There is also no monster-spawner block (no class contains the string 'mobSpawner' or 'Spawner').",
+      "mobClassesPresentButNeverInstantiated": [
+        {"protoName": "Spider", "class": "net/minecraft/a/c/a/b", "identityEvidence": "client renderer net/minecraft/client/a/a/m contains the string /mob/spider_eyes.png and checkcasts net/minecraft/a/c/a/b"},
+        {"protoName": "Pig", "class": "net/minecraft/a/c/b/c", "identityEvidence": "class contains the sound strings mob.pig and mob.pigdeath; renderer net/minecraft/client/a/a/j"},
+        {"protoName": "Sheep", "class": "net/minecraft/a/c/b/b", "identityEvidence": "client renderer net/minecraft/client/a/a/k contains the string /mob/sheep_fur.png and checkcasts net/minecraft/a/c/b/b"},
+        {"protoName": "Creeper", "class": "net/minecraft/a/c/a/d", "identityEvidence": "client renderer net/minecraft/client/a/a/c checkcasts net/minecraft/a/c/a/d"},
+        {"protoName": "Skeleton", "class": "net/minecraft/a/c/a/c", "identityEvidence": "renderer net/minecraft/client/a/a/j (generic mob renderer)"},
+        {"protoName": "Zombie", "class": "net/minecraft/a/c/a/f", "identityEvidence": "renderer net/minecraft/client/a/a/j (generic mob renderer)"},
+        {"protoName": "Giant", "class": "net/minecraft/a/c/a/a", "identityEvidence": "client renderer net/minecraft/client/a/a/l"}
+      ],
+      "foods": [],
+      "foodsBasis": "This build has NO food items and NO health-restoring item at all. Four independent checks: (1) the health-restoration method net/minecraft/a/c/e.b(I)V (health field net/minecraft/a/c/e.W, clamp constant 20) has ZERO call sites anywhere in the jar; (2) a case-sensitive search of every constant pool in the jar for the item identifiers apple, bread, porkchopRaw, porkchopCooked, mushroomStew, appleGold, fishRaw, fishCooked, cookie and cake returns ZERO hits; (3) the jar contains no eating/food class, and a search for hunger/saturation/exhaustion/food strings returns zero hits, so there is no hunger system either; (4) the only constructor that stores an int parameter into a field and is part of an item-like hierarchy is the plain item constructor, and no such class calls the health method.",
+      "notes": "This is the first Infdev build and predates the reintroduction of mobs. The absence of a registered mob set is a genuine result, not an extraction failure: the registry simply does not exist at this revision, while the mob classes themselves are present as unused/incomplete code. Verified from the archive jar; nothing about this build is Mojang-published.",
+      "unknowns": [
+        "Whether the never-instantiated mob classes could be brought into play by any code path not visible as a 'new' instruction (for example reflection by string name). No such reflection exists in this jar - there is no registrar and no mob name strings - so this is a residual-risk note rather than an open finding.",
+        "Whether the mob classes present in the jar correspond to mobs that were previously removed and left behind, or to mobs being developed for a build that had not shipped. The jar cannot answer intent."
+      ]
+    },
+
+    {
+      "id": "Infdev 20100325 (jar inf-20100325-1640)",
+      "modernerBetaPreset": "infdev_325",
+      "archive": "Omniarchive Vault BETA (archive of old Minecraft versions), directory /archive/java/client-infdev/",
+      "archiveUrl": "https://vault.omniarchive.uk/archive/java/client-infdev/inf-20100325-1640.jar",
+      "expectedSha1": "99da3b55b4db292faca59824e3ec76bf53a7eae6",
+      "hashPublishedWhere": "Version metadata document https://meta.celestia.sh/versions/v1/inf-20100325-1640.json, field downloads.client.sha1; its downloads.client.url points at the Omniarchive URL above. Independently published catalogue value, not derived from this download and not a Mojang value (Mojang publishes no build with this id).",
+      "computedSha1": "99da3b55b4db292faca59824e3ec76bf53a7eae6",
+      "bytes": 531352,
+      "sizeAlsoPublishedAt": "https://vault.omniarchive.uk/archive/java/client-infdev/index.html lists the same file (531352 bytes).",
+      "provenanceStatus": "ARCHIVE_VERIFIED",
+      "entityRegistryClass": "NONE (no entity name registry exists in this jar)",
+      "entityRegistryClassEvidence": "As for 20100227: no (Class,String)->void registrar and no entity names anywhere in the jar. A case-sensitive search of every constant pool for the 23 entity names listed under 20100227 returns ZERO hits. This matters, because the mob classes ARE now instantiated (see mobs) - so this build has working mobs whose type has no registered name string.",
+      "entityNames": [],
+      "mobs": [],
+      "mobSetBasis": "There is still no name registry, so the mob set is established from the one place the build itself enumerates mob types: the mob-selection switch in net/minecraft/a/c/d/a method b_()V, which does rand.nextInt(6) and then constructs exactly one of six mob classes. That switch is version-internal proof that these six types are creatable in this build:",
+      "mobsFromSpawnSwitch": [
+        {"protoName": "Zombie", "class": "net/minecraft/a/c/a/f", "switchCase": "nextInt(6)==0, NEW at bytecode offset 877", "identityEvidence": "same class as the Zombie entry in the later builds' registry (unchanged obfuscated name and hierarchy)"},
+        {"protoName": "Creeper", "class": "net/minecraft/a/c/a/d", "switchCase": "nextInt(6)==1, NEW at bytecode offset 913", "identityEvidence": "same class as the Creeper entry in the later builds' registry; client renderer net/minecraft/client/a/a/c checkcasts it"},
+        {"protoName": "Skeleton", "class": "net/minecraft/a/c/a/c", "switchCase": "nextInt(6)==2, NEW at bytecode offset 895", "identityEvidence": "same class as the Skeleton entry in the later builds' registry"},
+        {"protoName": "Spider", "class": "net/minecraft/a/c/a/b", "switchCase": "nextInt(6)==3, NEW at bytecode offset 931", "identityEvidence": "same class as the Spider entry in the later builds' registry; renderer net/minecraft/client/a/a/m contains /mob/spider_eyes.png"},
+        {"protoName": "Pig", "class": "net/minecraft/a/c/b/c", "switchCase": "nextInt(6)==4, NEW at bytecode offset 949", "identityEvidence": "same class as the Pig entry in the later builds' registry; class holds the strings mob.pig and mob.pigdeath"},
+        {"protoName": "Sheep", "class": "net/minecraft/a/c/b/b", "switchCase": "nextInt(6)==5, NEW at bytecode offset 967", "identityEvidence": "same class as the Sheep entry in the later builds' registry; renderer net/minecraft/client/a/a/k contains /mob/sheep_fur.png"}
+      ],
+      "mobClassesPresentButNotInTheSpawnSwitch": [
+        {"protoName": "Giant", "class": "net/minecraft/a/c/a/a", "note": "present with a client renderer (net/minecraft/client/a/a/l) but never constructed and not covered by the nextInt(6) switch (which covers exactly 6 cases). In the later builds Giant is a registered mob but is never naturally spawnable, so its absence here is consistent, not anomalous."}
+      ],
+      "foods": [],
+      "foodsBasis": "No food items and no health-restoring item. The health-restoration method net/minecraft/a/c/e.b(I)V (health field net/minecraft/a/c/e.W, clamp constant 20) has ZERO call sites anywhere in this jar. Case-sensitive constant-pool search for apple, bread, porkchopRaw, porkchopCooked, mushroomStew, appleGold, fishRaw, fishCooked, cookie, cake returns ZERO hits. No hunger/saturation/exhaustion/food strings exist. No item class calls the health method.",
+      "notes": "Mobs exist and are creatable in this build, but they are nameless - the (Class,String) entity-name registry that the 20100420/20100611/20100618 jars contain is absent here. The seven concrete mob classes are the same seven as in every later build in this task, so the roster is stable while the naming mechanism is not yet present.",
+      "unknowns": [
+        "Whether the nextInt(6) switch in net/minecraft/a/c/d/a.b_()V is the natural monster spawner, a spawner used only by a specific entity or block, or dead code. It is the only place in the jar that constructs a mob, so on the evidence available it is the only route by which any mob can come into existence in this build. A runtime observation (world loaded in this build, mobs counted over time) would settle whether it runs naturally; that cannot be done here without running Minecraft, which this task forbids.",
+        "Whether the entity-name registry was introduced in a build between 20100325 and 20100420, and in which one. Would be settled by obtaining the intermediate jars (inf-20100327, inf-20100330-1611, inf-20100413-1953, inf-20100414, inf-20100415) from the same archive and running the same structural scan."
+      ]
+    },
+
+    {
+      "id": "Infdev 20100420 (jar inf-20100420)",
+      "modernerBetaPreset": "infdev_420",
+      "archive": "Omniarchive Vault BETA (archive of old Minecraft versions), directory /archive/java/client-infdev/",
+      "archiveUrl": "https://vault.omniarchive.uk/archive/java/client-infdev/inf-20100420.jar",
+      "expectedSha1": "27010a5137abd2c8d8df85e99c14f5406ec197b3",
+      "hashPublishedWhere": "Version metadata document https://meta.celestia.sh/versions/v1/inf-20100420.json, field downloads.client.sha1; its downloads.client.url points at the Omniarchive URL above. Independently published catalogue value (Mojang publishes no build with this id).",
+      "computedSha1": "27010a5137abd2c8d8df85e99c14f5406ec197b3",
+      "bytes": 552012,
+      "sizeAlsoPublishedAt": "https://vault.omniarchive.uk/archive/java/client-infdev/index.html lists the same file (552012 bytes).",
+      "provenanceStatus": "ARCHIVE_VERIFIED",
+      "entityRegistryClass": "net/minecraft/a/c/e",
+      "entityRegistryClassEvidence": "Located structurally: net/minecraft/a/c/e is the only class in this jar that declares two static java.util.Map fields (net/minecraft/a/c/e.a, net/minecraft/a/c/e.b) AND a private static registrar net/minecraft/a/c/e.a(Ljava/lang/Class;Ljava/lang/String;)V AND calls that registrar from <clinit>. Each registration in <clinit> is the instruction sequence [ldc Class, ldc String, invokestatic a(Class,String)], read straight out of the bytecode: offsets 20/22/24 for Arrow, 27/29/31 for Item, and so on.",
+      "registrationCount": 13,
+      "entityNames": ["Arrow", "Item", "Painting", "Mob", "Monster", "Creeper", "Skeleton", "Spider", "Giant", "Zombie", "Pig", "Sheep", "PrimedTnt"],
+      "registryClassToNameMap": {
+        "net/minecraft/a/c/d/a": "Arrow", "net/minecraft/a/c/c/b": "Item", "net/minecraft/a/c/a": "Painting",
+        "net/minecraft/a/c/f": "Mob", "net/minecraft/a/c/a/e": "Monster", "net/minecraft/a/c/a/d": "Creeper",
+        "net/minecraft/a/c/a/c": "Skeleton", "net/minecraft/a/c/a/b": "Spider", "net/minecraft/a/c/a/a": "Giant",
+        "net/minecraft/a/c/a/f": "Zombie", "net/minecraft/a/c/b/c": "Pig", "net/minecraft/a/c/b/b": "Sheep",
+        "net/minecraft/a/c/c/a": "PrimedTnt"
+      },
+      "mobs": [
+        {"betaName": "Mob", "class": "net/minecraft/a/c/f", "kind": "registered base class", "confidence": "verified", "evidence": "registry entry 'Mob' -> net/minecraft/a/c/f in net/minecraft/a/c/e.<clinit> (ldc Class at offset 41, ldc String at offset 43, invokestatic at offset 45). It is the entity base class: it holds the health field net/minecraft/a/c/f.X and the heal method net/minecraft/a/c/f.b(I)V clamping at 20."},
+        {"betaName": "Monster", "class": "net/minecraft/a/c/a/e", "kind": "registered base class", "confidence": "verified", "evidence": "registry entry 'Monster' -> net/minecraft/a/c/a/e (ldc Class at offset 48, ldc String at offset 50, invokestatic at offset 52)."},
+        {"betaName": "Creeper", "class": "net/minecraft/a/c/a/d", "kind": "concrete mob", "confidence": "verified", "evidence": "registry entry 'Creeper' -> net/minecraft/a/c/a/d (offsets 55/57/59); client renderer net/minecraft/client/a/a/c checkcasts net/minecraft/a/c/a/d."},
+        {"betaName": "Skeleton", "class": "net/minecraft/a/c/a/c", "kind": "concrete mob", "confidence": "verified", "evidence": "registry entry 'Skeleton' -> net/minecraft/a/c/a/c (offsets 62/64/66)."},
+        {"betaName": "Spider", "class": "net/minecraft/a/c/a/b", "kind": "concrete mob", "confidence": "verified", "evidence": "registry entry 'Spider' -> net/minecraft/a/c/a/b (offsets 69/71/73); version-internal identity proof: renderer net/minecraft/client/a/a/m contains the string /mob/spider_eyes.png and checkcasts net/minecraft/a/c/a/b."},
+        {"betaName": "Giant", "class": "net/minecraft/a/c/a/a", "kind": "concrete mob", "confidence": "verified", "evidence": "registry entry 'Giant' -> net/minecraft/a/c/a/a (offsets 76/78/80); client renderer net/minecraft/client/a/a/l."},
+        {"betaName": "Zombie", "class": "net/minecraft/a/c/a/f", "kind": "concrete mob", "confidence": "verified", "evidence": "registry entry 'Zombie' -> net/minecraft/a/c/a/f (offsets 83/85/87)."},
+        {"betaName": "Pig", "class": "net/minecraft/a/c/b/c", "kind": "concrete mob", "confidence": "verified", "evidence": "registry entry 'Pig' -> net/minecraft/a/c/b/c (offsets 90/92/94); version-internal identity proof: this class contains the sound strings mob.pig and mob.pigdeath."},
+        {"betaName": "Sheep", "class": "net/minecraft/a/c/b/b", "kind": "concrete mob", "confidence": "verified", "evidence": "registry entry 'Sheep' -> net/minecraft/a/c/b/b (offsets 97/99/101); version-internal identity proof: renderer net/minecraft/client/a/a/k contains the string /mob/sheep_fur.png and checkcasts net/minecraft/a/c/b/b."}
+      ],
+      "foods": [],
+      "foodsBasis": "This build has NO food items and NO health-restoring item. Evidence: (1) the health-restoration method net/minecraft/a/c/f.b(I)V (health field net/minecraft/a/c/f.X, clamp constants 2 and 20) has ZERO call sites anywhere in the jar; (2) a case-sensitive search of every constant pool in the jar for apple, bread, porkchopRaw, porkchopCooked, mushroomStew, appleGold, fishRaw, fishCooked, cookie and cake returns ZERO hits, and the only string containing 'Health' is the entity NBT save/load tag name; (3) there is no hunger/saturation/exhaustion/food system of any kind; (4) no item class stores a heal amount or calls the health method. Enumerating every method that writes the health field net/minecraft/a/c/f.X finds only: the entity constructor (initialise), net/minecraft/a/c/f.a(Lnet/minecraft/a/c/b;I)Z (damage), net/minecraft/a/c/f.b(I)V (the heal method itself), net/minecraft/a/c/f.b(Lcom/a/a/c;)V (NBT load), and net/minecraft/a/c/e/a.i()V (player respawn) and the subclass constructor. None of those is reachable from item use.",
+      "notes": "Mobs are registered by NAME for the first time in this build (a (Class,String) registry appears; the earlier two builds have none). The registry has only two maps and no numeric entity id: the registrar signature is (Class,String) with no int, unlike the Alpha/Beta form (Class,String,int). Registered names are the same short mob names Beta still uses. Natural spawning is NOT present in this build: no method constructs any mob class except the registry's own <clinit>, which instantiates each class once purely to store it in the name maps (a scan of every 'new' instruction in all 309 classes finds no other mob construction).",
+      "unknowns": [
+        "Whether mobs can appear in a world at all in this build through natural spawning. On the jar evidence they cannot: the only constructions of mob classes are inside the registry's <clinit>. A runtime observation would settle it; that requires running Minecraft, which this task forbids.",
+        "There is no numeric entity id in this registry, so nothing here supports an id-based spawn-egg or network mapping for this build; whether such ids existed elsewhere in the code was not established."
+      ]
+    },
+
+    {
+      "id": "Infdev 20100611 (jar inf-20100611)",
+      "modernerBetaPreset": "infdev_611",
+      "archive": "Omniarchive Vault BETA (archive of old Minecraft versions), directory /archive/java/client-infdev/",
+      "archiveUrl": "https://vault.omniarchive.uk/archive/java/client-infdev/inf-20100611.jar",
+      "expectedSha1": "421318a554f17463a56a271d08e9597941d066d9",
+      "hashPublishedWhere": "Version metadata document https://meta.celestia.sh/versions/v1/inf-20100611.json, field downloads.client.sha1; its downloads.client.url points at the Omniarchive URL above. This is the same metadata document that the Minecraft Wiki's Java Edition Infdev 20100611 article links as the version's '.json' download record (https://minecraft.wiki/w/Java_Edition_Infdev_20100611 -> Client .json). Independently published catalogue value (Mojang publishes no build with this id).",
+      "computedSha1": "421318a554f17463a56a271d08e9597941d066d9",
+      "bytes": 566417,
+      "sizeAlsoPublishedAt": "https://vault.omniarchive.uk/archive/java/client-infdev/index.html lists the same file (566417 bytes).",
+      "provenanceStatus": "ARCHIVE_VERIFIED",
+      "entityRegistryClass": "net/minecraft/a/c/e",
+      "entityRegistryClassEvidence": "Identical structure to 20100420: net/minecraft/a/c/e has two static java.util.Map fields and a registrar net/minecraft/a/c/e.a(Ljava/lang/Class;Ljava/lang/String;)V invoked from <clinit>. The <clinit> bytecode is instruction-for-instruction the same sequence as 20100420's, with the same constants at the same offsets (Arrow at 20/22/24 through PrimedTnt at 104/106/108).",
+      "registrationCount": 13,
+      "entityNames": ["Arrow", "Item", "Painting", "Mob", "Monster", "Creeper", "Skeleton", "Spider", "Giant", "Zombie", "Pig", "Sheep", "PrimedTnt"],
+      "registryClassToNameMap": {
+        "net/minecraft/a/c/d/a": "Arrow", "net/minecraft/a/c/c/b": "Item", "net/minecraft/a/c/a": "Painting",
+        "net/minecraft/a/c/f": "Mob", "net/minecraft/a/c/a/e": "Monster", "net/minecraft/a/c/a/d": "Creeper",
+        "net/minecraft/a/c/a/c": "Skeleton", "net/minecraft/a/c/a/b": "Spider", "net/minecraft/a/c/a/a": "Giant",
+        "net/minecraft/a/c/a/f": "Zombie", "net/minecraft/a/c/b/c": "Pig", "net/minecraft/a/c/b/b": "Sheep",
+        "net/minecraft/a/c/c/a": "PrimedTnt"
+      },
+      "mobs": [
+        {"betaName": "Mob", "class": "net/minecraft/a/c/f", "kind": "registered base class", "confidence": "verified", "evidence": "registry entry 'Mob' -> net/minecraft/a/c/f (ldc Class offset 41, ldc String 43, invokestatic 45). Holds health field net/minecraft/a/c/f.Y and heal method net/minecraft/a/c/f.b(I)V clamping at 20."},
+        {"betaName": "Monster", "class": "net/minecraft/a/c/a/e", "kind": "registered base class", "confidence": "verified", "evidence": "registry entry 'Monster' -> net/minecraft/a/c/a/e (offsets 48/50/52)."},
+        {"betaName": "Creeper", "class": "net/minecraft/a/c/a/d", "kind": "concrete mob", "confidence": "verified", "evidence": "registry entry 'Creeper' -> net/minecraft/a/c/a/d (offsets 55/57/59); renderer net/minecraft/client/a/a/c checkcasts it."},
+        {"betaName": "Skeleton", "class": "net/minecraft/a/c/a/c", "kind": "concrete mob", "confidence": "verified", "evidence": "registry entry 'Skeleton' -> net/minecraft/a/c/a/c (offsets 62/64/66)."},
+        {"betaName": "Spider", "class": "net/minecraft/a/c/a/b", "kind": "concrete mob", "confidence": "verified", "evidence": "registry entry 'Spider' -> net/minecraft/a/c/a/b (offsets 69/71/73); version-internal identity proof: renderer net/minecraft/client/a/a/m contains /mob/spider_eyes.png and checkcasts net/minecraft/a/c/a/b."},
+        {"betaName": "Giant", "class": "net/minecraft/a/c/a/a", "kind": "concrete mob", "confidence": "verified", "evidence": "registry entry 'Giant' -> net/minecraft/a/c/a/a (offsets 76/78/80); renderer net/minecraft/client/a/a/l."},
+        {"betaName": "Zombie", "class": "net/minecraft/a/c/a/f", "kind": "concrete mob", "confidence": "verified", "evidence": "registry entry 'Zombie' -> net/minecraft/a/c/a/f (offsets 83/85/87)."},
+        {"betaName": "Pig", "class": "net/minecraft/a/c/b/c", "kind": "concrete mob", "confidence": "verified", "evidence": "registry entry 'Pig' -> net/minecraft/a/c/b/c (offsets 90/92/94); version-internal identity proof: class contains mob.pig and mob.pigdeath."},
+        {"betaName": "Sheep", "class": "net/minecraft/a/c/b/b", "kind": "concrete mob", "confidence": "verified", "evidence": "registry entry 'Sheep' -> net/minecraft/a/c/b/b (offsets 97/99/101); version-internal identity proof: renderer net/minecraft/client/a/a/k contains /mob/sheep_fur.png."}
+      ],
+      "foods": [],
+      "foodsBasis": "This build has NO food items and NO health-restoring item. Evidence: (1) the health-restoration method net/minecraft/a/c/f.b(I)V (health field net/minecraft/a/c/f.Y, clamp constants 2 and 20) has ZERO call sites anywhere in the jar; (2) case-sensitive search of every constant pool for apple, bread, porkchopRaw, porkchopCooked, mushroomStew, appleGold, fishRaw, fishCooked, cookie and cake returns ZERO hits; (3) no hunger/saturation/exhaustion/food system exists (the only 'Health' string is the entity NBT tag); (4) enumerating every writer of the health field net/minecraft/a/c/f.Y finds only the constructor, net/minecraft/a/c/f.a(Lnet/minecraft/a/c/b;I)Z (damage), net/minecraft/a/c/f.b(I)V (the heal method), net/minecraft/a/c/f.b(Lcom/a/a/c;)V (NBT load) and net/minecraft/a/c/e/a.i()V (player respawn) - none reachable from item use.",
+      "notes": "Entity registry content is identical to 20100420 (13 entries, same names, same classes, same <clinit> offsets). The build differs elsewhere (this jar's class count is 320 vs 309, and the world generator/monolith behaviour described on the wiki changed), but not in the entity registry or in any food/heal path. Natural mob spawning is still absent: a scan of every 'new' instruction in all 320 classes finds mob construction only inside the registry's own <clinit>.",
+      "unknowns": [
+        "Same as 20100420: whether any mob can appear in a world through natural spawning. On the jar evidence, no - the only mob constructions are the registry's own class-literal bookkeeping. A runtime observation would settle it.",
+        "The exact build at which food/healing items were introduced (apple and mushroom stew exist by the time of the Alpha v1.1.2_01 data the project already holds, but not here). Would be settled by scanning the intermediate Infdev/Alpha jars structurally with this same method."
+      ]
+    },
+
+    {
+      "id": "Infdev 20100618 (jar inf-20100618) - MOJANG-PUBLISHED, included separately and NOT a substitute for 20100611",
+      "modernerBetaPreset": "none recorded in this task (not one of the four requested presets)",
+      "archive": "Mojang (official). This is the only Infdev build Mojang publishes.",
+      "archiveUrl": "https://launcher.mojang.com/v1/objects/89eab2c1a353707cc00f074dffba9cb7a4f5e304/client.jar",
+      "expectedSha1": "89eab2c1a353707cc00f074dffba9cb7a4f5e304",
+      "hashPublishedWhere": "Mojang's official metadata: https://launchermeta.mojang.com/mc/game/version_manifest.json has exactly one id matching 'inf' (inf-20100618, type old_alpha); its version json https://piston-meta.mojang.com/v1/packages/51a5c512af384d3d2a79a3efb93f7d4b9a1c6ec2/inf-20100618.json gives downloads.client = { sha1: 89eab2c1a353707cc00f074dffba9cb7a4f5e304, size: 601473, url: https://launcher.mojang.com/v1/objects/89eab2c1a353707cc00f074dffba9cb7a4f5e304/client.jar }. Matches the archive copy of the same build at https://vault.omniarchive.uk/archive/java/client-infdev/inf-20100618.jar (also 601473 bytes).",
+      "computedSha1": "89eab2c1a353707cc00f074dffba9cb7a4f5e304",
+      "bytes": 601473,
+      "provenanceStatus": "MOJANG",
+      "entityRegistryClass": "net/minecraft/a/c/e",
+      "entityRegistryClassEvidence": "Same structural form as 20100420/20100611: two static java.util.Map fields plus registrar net/minecraft/a/c/e.a(Ljava/lang/Class;Ljava/lang/String;)V called from <clinit>. <clinit> contains 15 registrations, the same 13 as 20100611 plus FallingSand and Minecart appended at the end (offsets 111/113/115 and 118/120/122).",
+      "registrationCount": 15,
+      "entityNames": ["Arrow", "Item", "Painting", "Mob", "Monster", "Creeper", "Skeleton", "Spider", "Giant", "Zombie", "Pig", "Sheep", "PrimedTnt", "FallingSand", "Minecart"],
+      "registryClassToNameMap": {
+        "net/minecraft/a/c/d/a": "Arrow", "net/minecraft/a/c/c/b": "Item", "net/minecraft/a/c/a": "Painting",
+        "net/minecraft/a/c/f": "Mob", "net/minecraft/a/c/a/e": "Monster", "net/minecraft/a/c/a/d": "Creeper",
+        "net/minecraft/a/c/a/c": "Skeleton", "net/minecraft/a/c/a/b": "Spider", "net/minecraft/a/c/a/a": "Giant",
+        "net/minecraft/a/c/a/f": "Zombie", "net/minecraft/a/c/b/c": "Pig", "net/minecraft/a/c/b/b": "Sheep",
+        "net/minecraft/a/c/c/a": "PrimedTnt", "net/minecraft/a/c/c/c": "FallingSand", "net/minecraft/a/c/c/d": "Minecart"
+      },
+      "mobs": [
+        {"betaName": "Mob", "class": "net/minecraft/a/c/f", "kind": "registered base class", "confidence": "verified", "evidence": "registry entry 'Mob' -> net/minecraft/a/c/f. Health field net/minecraft/a/c/f.Z; heal method is net/minecraft/a/c/f.a(I)V in this jar (note: the heal method's own name changed from b to a between 20100611 and 20100618 - obfuscated names are not stable across builds, which is why this extraction is structural)."},
+        {"betaName": "Monster", "class": "net/minecraft/a/c/a/e", "kind": "registered base class", "confidence": "verified", "evidence": "registry entry 'Monster' -> net/minecraft/a/c/a/e."},
+        {"betaName": "Creeper", "class": "net/minecraft/a/c/a/d", "kind": "concrete mob", "confidence": "verified", "evidence": "registry entry 'Creeper' -> net/minecraft/a/c/a/d; renderer checkcasts it."},
+        {"betaName": "Skeleton", "class": "net/minecraft/a/c/a/c", "kind": "concrete mob", "confidence": "verified", "evidence": "registry entry 'Skeleton' -> net/minecraft/a/c/a/c."},
+        {"betaName": "Spider", "class": "net/minecraft/a/c/a/b", "kind": "concrete mob", "confidence": "verified", "evidence": "registry entry 'Spider' -> net/minecraft/a/c/a/b."},
+        {"betaName": "Giant", "class": "net/minecraft/a/c/a/a", "kind": "concrete mob", "confidence": "verified", "evidence": "registry entry 'Giant' -> net/minecraft/a/c/a/a."},
+        {"betaName": "Zombie", "class": "net/minecraft/a/c/a/f", "kind": "concrete mob", "confidence": "verified", "evidence": "registry entry 'Zombie' -> net/minecraft/a/c/a/f."},
+        {"betaName": "Pig", "class": "net/minecraft/a/c/b/c", "kind": "concrete mob", "confidence": "verified", "evidence": "registry entry 'Pig' -> net/minecraft/a/c/b/c."},
+        {"betaName": "Sheep", "class": "net/minecraft/a/c/b/b", "kind": "concrete mob", "confidence": "verified", "evidence": "registry entry 'Sheep' -> net/minecraft/a/c/b/b."}
+      ],
+      "foods": [],
+      "foodsBasis": "No food items and no health-restoring item. The heal method net/minecraft/a/c/f.a(I)V (health field net/minecraft/a/c/f.Z, clamp constants 2 and 20) has ZERO call sites anywhere in the jar. Case-sensitive search of every constant pool for apple, bread, porkchopRaw, porkchopCooked, mushroomStew, appleGold, fishRaw, fishCooked, cookie, cake returns ZERO hits. There is no hunger/saturation/exhaustion/food system.",
+      "notes": "This build is the closest obtainable Infdev build to the requested 20100611 (seven days later, same entity registry for mobs plus FallingSand and Minecart), and it is the only Infdev build Mojang itself publishes. It is NOT a substitute for 20100611: 20100611 was obtained from Omniarchive with an independently published SHA-1, so no substitution was necessary. Reported here only because the task asked that it be labelled separately if obtained. Its mob roster is a superset of 20100611's only in the non-mob entities - the nine registered mob entries are identical.",
+      "unknowns": [
+        "Nothing material for the two requested tables; the mob registry matches 20100611 and there is still no food."
+      ]
+    }
+  ],
+
+  "unknowns": [
+    {
+      "question": "In which exact Infdev/Alpha build food items with a direct heal amount first appear.",
+      "whyItMatters": "The four requested builds all predate food entirely, so a profile that must not show food is straightforward. Knowing the first food-bearing build fixes the boundary.",
+      "whatWouldSettleIt": "Obtain the intermediate jars from Omniarchive (inf-20100624, inf-20100625-0922, inf-20100625-1917, inf-20100627, inf-20100629, inf-20100630-1340, inf-20100630-1835, and the early Alpha builds) with independently published SHA-1 values, and run the same structural scan for the (I)V health method and its callers."
+    },
+    {
+      "question": "Whether the health-restoration method that exists in every one of these five jars (net/minecraft/a/c/e.b / net/minecraft/a/c/f.b / net/minecraft/a/c/f.a, clamping at 20) could be invoked by any mechanism that does not appear as a direct invoke instruction in the same jar - for example reflection, or a subclass injected later.",
+      "whyItMatters": "The claim 'no food heals in these builds' rests on that method having zero call sites. If some indirect path could heal, the claim would be incomplete.",
+      "whatWouldSettleIt": "A full enumeration of reflective invocations in each jar (getMethod/getDeclaredMethod/Class.forName call sites and their string arguments) and, for certainty, running the build and attempting to eat items. The reflective surface would be settled by the static scan; the behavioural answer requires running Minecraft, which this task forbids. As a partial answer: the only reflective code in these jars is the item-registry and tile-entity-registry classes (a/a/b/a/a with 'Chest'/'Furnace'/'Sign' and similar), and neither registers an entity with a heal amount."
+    },
+    {
+      "question": "Whether natural mob spawning is active in 20100420, 20100611 and 20100618.",
+      "whyItMatters": "The requested 'complete mob entity set' is reported from each build's registry, which is what the registry establishes. Whether a mob can actually appear in a world is a different question, and a spawn-restriction override for the emulation profile would depend on it.",
+      "whatWouldSettleIt": "A runtime observation in each build (load a world, count mobs over game time). Statically, in all three jars the ONLY construction of any mob class is inside the entity registry's own <clinit>, where each class is instantiated once to be stored in the name maps - no other method constructs a mob. That is strong evidence spawning is absent but is not a runtime observation."
+    },
+    {
+      "question": "For 20100325, whether the nextInt(6) mob-construction switch in net/minecraft/a/c/d/a.b_()V is the natural monster spawner, a narrower mechanism, or dead code.",
+      "whyItMatters": "It is the only place in that build that constructs a mob, so it is the entire basis for saying six mobs can exist there.",
+      "whatWouldSettleIt": "Determining that class's role from its superclass, its fields and its call sites. Its superclass is net/minecraft/a/c/b (the base entity class), it carries Random/List fields and calls the world's entity-spawn method a(Lnet/minecraft/a/c/b;Ljava/lang/String;FF)V plus a particle call with the string 'random.drr'. That is consistent with a spawner-like entity, but the same shape also fits an explosion or firework effect, so the identification is recorded as probable, not proven. A runtime observation or an obfuscation map for this exact build would settle it."
+    },
+    {
+      "question": "Which modern registry identifiers the Infdev mobs should map to, and how the pre-name-registry builds (20100227, 20100325) should be represented in a version registry that keys on names.",
+      "whyItMatters": "The emulation needs a shared historical version registry, and two of the four requested builds have no names in their own jar at all.",
+      "whatWouldSettleIt": "A project decision plus a modern-registry dump. Note that the Infdev registries here use Class<->String only, with no numeric entity id, so an id-based mapping for these builds cannot come from these jars."
+    },
+    {
+      "question": "How to name the abstract/base entity classes of the 20100227 and 20100325 hierarchies in a shared historical version registry, given that those two builds contain no entity name strings at all.",
+      "whatWouldSettleIt": "A project naming decision. The structural facts are settled: net/minecraft/a/c/c is the direct subclass of the base entity class and is the ancestor of both the Monster branch (net/minecraft/a/c/a/*) and the animal branch (net/minecraft/a/c/b/*); net/minecraft/a/c/a/e is the Monster branch root; net/minecraft/a/c/b/a is the animal branch root; net/minecraft/a/c/e/a is the player class (it contains the string 'Notch'); and net/minecraft/client/g/a is the other-player class. The later builds' registry names the two branch roots Mob and Monster, which is why those two are reported as registered base classes for 20100420/20100611/20100618 and are never counted as concrete mobs."
+    }
+  ],
+
+  "negativeResultsThatAreThePoint": {
+    "noFoodInAnyInfdevBuild": "None of the five Infdev client jars contains any food item, any item that restores health, or any hunger/saturation/exhaustion system. This is a positive, well-evidenced negative, not a failure to find something: the health-restoration method is present and identifiable in every jar (it clamps at exactly 20) and has literally zero call sites in every jar, while the food item identifiers that Beta 1.7.3 does contain (apple, bread, porkchopRaw, porkchopCooked, mushroomStew, appleGold, fishRaw, fishCooked, cookie, cake) are absent from every constant pool of every Infdev jar. Infdev has health regen in the sense of a clamped health field and a damage path, but nothing that heals by eating.",
+    "noEntityNameRegistryBeforeApril2010": "Infdev 20100227 and 20100325 have no (Class,String) entity name registry and no entity name strings at all, even though 20100325 creates mobs. The registry appears by 20100420. This is why the mob tables for the two earliest builds are reported as empty and explained, rather than filled in from the mobs that exist in their class files.",
+    "verifiedJarsButNotMojangPublished": "All four requested builds were obtained and hash-verified against independently published metadata. None of them is Mojang-published; the only Mojang-published Infdev build is inf-20100618, which is reported separately."
+  },
+
+  "verificationLedger": [
+    {"jar": "b1.7.3 client (self-check)", "role": "method validation", "expectedSha1": "43db9b498cb67058d2e12d394e6507722e71bb45", "expectedFrom": "Mojang piston-meta b1.7.3.json downloads.client.sha1", "computedSha1": "43db9b498cb67058d2e12d394e6507722e71bb45", "bytes": 1465375, "result": "match"},
+    {"jar": "inf-20100227-1433", "role": "requested build", "expectedSha1": "78ba00379a9c55e692a55c9b9464a2c7f46281a9", "expectedFrom": "https://meta.celestia.sh/versions/v1/inf-20100227-1433.json downloads.client.sha1", "computedSha1": "78ba00379a9c55e692a55c9b9464a2c7f46281a9", "bytes": 509103, "result": "match"},
+    {"jar": "inf-20100325-1640", "role": "requested build", "expectedSha1": "99da3b55b4db292faca59824e3ec76bf53a7eae6", "expectedFrom": "https://meta.celestia.sh/versions/v1/inf-20100325-1640.json downloads.client.sha1", "computedSha1": "99da3b55b4db292faca59824e3ec76bf53a7eae6", "bytes": 531352, "result": "match"},
+    {"jar": "inf-20100420", "role": "requested build", "expectedSha1": "27010a5137abd2c8d8df85e99c14f5406ec197b3", "expectedFrom": "https://meta.celestia.sh/versions/v1/inf-20100420.json downloads.client.sha1", "computedSha1": "27010a5137abd2c8d8df85e99c14f5406ec197b3", "bytes": 552012, "result": "match"},
+    {"jar": "inf-20100611", "role": "requested build", "expectedSha1": "421318a554f17463a56a271d08e9597941d066d9", "expectedFrom": "https://meta.celestia.sh/versions/v1/inf-20100611.json downloads.client.sha1", "computedSha1": "421318a554f17463a56a271d08e9597941d066d9", "bytes": 566417, "result": "match"},
+    {"jar": "inf-20100618", "role": "Mojang-published build, reported separately", "expectedSha1": "89eab2c1a353707cc00f074dffba9cb7a4f5e304", "expectedFrom": "Mojang piston-meta inf-20100618.json downloads.client.sha1", "computedSha1": "89eab2c1a353707cc00f074dffba9cb7a4f5e304", "bytes": 601473, "result": "match"}
+  ],
+
+  "repositoryHygiene": {
+    "filesCreatedOrModifiedInRepo": ["research/infdev-registries.json"],
+    "statement": "Only research/infdev-registries.json was created or modified in the repository. No jar, class file, decompiled source, extracted asset or bytecode listing was written anywhere inside the repository tree; all six jars, every scratch script and every extraction live under %TEMP%\\mce-infdev\\. Gradle was not run, Minecraft was not run, and no other file was touched. This JSON contains only identifiers, class/field/method names, numeric literals, hashes, URLs and prose - it reproduces no Minecraft source.",
+    "nulFileTrap": "All downloads were written to explicit paths under %TEMP%\\mce-infdev\\jars\\; no `-o NUL` was used, so no file named NUL was created anywhere."
+  }
+}

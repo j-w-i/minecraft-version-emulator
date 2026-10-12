@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "historical_experience:historical_village",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 60,
+    "separation": 20,
+    "salt": 1648146493
+  }
+}

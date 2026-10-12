@@ -1,0 +1,40 @@
+# Field paths that research/historical-features.json must keep carrying.
+# Consumed by research/dev/validate-historical-features.py, which fails if any path is
+# missing from research/historical-features.schema.json (guards against typos/regressions
+# in the same edit that changes the schema).
+#
+# Top-level
+schemaVersion
+generated
+scope.focusComparison
+scope.targetEmulationRange
+scope.inScope
+scope.outOfScope
+categories
+confidenceLevels
+implementationStatuses
+validation.entryCount
+validation.categoryCounts
+validation.confidenceCounts
+validation.implementationStatusCounts
+entries
+# Per-entry (resolved through $defs/entry)
+entries.id
+entries.name
+entries.category
+entries.verificationStatus
+entries.firstSupportedVersion
+entries.firstSupportedPrecise
+entries.removedIn
+entries.changes
+entries.values
+entries.evidence
+entries.confidence
+entries.confidenceReason
+entries.unknowns
+entries.contradictions
+entries.implementationStatus
+entries.implementationNotes
+entries.coverage
+entries.risks
+entries.testLink

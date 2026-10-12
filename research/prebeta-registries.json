@@ -1,0 +1,317 @@
+{
+  "schemaVersion": 1,
+  "reviewStatus": "WORKER_GENERATED_PENDING_PARENT_VERIFICATION",
+  "scope": "Pre-Beta entity registries and direct food/heal tables for Alpha v1.1.2_01 and the two requested Infdev builds, extracted from SHA-1-verified Mojang client jars. Establishes (a) which mob entity types each client registers, and (b) for a version with no hunger system, the direct health restored per food item. The two Infdev versions could NOT be obtained from Mojang's own version manifest and are reported as unobtainable rather than guessed at.",
+  "method": {
+    "obtain": "Read the version list from Mojang's official manifest (https://launchermeta.mojang.com/mc/game/version_manifest.json, cross-checked against https://piston-meta.mojang.com/mc/game/version_manifest.json and https://launchermeta.mojang.com/mc/game/version_manifest_v2.json). For each requested version id, resolve the version's own metadata JSON, take downloads.client, download that exact URL, then compute Get-FileHash -Algorithm SHA1 and the byte length of the downloaded file and compare both against the metadata before opening it.",
+    "identifyEntityRegistry": "Not by guessing a name. For every class in the jar I extract the CONSTANT_String literals from the constant pool and score each class by how many literals match the shape of a registered entity name (^[A-Z][A-Za-z0-9]{1,24}$), independently recording whether the class also references java/lang/Class.getConstructor + newInstance (reflection reconstruction) and java/util/HashMap or java/util/Map. The entity registry is the single class that both tops the literal count with entity names and carries the reflection+Map scaffolding. I then decompile that class's <clinit> and read every registration call, so the list is read out of the bytecode rather than matched against names I already expected. This matters because a name-shape filter alone silently drops entries (see 'Mob'/'Monster' below), so the <clinit> read is what makes the list complete.",
+    "identifyFood": "Structural, three independent bounds. (1) Health field and heal method: scan every method in the jar for one that reads and writes the same int field and compares against the constant 20 - that is the health clamp. (2) Call sites: resolve every invoke through the real superclass chain (so a call compiled against the player class is correctly attributed to the inherited heal method) and enumerate ALL callers of the heal method. (3) Food class: the item-use override among those callers whose receiver is the player. The food item class is then the class that calls the heal with one of its own int fields, and every food value comes from enumerating the item registry's <clinit> for constructions of that class, reading the compile-time int literal.",
+    "caseSensitivity": "All identifiers are compared case-sensitively. The reimplementation used here parses the class-file constant pool directly and matches field/method names as exact strings; nothing lower-cases or normalises an identifier, and no search was ever run with -i or an equivalent. Field references are always written as owner-class.field (e.g. the Alpha item registry's own field `di.h` versus its class field `di.aS`), so distinct same-spelling names on different owners cannot be conflated. The specific trap this project was bitten by - Beta 1.7.3 `gm.J` (feather) versus `gm.j` (arrow) - is structurally impossible to hit here because the parser reads field names from CONSTANT_Fieldref entries and never compares case-insensitively; both of those fields are non-food and neither is referenced by this analysis.",
+    "artefacts": "Everything - jars, extracted class files, dumps and the analysis tools - lives under %TEMP%\\mce-prebata\\ (jars\\, extract\\, meta\\, tools\\, plus text dumps). Nothing from a jar, no class file, no decompiled source and no asset was written into the repository. The only repository file created or modified by this work is research/prebeta-registries.json."
+  },
+  "selfCheck": {
+    "requiredStandard": "Beta 1.7.3 class `jc` (14 mobs) and the 10 listed food heal values, reproduced by the same method used for the pre-Beta versions. Per the task, if this does not reproduce exactly, the method is to be declared wrong and no values reported from it.",
+    "beta173": {
+      "verified": true,
+      "metadataUrl": "https://piston-meta.mojang.com/v1/packages/44f6969326bd45aa00dcd3c4ca3a7c05ebb24c04/b1.7.3.json",
+      "clientUrl": "https://launcher.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar",
+      "clientSha1": "43db9b498cb67058d2e12d394e6507722e71bb45",
+      "clientBytes": 1465375,
+      "sha1Match": true,
+      "sizeMatch": true,
+      "entityRegistryClassFound": "jc",
+      "entityRegistryClassExpected": "jc",
+      "entityNamesFound": ["Arrow", "Boat", "Chicken", "Cow", "Creeper", "FallingSand", "Ghast", "Giant", "Item", "Minecart", "Mob", "Monster", "Painting", "Pig", "PigZombie", "PrimedTnt", "Sheep", "Skeleton", "Slime", "Snowball", "Spider", "Squid", "Wolf", "Zombie"],
+      "mobsFound": ["Chicken", "Cow", "Creeper", "Ghast", "Giant", "Pig", "PigZombie", "Sheep", "Skeleton", "Slime", "Spider", "Squid", "Wolf", "Zombie"],
+      "mobsExpected": ["Chicken", "Cow", "Creeper", "Ghast", "Giant", "Pig", "PigZombie", "Sheep", "Skeleton", "Slime", "Spider", "Squid", "Wolf", "Zombie"],
+      "mobsMatchExactly": true,
+      "nonMobEntitiesFound": ["Arrow", "Boat", "FallingSand", "Item", "Minecart", "Painting", "PrimedTnt", "Snowball"],
+      "foodsFound": [
+        {"betaName": "apple", "healPoints": 4},
+        {"betaName": "mushroomStew", "healPoints": 10},
+        {"betaName": "bread", "healPoints": 5},
+        {"betaName": "porkchopRaw", "healPoints": 3},
+        {"betaName": "porkchopCooked", "healPoints": 8},
+        {"betaName": "appleGold", "healPoints": 42},
+        {"betaName": "fishRaw", "healPoints": 2},
+        {"betaName": "fishCooked", "healPoints": 5},
+        {"betaName": "cookie", "healPoints": 1},
+        {"betaName": "cake", "healPoints": 3, "unit": "per slice, block interaction"}
+      ],
+      "foodsMatchExactly": true,
+      "howReproduced": "The scanner returned `jc` as the top entity-name class (22 non-base entity names plus 'Mob' and 'Monster', with reflection+HashMap scaffolding). Reading `jc`.<clinit> bytecode gives 24 `a(Class,String,int)` registrations: Mob(ls,48) and Monster(gz,49) are base/category classes, the 14 mobs and the 8 non-mob entities are as listed. That is 24 - 2 - 8 = 14 mobs, exactly the required set, and matches the previously verified research/beta173-entity-types.json. For food, the health-clamp scan found exactly one clamp on a health field, `ls.c(I)V` clamping `ls.Y:I` to 20; resolving all invokes through the superclass chain found four callers, of which `yw.a(Liz;Lfd;Lgs;)Liz;` is the item-use path, `um.c(...)` the cake block, `gs.o()` the Peaceful-only regeneration and `gi.a(...)` the wolf feeding. Enumerating `gm`.<clinit> for constructions of the food class `yw` and its subclasses `bz`/`qk` produced apple 4, bread 5, porkchopRaw 3, porkchopCooked 8, appleGold 42, fishRaw 2, fishCooked 5, mushroomStew 10, cookie 1, i.e. all 9 items, and the cake block heal of 3. All 10 values match the required list exactly.",
+      "independentCrossCheck": "Mapping each registry static field to the object constructed for it in <clinit> (`regassign`) recovered exactly 106 item ids from `gm`, which equals the item-registry size independently established for this jar by earlier work, and reproduced the previously verified field->name assignments (`gm.h`=apple, `gm.D`=mushroomStew, `gm.S`=bread, `gm.ao`=porkchopRaw, `gm.ap`=porkchopCooked, `gm.ar`=appleGold, `gm.aS`=fishRaw, `gm.aT`=fishCooked, `gm.ba`=cookie, `gm.C`=bowl, `gm.B`=stick)."
+    },
+    "beta181Extra": {
+      "verified": true,
+      "note": "Not required by the task, but run as an extra validation of the identification method on a third jar with a known answer.",
+      "metadataUrl": "https://piston-meta.mojang.com/v1/packages/440e3b845c3991492a3d0c5f0ccfda78ab90d9b6/b1.8.1.json",
+      "clientUrl": "https://launcher.mojang.com/v1/objects/6b562463ccc2c7ff12ff350a2b04a67b3adcd37b/client.jar",
+      "clientSha1": "6b562463ccc2c7ff12ff350a2b04a67b3adcd37b",
+      "clientBytes": 1995166,
+      "sha1Match": true,
+      "sizeMatch": true,
+      "entityRegistryClassFound": "um",
+      "entityRegistryClassExpected": "um",
+      "matched": true,
+      "entityNamesFound": ["Arrow", "Boat", "CaveSpider", "Chicken", "Cow", "Creeper", "Enderman", "FallingSand", "Ghast", "Giant", "Item", "Minecart", "Painting", "Pig", "PigZombie", "PrimedTnt", "Sheep", "Silverfish", "Skeleton", "Slime", "Snowball", "Spider", "Squid", "Wolf", "XPOrb", "Zombie"]
+    },
+    "conclusion": "The method reproduces Beta 1.7.3 exactly (14 mobs, 10 food values) and independently identifies Beta 1.8.1's registry as `um`, the stated answer. The method is therefore considered valid for the pre-Beta jars analysed below."
+  },
+  "versions": [
+    {
+      "id": "Alpha v1.1.2_01",
+      "modernerBetaPreset": "alpha",
+      "modernerBetaPresetNote": "Stated by the task: what Moderner Beta calls `alpha`. Confirmed independently that the real version string in Mojang's manifest is `a1.1.2_01`, with releaseTime 2010-09-23.",
+      "obtained": true,
+      "manifestId": "a1.1.2_01",
+      "metadataUrl": "https://piston-meta.mojang.com/v1/packages/8730e3503e352fc03cca8a6c6ee614a17d66d8c6/a1.1.2_01.json",
+      "clientUrl": "https://launcher.mojang.com/v1/objects/daa4b9f192d2c260837d3b98c39432324da28e86/client.jar",
+      "clientSha1": "daa4b9f192d2c260837d3b98c39432324da28e86",
+      "clientBytes": 897164,
+      "verifiedHow": "Resolved `a1.1.2_01` from Mojang's official version manifest (launchermeta version_manifest.json, also present in the piston-meta and v2 manifests), read that version's own metadata JSON, took downloads.client = { sha1: daa4b9f192d2c260837d3b98c39432324da28e86, size: 897164, url: https://launcher.mojang.com/v1/objects/daa4b9f192d2c260837d3b98c39432324da28e86/client.jar }, downloaded that exact URL, and computed Get-FileHash -Algorithm SHA1 plus the byte length. Observed sha1 daa4b9f192d2c260837d3b98c39432324da28e86 and 897164 bytes; both match the manifest metadata exactly. Only then was the jar extracted. Jar contents: 538 entries, 474 class entries of which 402 are top-level classes, 64 non-class entries (textures and a title/splashes.txt; notably there is NO lang/ directory in this version).",
+      "entityRegistryClass": "ew",
+      "entityRegistryClassEvidence": "Class `ew` (extends java/lang/Object) is the only class in the jar that both contains the entity-name literals and carries the registry scaffolding. It declares four private static Map fields - `a` (name -> Class), `b` (Class -> name), `c` (Integer id -> Class), `d` (Class -> Integer id) - allocated in its <clinit> at lines 14-17, and a private static registration method `a(Ljava/lang/Class;Ljava/lang/String;I)V` whose body does `a.put(name, class)`, `b.put(class, name)`, `c.put(Integer.valueOf(id), class)`, `d.put(class, Integer.valueOf(id))` (lines 20-23). The <clinit> then calls that method 20 times with literal names. A public static `a(Ljava/lang/String;Lcn;)Lkh;` reconstructs an entity by reflecting on the class from map `a`. This is the direct Alpha analogue of Beta 1.7.3's `jc`.",
+      "entityNames": [
+        {"name": "Arrow", "class": "kg", "entityId": 10},
+        {"name": "Snowball", "class": "ao", "entityId": 11},
+        {"name": "Item", "class": "dx", "entityId": 1},
+        {"name": "Painting", "class": "jc", "entityId": 9},
+        {"name": "Mob", "class": "ge", "entityId": 48},
+        {"name": "Monster", "class": "dq", "entityId": 49},
+        {"name": "Creeper", "class": "dd", "entityId": 50},
+        {"name": "Skeleton", "class": "cw", "entityId": 51},
+        {"name": "Spider", "class": "ax", "entityId": 52},
+        {"name": "Giant", "class": "hl", "entityId": 53},
+        {"name": "Zombie", "class": "mb", "entityId": 54},
+        {"name": "Slime", "class": "ma", "entityId": 55},
+        {"name": "Pig", "class": "mv", "entityId": 90},
+        {"name": "Sheep", "class": "bo", "entityId": 91},
+        {"name": "Cow", "class": "am", "entityId": 91},
+        {"name": "Chicken", "class": "mz", "entityId": 91},
+        {"name": "PrimedTnt", "class": "jd", "entityId": 20},
+        {"name": "FallingSand", "class": "ff", "entityId": 21},
+        {"name": "Minecart", "class": "oc", "entityId": 40},
+        {"name": "Boat", "class": "dc", "entityId": 41}
+      ],
+      "baseClassRegistrations": ["Mob", "Monster"],
+      "nonMobEntities": ["Arrow", "Boat", "FallingSand", "Item", "Minecart", "Painting", "PrimedTnt", "Snowball"],
+      "mobs": ["Chicken", "Cow", "Creeper", "Giant", "Pig", "Sheep", "Skeleton", "Slime", "Spider", "Zombie"],
+      "mobsNote": "10 mob species. This is the 20 registrations minus the 8 non-mob entities minus the 2 base/category classes ('Mob', 'Monster'), using exactly the convention the Beta 1.7.3 self-check requires. Relative to Beta 1.7.3, Ghast, PigZombie, Squid and Wolf are absent, which is consistent with Alpha v1.1.2_01 (2010-09-23) predating the Nether and later animal additions.",
+      "absentMobsVerified": {
+        "names": ["Ghast", "PigZombie", "Squid", "Wolf", "Enderman", "Silverfish"],
+        "how": "Searched every class file's full constant pool for these exact UTF-8 constants (case-sensitive, exact match). Zero hits for any of them, so they are absent from the client entirely - not merely unregistered.",
+        "confidence": "verified"
+      },
+      "completenessCheck": {
+        "how": "Enumerated every class whose superclass chain reaches `ge` (the registered 'Mob' class) and compared with the registered mob classes.",
+        "result": "Reaching `ge`: ag, am, ax, bi, bo, cw, dd, dm, dq, ek, hl, la, ma, mb, mv, mz, nt. Of these, `dm` is the Player class (its own subclass chain bi/la/nt are player variants) and `ek`/`ag` are intermediate non-species base classes; `dq` is 'Monster'. Every remaining class is one of the 10 registered species. No unregistered mob species exists in this client.",
+        "confidence": "verified"
+      },
+      "foodMechanism": {
+        "hungerSystemPresent": false,
+        "statement": "Alpha v1.1.2_01 has no hunger system. There is no food level, saturation or exhaustion anywhere in the jar, and the jar contains no lang/ directory and no food-related string constants. Eating restores health directly and unconditionally (subject only to the alive guard).",
+        "healthField": "public int `E` on class `ge` (the class registered as 'Mob', extends `kh`). Maximum 20.",
+        "healMethod": "`ge.b(I)V` - bytecode at lines 275-279: `if (this.E <= 0) return;` (getfield ge.E:I / ifgt / return), then `this.E += n` (dup / getfield ge.E:I / iload_1 / iadd / putfield ge.E:I), then `if (this.E > 20) this.E = 20;` (getfield ge.E:I / bipush 20 / if_icmple / bipush 20 / putfield ge.E:I), then `this.aW = this.j / 2;`. This is byte-for-byte the same shape as Beta 1.7.3's `ls.c(I)V`.",
+        "healCallSites": "Resolving every invoke through the real superclass chain, the heal method `ge.b(I)V` has exactly two callers in the whole jar: (1) `oj.a(Lev;Lcn;Ldm;)Lev;` at line 17, the item-use (eat) path, receiver type `dm` = the Player class; (2) `dm.j()V` at line 79, which is the player's own tick and is gated on world difficulty `cn.l == 0` (Peaceful) and `this.aR % 20 * 4 == 0`, i.e. Peaceful-only regeneration - the exact analogue of Beta 1.7.3 `gs.o()`. No other code path in the jar can increase `ge.E`: enumerating every field access to `ge.E` shows reads/writes only inside `ge` itself (constructor, tick, damage, NBT load/save) plus the two callers above. Therefore the ONLY food-relevant heal path is `oj`.",
+        "foodClass": "`oj` (extends `di`, the item base class). Declares one field, `private int a`. Constructor `oj.<init>(II)V` bytecode: `aload_0; iload_1; invokespecial di.<init>:(I)V` (item id), then `aload_0; iload_2; putfield oj.a:I` (the heal amount), then `aload_0; iconst_1; putfield oj.aT:I` (stack size 1). The item-use override `oj.a(Lev;Lcn;Ldm;)Lev;` at lines 16-18 does `stack.a -= 1` then `aload_3; aload_0; getfield oj.a:I; invokevirtual dm.b:(I)V` - i.e. it calls the heal on the player with its own field `a` - then returns the stack. The constructor's second int argument is therefore the heal amount.",
+        "bowlVariant": "`ap` (extends `oj`) is the bowl-returning food. Its constructor is `(II)V` forwarding straight to `oj.<init>(II)V`, and its only override `a(Lev;Lcn;Ldm;)Lev;` calls `super.a(...)` and then returns `new ev(di.C)` - `di.C` being the empty bowl item. This is the exact Alpha equivalent of Beta 1.7.3's `bz` extending `yw` and returning `gm.C`. Structurally and by field name the two registries agree on `C` = bowl.",
+        "unit": "health points (half-hearts). The heal argument is added directly to `ge.E`, whose clamp is 20 and whose maximum is a full health bar; no divisor, multiplier or intermediate food state is involved. 20 health points = 10 hearts, so hearts = healPoints / 2.",
+        "itemRegistryClass": "`di`. Its <clinit> constructs the whole item registry; 91 ordinary items (ids 0-90) plus two record items (2000, 2001), matching the 93 ids recovered. Every `new oj(...)` and `new ap(...)` construction in the entire jar occurs inside `di.<clinit>`, so enumerating those constructions is a complete enumeration of this version's food."
+      },
+      "foods": [
+        {
+          "betaName": "apple",
+          "healPoints": 4,
+          "healHearts": 2,
+          "alphaField": "di.h",
+          "alphaItemId": 4,
+          "alphaClass": "oj",
+          "unit": "health points (half-hearts); 20 = full bar",
+          "evidence": "`di.<clinit>` line 22: `new oj` with constructor `oj.<init>:(II)V` and compile-time arguments [4, 4] (`iconst_4`, `iconst_4` before invokespecial), so item id 4 and heal field `oj.a` = 4. The heal is applied by the inherited `oj.a(Lev;Lcn;Ldm;)Lev;` line 17 via `invokevirtual dm.b:(I)V`, resolving to `ge.b(I)V`. Naming is independently proved inside this same jar: the CraftingManager `dw.<init>` line 229 registers a recipe with result `new ev(di.ar, 1)` and grid rows ['###','#X#','###'] whose centre ingredient `X` is `di.h` and whose ring `#` is `ly.ai` (the gold block class) - i.e. 8 gold blocks around the item in `di.h` make the item in `di.ar`, which is the golden apple recipe. Additionally `di.h`'s icon index argument is 10, and Beta 1.7.3's `gm.h` ('apple') uses icon coordinates (10,0) = 10 + 16*0 = 10; the ids (4), the field names (`h`), the heal values (4) and the sprites all agree.",
+          "confidence": "verified",
+          "notes": "Item id 4 in Alpha and Beta 1.7.3 and modern numeric id 260 (minecraft:apple) are the same registry slot. Alpha's registry carries no name strings at all, so the Beta-style name is attached by the id+field+heal+icon+recipe chain above, not read from a string in this jar."
+        },
+        {
+          "betaName": "mushroomStew",
+          "healPoints": 10,
+          "healHearts": 5,
+          "alphaField": "di.D",
+          "alphaItemId": 26,
+          "alphaClass": "ap",
+          "unit": "health points (half-hearts); 20 = full bar",
+          "evidence": "`di.<clinit>` line 48: `new ap` with `ap.<init>:(II)V` and arguments [26, 10], and `ap`'s constructor forwards both to `oj.<init>(II)V`, whose second argument is stored in `oj.a` and applied via `dm.b:(I)V` -> `ge.b(I)V`. Class `ap` is the bowl-returning subclass (override returns `new ev(di.C)`, `di.C` = empty bowl). Naming is independently proved: class `hr`, method `a(Ldw;)V`, registers TWO recipes at lines 9 and 18, both with result `new ev(di.D)` (1x), both using a 9-element pattern binding `#` = `di.C` (the bowl) plus `ly.ag` and `ly.ah` (the two mushroom block types) - the bowl + brown mushroom + red mushroom stew recipe. Field name `D`, id 26 and heal 10 all match Beta 1.7.3's `gm.D` ('mushroomStew', id 26, heal 10).",
+          "confidence": "verified",
+          "notes": "Beta 1.7.3's equivalent class is `bz extends yw` and it likewise returns the registry's field `C` (the bowl). Alpha's `ap` is structurally identical."
+        },
+        {
+          "betaName": "bread",
+          "healPoints": 5,
+          "healHearts": 2.5,
+          "alphaField": "di.S",
+          "alphaItemId": 41,
+          "alphaClass": "oj",
+          "unit": "health points (half-hearts); 20 = full bar",
+          "evidence": "`di.<clinit>` line 67: `new oj` with `oj.<init>:(II)V` and arguments [41, 5], heal field `oj.a` = 5, applied via `dm.b:(I)V` -> `ge.b(I)V`. Naming is independently proved: `dw.<init>` line 195 registers a recipe with result `new ev(di.S, 1)` and grid rows ['###'] whose only ingredient is `di.R` - i.e. three of `di.R` in a row make one `di.S`, the bread recipe (three wheat). Field name `S`, id 41 and heal 5 all match Beta 1.7.3's `gm.S` ('bread', id 41, heal 5); icon index 41 in Alpha equals Beta's (9,2) = 9 + 16*2 = 41.",
+          "confidence": "verified",
+          "notes": "2.5 hearts is a legitimate half-heart-granular heal and is reproduced exactly by the field value 5."
+        },
+        {
+          "betaName": "porkchopRaw",
+          "healPoints": 3,
+          "healHearts": 1.5,
+          "alphaField": "di.ao",
+          "alphaItemId": 63,
+          "alphaClass": "oj",
+          "unit": "health points (half-hearts); 20 = full bar",
+          "evidence": "`di.<clinit>` line 95: `new oj` with `oj.<init>:(II)V` and arguments [63, 3], heal field `oj.a` = 3, applied via `dm.b:(I)V` -> `ge.b(I)V`. Naming is independently proved two ways inside this jar: (1) class `mv` (the Pig, registered in `ew` as 'Pig' with entity id 90) method `g()I` at line 51 returns `getstatic di.ao` / `getfield di.aS` - the pig's drop is the item in `di.ao`; (2) class `ke.d(I)I` at line 168 reads `if (id == di.ao.aS) return di.ap.aS;` - the smelting map, raw porkchop smelts to the item in `di.ap`. Field name `ao`, id 63 and heal 3 all match Beta 1.7.3's `gm.ao` ('porkchopRaw', id 63, heal 3); icon index 87 equals Beta's (7,5) = 7 + 16*5 = 87.",
+          "confidence": "verified",
+          "notes": "`di.aS` is the item's numeric-id field on the base item class `di` (Alpha's counterpart of Beta's item-id field); it is a different field from the food registry entries and is named with its owner class explicitly."
+        },
+        {
+          "betaName": "porkchopCooked",
+          "healPoints": 8,
+          "healHearts": 4,
+          "alphaField": "di.ap",
+          "alphaItemId": 64,
+          "alphaClass": "oj",
+          "unit": "health points (half-hearts); 20 = full bar",
+          "evidence": "`di.<clinit>` line 96: `new oj` with `oj.<init>:(II)V` and arguments [64, 8], heal field `oj.a` = 8, applied via `dm.b:(I)V` -> `ge.b(I)V`. Naming is independently proved by `ke.d(I)I` line 168, where `di.ap` is the smelting product of `di.ao` (raw porkchop). Field name `ap`, id 64 and heal 8 all match Beta 1.7.3's `gm.ap` ('porkchopCooked', id 64, heal 8); icon index 88 equals Beta's (8,5) = 8 + 16*5 = 88.",
+          "confidence": "verified",
+          "notes": "Class `ke` extends `ic`; it holds the smelt map in this version (Beta 1.7.3's equivalent lookup lives in `ey`)."
+        },
+        {
+          "betaName": "appleGold",
+          "healPoints": 42,
+          "healHearts": 21,
+          "alphaField": "di.ar",
+          "alphaItemId": 66,
+          "alphaClass": "oj",
+          "unit": "health points (half-hearts); 20 = full bar",
+          "evidence": "`di.<clinit>` line 99: `new oj` with `oj.<init>:(II)V` and arguments [66, 42], heal field `oj.a` = 42, applied via `dm.b:(I)V` -> `ge.b(I)V`. Naming is independently proved: `dw.<init>` line 229 registers result `new ev(di.ar, 1)` with grid rows ['###','#X#','###'], ring `#` = `ly.ai` (gold block) and centre `X` = `di.h` (the apple), i.e. the golden apple recipe. Field name `ar`, id 66 and heal 42 all match Beta 1.7.3's `gm.ar` ('appleGold', id 66, heal 42); icon index 11 equals Beta's (11,0) = 11 + 16*0 = 11.",
+          "confidence": "verified",
+          "notes": "42 exceeds the 20-point maximum, so in practice one golden apple refills a full bar from any positive health; the excess is discarded by the `if (this.E > 20) this.E = 20;` clamp at line 277."
+        }
+      ],
+      "foodsAbsent": {
+        "statement": "This version has no other edible item and no edible block. The complete food set is the six items above.",
+        "howBounded": "(1) Every construction of the food class `oj` and its only subclass `ap` in the entire jar was enumerated: exactly 6 sites, all inside `di.<clinit>`, at ids 4, 26, 41, 63, 64, 66. (2) The heal method `ge.b(I)V` has only two callers in the jar (`oj.a(...)` the eat path, and the player's own Peaceful-regeneration method `dm.j()`), so there is no non-`oj` food path - in particular no cake-style block heal, unlike Beta 1.7.3 where the cake block `um.c(...)` restores 3. (3) The complete `di` registry was reconstructed by mapping every static field to its constructed object: ids 0-90 plus record items 2000 and 2001. There is no item id 91-1999, so the ids that carry Beta 1.7.3's other foods simply do not exist here.",
+        "specificAbsences": [
+          {"betaName": "cookie", "beta173Id": 101, "why": "No item id 101 exists in this version's `di` registry at all (the registry stops at id 90 then jumps to the record items 2000/2001)."},
+          {"betaName": "fishRaw", "beta173Id": 93, "why": "No item id 93 exists; the registry has no ids between 91 and 1999."},
+          {"betaName": "fishCooked", "beta173Id": 94, "why": "No item id 94 exists."},
+          {"betaName": "cake", "beta173Id": 98, "why": "No item id 98 and no cake block heal: the only two callers of the heal method are the food item `oj` and the player's Peaceful regeneration, so no block interaction heals in this version."},
+          {"betaName": "milk", "beta173Id": 79, "why": "Item id 79 DOES exist, constructed as `new ac(79, -1)` at `di.<clinit>` line 117 - the same id and the same `-1` parameter as Beta 1.7.3's `new bc(79, -1)`. Class `ac` is not `oj` and contains no heal call, so it is the milk bucket with no health effect, exactly as in Beta 1.7.3."}
+        ]
+      },
+      "notes": [
+        "This version's client jar contains NO lang/ directory, so item and entity display names are not present as strings anywhere in the jar. All Beta-style names in this entry are attached by the numeric item id together with the registry static field name, the heal value and the item's icon index, all four of which agree with the independently verified Beta 1.7.3 table for every one of the six foods. Where possible the naming is further proved from recipes inside this same jar (golden apple, bread, mushroom stew), from the pig's drop (raw porkchop), from the smelt map (cooked porkchop) and from the fishing-rod recipe.",
+        "Entity ids: Sheep, Cow and Chicken are all registered with entity id 91 (`bipush 91` at `ew`.<clinit> lines 43, 44 and 45). Because map `c` is keyed by Integer, the later registration wins, so `c[91]` resolves to Chicken while map `d` gives all three classes the id 91. This is a genuine quirk of Alpha v1.1.2_01 and not a reading error; it is recorded because an emulation that round-trips entity ids must decide how to treat it.",
+        "Icon-index corroboration: Alpha stores a single icon index per item, while Beta 1.7.3 stores an (x, y) sprite coordinate. For all six Alpha foods the Alpha index equals Beta's x + 16*y (apple 10=10, mushroomStew 72=8+16*4, bread 41=9+16*2, porkchopRaw 87=7+16*5, porkchopCooked 88=8+16*5, appleGold 11=11+16*0). This is an independent, non-numeric-id confirmation that the Alpha item at each id is the same item as the Beta item with the verified name.",
+        "Giant is registered (class `hl`, id 53) and is included in `mobs` because that is the convention the Beta 1.7.3 self-check fixes (Giant is one of the required 14). It should not be read as an assertion that Giant spawned naturally in this era; see unknowns."
+      ],
+      "unknowns": [
+        "Whether every registered mob species was actually reachable by natural spawning in Alpha v1.1.2_01. The registry `ew` proves which entity types exist, are saved and are networked, not which ones the world's spawn logic placed. In particular Giant (id 53) is registered in both Alpha v1.1.2_01 and Beta 1.7.3 yet is widely understood never to have spawned naturally.",
+        "The natural spawn weights, pack sizes and per-biome spawn lists for Alpha v1.1.2_01, which are not part of the entity registry and were not extracted here.",
+        "Whether the duplicate entity id 91 for Sheep/Cow/Chicken had any observable consequence in this version (for example in save/load or in the network entity-type table), and how an emulation should model it."
+      ]
+    },
+    {
+      "id": "Infdev 20100227",
+      "modernerBetaPreset": "infdev_227",
+      "obtained": false,
+      "clientUrl": null,
+      "clientSha1": null,
+      "clientBytes": null,
+      "verifiedHow": "NOT OBTAINED - deliberately stopped, per the instruction to stop on a version rather than proceed on an unverified jar. Mojang's own version manifest does not list this version, so there is no metadata JSON from which to take downloads.client and therefore no URL, SHA-1 or size to verify.",
+      "unobtainableEvidence": {
+        "manifestsChecked": [
+          "https://launchermeta.mojang.com/mc/game/version_manifest.json (918 versions, 200 OK)",
+          "https://piston-meta.mojang.com/mc/game/version_manifest.json (918 versions, 200 OK)",
+          "https://launchermeta.mojang.com/mc/game/version_manifest_v2.json (918 versions, 200 OK)"
+        ],
+        "result": "No entry with id `inf-20100227` (nor `inf-20100227-1414`) in any of the three manifests. The full set of old_alpha entries is 35 versions, and the ONLY Infdev-family id present is `inf-20100618`.",
+        "oldAlphaIdsFound": ["a1.2.6", "a1.2.5", "a1.2.4_01", "a1.2.3_04", "a1.2.3_02", "a1.2.3_01", "a1.2.3", "a1.2.2b", "a1.2.2a", "a1.2.1_01", "a1.2.1", "a1.2.0_02", "a1.2.0_01", "a1.2.0", "a1.1.2_01", "a1.1.2", "a1.1.0", "a1.0.17_04", "a1.0.17_02", "a1.0.16", "a1.0.15", "a1.0.14", "a1.0.11", "a1.0.5_01", "a1.0.4", "inf-20100618", "c0.30_01c", "c0.0.13a", "c0.0.13a_03", "c0.0.11a", "rd-161348", "rd-160052", "rd-20090515", "rd-132328", "rd-132211"],
+        "legacyEndpointChecked": "https://s3.amazonaws.com/Minecraft.Download/versions/<id>/<id>.json returns HTTP 404 for inf-20100227, inf-20100611 AND inf-20100618 - that legacy S3 bucket is dead for all old versions, including ones that are in the manifest, so it is not an alternative route.",
+        "nearestAvailableVersion": "`inf-20100618` IS in the manifest (client sha1 89eab2c1a353707cc00f074dffba9cb7a4f5e304, 601473 bytes). It is a different build from Infdev 20100227 and must not be substituted."
+      },
+      "entityRegistryClass": null,
+      "entityNames": [],
+      "mobs": [],
+      "foods": [],
+      "notes": [
+        "Reported as unobtainable rather than reconstructed from secondary sources or from a re-hosted copy. The task requires the jar to come from Mojang's own version manifest and to be hash-verified; no hash exists to verify against, so no claim about this version's mob list or food table is made.",
+        "Moderner Beta's preset id `infdev_227` and its label imply 2010-02-27, a build that is not distributed by Mojang's launcher metadata today."
+      ],
+      "unknowns": [
+        "This version's complete mob entity set - unknown, because no verifiable jar was obtained.",
+        "This version's complete food/heal table, and even whether it has any edible items - unknown, because no verifiable jar was obtained.",
+        "Which class, if any, holds the entity-name registry in this build - unknown. It cannot be assumed to share a name with Alpha v1.1.2_01 (`ew`), Beta 1.7.3 (`jc`) or Beta 1.8.1 (`um`); obfuscated names change every version, and this build is neither Alpha nor Beta."
+      ]
+    },
+    {
+      "id": "Infdev 20100611",
+      "modernerBetaPreset": "infdev_611",
+      "obtained": false,
+      "clientUrl": null,
+      "clientSha1": null,
+      "clientBytes": null,
+      "verifiedHow": "NOT OBTAINED - deliberately stopped, per the instruction to stop on a version rather than proceed on an unverified jar. Mojang's own version manifest does not list this version, so there is no metadata JSON from which to take downloads.client and therefore no URL, SHA-1 or size to verify.",
+      "unobtainableEvidence": {
+        "manifestsChecked": [
+          "https://launchermeta.mojang.com/mc/game/version_manifest.json (918 versions, 200 OK)",
+          "https://piston-meta.mojang.com/mc/game/version_manifest.json (918 versions, 200 OK)",
+          "https://launchermeta.mojang.com/mc/game/version_manifest_v2.json (918 versions, 200 OK)"
+        ],
+        "result": "No entry with id `inf-20100611` in any of the three manifests. The only Infdev-family id present is `inf-20100618`.",
+        "legacyEndpointChecked": "https://s3.amazonaws.com/Minecraft.Download/versions/inf-20100611/inf-20100611.json returns HTTP 404.",
+        "nearestAvailableVersion": "`inf-20100618` (client sha1 89eab2c1a353707cc00f074dffba9cb7a4f5e304, 601473 bytes) is the closest Mojang-distributed Infdev build and is 7 days later. It is a DIFFERENT version, so it cannot stand in for Infdev 20100611 and was not used as a substitute."
+      },
+      "entityRegistryClass": null,
+      "entityNames": [],
+      "mobs": [],
+      "foods": [],
+      "notes": [
+        "Reported as unobtainable rather than reconstructed from secondary sources or from a re-hosted copy. No hash exists to verify against, so no claim about this version's mob list or food table is made.",
+        "The version is real and documented (Minecraft Wiki pages exist for Java Edition Infdev 20100611), and third-party launchers re-host it, but none of that satisfies the requirement to obtain and verify the jar from Mojang's own manifest."
+      ],
+      "unknowns": [
+        "This version's complete mob entity set - unknown, because no verifiable jar was obtained.",
+        "This version's complete food/heal table, and whether it has any edible items - unknown, because no verifiable jar was obtained.",
+        "Which class holds the entity-name registry in this build - unknown, and not assumed from any other version."
+      ]
+    }
+  ],
+  "unknowns": [
+    {
+      "question": "Whether Mojang ever listed Infdev 20100227 and Infdev 20100611 in the launcher version manifest, and whether they were later removed rather than never having been present.",
+      "whatWouldSettleIt": "A dated archive of https://launchermeta.mojang.com/mc/game/version_manifest.json (or its predecessor https://s3.amazonaws.com/Minecraft.Download/versions/versions.json) from the relevant period, obtained from a web archive. What is established here is only the current state: as of this extraction, none of Mojang's three published manifests lists either version, and the legacy S3 version-JSON endpoint 404s for every old version including ones that are listed."
+    },
+    {
+      "question": "Whether the mob sets reported here are the sets that could spawn NATURALLY, as opposed to the sets of entity types that exist and are saved.",
+      "whatWouldSettleIt": "Extracting the world's natural-spawn logic for each version (the code that picks entity classes per biome/chunk) and reading its spawn tables, rather than only the entity-name registry. For the Beta 1.7.3 self-check the project's convention is explicitly registry-based, so the same convention is used here for consistency; but registry membership is a necessary, not obviously sufficient, condition for natural spawning. Giant is the concrete example: registered in both Alpha v1.1.2_01 and Beta 1.7.3, and required as a 'mob' by the self-check, yet not understood to have spawned naturally."
+    },
+    {
+      "question": "The per-biome spawn weights, pack sizes and spawn-attempt rates for Alpha v1.1.2_01.",
+      "whatWouldSettleIt": "Reading the spawn-table bytecode/constants in the verified Alpha v1.1.2_01 jar. This is a separate question from which entity types exist and was out of scope for this extraction."
+    },
+    {
+      "question": "Whether the Alpha v1.1.2_01 'food' classification should include the milk bucket.",
+      "whatWouldSettleIt": "A product decision, not a jar question. The jar is unambiguous: `di`.<clinit> line 117 constructs item 79 as `new ac(79, -1)`, class `ac` is not the food class `oj` and contains no call to the heal method `ge.b(I)V`, so drinking it restores no health. It is listed under foodsAbsent with that evidence."
+    },
+    {
+      "question": "Whether the duplicate entity id 91 (Sheep, Cow, Chicken) affected actual behaviour in Alpha v1.1.2_01.",
+      "whatWouldSettleIt": "Determining which code paths read the id maps `ew.c` / `ew.d` in this version (save format and/or network entity-type table) and testing a save/load round trip; or a behavioural test in a running Alpha v1.1.2_01 instance. The bytecode fact is not in doubt - three consecutive `bipush 91` arguments at `ew`.<clinit> lines 43-45."
+    },
+    {
+      "question": "Whether the modern identifiers mapped from each food are exactly what the emulation target's registry uses.",
+      "whatWouldSettleIt": "Reading the item registry of the actual modern runtime (Minecraft 26.3) as already flagged in the existing research file for Beta 1.7.3. This does not affect any Alpha-side value: the heal amounts and the id/field/sprite identifications are read from the Alpha jar and cross-checked against the verified Beta 1.7.3 jar, both of which are version-internal."
+    }
+  ],
+  "provenance": {
+    "tools": "Analysis was done with a purpose-written case-sensitive Java class-file parser and bytecode disassembler plus targeted scanners (constant-pool literal extraction, virtual-dispatch resolution through the real superclass chain, health-clamp detection, registry <clinit> field assignment recovery, crafting-recipe recovery). All live under %TEMP%\\mce-prebata\\tools\\. Nothing was inferred from a decompiler's renaming: only constant-pool names and descriptors and raw instruction operands were used. javap (JDK 25.0.4.1) was available and used to validate the parser's disassembly.",
+    "decompiler": "None used for any reported value. No decompiled Minecraft source was produced or retained; the parser reads class files directly.",
+    "tempDirectory": "%TEMP%\\mce-prebata\\ (jars\\, extract\\, meta\\, tools\\ and text dumps).",
+    "repositoryImpact": "research/prebeta-registries.json only. No jar, class file, decompiled source or game asset was written into the repository tree, and no Gradle task and no Minecraft client was run."
+  }
+}

@@ -1,0 +1,4617 @@
+{
+  "schemaVersion": "1.0.0",
+  "generated": "2026-10-12T21:05:00+11:00",
+  "scope": {
+    "focusComparison": [
+      "Beta 1.7.3 (released 2011-07-08)",
+      "Beta 1.8.1 (released 2011-09-15, last Beta)"
+    ],
+    "targetEmulationRange": [
+      "Pre-Classic (Cave game tech test, rd-132211 etc.)",
+      "Classic (0.0.x-0.30)",
+      "Indev",
+      "Infdev",
+      "Alpha (v1.0.x-v1.2.6)",
+      "Beta 1.0-Beta 1.8.1 (no Beta '1.7.10' release exists: the 1.7 line ends at Beta 1.7.3)",
+      "Release 1.0.0-1.7.10"
+    ],
+    "inScope": [
+      "Gameplay/behaviour deltas that a historical profile must parameterise (food/hunger, movement, combat, mob drops, spawning, recipes, progression, HUD, worldgen-adjacent flags)",
+      "Both the Beta 1.7.3 baseline and the Beta 1.8/Beta 1.8.1 target state, plus later 1.x changes needed to separate the two",
+      "Primary-artifact verification from Mojang's official client jars where a bytecode/decompile check was possible",
+      "Explicit version-naming note: 'Release 1.7.10' is a Release-era version; the Beta-era 1.7 line ended at Beta 1.7.3. Source: https://minecraft.wiki/index.php?title=Java_Edition_version_history&action=raw (Beta section lists Beta 1.8.1, 1.8, 1.7.3, 1.7.2, 1.7 and earlier - no 1.7.4-1.7.10)."
+    ],
+    "outOfScope": [
+      "Terrain generation algorithms (Moderner Beta is the terrain authority; see AGENTS.md)",
+      "Runtime/Java/build changes and any modification of .upstream/moderner-beta",
+      "Redistribution of Mojang code or assets; only numeric facts and citations are recorded here",
+      "Bedrock/Education/Legacy Console behaviour except where it explains a Java Edition contradiction"
+    ]
+  },
+  "categories": [
+    "food_hunger",
+    "movement_water",
+    "combat",
+    "mobs",
+    "mob_drops",
+    "spawning",
+    "crafting_recipes",
+    "worldgen",
+    "structures",
+    "progression",
+    "hud_ui",
+    "lighting_visuals",
+    "technical"
+  ],
+  "confidenceLevels": {
+    "high": "Confirmed by at least one primary artifact (official Mojang client jar bytecode/decompile/version JSON) or by two independent sources that agree.",
+    "medium": "Confirmed by a single secondary source (wiki raw wikitext, developer statement) not independently corroborated, or confirmed for a neighbouring version and inferred.",
+    "low": "Weakly sourced, reported indirectly, or reconstructed by reasoning from adjacent facts; do not ship behaviour on this alone.",
+    "unknown": "No usable source found. Recorded so the gap stays visible; must not be implemented from assumption."
+  },
+  "implementationStatuses": {
+    "not_started": "No code in this repository implements or parameterises the feature (true for every entry at this milestone).",
+    "partial": "Some scaffolding exists but behaviour is not complete or not verified.",
+    "implemented": "Behaviour implemented and verified against the cited evidence.",
+    "unknown": "Implementation state could not be determined.",
+    "not_applicable": "Not a behaviour to implement (documentation-only note)."
+  },
+  "validation": {
+    "entryCount": 46,
+    "categoryCounts": {
+      "combat": 6,
+      "crafting_recipes": 2,
+      "food_hunger": 12,
+      "hud_ui": 2,
+      "lighting_visuals": 1,
+      "mob_drops": 6,
+      "mobs": 2,
+      "movement_water": 4,
+      "progression": 1,
+      "spawning": 1,
+      "structures": 3,
+      "technical": 1,
+      "worldgen": 5
+    },
+    "confidenceCounts": {
+      "high": 32,
+      "low": 1,
+      "medium": 11,
+      "unknown": 2
+    },
+    "implementationStatusCounts": {
+      "not_started": 46
+    }
+  },
+  "entries": [
+    {
+      "id": "beta173-instant-food-healing",
+      "name": "Direct healing from food (no hunger bar) - food-by-food model",
+      "category": "food_hunger",
+      "verificationStatus": "documented_only",
+      "firstSupportedVersion": "unknown (food-by-food accumulation)",
+      "firstSupportedPrecise": null,
+      "removedIn": "Beta 1.8",
+      "changes": [
+        {
+          "version": "Indev 20100110",
+          "precise": "20100110",
+          "change": "Apples become edible and restore 4 HP directly (earliest confirmed direct-healing food in this pass)."
+        },
+        {
+          "version": "Indev 20100206-2034",
+          "precise": "20100206-2034",
+          "change": "Bread added, restoring 5 HP directly; mushroom stew raised to 10 HP in the same build. This is the build previously written as this entry's firstSupportedVersion - kept as a change entry instead, because the feature is a per-food model rather than one dated mechanic."
+        },
+        {
+          "version": "Indev 20100219",
+          "precise": "20100219",
+          "change": "Pigs drop raw porkchops (3 HP); smelting yields cooked porkchops (8 HP)."
+        },
+        {
+          "version": "Beta 1.2",
+          "precise": null,
+          "change": "Cake added; a slice restores 3 HP, a full cake 18 HP."
+        },
+        {
+          "version": "Beta 1.4",
+          "precise": null,
+          "change": "Cookies added, restore 1 HP."
+        },
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Food no longer restores health directly; eating fills a new hunger bar instead."
+        }
+      ],
+      "values": [
+        {
+          "key": "hungerFieldsPresentInClient",
+          "value": false,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.7.3"
+          ],
+          "confidence": "high",
+          "note": "Byte-scan of the official b1.7.3 client jar for the strings foodLevel/foodSaturationLevel/foodExhaustionLevel returned 0 matches in 747 classes."
+        },
+        {
+          "key": "foodRegistryEntriesPresentInClient",
+          "value": [
+            "apple",
+            "bread",
+            "porkchopRaw",
+            "porkchopCooked",
+            "appleGold",
+            "fishRaw",
+            "fishCooked",
+            "cookie",
+            "mushroomStew",
+            "shears",
+            "feather",
+            "leather"
+          ],
+          "unit": "registry names",
+          "appliesToVersions": [
+            "Beta 1.7.3"
+          ],
+          "confidence": "high",
+          "note": "Presence of these item-registry string constants in the single item-registry class gm.class of the official b1.7.3 client. This is registry-class inspection, not a whole-client string scan."
+        },
+        {
+          "key": "foodRegistryEntriesAbsentInClient",
+          "value": [
+            "rottenFlesh",
+            "beefRaw",
+            "beefCooked",
+            "chickenRaw",
+            "chickenCooked",
+            "melon",
+            "enderPearl"
+          ],
+          "unit": "registry names",
+          "appliesToVersions": [
+            "Beta 1.7.3"
+          ],
+          "confidence": "high",
+          "note": "These registry-name strings were NOT found in the b1.7.3 client's classes and all appear in the b1.8 registry class sv.class. Registry-string absence is evidence about the item registry; it is not a general proof that no related behaviour exists elsewhere in obfuscated code."
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Food&action=raw",
+          "reference": "History / Java Edition, Indev and Beta lines: 20100206-2034, 20100219, 1.2, 1.4, and '1.8|dev=Pre-release Hunger was introduced. Food no longer restores health directly...'",
+          "supports": "Direct healing model per version and its replacement in Beta 1.8.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.7.3&action=raw",
+          "reference": "Trivia: this was the last version to 'not have the Food bar system'",
+          "supports": "Beta 1.7.3 has no hunger bar.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar",
+          "reference": "Byte-scan of all 747 classes for the string constants 'foodLevel', 'foodSaturationLevel', 'foodExhaustionLevel' and 'starve': 0 string matches. Read as absence of those strings (which is what the two sources independently corroborate); not as a general proof of behavioural absence in obfuscated code.",
+          "supports": "Official b1.7.3 client contains no hunger subsystem.",
+          "retrieved": "2026-10-12",
+          "sha1": "43db9b498cb67058d2e12d394e6507722e71bb45"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "The disappearance of direct healing in Beta 1.8 is artifact-verified (no hunger fields in the b1.7.3 client, hunger subsystem present in b1.8); the per-food HP values are wiki-sourced only, and the first-supported version is explicitly unknown because the model accumulated food by food.",
+      "unknowns": [
+        "No source consulted pins the FIRST direct-healing food exactly: mushrooms were edible in Classic 0.24_SURVIVAL_TEST (5 HP brown / -3 HP red), apples became edible in Indev 20100110, mushroom stew was added 20100129-2332 (8 HP), bread 20100206-2034 (5 HP). The correct 'first supported version' for the direct-heal MODEL is therefore a judgement call and is recorded as unknown rather than asserted.",
+        "Per-food HP restore values for every Beta 1.7.3 food were not re-derived from the b1.7.3 artifact in this pass."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.7.3"
+        ],
+        "modernBehaviourDifference": "Minecraft 26.3 always uses the hunger model; there is no direct-heal path, so the profile must disable hunger and route eating to instant health restoration.",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "Removing the hunger bar while keeping modern food components intact requires a server-authoritative food/health override, not just a client HUD change.",
+        "Food stacking differs (see beta18-food-stacking-and-eating)."
+      ]
+    },
+    {
+      "id": "beta18-hunger-bar-introduced",
+      "name": "Hunger bar and hunger points (0-20)",
+      "category": "food_hunger",
+      "verificationStatus": "artifact_verified",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Hunger introduced: a 20-point bar displayed above the hotbar; food restores hunger rather than health."
+        },
+        {
+          "version": "Release 1.0.0",
+          "precise": "Beta 1.9 Prerelease 5",
+          "change": "Saturation boost added (saturation consumed for faster healing) - later than the target window."
+        }
+      ],
+      "values": [
+        {
+          "key": "maxFoodLevel",
+          "value": 20,
+          "unit": "hunger points",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Field a initialised to 20 and clamped with Math.min(...,20); field e (prevFoodLevel) also 20."
+        },
+        {
+          "key": "initialFoodLevelOnSpawn",
+          "value": 20,
+          "unit": "hunger points",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "initialSaturationLevelOnSpawn",
+          "value": 5.0,
+          "unit": "saturation points",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "maxExhaustion",
+          "value": 40.0,
+          "unit": "exhaustion points",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "addExhaustion clamps to 40.0F."
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/3139e9c29b2c74f59ea04de760ac2af5bc21b410/client.jar",
+          "reference": "class kc (FoodStats) constructor: field a=20, field e=20, field b=5.0F; fields serialised as foodLevel / foodSaturationLevel / foodExhaustionLevel / foodTickTimer",
+          "supports": "20-point hunger, 5.0 starting saturation, NBT field names.",
+          "retrieved": "2026-10-12",
+          "sha1": "3139e9c29b2c74f59ea04de760ac2af5bc21b410"
+        },
+        {
+          "kind": "official_metadata",
+          "url": "https://piston-meta.mojang.com/v1/packages/237811ba6f3418f3e64edb26246037625528ddf8/b1.8.json",
+          "reference": "downloads.client.sha1 == 3139e9c29b2c74f59ea04de760ac2af5bc21b410",
+          "supports": "The analysed jar is Mojang's official b1.8 client artifact.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Additions / Gameplay / Hunger: 'Is a feature exclusive to the player, which is required for natural health regeneration and sprinting.'",
+          "supports": "Hunger introduced in Beta 1.8 and gates regeneration + sprinting.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "Decompiled official client gives the storage fields, initial values and clamp constants directly.",
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "26.3 uses the same 20-point scale but a different 4-field model (with data components, saturation boost, gamerule naturalRegeneration); the b1.8 exhaustion/regeneration rules differ (see related entries).",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "Modern clients hide/format the food bar differently, and hunger drains on Peaceful in modern versions while b1.8 behaviour must be checked separately (see beta18-peaceful-food-behaviour)."
+      ]
+    },
+    {
+      "id": "beta18-natural-regeneration-rule",
+      "name": "Natural regeneration at foodLevel >= 18 every 80 ticks",
+      "category": "food_hunger",
+      "verificationStatus": "artifact_verified",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "At foodLevel >= 18 the player heals 1 HP every 80 ticks (4 s), only while the entity can heal."
+        },
+        {
+          "version": "Release 1.6.1",
+          "precise": "13w23a",
+          "change": "Natural regeneration starts increasing the food exhaustion level (later than the target window)."
+        },
+        {
+          "version": "Release 1.9",
+          "precise": "15w40a",
+          "change": "Saturation boost added; healing at full hunger consumes saturation every 10 ticks."
+        }
+      ],
+      "values": [
+        {
+          "key": "regenerationFoodThreshold",
+          "value": 18,
+          "unit": "hunger points",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Bytecode: if (this.a >= 18 && var1.au()) increment timer."
+        },
+        {
+          "key": "regenerationInterval",
+          "value": 80,
+          "unit": "ticks",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "regenerationHealPerInterval",
+          "value": 1,
+          "unit": "HP",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "regenerationCostsExhaustion",
+          "value": false,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "No addExhaustion call in the regeneration path; exhaustion-on-heal arrives in 13w23a / starvation-adjacent changes. This applies to the Beta 1.8.0 client artifact."
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/3139e9c29b2c74f59ea04de760ac2af5bc21b410/client.jar",
+          "reference": "class kc method a(sz) lines: foodLevel >= 18 && canHeal -> tickTimer++ ; at 80 -> addHealth(1) and timer reset",
+          "supports": "Threshold, interval and heal amount; absence of exhaustion cost.",
+          "retrieved": "2026-10-12",
+          "sha1": "3139e9c29b2c74f59ea04de760ac2af5bc21b410"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Food&action=raw",
+          "reference": "Hunger / Natural regeneration and Internal variables / foodTickTimer: 'If the player has a full 20, 1/6 of 1 HP times foodSaturationLevel is restored ... when foodTickTimer reaches 10' (modern) vs History 1.6.1 13w23a 'Natural health regeneration now increases the food exhaustion level.'",
+          "supports": "Modern rule differs; exhaustion cost is post-1.8.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Gameplay / Hunger: 'if the food meter is above 90%, heals 1 every 4 seconds.'",
+          "supports": "Beta 1.8 release-notes wording (90% == 18/20).",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "Bytecode constants are unambiguous and the wiki's 90%-of-20 wording resolves to the same 18 threshold.",
+      "unknowns": [
+        "Whether healing also required the entity not to be dead/invulnerable on the exact release build beyond the canHeal() gate was not exhaustively traced."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern 26.3 regenerates at foodLevel >= 18 but heals every 80 ticks with saturation boost at full hunger and charges exhaustion; b1.8 must not charge exhaustion.",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "Reusing the modern healing path would silently add exhaustion cost, changing survival pacing."
+      ]
+    },
+    {
+      "id": "beta18-starvation-damage-thresholds",
+      "name": "Starvation damage at foodLevel 0 with difficulty-dependent floor",
+      "category": "food_hunger",
+      "verificationStatus": "artifact_verified",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "At foodLevel 0 the player loses 1 HP every 80 ticks, but the damage stops at a difficulty-dependent health floor."
+        },
+        {
+          "version": "Release 1.7.2",
+          "precise": "13w36a",
+          "change": "Resistance no longer reduces starvation damage (later)."
+        }
+      ],
+      "values": [
+        {
+          "key": "starvationInterval",
+          "value": 80,
+          "unit": "ticks",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "starvationDamage",
+          "value": 1,
+          "unit": "HP",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "starvationStopHealthEasy",
+          "value": 10,
+          "unit": "HP",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Bytecode: damage is skipped when health <= 10 and difficulty < 3."
+        },
+        {
+          "key": "starvationStopHealthNormal",
+          "value": 1,
+          "unit": "HP",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Bytecode: when health > 1, damage applies if difficulty >= 2."
+        },
+        {
+          "key": "starvationStopHealthHard",
+          "value": "none",
+          "unit": "n/a",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "difficulty 3 always takes damage."
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/3139e9c29b2c74f59ea04de760ac2af5bc21b410/client.jar",
+          "reference": "class kc a(sz): foodLevel <= 0 branch, timer >= 80, condition (health > 10 || difficulty >= 3 || (health > 1 && difficulty >= 2)) before damageSource(starve, 1)",
+          "supports": "Difficulty-dependent starvation floor and the starve damage source.",
+          "retrieved": "2026-10-12",
+          "sha1": "3139e9c29b2c74f59ea04de760ac2af5bc21b410"
+        },
+        {
+          "kind": "developer_statement",
+          "url": "https://twitter.com/jeb_/status/111047534318858240",
+          "reference": "jeb_, 6 September 2011: 'If the the food bar is empty in MC 1.8, it will slowly drop your health to 5 hearts on easy, to 0.5 hearts on normal, and kill you on hard'",
+          "supports": "Difficulty floors 5 hearts / 0.5 hearts / death (6 September 2011 statement; the shipped client uses 10 HP easy and 1 HP normal).",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Food&action=raw",
+          "reference": "Hunger / Starvation: Easy stops at 10 HP, Normal at 1 HP, Hard never",
+          "supports": "Matches the bytecode thresholds.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "Bytecode condition and the wiki agree; jeb_'s pre-release tweet is directionally consistent but uses heart-units announced before release.",
+      "contradictions": [
+        {
+          "description": "jeb_'s 6 September 2011 tweet says starvation stops at 5 hearts on easy, but the shipped b1.8 client stops at 10 HP (5 hearts) on easy and 1 HP (0.5 hearts) on normal - the tweet's 'normal' figure differs from the released easy wording.",
+          "resolution": "Treat the decompiled client thresholds (easy 10 HP, normal 1 HP, hard none) as authoritative; keep the tweet as developer intent only."
+        }
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern starvation floors are 10 HP / 1 HP / none, matching b1.8 numerically, but modern damage interacts with Resistance and absorption differently (Resistance stopped applying in 13w36a).",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "Modern difficulty scaling of other damage sources must not leak into the historical starvation rule."
+      ]
+    },
+    {
+      "id": "beta18-saturation-model",
+      "name": "Saturation accumulation formula (saturation = min(cur + hunger*modifier*2, foodLevel))",
+      "category": "food_hunger",
+      "verificationStatus": "artifact_verified",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Hidden saturation value present: eating adds hunger*modifier*2 saturation, capped at the resulting foodLevel."
+        },
+        {
+          "version": "Release 1.9",
+          "precise": "15w40a",
+          "change": "Saturation boost added (saturation consumed every 10 ticks at full hunger to heal faster)."
+        },
+        {
+          "version": "Release 1.11",
+          "precise": "16w32a",
+          "change": "Exhaustion rates rebalanced across the board (later)."
+        }
+      ],
+      "values": [
+        {
+          "key": "saturationMultiplier",
+          "value": 2,
+          "unit": "factor",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Formula: saturation += hunger * saturationModifier * 2, then min(.., newFoodLevel)."
+        },
+        {
+          "key": "saturationCap",
+          "value": "foodLevel",
+          "unit": "saturation points",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "exhaustionThreshold",
+          "value": 4.0,
+          "unit": "exhaustion points",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "When exhaustion > 4.0: subtract 4.0, then consume 1 saturation, else 1 hunger if difficulty > 0."
+        },
+        {
+          "key": "exhaustionConsumesSaturationFirst",
+          "value": true,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/3139e9c29b2c74f59ea04de760ac2af5bc21b410/client.jar",
+          "reference": "class kc method a(int,float): foodLevel = min(foodLevel+hunger,20); saturation = min(saturation + hunger*modifier*2.0F, foodLevel). Method a(float): exhaustion = min(exhaustion + amount, 40.0F)",
+          "supports": "Exact saturation accumulation and exhaustion-state machine.",
+          "retrieved": "2026-10-12",
+          "sha1": "3139e9c29b2c74f59ea04de760ac2af5bc21b410"
+        },
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/3139e9c29b2c74f59ea04de760ac2af5bc21b410/client.jar",
+          "reference": "class aea (ItemFood) ctor (int id, int hunger, float saturationModifier, boolean wolfFood); accessors l() -> hunger, m() -> saturationModifier",
+          "supports": "Every food carries a per-item saturation modifier from Beta 1.8 onward.",
+          "retrieved": "2026-10-12",
+          "sha1": "3139e9c29b2c74f59ea04de760ac2af5bc21b410"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Food&action=raw",
+          "reference": "Saturation / Food saturation values table (modern values) plus History 1.9 15w40a 'Added saturation boost'",
+          "supports": "Saturation exists but modern values/behaviour include later rebalances.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "Formula and cap read directly from the official b1.8 client bytecode.",
+      "unknowns": [
+        "Exhaustion accumulation rates for each action in Beta 1.8 were not fully enumerated from the artifact; only the threshold/max are pinned here (see beta18-exhaustion-action-costs)."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern 26.3 keeps the same base formula but adds saturation boost and revised exhaustion rates; the historical profile must suppress boost.",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "Modern item components (food component with nutrition/saturation) can express the values declaratively; the *2 multiplier must not be applied twice."
+      ]
+    },
+    {
+      "id": "beta18-food-values-table",
+      "name": "Beta 1.8 food hunger/saturation-modifier table (18 foods)",
+      "category": "food_hunger",
+      "verificationStatus": "artifact_verified",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Food restores hunger instead of health; per-item (hunger, saturationModifier) pairs introduced."
+        },
+        {
+          "version": "Release 1.1",
+          "precise": "release",
+          "change": "Golden apples remade with gold nuggets, restore 4 hunger and 4 s Regeneration (later)."
+        },
+        {
+          "version": "Release 1.3.1",
+          "precise": "12w18a/12w19a",
+          "change": "Cookie hunger raised to 2 (later)."
+        },
+        {
+          "version": "Release 1.4.2",
+          "precise": "12w37a",
+          "change": "Mushroom stew lowered to 6 hunger (later)."
+        }
+      ],
+      "values": [
+        {
+          "key": "food.apple",
+          "value": {
+            "hunger": 4,
+            "saturationModifier": 0.3
+          },
+          "unit": "hunger/modifier",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "new aea(4, 4, 0.3F, false)"
+        },
+        {
+          "key": "food.bread",
+          "value": {
+            "hunger": 5,
+            "saturationModifier": 0.6
+          },
+          "unit": "hunger/modifier",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "food.porkchopRaw",
+          "value": {
+            "hunger": 3,
+            "saturationModifier": 0.3
+          },
+          "unit": "hunger/modifier",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "food.porkchopCooked",
+          "value": {
+            "hunger": 8,
+            "saturationModifier": 0.8
+          },
+          "unit": "hunger/modifier",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "food.appleGold",
+          "value": {
+            "hunger": 10,
+            "saturationModifier": 1.2
+          },
+          "unit": "hunger/modifier",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Also always-edible (o()) and applies Regeneration for 30 s at amplifier 0, probability 1.0."
+        },
+        {
+          "key": "food.fishRaw",
+          "value": {
+            "hunger": 2,
+            "saturationModifier": 0.3
+          },
+          "unit": "hunger/modifier",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "food.fishCooked",
+          "value": {
+            "hunger": 5,
+            "saturationModifier": 0.6
+          },
+          "unit": "hunger/modifier",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "food.cookie",
+          "value": {
+            "hunger": 1,
+            "saturationModifier": 0.1
+          },
+          "unit": "hunger/modifier",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "food.melon",
+          "value": {
+            "hunger": 2,
+            "saturationModifier": 0.3
+          },
+          "unit": "hunger/modifier",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Registry name 'melon' resolves to the melon slice item (en_US.lang: item.melon.name=Melon)."
+        },
+        {
+          "key": "food.beefRaw",
+          "value": {
+            "hunger": 3,
+            "saturationModifier": 0.3
+          },
+          "unit": "hunger/modifier",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "food.beefCooked",
+          "value": {
+            "hunger": 8,
+            "saturationModifier": 0.8
+          },
+          "unit": "hunger/modifier",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Displayed as 'Steak' in b1.8 en_US.lang."
+        },
+        {
+          "key": "food.chickenRaw",
+          "value": {
+            "hunger": 2,
+            "saturationModifier": 0.3
+          },
+          "unit": "hunger/modifier",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Also applies Hunger effect, 30 s, amplifier 0, probability 0.3."
+        },
+        {
+          "key": "food.chickenCooked",
+          "value": {
+            "hunger": 6,
+            "saturationModifier": 0.6
+          },
+          "unit": "hunger/modifier",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "food.rottenFlesh",
+          "value": {
+            "hunger": 4,
+            "saturationModifier": 0.1
+          },
+          "unit": "hunger/modifier",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Also applies Hunger effect, 30 s, amplifier 0, probability 0.8."
+        },
+        {
+          "key": "food.mushroomStew",
+          "value": {
+            "hunger": 8,
+            "saturationModifier": "unknown"
+          },
+          "unit": "hunger/modifier",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "medium",
+          "note": "Registered as new ay(26, 8) (an ItemSoup-family item); the 8 hunger value is explicit in the constructor call but the saturation modifier for this family was not decoded in this pass."
+        },
+        {
+          "key": "derivedSaturation.apple",
+          "value": 2.4,
+          "unit": "saturation points",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Derived: 4 hunger * 0.3 * 2 (subject to the foodLevel cap)."
+        },
+        {
+          "key": "derivedSaturation.cookedPorkchop",
+          "value": 12.8,
+          "unit": "saturation points",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Derived: 8 * 0.8 * 2."
+        },
+        {
+          "key": "derivedSaturation.rottenFlesh",
+          "value": 0.8,
+          "unit": "saturation points",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Derived: 4 * 0.1 * 2."
+        },
+        {
+          "key": "derivedSaturation.cookie",
+          "value": 0.2,
+          "unit": "saturation points",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Derived: 1 * 0.1 * 2."
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/3139e9c29b2c74f59ea04de760ac2af5bc21b410/client.jar",
+          "reference": "class sv (item registry) static initialisers: new aea(4,4,0.3F,false).a(\"apple\"); (41,5,0.6F).a(\"bread\"); (63,3,0.3F,true).a(\"porkchopRaw\"); (64,8,0.8F,true).a(\"porkchopCooked\"); (66,10,1.2F,false).o().a(Regeneration,30,0,1.0F).a(\"appleGold\"); (93,2,0.3F).a(\"fishRaw\"); (94,5,0.6F).a(\"fishCooked\"); (101,1,0.1F).a(\"cookie\"); (104,2,0.3F).a(\"melon\"); (107,3,0.3F,true).a(\"beefRaw\"); (108,8,0.8F,true).a(\"beefCooked\"); (109,2,0.3F,true).a(Hunger,30,0,0.3F).a(\"chickenRaw\"); (110,6,0.6F,true).a(\"chickenCooked\"); (111,4,0.1F,true).a(Hunger,30,0,0.8F).a(\"rottenFlesh\"); new ay(26,8).a(\"mushroomStew\")",
+          "supports": "Per-food hunger and saturation modifier values, wolf-food flags and food-effect probabilities.",
+          "retrieved": "2026-10-12",
+          "sha1": "3139e9c29b2c74f59ea04de760ac2af5bc21b410"
+        },
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/3139e9c29b2c74f59ea04de760ac2af5bc21b410/client.jar",
+          "reference": "lang/en_US.lang: item.melon.name=Melon, item.beefCooked.name=Steak, item.fishRaw.name=Raw Fish, item.rottenFlesh.name=Rotten Flesh",
+          "supports": "Mapping registry names to the names used by the Beta 1.8 changelog.",
+          "retrieved": "2026-10-12",
+          "sha1": "3139e9c29b2c74f59ea04de760ac2af5bc21b410"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_guides/Adventure_Update:_Part_I&action=raw",
+          "reference": "Items table: Raw Chicken restores 2 and 1.2 saturation; Cooked Chicken 6 / 7.2; Raw Beef 3 / 1.8; Steak 8 / 12.8; Melon 2 / 1.2; Rotten Flesh 4 / 0.8, plus 30%/80% Hunger-effect probabilities",
+          "supports": "Independent corroboration of the artifact values (and matches the derived modifier*2 saturation numbers exactly).",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Additions/Items and Changes/Items: per-item 'Now restore X hunger, instead of Y health' lines, plus changed foods (apple 4, bread 5, cooked fish 5, cooked porkchop 8, cookie 1, golden apple 10, mushroom stew 8, raw fish 2, raw porkchop 3)",
+          "supports": "Release-notes values for the foods that already existed.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "Values read from the official b1.8 client registry and cross-checked against the official Adventure Update guide, which agrees on hunger and derived saturation.",
+      "unknowns": [
+        "mushroomStew saturation modifier in Beta 1.8 (constructor hunger of 8 is confirmed; the soup-family saturation modifier was not decoded).",
+        "Cake is a block in this model; per-slice hunger in Beta 1.8 is recorded separately (see beta18-cake-slice-hunger-contradiction)."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern nutrition/saturation values were rebalanced repeatedly (1.4, 1.9, 1.11); modern numbers must not be reused for the Beta 1.8 profile.",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "Modern food data components express 'nutrition' and 'saturation' directly (already including the *2 factor), so the historical modifier must be doubled exactly once when generating the data."
+      ]
+    },
+    {
+      "id": "beta18-food-stacking-and-eating",
+      "name": "Food becomes stackable and takes 1.6 s to eat, with an eating animation",
+      "category": "food_hunger",
+      "verificationStatus": "artifact_verified",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Food stacks to 64 (except cake and mushroom stew) and requires 32 ticks of holding use, with an eating animation instead of instant consumption."
+        },
+        {
+          "version": "Release 1.0.0",
+          "precise": "RC1",
+          "change": "Eating sounds added (later)."
+        },
+        {
+          "version": "Release 1.11",
+          "precise": "16w32a",
+          "change": "Eating/drinking nuances unchanged in duration (later changes are unrelated to the 32-tick base)."
+        }
+      ],
+      "values": [
+        {
+          "key": "foodUseDuration",
+          "value": 32,
+          "unit": "ticks (1.6 s)",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "ItemFood.getMaxItemUseDuration returns 32."
+        },
+        {
+          "key": "foodMaxStackSize",
+          "value": 64,
+          "unit": "items",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Registry-level default max stack of 64; mushroom stew remains a single item (ItemSoup overrides to 1)."
+        },
+        {
+          "key": "eatingAnimationAdded",
+          "value": true,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/3139e9c29b2c74f59ea04de760ac2af5bc21b410/client.jar",
+          "reference": "class aea: method c(ul) returns 32 (max use duration); method a(ul,rv,sz) consumes only when canEat(...) is true; method b(ul,rv,sz) decrements the stack and applies effects",
+          "supports": "32-tick consumption and consumption behaviour.",
+          "retrieved": "2026-10-12",
+          "sha1": "3139e9c29b2c74f59ea04de760ac2af5bc21b410"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Changes / Items: 'Can now be stacked up to 64. Now takes 1.6 seconds to consume, accompanied with an animation.' (apple, bread, cooked fish, cooked porkchop, cookie, golden apple, raw fish, raw porkchop)",
+          "supports": "Stacking and 1.6 s consumption introduced in Beta 1.8.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Food&action=raw",
+          "reference": "Eating / Consumption time: 'Eating (or drinking) a consumable takes 32 ticks (1.6 s)'",
+          "supports": "Base duration still 32 ticks today.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "Bytecode duration plus two wiki loci agree.",
+      "unknowns": [
+        "Whether the eating animation was present in every Beta 1.8 pre-release or only from a specific pre-release was not pinned down."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern consumable components use consume_seconds and modern stack rules (max_stack_size 64 + component exceptions); the profile must set these to the historical values.",
+        "requiresHostWorkaround": false
+      },
+      "risks": [
+        "Mushroom stew's bowl-return behaviour is part of the same ItemSoup family; verify the bowl is returned when implementing."
+      ]
+    },
+    {
+      "id": "beta18-raw-food-poisoning",
+      "name": "Raw chicken/rotten flesh Hunger-effect probabilities",
+      "category": "food_hunger",
+      "verificationStatus": "artifact_verified",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Eating raw chicken has a 30% chance and rotten flesh an 80% chance of applying Hunger I for 30 seconds (server-side only)."
+        }
+      ],
+      "values": [
+        {
+          "key": "chickenRaw.hungerChance",
+          "value": 0.3,
+          "unit": "probability",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "rottenFlesh.hungerChance",
+          "value": 0.8,
+          "unit": "probability",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "hungerEffectDuration",
+          "value": 30,
+          "unit": "seconds",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "hungerEffectAmplifier",
+          "value": 0,
+          "unit": "level (Hunger I)",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/3139e9c29b2c74f59ea04de760ac2af5bc21b410/client.jar",
+          "reference": "class sv: chickenRaw .a(HungerSrc, 30, 0, 0.3F); rottenFlesh .a(HungerSrc, 30, 0, 0.8F); class aea b(...) applies the effect only when !world.isRemote and random.nextFloat() < probability",
+          "supports": "Effect, duration, amplifier and probability; server-only application.",
+          "retrieved": "2026-10-12",
+          "sha1": "3139e9c29b2c74f59ea04de760ac2af5bc21b410"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_guides/Adventure_Update:_Part_I&action=raw",
+          "reference": "Gameplay / New / Effects: Hunger 'Inflicted by eating raw chicken (30% chance) or rotten flesh (80% chance)'",
+          "supports": "Independent confirmation of both probabilities.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "Bytecode constants and the official guide agree exactly.",
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern uses data-driven consume_effects with the same probabilities for these two items, but the effect registry and 'apply_effects' semantics differ.",
+        "requiresHostWorkaround": false
+      },
+      "risks": [
+        "Applying the effect client-side as well would double-roll; b1.8 applies it server-side only."
+      ]
+    },
+    {
+      "id": "beta18-golden-apple-regeneration",
+      "name": "Golden apple: 10 hunger, always edible, Regeneration 30 s",
+      "category": "food_hunger",
+      "verificationStatus": "artifact_verified",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Golden apples restore 10 hunger instead of 20 HP and grant Regeneration for 30 s; they can be eaten even at full hunger."
+        },
+        {
+          "version": "Release 1.1",
+          "precise": "release",
+          "change": "Recipe changed to gold nuggets; restore 4 hunger with 4 s Regeneration (later)."
+        }
+      ],
+      "values": [
+        {
+          "key": "appleGold.hunger",
+          "value": 10,
+          "unit": "hunger points",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "appleGold.saturationModifier",
+          "value": 1.2,
+          "unit": "modifier",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "appleGold.regenerationDuration",
+          "value": 30,
+          "unit": "seconds",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "appleGold.alwaysEdible",
+          "value": true,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "ItemFood.o() sets the always-edible flag, bypassing the 'foodLevel < 20' requirement."
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/3139e9c29b2c74f59ea04de760ac2af5bc21b410/client.jar",
+          "reference": "class sv: new aea(66, 10, 1.2F, false).o().a(Regeneration, 30, 0, 1.0F).a(\"appleGold\"); class aea: o() sets the always-edible flag consumed by canEat(boolean)",
+          "supports": "Hunger, modifier, Regeneration duration/amplifier and always-edible behaviour.",
+          "retrieved": "2026-10-12",
+          "sha1": "3139e9c29b2c74f59ea04de760ac2af5bc21b410"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Changes / Items / Golden apples: 'Now restore 10 hunger, instead of 20 health points. Also give Regeneration for 30 seconds.'",
+          "supports": "Release-note confirmation.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "Bytecode constructor/effect call plus the release changelog agree.",
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern golden apples use different nutrition and effects (Regeneration II 5 s + Absorption); 'always edible' is now expressed via the food component's can_always_eat flag.",
+        "requiresHostWorkaround": false
+      },
+      "risks": [
+        "Modern Regeneration applies per-tick differently; duration/amplifier must be set explicitly to 30 s / level 1."
+      ]
+    },
+    {
+      "id": "beta18-peaceful-food-behaviour",
+      "name": "Hunger does not drain on Peaceful difficulty",
+      "category": "food_hunger",
+      "verificationStatus": "documented_only",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release (inferred)",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release (inferred)",
+          "change": "Exhaustion only reduces hunger when the world difficulty is greater than 0 (Peaceful); on Peaceful the bar stays full."
+        },
+        {
+          "version": "Release 1.8",
+          "precise": "14w29a",
+          "change": "Hunger now regenerates when depleted on Peaceful (later)."
+        }
+      ],
+      "values": [
+        {
+          "key": "hungerDrainsOnPeaceful",
+          "value": false,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Bytecode: the exhaustion->hunger branch is guarded by difficulty > 0."
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/3139e9c29b2c74f59ea04de760ac2af5bc21b410/client.jar",
+          "reference": "class kc a(sz): if (saturation <= 0) { if (difficulty > 0) foodLevel = max(foodLevel - 1, 0); }",
+          "supports": "No hunger loss on Peaceful (difficulty 0).",
+          "retrieved": "2026-10-12",
+          "sha1": "3139e9c29b2c74f59ea04de760ac2af5bc21b410"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Food&action=raw",
+          "reference": "Hunger: 'The hunger value does not drain on Peaceful difficulty' and History 14w29a 'Hunger now regenerates when depleted if the difficulty is set to Peaceful'",
+          "supports": "Modern statement plus the later change that added regeneration-on-Peaceful.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "Difficulty guard is visible in the official client bytecode; the wiki's modern statement is consistent.",
+      "unknowns": [
+        "Whether Peaceful also suppressed starvation damage in b1.8 independently of the health-threshold rule (the difficulty guard and floor rules overlap)."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern Peaceful refills hunger; b1.8 must freeze it.",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "Peaceful difficulty also affects mob spawning in ways that interact with historical profiles (see spawning entries)."
+      ]
+    },
+    {
+      "id": "beta18-exhaustion-action-costs",
+      "name": "Exhaustion action costs in Beta 1.8 (sprint, sprint-jump, other actions)",
+      "category": "food_hunger",
+      "verificationStatus": "artifact_verified",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Sprint-jump exhaustion is 0.8 per jump and non-jumping exhaustion 0.2 per jump while airborne."
+        },
+        {
+          "version": "Release 1.3.1",
+          "precise": "12w18a",
+          "change": "Sprint-jump exhaustion lowered to 0.2."
+        },
+        {
+          "version": "Release 1.7.2",
+          "precise": "13w36a",
+          "change": "Sprint-jump exhaustion raised back to 0.8."
+        },
+        {
+          "version": "Release 1.11",
+          "precise": "16w32a",
+          "change": "All exhaustion rates rebalanced (jump 0.2->0.05, sprint-jump 0.8->0.2, attack/take damage 0.3->0.1)."
+        }
+      ],
+      "values": [
+        {
+          "key": "exhaustion.sprintJump",
+          "value": 0.8,
+          "unit": "exhaustion",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Applied when the entity is sprinting at the moment of applying jump exhaustion."
+        },
+        {
+          "key": "exhaustion.jumpNonSprint",
+          "value": 0.2,
+          "unit": "exhaustion",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "exhaustion.attack",
+          "value": 0.3,
+          "unit": "exhaustion",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Applied in the attack path (later reduced to 0.1 in 16w32a)."
+        },
+        {
+          "key": "exhaustion.sprintPerMeter",
+          "value": 0.1,
+          "unit": "exhaustion/m",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "medium",
+          "note": "Modern value; the b1.8 per-metre sprint cost was not located in the artifact in this pass. Recorded as medium so it is not treated as artifact-verified."
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/3139e9c29b2c74f59ea04de760ac2af5bc21b410/client.jar",
+          "reference": "class sz method ar(): if (isSprinting()) addExhaustion(0.8F) else addExhaustion(0.2F); class sz attack path: addExhaustion(0.3F)",
+          "supports": "Sprint-jump / non-sprint-jump and attack exhaustion constants in b1.8.",
+          "retrieved": "2026-10-12",
+          "sha1": "3139e9c29b2c74f59ea04de760ac2af5bc21b410"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Food&action=raw",
+          "reference": "History 1.3.1 12w18a and 1.7.2 13w36a sprint-jump exhaustion changes; 1.11 16w32a full rebalance list",
+          "supports": "Version timeline for exhaustion rates.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Food&action=raw",
+          "reference": "Exhaustion / Energy-intensive actions table (modern values)",
+          "supports": "Modern comparison values; explicitly not Beta 1.8 values.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "The 0.8/0.2/0.3 constants come straight from the official b1.8 client; only the per-metre sprint cost remains modern-sourced.",
+      "unknowns": [
+        "Beta 1.8 per-metre sprint exhaustion, block-breaking cost, damage-taken cost and jumping-while-walking cost were not all decoded from the artifact.",
+        "Whether regeneration added exhaustion in b1.8 (see beta18-natural-regeneration-rule: no)."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern exhaustion rates are far lower (jump 0.05, sprint-jump 0.2, attack 0.1) so modern values would make food last far too long.",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "Host code may hard-code modern exhaustion constants in several subsystems (movement, block break, combat); all of them need profile-aware overrides."
+      ]
+    },
+    {
+      "id": "beta18-cake-slice-hunger-contradiction",
+      "name": "Cake slice hunger value in Beta 1.8 (source contradiction)",
+      "category": "food_hunger",
+      "verificationStatus": "contradicted",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Cake slicing switched from restoring 3 HP per slice to restoring hunger per slice; sources disagree between 3 and 2 hunger."
+        }
+      ],
+      "values": [
+        {
+          "key": "cakeSliceHunger",
+          "value": "3 or 2 (unresolved)",
+          "unit": "hunger points",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "unknown",
+          "note": "The Beta 1.8 version page says 'a slice of cake restore 3, instead of 3 HP'; the Food page history says 'cake, with its slice restoring 2 and the whole cake restoring 12'. Do not implement either until checked against the artifact."
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Changes / Blocks / Cake: 'Now a slice of cake restore 3 hunger, instead of 3 HP.'",
+          "supports": "3 hunger per slice.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Food&action=raw",
+          "reference": "History / Java Edition Beta 1.8 line: '... and cake, with its slice restoring 2 and the whole cake restoring 12.'",
+          "supports": "2 hunger per slice / 12 per cake.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "unknown",
+      "confidenceReason": "Two wiki loci in the same source family disagree; no artifact check was performed for the cake block's eat path in this pass.",
+      "contradictions": [
+        {
+          "description": "Beta 1.8 changelog says 3 hunger per cake slice; the Food page history says 2 hunger per slice and 12 per whole cake.",
+          "resolution": "Left unresolved. Artifact check required: inspect the b1.8 block/cake eating path in the official client jar (class for the cake block's onBlockActivated) before implementing."
+        }
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern cake restores 2 hunger per slice (of 7 slices); if b1.8 used 3 with 6 slices, both slice count and value differ.",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "Cake is a block with its own bite counter; the host's cake block uses 7 slices, so slice count must be verified alongside the hunger value."
+      ]
+    },
+    {
+      "id": "beta18-sprinting-introduced",
+      "name": "Sprinting introduced (double-tap forward, 30% faster, hunger-gated)",
+      "category": "movement_water",
+      "verificationStatus": "artifact_verified",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Sprinting added, activated by double-tapping forward; 5.612 m/s vs 4.317 m/s walking; FOV expands; hunger cost."
+        },
+        {
+          "version": "Release 1.0.0",
+          "precise": "unknown",
+          "change": "Sprinting can no longer be started by double-tapping Shift while moving forward."
+        },
+        {
+          "version": "Release 1.7.2",
+          "precise": "13w36a",
+          "change": "Dedicated Sprint keybind added (default Left Ctrl)."
+        },
+        {
+          "version": "Release 1.9",
+          "precise": "15w46a",
+          "change": "Sprinting no longer stops automatically after 30 seconds."
+        }
+      ],
+      "values": [
+        {
+          "key": "sprintSpeed",
+          "value": 5.612,
+          "unit": "m/s",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "medium",
+          "note": "Modern measured value quoted by the wiki; the b1.8 movement multiplier was not re-derived from the artifact."
+        },
+        {
+          "key": "walkSpeed",
+          "value": 4.317,
+          "unit": "m/s",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "medium"
+        },
+        {
+          "key": "sprintJumpHorizontalReach",
+          "value": 4,
+          "unit": "blocks",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Beta 1.8 changelog: 'The player can now jump four blocks horizontally by sprinting.'"
+        },
+        {
+          "key": "sprintHungerGate",
+          "value": 6,
+          "unit": "hunger points or below",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "medium",
+          "note": "Modern rule (cannot sprint at foodLevel <= 6); the b1.8 client contains food-state accessors (canEat/saturation) used by the player class but the sprint gate itself was not byte-traced in this pass."
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Additions / Gameplay / Sprinting: 'Activated by double-tapping W'; Changes / Non-mob entities / Players: 'The player can now jump four blocks horizontally by sprinting.'",
+          "supports": "Sprint introduction, activation and 4-block sprint jump.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Sprinting&action=raw",
+          "reference": "Usage: 'around 5.612 meters/second, which is 30 percent faster than the normal walking speed of around 4.317 m/s'; Activating: 'cannot sprint if their hunger bar is at 6 or below'; History: '1.8|dev=1.8 (PAX Prime) Added sprinting. It only lasts five seconds at a time ... The time limit and special FOV effect from the PAX Prime build are no longer present.'",
+          "supports": "Speed figures, hunger gate and the PAX-build time limit removal.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar",
+          "reference": "Byte-scan of all 747 b1.7.3 client classes for 'sprint' -> 0 matches, while b1.8 sz.class carries the sprinting exhaustion branches (0.8F/0.2F)",
+          "supports": "Sprinting state/mechanic is absent from the b1.7.3 client and present in b1.8.",
+          "retrieved": "2026-10-12",
+          "sha1": "43db9b498cb67058d2e12d394e6507722e71bb45"
+        },
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/3139e9c29b2c74f59ea04de760ac2af5bc21b410/client.jar",
+          "reference": "class sz ar(): addExhaustion(0.8F) when sprinting else 0.2F, confirming a sprinting state exists in b1.8",
+          "supports": "Sprint state affects exhaustion in b1.8.",
+          "retrieved": "2026-10-12",
+          "sha1": "3139e9c29b2c74f59ea04de760ac2af5bc21b410"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "Presence/absence is artifact-verified for both versions; exact speed constants come from the wiki (medium within an otherwise high entry).",
+      "unknowns": [
+        "The b1.8 sprint speed multiplier and FOV delta were not measured from the artifact.",
+        "Whether the released b1.8 kept any sprint auto-stop behaviour."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "26.3 has sprint with a dedicated keybind, sprint-swimming, attribute modifiers and a 6-hunger gate; b1.8 had no keybind and no water sprint.",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "Modern movement speed is attribute-driven; the historical 5.612 m/s must be expressed as a movement-speed attribute/override rather than a hard-coded velocity.",
+        "Modern client FOV effects for sprinting will need to match the historical (non-PAX) behaviour."
+      ]
+    },
+    {
+      "id": "beta173-no-sprinting-or-hunger-gating",
+      "name": "Beta 1.7.3 has no hunger gating of movement; no sprint mechanic documented",
+      "category": "movement_water",
+      "verificationStatus": "documented_only",
+      "firstSupportedVersion": "Beta 1.7.3",
+      "firstSupportedPrecise": "Beta 1.7.3",
+      "removedIn": "Beta 1.8",
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Sprinting added, so movement speed is no longer a single constant."
+        }
+      ],
+      "values": [
+        {
+          "key": "sprintMarkerStringPresentInClient",
+          "value": false,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.7.3"
+          ],
+          "confidence": "medium",
+          "note": "The string 'sprint' does not occur in the b1.7.3 client classes. This is absence of a marker string, which is weak evidence on its own: obfuscated code can implement a mechanic without emitting an identifying string (the b1.8 client likewise has no 'sprint' string even though sprinting exists there and its exhaustion branches are visible in class sz). Behavioural absence therefore rests on the wikinote that Beta 1.7.3 is the last version without the food bar plus the Beta 1.8 changelog listing sprinting as an addition - not on the string scan."
+        },
+        {
+          "key": "movementGatedByFood",
+          "value": false,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.7.3"
+          ],
+          "confidence": "high",
+          "note": "No hunger subsystem exists in the b1.7.3 client (no hunger NBT fields), so movement cannot be food-gated."
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar",
+          "reference": "Byte-scan of all 747 b1.7.3 client classes: 'sprint' 0 string matches; 'foodLevel', 'foodSaturationLevel', 'foodExhaustionLevel' 0 string matches. Absence-of-string evidence only.",
+          "supports": "Those marker strings are absent from the b1.7.3 client (absence, not proof of behavioural absence).",
+          "retrieved": "2026-10-12",
+          "sha1": "43db9b498cb67058d2e12d394e6507722e71bb45"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.7.3&action=raw",
+          "reference": "Trivia: last version to 'not have the Food bar system'",
+          "supports": "Independent statement that Beta 1.7.3 predates hunger.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "medium",
+      "confidenceReason": "The hunger-absence half is artifact-backed at the level of absent NBT/field strings; the sprinting-absence half is documented via the version pages and is deliberately not overclaimed from a string scan.",
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.7.3"
+        ],
+        "modernBehaviourDifference": "Modern players can always sprint (subject to hunger); the historical profile must disable the sprint input entirely.",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "Sprint is also used by modern client prediction and FOV code; disabling it must not break vanilla movement prediction reconciliation."
+      ]
+    },
+    {
+      "id": "beta18-sprint-knockback-and-fov",
+      "name": "Sprint-knockback attack and sprint FOV effect",
+      "category": "combat",
+      "verificationStatus": "documented_only",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Attacking while sprinting deals extra knockback and cancels the sprint; hitting while sprinting takes priority over critical hits."
+        },
+        {
+          "version": "Release 1.9",
+          "precise": "15w34c",
+          "change": "Sprint-knockback attacks require >=84.8% attack cooldown and sound effects were added in 15w47b (later)."
+        }
+      ],
+      "values": [
+        {
+          "key": "sprintKnockbackExtra",
+          "value": "unknown",
+          "unit": "n/a",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "unknown",
+          "note": "The extra knockback magnitude in Beta 1.8 was not decoded from the artifact."
+        },
+        {
+          "key": "sprintAttackCancelsSprint",
+          "value": true,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "medium"
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Melee_attack&action=raw",
+          "reference": "History / java Beta / 1.8 Pre-release: 'Added the critical hit mechanic ... Added the sprint-knockback attack mechanic.'",
+          "supports": "Sprint-knockback introduced in Beta 1.8 alongside criticals.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Sprinting&action=raw",
+          "reference": "Sprint-knockback attack section: extra knockback, cancels sprint, takes priority over critical hits in Java Edition",
+          "supports": "Behaviour and priority (sourced for the modern mechanic with a 1.8 origin).",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "medium",
+      "confidenceReason": "Origin is documented; the Beta 1.8 knockback magnitude and exact interaction were not verified in the artifact.",
+      "unknowns": [
+        "Beta 1.8 sprint-knockback knockback vector/magnitude.",
+        "Whether all the modern exceptions (water, ladders, blindness) already existed in Beta 1.8."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern sprint attacks additionally require an attack-cooldown charge; b1.8 has no cooldown, so sprint attacks are always available.",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "Implementing the modern cooldown gate in a b1.8 profile would silently remove sprint-knockback."
+      ]
+    },
+    {
+      "id": "beta18-water-movement-and-air",
+      "name": "Water movement and the air/drowning meter",
+      "category": "movement_water",
+      "verificationStatus": "documented_only",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release (bubbles visible underwater)",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Classic 0.0.12a",
+          "precise": "0.0.12a",
+          "change": "Water (and the ability to swim) added; drowning exists from early Survival."
+        },
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Tiny stationary bubble particles now render while underwater (air meter presentation)."
+        },
+        {
+          "version": "Release 1.13",
+          "precise": "18w07a",
+          "change": "Sprint-swimming added (dive and swim much faster) - far later than the target window."
+        }
+      ],
+      "values": [
+        {
+          "key": "sprintSwimming",
+          "value": false,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.7.3",
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Sprint-swimming is a 1.13 (18w07a) feature."
+        },
+        {
+          "key": "drowningDamage",
+          "value": 2,
+          "unit": "HP/s",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "low",
+          "note": "Modern value; the Beta 1.8 drowning rate was not decoded. Indev 20100125 lowered drowning from 2 to 1 per second per the Damage history, so the Beta-era value needs an artifact check."
+        },
+        {
+          "key": "swimSpeedSurface",
+          "value": 2.2,
+          "unit": "m/s",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "unknown",
+          "note": "Modern measurement; not verified for Beta 1.8."
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Swimming&action=raw",
+          "reference": "History: Classic 0.0.12a added water/swimming; 1.13 18w07a 'Added the ability to sprint while in water'; Usage: surface swim 2.20 blocks/s",
+          "supports": "Sprint-swimming is post-1.13 and modern swim speeds.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Additions / General / Particles: 'Tiny stationary bubble particles can be seen when underwater.'",
+          "supports": "Beta 1.8 added the underwater bubble rendering.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Damage&action=raw",
+          "reference": "History: Indev 0.31 20100125 'Drowning damage has been reduced to 1 per second'; Natural damage / Drowning section (modern: 2 HP/s)",
+          "supports": "Drowning rate changed over time; the Beta-era value is not settled by these two loci.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "low",
+      "confidenceReason": "Only the presence/absence of sprint-swimming is solid; the Beta 1.8 drowning rate and swim speeds are unresolved and one wiki locus conflicts with the modern value.",
+      "unknowns": [
+        "Beta 1.8 drowning damage rate (1 vs 2 HP/s) and the exact air-supply capacity.",
+        "Beta 1.8 swim speeds (surface/submerged/upstream/downstream).",
+        "When the visual air-bubble meter (as opposed to bubble particles) first appeared."
+      ],
+      "contradictions": [
+        {
+          "description": "Damage history says drowning was reduced to 1 per second in Indev, while the current Damage page documents 2 HP per second.",
+          "resolution": "Unresolved for Beta 1.8; requires artifact verification of the air-supply/drown path (and the Beta 1.9/1.0 delta) before implementing."
+        }
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.7.3",
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern swimming has sprint-swim, dolphin's grace, riptide, different air mechanics and a different drowning tick path.",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "Modern water movement attributes and fluid tags differ from Beta water; reproducing Beta swim behaviour may require overriding fluid movement code."
+      ]
+    },
+    {
+      "id": "beta18-jump-and-fall-behaviour",
+      "name": "Movement/jump/fall behaviour change in Beta 1.8",
+      "category": "movement_water",
+      "verificationStatus": "documented_only",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Holding left-click with a weapon swings only once; holding right-click to place blocks is slightly slower; sprinting allows 4-block horizontal jumps."
+        },
+        {
+          "version": "Release 1.0.0",
+          "precise": "Beta 1.9 Prerelease",
+          "change": "Blocking no longer reduces fall damage; blocking previously allowed 42-block falls instead of 22."
+        }
+      ],
+      "values": [
+        {
+          "key": "holdAttackSwingsOnce",
+          "value": true,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "blockingFallDamageReduction",
+          "value": "42 blocks survivable (vs 22)",
+          "unit": "blocks",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "medium",
+          "note": "Removed in Beta 1.9 Prerelease per Sword blocking history."
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Changes / Gameplay / Controls: 'Holding left with a weapon now only swings once. Holding right to place blocks is slightly slower than before.'",
+          "supports": "Input behaviour changes.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Sword_blocking&action=raw",
+          "reference": "History / java / 1.0.0 Beta 1.9 Prerelease: 'The player no longer rises faster underwater when blocking. Blocking no longer decreases fall damage. Blocking previously allowed the player to fall 42 blocks without dying, instead of 22.'",
+          "supports": "Blocking interacted with fall damage and underwater ascent in the Beta 1.8 era.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "medium",
+      "confidenceReason": "Changelog-sourced, not artifact-verified; the 42/22 figures are a historical note rather than a decoded constant.",
+      "unknowns": [
+        "Exact fall-damage formula and the block-place delay constant in Beta 1.8."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern fall damage, blocking (shields) and attack-hold behaviour all differ; blocking no longer reduces fall damage at all.",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "Modern shields would need to be replaced by sword blocking for the profile, which affects both damage and fall damage paths."
+      ]
+    },
+    {
+      "id": "beta18-combat-critical-hits",
+      "name": "Critical hits added (falling attack)",
+      "category": "combat",
+      "verificationStatus": "artifact_verified",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Critical hits added: attacking while falling deals extra damage, using the formula '+0% to +100% weapon damage + 2 HP' (random), calculated after enchantments."
+        },
+        {
+          "version": "unknown (1.6/1.7 era)",
+          "precise": null,
+          "change": "Critical hits changed to a flat +50% of weapon damage, applied before enchantments."
+        },
+        {
+          "version": "Release 1.9",
+          "precise": "15w34c",
+          "change": "Critical hits require >=84.8% attack cooldown charge and cannot combine with sprint-knockback (later)."
+        }
+      ],
+      "values": [
+        {
+          "key": "criticalHitFormulaBeta18",
+          "value": "random +0%..+100% of weapon damage, plus 2 HP",
+          "unit": "damage formula",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "medium",
+          "note": "Wiki Melee attack history wording; not independently decoded from the artifact in this pass."
+        },
+        {
+          "key": "criticalHitMultiplierModern",
+          "value": 1.5,
+          "unit": "factor",
+          "appliesToVersions": [
+            "Release 1.6+"
+          ],
+          "confidence": "high",
+          "note": "Modern flat +50%; explicitly not the Beta 1.8 behaviour."
+        },
+        {
+          "key": "criticalParticlesAdded",
+          "value": true,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Beta 1.8 changelog: 'Performing a critical hit on any mob causes sparks to fly.'"
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Melee_attack&action=raw",
+          "reference": "History / java Beta / 1.8 Pre-release: 'Added the critical hit mechanic, which currently adds a random amount of damage using the formula (+0% ~ +100% weapon damage + 2hp) and is calculated after enchantments are added.'; later line: 'Critical hits now add a flat 50% extra damage ... now calculated before enchantments'",
+          "supports": "Beta 1.8 critical formula and its later replacement.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Damage&action=raw",
+          "reference": "History / java beta / 1.8 Pre-release: 'Extended the combat system with critical hits and sword blocking.'; Damage / Dealing damage: modern critical = 150% of weapon damage rounded down",
+          "supports": "Origin and the modern baseline.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Additions / Gameplay / Critical hits: 'Do more damage depending how close the player was to the ground while falling.'; General / Particles: sparks on critical hit",
+          "supports": "Beta 1.8 release-notes wording and particle effect.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "medium",
+      "confidenceReason": "Origin and modern replacement are well sourced, but the exact Beta 1.8 random-damage formula is a single wiki locus that was not decoded from the client artifact.",
+      "unknowns": [
+        "The exact Beta 1.8 critical-hit code path (including whether the +2 HP was added unconditionally and how it rounded).",
+        "Whether critical hits in Beta 1.8 could be performed in water/on ladders."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern criticals are a flat x1.5 gated behind an attack-cooldown charge; using modern behaviour would make Beta 1.8 combat both weaker and cooldown-gated.",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "The critical path is entangled with the modern attack-cooled damage calculation; the profile needs its own damage pipeline or a pre-cooldown override."
+      ]
+    },
+    {
+      "id": "beta18-sword-blocking",
+      "name": "Sword blocking added (right-click, 50% damage negation)",
+      "category": "combat",
+      "verificationStatus": "artifact_verified",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": "Release 1.9",
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Sword blocking added: use a sword to negate 50% of incoming damage; instant on/off with no cooldown; the sword does not lose durability while blocking; movement slower than sneaking."
+        },
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 Pre-release 2",
+          "change": "Blocking correctly reduces damage in multiplayer."
+        },
+        {
+          "version": "Release 1.0.0",
+          "precise": "Beta 1.9 Prerelease",
+          "change": "Blocking moves the hand; no longer increases underwater ascent; no longer reduces fall damage."
+        },
+        {
+          "version": "Release 1.9",
+          "precise": "15w33c",
+          "change": "Sword blocking removed and replaced by shield blocking."
+        }
+      ],
+      "values": [
+        {
+          "key": "swordBlockDamageReduction",
+          "value": 0.5,
+          "unit": "fraction of incoming damage negated",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "swordBlockDurabilityLoss",
+          "value": false,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "medium",
+          "note": "Sourced from the Sword blocking page; not decoded from the artifact in this pass."
+        },
+        {
+          "key": "swordBlockActivationDelay",
+          "value": 0,
+          "unit": "ticks",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "medium"
+        },
+        {
+          "key": "blockableDamageTypes",
+          "value": [
+            "melee",
+            "non-magical projectiles",
+            "explosions"
+          ],
+          "unit": "damage categories",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "medium"
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Changes / Items / Swords: 'Added blocking. Negates 50% of the incoming damage.'",
+          "supports": "Blocking introduced in Beta 1.8 with 50% reduction.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Sword_blocking&action=raw",
+          "reference": "Usage: negates 50% of melee/non-magical projectile/explosion damage, reduces airborne knockback, no durability loss, instant engage, movement slower than sneaking; History: 1.8 pre-release added, PR2 fixed in multiplayer, 1.9 15w33c removed",
+          "supports": "Full mechanic description and lifecycle.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Blocking&action=raw",
+          "reference": "History / java beta / 1.8 Pre-release: 'Added sword blocking, which at the time could be activated by using a sword. Also, blocking negated only 50% of incoming damage, rather than 100%.'",
+          "supports": "Independent restatement.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/3139e9c29b2c74f59ea04de760ac2af5bc21b410/client.jar",
+          "reference": "b1.8 client contains sword item classes with a use action (sv sword entries) while the b1.7.3 client has no such state; exact 50% constant not re-derived",
+          "supports": "Presence in b1.8 only (weak artifact support).",
+          "retrieved": "2026-10-12",
+          "sha1": "3139e9c29b2c74f59ea04de760ac2af5bc21b410"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "Three independent wiki loci agree on origin, 50% value and removal; the artifact confirms b1.8-only presence.",
+      "unknowns": [
+        "The exact damage-type gate in the Beta 1.8 code (which damage sources bypassed blocking).",
+        "Whether blocking reduced knockback in Beta 1.8."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "26.3 has no sword blocking; shields block 100% after a 5-tick delay and disable via axes. The profile must restore the sword path and remove shields.",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "Shields exist as items in the modern registry; if they remain obtainable in a Beta 1.8 profile, combat balance is wrong. Availability must be profile-gated, not registry-removed (per AGENTS.md)."
+      ]
+    },
+    {
+      "id": "release19-attack-cooldown-introduced",
+      "name": "Attack cooldown / attack speed introduced in 1.9 (absent in Beta)",
+      "category": "combat",
+      "verificationStatus": "artifact_verified",
+      "firstSupportedVersion": "Release 1.9",
+      "firstSupportedPrecise": "15w34a (cooldown), 15w34b (attack speed attribute)",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Combat has no attack cooldown: holding attack swings once per click and full damage is dealt on every successful hit."
+        },
+        {
+          "version": "Release 1.9",
+          "precise": "15w34a",
+          "change": "Attack cooldown added."
+        },
+        {
+          "version": "Release 1.9",
+          "precise": "15w34b",
+          "change": "attack_speed attribute and stat added."
+        },
+        {
+          "version": "Release 1.9",
+          "precise": "15w34c",
+          "change": "Critical hits and sprint-knockback require >=84.8% cooldown."
+        }
+      ],
+      "values": [
+        {
+          "key": "attackCooldownPresent",
+          "value": false,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.7.3",
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "attackCooldownTime",
+          "value": "T = 20 / attack_speed",
+          "unit": "ticks",
+          "appliesToVersions": [
+            "Release 1.9+"
+          ],
+          "confidence": "high",
+          "note": "Modern formula; irrelevant to the Beta profiles but needed to disable it correctly."
+        },
+        {
+          "key": "criticalHitCooldownRequirement",
+          "value": 0.848,
+          "unit": "cooldown fraction",
+          "appliesToVersions": [
+            "Release 1.9+"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Damage&action=raw",
+          "reference": "History / java / 1.9 15w34a 'Added attack cooldown.', 15w34b 'Added attack speed stat and attribute.'; Attack cooldown section: T = 20 / attack_speed, multiplier 0.2 + ((t+0.5)/T)^2 * 0.8",
+          "supports": "Cooldown introduced in 1.9 and its modern formula.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Melee_attack&action=raw",
+          "reference": "History: 1.9 15w34b 'Added the attack speed mechanic.'; 15w34c 'Critical hits and sprint-knockback attacks now require an attack cooldown percentage of 84.8% or greater.'",
+          "supports": "Cooldown gating of criticals/sprint attacks.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Changes / Gameplay / Controls: 'Holding left with a weapon now only swings once.' (no cooldown mentioned)",
+          "supports": "Beta 1.8 has click-limited swings, not a damage cooldown.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "1.9 introduction is documented in two independent pages, and the Beta 1.8 changelog describes a click model with no cooldown.",
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.7.3",
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern melee damage is multiplied by a cooldown factor and criticals require charge; a Beta profile must force cooldown-independent full damage.",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "The cooldown lives in the modern attack pipeline (attack strength ticker); bypassing it must not desynchronise the client's attack indicator."
+      ]
+    },
+    {
+      "id": "beta18-unarmed-and-sword-damage",
+      "name": "Unarmed damage reduced to 1 and Beta-era weapon damage values",
+      "category": "combat",
+      "verificationStatus": "artifact_verified",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.5",
+          "precise": null,
+          "change": "Unarmed damage raised from 1 to 2 (with a floating-point bug adding 1 extra damage to all player attacks unless moving upward in singleplayer)."
+        },
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Unarmed damage lowered back to 1; the spurious +1 damage bug removed."
+        },
+        {
+          "version": "Release 1.0.0",
+          "precise": "Beta 1.9 Prerelease 3",
+          "change": "Sword damage decreased (diamond sword from 5 hearts to 3.5 hearts)."
+        },
+        {
+          "version": "Release 1.6.2",
+          "precise": "release",
+          "change": "Tools add their damage to the bare-hand 1 HP, raising all tool damage by 1 (later)."
+        }
+      ],
+      "values": [
+        {
+          "key": "unarmedDamage",
+          "value": 1,
+          "unit": "HP",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Also documented as the Health page's 1.8 change."
+        },
+        {
+          "key": "unarmedDamageBeta17",
+          "value": 2,
+          "unit": "HP",
+          "appliesToVersions": [
+            "Beta 1.7.3"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "extraDamageBugBeta15To17",
+          "value": "+1 extra damage on all player attacks unless moving upward in singleplayer",
+          "unit": "HP",
+          "appliesToVersions": [
+            "Beta 1.7.3"
+          ],
+          "confidence": "medium",
+          "note": "Damage history documents a floating-point accuracy bug introduced in Beta 1.5 and fixed in Beta 1.8; the exact manifestation in 1.7.3 was not artifact-verified."
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Damage&action=raw",
+          "reference": "History / java beta / 1.5 (extra damage bug) and 1.8 Pre-release 'Player attacks no longer deal 1 more damage than intended.'; java / 1.0.0 Beta 1.9 Prerelease 3 sword damage decrease; 1.6.2 tools add damage onto bare-handed damage",
+          "supports": "Damage timeline around the target window.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Health&action=raw",
+          "reference": "History: 1.5 'Unarmed damage is increased from 1 to 2.'; 1.8 Pre-release 'Unarmed damage is decreased from 2 to 1.'",
+          "supports": "Independent statement of unarmed damage changes.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Changes / Non-mob entities / Players: 'Unarmed damage was decreased from 2 to 1.'",
+          "supports": "Beta 1.8 release-note confirmation.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "Three loci agree on unarmed 2 -> 1; the Beta 1.5-1.7 extra-damage bug is recorded as medium because its exact effect is not artifact-verified.",
+      "unknowns": [
+        "Per-tier sword/axe/pickaxe/shovel damage values in Beta 1.7.3 and Beta 1.8 were not decoded from artifacts.",
+        "The precise manifestation of the Beta 1.5 extra-damage bug in Beta 1.7.3 singleplayer vs multiplayer."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.7.3",
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern damage values are per-item components plus a bare-hand base of 1; the historical weapon numbers differ (and 1.0.0 lowered swords further).",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "Modern attribute base (generic.attack_damage default 1) happens to match b1.8 bare hands, but tool values must not be reused."
+      ]
+    },
+    {
+      "id": "beta18-armor-protection-model",
+      "name": "Armor protection is durability-scaled in Beta (linear percentage arrives in 1.0.0)",
+      "category": "combat",
+      "verificationStatus": "artifact_verified",
+      "firstSupportedVersion": "Indev 20100218-0011",
+      "firstSupportedPrecise": "20100218-0011",
+      "removedIn": "Release 1.0.0 (Beta 1.9 Prerelease)",
+      "changes": [
+        {
+          "version": "Beta 1.7.3",
+          "precise": null,
+          "change": "Armor protection scales with remaining durability: (totalDamageReduction - 1) * ((maxDurability - damage) / maxDurability) + 1; taking damage also drains durability, so protection falls as armor wears."
+        },
+        {
+          "version": "Release 1.0.0",
+          "precise": "Beta 1.9 Prerelease",
+          "change": "Protection model changed to a flat percentage independent of durability, and armor durability values increased."
+        }
+      ],
+      "values": [
+        {
+          "key": "armorPoints.helmet",
+          "value": 3,
+          "unit": "armor points",
+          "appliesToVersions": [
+            "Beta 1.7.3",
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "medium",
+          "note": "From Armor history (Indev): all helmets 3; unchanged in the target window unless stated."
+        },
+        {
+          "key": "armorPoints.chestplate",
+          "value": 8,
+          "unit": "armor points",
+          "appliesToVersions": [
+            "Beta 1.7.3",
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "medium"
+        },
+        {
+          "key": "armorPoints.leggings",
+          "value": 6,
+          "unit": "armor points",
+          "appliesToVersions": [
+            "Beta 1.7.3",
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "medium"
+        },
+        {
+          "key": "armorPoints.boots",
+          "value": 3,
+          "unit": "armor points",
+          "appliesToVersions": [
+            "Beta 1.7.3",
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "medium"
+        },
+        {
+          "key": "armorDurability.diamondChestplateBeta",
+          "value": 384,
+          "unit": "durability",
+          "appliesToVersions": [
+            "Beta 1.7.3",
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "medium",
+          "note": "From the Armor page's 'Indev until late Beta' durability table; increased in Beta 1.9 Prerelease."
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Armor&action=raw",
+          "reference": "History / java / 1.0.0 Beta 1.9 Prerelease: 'The armor protection behavior has been changed. Previous to this update, the total armor protection is based in this equation: (total equipped armor damage reduction - 1) x ((total equipped armor max durability - total equipped armor damage) / total equipped armor max durability) + 1 ... taking damage would decrease the durability (depleting the armor bar), and the lower the durability, the lower the protection amount. Armor durability increased.'",
+          "supports": "Pre-1.0.0 durability-scaled protection formula and the durability increase.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Armor&action=raw",
+          "reference": "History Indev 20100218-0011: all helmets 3, chestplates 8, leggings 6, boots 3 armor points; section 'Armor durability from Indev until late Beta' diamond chestplate 384",
+          "supports": "Armor point and durability values in the Beta era.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "The formula change and values are documented in the Armor page history; the durability-scaled model is explicitly bracketed as ending in Beta 1.9 Prerelease.",
+      "unknowns": [
+        "The exact integer/rounding behaviour of the Beta armor formula (per-hit vs per-damage-event durability drain) and whether every armor tier drained at the same rate.",
+        "Whether Beta 1.8 changed armor durability or points at all (no such change is listed)."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.7.3",
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern armor reduces damage by a percentage with toughness and drains durability per 4 HP of damage; the Beta model couples protection to remaining durability.",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "The modern armor calculation lives in the damage pipeline and is used by enchantments; replacing it requires care so that Protection-style enchantments (which do not exist pre-1.0.0) do not leak in."
+      ]
+    },
+    {
+      "id": "beta18-hostile-mob-additions",
+      "name": "New hostile mobs and mob combat values in Beta 1.8 (enderman, silverfish, cave spider)",
+      "category": "mobs",
+      "verificationStatus": "artifact_verified",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Enderman (20 HP), silverfish (20 HP) and cave spider (20 HP, inflicts Poison) added; hostile mobs gained attack animations."
+        },
+        {
+          "version": "Release 1.0.0",
+          "precise": "Beta 1.9 Prerelease 2",
+          "change": "Mobs can have armor points; zombies became tougher."
+        }
+      ],
+      "values": [
+        {
+          "key": "endermanHealth",
+          "value": 20,
+          "unit": "HP",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "silverfishHealth",
+          "value": 20,
+          "unit": "HP",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "caveSpiderHealth",
+          "value": 20,
+          "unit": "HP",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "medium",
+          "note": "From the Beta 1.8 changelog; the string 'caveSpider' does not appear in the b1.8 client classes, so the changelog value was not artifact-confirmed."
+        },
+        {
+          "key": "endermanCarriableBlocks",
+          "value": "every block except bedrock, double slabs and spawners",
+          "unit": "block set",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "medium"
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Additions / Mobs: cave spider (inflicts Poison, 20 HP, spawns from mineshaft spawners), enderman (teleports, carries almost every block, 20 HP), silverfish (20 HP)",
+          "supports": "Mob additions and health values.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/3139e9c29b2c74f59ea04de760ac2af5bc21b410/client.jar",
+          "reference": "String 'enderman' present in gz.class and op.class; 'enderPearl' in sv.class; 'caveSpider' absent from client classes",
+          "supports": "Enderman present in b1.8; cave spider not confirmable from client strings.",
+          "retrieved": "2026-10-12",
+          "sha1": "3139e9c29b2c74f59ea04de760ac2af5bc21b410"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Health&action=raw",
+          "reference": "History: 1.0.0 Beta 1.9 Prerelease 2 'Mobs can now have armor points' (jeb tweet 29 Sep 2011)",
+          "supports": "Mob armor is a 1.0.0 change, not a Beta 1.8 one.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "medium",
+      "confidenceReason": "Health values are changelog-sourced and only partly confirmed by artifact strings; cave spider in particular could not be confirmed in the client.",
+      "unknowns": [
+        "Cave spider's client visibility in b1.8 (absent as a string - maybe entirely server-side or named differently).",
+        "Melee damage values for zombie/skeleton/spider/enderman/cave spider in Beta 1.8.",
+        "Spawn rules/caps for the new mobs in Beta 1.8."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern enderman/silverfish/cave spider have different attributes, AI goals, sounds and loot tables.",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "Modern enderman block-carrying uses a block tag; the historical carry set differs and must be data-driven.",
+        "Modern cave spider spawns also come from mineshaft spawners randomized differently."
+      ]
+    },
+    {
+      "id": "beta18-passive-mob-no-despawn-and-flee",
+      "name": "Passive mobs no longer despawn and flee when attacked",
+      "category": "mobs",
+      "verificationStatus": "documented_only",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Passive mobs no longer despawn and randomly flee when attacked by the player or other mobs; cows run away when attacked; sheep flee when attacked."
+        },
+        {
+          "version": "Release 1.1",
+          "precise": "11w49a",
+          "change": "Sheep can graze grass blocks again to regrow wool (later)."
+        }
+      ],
+      "values": [
+        {
+          "key": "passiveMobsDespawn",
+          "value": false,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Beta 1.8 changelog: 'No longer despawn.'"
+        },
+        {
+          "key": "passiveMobsFleeWhenAttacked",
+          "value": true,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Changes / Mobs / Passive mobs: 'No longer despawn. Randomly flee if attacked by the player or other mobs.'; Changes / Mobs / Cows (via Cow page): 'Cows now run away when attacked.'",
+          "supports": "Despawn removal and flee behaviour.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Sheep&action=raw",
+          "reference": "History / java beta / 1.8 Pre-release: 'Sheep now flee when attacked.'",
+          "supports": "Same change for sheep.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "medium",
+      "confidenceReason": "Changelog-sourced (two loci) but not artifact-verified in this pass; despawn behaviour is a server-side persistence rule.",
+      "unknowns": [
+        "Whether 'no longer despawn' applied to all passive mobs including wolves/ocelots-era mobs (wolves existed in Beta 1.4+).",
+        "The exact despawn distance/timer rules before and after Beta 1.8."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.7.3",
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern passive mobs despawn far from players via a persistence-required flag and distance rules; historical profiles must disable that path for pre-1.8 and enable no-despawn from Beta 1.8.",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "Modern mob-persistence flags are also used by spawn eggs and chunk loading; disabling despawn wholesale can accumulate entities and hurt performance."
+      ]
+    },
+    {
+      "id": "beta18-mob-spawning-and-difficulty",
+      "name": "Mob spawning in Beta 1.8 (light level 7, Peaceful)",
+      "category": "spawning",
+      "verificationStatus": "documented_only",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release (inferred)",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release (inferred)",
+          "change": "Mob spawning rules in the Adventure Update era differ from modern versions in light thresholds, caps and biome-specific behaviour (villages generated uninhabited because villagers did not exist yet)."
+        }
+      ],
+      "values": [
+        {
+          "key": "hostileSpawnLightLevelBeta",
+          "value": "unknown",
+          "unit": "light level",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "unknown",
+          "note": "Not verified in this pass; the modern threshold (0) is definitely not applicable."
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Additions / World generation / Village: 'Clusters of buildings ... Villages are uninhabited, as villagers have not been implemented yet.'",
+          "supports": "Villages exist in Beta 1.8 without villagers, so mob spawning must not rely on village logic.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "unknown",
+      "confidenceReason": "No precise source was gathered for Beta 1.8 spawning thresholds; deliberately recorded as unknown rather than guessed.",
+      "unknowns": [
+        "Hostile mob light-level threshold and spawn caps in Beta 1.8.",
+        "Whether Peaceful difficulty suppressed hostile spawning exactly as modern does.",
+        "Slime spawning condition (swamp/night/y<40) in Beta 1.8."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.7.3",
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern spawning uses biome-based mob lists, light level 0, spawn caps by category and spawn-placement tags.",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "Spawn rules interact with the lighting engine change in Beta 1.8 (new light engine), so light-based spawn tests need the historical engine semantics."
+      ]
+    },
+    {
+      "id": "beta18-zombie-drops-rotten-flesh",
+      "name": "Zombies drop rotten flesh instead of feathers",
+      "category": "mob_drops",
+      "verificationStatus": "artifact_verified",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Indev 20100219",
+          "precise": "20100219",
+          "change": "Zombies drop 0-2 feathers (Notch: chosen because chickens did not exist yet)."
+        },
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Zombies drop 0-2 rotten flesh instead of 0-2 feathers."
+        },
+        {
+          "version": "Release 1.4.2",
+          "precise": "12w34a",
+          "change": "Zombies can rarely drop potatoes/carrots (later)."
+        }
+      ],
+      "values": [
+        {
+          "key": "zombieDropBeta173",
+          "value": "0-2 feathers",
+          "unit": "items",
+          "appliesToVersions": [
+            "Beta 1.7.3"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "zombieDropBeta18",
+          "value": "0-2 rotten flesh",
+          "unit": "items",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "zombieDropLootingBonus",
+          "value": "+0-1 per level",
+          "unit": "items",
+          "appliesToVersions": [
+            "Release 1.0+"
+          ],
+          "confidence": "medium",
+          "note": "Modern Looting behaviour; Looting enchantment does not exist in Beta 1.8."
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Zombie&action=raw",
+          "reference": "History: 20100219 'Zombies now drop 0-2 feathers upon death'; 1.8 Pre-release 'Zombies now drop 0-2 rotten flesh instead of 0-2 feathers upon death.'",
+          "supports": "Exact drop change and quantities.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/3139e9c29b2c74f59ea04de760ac2af5bc21b410/client.jar",
+          "reference": "class abq (zombie) drop path references only sv.bn (rottenFlesh); no feather reference",
+          "supports": "b1.8 zombie drops rotten flesh.",
+          "retrieved": "2026-10-12",
+          "sha1": "3139e9c29b2c74f59ea04de760ac2af5bc21b410"
+        },
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar",
+          "reference": "b1.7.3 item registry (gm.class) contains 'feather' but not 'rottenFlesh'",
+          "supports": "Feathers were the only feather-family drop item available in b1.7.3.",
+          "retrieved": "2026-10-12",
+          "sha1": "43db9b498cb67058d2e12d394e6507722e71bb45"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "Artifact drop-path check plus wiki history agree; note the drop quantity range was not decoded from bytecode (wiki-sourced).",
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.7.3",
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern zombie loot tables include rotten flesh plus rare carrots/potatoes/iron ingots and equipment drops; the historical profile needs the simple two-item-era table.",
+        "requiresHostWorkaround": false
+      },
+      "risks": [
+        "If modern loot tables are left active, iron ingots and carrots will drop in a Beta 1.7.3 world."
+      ]
+    },
+    {
+      "id": "beta18-zombie-pigman-drops",
+      "name": "Zombie pigmen drop cooked porkchops and rotten flesh in Beta 1.8",
+      "category": "mob_drops",
+      "verificationStatus": "artifact_verified",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Zombie pigmen drop 0-1 cooked porkchop and 0-1 rotten flesh (rotten flesh is new in Beta 1.8)."
+        },
+        {
+          "version": "Release 1.0.0",
+          "precise": "Beta 1.9 Prerelease 2",
+          "change": "Zombie pigmen drop gold nuggets/ingots and can drop their golden sword (later)."
+        }
+      ],
+      "values": [
+        {
+          "key": "zombiePigman.drops",
+          "value": [
+            "cooked porkchop 0-1",
+            "rotten flesh 0-1"
+          ],
+          "unit": "items",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "medium",
+          "note": "Artifact confirms the two item fields (sv.as cooked porkchop, sv.H rotten flesh) on the zombie-pigman class; quantities are wiki-sourced."
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/3139e9c29b2c74f59ea04de760ac2af5bc21b410/client.jar",
+          "reference": "class adn (zombie pigman) drop path references sv.as (porkchopCooked) and sv.H (rottenFlesh)",
+          "supports": "Drop item identities in b1.8.",
+          "retrieved": "2026-10-12",
+          "sha1": "3139e9c29b2c74f59ea04de760ac2af5bc21b410"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Additions / Items / Rotten flesh: 'Dropped by zombies and zombie pigmen.'",
+          "supports": "Rotten flesh added as a zombie-pigman drop in Beta 1.8.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "medium",
+      "confidenceReason": "Item identities are artifact-confirmed; the exact counts and the pre-1.8 zombie-pigman drop set were not fully decoded.",
+      "unknowns": [
+        "Zombie pigman drops in Beta 1.7.3 (cooked porkchop only? quantity?) were not artifact-verified in this pass.",
+        "Whether fired zombies/pigmen use the burn-drop substitution generally in Beta 1.8."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.7.3",
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern zombified piglins drop rotten flesh/gold with different chances and can drop equipment.",
+        "requiresHostWorkaround": false
+      },
+      "risks": [
+        "Entity rename (zombie pigman -> zombified piglin) means profile data must key on the historical identity, not the modern registry name."
+      ]
+    },
+    {
+      "id": "beta18-pig-drops",
+      "name": "Pig drops: 0-2 porkchop (cooked when on fire)",
+      "category": "mob_drops",
+      "verificationStatus": "artifact_verified",
+      "firstSupportedVersion": "Indev 20100219",
+      "firstSupportedPrecise": "20100219",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Indev 20100219",
+          "precise": "20100219",
+          "change": "Pigs drop 0-2 raw porkchops instead of mushrooms."
+        },
+        {
+          "version": "Beta 1.5",
+          "precise": null,
+          "change": "Pigs that die from fire drop cooked porkchops."
+        },
+        {
+          "version": "Release 1.3.1",
+          "precise": "12w25a",
+          "change": "Pig drops increase to 1-3 porkchops (later)."
+        },
+        {
+          "version": "Release 1.4.2",
+          "precise": "12w36a",
+          "change": "Saddled pigs drop the saddle; saddles drop only if saddled (later)."
+        }
+      ],
+      "values": [
+        {
+          "key": "pigDrop.quantity",
+          "value": "0-2",
+          "unit": "items",
+          "appliesToVersions": [
+            "Beta 1.7.3",
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "medium",
+          "note": "Wiki history states 0-2 until 12w25a; artifact confirms item identities only."
+        },
+        {
+          "key": "pigDrop.burning",
+          "value": "cooked porkchop",
+          "unit": "item variant",
+          "appliesToVersions": [
+            "Beta 1.7.3",
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/3139e9c29b2c74f59ea04de760ac2af5bc21b410/client.jar",
+          "reference": "class mx (pig) drop path references sv.as (porkchopCooked) and sv.ar (porkchopRaw)",
+          "supports": "Pigs drop raw porkchop, or cooked porkchop when burning, in b1.8.",
+          "retrieved": "2026-10-12",
+          "sha1": "3139e9c29b2c74f59ea04de760ac2af5bc21b410"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Pig&action=raw",
+          "reference": "History: Infdev 20100219 raw porkchops; Beta 1.5 'Pigs that die from being set on fire now drop cooked porkchops.'; 1.3.1 12w25a 'Pigs now drop 1-3 porkchops instead of 0-2.'",
+          "supports": "Drop identity, burn substitution and quantity timeline.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "Artifact confirms both drop fields and their burn split; quantities come from wiki history.",
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.7.3",
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern pigs drop 1-3 porkchops and can drop saddles/carrot-on-a-stick behaviour differs.",
+        "requiresHostWorkaround": false
+      },
+      "risks": [
+        "Burn-drop substitution is handled by modern loot tables via entity_on_fire conditions; the historical table must keep only raw/cooked porkchop."
+      ]
+    },
+    {
+      "id": "beta18-chicken-drops",
+      "name": "Chicken drops: feathers plus raw chicken (cooked when on fire)",
+      "category": "mob_drops",
+      "verificationStatus": "artifact_verified",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Alpha v1.0.14",
+          "precise": "v1.0.14",
+          "change": "Chickens added (Alpha)."
+        },
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Chickens now drop raw chicken, and cooked chicken if killed while on fire."
+        }
+      ],
+      "values": [
+        {
+          "key": "chickenDrop.feather",
+          "value": "0-2",
+          "unit": "items",
+          "appliesToVersions": [
+            "Beta 1.7.3",
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "medium"
+        },
+        {
+          "key": "chickenDrop.raw",
+          "value": 1,
+          "unit": "items",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "medium",
+          "note": "Artifact confirms the raw/cooked chicken fields; the modern quantity (1) is used as a placeholder - historical quantity not decoded."
+        },
+        {
+          "key": "chickenDrop.burning",
+          "value": "cooked chicken",
+          "unit": "item variant",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/3139e9c29b2c74f59ea04de760ac2af5bc21b410/client.jar",
+          "reference": "class ni (chicken) drop path references sv.M (feather), sv.bl (chickenRaw), sv.bm (chickenCooked)",
+          "supports": "Chicken drops feather plus raw/cooked chicken in b1.8.",
+          "retrieved": "2026-10-12",
+          "sha1": "3139e9c29b2c74f59ea04de760ac2af5bc21b410"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Chicken&action=raw",
+          "reference": "History / java beta / 1.8 Pre-release: 'Chickens now drop raw chicken, and if killed on fire it drops cooked chicken.'; Alpha v1.0.14 added chickens",
+          "supports": "Chicken drop change in Beta 1.8 and chicken origin.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "Artifact drop fields plus wiki history; only the exact non-burn quantities are unverified.",
+      "unknowns": [
+        "Exact Beta 1.7.3 and Beta 1.8 chicken feather/raw-chicken quantities.",
+        "Whether egg laying existed in Beta 1.7.3 (an egg item string exists in b1.8 but was not checked for b1.7.3)."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.7.3",
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern chickens drop 0-2 feathers and 1 raw/cooked chicken with Looting scaling, plus modern egg-laying timers.",
+        "requiresHostWorkaround": false
+      },
+      "risks": [
+        "Egg item presence in b1.7.3 was not probed; do not assume chicken egg-laying for the 1.7.3 profile without a check."
+      ]
+    },
+    {
+      "id": "beta18-cow-drops",
+      "name": "Cow drops: 0-2 leather plus raw beef/steak, and mooshroom shearing",
+      "category": "mob_drops",
+      "verificationStatus": "artifact_verified",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Alpha v1.0.8",
+          "precise": "v1.0.8",
+          "change": "Cows added; they drop leather when killed."
+        },
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Raw beef added as a cow drop; steak when killed on fire. Cows now run away when attacked."
+        },
+        {
+          "version": "Release 1.0.0",
+          "precise": "Beta 1.9 Prerelease",
+          "change": "Mooshrooms added in 1.0.0 (Beta 1.9 Prerelease) - they do not exist in Beta 1.8, so no mooshroom interaction belongs in this profile."
+        }
+      ],
+      "values": [
+        {
+          "key": "cowDrop.leather",
+          "value": "0-2",
+          "unit": "items",
+          "appliesToVersions": [
+            "Beta 1.7.3",
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Artifact: cow drop path references the leather item; modern table uses 0-2."
+        },
+        {
+          "key": "cowDrop.rawBeef",
+          "value": "1-3",
+          "unit": "items",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "medium",
+          "note": "Modern quantity; artifact confirms the item identity only."
+        },
+        {
+          "key": "cowDrop.burning",
+          "value": "steak",
+          "unit": "item variant",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "mooshroomExists",
+          "value": false,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.7.3",
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Mooshroom page History: '1.0.0|dev=Beta 1.9 Prerelease Added mooshrooms.'"
+        },
+        {
+          "key": "cowMilkingInteraction",
+          "value": "use an empty bucket on a cow -> bucket becomes a milk bucket, replacing the held stack (constructor args bucket=69, milk=79; stack/registry-index ids bucket=325, milk=335)",
+          "unit": "interaction",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Decoded from class py (cow) bytecode: getfield sz.as (player inventory) -> getCurrentItem; if the held stack's id field equals sv.ax.br then the held slot is replaced with a new stack of sv.aH. ID semantics (corrected in review round 2, verified in artifact bytecode): sv.<init>(int) stores its CONSTRUCTOR ARGUMENT in field 'a' (the base item id) and field 'br' = argument + 256 (sipush 256; iadd; putfield br). ItemStack ul(sv) copies sv.br into the stack's id field (Field c). So the constructor args quoted in the registry are bucket=69 and milk=79, while the SAVED stack ids are 325 (69+256) and 335 (79+256). The earlier note ('bucket, id 69 ... milk, id 79') conflated the two; the values used for stack comparisons are the +256 registry indices."
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/3139e9c29b2c74f59ea04de760ac2af5bc21b410/client.jar",
+          "reference": "class py (cow): getDropItem returns sv.aG (leather); drop path references sv.bj (beefRaw) and sv.bk (beefCooked); interaction method tests the held item against sv.ax (bucket, id 69) and replaces the held stack with new ul(sv.aH) = 'milk' (id 79). CORRECTED in review round 1: this is milking, not a mooshroom shear path. The earlier claim that b1.8 milking arose from 'mooshroom shearing' was wrong.",
+          "supports": "Cow drops leather plus raw/cooked beef in b1.8, and cows can be milked with a bucket.",
+          "retrieved": "2026-10-12",
+          "sha1": "3139e9c29b2c74f59ea04de760ac2af5bc21b410"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Cow&action=raw",
+          "reference": "History: Alpha v1.0.8 cows added, drop leather; java beta 1.8 Pre-release 'Cows now run away when attacked. Added raw beef, which drops from cows, and if killed on fire, they drop steak.'",
+          "supports": "Cow drop timeline.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "Artifact confirms every drop item identity including the mooshroom shear result; quantities come from the modern table.",
+      "unknowns": [
+        "Exact Beta 1.8 leather/raw-beef quantities.",
+        "Whether the returned item when milking a cow with a stack of buckets matches the modern behaviour (the b1.8 bytecode replaces the current stack with the milk bucket; the earlier 'ItemStack' wording was not part of this check)."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.7.3",
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern cows drop 0-2 leather and 1-3 beef with Looting scaling; mooshroom shearing yields mushroom stew-era behaviour differs (modern: 5 mushrooms).",
+        "requiresHostWorkaround": false
+      },
+      "risks": [
+        "My earlier review note claimed b1.8 mooshroom shearing yields a milk bucket. That was a false reading of the milking bytecode path and is retracted here.",
+        "Mooshrooms and their shearing/mushroom behaviour must stay out of Beta 1.8 profiles (added in 1.0.0)."
+      ]
+    },
+    {
+      "id": "beta18-sheep-wool-and-shears",
+      "name": "Sheep wool mechanics at Beta 1.7.3 -> Beta 1.8 (shears only, no hit-drop)",
+      "category": "mob_drops",
+      "verificationStatus": "artifact_verified",
+      "firstSupportedVersion": "Beta 1.7",
+      "firstSupportedPrecise": "Beta 1.7",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.7",
+          "precise": null,
+          "change": "Shearing yields 2-4 wool; sheep no longer drop wool when hit; a sheep killed while unsheared drops one wool block."
+        },
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Sheep flee when attacked. Shears can also collect ferns, grass and vines."
+        },
+        {
+          "version": "Release 1.1",
+          "precise": "11w49a",
+          "change": "Sheep graze grass blocks again to regrow wool; shearing yields 1-3 wool (later)."
+        },
+        {
+          "version": "Release 1.14",
+          "precise": "14w27a",
+          "change": "Sheep drop raw/cooked mutton (much later)."
+        }
+      ],
+      "values": [
+        {
+          "key": "sheepWoolDrop.whenHit",
+          "value": false,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.7.3",
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Sheep no longer dropped wool when hit as of Beta 1.7; the b1.8 client's sheep interaction checks for the shears item and the not-sheared flag."
+        },
+        {
+          "key": "sheepShearQuantityBeta",
+          "value": "2-4",
+          "unit": "wool blocks",
+          "appliesToVersions": [
+            "Beta 1.7",
+            "Beta 1.7.3",
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "medium",
+          "note": "Changed to 1-3 in 11w49a (Release 1.1)."
+        },
+        {
+          "key": "sheepKillWhileUnsheared",
+          "value": "1 wool block",
+          "unit": "items",
+          "appliesToVersions": [
+            "Beta 1.7.3",
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "medium"
+        },
+        {
+          "key": "sheepDropMutton",
+          "value": false,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.7.3",
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Mutton added in 14w27a (Release 1.14)."
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/3139e9c29b2c74f59ea04de760ac2af5bc21b410/client.jar",
+          "reference": "class bx (sheep) interaction: if (itemstack.item == sv.bf (shears) && !isSheared()) drop new ul(lr.ac (cloth block), 1, colourMetadata); class lr: block 'cloth' with item 'cloth'",
+          "supports": "Shearing uses the cloth/wool block with colour metadata; wool is dropped by shearing only.",
+          "retrieved": "2026-10-12",
+          "sha1": "3139e9c29b2c74f59ea04de760ac2af5bc21b410"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Sheep&action=raw",
+          "reference": "History / java beta / 1.7: 'Sheep now drop 2-4 wool when sheared. Sheep no longer drop wool when hit. Sheep now drop one wool block when killed while not sheared.'; 1.8 Pre-release 'Sheep now flee when attacked.'; 1.1 11w49a 'Shearing a sheep now yields 1-3 wool blocks instead of 2-4.'; 1.8 14w27a mutton",
+          "supports": "Wool timeline and the absence of mutton in the target window.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Changes / Items / Shears: 'Can now collect fern, grass and vines.'",
+          "supports": "Shears gained plant-collection in Beta 1.8.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "Artifact shows the shears-gated shearing path and the wool block identity; wiki history supplies quantities and timeline.",
+      "unknowns": [
+        "Exact pre-1.1 shearing yield in Beta 1.8 (2-4 assumed from Beta 1.7) and whether killing an unsheared sheep dropped exactly one wool block in b1.8."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.7.3",
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern sheep drop mutton + wool with Looting, regrow wool by grazing, and are dyeable with modern colour behaviour; the mutton drop must not exist in the historical profile.",
+        "requiresHostWorkaround": false
+      },
+      "risks": [
+        "Modern wool item/colour metadata differs from Beta 'cloth' block data values; profile data must map Beta colour indexes explicitly."
+      ]
+    },
+    {
+      "id": "beta18-experience-orbs-and-levels",
+      "name": "Experience orbs and the XP bar added with no use",
+      "category": "progression",
+      "verificationStatus": "artifact_verified",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Experience added; obtainable only by killing mobs and has no use yet. Entity id is XPOrb; picked-up orbs use the item-pickup sound at a lower pitch in singleplayer."
+        },
+        {
+          "version": "Release 1.0.0",
+          "precise": "Beta 1.9 Prerelease",
+          "change": "Experience gained from jumping as a test; player death XP limited."
+        },
+        {
+          "version": "Release 1.0.0",
+          "precise": "Beta 1.9 Prerelease 4",
+          "change": "Experience spendable on enchanting (later)."
+        }
+      ],
+      "values": [
+        {
+          "key": "xpOrbEntityId",
+          "value": "XPOrb",
+          "unit": "entity id string",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "xpHasUse",
+          "value": false,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "xpLevelStoredOnPlayer",
+          "value": "XpTotal",
+          "unit": "NBT field",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Player NBT writes XpTotal; level display = XpTotal >> 1 in the client."
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/3139e9c29b2c74f59ea04de760ac2af5bc21b410/client.jar",
+          "reference": "class um holds the 'XPOrb' entity id; class sz reads/writes player NBT field 'XpTotal' and computes level via (XpTotal >> 1)",
+          "supports": "XP orb entity and player XP storage in b1.8.",
+          "retrieved": "2026-10-12",
+          "sha1": "3139e9c29b2c74f59ea04de760ac2af5bc21b410"
+        },
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar",
+          "reference": "b1.7.3 client contains no 'XPOrb' string",
+          "supports": "Experience orbs do not exist in Beta 1.7.3.",
+          "retrieved": "2026-10-12",
+          "sha1": "43db9b498cb67058d2e12d394e6507722e71bb45"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Experience&action=raw",
+          "reference": "History / java beta / 1.8 Pre-release: 'Added experience. It can currently only be obtained from killing mobs and has no use.'; 1.0.0 Beta 1.9 Prerelease 4 'The ability to spend experience levels for enchanting items has been added.'",
+          "supports": "Origin, no-use period and later enchanting.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Additions / Non-mob entities / Experience orb: entity ID 'XPOrb', low-pitched pickup sound, dropped by monsters and animals; Gameplay / Experience: 'Currently has no use.'",
+          "supports": "Release-note confirmation.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "Artifact confirms entity id and the player NBT field; the wiki confirms availability and no-use status.",
+      "unknowns": [
+        "Exact XP orb values dropped by each mob in Beta 1.8.",
+        "Whether the orb-rendering/texture revision described by the wiki matches the artifact in the release build."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern XP drives enchanting/anvils/mending and orbs drop from many sources; Beta 1.8 XP is cosmetic and mob-kill-only.",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "Modern enchanting tables/XP costs must not be reachable in a Beta 1.8 profile; xp value semantics changed (player NBT XpTotal vs modern XpLevel/XpP/XpTotal)."
+      ]
+    },
+    {
+      "id": "beta18-ravines-added",
+      "name": "Ravines added to world generation",
+      "category": "worldgen",
+      "verificationStatus": "documented_only",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Ravines added: deep, long cracks breaching underground layers of the Overworld."
+        }
+      ],
+      "values": [
+        {
+          "key": "ravineGenerate",
+          "value": true,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Additions / World generation / Ravine: 'Are deep and long cracks breaching the underground layers of the Overworld.'",
+          "supports": "Ravines introduced in Beta 1.8.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_page",
+          "url": "https://minecraft.wiki/w/Java_Edition_guides/Adventure_Update:_Part_I",
+          "reference": "World generation / Ravine entry",
+          "supports": "Independent listing among Beta 1.8 worldgen additions.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "Two independent wiki loci list ravines as a Beta 1.8 worldgen addition.",
+      "unknowns": [
+        "Whether Moderner Beta's Beta 1.8 preset already generates ravines (not checked; Moderner Beta is the terrain authority)."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern terrain uses noise caves/aquifers; ravines are a separate carver. Historical profile relies on Moderner Beta's Beta 1.8 preset rather than the modern carver.",
+        "requiresHostWorkaround": false
+      },
+      "risks": [
+        "Do not reimplement ravine carving: AGENTS.md makes Moderner Beta the terrain authority; this entry is a verification checklist item for preset selection only."
+      ]
+    },
+    {
+      "id": "beta18-biome-set-changes",
+      "name": "Biome set and distribution changes in Beta 1.8",
+      "category": "worldgen",
+      "verificationStatus": "documented_only",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Extreme hills, ocean and river added as biomes; oceans now span thousands of blocks. Seasonal forest, rainforest, shrubland, savanna, tundra, ice desert and sand/gravel beaches removed. Biome distribution changed from temperature/humidity alignment to purely random; biomes became larger and flatter."
+        },
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Biomes in worlds saved before Beta 1.8 were not stored, so every biome is regenerated within existing chunks when entering an old world."
+        }
+      ],
+      "values": [
+        {
+          "key": "biomesAdded",
+          "value": [
+            "extreme hills",
+            "ocean",
+            "river"
+          ],
+          "unit": "biome list",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "biomesRemoved",
+          "value": [
+            "seasonal forest",
+            "rainforest",
+            "shrubland",
+            "savanna",
+            "tundra",
+            "ice desert",
+            "sand beach",
+            "gravel beach"
+          ],
+          "unit": "biome list",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "biomeDistribution",
+          "value": "random (not temperature/humidity aligned)",
+          "unit": "rule",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "oldWorldBiomeRegeneration",
+          "value": true,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Additions / World generation (Extreme hills, Ocean, River) and Changes / World generation (biomes bigger/flatter, distribution purely random, 'Biomes in worlds before Beta 1.8 were not saved. Therefore, every biome is regenerated within existing chunks upon entering an old world.') and Removals / World generation (Far Lands, Seasonal forest, Rainforest, Shrubland, Savanna, Tundra, Ice desert, Sand and gravel beach)",
+          "supports": "Complete biome delta for Beta 1.8.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "Single authoritative changelog page listing additions, changes and removals explicitly; low risk because Moderner Beta owns the presets.",
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.7.3",
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern biome registry includes all of these plus hundreds more, and biome storage is per-chunk with datapack-driven distribution.",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "Old-world conversion: entering a pre-1.8 world in a 1.8 profile regenerates biomes; the emulator must reproduce that (or explicitly choose not to) rather than silently keeping modern biome data."
+      ]
+    },
+    {
+      "id": "beta18-sea-level-change",
+      "name": "Sea level lowered from 64 to 63",
+      "category": "worldgen",
+      "verificationStatus": "documented_only",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Sea level decreased by one block, from 64 to 63."
+        }
+      ],
+      "values": [
+        {
+          "key": "seaLevel",
+          "value": 63,
+          "unit": "Y",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "seaLevelBeta17",
+          "value": 64,
+          "unit": "Y",
+          "appliesToVersions": [
+            "Beta 1.7.3"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Changes / World generation / General: 'The sea level has been decreased by one block (64 to 63).'; gallery: 'SeaLevelComparison.png ... The sea level in Beta 1.8 is a block lower.'",
+          "supports": "Sea level change with an explicit before/after.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "Explicit changelog statement with numbers plus a comparison screenshot.",
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.7.3",
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern sea level is 63; pre-1.8 profiles need 64.",
+        "requiresHostWorkaround": false
+      },
+      "risks": [
+        "Sea level affects terrain, spawn placement, and structure Y ranges; verify the Moderner Beta preset already parameterises it."
+      ]
+    },
+    {
+      "id": "beta18-far-lands-removal",
+      "name": "Far Lands removed via modulo patch to terrain noise",
+      "category": "worldgen",
+      "verificationStatus": "documented_only",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.7.3",
+          "precise": null,
+          "change": "Far Lands are reachable at roughly X/Z +/-12,550,821 due to 32-bit noise overflow."
+        },
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Terrain noise fixed to not overflow at 32-bit integers with a modulo patch; the Far Lands move beyond vanilla bounds to about X/Z +/-53,905,378,859,432,519."
+        },
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "World boundary reduced from 32,000,000 to 30,000,000."
+        }
+      ],
+      "values": [
+        {
+          "key": "worldBoundaryBeta17",
+          "value": 32000000,
+          "unit": "blocks",
+          "appliesToVersions": [
+            "Beta 1.7.3"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "worldBoundaryBeta18",
+          "value": 30000000,
+          "unit": "blocks",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "farLandsOffsetBeta18",
+          "value": "approx. 53905378859432519",
+          "unit": "blocks",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "medium",
+          "note": "Quoted from the changelog; not independently verified."
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Removals / World generation / Far Lands: 'Removed from vanilla gameplay. Due to noise intervals for terrain being fixed to not overflow at 32-bit integers with a modulo patch, the Far Lands have been moved way beyond vanilla bounds to X/Z +/-53,905,378,859,432,519'; Removals / General / World boundary: 'Has now been reduced from 32,000,000 to 30,000,000.'",
+          "supports": "Far Lands removal, offset and world-boundary change.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "medium",
+      "confidenceReason": "Changelog-sourced only; the enormous offset value is quoted verbatim rather than reproduced.",
+      "unknowns": [
+        "Whether the noise modulo patch is already implemented by Moderner Beta's Beta 1.8 preset (not checked)."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.7.3",
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern terrain has no Far Lands and a 30,000,000 boundary enforced by other means.",
+        "requiresHostWorkaround": false
+      },
+      "risks": [
+        "Reproducing the Beta 1.7.3 Far Lands requires the historical 32-bit overflow behaviour, which is a terrain-authority (Moderner Beta) concern, not gameplay."
+      ]
+    },
+    {
+      "id": "beta18-old-world-existing-chunk-behaviour",
+      "name": "Pre-1.8 worlds: biome regeneration on entry and lighting/terrain conversion implications",
+      "category": "worldgen",
+      "verificationStatus": "documented_only",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Biomes were not saved before Beta 1.8, so every biome is regenerated within existing chunks when an old world is opened."
+        }
+      ],
+      "values": [
+        {
+          "key": "oldWorldBiomesRegeneratedOnLoad",
+          "value": true,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Changes / World generation / General: 'Biomes in worlds before Beta 1.8 were not saved. Therefore, every biome is regenerated within existing chunks upon entering an old world.'",
+          "supports": "Explicit statement about old-world biome regeneration.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "Explicit changelog statement.",
+      "unknowns": [
+        "Whether the historical upgrade also rewrote height maps/lighting for existing chunks (not documented here)."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.7.3",
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern worlds always store biomes; opening a historical world must either reproduce the regeneration or explicitly refuse, never silently keep modern data (AGENTS.md: unsupported stored content preserved, never silently deleted).",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "This is a data-migration decision with destructive potential; it needs an ADR and backup/drain design before implementation."
+      ]
+    },
+    {
+      "id": "beta18-villages-added-uninhabited",
+      "name": "Villages added, uninhabited (no villagers yet)",
+      "category": "structures",
+      "verificationStatus": "documented_only",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Villages generate as clusters of oak/cobblestone buildings connected by paths, but are uninhabited because villagers were not implemented until 1.0.0."
+        },
+        {
+          "version": "Release 1.0.0",
+          "precise": "Beta 1.9 Prerelease",
+          "change": "Villagers added, making villages inhabited (later)."
+        }
+      ],
+      "values": [
+        {
+          "key": "villagesGenerate",
+          "value": true,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "villagersExist",
+          "value": false,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_guides/Adventure_Update:_Part_I&action=raw",
+          "reference": "World generation / Village: 'Clusters of buildings made from oak wood and cobblestone connected by pathways. Villages are uninhabited, as villagers have not been implemented yet.'",
+          "supports": "Villages without villagers in Beta 1.8.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Additions / World generation / Village and gallery caption 'A small village. It's empty, since villagers are yet to be added.'",
+          "supports": "Release-note confirmation.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "Two loci state the same thing explicitly.",
+      "unknowns": [
+        "Whether village chest loot existed in Beta 1.8 (the guide lists village structures but loot-table contents were not verified).",
+        "Whether Beta 1.8 villages had the same building set as 1.0.0."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern villages have villagers, professions, raids, iron golems and structure-specific loot; a Beta 1.8 profile must suppress villager spawning.",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "Modern structure generation would place villager entities/POI data into a historical village; this affects both spawning and loot."
+      ]
+    },
+    {
+      "id": "beta18-mineshafts-added",
+      "name": "Abandoned mineshafts added (with chests, cave spider spawners)",
+      "category": "structures",
+      "verificationStatus": "documented_only",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Mineshafts added: interlinked 3x3 tunnels with incomplete rails, plank platforms bridging gaps; the only structures with cave spider spawners; contain normal chests rather than minecart chests."
+        },
+        {
+          "version": "Beta 1.8.1",
+          "precise": "Beta 1.8.1",
+          "change": "Support beams now generate with fences instead of planks."
+        }
+      ],
+      "values": [
+        {
+          "key": "mineshaftSupportBeamsBeta180",
+          "value": "planks",
+          "unit": "block",
+          "appliesToVersions": [
+            "Beta 1.8"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "mineshaftSupportBeamsBeta181",
+          "value": "fences",
+          "unit": "block",
+          "appliesToVersions": [
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "mineshaftChestType",
+          "value": "normal chest (not minecart chest)",
+          "unit": "block",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Additions / World generation / Mineshaft: 'interlinked 3x3 tunnels with incomplete rail lines ... Mineshafts are the only structures where cave spider monster spawners can be found. Have normal Chests instead of Minecart Chests.'",
+          "supports": "Mineshaft introduction and contents.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8.1&action=raw",
+          "reference": "Changes / World generation / Mineshaft: 'Support beams in mineshafts now generate with fences instead of planks.'",
+          "supports": "The exact Beta 1.8 -> 1.8.1 delta.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "Both version pages state the facts explicitly; this is also the only gameplay-relevant difference between Beta 1.8 and Beta 1.8.1 found in this pass.",
+      "unknowns": [
+        "Mineshaft loot table contents in Beta 1.8/1.8.1.",
+        "Whether mineshaft density/placement was identical in Beta 1.8 and 1.8.1."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern mineshafts have different loot tables, spawner types and structure placement, and use minecart chests in some pieces.",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "The 1.8 -> 1.8.1 fence/plank difference is a good discriminating test for profile-version fidelity."
+      ]
+    },
+    {
+      "id": "beta18-strongholds-added",
+      "name": "Strongholds added (three per world)",
+      "category": "structures",
+      "verificationStatus": "artifact_verified",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Strongholds added: underground structures, only 3 generate per world, containing stone bricks, iron bars, chests with apples."
+        },
+        {
+          "version": "Release 1.0.0",
+          "precise": "Beta 1.9 Prerelease 3",
+          "change": "Iron armor added to stronghold altar chests (later)."
+        }
+      ],
+      "values": [
+        {
+          "key": "strongholdsPerWorld",
+          "value": 3,
+          "unit": "structures",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Additions / World generation / Stronghold: 'Is an underground structure in the Overworld. Only 3 generate per world.'",
+          "supports": "Strongholds introduced with a 3-per-world limit.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/3139e9c29b2c74f59ea04de760ac2af5bc21b410/client.jar",
+          "reference": "string 'stronghold' present in class sd of the b1.8 client (absent from b1.7.3)",
+          "supports": "Strongholds exist in the b1.8 client and not in b1.7.3.",
+          "retrieved": "2026-10-12",
+          "sha1": "3139e9c29b2c74f59ea04de760ac2af5bc21b410"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Changes / Items / Apples: 'Now generate in the new stronghold storeroom chests, making them obtainable.'",
+          "supports": "Stronghold loot includes apples in Beta 1.8.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "Changelog explicit plus artifact string presence/absence in both versions.",
+      "unknowns": [
+        "Full stronghold loot table for Beta 1.8.",
+        "Whether the 3-per-world limit counts placed or attempted strongholds."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern worlds generate 128 strongholds in rings, with eye-of-ender placement and modern loot.",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "Stronghold count is a world-generation parameter; Moderner Beta owns terrain but structure counts may live in the mod's preset data - verify before implementing anything."
+      ]
+    },
+    {
+      "id": "beta18-apples-from-stronghold-chests",
+      "name": "Apples become obtainable via stronghold storeroom chests",
+      "category": "crafting_recipes",
+      "verificationStatus": "documented_only",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Indev 20091231-2147",
+          "precise": "20091231-2147",
+          "change": "Apples added (non-functional until 20100110)."
+        },
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Apples generate in the new stronghold storeroom chests, making them obtainable (previously apples only came from dungeon/other chests added earlier)."
+        }
+      ],
+      "values": [
+        {
+          "key": "appleObtainable",
+          "value": true,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.7.3",
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Apples were already edible/obtainable pre-1.8; the Beta 1.8 change is the new stronghold chest source."
+        },
+        {
+          "key": "appleStackSize",
+          "value": 64,
+          "unit": "items",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Changes / Items / Apples: 'Now restore 4 hunger, instead of 4 health. Can now be stacked up to 64. Now takes 1.6 seconds to consume, accompanied with an animation.'; Food history 1.8 line: 'Apples now generate in the new stronghold storeroom chests, making them obtainable.'",
+          "supports": "Apple sourcing and value change in Beta 1.8.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Food&action=raw",
+          "reference": "History / java beta / 1.8: 'Apples now generate in the new stronghold storeroom chests, making them obtainable.'",
+          "supports": "Independent statement about apple availability.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "medium",
+      "confidenceReason": "Two loci state the stronghold chest source but disagree in emphasis with the general apple history (apples existed in dungeons since Infdev), so the recorded claim is limited to the chest source.",
+      "unknowns": [
+        "Exact Beta 1.8 stronghold storeroom loot table entries and weights."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern apples come from leaves, chests, trades and bonus chests; modern loot tables will over-supply apples in a historical world.",
+        "requiresHostWorkaround": false
+      },
+      "risks": [
+        "Modern oak-leaf apple drops are rare but exist; the historical profile should not rely on leaf drops for apples."
+      ]
+    },
+    {
+      "id": "beta18-crafting-recipe-changes",
+      "name": "Crafting recipe changes in Beta 1.8 (new blocks and yield changes)",
+      "category": "crafting_recipes",
+      "verificationStatus": "artifact_verified",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "New recipes: stone bricks (4 from 4 stone), brick slab (6 from 3 bricks), stone brick slab (6 from 3 stone bricks), brick stairs (4), stone brick stairs (4), glass pane (16 from 6 glass), iron bars (16 from 6 iron ingots), fence gate (4 sticks + 2 planks), melon seeds (from a melon slice). Also: shift-clicking a crafting output crafts as many as possible directly into the inventory."
+        },
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Ladder recipe changed to 2 ladders from 7 sticks (previously 3 ladders), and fence recipe changed to 4 fences from 6 planks (previously 6 fences), based on the b1.8 recipe initialiser."
+        }
+      ],
+      "values": [
+        {
+          "key": "recipe.stoneBricks",
+          "value": "4 stone (2x2) -> 4 stone bricks",
+          "unit": "recipe",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "recipe.glassPane",
+          "value": "6 glass (2x3) -> 16 glass panes",
+          "unit": "recipe",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "recipe.ironBars",
+          "value": "6 iron ingots (2x3) -> 16 iron bars",
+          "unit": "recipe",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "recipe.stoneBrickSlab",
+          "value": "3 stone bricks (row) -> 6 stone brick slabs",
+          "unit": "recipe",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "recipe.brickSlab",
+          "value": "3 bricks (row) -> 6 brick slabs",
+          "unit": "recipe",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "recipe.ladder",
+          "value": "7 sticks (H shape) -> 2 ladders",
+          "unit": "recipe",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "medium",
+          "note": "Read from the b1.8 recipe initialiser class ef ('###','#','#' over lr.K with output lr.y, 4 ... and lr.aL output 2 from '##'), pending a legacy-vs-modern recipe comparison; the output-count and ingredient mapping were partially inferred from obfuscated block fields."
+        },
+        {
+          "key": "recipe.fence",
+          "value": "6 planks (2 rows of 3) -> 4 fences",
+          "unit": "recipe",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "medium",
+          "note": "Same caveat as the ladder recipe."
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Additions / Blocks: crafting grids for stone bricks, brick slab, stone brick slab, brick stairs, stone brick stairs, glass pane, iron bars, fence gate; Additions / Items: melon seeds from a melon slice; Changes / Gameplay / Controls: shift-clicking crafts all it can",
+          "supports": "Beta 1.8's new recipes with exact grid shapes and outputs.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/3139e9c29b2c74f59ea04de760ac2af5bc21b410/client.jar",
+          "reference": "class ef (recipe initialiser) contains the recipe patterns: '###','###' -> 2 (iron bars), '#  ','## ','###' -> 4 (stairs family), '##' -> 4 (fence), '##' -> 2 (ladder), '###' -> 6 (slab family)",
+          "supports": "Recipe table exists in b1.8 with these shapes/outputs (block identity mapping partially inferred).",
+          "retrieved": "2026-10-12",
+          "sha1": "3139e9c29b2c74f59ea04de760ac2af5bc21b410"
+        }
+      ],
+      "confidence": "medium",
+      "confidenceReason": "New recipes are corroborated by the changelog grids; the ladder/fence yield changes rest on obfuscated-field inference and are therefore medium.",
+      "unknowns": [
+        "Exact Beta 1.7.3 ladder/fence yields (needed to confirm the 1.8 change).",
+        "Whether any recipe was removed in Beta 1.8."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.7.3",
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern recipes use datapack JSON with different yields for ladders (3) and fences (3) and many new ingredients.",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "Recipe overriding affects the whole server, not just a world; profile-scoped recipe reloads must be transactional."
+      ]
+    },
+    {
+      "id": "beta18-food-stack-and-cake-changes",
+      "name": "Inventory stacking era change: food stacks to 64 except stew and cake",
+      "category": "hud_ui",
+      "verificationStatus": "artifact_verified",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Food items become stackable to 64 (with cake and mushroom stew excepted), so unstackable food disappears from the early-game inventory model."
+        }
+      ],
+      "values": [
+        {
+          "key": "defaultMaxStackSize",
+          "value": 64,
+          "unit": "items",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "stackableExceptions",
+          "value": [
+            "mushroom stew",
+            "cake"
+          ],
+          "unit": "items",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Changes / Items: repeated 'Can now be stacked up to 64' lines for apple, bread, cooked fish, cooked porkchop, cookie, golden apple, raw fish, raw porkchop; Food history 1.8: 'Food now stacks in the inventory, with the exception of cake and mushroom stew.'",
+          "supports": "Stacking change and exceptions.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "official_client_artifact",
+          "url": "https://launcher.mojang.com/v1/objects/3139e9c29b2c74f59ea04de760ac2af5bc21b410/client.jar",
+          "reference": "item registry default max stack 64; class ay (mushroom stew family) created with quantity 1 in the registry call new ay(26, 8)",
+          "supports": "Default 64-stack with the stew exception.",
+          "retrieved": "2026-10-12",
+          "sha1": "3139e9c29b2c74f59ea04de760ac2af5bc21b410"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "Changelog plus registry evidence agree.",
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern max stack sizes are per-item components (stews still 1, cake 1); the historical profile matches modern for these items, but pre-1.8 unstackable food is the real difference.",
+        "requiresHostWorkaround": false
+      },
+      "risks": [
+        "Beta 1.7.3 unstackable-food behaviour must be restored for that profile; modern defaults will wrongly stack them."
+      ]
+    },
+    {
+      "id": "beta18-hud-armor-bar-move",
+      "name": "HUD reorganisation: armor bar moved above hearts for the hunger bar",
+      "category": "hud_ui",
+      "verificationStatus": "documented_only",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "Armor bar moved above the hearts to make room for the hunger bar; the version tag moved back outside the debug screen; FOV slider added (70-110, 'Quake Pro') and brightness option added."
+        }
+      ],
+      "values": [
+        {
+          "key": "fovRange",
+          "value": "70-110",
+          "unit": "degrees (slider)",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "armorBarPosition",
+          "value": "above hearts",
+          "unit": "HUD layout",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "brightnessOption",
+          "value": true,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Additions / General / Options: FOV slider 70 to 110 (Quake Pro), remappable Attack/Use Item/List Players/Pick Block, brightness option; Changes / Gameplay / HUD: 'Armor bar moved to above hearts, due to hunger bar. The version tag appears outside of the debug screen again.'",
+          "supports": "HUD/options changes in Beta 1.8.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_guides/Adventure_Update:_Part_I&action=raw",
+          "reference": "Gameplay / Changed / HUD: 'Armor bar moved to above hearts, due to addition of the hunger bar.'",
+          "supports": "Independent confirmation.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "Two independent loci; HUD layout is presentation-only so risk is low.",
+      "unknowns": [
+        "Exact HUD pixel offsets in Beta 1.8 (not needed for behavioural fidelity)."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.7.3",
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern HUD has the hunger bar above the hotbar and armor above health as well, but with different sprites, offhand slot and numerous overlays.",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "Client-only work; must not become a server enforcement concern (AGENTS.md: server enforces, client presents)."
+      ]
+    },
+    {
+      "id": "beta18-lighting-engine-and-void-fog",
+      "name": "New lighting engine, dynamic light tint, void fog and fog controls",
+      "category": "lighting_visuals",
+      "verificationStatus": "documented_only",
+      "firstSupportedVersion": "Beta 1.8",
+      "firstSupportedPrecise": "Beta 1.8 pre-release",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8",
+          "precise": "Beta 1.8 pre-release",
+          "change": "New lighting engine: block lighting is tinted by the most prominent light source; artificial light flickers subtly; Overworld ambient light changed from 0.05 to 0.0; void fog darkens and narrows vision at extreme depths; fog changes color at sunrise/sunset; the ability to change fog level with F was removed (F became the fog toggle key)."
+        }
+      ],
+      "values": [
+        {
+          "key": "overworldAmbientLight",
+          "value": 0.0,
+          "unit": "light factor",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "Changed from 0.05 in Beta 1.7.3."
+        },
+        {
+          "key": "voidFog",
+          "value": true,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "artificialLightFlicker",
+          "value": true,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.8",
+            "Beta 1.8.1"
+          ],
+          "confidence": "medium"
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+          "reference": "Additions / Gameplay / Fog and Void fog; Additions / General / Particles ('Fog is now thicker and darker deep underground ... the void appears black'); Changes / General / Light ('Implemented a new lighting engine. The lighting on a block is given a tint based on the most prominent source of light. Artificial light now gives a very subtle flicker.'); Removals / Gameplay / Controls ('Removed the ability to change the fog level by pressing F')",
+          "supports": "Lighting/fog changes in Beta 1.8.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_guides/Adventure_Update:_Part_I&action=raw",
+          "reference": "Gameplay / Changed / Lighting: dynamic lighting tint; block light yellow-orange, skylight blue at night; Overworld ambient light 0.05 -> 0.0",
+          "supports": "Explicit ambient-light numeric change.",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "high",
+      "confidenceReason": "Two loci including the numeric ambient-light change.",
+      "unknowns": [
+        "Exact light propagation algorithm differences (Beta 1.8 introduced a new engine but the implementation is proprietary and not reconstructed here)."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.7.3",
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Modern lighting uses a different engine with ambient light 0.0 already, smooth lighting always on, and no void fog.",
+        "requiresHostWorkaround": true
+      },
+      "risks": [
+        "Lighting is now server-authoritative for spawning; profile changes to light semantics affect mob spawning tests."
+      ]
+    },
+    {
+      "id": "beta181-only-delta-fence-support-beams",
+      "name": "Beta 1.8.1 documented changes: mineshaft beams + two shift-click crash fixes",
+      "category": "technical",
+      "verificationStatus": "documented_only",
+      "firstSupportedVersion": "Beta 1.8.1",
+      "firstSupportedPrecise": "Beta 1.8.1",
+      "removedIn": null,
+      "changes": [
+        {
+          "version": "Beta 1.8.1",
+          "precise": "Beta 1.8.1",
+          "change": "Released 15 September 2011 as the last Beta version. DOCUMENTED CHANGELOG CHANGES: (a) mineshaft support beams generate with fences instead of planks; (b) shift+left-click into a full chest/inventory no longer crashes; (c) shift+left-click in/out of a dispenser no longer crashes. Known documented bug: players can hit mobs/players from far away."
+        }
+      ],
+      "values": [
+        {
+          "key": "beta181ReleaseDate",
+          "value": "2011-09-15",
+          "unit": "date",
+          "appliesToVersions": [
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "beta181BugCount",
+          "value": 2,
+          "unit": "bugs fixed",
+          "appliesToVersions": [
+            "Beta 1.8.1"
+          ],
+          "confidence": "high"
+        },
+        {
+          "key": "beta181JarAnalysed",
+          "value": false,
+          "unit": "boolean",
+          "appliesToVersions": [
+            "Beta 1.8.1"
+          ],
+          "confidence": "high",
+          "note": "The b1.8.1 client jar (sha1 6b562463ccc2c7ff12ff350a2b04a67b3adcd37b) was NOT downloaded or inspected. Only the changelog and Mojang metadata were consulted."
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "wiki_raw_wikitext",
+          "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8.1&action=raw",
+          "reference": "Infobox date=September 15, 2011; Changes / World generation / Mineshaft; Fixes: 2 bugs fixed; Bugs: 1 bug reported",
+          "supports": "Beta 1.8.1 scope and the only gameplay-visible delta.",
+          "retrieved": "2026-10-12"
+        },
+        {
+          "kind": "official_metadata",
+          "url": "https://piston-meta.mojang.com/v1/packages/2f6d2141c99bd626a069d8655135c4b13c45b981/b1.8.1.json",
+          "reference": "id=b1.8.1, releaseTime=2011-09-19, client sha1=6b562463ccc2c7ff12ff350a2b04a67b3adcd37b",
+          "supports": "Official artifact exists for b1.8.1 (client jar downloadable for future verification).",
+          "retrieved": "2026-10-12"
+        }
+      ],
+      "confidence": "medium",
+      "confidenceReason": "Scope and content of the 1.8.1 release are documented explicitly on the version page and the artifact identity is confirmed by Mojang metadata, but this entry does NOT claim the changelog is exhaustive: no diff of the b1.8 and b1.8.1 jars was performed, so undocumented behavioural differences cannot be ruled out.",
+      "unknowns": [
+        "Exhaustiveness: whether the changelog omits behavioural changes (not established; would require decompiled or method-level diffing of the b1.8 and b1.8.1 jars).",
+        "Whether the far-hit bug (hit mobs from far away) affects combat fidelity in Beta 1.8.1 and needs reproducing."
+      ],
+      "implementationStatus": "not_started",
+      "coverage": {
+        "coversProfile": [
+          "beta-1.8",
+          "beta-1.8.1"
+        ],
+        "modernBehaviourDifference": "Not applicable - this is a historical version-scope note used to decide how much Beta 1.8 vs 1.8.1 differ. It records documented changelog differences only, not an exhaustive primary-source comparison.",
+        "requiresHostWorkaround": false
+      },
+      "risks": [
+        "Treating Beta 1.8.1 as behaviourally identical to Beta 1.8 is NOT supported by this entry - only the documented differences are. An artifact diff is the required next step before claiming equivalence."
+      ]
+    }
+  ]
+}

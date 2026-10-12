@@ -1,0 +1,420 @@
+{
+  "schemaVersion": 1,
+  "kind": "1_0_0-block-name-set",
+  "reviewStatus": "WORKER_GENERATED_PENDING_PARENT_VERIFICATION",
+  "generatedAt": "2026-10-12T17:55:01.412605+00:00",
+  "source": {
+    "jar": "C:\\Users\\jwalr\\AppData\\Local\\Temp\\mce-palette\\jars\\1.0.0-client.jar",
+    "bytes": 2362837,
+    "sha1": "b679fea27f2284836202e9365e13a82552092e5d",
+    "sha1MatchesExpected": true,
+    "sizeMatchesExpected": true,
+    "provenance": "MOJANG",
+    "manifestId": "1.0",
+    "hashPublishedWhere": "Mojang version_manifest_v2.json lists id `1.0`; its version JSON https://piston-meta.mojang.com/v1/packages/75062586b830dd5160f13f1c9130eb365e01f1b9/1.0.json -> downloads.client.sha1 (the metadata's own id is `1.0.0`)"
+  },
+  "method": {
+    "tool": "scripts/extract-block-palette.py (standard library only)",
+    "scope": "block NAME SET only; numeric ids are deliberately not paired. Ids are what the previous rejected artifact got wrong, so they are not inferred here.",
+    "identifyRegistry": "STRUCTURAL, no name is used to find the class: the class whose static initialiser constructs the most distinct classes via the new/dup/invokespecial <init> pattern. Ranking by distinct constructed classes is what separates the block registry from the item registry, which constructs a few classes many times each.",
+    "nameConventionDetected": "plain",
+    "nameConventionNote": "Block names are attached as plain lowerCamelCase string constants loaded in the block registry's static initialiser, exactly as Beta 1.7.3 does.",
+    "classCount": 999,
+    "classesParsedToExactEnd": 999,
+    "classParseFailures": [],
+    "unsupportedConstantPoolTags": [],
+    "blockClass": "yy.class",
+    "blockClassSuper": "java/lang/Object",
+    "structuralBlockClass": "yy",
+    "structuralBlockClassSubclasses": 60,
+    "structuralBlockClassIdentityEvidence": "yy has 60 direct subclasses in this jar; a block class is the class block variants extend (Beta 1.7.3's equivalent is uu with 49).",
+    "blockClassInitCalls": 143,
+    "blockClassDistinctConstructedClasses": 98,
+    "blockClassPutstatic": 140,
+    "blockClassStringLoads": 136,
+    "blockClassStringDecodeComplete": true,
+    "blockClassMostConstructed": [
+      [
+        "yy",
+        8
+      ],
+      [
+        "wu",
+        7
+      ],
+      [
+        "v",
+        5
+      ],
+      [
+        "ahh",
+        5
+      ]
+    ],
+    "blockClassCommonBlockType": "yy",
+    "blockClassStaticFieldsOfBlockType": 109,
+    "nameSetterCallCounts": {
+      "a": 118
+    },
+    "topStructuralCandidates": [
+      {
+        "class": "yy.class",
+        "super": "java/lang/Object",
+        "initCalls": 143,
+        "distinctConstructedClasses": 98,
+        "putstatic": 140,
+        "topConstructedClass": "yy",
+        "staticFieldsOfBlockType": 109,
+        "stringLoads": 136,
+        "plainNameCandidates": 136,
+        "tileKeyCandidates": 0,
+        "nameSetterCalls": 118,
+        "nameSetterMethods": {
+          "a": 118
+        },
+        "walkComplete": true,
+        "topConstructed": [
+          [
+            "yy",
+            8
+          ],
+          [
+            "wu",
+            7
+          ],
+          [
+            "v",
+            5
+          ],
+          [
+            "ahh",
+            5
+          ]
+        ]
+      },
+      {
+        "class": "acy.class",
+        "super": "java/lang/Object",
+        "initCalls": 139,
+        "distinctConstructedClasses": 37,
+        "putstatic": 140,
+        "topConstructedClass": "acy",
+        "staticFieldsOfBlockType": 135,
+        "stringLoads": 150,
+        "plainNameCandidates": 145,
+        "tileKeyCandidates": 0,
+        "nameSetterCalls": 139,
+        "nameSetterMethods": {
+          "a": 138,
+          "b": 1
+        },
+        "walkComplete": true,
+        "topConstructed": [
+          [
+            "acy",
+            29
+          ],
+          [
+            "agi",
+            20
+          ],
+          [
+            "agu",
+            14
+          ],
+          [
+            "pe",
+            11
+          ]
+        ]
+      },
+      {
+        "class": "sr.class",
+        "super": "java/lang/Object",
+        "initCalls": 16,
+        "distinctConstructedClasses": 12,
+        "putstatic": 17,
+        "topConstructedClass": "sr",
+        "staticFieldsOfBlockType": 16,
+        "stringLoads": 16,
+        "plainNameCandidates": 0,
+        "tileKeyCandidates": 0,
+        "nameSetterCalls": 16,
+        "nameSetterMethods": {
+          "a": 16
+        },
+        "walkComplete": true,
+        "topConstructed": [
+          [
+            "aeq",
+            2
+          ],
+          [
+            "lq",
+            2
+          ],
+          [
+            "ce",
+            2
+          ],
+          [
+            "aev",
+            2
+          ]
+        ]
+      },
+      {
+        "class": "aef.class",
+        "super": "java/lang/Object",
+        "initCalls": 17,
+        "distinctConstructedClasses": 10,
+        "putstatic": 18,
+        "topConstructedClass": "aef",
+        "staticFieldsOfBlockType": 17,
+        "stringLoads": 0,
+        "plainNameCandidates": 0,
+        "tileKeyCandidates": 0,
+        "nameSetterCalls": 0,
+        "nameSetterMethods": {},
+        "walkComplete": true,
+        "topConstructed": [
+          [
+            "ii",
+            5
+          ],
+          [
+            "ap",
+            3
+          ],
+          [
+            "qn",
+            2
+          ],
+          [
+            "vu",
+            1
+          ]
+        ]
+      },
+      {
+        "class": "p.class",
+        "super": "java/lang/Object",
+        "initCalls": 30,
+        "distinctConstructedClasses": 6,
+        "putstatic": 30,
+        "topConstructedClass": "p",
+        "staticFieldsOfBlockType": 30,
+        "stringLoads": 0,
+        "plainNameCandidates": 0,
+        "tileKeyCandidates": 0,
+        "nameSetterCalls": 0,
+        "nameSetterMethods": {},
+        "walkComplete": true,
+        "topConstructed": [
+          [
+            "p",
+            20
+          ],
+          [
+            "mw",
+            4
+          ],
+          [
+            "br",
+            2
+          ],
+          [
+            "sn",
+            2
+          ]
+        ]
+      },
+      {
+        "class": "tc.class",
+        "super": "java/lang/Object",
+        "initCalls": 12,
+        "distinctConstructedClasses": 4,
+        "putstatic": 3,
+        "topConstructedClass": "qa",
+        "staticFieldsOfBlockType": 1,
+        "stringLoads": 0,
+        "plainNameCandidates": 0,
+        "tileKeyCandidates": 0,
+        "nameSetterCalls": 0,
+        "nameSetterMethods": {},
+        "walkComplete": true,
+        "topConstructed": [
+          [
+            "ci",
+            9
+          ],
+          [
+            "iz",
+            1
+          ],
+          [
+            "th",
+            1
+          ],
+          [
+            "qa",
+            1
+          ]
+        ]
+      }
+    ],
+    "selfCheck": {
+      "target": "research/beta173-block-palette.json (83 names, parent-reviewed)",
+      "passed": true,
+      "detail": "reproduced all 83 names in the reviewed order from uu.class; reproduced all 92 hand-read Beta 1.8.1 names from lr.class"
+    }
+  },
+  "controls": {
+    "positiveMustBePresent": [
+      "stone",
+      "dirt",
+      "bedrock",
+      "water",
+      "lava",
+      "melon",
+      "brewingStand",
+      "enchantmentTable",
+      "endPortalFrame",
+      "whiteStone",
+      "dragonEgg",
+      "netherStalk",
+      "cauldron"
+    ],
+    "positiveMissing": [],
+    "negativeMustBeAbsent": [
+      "oreEmerald",
+      "enderChest",
+      "redstoneLight",
+      "woodSlab",
+      "cocoa",
+      "blockEmerald",
+      "tripWire",
+      "commandBlock",
+      "beacon",
+      "netherquartz",
+      "hopper",
+      "quartzBlock"
+    ],
+    "negativeObserved": [],
+    "passed": true
+  },
+  "nameRecovery": {
+    "status": "RECOVERED",
+    "count": 106,
+    "note": "Block names are attached as plain lowerCamelCase string constants loaded in the block registry's static initialiser, exactly as Beta 1.7.3 does."
+  },
+  "blockNames": [
+    "stone",
+    "wood",
+    "gravel",
+    "grass",
+    "cloth",
+    "sand",
+    "dirt",
+    "stonebrick",
+    "sapling",
+    "bedrock",
+    "water",
+    "lava",
+    "oreGold",
+    "oreIron",
+    "oreCoal",
+    "log",
+    "leaves",
+    "sponge",
+    "glass",
+    "oreLapis",
+    "blockLapis",
+    "dispenser",
+    "sandStone",
+    "musicBlock",
+    "bed",
+    "goldenRail",
+    "detectorRail",
+    "pistonStickyBase",
+    "web",
+    "tallgrass",
+    "deadbush",
+    "pistonBase",
+    "flower",
+    "rose",
+    "mushroom",
+    "blockGold",
+    "blockIron",
+    "stoneSlab",
+    "brick",
+    "tnt",
+    "bookshelf",
+    "stoneMoss",
+    "obsidian",
+    "torch",
+    "fire",
+    "mobSpawner",
+    "stairsWood",
+    "chest",
+    "redstoneDust",
+    "oreDiamond",
+    "blockDiamond",
+    "workbench",
+    "crops",
+    "farmland",
+    "furnace",
+    "sign",
+    "doorWood",
+    "ladder",
+    "rail",
+    "stairsStone",
+    "lever",
+    "pressurePlate",
+    "doorIron",
+    "oreRedstone",
+    "notGate",
+    "button",
+    "snow",
+    "ice",
+    "cactus",
+    "clay",
+    "reeds",
+    "jukebox",
+    "fence",
+    "pumpkin",
+    "hellrock",
+    "hellsand",
+    "lightgem",
+    "portal",
+    "litpumpkin",
+    "cake",
+    "diode",
+    "lockedchest",
+    "trapdoor",
+    "stonebricksmooth",
+    "fenceIron",
+    "thinGlass",
+    "melon",
+    "pumpkinStem",
+    "vine",
+    "fenceGate",
+    "stairsBrick",
+    "stairsStoneBrickSmooth",
+    "mycel",
+    "waterlily",
+    "netherBrick",
+    "netherFence",
+    "stairsNetherBrick",
+    "netherStalk",
+    "enchantmentTable",
+    "brewingStand",
+    "cauldron",
+    "endPortalFrame",
+    "whiteStone",
+    "dragonEgg",
+    "shrub",
+    "fern"
+  ],
+  "aliasNames": {}
+}

@@ -1,0 +1,15 @@
+{
+  "chunkSettings": {
+    "moderner_beta:preset": "moderner_beta:beta",
+    "moderner_beta:deepslate_generation": {
+      "enabled": false
+    }
+  },
+  "biomeSettings": {
+    "moderner_beta:preset": "moderner_beta:beta"
+  },
+  "caveBiomeSettings": {
+    "moderner_beta:preset": "moderner_beta:beta",
+    "moderner_beta:provider": "moderner_beta:none"
+  }
+}

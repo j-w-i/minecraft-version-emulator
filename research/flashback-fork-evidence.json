@@ -1,0 +1,857 @@
+{
+  "schema": "flashback-fork-evidence/1",
+  "generated_at": "2026-10-12T21:05:00+11:00",
+  "workspace": "C:/Users/jwalr/Minecraft Version Emulator",
+  "worker_scope": {
+    "objective": "Inspect and build the user's required j-w-i Flashback fork for architecture compatibility and E2E test preparation.",
+    "owned_files": [
+      "docs/FLASHBACK_COMPATIBILITY.md",
+      "research/flashback-fork-evidence.json"
+    ],
+    "wrote_fork_source": false,
+    "committed_fork_source": false,
+    "copied_fork_source_or_assets": false,
+    "used_upstream_artifact_substitution": false,
+    "touched_personal_minecraft": false,
+    "out_of_scope": [
+      "main mod source and build (owned by another worker)",
+      "parent architecture docs (ARCHITECTURE.md, PROGRESS.md, ADR)",
+      "broad historical research"
+    ]
+  },
+
+  "revision": {
+    "role": "acceptance target",
+    "repo": "https://github.com/j-w-i/Flashback",
+    "checkout": ".upstream/flashback-j-w-i",
+    "commit": "076b96b9fa400212d3d75fa2239d0f3836cf085b",
+    "tag": "v0.43.6.1",
+    "branch": "master",
+    "commit_date": "2026-10-10T18:30:54+11:00",
+    "author": "JWI <jwi@j-w-i.org>",
+    "commit_subject": "Release 0.43.6.1: restore verified weather fixes and retain diagnostics cleanup",
+    "head_tree_sha": "34e756cf7eb22d390818be1ea628c4e5139c0ada",
+    "remote_master_tree_sha": "34e756cf7eb22d390818be1ea628c4e5139c0ada",
+    "tree_matches_remote": true,
+    "ls_remote_master": "076b96b9fa400212d3d75fa2239d0f3836cf085b\trefs/heads/master",
+    "worktree_clean": true,
+    "clone_is_shallow": true,
+    "local_commit_count": 1,
+    "github_reports_commits_ahead_of_upstream": 53,
+    "history_note": "CORRECTED. The clone is shallow: .git/shallow contains 076b96b9fa400212d3d75fa2239d0f3836cf085b itself and the real parent object de60274499cc997bd429ec5cb6dcf0e2e84a849e is absent locally, so 'git rev-list --count HEAD' reports 1. This is TRUNCATED LOCAL HISTORY, not evidence that the fork is a single squashed commit: the commit object does record a parent (verified with 'git cat-file -p HEAD'), and GitHub lists 53 commits between the base and master. An earlier revision of docs/FLASHBACK_COMPATIBILITY.md wrongly called it a squashed commit; that claim is withdrawn. Pin the commit SHA, not a commit count, and use a full clone if per-commit provenance is needed.",
+    "upstream_base": {
+      "repo": "https://github.com/Moulberry/Flashback",
+      "commit": "bf046b763ddf466bdc1b6d9c6cc7ba06e527f3e2",
+      "subject": "Bump version to 0.43.6",
+      "date": "2026-09-21T14:35:09+08:00",
+      "checkout": ".upstream/flashback",
+      "role": "comparison only; NOT the acceptance target",
+      "github_compare": {
+        "status": "ahead",
+        "ahead_by": 53,
+        "behind_by": 0,
+        "merge_base_commit": "bf046b763ddf466bdc1b6d9c6cc7ba06e527f3e2"
+      }
+    },
+    "fork_relationship": {
+      "verified_via": "GitHub API /repos/j-w-i/Flashback",
+      "fork": true,
+      "parent_full_name": "Moulberry/Flashback",
+      "source_full_name": "Moulberry/Flashback",
+      "fork_repo_created_at": "2026-10-08T12:00:26Z",
+      "fork_repo_pushed_at": "2026-10-10T07:31:00Z"
+    }
+  },
+
+  "build": {
+    "status": "success",
+    "exit_code": 0,
+    "command": "pwsh: $env:JAVA_HOME='C:\\Program Files\\Java\\jdk-25.0.4.1'; cd .upstream/flashback-j-w-i; .\\gradlew.bat --no-daemon clean build",
+    "started_at": "2026-10-12T20:56:27+11:00",
+    "finished_at": "2026-10-12T20:57:35+11:00",
+    "duration_reported": "1m 7s",
+    "result_line": "BUILD SUCCESSFUL in 1m 7s",
+    "task_summary": "9 actionable tasks: 7 executed, 2 up-to-date",
+    "log": "logs/flashback-fork-build.log",
+    "log_sha256": "8581CA0F60C9B83E1D204152FF49758C90EC10CD07701A1367DE23F1E6C0E45C",
+    "toolchain": {
+      "java": "25.0.4.1 (Oracle JDK, LTS)",
+      "javac": "25.0.4.1",
+      "java_home": "C:/Program Files/Java/jdk-25.0.4.1",
+      "gradle_wrapper": "9.4.1",
+      "fabric_loom": "1.15.5"
+    },
+    "pins": {
+      "minecraft_version": "26.3",
+      "loader_version": "0.19.5",
+      "fabric_version": "0.161.0+26.3",
+      "mod_version": "0.43.6.1",
+      "maven_group": "com.moulberry.flashback",
+      "archives_base_name": "flashback",
+      "shadow_plugin": "9.3.0 (both buildscript classpath and plugins block)",
+      "gradle_wrapper": "9.4.1"
+    },
+    "non_reproducible_dependency": {
+      "file": "build.gradle:14",
+      "declared": "id 'net.fabricmc.fabric-loom' version '1.15-SNAPSHOT'",
+      "resolved_this_build": "Fabric Loom: 1.15.5 (log line 'Fabric Loom: 1.15.5')",
+      "risk": "SNAPSHOT is a moving target and is NOT pinned, unlike every other dependency. A later rebuild can resolve a different Loom, so this build is not byte-reproducible and the recorded artifact hashes characterise THIS build, not the revision. Any re-verification must record the resolved Loom version and expect artifact hashes to differ.",
+      "severity": "medium",
+      "mitigation": "record the resolved Loom version in every build log; do not treat a hash mismatch alone as evidence of a source change"
+    },
+    "javac_warnings": [
+      "src/main/java/com/moulberry/flashback/Utils.java:86: warning: [removal] staticFieldBase(Field) in Unsafe is deprecated and marked for removal",
+      "src/main/java/com/moulberry/flashback/Utils.java:86: warning: [removal] getObject(Object,long) in Unsafe is deprecated and marked for removal",
+      "src/main/java/com/moulberry/flashback/Utils.java:87: warning: [removal] staticFieldOffset(Field) in Unsafe is deprecated and marked for removal"
+    ],
+    "errors": [],
+    "no_jvm_tests": {
+      "observed": true,
+      "evidence": [
+        "> Task :compileTestJava NO-SOURCE",
+        "> Task :test NO-SOURCE"
+      ],
+      "implication": "A green Gradle build proves compilation only. All behavioural verification is in devtools/ and runs outside Gradle."
+    },
+    "failed_then_resolved": [
+      {
+        "attempt": 1,
+        "command": ".\\gradlew.bat --no-daemon --stacktrace build",
+        "exit_code": 1,
+        "error": "Execution failed for task ':shadowJar'. > Unable to delete file '.../build/tmp/allJar/flashback-0.43.6.1-all.jar'",
+        "cause": "A stale 199 MB shadow artifact from an interrupted earlier invocation was locked; file was free after the leftover gradle-wrapper/daemon processes exited.",
+        "resolution": "Removed the fork's build directory and rebuilt clean; no fork source change."
+      }
+    ]
+  },
+
+  "artifacts": [
+    {
+      "path": ".upstream/flashback-j-w-i/build/libs/merged-0.43.6.1.jar",
+      "sha256": "F6DCC11FE132E55ACE33C67861A951BF2B77391F4E01B0300F74561FBDA6A51A",
+      "bytes": 201277088,
+      "zip_entries": 1827,
+      "contains_fabric_mod_json": true,
+      "fabric_mod_json_verified": {
+        "mod_id": "flashback",
+        "version": "0.43.6.1",
+        "name": "Flashback",
+        "environment": "client",
+        "entrypoints_main": "com.moulberry.flashback.Flashback",
+        "entrypoints_client": "com.moulberry.flashback.Flashback",
+        "accessWidener": "flashback.accesswidener",
+        "mixins": ["flashback.mixins.json"],
+        "depends_minecraft": ">26.2",
+        "depends_fabricloader": ">=0.15.10"
+      },
+      "required_files_present": {
+        "fabric.mod.json": true,
+        "flashback.accesswidener": 13784,
+        "flashback.mixins.json": 4295,
+        "assets/flashback/icon.png": 3062,
+        "com/moulberry/flashback/Flashback.class": true
+      },
+      "nested_jars": [
+        "META-INF/jars/commons-math3-3.6.1.jar",
+        "META-INF/jars/lattice-2.2.0.jar",
+        "META-INF/jars/mixinconstraints-1.0.8.jar",
+        "META-INF/jars/mixinsquared-fabric-0.3.7-beta.1.jar"
+      ],
+      "bytedeco_entries": 799,
+      "bytedeco_ffmpeg_sample": "org/bytedeco/ffmpeg/avcodec/AVBSFContext.class",
+      "imgui_entries": 204,
+      "bundled_dependencies": true,
+      "is_runnable_candidate": true,
+      "note": "Confirmed a COMPLETE mod jar: valid fabric.mod.json, access widener, mixin config, icon, mod classes, nested dependency jars and bundled FFmpeg/ImGui natives. This is the artifact to use for E2E. It was never launched, so 'runnable candidate' means structurally complete, not verified to start."
+    },
+    {
+      "path": ".upstream/flashback-j-w-i/build/tmp/allJar/flashback-0.43.6.1-all.jar",
+      "sha256": "A83FD7C2B80179FC6FCF9B7B7129F34010735CCD4273ABFA5C2E2E47A8C5AAD8",
+      "bytes": 199104753,
+      "zip_entries": 1822,
+      "bundled_dependencies": true,
+      "note": "shadowJar output."
+    },
+    {
+      "path": ".upstream/flashback-j-w-i/build/libs/flashback-0.43.6.1.jar",
+      "sha256": "76B95AB46A42F902378578DE3017E32FC55A08799D0E4F808F980D068968E090",
+      "bytes": 22696306,
+      "zip_entries": 725,
+      "contains_fabric_mod_json": true,
+      "bytedeco_entries": 0,
+      "bundled_dependencies": false,
+      "is_runnable_candidate": false,
+      "note": "The mergeShadowWithIncludes doLast rename did not take effect: this jar lacks org/bytedeco/*. Same hash was produced by two independent runs, so it is reproducible here. Do not use this jar for E2E."
+    },
+    {
+      "path": ".upstream/flashback-j-w-i/build/libs/flashback-0.43.6.1-sources.jar",
+      "sha256": "C30F0D0F8EC8D8ADE136AA995DCF0659CB34E5D6066EC53586A9110EF3C1991E",
+      "bytes": 19746270,
+      "bundled_dependencies": false
+    }
+  ],
+
+  "license": {
+    "file": ".upstream/flashback-j-w-i/LICENSE.md",
+    "copyright": "Copyright 2024 Moulberry",
+    "statements": [
+      "Do not redistribute.",
+      "All rights reserved."
+    ],
+    "lang_files_exception": {
+      "path": "src/main/resources/assets/flashback/lang",
+      "license": "CC BY 4.0",
+      "attribution_list_present": true
+    },
+    "binding_constraints_for_project": {
+      "forbidden_redistribution": [
+        "No fork jar, classes or assets may be bundled, shaded, hosted, re-uploaded, committed, or shipped in anything this project distributes.",
+        "No Flashback implementation may be copied into project source.",
+        "User ownership of the fork is not evidence of permission to redistribute the upstream-derived portions."
+      ],
+      "permitted_local_use": [
+        "Cloning, building and running the fork locally for validation is permitted; that is what this worker did.",
+        "An E2E request authorises setting up the fork as a local test dependency: the locally built artifact may be copied into a project-isolated, gitignored test instance (for example under run/ or .upstream/) so the run is self-contained.",
+        "The fork may therefore be an ignored local test-only dependency; it must never be a shipped or committed one."
+      ],
+      "practical_rule": "Nothing derived from the fork enters git or a distributable path, and the mod plus its tests must still work with Flashback absent.",
+      "withdrawn_claim": "An earlier revision of docs/FLASHBACK_COMPATIBILITY.md invented a requirement that the user install the fork by hand into their own launcher profile and treated the licence as a blocker for local testing. That was wrong: the restriction is on redistribution, not on local use, and the claim is withdrawn."
+    },
+    "requires_parent_decision": "Record the non-redistribution rule and the permitted project-isolated local test setup. This is a documentation/process decision, not a technical blocker."
+  },
+
+  "headless_checks": {
+    "harness": "scripts/verify-flashback-fork.ps1",
+    "harness_status": "REWRITTEN after parent review. The earlier logs/run-fork-checks.ps1 is superseded: it could report PASS when a tool never launched, and it built its classpath by scanning all of ~/.gradle (which picked Gson 2.10.1 over 2.14.0 and swallowed copy failures).",
+    "harness_reason": "The fork's devtools/checks/run.sh and run-replay-inventory.sh assume macOS/Library paths and bash, so a Windows port is required. The fork checkout is not modified.",
+    "supporting_files": [
+      "scripts/verify-flashback-fork.ps1 (harness)",
+      "scripts/dsh-dump-classpath.init.gradle (applied with --init-script to dump the fork's real resolved classpaths; lives outside the fork)"
+    ],
+    "command": "pwsh -NoProfile -File scripts/verify-flashback-fork.ps1",
+    "exit_code": 0,
+    "result": "RESULT=OK",
+    "log": "logs/flashback-fork-checks.log",
+    "invocation_audit_trail": {
+      "path": "logs/fork-verify-invocations.log",
+      "purpose": "Every invocation's full stdout and stderr plus a one-line header with the real exit code and whether the process started. This is the evidence for a passing run, because the console only shows the one-line summary.",
+      "header_format": "### [n] <tool> <short args> -> exit=<code> started=<true|false>"
+    },
+    "started_at": "2026-10-12T21:11:25+11:00",
+    "finished_at": "2026-10-12T21:12:22+11:00",
+    "classpath_provenance": {
+      "method": "Gradle init script dumps the fork's own resolved runtimeClasspath and compileClasspath by absolute path; no scanning of ~/.gradle and no copy step.",
+      "runtimeClasspath_entries": 162,
+      "compileClasspath_entries": 139,
+      "combined_unique_entries": 172,
+      "runtime_classpath_files": "logs/fork-verify-cp-runtime.txt",
+      "compile_classpath_files": "logs/fork-verify-cp-compile.txt",
+      "why_both": "runtimeClasspath is what the mod actually loads; compileClasspath additionally carries the compileOnly compat mods whose classes Flashback's compat mixins and the fork's source checks reference. Behaviour suites run against runtimeClasspath; compile and source checks use the combined set.",
+      "starlight_evidence": "ca.spottedleaf.starlight.common.light.SWMRNibbleArray is not in runtimeClasspath nor anywhere in ~/.gradle as its own jar; it is bundled inside maven.modrinth:scalablelux (a compileOnly dependency). Without compileClasspath, ContainerGuiCheck fails with NoClassDefFoundError on that class.",
+      "gson_resolved": "com.google.code.gson:gson:2.14.0 (Minecraft 26.3 requires >= 2.11). The old harness's first-match scan selected 2.10.1 and failed ContainerWireTest.",
+      "verified_all_entries_exist": true
+    },
+    "safety_properties": [
+      "Tool paths are validated with Test-Path before use; a missing tool throws and the process exits non-zero.",
+      "Start-Process is used instead of the call operator because $LASTEXITCODE is not reliably set for .bat/.cmd wrappers (gradlew.bat) and PowerShell reuses the previous value when a command fails to start. Start-Process reports the real exit code in .ExitCode.",
+      "A null exit code means 'the process never ran' and is reported as INVALID, never PASS. Any INVALID makes the run exit non-zero.",
+      "Arguments containing whitespace are quoted explicitly: Start-Process does not quote for the caller, and an unquoted path with spaces is split by the command line parser.",
+      "The scratch directory path is resolved and asserted to be a descendant of the project root before Remove-Item is allowed to delete it.",
+      "Suite invocations run with the fork as the working directory, asserted there, because several suites open relative paths such as 'src/main/java/...' and 'build/classes/java/main/...'.",
+      "Classpath entries are all verified to exist; the previous design copied jars and swallowed failures.",
+      "The Gradle classpath-dump log is ignored output kept for diagnosis; it is not allowed to decide the result."
+    ],
+    "negative_controls": [
+      {
+        "command": "pwsh -NoProfile -File scripts/verify-flashback-fork.ps1 -JavaPath 'C:\\definitely-not-a-jdk\\bin\\java.exe'",
+        "exit_code": 1,
+        "result": "throws 'java not found ... Cannot run the harness' before any test runs",
+        "pass_reported": false
+      },
+      {
+        "command": "pwsh -NoProfile -File scripts/verify-flashback-fork.ps1 -JavacPath 'C:\\definitely-not-a-jdk\\bin\\javac.exe'",
+        "exit_code": 1,
+        "result": "throws 'javac not found ... Cannot run the harness' before any test runs",
+        "pass_reported": false
+      }
+    ],
+    "defect_found_by_the_harness_during_development": [
+      "Invoked from the project root, gradlew.bat used the ROOT project's build.gradle.kts and failed on an unrelated Fabric Loom 1.18.4 variant. The harness now asserts the working directory is the fork before invoking the wrapper, and this is why the suite working directory is set explicitly.",
+      "An earlier attempt with the call operator produced exit=null for gradlew.bat while its output showed BUILD SUCCESSFUL, demonstrating exactly the false-status hazard the parent identified.",
+      "An earlier attempt with Start-Process and unquoted arguments produced 'The specified initialization script C:\\Users\\jwalr\\Minecraft does not exist', demonstrating argument splitting on spaces."
+    ],
+    "compile": {
+      "stub_sources": 2,
+      "test_sources": 18,
+      "stub_javac_exit": 0,
+      "suite_javac_exit": 0
+    },
+    "behaviour_suites": {
+      "definition": "Executes fork code and asserts behaviour. Counted separately from static source checks on purpose: a source check must never be presented as a behaviour test.",
+      "total": 16,
+      "passed": 16,
+      "failed": 0,
+      "invalid": 0,
+      "composition": "15 fork devtools/checks suites + 1 standalone InventoryMenuSlots seek model",
+      "results": [
+        { "name": "com.moulberry.flashback.state.MigrationTest", "result": "pass", "summary": "All migration tests passed" },
+        { "name": "com.moulberry.flashback.state.EvaluationTest", "result": "pass", "summary": "All evaluation tests passed" },
+        { "name": "com.moulberry.flashback.state.CameraObjectTest", "result": "pass", "summary": "All camera object tests passed" },
+        { "name": "com.moulberry.flashback.state.CameraInspectorRegressionTest", "result": "pass", "summary": "All 49 inspector regression assertions passed (native rendering not exercised)" },
+        { "name": "com.moulberry.flashback.state.CutTest", "result": "pass", "summary": "All cut tests passed" },
+        { "name": "com.moulberry.flashback.state.LoadCompatTest", "result": "pass", "summary": "All load-compatibility tests passed" },
+        { "name": "com.moulberry.flashback.editor.ui.timeline.LayoutTest", "result": "pass", "summary": "All timeline layout tests passed" },
+        { "name": "com.moulberry.flashback.keyframe.OrbitTest", "result": "pass", "summary": "All orbit tests passed" },
+        { "name": "com.moulberry.flashback.keybind.ScrollBindingsTest", "result": "pass", "summary": "All scroll binding tests passed" },
+        { "name": "com.moulberry.flashback.gui.GuiLogTest", "result": "pass", "summary": "All gui log tests passed" },
+        { "name": "com.moulberry.flashback.gui.ContainerWireTest", "result": "pass", "summary": "All container wire tests passed" },
+        { "name": "com.moulberry.flashback.playback.PlaybackTimingTest", "result": "pass", "summary": "All playback timing checks passed (in-game reproduction still required)" },
+        { "name": "com.moulberry.flashback.playback.AccuratePositionTimelineTest", "result": "pass", "summary": "All accurate position timeline checks passed" },
+        { "name": "com.moulberry.flashback.playback.WeatherColumnOrientationTest", "result": "pass", "summary": "All weather column orientation checks passed" },
+        { "name": "com.moulberry.flashback.playback.WeatherTextureCoordinatesTest", "result": "pass", "summary": "All weather texture anchoring checks passed" },
+        { "name": "ReplayInventorySlotsTest", "result": "pass", "summary": "Replay inventory slot state checks passed", "note": "standalone model: open -> update -> close -> seek -> restore using the production slot conversion; headless only" }
+      ]
+    },
+    "static_source_checks": {
+      "definition": "Parses and validates source or resolves mixin targets. Does NOT exercise behaviour. Reported separately and must not be added to the behaviour count.",
+      "total": 3,
+      "passed": 3,
+      "failed": 0,
+      "invalid": 0,
+      "results": [
+        { "name": "com.moulberry.flashback.ImGuiPairingCheck", "result": "pass", "summary": "All ImGui begin/end pairs are balanced" },
+        { "name": "com.moulberry.flashback.gui.ContainerGuiCheck", "result": "pass", "summary": "All container display checks passed" },
+        { "name": "com.moulberry.flashback.MixinTargetCheck", "result": "pass", "summary": "All mixin targets resolve (60 targets, 198 methods, 54 shadows, 23 unchecked)" }
+      ]
+    },
+    "launches_recorded": 24,
+    "totals_statement": "16 behaviour tests passed (15 fork suites + 1 standalone seek model) and 3 static source checks passed, 0 failed, 0 invalid, 24 process launches recorded, exit 0. These are two different kinds of evidence and are not summed.",
+    "proves": [
+      "The fork's 15 headless suites and the standalone inventory-seek model pass on this machine, with real exit codes.",
+      "All 60 mixin targets, 198 methods and 54 shadows resolve against minecraft-merged-f36920653e-26.3.jar."
+    ],
+    "does_not_prove": [
+      "That the built jar launches.",
+      "That recording, playback or seeking works in a real game session.",
+      "Anything about a second mod coexisting at runtime."
+    ]
+  },
+
+  "replay_format_contract": {
+    "finding": "The fork introduces NO new action type and NO new serialized field in the replay container format.",
+    "method": "SHA-256 comparison of every file in src/main/java/com/moulberry/flashback/action/ between .upstream/flashback (bf046b7) and .upstream/flashback-j-w-i. All 11 files are byte-identical.",
+    "identical_files": [
+      "Action.java",
+      "ActionAccuratePlayerPosition.java",
+      "ActionConfigurationPacket.java",
+      "ActionCreateLocalPlayer.java",
+      "ActionGamePacket.java",
+      "ActionLevelChunkCached.java",
+      "ActionMoveEntities.java",
+      "ActionNextTick.java",
+      "ActionRealTimeClock.java",
+      "ActionRegistry.java",
+      "PositionAndAngle.java"
+    ],
+    "format_shape": {
+      "source": "src/main/java/com/moulberry/flashback/io/ReplayReader.java:27-59, 73-137",
+      "layout": "magic int; varint action count; that many action names as identifiers; int snapshotSize; snapshot bytes; action stream",
+      "action_lookup": "file-local index -> Action, built from the written names",
+      "unknown_action_behaviour": "On load, an action name that is not registered throws RuntimeException('Missing action: ' + name) UNLESS the name path ends with 'optional', in which case it is recorded in ignoredActions and skipped.",
+      "consequence": "Adding a new Action would change the file format and be rejected by an older build. The fork added none, so a stock 0.43.6 reader can still parse the action list; the fork's container/GUI additions ride as ordinary game packets inside flashback:action/game_packet."
+    },
+    "new_payloads_written_into_recordings": [
+      {
+        "type": "com.moulberry.flashback.packet.FlashbackRemoteContainer",
+        "id": "flashback:remote_container (Flashback.createIdentifier inferred from packet class TYPE)",
+        "gated_by": "config internal.showGuisInReplays (default true) via GuiPlayback.enabled()",
+        "kinds": ["OPEN", "CONTENT", "SLOT", "CARRIED", "CLOSE", "RESET", "OFFERS"],
+        "written_by": ["gui/GuiRecording.java:342-348 as ClientboundCustomPayloadPacket", "record/Recorder.java:1222-1228 into real snapshots only"]
+      }
+    ]
+  },
+
+  "recording_contract": {
+    "entry_point": "record/Recorder.java:860 writePacketAsync(Packet, ConnectionProtocol)",
+    "order_of_operations": [
+      "1. GuiRecording.observePacket(packet) runs BEFORE any filtering (line 876) so the mirror captures what the client is about to have, i.e. client-side prediction the server never echoes.",
+      "2. ClientboundPlayerChatPacket is rewritten into ClientboundSystemChatPacket.",
+      "3. ClientboundCustomPayloadPacket whose type id namespace starts with 'fabric-screen-handler-api' is dropped (lines 890-894).",
+      "4. IgnoredPacketSet.isIgnored(packet) decides the rest (line 896).",
+      "5. ClientboundSetEntityDataPacket and ClientboundSetEquipmentPacket for Minecraft.getInstance().player are dropped (lines 900-911) because the replay server owns the recorded player's state."
+    ],
+    "ignored_packet_set": {
+      "source": "record/IgnoredPacketSet.java",
+      "rewritten_by_fork": true,
+      "sets": {
+        "IGNORED": "never written to the replay",
+        "IGNORED_IN_REPLAY": "written but deliberately not applied at playback (stats, recipe book, advancements, dialogs, tracked waypoints, transfer)",
+        "CONTAINER_PACKETS": "written only when GuiPlayback.enabled() (config internal.showGuisInReplays); isIgnoredType checks this BEFORE IGNORED"
+      },
+      "container_packets": [
+        "ClientboundOpenScreenPacket",
+        "ClientboundContainerClosePacket",
+        "ClientboundContainerSetContentPacket",
+        "ClientboundContainerSetDataPacket",
+        "ClientboundContainerSetSlotPacket",
+        "ClientboundSetCursorItemPacket",
+        "ClientboundMerchantOffersPacket",
+        "ClientboundMountScreenOpenPacket"
+      ],
+      "documented_hazard": "A packet listed in both CONTAINER_PACKETS and IGNORED silently disables the whole container feature because IGNORED wins on the fall-through; the fork's own comment says so."
+    },
+    "real_snapshot_contents": {
+      "source": "record/Recorder.java:916-1235",
+      "cadence": "at the end of a chunk (Recorder.CHUNK_LENGTH_SECONDS = 5*60 = 300 s) and at finish; asActualSnapshot == true",
+      "includes": [
+        "configuration block (enabled features, full registry data, tags, resource packs)",
+        "client chunks that are loaded (writeChunkDataSnapshot)",
+        "entity data and add-entity packets",
+        "real-time clock",
+        "GuiRecording.snapshotState() container payloads when asActualSnapshot (lines 1222-1228)",
+        "gated on config recording.recordHotbar: ClientboundSetExperiencePacket, ClientboundSetHealthPacket (health/food/saturation), ClientboundSetHeldSlotPacket, and all 9 hotbar slots as ClientboundContainerSetSlotPacket on container 0 (lines 1126-1146)"
+      ]
+    },
+    "packet_allowlist_note_absent": "There is no allowlist; recording is denylist-based, so a mod's unknown payloads are recorded by default unless configured out."
+  },
+
+  "playback_contract": {
+    "server": "playback/ReplayServer.java extends IntegratedServer (line 130)",
+    "handle_game_packet": {
+      "source": "playback/ReplayServer.java:724-787",
+      "decode_failure": "DecoderException is logged (bounded to 8 messages), pending entities are flushed, the buffer is skipped to the end of the packet, and decoding resumes. No abort.",
+      "custom_payload_path": {
+        "purpose": "Avoid reserialization because 'some mods are poorly written and the packet != encode(decode(packet))'.",
+        "steps": [
+          "Reject if the payload id matches advanced.ignoredCustomPayloads (IgnoredCustomPayloads, namespace ':*' and '+' re-allow supported).",
+          "If the payload is a FlashbackRemoteContainer, notify GuiDisplayForwarder.observe(container).",
+          "Extract the raw bytes (rewind, skip the packet id varint) and wrap in FlashbackRawCustomPayload.",
+          "If isProcessingSnapshot, add to customPacketsInSnapshot.",
+          "Send to every replay viewer via ServerPlayNetworking.send."
+        ]
+      }
+    },
+    "custom_payloads_in_snapshot": {
+      "declared": "playback/ReplayServer.java:179 public List<FlashbackRawCustomPayload> customPacketsInSnapshot",
+      "populated": "playback/ReplayServer.java:774-776",
+      "cleared": "io/ReplayReader.java:77 at the start of handleSnapshot",
+      "delivered": "playback/ReplayServer.java:402-410 in the anonymous PlayerList.sendLevelInfo, via customPacketsInSnapshot.removeIf(...)"
+    },
+    "unsupported_packet_handling": {
+      "mechanism": "ReplayGamePacketHandler (and ReplayConfigurationPacketHandler) throw UnsupportedPacketException from ~50 handlers.",
+      "examples": ["handlePlayerAbilities (line 977)", "handleCustomPayload (line 1743)", "handlePlayerPosition (line 919)", "handleMoveEntity (line 891)"],
+      "note": "These types are also in IgnoredPacketSet, so they should never appear in a fork recording. The throw is a guard, not the normal path. A payload type present in a recording but not ignorable is the failure mode to watch."
+    },
+    "registry_tolerance": {
+      "mixins": [
+        "mixin/playback/lenient_registry/MixinRegistry",
+        "mixin/playback/lenient_registry/MixinMappedRegistry",
+        "mixin/playback/lenient_registry/MixinHolderSetCodec",
+        "mixin/playback/lenient_registry/MixinRegistryFileCodec",
+        "mixin/playback/lenient_registry/MixinRegistryFixedCodec"
+      ],
+      "purpose": "Tolerate registry mismatches during playback; relevant because a terrain/profile mod can shift registry contents between record and playback."
+    }
+  },
+
+  "seek_and_state_restore": {
+    "model": "snapshot-anchored, NOT re-simulated from tick 0",
+    "decision_point": "playback/ReplayServer.java:1487-1518 handleActions() computes shouldJump (backwards, or forwards beyond the current chunk) and jumps to the floor snapshot",
+    "play_snapshot": {
+      "source": "playback/ReplayServer.java:1631-1640",
+      "steps": [
+        "processedSnapshot = true",
+        "clearDataForPlayingSnapshot()",
+        "replayReader.handleSnapshot(this)",
+        "gamePacketHandler.flushPendingEntities()",
+        "updateRtc()",
+        "replayReader.resetToStart()"
+      ]
+    },
+    "handle_snapshot": {
+      "source": "io/ReplayReader.java:73-104",
+      "steps": [
+        "rewind to replaySnapshotOffset",
+        "isProcessingSnapshot = true",
+        "customPacketsInSnapshot.clear()",
+        "dispatch every action until replayActionsOffset",
+        "isProcessingSnapshot = false"
+      ]
+    },
+    "clear_data_for_playing_snapshot": {
+      "source": "playback/ReplayServer.java:1681-1689 and playback/ReplayGamePacketHandler.java:109-111",
+      "clears": ["boss bars from all viewers", "ReplayGamePacketHandler.playerInfoMap"]
+    },
+    "chunks": {
+      "source": "playback/ReplayServer.java:875-908 handleLevelChunkCached(int index)",
+      "mechanism": "replayChunkCache.getOrLoad(index, registryAccess, gamePacketCodec); skipped when the cached chunk id already matches; a miss logs 'Missing cached level chunk: {}'",
+      "no_generation": "Chunks are replayed from the recording cache, not regenerated."
+    },
+    "container_state_across_seek": {
+      "source": "gui/GuiRecording.java:127-153 snapshotState()",
+      "mechanism": "The open AbstractContainerScreen's id, kind, title, full item list and carried stack are written into the real snapshot by Recorder (lines 1222-1228); a MerchantMenu additionally writes its offers, trader level/xp/progress/restock because 'the offers packet is behind the snapshot and a seek never plays it again'. Per-tick deltas are written by GuiRecording.tick()."
+    },
+    "not_restored_by_clear_data": [
+      "block destruction / cracking overlay (handled separately: packet/FlashbackClearBlockDestruction.java)",
+      "weather state",
+      "entity positions",
+      "local player inventory/hotbar contents at seek time (covered by the snapshot writes when recordHotbar is enabled)",
+      "camera state"
+    ],
+    "fork_self_assessment": "devtools/checks/README.md: ReplayInventorySlotsTest 'exercises an open -> update -> close -> seek -> restore state sequence ... It is a headless model, not a substitute for recording and replaying in game.'"
+  },
+
+  "configuration": {
+    "source": "configuration/FlashbackConfigV1.java",
+    "current_config_version": 2,
+    "fork_bumped_config_version": false,
+    "legacy_config_present": "configuration/FlashbackConfigV0.java",
+    "fork_added_options": {
+      "advanced.interpolateToLatestPosition": true,
+      "advanced.recordGuiEvents": false,
+      "internal.showGuisInReplays": true,
+      "exporting.proResProfile": "STANDARD"
+    },
+    "unchanged_from_stock": {
+      "recording.recordHotbar": false,
+      "advanced.ignoredCustomPayloads": ""
+    },
+    "critical_default_mismatch": {
+      "recordHotbar": false,
+      "showGuisInReplays": true,
+      "consequence": "With defaults, container packets ARE written to a recording while the local player's XP/health/held slot/hotbar are NOT. Every E2E run must state both flags explicitly. An assumption that 'if containers are recorded the hotbar is too' is false."
+    },
+    "ignored_custom_payloads": {
+      "source": "IgnoredCustomPayloads.java",
+      "default_ignored_namespaces": ["fabric-screen-handler-api"],
+      "default_ignored_identifiers": ["fabric:recipe_sync"],
+      "syntax": "newline-separated; 'namespace:*' for a namespace; '+' prefix re-allows; bare identifier for one payload",
+      "role": "The sanctioned, user-visible, no-source-change way to keep a namespace's payloads out of replays."
+    }
+  },
+
+  "mixin_surface": {
+    "config": "src/main/resources/flashback.mixins.json",
+    "config_sha256": "2F06D32E34B0F03309568048F53ADB60B7D15BD258D272406DE0EDFAC1D4CAEC",
+    "delta_vs_upstream": [
+      "gui.MixinAbstractContainerScreen",
+      "gui.MixinScreenGuiRecorder",
+      "gui.MixinMinecraftGuiRecorder"
+    ],
+    "delta_count": 3,
+    "default_require": 1,
+    "default_require_implication": "A missing injection target fails hard unless the mixin sets require = 0.",
+    "mixin_target_check": "60 targets, 198 methods, 54 shadows, 23 unchecked resolved against minecraft-merged-f36920653e-26.3.jar",
+    "priority_notes": [
+      "MixinLevelRenderer priority 1100",
+      "MixinDebugScreenOverlay priority 1100",
+      "MixinClientPacketListener priority 1100",
+      "movement.MixinPlayerEntity priority 1100",
+      "playback.MixinChunkHolder priority 1100",
+      "replay_server.MixinServerLevel priority 900",
+      "MixinThreadedLevelLightEngine priority 1010 (comment: higher so it does not clash with Moonrise's overwrite)",
+      "compat.bobby.MixinIntegratedServer priority 1500"
+    ]
+  },
+
+  "fork_specific_fixes": [
+    {
+      "area": "weather column orientation",
+      "files": ["mixin/visuals/MixinWeatherEffectRenderer.java:43-57", "visuals/WeatherColumnOrientation.java"],
+      "mechanism": "@Inject HEAD WeatherEffectRenderer.prepareInstances rebuilds the orientation table from the fractional camera offset; gated on Flashback.isInReplay()",
+      "format_impact": "none (render-time)",
+      "risk": "injection into prepareInstances"
+    },
+    {
+      "area": "weather edge fade",
+      "files": ["mixin/visuals/MixinWeatherEffectRenderer.java:67-96"],
+      "mechanism": "two @Inject HEAD plus @WrapOperation on Mth.lerp(FFF)F and Mth.lengthSquared(FF)F",
+      "format_impact": "none",
+      "risk": "three inject/wrap sites inside one vanilla method"
+    },
+    {
+      "area": "weather texture anchoring",
+      "files": ["mixin/visuals/MixinWeatherEffectRenderer.java:72-79", "visuals/WeatherTextureCoordinates.java"],
+      "mechanism": "@WrapOperation on VertexConsumer.setUv(FF); v is re-anchored to column.bottomY()/topY()",
+      "format_impact": "none",
+      "risk": "high: the same call site is a likely target for other render/shader mods"
+    },
+    {
+      "area": "weather animation clock",
+      "files": ["mixin/visuals/MixinWeatherEffectRenderer.java:106-118", "playback/WorldAnimationClock.java"],
+      "mechanism": "@WrapOperation on ClientLevel.getGameTime()J inside extractRenderState; returns the animation clock while in replay so recorded SetTime packets cannot make tick+partial jump",
+      "format_impact": "none",
+      "risk": "replaces the time source during replay only"
+    },
+    {
+      "area": "weather override",
+      "files": ["mixin/visuals/MixinWeatherEffectRenderer.java:120-137"],
+      "mechanism": "@WrapOperation on ClientLevel.getPrecipitationAt(BlockPos); returns NONE/RAIN/SNOW per EditorState.replayVisuals.overrideWeatherMode",
+      "format_impact": "none",
+      "risk": "per-biome precipitation replaced when an override is set; a custom biome mod's precipitation is bypassed by design"
+    },
+    {
+      "area": "accurate first-person position",
+      "files": ["visuals/AccurateEntityPositionHandler.java", "visuals/AccuratePositionTimeline.java", "packet/FlashbackAccurateEntityPosition.java", "playback/ReplayServer.java:795-812"],
+      "mechanism": "source-timed positions with a seek-aware timeline; ActionAccuratePlayerPosition is byte-identical to upstream so the action is unchanged",
+      "format_impact": "none (uses the pre-existing action)",
+      "risk": "audit for live-state mutation during preview not performed by this worker"
+    },
+    {
+      "area": "first-person render state",
+      "files": ["mixin/MixinLevelExtractor.java:59-142"],
+      "mechanism": "@Inject HEAD extractPlayerState, cancellable; re-extracts the spectated player through minecraft.getEntityRenderDispatcher().extractEntity to survive entity culling; logs once and renders without a player if the result is not an AvatarRenderState",
+      "format_impact": "none",
+      "risk": "high: cancels vanilla extraction; entity-culling mods are the conflict candidate"
+    },
+    {
+      "area": "block destroy overlay suppression",
+      "files": ["mixin/MixinLevelExtractor.java:49-57"],
+      "mechanism": "@Inject HEAD extractBlockDestroyAnimation, cancellable when !editorState.replayVisuals.renderBlocks",
+      "format_impact": "none"
+    },
+    {
+      "area": "camera culling pose",
+      "files": ["mixin/playback/MixinCamera.java:141-187"],
+      "mechanism": "@WrapOperation Camera.update -> setupPerspective; @Inject createProjectionMatrixForCulling; both branches require Flashback.EXPORT_JOB != null",
+      "format_impact": "none",
+      "risk": "low: inert outside an export"
+    },
+    {
+      "area": "frustum expansion",
+      "files": ["mixin/playback/MixinFrustum.java"],
+      "mechanism": "@Inject HEAD offsetToFullyIncludeCameraCube returns this for ORTHOGRAPHIC exports",
+      "format_impact": "none",
+      "risk": "low"
+    },
+    {
+      "area": "AFK FPS limiter",
+      "files": ["mixin/MixinMinecraft.java:226"],
+      "mechanism": "@Inject HEAD getTickTargetMillis, cancellable, so active replay playback is not capped",
+      "format_impact": "none"
+    },
+    {
+      "area": "hand and game mode through the recorded player",
+      "files": ["mixin/playback/MixinGameRenderer.java:58-72"],
+      "mechanism": "@Inject HEAD renderItemInHand cancels unless GuiDisplay.showingThroughAPlayer(); @WrapOperation MultiPlayerGameMode.getPlayerMode returns the spectating player's game mode",
+      "format_impact": "none"
+    },
+    {
+      "area": "container record and restore",
+      "files": ["gui/GuiRecording.java", "gui/GuiDisplay.java", "gui/GuiDisplayForwarder.java", "gui/GuiPlayback.java", "gui/InventoryMenuSlots.java", "packet/FlashbackRemoteContainer.java", "packet/FlashbackClearBlockDestruction.java", "mixin/gui/*"],
+      "mechanism": "custom payloads for open/content/slot/carried/close/offers/reset plus snapshot-state capture; client builds the screen; the replay server keeps its own menu in step",
+      "format_impact": "ADDS PAYLOADS to the recording when internal.showGuisInReplays is true (default); gated so a stock-behaving recording is still possible",
+      "risk": "medium: other mods that add container screens could interact with the AbstractContainerScreen mixins (all require = 0)"
+    },
+    {
+      "area": "worldgen-mod tolerance in the replay server",
+      "files": ["mixin/replay_server/MixinServerLevel.java:25,66-90"],
+      "mechanism": "@WrapOperation on ServerLevel.<init> -> ServerChunkCache.getGeneratorState() and ChunkGeneratorStructureState.ensureStructuresGenerated(), returning null / no-op when the server is a ReplayServer; @Inject HEAD addFreshEntity cancels when !canSpawnEntities; source comment: 'Fix for worldgen mods injecting on getGeneratorState to add custom worldgen properties. Lets just nuke the whole line'",
+      "format_impact": "none",
+      "significance": "Directly aimed at terrain/worldgen mods such as Moderner Beta. Supporting evidence of intent, NOT proof that Moderner Beta specifically works."
+    },
+    {
+      "area": "chunk generation bypass",
+      "files": ["mixin/replay_server/MixinChunkStatusTasks.java:17-33"],
+      "mechanism": "@Inject HEAD initializeLight and light return CompletableFuture.completedFuture(chunkAccess) while Flashback.isInReplay()",
+      "format_impact": "none"
+    },
+    {
+      "area": "empty level source registration",
+      "files": ["mixin/replay_server/MixinChunkGenerators.java:13-20"],
+      "mechanism": "@Inject HEAD ChunkGenerators.bootstrap registers 'flashback/empty' -> EmptyLevelSource.CODEC",
+      "format_impact": "none",
+      "risk": "a registry write at bootstrap; other generator-registering mods share this method"
+    }
+  ],
+
+  "source_file_hashes": {
+    "algorithm": "SHA-256",
+    "root": ".upstream/flashback-j-w-i",
+    "files": {
+      "src/main/java/com/moulberry/flashback/mixin/visuals/MixinWeatherEffectRenderer.java": "659EB130B2E5ECFE47DE538BC5CC9E039139B75DE0E317E49CDEC09CCF8476DA",
+      "src/main/java/com/moulberry/flashback/visuals/WeatherColumnOrientation.java": "894487C244B546A4E0F67C0D7FB5E69CFF63137D93388B01DEF06A852B720AFA",
+      "src/main/java/com/moulberry/flashback/visuals/WeatherTextureCoordinates.java": "572586047A40EEDD4CBE2404F2FF9E9CCCFB85BC5A21ABC0A63D3FBF3E6152C4",
+      "src/main/java/com/moulberry/flashback/playback/WorldAnimationClock.java": "81DDABBC763B81F55DDFBECED2C7E5FD1C1D943CD33CCFFFF0B24FCDA153A7A4",
+      "src/main/java/com/moulberry/flashback/mixin/visuals/MixinClientLevel.java": "C5FAF1813DF4ABDD0F045B8117FB351EFA71CF09C6FB5F41405E6B1695D3C9BE",
+      "src/main/java/com/moulberry/flashback/mixin/MixinLevelExtractor.java": "5BC446021D525110BD6CD77ED548EFBABC198255B9ED942AD50521F21B6B7889",
+      "src/main/java/com/moulberry/flashback/mixin/playback/MixinGameRenderer.java": "752E55A771EB2263652593F1B087771625F978A65A26370B907F5ED6BE22151C",
+      "src/main/java/com/moulberry/flashback/mixin/replay_server/MixinServerLevel.java": "D15E31B1C7B4974D23F8F885783DD263B01229DEE38AA83E6E01BA51A3B61908",
+      "src/main/java/com/moulberry/flashback/mixin/replay_server/MixinChunkStatusTasks.java": "75451A52419D91076B262E450CA264F9F572659E3FE987A773C21BB42DD9B47E",
+      "src/main/java/com/moulberry/flashback/record/Recorder.java": "8317F3F078D288273EDC319F69325226FAE2DA6B758FA57328B994C1B79A8DDD",
+      "src/main/java/com/moulberry/flashback/record/IgnoredPacketSet.java": "C94AD4986DB0BBC14D9937B5C9B7BF27C89D4D3F95F4F1639F15E66A9F63E975",
+      "src/main/java/com/moulberry/flashback/gui/GuiRecording.java": "BB669981E883AAADD6C497618E5B91389D5476D1DDF1D9D925252234A421A34D",
+      "src/main/java/com/moulberry/flashback/gui/GuiDisplay.java": "4A0BD6880B3FB44C0634FE4712DB8860EA5976E1E813FC8D04C01593B91E381F",
+      "src/main/java/com/moulberry/flashback/gui/GuiDisplayForwarder.java": "10CF8990EA49CCB414C40203ACACA6CC2134653CF0F1BD12F8B71C1739116360",
+      "src/main/java/com/moulberry/flashback/gui/GuiPlayback.java": "8129778753DBDBC79AAF22C0CD7AC4FA67F38677A1C68EF8082610421428AD7E",
+      "src/main/java/com/moulberry/flashback/gui/InventoryMenuSlots.java": "9FDF60D5D6A0F08369CE3C4CD8E22F6CB56706986688076B557D7EEC6C1C6CF3",
+      "src/main/java/com/moulberry/flashback/packet/FlashbackRemoteContainer.java": "49AF39E37308E15CA601358CE23DDC89AF69BBEF68F72E63AE7AD82E22CD4BD7",
+      "src/main/java/com/moulberry/flashback/playback/ReplayServer.java": "14DD37505B7E8023F28E5B500412B8E593063CA4A4861C055505F7C7A41B6DBE",
+      "src/main/java/com/moulberry/flashback/playback/ReplayGamePacketHandler.java": "DF96D55A7554C1423B3B989CC8D4C77C87844C3AAE4BD13D8EC1EC2AD225ACE7",
+      "src/main/java/com/moulberry/flashback/io/ReplayReader.java": "9CBF51998BBAE3956C9F0DC50D834B803B2E905DE9185C80B771F4B4ACB9DADB",
+      "src/main/java/com/moulberry/flashback/configuration/FlashbackConfigV1.java": "1C03FE9FCBB53FADFCBEBB61BD2E46140DC02441F8591C8D55DC8504F409A86C",
+      "src/main/resources/flashback.mixins.json": "2F06D32E34B0F03309568048F53ADB60B7D15BD258D272406DE0EDFAC1D4CAEC"
+    }
+  },
+
+  "verified": [
+    "Revision 076b96b9fa400212d3d75fa2239d0f3836cf085b / tag v0.43.6.1, HEAD tree 34e756cf7eb22d390818be1ea628c4e5139c0ada equal to remote master tree, worktree clean.",
+    "GitHub reports j-w-i/Flashback as a fork of Moulberry/Flashback, 53 commits ahead of base bf046b763ddf466bdc1b6d9c6cc7ba06e527f3e2, behind_by 0.",
+    "clean build exit 0 on JDK 25.0.4.1 / Gradle 9.4.1 / Loom 1.15.5; no JVM tests exist (compileTestJava and test are NO-SOURCE).",
+    "Artifact sizes and SHA-256 values; merged-0.43.6.1.jar is the only bundled artifact (799 bytedeco entries) while flashback-0.43.6.1.jar has none.",
+    "LICENSE.md states 'Do not redistribute.' and 'All rights reserved.'; lang files are CC BY 4.0.",
+    "16 behaviour tests pass (15 fork devtools/checks suites plus the standalone ReplayInventorySlotsTest seek model) and 3 static source checks pass, 0 failed, 0 invalid, 24 launches recorded, harness exit 0. Counted separately on purpose: source checks are not behaviour tests.",
+    "MixinTargetCheck resolves 60 targets / 198 methods / 54 shadows / 23 unchecked against the real 26.3 merged jar.",
+    "Every file in the action/ package is byte-identical to upstream, so the replay container format is unchanged and no new action type was added.",
+    "Recorder intake order, the fabric-screen-handler-api drop, and the deliberate drop of the local player's own entity-data and equipment packets.",
+    "IgnoredPacketSet's three-set semantics and the eight CONTAINER_PACKETS gated on showGuisInReplays.",
+    "The raw-bytes custom-payload replay path and customPacketsInSnapshot delivery on join.",
+    "The playSnapshot seek contract, handleSnapshot clearing customPacketsInSnapshot, and chunk restore from ReplayChunkCache with the generator short-circuited.",
+    "Config defaults recordHotbar=false and showGuisInReplays=true are independent.",
+    "flashback.mixins.json differs from upstream by exactly three client entries.",
+    "MixinServerLevel explicitly neutralises getGeneratorState and ensureStructuresGenerated for worldgen mods during ReplayServer construction.",
+    "The fork already writes XP, health/food, held slot and all 9 hotbar slots into real snapshots, gated on recordHotbar."
+  ],
+
+  "assumptions": [
+    "That merged-0.43.6.1.jar will launch and run under Fabric 26.3 in a real launcher. The jar was built but never started.",
+    "That the merge/rename miss is a Windows quirk of the fork's build script rather than its intended contract.",
+    "That 'worldgen mods' in MixinServerLevel's comment includes Moderner Beta and that its mitigation suffices for it.",
+    "That a stock 0.43.6 client would ignore rather than reject the extra container payloads in a fork recording; only the action stream is proven identical.",
+    "That the accurate-position timeline does not mutate live entity interpolation during preview; the release notes claim this and the source was not audited line-by-line here.",
+    "That our mod's own payloads would survive record -> replay -> seek intact.",
+    "That the outcome of the delivered-profile-payload design at seek time matches the container precedent; the delivery timing for a second payload type was not measured."
+  ],
+
+  "unknowns": [
+    "Runtime compatibility of the built fork jar with Minecraft 26.3 at all (never launched).",
+    "Whether recording, playback or seeking works in a real session.",
+    "Whether a recording made in a Moderner Beta world replays correctly with Moderner Beta present, and separately with it absent.",
+    "Behaviour with non-vanilla world height, biome registries or custom chunk generators at playback time.",
+    "Whether a stock 0.43.6 replay file (binary action stream) loads in the fork; project JSON is covered by LoadCompatTest, the binary format is not.",
+    "Seek fidelity for block destruction, weather, entity positions and camera in a real session.",
+    "Ordering and timing of a mod-added payload relative to replay ticks and seek."
+  ],
+
+  "risks": [
+    { "risk": "Fork jar never launched; all player-facing claims unverified.", "severity": "high", "mitigation": "E2E-0 then E2E-1" },
+    { "risk": "Moderner Beta x Flashback replay interaction unproven; MixinServerLevel mitigation is intent, not proof.", "severity": "high", "mitigation": "E2E-4 and E2E-6" },
+    { "risk": "MixinLevelExtractor.extractPlayerState cancels vanilla first-person extraction; entity-culling mods are the likeliest hard conflict.", "severity": "high", "mitigation": "test with the real mod list; the mixin already logs once on an unexpected render state" },
+    { "risk": "Weather fix wraps three call sites inside WeatherEffectRenderer.prepareInstances plus VertexConsumer.setUv and ClientLevel.getGameTime; render/shader mods are conflict candidates.", "severity": "medium", "mitigation": "test with Iris/Sodium present (the fork already carries compat mixins for them)" },
+    { "risk": "defaultRequire = 1 means any moved injection target fails hard rather than degrading.", "severity": "medium", "mitigation": "treat an MC or Moderner Beta update as a re-verification trigger; MixinTargetCheck is the fast gate" },
+    { "risk": "Static packet classification: our mod's payloads are in none of the IgnoredPacketSet lists, so the default is to record and replay them.", "severity": "medium", "mitigation": "decide deliberately; advanced.ignoredCustomPayloads is the no-source-change lever" },
+    { "risk": "License: the restriction is on redistribution, but any accidental bundling, shading, hosting or committing of Flashback in our distributable would violate it.", "severity": "high", "mitigation": "keep the fork out of git and out of distributable paths; local builds and a project-isolated gitignored test instance are permitted, shipping is not" },
+    { "risk": "flashback-0.43.6.1.jar is not the bundled artifact and would produce a misleading E2E failure.", "severity": "medium", "mitigation": "use merged-0.43.6.1.jar and verify its hash before the run" },
+    { "risk": "recordHotbar=false by default means default recordings carry no hotbar/XP/health, so a HUD/profile test run with defaults would fail for configuration reasons.", "severity": "medium", "mitigation": "set and record both flags explicitly in every E2E run" }
+  ],
+
+  "e2e_matrix": [
+    {
+      "id": "E2E-0",
+      "name": "Install and launch",
+      "preconditions": "User installs merged-0.43.6.1.jar (SHA-256 F6DCC11FE132E55ACE33C67861A951BF2B77391F4E01B0300F74561FBDA6A51A) into a Fabric 26.3 / loader 0.19.5 profile with Java 25.",
+      "actions": "Launch; open a singleplayer world; open the Flashback editor.",
+      "pass_criteria": "Mod loads with no mixin apply failure in the log; editor opens.",
+      "blocks": "all other tests",
+      "verified": false
+    },
+    {
+      "id": "E2E-1",
+      "name": "Record then replay baseline",
+      "preconditions": "recordHotbar=true and showGuisInReplays=true set explicitly.",
+      "actions": "Record at least 60 s including movement, block break and place, a container opened and closed, and rain (and snow if reachable); stop; play from the start.",
+      "pass_criteria": "Recorded actions appear in order; terrain renders; the container reappears and closes; hotbar, XP, health and food match the session.",
+      "verified": false
+    },
+    {
+      "id": "E2E-2",
+      "name": "Seek fidelity",
+      "preconditions": "As E2E-1.",
+      "actions": "Seek backwards past a container open/close; seek forwards beyond 300 s so a real snapshot boundary is crossed; seek to tick 1; seek repeatedly across the same boundary.",
+      "pass_criteria": "Container is either correctly open with correct contents or correctly closed, never partial; no stale block-cracking overlay; hotbar/XP/health/food still correct; weather still animating; no exception and no 'Missing cached level chunk' in the log.",
+      "verified": false
+    },
+    {
+      "id": "E2E-3",
+      "name": "Weather fixes specifically",
+      "actions": "In rain, move the camera slowly across several block boundaries including vertically, then seek mid-rain.",
+      "pass_criteria": "No texture jump when crossing block boundaries; rain/snow continues across the seek.",
+      "verified": false
+    },
+    {
+      "id": "E2E-4",
+      "name": "Moderner Beta world: record and replay",
+      "preconditions": "Moderner Beta installed and a historical preset world selected.",
+      "actions": "Record in that world; replay; seek backwards and forwards. Then repeat with Moderner Beta removed from the playback profile.",
+      "pass_criteria": "Replay shows the recorded terrain and does not attempt generation; no worldgen or registry exception; works with Moderner Beta present. The absent-mod result is recorded separately as an expected-to-differ outcome.",
+      "verified": false
+    },
+    {
+      "id": "E2E-5",
+      "name": "Replay does not execute server-authoritative gameplay",
+      "actions": "During playback including while paused and after a seek, attempt any historical gameplay rule our mod enforces; inspect the replay server's world.",
+      "pass_criteria": "No gameplay rule fires on the synthetic world; the replay world gains no persistent state; the recorded world on disk is unchanged (compare file hashes before and after).",
+      "verified": false
+    },
+    {
+      "id": "E2E-6",
+      "name": "Registry tolerance",
+      "actions": "Record in a Moderner Beta world; change a registry-affecting aspect (mod version, preset, or biome set); replay.",
+      "pass_criteria": "lenient_registry tolerates the mismatch, or it fails safely with a diagnosable log; never silently wrong terrain and never an unattributable crash.",
+      "verified": false
+    },
+    {
+      "id": "E2E-7",
+      "name": "Our mod's payloads through record and seek",
+      "actions": "With our own payloads emitted, record; replay; seek across them; then re-run with our namespace added to advanced.ignoredCustomPayloads.",
+      "pass_criteria": "With the ignore entry, our payloads are absent from the replay and nothing breaks; without it, presence/absence and ordering are recorded precisely so the behaviour is a decision rather than an accident.",
+      "verified": false
+    },
+    {
+      "id": "E2E-8",
+      "name": "Seek and state-restore negative paths",
+      "actions": "Record a session that opens a merchant trade, a mount screen and the player inventory; seek into the middle of each.",
+      "pass_criteria": "Each is reconstructed or absent, never partially applied; no item appears in a slot that cannot hold it.",
+      "verified": false
+    }
+  ],
+
+  "parent_question_assessment": {
+    "question": "Historical screens/HUD profile synchronisation and seek safety; whether a dedicated recorded idempotent profile payload plus snapshot restoration is needed; server enforcement must not execute on the replay synthetic world; profile data must not require historical metadata on disk.",
+    "answer": "Feasible without changing the fork or its file format, because the mechanism already exists for containers and the profile family is already snapshot-anchored. Open items are measurement, not deduction.",
+    "supporting_findings": [
+      "GuiRecording.snapshotState() plus Recorder.writeSnapshot(1222-1228) is exactly 'idempotent full-state payload written into the real snapshot', and GuiRecording.tick() is the per-tick delta channel. A profile payload should follow this shape.",
+      "Recorder already writes ClientboundSetExperiencePacket, ClientboundSetHealthPacket and ClientboundSetHeldSlotPacket plus all 9 hotbar slots into real snapshots (1126-1146), and ReplayGamePacketHandler.handleSetExperience/handleSetHealth apply them and re-broadcast to viewers. A seek therefore already restores XP, health, food and hotbar contents when recordHotbar=true.",
+      "Game mode is handled differently: ClientboundPlayerAbilitiesPacket is IGNORED and handlePlayerAbilities throws, so abilities are never recorded; game mode is read per-render from the spectated player's PlayerInfo.",
+      "Recorder drops the recording player's own ClientboundSetEntityDataPacket and ClientboundSetEquipmentPacket, so a profile design must not depend on those packets being present.",
+      "Every profile value is read from the live LocalPlayer's in-memory fields at record time; no fork path reads a world's saved data to render a HUD, so 'no historical metadata on disk' is satisfied by construction.",
+      "'Server enforcement must not run on the synthetic world' is a constraint on our code: MixinServerLevel's entity-spawn suppression and the generator stubs are Flashback's own guards and do not stop our server-side rules.",
+      "No new Action is needed; adding one would change the file format and be rejected by stock readers (ReplayReader throws on an unknown non-optional action)."
+    ],
+    "open_measurements": [
+      "Whether a second payload type is delivered at the same point as the fork's container payloads on every seek (they are delivered on join via PlayerList.sendLevelInfo and at snapshot application).",
+      "Whether internal.showGuisInReplays=false changes that delivery path for other payload types.",
+      "Whether the profile payload should be gated on recordHotbar or on its own flag."
+    ],
+    "architecture_change": "none proposed; parent stated no final architecture change yet, and none is required by these findings"
+  },
+
+  "next_actions": [
+    "Parent decision: record the non-redistribution rule together with the permitted project-isolated local test setup (the locally built artifact may be copied into a gitignored test instance for E2E). No technical blocker; the requirement is that the mod and its tests still work with Flashback absent.",
+    "If E2E is authorised, begin at E2E-0 with merged-0.43.6.1.jar and pin revision 076b96b9fa400212d3d75fa2239d0f3836cf085b.",
+    "Decide the profile-payload shape against parent_question_assessment before implementing: snapshot-state payload plus per-tick deltas, no new Action, no fork source changes.",
+    "Add a guard making every server-authoritative rule inert under Flashback.isInReplay(), and cover it with E2E-5.",
+    "Document advanced.ignoredCustomPayloads as the supported non-invasive lever for keeping our payloads out of replays.",
+    "Require recordHotbar=true for HUD/profile tests and state both config flags in every E2E record.",
+    "Keep .upstream/ out of commits and never place the jar on a distributable path."
+  ],
+
+  "reproduction_commands": {
+    "revision": "git -C .upstream/flashback-j-w-i rev-parse HEAD",
+    "build": "$env:JAVA_HOME='C:\\Program Files\\Java\\jdk-25.0.4.1'; cd .upstream/flashback-j-w-i; .\\gradlew.bat --no-daemon clean build",
+    "headless_checks": "pwsh -NoProfile -File scripts/verify-flashback-fork.ps1",
+    "negative_control": "pwsh -NoProfile -File scripts/verify-flashback-fork.ps1 -JavaPath 'C:\\definitely-not-a-jdk\\bin\\java.exe'  # must exit 1 and report no PASS",
+    "standalone_inventory_seek": "javac -d build/replay-inventory-check-win src/main/java/com/moulberry/flashback/gui/InventoryMenuSlots.java devtools/checks/ReplayInventorySlotsTest.java; java -cp build/replay-inventory-check-win ReplayInventorySlotsTest",
+    "artifact_hash": "Get-FileHash .upstream/flashback-j-w-i/build/libs/merged-0.43.6.1.jar -Algorithm SHA256"
+  }
+}

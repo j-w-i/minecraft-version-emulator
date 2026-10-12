@@ -1,0 +1,2734 @@
+{
+  "schemaVersion": 1,
+  "kind": "moderner-beta-upstream-evidence",
+  "generatedUtc": "2026-10-12T10:03:27Z",
+  "generator": "delegated subagent (deepseek-flash) source inspection; no runtime execution performed",
+  "scopeNote": "Every line number below was re-checked against the materialized tag tree by reading the file, not by inference. Nothing in this file was verified by launching Minecraft.",
+  "subject": {
+    "displayName": "Moderner Beta 5.0.0-alpha.4+26.3-fabric",
+    "modId": "moderner_beta",
+    "artifact": "moderner-beta-fabric-5.0.0-alpha.4+26.3.jar",
+    "artifactNote": "The published FILE name uses hyphens after the mod id (moderner-beta-fabric-...), NOT 'moderner_beta-fabric-...'. The user-supplied string '5.0.0-alpha.4+26.3-fabric' matches the Modrinth version_number and the publishMods version coordinate (version + '-' + loader, see multiloader-loader.gradle.kts).",
+    "sizeBytes": 2442164,
+    "sha256": "2da0b0ded6053dbc18b630d73c3252e30f961ad920589edf75a6dbe243220727",
+    "sha512Modrinth": "4c6acd6c5b7bb873352a778a8103ad3b66e5fb53a333e9c6ece830196e8105eea92288b0946c2d339ba36de646db58bb237105642b0d05e0420243c328578142",
+    "artifactContainsGeneratedData": true,
+    "jarFabricModJson": {
+      "id": "moderner_beta",
+      "version": "5.0.0-alpha.4+26.3",
+      "license": "MIT",
+      "environment": "*",
+      "depends": {
+        "fabricloader": ">=0.16.0",
+        "fabric-api": "*",
+        "minecraft": "26.3.x"
+      },
+      "sourcesDeclared": "https://codeberg.org/Nostalgica-Reverie/moderner-beta"
+    }
+  },
+  "provenance": {
+    "canonicalRemotes": [
+      "https://codeberg.org/Nostalgica-Reverie/moderner-beta (canonical; fabric.mod.json 'sources')",
+      "https://github.com/Nostalgica-Reverie/moderner-beta (mirror; git clone remote of .upstream/moderner-beta)"
+    ],
+    "releasedTag": "5.0.0-alpha.4",
+    "releasedTagCommit": "95f3da6c3f23e7e128b319e5c721201ed4c17243",
+    "releasedTagCommitDate": "2026-09-15T23:22:16+03:00",
+    "releasedTagCommitSubject": "fix: Ughhhhh NeoForge...",
+    "releasedTagTagObject": "annotated? no - refs/tags/5.0.0-alpha.4 resolves directly to commit 95f3da6",
+    "branchWork26_3Head": "e654082dec9961bed6cedcb9b05dae872b777afc",
+    "branchWork26_3Date": "2026-09-10T10:30:56+03:00",
+    "tagIsAncestorOfWork26_3": false,
+    "branchHeadIsAncestorOfTag": false,
+    "commitsInTagNotInWork26_3": [
+      "c60fa25",
+      "aad8d49",
+      "567cc6c",
+      "95f3da6"
+    ],
+    "multiversionBranchHead": "87c015b63e8618795dbeafe41166a3818eb81f8f",
+    "conclusion": "The published 5.0.0-alpha.4 artifacts were built by the tag ref, not by any branch head. The tag is 4 commits ahead of work/26.3 (release-prep + NeoForge fixups). Neither branch tip equals the release commit. Reproduce using the TAG, e.g. 'git fetch origin refs/tags/5.0.0-alpha.4:refs/tags/5.0.0-alpha.4 && git worktree add <dir> 5.0.0-alpha.4'.",
+    "license": {
+      "current": "MIT",
+      "historical": "LGPLv3 up to and including commit 55519d1",
+      "evidence": [
+        "LICENSE (tag 5.0.0-alpha.4): 'MIT License / Copyright (c) 2024-2025 BlueStaggo, 2021 B3spectacled'",
+        "README.md L51-L55 of tag 5.0.0-alpha.4",
+        "fabric.mod.json license field = MIT"
+      ],
+      "flags": [
+        "README credits a Nintendo Switch Edition decompilation project as a reference for LCE terrain; keep LCE presets out of any ship decision until reviewed.",
+        "MIT permits redistribution/embedding with attribution; the predecessor Modern Beta (b3spectacled) was LGPLv3 before 55519d1."
+      ]
+    },
+    "upstreamCloneState": ".upstream/moderner-beta is a SHALLOW clone (.git/shallow present, rev-list --count HEAD == 1) pinned to origin/multiversion @ 87c015b with NO tags fetched. A full-history reference clone was fetched separately for this research (see reproduction.commands)."
+  },
+  "buildAndVersionFacts": {
+    "versionStringConstruction": "gradle: version = mod_version + '+' + mc  (buildSrc/src/main/kotlin/multiloader-common.gradle.kts) => 5.0.0-alpha.4+26.3",
+    "publishVersionCoordinate": "version + '-' + loader (buildSrc/src/main/kotlin/multiloader-loader.gradle.kts publishMods.version) => 5.0.0-alpha.4+26.3-fabric",
+    "jarArchiveName": "base.archivesName = commonMod.id + '-' + loader (multiloader-loader.gradle.kts) => moderner-beta-fabric",
+    "mcAndLoaderProps": {
+      "mod_version": "5.0.0-alpha.4",
+      "stonecutter_version": "0.10-alpha.2",
+      "fabric_loader_version": "0.19.3",
+      "versions_26_3_java_version": "25",
+      "versions_26_3_supported_versions": "26.3",
+      "versions_26_3_fabric_minecraft_version_range": "26.3.x",
+      "versions_26_3_fabric_api_version": "0.160.4+26.3",
+      "versions_26_3_forgelike_loader_version": "26.3.0.0-beta",
+      "versions_26_3_mod_menu_version": "21.0.0-beta.1"
+    },
+    "sourceLayoutNote": "Common code lives in src/ for ALL loaders; there is no common/ directory. The tag tree has 503 .java files. Files under version/26.3 branches contain active code in '/* */' comment form guarded by Stonecutter '//? if >=26.3' directives - grep for text and you will match commented-out 26.3 code too.",
+    "datagenPublishPipeline": ".forgejo/workflows/publish.yml runs './gradlew runDatagen' then './gradlew build publishMods' on tag pushes, and uploads build/libs/{fabric,neoforge,forge}. Preset JSON is generated by datagen into src/main/generated and packed into the jar; it is not committed to git."
+  },
+  "registryFacts": {
+    "settingsPresetRegistryKey": "moderner_beta:settings_preset (ModernBetaResourceKeys.java L27)",
+    "settingsPresetCategoryRegistryKey": "moderner_beta:settings_preset_category",
+    "surfaceConfigRegistryKey": "moderner_beta:surface_config",
+    "worldPresetId": "moderner_beta:moderner_beta (ModernBetaWorldPresets.java L33 keyOf(createId(MOD_ID)))",
+    "worldPresetJsonIncludes": [
+      "minecraft:overworld -> generator type moderner_beta:moderner_beta",
+      "minecraft:the_nether -> generator type minecraft:noise",
+      "minecraft:the_end -> generator type minecraft:noise"
+    ],
+    "defaultPresetIdLiteral": "moderner_beta:default (ModernBetaSettings.java L51) - a sentinel, NOT a registered preset file",
+    "defaultPresetResolution": "moderner_beta:default resolves at read time to ModernerBeta.getDefaultPresetId() (ModernBetaSettingsPreset.java L271-L273). getDefaultPresetId() returns ModernBetaSettingsPresets.BETA_1_7_3.identifier() = moderner_beta:beta when no config exists, otherwise config CONFIG_MISCELLANEOUS.defaultSettingsPreset (ModernerBeta.java L198-L202).",
+    "counts": {
+      "settingsPresetJsonFiles": 71,
+      "settingsPresetRegisteredInBootstrap": 67,
+      "settingsPresetAdditionalViaDatapackTags": 4,
+      "settingsPresetCategories": 9,
+      "surfaceConfigs": 18,
+      "noiseSettings": 5,
+      "materialRules": 5,
+      "carvers": 3,
+      "structures": 1,
+      "biomes": 56,
+      "placedFeatures": 61,
+      "configuredFeatures": 50,
+      "worldPresets": 1,
+      "javaFilesInTagTree": 503
+    },
+    "presetIdList": [
+      "moderner_beta:alpha_winter",
+      "moderner_beta:alpha",
+      "moderner_beta:bedrock_1_17",
+      "moderner_beta:bedrock_1_2",
+      "moderner_beta:beta_1_1_02",
+      "moderner_beta:beta_1_8_1_amplified",
+      "moderner_beta:beta_1_8_1_large_biomes",
+      "moderner_beta:beta_1_8_1",
+      "moderner_beta:beta_1_9_pre_3_amplified",
+      "moderner_beta:beta_1_9_pre_3_large_biomes",
+      "moderner_beta:beta_1_9_pre_3",
+      "moderner_beta:beta_cave_chaos",
+      "moderner_beta:beta_cave_delight",
+      "moderner_beta:beta_drought",
+      "moderner_beta:beta_isle_land",
+      "moderner_beta:beta_isles",
+      "moderner_beta:beta_large_biomes",
+      "moderner_beta:beta_mountain_madness",
+      "moderner_beta:beta_skylands",
+      "moderner_beta:beta_survival_island",
+      "moderner_beta:beta_vanilla",
+      "moderner_beta:beta_water_world",
+      "moderner_beta:beta_xbox_legacy",
+      "moderner_beta:beta",
+      "moderner_beta:cave_chaos",
+      "moderner_beta:cave_delight",
+      "moderner_beta:classic_0_0_14a_08",
+      "moderner_beta:classic_0_30",
+      "moderner_beta:drought",
+      "moderner_beta:indev_hell",
+      "moderner_beta:indev_paradise",
+      "moderner_beta:indev_woods",
+      "moderner_beta:indev",
+      "moderner_beta:infdev_227",
+      "moderner_beta:infdev_325",
+      "moderner_beta:infdev_415",
+      "moderner_beta:infdev_420",
+      "moderner_beta:infdev_611",
+      "moderner_beta:isle_land",
+      "moderner_beta:legacy_console_classic",
+      "moderner_beta:legacy_console_large",
+      "moderner_beta:legacy_console_medium",
+      "moderner_beta:legacy_console_small",
+      "moderner_beta:mountain_madness",
+      "moderner_beta:pe",
+      "moderner_beta:release_1_0_0_amplified",
+      "moderner_beta:release_1_0_0_large_biomes",
+      "moderner_beta:release_1_0_0",
+      "moderner_beta:release_1_1_amplified",
+      "moderner_beta:release_1_1_large_biomes",
+      "moderner_beta:release_1_1",
+      "moderner_beta:release_1_12_2_amplified",
+      "moderner_beta:release_1_12_2_large_biomes",
+      "moderner_beta:release_1_12_2",
+      "moderner_beta:release_1_17_1_amplified",
+      "moderner_beta:release_1_17_1_large_biomes",
+      "moderner_beta:release_1_17_1",
+      "moderner_beta:release_1_2_5_amplified",
+      "moderner_beta:release_1_2_5_large_biomes",
+      "moderner_beta:release_1_2_5",
+      "moderner_beta:release_1_6_4_amplified",
+      "moderner_beta:release_1_6_4_large_biomes",
+      "moderner_beta:release_1_6_4",
+      "moderner_beta:release_hybrid_amplified",
+      "moderner_beta:release_hybrid_large_biomes",
+      "moderner_beta:release_hybrid",
+      "moderner_beta:skylands",
+      "moderner_beta:snow_aint_snowier_amplified",
+      "moderner_beta:snow_aint_snowier_large_biomes",
+      "moderner_beta:snow_aint_snowier",
+      "moderner_beta:water_world"
+    ],
+    "categoryTags": {
+      "moderner_beta:tags/moderner_beta/settings_preset/beta": [
+        "moderner_beta:beta",
+        "moderner_beta:beta_1_1_02",
+        "moderner_beta:skylands",
+        "moderner_beta:pe",
+        "moderner_beta:beta_xbox_legacy"
+      ],
+      "moderner_beta:tags/moderner_beta/settings_preset_category/selectable": [
+        "moderner_beta:beta",
+        "moderner_beta:alpha_infdev",
+        "moderner_beta:finite",
+        "moderner_beta:early_release",
+        "moderner_beta:early_release_large_biomes",
+        "moderner_beta:early_release_amplified",
+        "moderner_beta:major_release",
+        "moderner_beta:beta_custom",
+        "moderner_beta:release_custom"
+      ],
+      "data/minecraft/tags/worldgen/world_preset/normal.json": [
+        "moderner_beta:moderner_beta (the mod ADDS its world preset to vanilla's normal group)"
+      ]
+    },
+    "requestedEraCoverage": {
+      "Beta 1.7.3": "moderner_beta:beta -> settings_preset/beta.json (chunk provider moderner_beta:noise_3d)",
+      "Beta 1.8.1": "moderner_beta:beta_1_8_1 -> settings_preset/beta_1_8_1.json; variants beta_1_8_1_large_biomes, beta_1_8_1_amplified",
+      "Beta 1.1_02": "moderner_beta:beta_1_1_02",
+      "Beta 1.9-pre3": "moderner_beta:beta_1_9_pre_3 (+large_biomes, +amplified)",
+      "Alpha 1.1.2_01": "moderner_beta:alpha; winter variant moderner_beta:alpha_winter",
+      "Infdev": "infdev_227, infdev_325, infdev_415, infdev_420, infdev_611",
+      "Indev": "indev (+indev_paradise, indev_woods, indev_hell)",
+      "Classic": "classic_0_30, classic_0_0_14a_08",
+      "Pocket Edition": "pe",
+      "Release 1.0.0-1.17.1": "release_1_0_0, release_1_1, release_1_2_5, release_1_6_4, release_1_12_2, release_1_17_1 (+large_biomes,+amplified)",
+      "Bedrock / LCE": "bedrock_1_2, bedrock_1_17, legacy_console_classic/small/medium/large, beta_xbox_legacy",
+      "Skylands / novelty": "skylands, beta_skylands, beta_isles, beta_water_world, beta_isle_land, beta_cave_delight, beta_mountain_madness, beta_drought, beta_cave_chaos, beta_large_biomes, beta_survival_island, beta_vanilla, snow_aint_snowier, release_hybrid, isle_land, water_world, cave_delight, mountain_madness, drought, cave_chaos",
+      "gap": "No 'Pre-Classic' (rd-/cave game) preset and no Release 1.7.10 preset exist. The closest historical stop points are classic_0_0_14a_08 and release_1_6_4 (1.7.x -> release_1_12_2 spans 1.7.10 only via the 1.12.2 preset, which is NOT 1.7.10)."
+    }
+  },
+  "modernContentLeakageFidelityGap": {
+    "requestedBy": "parent source review: 'presetBeta lines136-173 includes DEFAULT DEEPSLATE_GENERATION, structure modifiers, standard biome injection and Voronoi cave biomes. Need specifically inspect modern content leakage and recommend explicit fidelity overrides vs alpha uses DISABLED/no cave.'",
+    "headline": "The stock Beta 1.7.3 preset is a TERRAIN preset. It does NOT make the world's decoration, structures or mob spawning historical, and the mod ships no always-on fidelity pack.",
+    "leakageEvidence": {
+      "perBiomeFeatureLists": "Every one of the 56 moderner_beta biomes has a 'features' array that mixes vanilla modern features with the mod's own historical features. Example: data/moderner_beta/worldgen/biome/beta_plains.json L153-L215.",
+      "modernFeaturesPresentInBetaPlains": [
+        "minecraft:lake_lava_underground",
+        "minecraft:lake_lava_surface",
+        "minecraft:amethyst_geode",
+        "minecraft:monster_room",
+        "minecraft:monster_room_deep",
+        "minecraft:ore_dirt",
+        "minecraft:ore_gravel",
+        "minecraft:ore_granite_lower",
+        "minecraft:ore_diorite_lower",
+        "minecraft:ore_andesite_lower",
+        "minecraft:ore_tuff",
+        "minecraft:ore_coal_upper",
+        "minecraft:ore_coal_lower",
+        "minecraft:ore_iron_upper",
+        "minecraft:ore_iron_middle",
+        "minecraft:ore_iron_small",
+        "minecraft:ore_gold",
+        "minecraft:ore_gold_lower",
+        "minecraft:ore_redstone",
+        "minecraft:ore_redstone_lower",
+        "minecraft:ore_diamond",
+        "minecraft:ore_diamond_medium",
+        "minecraft:ore_diamond_large",
+        "minecraft:ore_diamond_buried",
+        "minecraft:ore_lapis",
+        "minecraft:ore_lapis_buried",
+        "minecraft:ore_copper",
+        "minecraft:underwater_magma",
+        "minecraft:spring_water",
+        "minecraft:spring_lava",
+        "minecraft:glow_lichen",
+        "minecraft:flower_plains",
+        "minecraft:patch_pumpkin",
+        "minecraft:patch_sugar_cane",
+        "minecraft:patch_firefly_bush_near_water"
+      ],
+      "modOwnHistoricalFeaturesInSameList": [
+        "moderner_beta:ore_clay",
+        "moderner_beta:ore_emerald_y95",
+        "moderner_beta:patch_dandelion_3",
+        "moderner_beta:patch_poppy",
+        "moderner_beta:patch_grass_plains_10",
+        "moderner_beta:patch_brown_mushroom",
+        "moderner_beta:patch_red_mushroom",
+        "moderner_beta:freeze_top_layer"
+      ],
+      "counts": {
+        "biomesIncludingFullOreSuite": 56,
+        "distinctMinecraftFeatureRefsAcrossBiomes": 75,
+        "totalMinecraftFeatureRefsAcrossBiomes": 1753,
+        "distinctModernerBetaFeatureRefsAcrossBiomes": 41,
+        "totalModernerBetaFeatureRefsAcrossBiomes": 373,
+        "featuresAppearingInAll56Biomes": [
+          "minecraft:amethyst_geode",
+          "minecraft:monster_room",
+          "minecraft:monster_room_deep",
+          "minecraft:ore_coal_upper",
+          "minecraft:ore_coal_lower",
+          "minecraft:ore_copper",
+          "minecraft:ore_diamond(+medium/large/buried)",
+          "minecraft:ore_dirt",
+          "minecraft:ore_gravel",
+          "minecraft:ore_gold(_lower)",
+          "minecraft:ore_iron_upper/middle/small",
+          "minecraft:ore_lapis(_buried)",
+          "minecraft:ore_redstone(_lower)",
+          "minecraft:underwater_magma"
+        ]
+      },
+      "mixedProvenanceExample": "beta_forest.json step[9] lists BOTH minecraft:forest_flowers + minecraft:patch_grass_forest (vanilla) AND moderner_beta:trees_beta_forest_bees (mod). Fidelity is therefore per-feature, not per-list.",
+      "decorationPathIsVanilla": "ModernBetaChunkGenerator.applyBiomeDecoration (L893-L900) only gates on skipChunk(...FEATURES) and then calls super.applyBiomeDecoration(...) (L899). There is no feature filtering by era anywhere in that path.",
+      "structureLeakage": "structure_modifiers.removed == [] for the beta preset (see beta173Preset.json chunkSettings.'moderner_beta:structure_modifiers'). Vanilla structure sets survive; createState only filters by hasBiomesForStructureSet (ModernBetaChunkGenerator.java L299-L326).",
+      "spawnLeakage": "Biome files carry 26.3's 'attributes' block with minecraft:gameplay/natural_mob_spawns (beta_plains.json L2-L107). Mob spawn lists are modern (e.g. horse, donkey, turtle in beta_plains), not Beta 1.7.3 spawn tables."
+    },
+    "anachronismClassification": {
+      "warning": "NAMESPACE IS NOT EVIDENCE. A minecraft:* feature id in a biome list says nothing about whether the content is anachronistic for Beta 1.7.3 - monster rooms, springs, pumpkins, sugar cane, flowers, dirt/gravel/coal/iron/gold/redstone/diamond/lapis ore and lakes all existed in Beta. Conversely the mod's own moderner_beta:* features are not automatically historical. Classification below is by observed block/item content, not by namespace, and it deliberately stops short of claiming algorithm fidelity.",
+      "postBetaContent": {
+        "basis": "Content that did not exist in Beta 1.7.3, judged by the blocks/entities the feature produces.",
+        "ids": [
+          "minecraft:amethyst_geode (amethyst, 1.17)",
+          "minecraft:ore_copper (copper, 1.17)",
+          "minecraft:underwater_magma (magma/1.13 ocean content)",
+          "minecraft:ore_tuff (tuff, 1.17)",
+          "minecraft:glow_lichen (1.17)",
+          "minecraft:patch_firefly_bush_near_water (firefly bush, a 1.21.5+ addition)",
+          "minecraft:monster_room_deep (deepslate-era variant of monster rooms)",
+          "minecraft:ore_diamond_medium / ore_diamond_large / ore_diamond_buried (1.18 ore-distribution variants; Beta used a single diamond ore)",
+          "minecraft:ore_granite_lower / ore_diorite_lower / ore_andesite_lower (1.18 lower-band variants; the Beta-era equivalents would be the single ore_granite/diorite/andesite)",
+          "minecraft:ore_iron_middle / ore_iron_small / ore_coal_lower / ore_gold_lower / ore_redstone_lower / ore_lapis_buried (1.18 split ore distributions)"
+        ]
+      },
+      "historicalButAlgorithmUnvalidated": {
+        "basis": "The content existed in Beta 1.7.3, but these are 26.3 features whose placement algorithm, Y band, count and rarity are NOT the Beta algorithm. Presence is expected; exact distribution is unverified and must be validated against historical evidence before any fidelity claim.",
+        "ids": [
+          "minecraft:monster_room",
+          "minecraft:lake_lava_underground / lake_lava_surface",
+          "minecraft:spring_water / spring_lava",
+          "minecraft:ore_dirt / ore_gravel / ore_coal_upper / ore_iron_upper / ore_gold / ore_redstone / ore_diamond / ore_lapis",
+          "minecraft:ore_granite / ore_diorite / ore_andesite (non-lower variants)",
+          "minecraft:patch_pumpkin / patch_sugar_cane / flower_plains / patch_grass_* / patch_berry_common / brown_mushroom_normal / red_mushroom_normal / disk_sand / disk_gravel / disk_clay",
+          "minecraft:freeze_top_layer",
+          "minecraft:trees_* and the mod's moderner_beta:trees_beta_* / patch_* equivalents"
+        ]
+      },
+      "modOwnContent": {
+        "basis": "moderner_beta:* features are the mod's own re-implementations (e.g. moderner_beta:ore_clay, ore_emerald_y95, patch_dandelion_*, freeze_top_layer). Their being mod-authored does not by itself make them Beta-accurate; they are the intended historical layer and still require historical validation.",
+        "ids": [
+          "moderner_beta:ore_clay",
+          "moderner_beta:ore_emerald_y95",
+          "moderner_beta:patch_*",
+          "moderner_beta:trees_*",
+          "moderner_beta:freeze_top_layer",
+          "moderner_beta:mushroom_hell",
+          "moderner_beta:cave_infdev_325"
+        ]
+      },
+      "countsAreNotFidelity": "The 1753 minecraft:* / 373 moderner_beta:* reference counts in this file quantify how widely features are reused, NOT how anachronistic they are. Any stripping plan must target the postBetaContent list and validate the historicalButAlgorithmUnvalidated list, not remove minecraft:* entries wholesale.",
+      "strippingWarning": "Do NOT strip all minecraft:* features as 'modern'. That would delete Beta-appropriate content (ores, monster rooms, springs, vegetation, lakes) and replace an over-generation problem with an under-generation one."
+    },
+    "upstreamOptionalMitigation": {
+      "verdict": "Upstream DOES ship a partial, opt-in fidelity pack - this was the single most useful find for the parent's question.",
+      "builtInPacksDeclared": "ModernerBeta.BUILT_IN_PACKS = ['reduced_height', 'deepslate_blobs'] (ModernerBeta.java L64-L67)",
+      "activation": "Registered with PackActivationType.NORMAL (ModernerBetaFabric.java L35-L50), i.e. selectable, NOT forced. Nothing enables them for a new world.",
+      "reducedHeightPackContents": [
+        "resourcepacks/reduced_height/pack.mcmeta",
+        "resourcepacks/reduced_height/data/minecraft/dimension_type/overworld.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/density_function/overworld/caves/entrances.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/density_function/overworld/caves/noodle.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/density_function/overworld/caves/spaghetti_2d.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/feature/ore_andesite.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/feature/ore_diorite.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/feature/ore_granite.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/feature/ore_tuff.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/noise_settings/amplified.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/noise_settings/caves.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/noise_settings/large_biomes.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/noise_settings/overworld.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_andesite_lower.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_andesite_upper.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_coal_lower.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_coal_upper.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_copper.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_copper_large.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_diamond.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_diamond_buried.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_diamond_large.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_diamond_medium.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_diorite_lower.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_diorite_upper.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_dirt.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_gold.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_gold_extra.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_gold_lower.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_granite_lower.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_granite_upper.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_gravel.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_iron_middle.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_iron_small.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_iron_upper.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_lapis.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_lapis_buried.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_redstone.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_redstone_lower.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_tuff.json",
+        "resourcepacks/reduced_height/data/moderner_beta/moderner_beta/settings_preset/infdev_415.json",
+        "resourcepacks/reduced_height/data/moderner_beta/worldgen/carver/beta_cave_deep.json",
+        "resourcepacks/reduced_height/data/moderner_beta/worldgen/feature/ore_deepslate_old.json",
+        "resourcepacks/reduced_height/data/moderner_beta/worldgen/feature/ore_diamond_old.json",
+        "resourcepacks/reduced_height/data/moderner_beta/worldgen/noise_settings/infdev_415.json",
+        "resourcepacks/reduced_height/data/moderner_beta/worldgen/noise_settings/overworld_128.json",
+        "resourcepacks/reduced_height/data/moderner_beta/worldgen/noise_settings/overworld_256.json"
+      ],
+      "reducedHeightPackWhatItOverrides": "Vanilla overworld density functions (caves/entrances, caves/noodle, caves/spaghetti_2d), vanilla ore configured features (ore_granite/diorite/andesite/tuff), the full vanilla placed_feature ore set (coal/copper/diamond x4/dirt/gold x3/granite/diorite/andesite/gravel/iron x3/lapis x2/redstone x2/tuff), vanilla noise_settings (overworld, large_biomes, amplified, caves), minecraft:dimension_type/overworld, plus mod-side moderner_beta noise settings overworld_128/overworld_256/infdev_415, moderner_beta:infdev_415 preset, moderner_beta:carver/beta_cave_deep and mod-side ore_deepslate_old / ore_diamond_old features.",
+      "deepslateBlobsPackContents": [
+        "resourcepacks/deepslate_blobs/pack.mcmeta",
+        "resourcepacks/deepslate_blobs/data/minecraft/worldgen/placed_feature/ore_coal_upper.json",
+        "resourcepacks/deepslate_blobs/data/minecraft/worldgen/placed_feature/ore_tuff.json"
+      ],
+      "deepslateBlobsPackWhatItOverrides": "vanilla placed features minecraft:ore_coal_upper and minecraft:ore_tuff only.",
+      "doTheseFixTheLeak": "PARTIALLY, and OPTIONALLY. They re-scope vanilla ore placement and cave density functions to a shorter world (hence 'reduced height'). They do NOT remove the post-Beta additions listed in structuresDecorationsAndLeakage.anachronismClassification.postBetaContent (geodes, copper/tuff, glow lichen, firefly bush, ...), because those live in the biome 'features' arrays, not in the features the packs override. They are therefore an OPTIONAL possible mitigation, not a necessary one, and the parent has blocked activating them until measured (they rewrite minecraft:dimension_type/overworld and vanilla noise settings, which would affect unrelated normal Moderner Beta worlds)."
+    },
+    "alphaVsBetaArgument": {
+      "userClaimChecked": "parent: 'alpha uses DISABLED/no cave'. Confirmed for deepslate, refuted for cave generation.",
+      "alphaJson": "deepslate_generation.enabled=false; use_surface_rules=false; noise_3d_settings.monoliths=true; surface_properties.generateSandstone=false, flipNoiseCoordinates=true, bedrockHoles=true; perlin_noise_settings.alpha2DSampling=true; caveBiomeSettings has ONLY moderner_beta:provider (no voronoi points); biomeSettings = single_biome + injection rules.",
+      "alphaCaveGenerationJson": "moderner_beta:cave_generation = {fixCaveBorders:false, forceBetaCanyons:true, forceBetaCaves:true, seedMethod:'beta', useCarvers:true, useNoiseCaves:false} - the SAME shape as beta.json. Only infdev/indev/classic presets use CaveGeneration.DISABLED (ModernBetaSettingsPresetData.java L250, L277, L304, L332, L354, L378).",
+      "betaJson": "deepslate_generation.enabled=true (minY 0, maxY 8); use_surface_rules=true; noise_3d_settings.climateHeightScaling=true + arraySurfaceNoise=true; caveBiomeSettings adds moderner_beta:cave_biome_voronoi (points include minecraft:lush_caves, dripstone_caves, deep_dark, sulfur_caves with depthMaxY 64); biomeSettings adds climate_distribution/climate_mappings/climate_scale/temperature_height_scaling.",
+      "correction": "Alpha's differences from Beta are deliberate era signals (no deepslate, no modern surface rules, monoliths on, single biome). They are NOT a template for 'fidelity overrides'. Copying alpha's flags onto a Beta profile would BREAK Beta fidelity, because 1.7.3 does have deepslate-era-correct stone/gravel beaches and cave systems.",
+      "deepslateNote": "Yes, deepslate_generation.enabled=true in the 1.7.3 preset is anachronistic (deepslate did not exist until 1.17) BUT its window is minY 0 / maxY 8, i.e. it stands in for Beta's bedrock-floor stone band. The 26.3 material-rule path can additionally place vanilla deepslate via the world's material rules. Treat as a fidelity question to settle by runtime inspection, not by assumption.",
+      "caveBiomeNote": "Cave BIOMES only. beta.json sets cave_biome_provider = moderner_beta:voronoi with modern points (lush_caves, dripstone_caves, deep_dark, sulfur_caves) over a depthMinY -64 / depthMaxY 64 window, while alpha.json sets the same component to moderner_beta:none. Beta 1.7.3 had no cave biomes at all. Whether any modern cave biome actually wins a sample in a beta world was NOT runtime-verified. This is separate from cave TERRAIN carving, which alpha also enables."
+    },
+    "explicitFidelityOverrideOptions": [
+      {
+        "coverage": "vanilla ore placement + vanilla overworld density functions + dimension_type/overworld; NOT geodes, monster rooms, springs, glow lichen, vegetation, mob spawns",
+        "cost": "near zero (two pack ids in the server/world pack list)",
+        "risk": "also rewrites minecraft:dimension_type/overworld and vanilla noise settings, so it affects any non-Moderner-Beta dimension in the same instance",
+        "option": "F1. Enable upstream reduced_height + deepslate_blobs in the project's world template"
+      },
+      {
+        "coverage": "can reach exact Beta feature lists (all ores, geodes, monster rooms, lichen, modern vegetation)",
+        "cost": "56 files to author + maintain against every mod update",
+        "risk": "high maintenance; must be re-verified on every Moderner Beta bump because biome JSON is generated per release",
+        "option": "F2. Project-owned data pack that re-declares the 56 moderner_beta biome 'features' arrays minus modern entries"
+      },
+      {
+        "coverage": "none for decoration - only the terrain shape changes",
+        "cost": "zero",
+        "risk": "leaves all confirmed leakage in place",
+        "option": "F3. Settings-level only (no data pack): keep stock preset and rely on world height/extent limits"
+      },
+      {
+        "cost": "large; conflicts with the AGENTS.md 'no competing implementations' and 'do not recreate generation algorithms' rules",
+        "risk": "architectural, parent-owned",
+        "option": "F4. Do not use Moderner Beta decoration at all: keep MODERNER BETA as terrain authority but generate a Beta-faithful decoration pass in the project"
+      }
+    ],
+    "recommendation": {
+      "forFirstSlice": "Do NOT claim Beta 1.7.3 fidelity from the stock moderner_beta:beta preset. Treat it as 'Beta 1.7.3 TERRAIN' and record decoration/structure/spawn fidelity as an explicit, unmet criterion for the terrain-integration prototype.",
+      "supersededOptionsWere": "F1 enable reduced_height, F2 a 56-biome pack re-declaring the features arrays, F3 settings-only, F4 a project-side decoration pass. The researcher proposed these; the parent has since decided (see parentDecisions2026_10_12): no blind reduced_height activation, Phase 2 likely owns narrowly scoped historical biome ids/maps.",
+      "measurementBeforeAnyMitigation": "Measure first: run the probes in runtimeAcceptanceTestRecipe and classify an actual generated chunk against structuresDecorationsAndLeakage.anachronismClassification - postBetaContent by block presence, historicalButAlgorithmUnvalidated by distribution against historical evidence.",
+      "ownership": "Decoration strategy is the parent's decision; this file records the options and their measured scope and does not choose between them.",
+      "escapeHatch": "Moderner Beta CAN read extra presets from data packs in the world (registry moderner_beta:settings_preset), and the in-game JSON settings screen can expand+save a custom preset to config/moderner_beta/datapacks/moderner_beta_saved_presets (ModernBetaSavedPresetPack.java). So a project-authored preset is mechanically possible without patching the mod - but per-biome FEATURES are not part of ModernBetaSettings, so a preset alone cannot strip post-Beta decoration."
+    }
+  },
+  "builtInOptionalPacks": {
+    "note": "Declared in ModernerBeta.BUILT_IN_PACKS (ModernerBeta.java L64-L67); shipped inside the jar under resourcepacks/; registered as selectable in-game data packs (PackActivationType.NORMAL, ModernerBetaFabric.java L45); NOT enabled by default.",
+    "reduced_height": {
+      "entryCount": 47,
+      "entries": [
+        "resourcepacks/reduced_height/pack.mcmeta",
+        "resourcepacks/reduced_height/data/minecraft/dimension_type/overworld.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/density_function/overworld/caves/entrances.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/density_function/overworld/caves/noodle.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/density_function/overworld/caves/spaghetti_2d.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/feature/ore_andesite.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/feature/ore_diorite.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/feature/ore_granite.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/feature/ore_tuff.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/noise_settings/amplified.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/noise_settings/caves.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/noise_settings/large_biomes.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/noise_settings/overworld.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_andesite_lower.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_andesite_upper.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_coal_lower.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_coal_upper.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_copper.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_copper_large.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_diamond.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_diamond_buried.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_diamond_large.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_diamond_medium.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_diorite_lower.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_diorite_upper.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_dirt.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_gold.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_gold_extra.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_gold_lower.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_granite_lower.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_granite_upper.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_gravel.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_iron_middle.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_iron_small.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_iron_upper.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_lapis.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_lapis_buried.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_redstone.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_redstone_lower.json",
+        "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_tuff.json",
+        "resourcepacks/reduced_height/data/moderner_beta/moderner_beta/settings_preset/infdev_415.json",
+        "resourcepacks/reduced_height/data/moderner_beta/worldgen/carver/beta_cave_deep.json",
+        "resourcepacks/reduced_height/data/moderner_beta/worldgen/feature/ore_deepslate_old.json",
+        "resourcepacks/reduced_height/data/moderner_beta/worldgen/feature/ore_diamond_old.json",
+        "resourcepacks/reduced_height/data/moderner_beta/worldgen/noise_settings/infdev_415.json",
+        "resourcepacks/reduced_height/data/moderner_beta/worldgen/noise_settings/overworld_128.json",
+        "resourcepacks/reduced_height/data/moderner_beta/worldgen/noise_settings/overworld_256.json"
+      ]
+    },
+    "deepslate_blobs": {
+      "entryCount": 3,
+      "entries": [
+        "resourcepacks/deepslate_blobs/pack.mcmeta",
+        "resourcepacks/deepslate_blobs/data/minecraft/worldgen/placed_feature/ore_coal_upper.json",
+        "resourcepacks/deepslate_blobs/data/minecraft/worldgen/placed_feature/ore_tuff.json"
+      ]
+    }
+  },
+  "serverCapabilityRestrictions": {
+    "serverSideAvailable": [
+      "Terrain generation (ModernBetaChunkGenerator)",
+      "Biome source and biome injection",
+      "Structures/carvers/features",
+      "Config file reading (config/moderner_beta.json)",
+      "Dedicated-server generator-settings parsing (WorldDimensionDataMixin)",
+      "COMMAND registration of DebugProviderSettingsCommand - BUT only when ModernerBeta.DEV_ENV is true (ModernerBetaFabric.java L63-L65)"
+    ],
+    "clientOnly": [
+      "World-creation screens (client/gui/screen/ModernBetaWorldScreen, ModernBetaWorldScreenProvider)",
+      "Settings preset screen and JSON screen (client/gui/screen/ModernBetaSettingsPresetScreen, client/gui/screen/config/json/ModernBetaSettingsScreen)",
+      "DataPack export screen (client/gui/screen/config/ModernBetaDataPackExportScreen)",
+      "Debug screen entries (client/debug/entries/*) and biome preview colours"
+    ],
+    "implication": "Automation must drive the server-side surfaces only: config file + server.properties generator-settings + stored level.dat settings. Any recipe that depends on the world-creation GUI cannot be scripted against a dedicated server.",
+    "debugCommandAvailability": "DebugProviderSettingsCommand is registered only in a dev environment, so it is NOT available in a production dedicated server; the acceptance recipe must not depend on it."
+  },
+  "projectPresetBootstrapContract": {
+    "requestedBy": "parent directive: bootstrap a dedicated project settings preset historical_experience:beta_1_7_3 inheriting moderner_beta:beta with fidelity overrides; the world's generator provider_settings must carry a PRESET reference to the project key as an explicit persistent historical marker.",
+    "verdict": "SUPPORTED by the shipped jar and by source. A data pack in the world can register a moderner_beta:settings_preset whose only required content is a moderner_beta:preset reference plus per-component overrides.",
+    "inheritanceMechanism": {
+      "resolution": "ModernBetaSettings.mapPreset (ModernBetaSettings.java L139-L155): it reads this settings map's moderner_beta:preset key, looks the referenced preset up via ModernBetaSettingsPreset.getPreset (L266-L283), then builds settings = settingsProvider.apply(referencedPreset).extend().addAll(this.extend().remove(PRESET)).build(). The LOCAL map therefore wins on every key it defines and the referenced preset supplies the rest. It loops, so multi-level inheritance works; a reference cycle would loop forever, so do not create one.",
+      "componentId": "moderner_beta:preset (ModernBetaBuiltInTypes.SettingsComponentType.PRESET(\"preset\") L8; registered at SettingsComponentTypes.java L99-L103 with Identifier.CODEC value type)",
+      "referenceIsNotFlattenedOnWrite": "ModernBetaChunkGenerator stores whatever it was constructed with: this.chunkSettings = chunkProviderSettings.resolveDefaultPreset() (L115). resolveDefaultPreset (ModernBetaSettings.java L157-L165) only expands the literal sentinel moderner_beta:default; it does NOT follow a project preset reference. The generator codec writes that same field back (CODEC ... fieldOf(\"provider_settings\"), L76-L83). So a world whose provider_settings is a reference to historical_experience:beta_1_7_3 keeps that literal reference in level.dat across saves - the persistent historical marker holds.",
+      "lookupOrder": "presetRegistry.get(setting_preset/historical_experience:beta_1_7_3) first, then ModernBetaSavedPresetPack.getPreset(id) fallback (ModernBetaSettingsPreset.java L274-L277). A data pack in the world satisfies the first.",
+      "biomeSourceAlsoCarriesReferences": "ModernBetaBiomeSource stores biomeSettings/caveBiomeSettings the same way (L81-L87) and serializes them under 'provider_settings'/'cave_provider_settings' (L53-L60). All three maps can carry the same preset reference."
+    },
+    "minimalPackShape": {
+      "packRoot": "world/datapacks/<packname>/",
+      "packMcmeta": "{\"pack\":{\"description\":{\"text\":\"...\"},\"min_format\":121,\"max_format\":121}} - the mod's own built-in packs use min_format/max_format 121 (resourcepacks/deepslate_blobs/pack.mcmeta in the jar).",
+      "presetFile": "data/historical_experience/moderner_beta/settings_preset/beta_1_7_3.json  (path = data/<namespace>/<registry namespace>/<registry path>/<name>.json; the registry is moderner_beta:settings_preset)",
+      "inheritanceOnlyJson": {
+        "name": {
+          "translate": "historical_experience.preset.name.beta_1_7_3",
+          "color": "yellow"
+        },
+        "description": {
+          "translate": "historical_experience.preset.desc.beta_1_7_3"
+        },
+        "chunkSettings": {
+          "moderner_beta:preset": "moderner_beta:beta"
+        },
+        "biomeSettings": {
+          "moderner_beta:preset": "moderner_beta:beta"
+        },
+        "caveBiomeSettings": {
+          "moderner_beta:preset": "moderner_beta:beta"
+        }
+      },
+      "inheritancePlusOverrideJson": {
+        "chunkSettings": {
+          "moderner_beta:preset": "moderner_beta:beta",
+          "moderner_beta:deepslate_generation": {
+            "minY": 0,
+            "block": "minecraft:deepslate",
+            "enabled": false,
+            "maxY": 8
+          }
+        },
+        "biomeSettings": {
+          "moderner_beta:preset": "moderner_beta:beta"
+        },
+        "caveBiomeSettings": {
+          "moderner_beta:preset": "moderner_beta:beta"
+        }
+      },
+      "notes": [
+        "All three settings maps are required by the codec (fieldOf, not optionalFieldOf), so each map needs at least its moderner_beta:preset line.",
+        "name/description are optional Components; omitting them falls back to translation keys derived from the id.",
+        "Component key names are the registered SettingsComponentType ids; the same file is a valid full expansion if a flattened preset is wanted instead.",
+        "Whether a settings_preset referenced only through data packs is visible in the client preset list depends on category tags (settings_preset_category/*, which reference preset tags such as moderner_beta:beta). A preset used only as a world's provider_settings reference does not need a category entry."
+      ]
+    },
+    "worldWiring": {
+      "providerSettingsValue": {
+        "moderner_beta:preset": "historical_experience:beta_1_7_3"
+      },
+      "dedicatedServerForm": "server.properties generator-settings = {\"preset\":\"historical_experience:beta_1_7_3\"} (PRESET_REFERENCE_CODEC form, parsed by WorldDimensionDataMixin L46-L48)",
+      "configForm": "NOT usable for this. ModernerBeta.getDefaultPresetId() feeds only the moderner_beta:default sentinel; setting defaultSettingsPreset to the project id would change every sentinel world instead of marking one world.",
+      "worldPresetStillRequired": "level-type / world preset must still be moderner_beta:moderner_beta (WorldDimensionDataMixin L44)."
+    },
+    "failureModes": {
+      "presetMissing": "getPreset returns empty -> mapPreset returns the stored settings unresolved and logs 'Attempted to get Modern Beta preset ... which is not registered' (L279). If the stored map then has no moderner_beta:provider, initProvider calls chunkSettings.getProvider() which throws IllegalArgumentException 'Component of type moderner_beta:provider supplied a null value!' (ModernBetaSettings.java L190-L197) during SERVER_STARTING. The world does not start. Fail-safe (no silent wrong terrain) but a hard failure, so the pack must be present before the world is opened.",
+      "presetCycle": "A -> B -> A would loop forever in mapPreset's while(true). Avoid.",
+      "datapackDisabled": "If the pack is disabled in the world's pack list, the world hits the presetMissing path above."
+    },
+    "integrationConsequence": "The project's historical marker should live in the world's stored provider_settings (optionally the biome/cave maps too) as a reference to a project-namespaced preset shipped in a small data pack. Overrides expressible as settings components belong in that preset; per-biome modern decoration leakage CANNOT be expressed there (ModernBetaSettings has no feature-list component) and needs biome JSON overrides in the same or a second pack."
+  },
+  "presetInventory": [
+    {
+      "id": "moderner_beta:alpha_winter",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/alpha_winter.json",
+      "lines": 153,
+      "sha256": "83aa255db3c74b708f1d775e3ba88ebb12c981233e6b4d4f44e91f750a4177b0",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:single",
+      "caveBiomeProvider": "moderner_beta:none",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:alpha",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/alpha.json",
+      "lines": 153,
+      "sha256": "83cf1b6feafc04e8222800208ca41a645bd5452b753e6afc34ceefa2a807f09d",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:single",
+      "caveBiomeProvider": "moderner_beta:none",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:bedrock_1_17",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/bedrock_1_17.json",
+      "lines": 2144,
+      "sha256": "5ea427efa025dfef070a8b0c1ce11329b17feb29b2aff803ec5b82c1da326d6c",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 0
+    },
+    {
+      "id": "moderner_beta:bedrock_1_2",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/bedrock_1_2.json",
+      "lines": 2002,
+      "sha256": "8813e860b1af02e4a62af55550ba2df804146f281e61cdc58cfe973647bdee83",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 0
+    },
+    {
+      "id": "moderner_beta:beta_1_1_02",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/beta_1_1_02.json",
+      "lines": 317,
+      "sha256": "8c7e625837724d0cfb54c9c35a954fd8ac7ef22630a7eb346be6b4b5280a0ba4",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:beta",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:beta_1_8_1_amplified",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/beta_1_8_1_amplified.json",
+      "lines": 474,
+      "sha256": "aae8daa5b7138abc66ca760eb1fa1f2fbe7d4c46d6f815de76e9370ed3c4240e",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:beta_fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:beta_1_8_1_large_biomes",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/beta_1_8_1_large_biomes.json",
+      "lines": 488,
+      "sha256": "b620b0c504942af0b8dec9abbb8f556776417e26f800d9aa366522b3b5584e39",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:beta_fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:beta_1_8_1",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/beta_1_8_1.json",
+      "lines": 474,
+      "sha256": "e16ce200b9285a16c9252cdf40003546045d765f71f5c466243fb6eb36c08fd2",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:beta_fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:beta_1_9_pre_3_amplified",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/beta_1_9_pre_3_amplified.json",
+      "lines": 570,
+      "sha256": "4c5cbf1290f2ab1970e60b8bf635c312ac7e6b30ac0fb8690ef5c0215350a1c2",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:beta_fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:beta_1_9_pre_3_large_biomes",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/beta_1_9_pre_3_large_biomes.json",
+      "lines": 584,
+      "sha256": "fdf4f1cc25ecac2c0ca8b795660d408a37fa547ff42c2e29409642e6d77dde52",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:beta_fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:beta_1_9_pre_3",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/beta_1_9_pre_3.json",
+      "lines": 570,
+      "sha256": "1460d35400be2d605b6aa0289832d7d37643ec6246f2127f89c60d46ced603b8",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:beta_fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:beta_cave_chaos",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/beta_cave_chaos.json",
+      "lines": 37,
+      "sha256": "84a389c73718b1f604ecfe29b510c53635a5cff4e8505a23336166ebf987421c",
+      "chunkProvider": null,
+      "biomeProvider": null,
+      "caveBiomeProvider": null,
+      "noiseGeneratorSettings": null,
+      "structureModifierRemovedCount": 1,
+      "structureModifierOverrideCount": 0
+    },
+    {
+      "id": "moderner_beta:beta_cave_delight",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/beta_cave_delight.json",
+      "lines": 45,
+      "sha256": "1cfb662315ca20ed1ec14e19c6213c0b10a42c242d6adc3b8330567ef54c7d7a",
+      "chunkProvider": null,
+      "biomeProvider": null,
+      "caveBiomeProvider": null,
+      "noiseGeneratorSettings": null,
+      "structureModifierRemovedCount": 1,
+      "structureModifierOverrideCount": 0
+    },
+    {
+      "id": "moderner_beta:beta_drought",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/beta_drought.json",
+      "lines": 37,
+      "sha256": "a1f9520fe58d42cfa6eb4730eec4dadee56736fca0586a11b1a6adac4006353d",
+      "chunkProvider": null,
+      "biomeProvider": null,
+      "caveBiomeProvider": null,
+      "noiseGeneratorSettings": null,
+      "structureModifierRemovedCount": 1,
+      "structureModifierOverrideCount": 0
+    },
+    {
+      "id": "moderner_beta:beta_isle_land",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/beta_isle_land.json",
+      "lines": 36,
+      "sha256": "95359cfbfbbf2e32bb4900028560632802d5f10ed366b0a6763cc4e72d10755a",
+      "chunkProvider": null,
+      "biomeProvider": null,
+      "caveBiomeProvider": null,
+      "noiseGeneratorSettings": null,
+      "structureModifierRemovedCount": 1,
+      "structureModifierOverrideCount": 0
+    },
+    {
+      "id": "moderner_beta:beta_isles",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/beta_isles.json",
+      "lines": 30,
+      "sha256": "772fca7ec44497eec49a93232169821028fff97a909bc53382f059b37030598f",
+      "chunkProvider": null,
+      "biomeProvider": null,
+      "caveBiomeProvider": null,
+      "noiseGeneratorSettings": null,
+      "structureModifierRemovedCount": 1,
+      "structureModifierOverrideCount": 0
+    },
+    {
+      "id": "moderner_beta:beta_large_biomes",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/beta_large_biomes.json",
+      "lines": 317,
+      "sha256": "50c9f0e02484062c5c5e5449d289455d837d9f7282b8ef85c81829b74b2c0ba3",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:beta",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:beta_mountain_madness",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/beta_mountain_madness.json",
+      "lines": 45,
+      "sha256": "afaed7b745905a559bd49f912df6f1a9c89e11ae524c4ce4f796d8222598cb92",
+      "chunkProvider": null,
+      "biomeProvider": null,
+      "caveBiomeProvider": null,
+      "noiseGeneratorSettings": null,
+      "structureModifierRemovedCount": 1,
+      "structureModifierOverrideCount": 0
+    },
+    {
+      "id": "moderner_beta:beta_skylands",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/beta_skylands.json",
+      "lines": 288,
+      "sha256": "e8b530ed7772162a7a613f4b40e44cd840d27abd3d895f4b7ea89273ab726a7e",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:beta",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:sky_128",
+      "structureModifierRemovedCount": 1,
+      "structureModifierOverrideCount": 0
+    },
+    {
+      "id": "moderner_beta:beta_survival_island",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/beta_survival_island.json",
+      "lines": 329,
+      "sha256": "1593e1ce7e96d9b9a64d42a13de1cdc180794081d6543d751fc2c60bc92e7359",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:beta",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:beta_vanilla",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/beta_vanilla.json",
+      "lines": 809,
+      "sha256": "5d0d5732ed3be631039575902c614f151713e90b6be19f1d2cd72a40cc3f9252",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:voronoi",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:beta_water_world",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/beta_water_world.json",
+      "lines": 46,
+      "sha256": "76f624cc167fe18fcd6887a232b12edf96c3337580e51f249c45da0e98df954b",
+      "chunkProvider": null,
+      "biomeProvider": null,
+      "caveBiomeProvider": null,
+      "noiseGeneratorSettings": null,
+      "structureModifierRemovedCount": 1,
+      "structureModifierOverrideCount": 0
+    },
+    {
+      "id": "moderner_beta:beta_xbox_legacy",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/beta_xbox_legacy.json",
+      "lines": 340,
+      "sha256": "40fe804231639e970933375ef2c7bf6a6fe40218b2e714744671b49680799612",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:beta",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 2
+    },
+    {
+      "id": "moderner_beta:beta",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/beta.json",
+      "lines": 317,
+      "sha256": "bdc8443c6f125d897ff61473c39328cc16f15ad45aa6a9c2b40555db08e54af2",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:beta",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:cave_chaos",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/cave_chaos.json",
+      "lines": 37,
+      "sha256": "99f6cd0b27df50a31bb7d18e58e83b973964e3b6aceca6d2517e8510fa12bb9b",
+      "chunkProvider": null,
+      "biomeProvider": null,
+      "caveBiomeProvider": null,
+      "noiseGeneratorSettings": null,
+      "structureModifierRemovedCount": 1,
+      "structureModifierOverrideCount": 0
+    },
+    {
+      "id": "moderner_beta:cave_delight",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/cave_delight.json",
+      "lines": 120,
+      "sha256": "6a96fb7459fc753aa3df9ead1901c7dd19de8406254ff99c9c7bc12e97ae16d9",
+      "chunkProvider": null,
+      "biomeProvider": null,
+      "caveBiomeProvider": null,
+      "noiseGeneratorSettings": null,
+      "structureModifierRemovedCount": 1,
+      "structureModifierOverrideCount": 0
+    },
+    {
+      "id": "moderner_beta:classic_0_0_14a_08",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/classic_0_0_14a_08.json",
+      "lines": 126,
+      "sha256": "b63b7c9da21b2d353ee000b1296031e8c2b7a466f7ee11421bd6f0356271b90f",
+      "chunkProvider": "moderner_beta:finite_2d",
+      "biomeProvider": "moderner_beta:single",
+      "caveBiomeProvider": "moderner_beta:none",
+      "noiseGeneratorSettings": "moderner_beta:finite_2d",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:classic_0_30",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/classic_0_30.json",
+      "lines": 126,
+      "sha256": "ba0e28924b22b1818c081a637667600b5d1573616ee4ec4406b3379f602dce99",
+      "chunkProvider": "moderner_beta:finite_2d",
+      "biomeProvider": "moderner_beta:single",
+      "caveBiomeProvider": "moderner_beta:none",
+      "noiseGeneratorSettings": "moderner_beta:finite_2d",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:drought",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/drought.json",
+      "lines": 37,
+      "sha256": "931296f0fc3faae80537468f3ef4422e6c7a3b347e610979cd87de9dfab1c91e",
+      "chunkProvider": null,
+      "biomeProvider": null,
+      "caveBiomeProvider": null,
+      "noiseGeneratorSettings": null,
+      "structureModifierRemovedCount": 1,
+      "structureModifierOverrideCount": 0
+    },
+    {
+      "id": "moderner_beta:indev_hell",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/indev_hell.json",
+      "lines": 125,
+      "sha256": "ec4d2503effa340c140411da7694d70ad6066f37222c14fe436f62e57020d381",
+      "chunkProvider": "moderner_beta:finite_2d",
+      "biomeProvider": "moderner_beta:single",
+      "caveBiomeProvider": "moderner_beta:none",
+      "noiseGeneratorSettings": "moderner_beta:finite_2d",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:indev_paradise",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/indev_paradise.json",
+      "lines": 125,
+      "sha256": "5680d2bca2dbf6a123a39056bffb1d57bc525495c7a9b4fdcd1b88f143575556",
+      "chunkProvider": "moderner_beta:finite_2d",
+      "biomeProvider": "moderner_beta:single",
+      "caveBiomeProvider": "moderner_beta:none",
+      "noiseGeneratorSettings": "moderner_beta:finite_2d",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:indev_woods",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/indev_woods.json",
+      "lines": 125,
+      "sha256": "7c841d9eacffbd6e1a9235c100ccd03271d9d976e5e49c567a5815362b50648f",
+      "chunkProvider": "moderner_beta:finite_2d",
+      "biomeProvider": "moderner_beta:single",
+      "caveBiomeProvider": "moderner_beta:none",
+      "noiseGeneratorSettings": "moderner_beta:finite_2d",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:indev",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/indev.json",
+      "lines": 125,
+      "sha256": "87b3f6e004b290725f0b78efd81d55f633cc14cfe6e605be62b7a4b730456d5b",
+      "chunkProvider": "moderner_beta:finite_2d",
+      "biomeProvider": "moderner_beta:single",
+      "caveBiomeProvider": "moderner_beta:none",
+      "noiseGeneratorSettings": "moderner_beta:finite_2d",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:infdev_227",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/infdev_227.json",
+      "lines": 63,
+      "sha256": "de6678f698d98b0100e8e88e595ea12ef7fbb7bf1ec87a3e20bc3b3e885e334d",
+      "chunkProvider": "moderner_beta:infdev_227",
+      "biomeProvider": "moderner_beta:single",
+      "caveBiomeProvider": "moderner_beta:none",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 1,
+      "structureModifierOverrideCount": 0
+    },
+    {
+      "id": "moderner_beta:infdev_325",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/infdev_325.json",
+      "lines": 63,
+      "sha256": "d21b01105a4f6e110b26a00bc102f74df3ecce252802607c954bae5e4289f5d8",
+      "chunkProvider": "moderner_beta:infdev_227",
+      "biomeProvider": "moderner_beta:single",
+      "caveBiomeProvider": "moderner_beta:none",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 1,
+      "structureModifierOverrideCount": 0
+    },
+    {
+      "id": "moderner_beta:infdev_415",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/infdev_415.json",
+      "lines": 159,
+      "sha256": "264edea58d92892a41fe4a4dd88629f290a85dbb045da0198e310b2192a42716",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:single",
+      "caveBiomeProvider": "moderner_beta:none",
+      "noiseGeneratorSettings": "moderner_beta:infdev_415",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:infdev_420",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/infdev_420.json",
+      "lines": 153,
+      "sha256": "6c99199172d73d0967fb0bd1de1b3adeef421a46c3778bac5e5dc65d056e8323",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:single",
+      "caveBiomeProvider": "moderner_beta:none",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:infdev_611",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/infdev_611.json",
+      "lines": 153,
+      "sha256": "5c54f9a110673dc6587d0635b0e53f6a465abbfb86a16892556ca0eeca9d693b",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:single",
+      "caveBiomeProvider": "moderner_beta:none",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:isle_land",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/isle_land.json",
+      "lines": 36,
+      "sha256": "365c0988621e78cbd524bdea3c6776ec908066dc6f852f28de0c642406926949",
+      "chunkProvider": null,
+      "biomeProvider": null,
+      "caveBiomeProvider": null,
+      "noiseGeneratorSettings": null,
+      "structureModifierRemovedCount": 1,
+      "structureModifierOverrideCount": 0
+    },
+    {
+      "id": "moderner_beta:legacy_console_classic",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/legacy_console_classic.json",
+      "lines": 2046,
+      "sha256": "ddce170227a6c969a331bdeddd1a70e69de82bfd1d5f5b4b1170ec9be0797e71",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_256",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:legacy_console_large",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/legacy_console_large.json",
+      "lines": 2023,
+      "sha256": "4f5db842ad87a37a849eaf95bc5877c5e2375b56ff2d5c670765639cd86a1dfe",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_256",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:legacy_console_medium",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/legacy_console_medium.json",
+      "lines": 2023,
+      "sha256": "4e002ca69d99ec435ef1552aa1d0a37555ea5b3e7255e31737dfed660e5b200d",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_256",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:legacy_console_small",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/legacy_console_small.json",
+      "lines": 2046,
+      "sha256": "40a84e4c1a13ececf76d642ee968565004cea208750f5d61a177989c9a12173a",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_256",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:mountain_madness",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/mountain_madness.json",
+      "lines": 120,
+      "sha256": "873baf73244ca3446e2dd957e025120ecd4cdadc761df8c37449752f2e049001",
+      "chunkProvider": null,
+      "biomeProvider": null,
+      "caveBiomeProvider": null,
+      "noiseGeneratorSettings": null,
+      "structureModifierRemovedCount": 1,
+      "structureModifierOverrideCount": 0
+    },
+    {
+      "id": "moderner_beta:pe",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/pe.json",
+      "lines": 183,
+      "sha256": "6d163c4f081a535c2fcc388f051fc8b14fc0b3cfa8a3371b9dbc8275f6b373a7",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:pe",
+      "caveBiomeProvider": "moderner_beta:none",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:release_1_0_0_amplified",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/release_1_0_0_amplified.json",
+      "lines": 570,
+      "sha256": "ea314f5cea1c0e6e54b908e4dcb6454b8b235e6f7cd7e1f730581bfeca18f212",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:beta_fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:release_1_0_0_large_biomes",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/release_1_0_0_large_biomes.json",
+      "lines": 584,
+      "sha256": "5ca65486b1c829671cd0ede3cb52cbb1d31e58733a9ef8c7302ec5f68a743931",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:beta_fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:release_1_0_0",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/release_1_0_0.json",
+      "lines": 570,
+      "sha256": "2de021c8c1c0eda04ee486618a55bb86309c0c4c1a68094a1d8617e1f754ee87",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:beta_fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:release_1_1_amplified",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/release_1_1_amplified.json",
+      "lines": 726,
+      "sha256": "7f59c5ca85bb14d482d9ba0a8ef6e891481e5ad6213e8a3dfe00621c5592164d",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:beta_fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:release_1_1_large_biomes",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/release_1_1_large_biomes.json",
+      "lines": 740,
+      "sha256": "8e7730e8d24b7e0a34065f309682ed69d13f279fa50bd3f43a5f481701c176a1",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:beta_fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:release_1_1",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/release_1_1.json",
+      "lines": 726,
+      "sha256": "a0a88895627f4b3a3935368637914a0d8d17c67d791310f1ac271906a57e1e0b",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:beta_fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:release_1_12_2_amplified",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/release_1_12_2_amplified.json",
+      "lines": 2000,
+      "sha256": "e0560d1441613fb2b63a8184412080ec6efa3f701a8ab7dfb504d4c3ccd67934",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_256",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 0
+    },
+    {
+      "id": "moderner_beta:release_1_12_2_large_biomes",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/release_1_12_2_large_biomes.json",
+      "lines": 2000,
+      "sha256": "b0f1e066f70c783f359d14cf9401b3d8ed6dc133d8426ae6da5be6cb71f1c680",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_256",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 0
+    },
+    {
+      "id": "moderner_beta:release_1_12_2",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/release_1_12_2.json",
+      "lines": 2000,
+      "sha256": "66332ddb238e66ea4f1b81bf21ebf4b741f78788256bece2360c50b468f009f3",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_256",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 0
+    },
+    {
+      "id": "moderner_beta:release_1_17_1_amplified",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/release_1_17_1_amplified.json",
+      "lines": 2042,
+      "sha256": "7bb98dfcc61608c62984ffe7998768f6159e0e02769fcc7e044888fd4724a73c",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_256",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 0
+    },
+    {
+      "id": "moderner_beta:release_1_17_1_large_biomes",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/release_1_17_1_large_biomes.json",
+      "lines": 2042,
+      "sha256": "3cd6c19f22e9773b231ca1d35f7d93b65aad491cbac95b37d760e5d3b3a98a1d",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_256",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 0
+    },
+    {
+      "id": "moderner_beta:release_1_17_1",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/release_1_17_1.json",
+      "lines": 2042,
+      "sha256": "eb4b3570882675615db8ed3d7b56e7884b6a8280e0cff418d5e65ce54261881b",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_256",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 0
+    },
+    {
+      "id": "moderner_beta:release_1_2_5_amplified",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/release_1_2_5_amplified.json",
+      "lines": 757,
+      "sha256": "efec3e05bb81b68962714833dca67c16dca993317419083116f37355cded1128",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:release_1_2_5_large_biomes",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/release_1_2_5_large_biomes.json",
+      "lines": 771,
+      "sha256": "bfb5e758e98e23054e40827a16e63ae7c008ec67edc22e5fbf7d4858786b295d",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:release_1_2_5",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/release_1_2_5.json",
+      "lines": 757,
+      "sha256": "fd887de8f86e21664625c9839ea9f6cf3302864875bbc3abd283a0cd2cd21cdf",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:release_1_6_4_amplified",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/release_1_6_4_amplified.json",
+      "lines": 772,
+      "sha256": "5dede2d69666ef5b664afd727690b10c24c0e09bf6cebc13d7b4c9ded9a8897e",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:release_1_6_4_large_biomes",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/release_1_6_4_large_biomes.json",
+      "lines": 786,
+      "sha256": "b95b8e0a37b1cb24df8a387d0129862bb7ca81fd6322aa095e75c7b49efb940f",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:release_1_6_4",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/release_1_6_4.json",
+      "lines": 772,
+      "sha256": "1d38b160b9b116f0e31a6c32a8a8aaac0abc5132415959aec6bbd93f17266f8d",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:release_hybrid_amplified",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/release_hybrid_amplified.json",
+      "lines": 1047,
+      "sha256": "db7cd0442c87e2c9e8992fd49aed41c8efe8b3eec793cf1f1199a0db21e01661",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:release_hybrid_large_biomes",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/release_hybrid_large_biomes.json",
+      "lines": 1047,
+      "sha256": "8952c0fc03c94cc4568b9fa017289551a7889b341f25440094b655ab770f56ea",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:release_hybrid",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/release_hybrid.json",
+      "lines": 1047,
+      "sha256": "1a4284287992231e9d97817589b49d4cf9cd8e62cd8e58977be303f990336bce",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_128",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 1
+    },
+    {
+      "id": "moderner_beta:skylands",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/skylands.json",
+      "lines": 145,
+      "sha256": "3c5e91c8390032c6e4bd9a74cbf472f9b52aec82d8591e8685505551ceb06ee1",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:single",
+      "caveBiomeProvider": "moderner_beta:none",
+      "noiseGeneratorSettings": "moderner_beta:sky_128",
+      "structureModifierRemovedCount": 1,
+      "structureModifierOverrideCount": 0
+    },
+    {
+      "id": "moderner_beta:snow_aint_snowier_amplified",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/snow_aint_snowier_amplified.json",
+      "lines": 2108,
+      "sha256": "2b91fe0776a3b2ee79f28998779460d6d740c20392d61df4b2b1d4fe91d261a1",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_256",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 0
+    },
+    {
+      "id": "moderner_beta:snow_aint_snowier_large_biomes",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/snow_aint_snowier_large_biomes.json",
+      "lines": 2108,
+      "sha256": "b68b065e523d6faeb12790a53562eafebed8f885882c10e0ecc4625f6603e85e",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_256",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 0
+    },
+    {
+      "id": "moderner_beta:snow_aint_snowier",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/snow_aint_snowier.json",
+      "lines": 2108,
+      "sha256": "cc90c965e7223e120d3257634db6199e67a1f883e0997ed6aaa294ecdbdff2f7",
+      "chunkProvider": "moderner_beta:noise_3d",
+      "biomeProvider": "moderner_beta:fractal",
+      "caveBiomeProvider": "moderner_beta:voronoi",
+      "noiseGeneratorSettings": "moderner_beta:overworld_256",
+      "structureModifierRemovedCount": 0,
+      "structureModifierOverrideCount": 0
+    },
+    {
+      "id": "moderner_beta:water_world",
+      "file": "data/moderner_beta/moderner_beta/settings_preset/water_world.json",
+      "lines": 121,
+      "sha256": "e6856dbe9645b91c8946153bf8a706251ae3a74d4de2a97cc09d0ce59161179e",
+      "chunkProvider": null,
+      "biomeProvider": null,
+      "caveBiomeProvider": null,
+      "noiseGeneratorSettings": null,
+      "structureModifierRemovedCount": 1,
+      "structureModifierOverrideCount": 0
+    }
+  ],
+  "serializationSchema": {
+    "presetFileCodec": "ModernBetaSettingsPreset.CODEC (ModernBetaSettingsPreset.java L40-L48)",
+    "topLevelFields": {
+      "name": "optional Component (ComponentSerialization.CODEC; generated files use {\"translate\":...,\"color\":\"yellow\"})",
+      "description": "optional Component",
+      "chunkSettings": "required ModernBetaSettings.WORLD_CODEC",
+      "biomeSettings": "required ModernBetaSettings.WORLD_CODEC",
+      "caveBiomeSettings": "required ModernBetaSettings.WORLD_CODEC"
+    },
+    "settingsMapCodec": "ModernBetaSettings.WORLD_CODEC (ModernBetaSettings.java L44-L49) = assumeMapUnsafe(SettingsComponentType.TYPE_TO_VALUE_MAP_CODEC) plus registry-lookup context",
+    "componentKeysAreRegistryIds": "Every key inside chunkSettings/biomeSettings/caveBiomeSettings is the namespaced id of a registered SettingsComponentType, e.g. moderner_beta:provider, moderner_beta:noise_scale, moderner_beta:climate_mappings. Component types are registered at SettingsComponentTypes.init() L96-L488.",
+    "presetReferenceForm": "ModernBetaSettingsPreset.PRESET_REFERENCE_CODEC (L50-L55): an object with a \"preset\" key holding the settings-preset id, plus registry lookup context. A world may store the bare reference instead of the full expansion.",
+    "eitherFormWrapper": "SETTINGS_TEXT_CODEC = Codec.either(CODEC, PRESET_REFERENCE_CODEC) (L57) - this is how dedicated-server generator-settings text is parsed.",
+    "worldLevelDatShape": {
+      "note": "This is the exact shape written by datagen for the world preset; a world created from it stores the same chunk generator/biome source serialization in level.dat.",
+      "json": {
+        "dimensions": {
+          "minecraft:overworld": {
+            "type": "minecraft:overworld",
+            "generator": {
+              "type": "moderner_beta:moderner_beta",
+              "biome_source": {
+                "type": "moderner_beta:moderner_beta",
+                "cave_provider_settings": {
+                  "moderner_beta:preset": "moderner_beta:default"
+                },
+                "provider_settings": {
+                  "moderner_beta:preset": "moderner_beta:default"
+                }
+              },
+              "provider_settings": {
+                "moderner_beta:preset": "moderner_beta:default"
+              }
+            }
+          },
+          "minecraft:the_end": {
+            "type": "minecraft:the_end",
+            "generator": {
+              "type": "minecraft:noise",
+              "biome_source": {
+                "type": "minecraft:the_end"
+              },
+              "settings": "minecraft:end"
+            }
+          },
+          "minecraft:the_nether": {
+            "type": "minecraft:the_nether",
+            "generator": {
+              "type": "minecraft:noise",
+              "biome_source": {
+                "type": "minecraft:multi_noise",
+                "preset": "minecraft:nether"
+              },
+              "settings": "minecraft:nether"
+            }
+          }
+        }
+      }
+    },
+    "generatorCodec": {
+      "type": "moderner_beta:moderner_beta (ModernBetaChunkGenerator.register -> createId(MOD_ID); ModernBetaChunkGenerator.java L1036-L1040)",
+      "fields": [
+        "biome_source (BiomeSource.CODEC)",
+        "provider_settings (ModernBetaSettings.WORLD_CODEC; field name is literally 'provider_settings', ModernBetaChunkGenerator.java L81)"
+      ],
+      "extends": "NoiseBasedChunkGenerator (ModernBetaChunkGenerator.java L75)"
+    },
+    "biomeSourceCodec": {
+      "type": "moderner_beta:moderner_beta (ModernBetaBiomeSource.CODEC, ModernBetaBiomeSource.java L53-L60)",
+      "fields": [
+        "provider_settings (biome settings)",
+        "cave_provider_settings (cave biome settings)"
+      ]
+    },
+    "nestedRegistryReferences": [
+      "moderner_beta:noise_generator_settings -> value is a NoiseGeneratorSettings holder id, e.g. moderner_beta:overworld_128 / overworld_256 / sky_128 / infdev_415 / finite_2d",
+      "moderner_beta:provider inside chunkSettings -> entry in registry moderner_beta:chunk_provider (e.g. moderner_beta:noise_3d, moderner_beta:finite_2d, moderner_beta:infdev_227)",
+      "moderner_beta:provider inside biomeSettings -> registry moderner_beta:biome_provider (e.g. moderner_beta:beta, moderner_beta:beta_fractal, moderner_beta:voronoi, moderner_beta:single)",
+      "moderner_beta:provider inside caveBiomeSettings -> registry moderner_beta:cave_biome_provider (e.g. moderner_beta:voronoi, moderner_beta:none)",
+      "moderner_beta:structure_modifiers -> {overrides:{<structure_set id>:StructureSet}, removed:[<structure_set id>]} (StructureModifiers.java L28-L35)"
+    ]
+  },
+  "beta173Preset": {
+    "id": "moderner_beta:beta",
+    "file": "data/moderner_beta/moderner_beta/settings_preset/beta.json",
+    "lines": 317,
+    "sha256": "bdc8443c6f125d897ff61473c39328cc16f15ad45aa6a9c2b40555db08e54af2",
+    "json": {
+      "biomeSettings": {
+        "moderner_beta:biome_injection_rules": [
+          {
+            "type": "moderner_beta:cache_2d",
+            "injector": {
+              "type": "moderner_beta:predicate",
+              "onMatch": {
+                "type": "moderner_beta:constant_biome",
+                "biome": "minecraft:the_void"
+              },
+              "predicate": {
+                "condition": "moderner_beta:out_of_bounds",
+                "margin": 4
+              }
+            },
+            "step_for": "before_surface"
+          },
+          {
+            "type": "moderner_beta:cache_2d",
+            "injector": {
+              "type": "moderner_beta:predicate",
+              "onMatch": {
+                "type": "moderner_beta:replace_by_tag",
+                "replacements": {
+                  "moderner_beta:replace_with_cold_ocean": "moderner_beta:beta_cold_ocean",
+                  "moderner_beta:replace_with_frozen_ocean": "moderner_beta:beta_frozen_ocean",
+                  "moderner_beta:replace_with_lukewarm_ocean": "moderner_beta:beta_lukewarm_ocean",
+                  "moderner_beta:replace_with_ocean": "moderner_beta:beta_ocean",
+                  "moderner_beta:replace_with_warm_ocean": "moderner_beta:beta_warm_ocean"
+                }
+              },
+              "predicate": {
+                "condition": "moderner_beta:surface_below_sea_level",
+                "threshold": 4
+              }
+            },
+            "step_for": "before_surface"
+          },
+          {
+            "type": "moderner_beta:predicate",
+            "onMatch": {
+              "type": "moderner_beta:cave_biome"
+            },
+            "predicate": {
+              "condition": "moderner_beta:all_of",
+              "terms": [
+                {
+                  "condition": "moderner_beta:below_surface",
+                  "threshold": 8
+                },
+                {
+                  "condition": "moderner_beta:inverted",
+                  "term": {
+                    "biomes": [
+                      "minecraft:the_void"
+                    ],
+                    "condition": "moderner_beta:biome_in_set"
+                  }
+                }
+              ]
+            },
+            "step_for": "before_surface"
+          }
+        ],
+        "moderner_beta:climate_distribution": {
+          "fuzzyGrass": true,
+          "smoothBorders": false
+        },
+        "moderner_beta:climate_mappings": {
+          "desert": "moderner_beta:beta_desert",
+          "forest": "moderner_beta:beta_forest",
+          "ice_desert": "moderner_beta:beta_tundra",
+          "plains": "moderner_beta:beta_plains",
+          "rainforest": "moderner_beta:beta_rainforest",
+          "savanna": "moderner_beta:beta_savanna",
+          "seasonal_forest": "moderner_beta:beta_seasonal_forest",
+          "shrubland": "moderner_beta:beta_shrubland",
+          "swampland": "moderner_beta:beta_swampland",
+          "taiga": "moderner_beta:beta_taiga",
+          "tundra": "moderner_beta:beta_tundra"
+        },
+        "moderner_beta:climate_scale": {
+          "detail": 0.25,
+          "rain": 0.05,
+          "temp": 0.025,
+          "weird": 0.003125
+        },
+        "moderner_beta:provider": "moderner_beta:beta",
+        "moderner_beta:temperature_height_scaling": "beta"
+      },
+      "caveBiomeSettings": {
+        "moderner_beta:cave_biome_voronoi": {
+          "depthMaxY": 64,
+          "depthMinY": -64,
+          "horizontalScale": 32.0,
+          "points": [
+            {
+              "depth": 0.75,
+              "rain": 0.5,
+              "temp": 0.0
+            },
+            {
+              "biome": "minecraft:lush_caves",
+              "depth": 0.75,
+              "rain": 0.5,
+              "temp": 0.1
+            },
+            {
+              "depth": 0.75,
+              "rain": 0.5,
+              "temp": 0.35
+            },
+            {
+              "biome": "minecraft:sulfur_caves",
+              "depth": 0.75,
+              "rain": 0.5,
+              "temp": 0.5
+            },
+            {
+              "depth": 0.75,
+              "rain": 0.5,
+              "temp": 0.75
+            },
+            {
+              "biome": "minecraft:dripstone_caves",
+              "depth": 0.75,
+              "rain": 0.5,
+              "temp": 0.9
+            },
+            {
+              "depth": 0.75,
+              "rain": 0.5,
+              "temp": 1.0
+            },
+            {
+              "depth": 0.25,
+              "rain": 0.5,
+              "temp": 0.0
+            },
+            {
+              "biome": "minecraft:lush_caves",
+              "depth": 0.25,
+              "rain": 0.5,
+              "temp": 0.2
+            },
+            {
+              "depth": 0.25,
+              "rain": 0.5,
+              "temp": 0.4
+            },
+            {
+              "biome": "minecraft:deep_dark",
+              "depth": 0.25,
+              "rain": 0.5,
+              "temp": 0.5
+            },
+            {
+              "depth": 0.25,
+              "rain": 0.5,
+              "temp": 0.6
+            },
+            {
+              "biome": "minecraft:sulfur_caves",
+              "depth": 0.25,
+              "rain": 0.5,
+              "temp": 0.65
+            },
+            {
+              "depth": 0.25,
+              "rain": 0.5,
+              "temp": 0.75
+            },
+            {
+              "biome": "minecraft:dripstone_caves",
+              "depth": 0.25,
+              "rain": 0.5,
+              "temp": 0.8
+            },
+            {
+              "depth": 0.25,
+              "rain": 0.5,
+              "temp": 1.0
+            }
+          ],
+          "verticalScale": 16.0
+        },
+        "moderner_beta:provider": "moderner_beta:voronoi"
+      },
+      "chunkSettings": {
+        "moderner_beta:cave_generation": {
+          "fixCaveBorders": false,
+          "forceBetaCanyons": true,
+          "forceBetaCaves": true,
+          "seedMethod": "beta",
+          "useCarvers": true,
+          "useNoiseCaves": false
+        },
+        "moderner_beta:deepslate_generation": {
+          "block": "minecraft:deepslate",
+          "enabled": true,
+          "maxY": 8,
+          "minY": 0
+        },
+        "moderner_beta:noise_3d_settings": {
+          "arraySurfaceNoise": true,
+          "climateHeightScaling": true,
+          "monoliths": false,
+          "oldInfdevTerrainNoise": false,
+          "pocketEditionRng": false,
+          "simplexSurfaceNoise": false
+        },
+        "moderner_beta:noise_generator_settings": "moderner_beta:overworld_128",
+        "moderner_beta:noise_landmass": {
+          "alphaSampling": false,
+          "depth": {
+            "enabled": true,
+            "influence": 1.0,
+            "maxValue": 0.125,
+            "minValue": -0.35714287,
+            "negativeDampening": 5.6,
+            "negativeFlattening": true,
+            "negativeInfluence": 0.3,
+            "offset": -2.0,
+            "positiveDampening": 8.0,
+            "sample": true,
+            "stretch": 3.0
+          },
+          "scale": {
+            "enabled": true,
+            "influence": 1.0,
+            "offset": 0.5,
+            "sample": true,
+            "variation": 1.121
+          }
+        },
+        "moderner_beta:noise_scale": {
+          "baseSize": 8.5,
+          "coordinate": 684.412,
+          "densityUnderdamp": 4.0,
+          "depthNoiseX": 200.0,
+          "depthNoiseZ": 200.0,
+          "fixedOffset": 1.0,
+          "forestNoiseOctaves": 8,
+          "height": 684.412,
+          "limitBlending": 10.0,
+          "lowerLimit": 512.0,
+          "mainNoiseX": 80.0,
+          "mainNoiseY": 160.0,
+          "mainNoiseZ": 80.0,
+          "stretchY": 12.0,
+          "upperLimit": 512.0,
+          "useFixedOffset": false
+        },
+        "moderner_beta:noise_slide": {
+          "bottomOffset": 0,
+          "bottomSize": 3,
+          "bottomTarget": 15,
+          "topOffset": 0,
+          "topSize": 3,
+          "topTarget": -10
+        },
+        "moderner_beta:perlin_noise_settings": {
+          "alpha2DSampling": false,
+          "failurePoint": 2147483647,
+          "infdevNoiseScaling": false,
+          "randomNoiseOffsets": true,
+          "wrapped": false
+        },
+        "moderner_beta:provider": "moderner_beta:noise_3d",
+        "moderner_beta:structure_modifiers": {
+          "overrides": {
+            "moderner_beta:ocean_shrine": {
+              "placement": {
+                "type": "minecraft:random_spread",
+                "salt": 357,
+                "separation": 16,
+                "spacing": 64,
+                "spread_type": "triangular"
+              },
+              "structures": [
+                {
+                  "structure": "moderner_beta:ocean_shrine",
+                  "weight": 1
+                }
+              ]
+            }
+          },
+          "removed": []
+        },
+        "moderner_beta:surface_properties": {
+          "bedrockHoles": false,
+          "enableBeaches": true,
+          "erosion": true,
+          "flipNoiseCoordinates": false,
+          "generateBeaches": true,
+          "generateBedrock": true,
+          "generateLiquids": true,
+          "generateSandstone": true,
+          "gravelBeachScale": 0.03125,
+          "gravelOceanBed": false,
+          "gravelOceanBedDepth": 7,
+          "legacyBadlandsBands": false,
+          "sandBeachScale": 0.03125,
+          "surfaceNoiseScale": 0.0625,
+          "uniformBedrock": false
+        },
+        "moderner_beta:use_surface_rules": true
+      },
+      "description": {
+        "translate": "createWorld.customize.modern_beta.preset.desc.moderner_beta.beta"
+      },
+      "name": {
+        "color": "yellow",
+        "translate": "createWorld.customize.modern_beta.preset.name.moderner_beta.beta"
+      }
+    }
+  },
+  "beta181Preset": {
+    "id": "moderner_beta:beta_1_8_1",
+    "file": "data/moderner_beta/moderner_beta/settings_preset/beta_1_8_1.json",
+    "lines": 474,
+    "sha256": "e16ce200b9285a16c9252cdf40003546045d765f71f5c466243fb6eb36c08fd2",
+    "json": {
+      "biomeSettings": {
+        "moderner_beta:climate_distribution": {
+          "fuzzyGrass": true,
+          "smoothBorders": false
+        },
+        "moderner_beta:fractal_layers": {
+          "outputs": {
+            "moderner_beta:biome": "land",
+            "moderner_beta:climate_0": "land_0",
+            "moderner_beta:climate_1": "land_1",
+            "moderner_beta:climate_2": "land_2",
+            "moderner_beta:climate_3": "land_3"
+          },
+          "pipeline": [
+            {
+              "type": "moderner_beta:init_land",
+              "id": "land",
+              "landChance": 10,
+              "seed": 1
+            },
+            {
+              "type": "moderner_beta:fuzzy_zoom",
+              "parent": "land",
+              "id": "land",
+              "seed": 2000
+            },
+            {
+              "type": "moderner_beta:add_land",
+              "parent": "land",
+              "betaShape": true,
+              "biomeSpecificOceans": {},
+              "id": "land",
+              "land": "minecraft:plains",
+              "landChance": 3,
+              "ocean": "minecraft:ocean",
+              "oceanChance": 5,
+              "seed": 1
+            },
+            {
+              "type": "moderner_beta:modal_zoom",
+              "parent": "land",
+              "id": "land",
+              "seed": 2001
+            },
+            {
+              "type": "moderner_beta:add_land",
+              "parent": "land",
+              "betaShape": true,
+              "biomeSpecificOceans": {},
+              "id": "land",
+              "land": "minecraft:plains",
+              "landChance": 3,
+              "ocean": "minecraft:ocean",
+              "oceanChance": 5,
+              "seed": 2
+            },
+            {
+              "type": "moderner_beta:modal_zoom",
+              "parent": "land",
+              "id": "land",
+              "seed": 2002
+            },
+            {
+              "type": "moderner_beta:add_land",
+              "parent": "land",
+              "betaShape": true,
+              "biomeSpecificOceans": {},
+              "id": "land",
+              "land": "minecraft:plains",
+              "landChance": 3,
+              "ocean": "minecraft:ocean",
+              "oceanChance": 5,
+              "seed": 3
+            },
+            {
+              "type": "moderner_beta:modal_zoom",
+              "parent": "land",
+              "id": "land",
+              "seed": 2003
+            },
+            {
+              "type": "moderner_beta:add_land",
+              "parent": "land",
+              "betaShape": true,
+              "biomeSpecificOceans": {},
+              "id": "land",
+              "land": "minecraft:plains",
+              "landChance": 3,
+              "ocean": "minecraft:ocean",
+              "oceanChance": 5,
+              "seed": 3
+            },
+            {
+              "type": "moderner_beta:modal_zoom",
+              "parent": "land",
+              "id": "land",
+              "seed": 2004
+            },
+            {
+              "type": "moderner_beta:add_land",
+              "parent": "land",
+              "betaShape": true,
+              "biomeSpecificOceans": {},
+              "id": "land",
+              "land": "minecraft:plains",
+              "landChance": 3,
+              "ocean": "minecraft:ocean",
+              "oceanChance": 5,
+              "seed": 3
+            },
+            {
+              "type": "moderner_beta:init_river",
+              "parent": "land",
+              "id": "river",
+              "seed": 100
+            },
+            {
+              "type": "moderner_beta:stacked_zoom",
+              "parent": "river",
+              "id": "river",
+              "level": 6,
+              "seed": 1000,
+              "seedModifier": 1,
+              "zoomType": "modal"
+            },
+            {
+              "type": "moderner_beta:compute_river",
+              "parent": "river",
+              "convertOceans": true,
+              "id": "river",
+              "seed": 0
+            },
+            {
+              "type": "moderner_beta:smooth",
+              "parent": "river",
+              "id": "river",
+              "seed": 1000
+            },
+            {
+              "type": "moderner_beta:random_biome",
+              "biomes": [
+                "minecraft:desert",
+                "minecraft:forest",
+                "moderner_beta:late_beta_extreme_hills",
+                "moderner_beta:late_beta_swampland",
+                "moderner_beta:late_beta_plains",
+                "moderner_beta:late_beta_taiga"
+              ],
+              "id": "biome_pool",
+              "seed": 200
+            },
+            {
+              "type": "moderner_beta:biome_replacement",
+              "parent": "land",
+              "id": "land",
+              "seed": 0,
+              "targets": {
+                "minecraft:plains": {
+                  "type": "layer",
+                  "value": "biome_pool"
+                }
+              }
+            },
+            {
+              "type": "moderner_beta:stacked_zoom",
+              "parent": "land",
+              "id": "land",
+              "level": 2,
+              "seed": 1000,
+              "seedModifier": 1,
+              "zoomType": "modal"
+            },
+            {
+              "type": "moderner_beta:modal_zoom",
+              "parent": "land",
+              "id": "land_0",
+              "seed": 1000
+            },
+            {
+              "type": "moderner_beta:add_land",
+              "parent": "land_0",
+              "betaShape": true,
+              "biomeSpecificOceans": {},
+              "id": "land_0",
+              "land": "moderner_beta:late_beta_plains",
+              "landChance": 3,
+              "ocean": "minecraft:ocean",
+              "oceanChance": 5,
+              "seed": 3
+            },
+            {
+              "type": "moderner_beta:modal_zoom",
+              "parent": "land_0",
+              "id": "land_1",
+              "seed": 1001
+            },
+            {
+              "type": "moderner_beta:modal_zoom",
+              "parent": "land_1",
+              "id": "land_2",
+              "seed": 1002
+            },
+            {
+              "type": "moderner_beta:modal_zoom",
+              "parent": "land_2",
+              "id": "land_3",
+              "seed": 1003
+            },
+            {
+              "type": "moderner_beta:smooth",
+              "parent": "land_3",
+              "id": "land",
+              "seed": 1000
+            },
+            {
+              "type": "moderner_beta:mix_river",
+              "parent": "land",
+              "biomeSpecificRivers": {
+                "minecraft:mushroom_fields": "minecraft:mushroom_fields*shore",
+                "minecraft:mushroom_fields*shore": "minecraft:mushroom_fields*shore",
+                "moderner_beta:early_release_ice_plains": "minecraft:frozen_river",
+                "moderner_beta:late_beta_ice_plains": "minecraft:frozen_river"
+              },
+              "id": "land",
+              "ignoredBiomes": [
+                "minecraft:ocean"
+              ],
+              "riverSource": "river",
+              "seed": 0
+            }
+          ]
+        },
+        "moderner_beta:provider": "moderner_beta:beta_fractal",
+        "moderner_beta:temperature_height_scaling": "none"
+      },
+      "caveBiomeSettings": {
+        "moderner_beta:cave_biome_voronoi": {
+          "depthMaxY": 64,
+          "depthMinY": -64,
+          "horizontalScale": 32.0,
+          "points": [
+            {
+              "depth": 0.75,
+              "rain": 0.5,
+              "temp": 0.0
+            },
+            {
+              "biome": "minecraft:lush_caves",
+              "depth": 0.75,
+              "rain": 0.5,
+              "temp": 0.1
+            },
+            {
+              "depth": 0.75,
+              "rain": 0.5,
+              "temp": 0.35
+            },
+            {
+              "biome": "minecraft:sulfur_caves",
+              "depth": 0.75,
+              "rain": 0.5,
+              "temp": 0.5
+            },
+            {
+              "depth": 0.75,
+              "rain": 0.5,
+              "temp": 0.75
+            },
+            {
+              "biome": "minecraft:dripstone_caves",
+              "depth": 0.75,
+              "rain": 0.5,
+              "temp": 0.9
+            },
+            {
+              "depth": 0.75,
+              "rain": 0.5,
+              "temp": 1.0
+            },
+            {
+              "depth": 0.25,
+              "rain": 0.5,
+              "temp": 0.0
+            },
+            {
+              "biome": "minecraft:lush_caves",
+              "depth": 0.25,
+              "rain": 0.5,
+              "temp": 0.2
+            },
+            {
+              "depth": 0.25,
+              "rain": 0.5,
+              "temp": 0.4
+            },
+            {
+              "biome": "minecraft:deep_dark",
+              "depth": 0.25,
+              "rain": 0.5,
+              "temp": 0.5
+            },
+            {
+              "depth": 0.25,
+              "rain": 0.5,
+              "temp": 0.6
+            },
+            {
+              "biome": "minecraft:sulfur_caves",
+              "depth": 0.25,
+              "rain": 0.5,
+              "temp": 0.65
+            },
+            {
+              "depth": 0.25,
+              "rain": 0.5,
+              "temp": 0.75
+            },
+            {
+              "biome": "minecraft:dripstone_caves",
+              "depth": 0.25,
+              "rain": 0.5,
+              "temp": 0.8
+            },
+            {
+              "depth": 0.25,
+              "rain": 0.5,
+              "temp": 1.0
+            }
+          ],
+          "verticalScale": 16.0
+        },
+        "moderner_beta:provider": "moderner_beta:voronoi"
+      },
+      "chunkSettings": {
+        "moderner_beta:cave_generation": {
+          "fixCaveBorders": true,
+          "forceBetaCanyons": true,
+          "forceBetaCaves": true,
+          "seedMethod": "early_release",
+          "useCarvers": true,
+          "useNoiseCaves": false
+        },
+        "moderner_beta:deepslate_generation": {
+          "block": "minecraft:deepslate",
+          "enabled": true,
+          "maxY": 8,
+          "minY": 0
+        },
+        "moderner_beta:forced_biome_height": {
+          "depthOffset": 0.0,
+          "depthWeight": 1.0,
+          "enabled": true,
+          "heightOverrides": {
+            "minecraft:ocean": "-1.0;0.5"
+          },
+          "modifyOnlyPositiveDepth": false,
+          "scaleOffset": 0.0,
+          "scaleWeight": 1.0
+        },
+        "moderner_beta:noise_3d_settings": {
+          "arraySurfaceNoise": true,
+          "climateHeightScaling": false,
+          "monoliths": false,
+          "oldInfdevTerrainNoise": false,
+          "pocketEditionRng": false,
+          "simplexSurfaceNoise": false
+        },
+        "moderner_beta:noise_generator_settings": "moderner_beta:overworld_128",
+        "moderner_beta:noise_landmass": {
+          "alphaSampling": false,
+          "depth": {
+            "enabled": true,
+            "influence": 0.2,
+            "maxValue": 0.125,
+            "minValue": -0.35714287,
+            "negativeDampening": 5.6,
+            "negativeFlattening": false,
+            "negativeInfluence": 0.3,
+            "offset": -2.0,
+            "positiveDampening": 8.0,
+            "sample": true,
+            "stretch": 3.0
+          },
+          "scale": {
+            "enabled": true,
+            "influence": 0.0,
+            "offset": 0.0,
+            "sample": false,
+            "variation": 1.121
+          }
+        },
+        "moderner_beta:noise_scale": {
+          "baseSize": 8.5,
+          "coordinate": 684.412,
+          "densityUnderdamp": 4.0,
+          "depthNoiseX": 200.0,
+          "depthNoiseZ": 200.0,
+          "fixedOffset": 1.0,
+          "forestNoiseOctaves": 8,
+          "height": 684.412,
+          "limitBlending": 10.0,
+          "lowerLimit": 512.0,
+          "mainNoiseX": 80.0,
+          "mainNoiseY": 160.0,
+          "mainNoiseZ": 80.0,
+          "stretchY": 12.0,
+          "upperLimit": 512.0,
+          "useFixedOffset": false
+        },
+        "moderner_beta:noise_slide": {
+          "bottomOffset": 0,
+          "bottomSize": 3,
+          "bottomTarget": 15,
+          "topOffset": 0,
+          "topSize": 3,
+          "topTarget": -10
+        },
+        "moderner_beta:perlin_noise_settings": {
+          "alpha2DSampling": false,
+          "failurePoint": 2147483647,
+          "infdevNoiseScaling": false,
+          "randomNoiseOffsets": true,
+          "wrapped": true
+        },
+        "moderner_beta:provider": "moderner_beta:noise_3d",
+        "moderner_beta:sea_level": 63,
+        "moderner_beta:structure_modifiers": {
+          "overrides": {
+            "moderner_beta:ocean_shrine": {
+              "placement": {
+                "type": "minecraft:random_spread",
+                "salt": 357,
+                "separation": 16,
+                "spacing": 64,
+                "spread_type": "triangular"
+              },
+              "structures": [
+                {
+                  "structure": "moderner_beta:ocean_shrine",
+                  "weight": 1
+                }
+              ]
+            }
+          },
+          "removed": []
+        },
+        "moderner_beta:surface_properties": {
+          "bedrockHoles": false,
+          "enableBeaches": false,
+          "erosion": true,
+          "flipNoiseCoordinates": false,
+          "generateBeaches": false,
+          "generateBedrock": true,
+          "generateLiquids": true,
+          "generateSandstone": true,
+          "gravelBeachScale": 0.03125,
+          "gravelOceanBed": false,
+          "gravelOceanBedDepth": 7,
+          "legacyBadlandsBands": false,
+          "sandBeachScale": 0.03125,
+          "surfaceNoiseScale": 0.0625,
+          "uniformBedrock": false
+        },
+        "moderner_beta:use_surface_rules": true
+      },
+      "description": {
+        "translate": "createWorld.customize.modern_beta.preset.desc.moderner_beta.beta_1_8_1"
+      },
+      "name": {
+        "color": "yellow",
+        "translate": "createWorld.customize.modern_beta.preset.name.moderner_beta.beta_1_8_1"
+      }
+    }
+  },
+  "dimensionsAndHeight": {
+    "overworldDimensions": "Dimension type minecraft:overworld from the vanilla registry; Moderner Beta only replaces the chunk generator/biome source (ModernBetaWorldPresets.createOverworldOptions L55-L80). Nether and End keep minecraft:noise generators (L82-L103).",
+    "arithmeticRule": "maxY inclusive = min_y + height - 1. (Earlier revision of this file wrongly reported 255 for overworld_128; corrected.)",
+    "vanillaDimensionTypeBounds": "minecraft:dimension_type/overworld in the vanilla 26.3 jar (read from the local read-only install, %APPDATA%/.minecraft/versions/26.3/26.3.jar, data/minecraft/dimension_type/overworld.json) = min_y -64, height 384, logical_height 384 => Y -64..319. overworld_caves is the same.",
+    "noiseSettingsFiles": {
+      "moderner_beta:overworld_128": {
+        "minY": -64,
+        "noiseHeight": 192,
+        "maxYInclusive": 127,
+        "blockCount": 192,
+        "seaLevel": 64,
+        "legacyRandomSource": true,
+        "materialRule": "moderner_beta:overworld (in 26.3 the codec field is named 'material_rule'; the generator reads .materialRule())",
+        "usedBy": "beta, beta_1_8_1, beta_1_9_pre_3, release_1_0_0/1_1/1_2_5/1_6_4"
+      },
+      "moderner_beta:overworld_256": {
+        "minY": -64,
+        "noiseHeight": 320,
+        "maxYInclusive": 255,
+        "blockCount": 320,
+        "seaLevel": 64,
+        "usedBy": "release_1_12_2, release_1_17_1"
+      },
+      "moderner_beta:sky_128": {
+        "minY": 0,
+        "noiseHeight": 128,
+        "maxYInclusive": 127,
+        "blockCount": 128,
+        "seaLevel": 64,
+        "usedBy": "skylands-style presets"
+      },
+      "moderner_beta:finite_2d": {
+        "minY": 0,
+        "noiseHeight": 256,
+        "maxYInclusive": 255,
+        "blockCount": 256,
+        "seaLevel": 64,
+        "usedBy": "indev / classic / pe"
+      },
+      "moderner_beta:infdev_415": {
+        "minY": -64,
+        "noiseHeight": 192,
+        "maxYInclusive": 127,
+        "blockCount": 192,
+        "seaLevel": 64,
+        "usedBy": "infdev_415"
+      }
+    },
+    "namingWarning": "The '_128' in moderner_beta:overworld_128 does NOT mean height 128. The file's own values are height=192, min_y=-64 => Y -64..127 (192 blocks).",
+    "historicalBetaHeightMapping": "STILL UNRESOLVED, but the arithmetic now makes the question much narrower. With min_y -64 and maxY 127, the historical Beta 1.7.3 band 0..127 is a strict SUBSET of the declared envelope: the only excess is the 64 blocks at Y -64..-1. So the open question is not 'is the world too tall' but 'does anything generate below Y 0'. That is what the probe below measures.",
+    "excessAboveTerrainCeiling": "Because the generator declares Y -64..127 while the vanilla overworld dimension type declares Y -64..319, the dimension is 192 blocks shorter than vanilla at the top. Y 128..319 is therefore outside the generator's declared range. Whether the engine exposes it as air/void or the world behaves oddly at its ceiling was NOT runtime-verified.",
+    "densityArithmeticRead": "ChunkProviderNoise3D indexes noiseY over the full envelope (L615-L621: noiseY = y + this.noiseMinY) and computes the vertical offset at L744-L755 as either (noiseY * noiseResolutionVertical - getSeaLevel()) when oldInfdevTerrainNoise is set, or ((noiseY - depth) * stretchY) / scale otherwise. For the beta preset oldInfdevTerrainNoise=false and noiseResolutionVertical = 8 (noiseSizeVertical 2 * 4, ModernBetaNoiseSettings OVERWORLD_128 = create(-64,192,1,2)), so block Y = noiseY * 8 and the term is (blockY - depth) * 12 / 8.5. The axis is therefore anchored on block Y and on the noise-driven 'depth' input, not on a fixed historical anchor. Whether the resulting solid band tops out at 127 and whether bedrock sits at Y 0..4 (bedrockFloor = worldMinY = -64, ChunkProviderNoise L92) can only be settled by observation.",
+    "runtimeProbeToSettleIt": "After creating a beta world, sample one column and record: (a) the bedrock floor Y (code sets bedrockFloor = worldMinY = -64, so expect -64..-60 unless the beta density leaves it empty), (b) the lowest solid stone Y, (c) the sea-level waterline Y (expect 64), (d) the highest terrain Y (need <=127). Historical Beta 1.7.3 answers: bedrock at Y 0..4, sea level 64, terrain ceiling 127. If the probe shows solid terrain at Y 0..127 with bedrock near 0, the preset matches history inside a deeper envelope; if it shows bedrock at -64 or terrain above 127, it is a re-scaled Beta shape.",
+    "yOffsetCaveat": "ModernBetaChunkGenerator.getGenDepth() falls back to generatorSettings().value().noiseSettings().height() == 192 when chunkProvider is null (L954-L955), and getMinY() falls back to noiseSettings().minY() == -64 (L962-L963). These fallbacks are only used before/without initProvider. A separate surface-level offset of -8 exists inside ModernBetaChunkSurfaceLevel (HEIGHT_OFFSET = -8, L20 and L65) and only affects aquifer surface levels on 26.3, not the world's declared bounds.",
+    "caveBiomeDepthWindow": "The beta preset's cave biome Voronoi is configured with depthMinY=-64 and depthMaxY=64 (data/moderner_beta/moderner_beta/settings_preset/beta.json L93-L95) over a world declared Y -64..127. The Voronoi window therefore reaches below the historical Beta floor; whether a modern cave biome actually wins a sample was NOT runtime-verified."
+  },
+  "parentDecisions2026_10_12": {
+    "note": "Final authority decisions received from the parent. Recorded here so the evidence file cannot be read as still recommending the superseded options.",
+    "noVersionSubstitution": "Do NOT drop or substitute the requested Pre-Classic and Release 1.7.10 eras, and do NOT treat Classic or 1.6.4 as an acceptable stand-in. Exact-era mapping is deferred research: Moderner Beta's existing generators and biome layers must be researched later to map eras precisely.",
+    "noBlindReducedHeight": "Do NOT activate the upstream reduced_height pack blindly. It overrides vanilla minecraft:dimension_type/overworld, vanilla noise_settings, vanilla density functions and vanilla ore features, so it would affect unrelated normal Moderner Beta worlds. Activation is blocked on measurement.",
+    "phase2OwnBiomeIds": "Phase 2 will likely own narrowly scoped historical biome ids/maps (with MIT attribution if any Moderner Beta JSON is derived), so that stripping modern features/spawns does not globally change unrelated normal Moderner Beta worlds.",
+    "caveAvoidanceCandidates": "Preset noCaveBiomes (moderner_beta:cave_biome_provider = moderner_beta:none, exactly how the alpha preset does it) plus a biome-injection override are candidate mechanisms to avoid caves. Documented here as candidates only; not validated.",
+    "boundedHeightConfig": "Any explicit bounded generation height config must be evidence-based.",
+    "firstSliceStatus": "The first runtime slice may remain a terrain-integration prototype with modern leakage an explicitly UNMET criterion."
+  },
+  "eraMappingInputsForLaterResearch": {
+    "purpose": "The parent deferred exact-era mapping but asked for documented source differences wherever shared generation settings are involved. This is the concrete input for that research.",
+    "requestedErasWithoutAPreset": [
+      "Pre-Classic: no moderner_beta:* preset represents rd-/Cave Game. The earliest Classic preset is moderner_beta:classic_0_0_14a_08; whether its generator/biome layer configuration can represent earlier builds is UNKNOWN and must be established from source before it is used as a base.",
+      "Release 1.7.10: no preset. The nearest file ids are moderner_beta:release_1_6_4 and moderner_beta:release_1_12_2 (1.7.x is skipped entirely). Whether 1.7.10 shares 1.6.4's layer pipeline / noise configuration is NOT established, and the two shipped presets differ substantially (below), so neither can be assumed to cover 1.7.x."
+    ],
+    "measuredDifferences_1_6_4_vs_1_12_2": {
+      "method": "Compared the two shipped generated JSON files field by field (chunkSettings and biomeSettings key sets and values).",
+      "identicalKeySets": true,
+      "differingComponents": [
+        "moderner_beta:cave_generation -> 1_6_4 {fixCaveBorders:true, forceBetaCanyons:true, forceBetaCaves:true, seedMethod:'early_release', useCarvers:true, useNoiseCaves:false} vs 1_12_2 {fixCaveBorders:true, forceBetaCanyons:false, forceBetaCaves:false, seedMethod:'modern', useCarvers:true, useNoiseCaves:false}",
+        "moderner_beta:noise_generator_settings -> 1_6_4 'moderner_beta:overworld_128' (Y -64..127) vs 1_12_2 'moderner_beta:overworld_256' (Y -64..255)",
+        "moderner_beta:noise_3d_settings -> 1_6_4 {arraySurfaceNoise:true, simplexSurfaceNoise:false} vs 1_12_2 {arraySurfaceNoise:false, simplexSurfaceNoise:true}",
+        "moderner_beta:forced_biome_height -> different height-override sets: 1_6_4 has 6 entries keyed on *hills (desert/forest/jungle/early_release_*) vs 1_12_2 has ~80 entries keyed on full modern biome ids including badlands/bamboo_jungle/cherry_grove/mangrove_swamp/pale_garden/oceans",
+        "moderner_beta:structure_modifiers -> 1_6_4 registers the moderner_beta:ocean_shrine override; 1_12_2 has overrides {} (no ocean shrine)",
+        "moderner_beta:surface_properties -> 1_12_2 sets gravelOceanBed:true and legacyBadlandsBands:true; 1_6_4 has both false",
+        "biomeSettings -> 1_12_2 adds moderner_beta:use_32bit_layer_seed (1_6_4 omits it; both otherwise share fractal_layers + provider + temperature_height_scaling)"
+      ],
+      "biomeFractalLayerSourceLines": "Both presets build their layer pipelines in ModernBetaSettingsPresetData.java: preset164 at L1396 and preset1122 at L1968; the fractal layer code they share lives under level/biome/provider/fractal/. Reading those two builders against level/biome/provider/fractal/** is the concrete starting point for deciding whether 1.7.10 is representable.",
+      "caveBiomeSettings": "Identical key sets for both (moderner_beta:cave_biome_voronoi + moderner_beta:provider)."
+    },
+    "alphaCaveBiomeCorrection": {
+      "parentHypothesis": "Alpha uses DISABLED / no cave BIOMES.",
+      "verdictAfterRecheck": "CORRECT on the cave-biome point, and this file previously mis-worded it.",
+      "evidence": "data/moderner_beta/moderner_beta/settings_preset/alpha.json caveBiomeSettings has ONLY moderner_beta:provider, and its value is moderner_beta:none (= ModernBetaSettings.noCaveBiomes(), ModernBetaSettings.java L108-L112, which is DefaultedRegistry default for the cave_biome_provider registry, ModernBetaRegistries.java L46). beta.json's value is moderner_beta:voronoi with a full modern point set.",
+      "whatIsNotDifferent": "Cave TERRAIN generation is NOT disabled in alpha: alpha.json and beta.json carry the same moderner_beta:cave_generation shape ({forceBetaCaves:true, forceBetaCanyons:true, useNoiseCaves:false, seedMethod:'beta'}). Only infdev/indev/classic presets use CaveGeneration.DISABLED (ModernBetaSettingsPresetData.java L250, L277, L304, L332, L354, L378).",
+      "implication": "moderner_beta:none on the cave_biome_provider registry is a shipped, first-party way to switch cave BIOMES off without touching cave carving - which is exactly the parent's candidate cave-avoidance mechanism."
+    }
+  },
+  "structuresDecorationsAndLeakage": {
+    "structureModifiersDefault": "StructureModifiers.getDefault (StructureModifiers.java L39-L47) = overrides {moderner_beta:ocean_shrine -> RandomSpread(64,16,TRIANGULAR,357)} and removed = [] (EMPTY).",
+    "beta173StructureModifiersInJson": "chunkSettings.'moderner_beta:structure_modifiers' has overrides = {moderner_beta:ocean_shrine: {...spacing 64, separation 16, salt 357, triangular}} and removed = [] - see beta173Preset.json.",
+    "consequence": "For Beta 1.7.3 the mod removes NO structure sets. All vanilla structure sets (village, pillager_outpost, ancient_city, trial_chambers, ruined_portal, mineshaft, stronghold, monument, ...) remain candidates; createState() only filters by 'hasBiomesForStructureSet' (ModernBetaChunkGenerator.java L299-L326).",
+    "oceanShrine": {
+      "id": "moderner_beta:ocean_shrine",
+      "file": "data/moderner_beta/worldgen/structure/ocean_shrine.json",
+      "biomesTag": "#moderner_beta:has_structure/ocean_shrine (=#minecraft:is_ocean)",
+      "step": "surface_structures",
+      "terrainAdaptation": "beard_thin",
+      "nbt": "data/moderner_beta/structure/ocean_shrine/base.nbt",
+      "json": {
+        "type": "moderner_beta:ocean_shrine",
+        "biomes": "#moderner_beta:has_structure/ocean_shrine",
+        "spawn_overrides": {
+          "axolotls": {
+            "bounding_box": "full",
+            "spawns": []
+          },
+          "monster": {
+            "bounding_box": "full",
+            "spawns": [
+              {
+                "type": "minecraft:guardian",
+                "count": {
+                  "type": "minecraft:uniform",
+                  "max_inclusive": 2,
+                  "min_inclusive": 1
+                },
+                "weight": 1
+              }
+            ]
+          },
+          "underground_water_creature": {
+            "bounding_box": "full",
+            "spawns": []
+          }
+        },
+        "step": "surface_structures",
+        "terrain_adaptation": "beard_thin"
+      }
+    },
+    "betaCaveCarver": {
+      "file": "data/moderner_beta/worldgen/carver/beta_cave.json",
+      "yRange": "biased_to_bottom 0..127",
+      "json": {
+        "type": "moderner_beta:beta_cave",
+        "floor_level": -0.7,
+        "horizontal_radius_multiplier": 1.0,
+        "probability": 0.0,
+        "room_vertical_radius_multiplier": 0.5,
+        "use_aquifers": false,
+        "use_fixed_caves": false,
+        "vertical_radius_multiplier": 1.0,
+        "y": {
+          "type": "minecraft:biased_to_bottom",
+          "inner": 8,
+          "max_inclusive": {
+            "absolute": 127
+          },
+          "min_inclusive": {
+            "absolute": 0
+          }
+        }
+      },
+      "note": "historically bounded Y range, consistent with Beta caves; the preset enables forceBetaCaves/forceBetaCanyons and disables useNoiseCaves."
+    },
+    "modernDecorationLeakage": {
+      "verdict": "CONFIRMED. moderner_beta biomes list modern vanilla features directly.",
+      "example": "data/moderner_beta/worldgen/biome/beta_plains.json L153-L215 features array includes minecraft:amethyst_geode, minecraft:monster_room, minecraft:monster_room_deep, minecraft:ore_dirt, ore_gravel, ore_granite_lower, ore_diorite_lower, ore_andesite_lower, ore_tuff, ore_coal_upper/lower, ore_iron_*, ore_gold(_lower), ore_redstone(_lower), ore_diamond(+medium/large/buried), ore_lapis(+buried), ore_copper, underwater_magma, minecraft:spring_water, spring_lava, minecraft:glow_lichen, minecraft:flower_plains, minecraft:patch_pumpkin, minecraft:patch_sugar_cane, minecraft:patch_firefly_bush_near_water.",
+      "modHistoricalFeatures": "The same array mixes in the mod's own re-implementations: moderner_beta:ore_clay, moderner_beta:ore_emerald_y95, moderner_beta:patch_dandelion_3, patch_poppy, patch_grass_plains_10, patch_brown_mushroom, patch_red_mushroom, moderner_beta:freeze_top_layer.",
+      "carvers": "beta_plains carvers = [moderner_beta:beta_cave, moderner_beta:beta_cave_deep, moderner_beta:beta_canyon].",
+      "quantification": "Across data/moderner_beta/worldgen (176 json files) namespace references are minecraft:* = 4925 occurrences vs moderner_beta:* = 642. In placed_feature+feature only, the top minecraft refs are oak_log/oak_leaves (195 each), matching_blocks (194), biome (58), in_square (56), heightmap (44), trapezoid (42), count (41), surface_water_depth_filter (39), random_selector (38), fallen_oak_tree (34).",
+      "implication": "Even a 'Beta 1.7.3' world generates modern ores, geodes, monster rooms, springs, glow lichen and modern flower/vegetation patches unless a data pack or per-world settings override removes them. This must be handled by the project, not assumed away."
+    }
+  },
+  "generatorSelectionApis": {
+    "A_worldPresetRegistryId": {
+      "id": "moderner_beta:moderner_beta",
+      "ref": "ModernBetaWorldPresets.java L33",
+      "use": "select the world type when creating a level"
+    },
+    "B_serverPropertiesGeneratorSettings": {
+      "ref": "WorldDimensionDataMixin.java L37-L68 (injects at TAIL of DedicatedServerProperties#create, only when worldPreset.is(ModernBetaWorldPresets.MODERN_BETA))",
+      "acceptedForms": [
+        "a bare preset reference object, i.e. an object with a \"preset\" key whose value is \"moderner_beta:beta\"",
+        "a full ModernBetaSettingsPreset JSON (same schema as settings_preset/*.json)"
+      ],
+      "parsingCodec": "ModernBetaSettingsPreset.SETTINGS_TEXT_CODEC (L46) -> Codec.either(CODEC, PRESET_REFERENCE_CODEC)",
+      "hardPrerequisite": "The world preset must already be moderner_beta:moderner_beta, otherwise the mixin does not trigger at all. generator-settings alone cannot switch a non-Moderner-Beta world into Moderner Beta terrain.",
+      "noCredentialsNeeded": true
+    },
+    "C_modConfigFile": {
+      "path": "config/moderner_beta.json (FabricLoader configDir; ModernerBeta.loadConfig L126-L156)",
+      "keys": [
+        "oldFogColorWeighting (bool, default true)",
+        "defaultSettingsPreset (Identifier, default moderner_beta:beta; MiscConfig.java L16)"
+      ],
+      "loadedAt": "mod init: ModernerBetaFabric.java L56 ModernerBeta.loadConfig(...) - BEFORE ServerLifecycleEvents.SERVER_STARTING (L67)",
+      "effect": "Sets what moderner_beta:default resolves to for every world whose stored settings contain the 'default' sentinel.",
+      "warning": "Changing this value changes the terrain of EXISTING worlds that use the sentinel. It is a global generator switch, not a per-world one."
+    },
+    "D_levelDatDirectEdit": {
+      "shape": "see serializationSchema.worldLevelDatShape.json",
+      "note": "Offline-writable but hostile: the mixin path (B) exists precisely because dedicated servers need a text-based route."
+    },
+    "E_javaApi": {
+      "replaceGenerator": "WorldDimensions.replaceOverworldGenerator(registries, new ModernBetaChunkGenerator(new ModernBetaBiomeSource(biomeGetter, presetGetter, settingsPreset.biomeSettings(), settingsPreset.caveBiomeSettings()), presetGetter, surfaceConfigGetter, settingsPreset.chunkSettings())) (WorldDimensionDataMixin.java L53-L64)",
+      "resolvePreset": "ModernBetaSettingsPreset.getPreset(Identifier, HolderGetter<ModernBetaSettingsPreset>) (ModernBetaSettingsPreset.java L266-L283) - returns Optional; logs a WARN and returns empty for unknown ids",
+      "presetRegistry": "registries.lookupOrThrow(ModernBetaResourceKeys.SETTINGS_PRESET) (ModernBetaResourceKeys.java L27)",
+      "mapPresetChain": "ModernBetaSettings.mapPreset(...) (ModernBetaSettings.java L139-L155) resolves the preset reference chain; resolveDefaultPreset() (L157-L165) expands the 'default' sentinel",
+      "registrationForNewProviders": "ModernerBeta.setupCustomRegistryHandlers() (ModernerBeta.java L95-L108) + ModernBetaRegistries.CHUNK/BIOME/CAVE_BIOME (ModernBetaRegistries.java L43-L53, all defaulted registries)"
+    },
+    "F_savedUserPresets": {
+      "path": "config/moderner_beta/datapacks/moderner_beta_saved_presets (ModernBetaSavedPresetPack.java L28-L41)",
+      "idScheme": "moderner_beta:default_presets/<sha256-of-canonical-json> (L78)",
+      "note": "Saved presets are expanded (base preset flattened) before writing (L66-L76), so they are self-contained and survive a default-preset change."
+    }
+  },
+  "pipelineAndCacheImplicationsForRestartUpgrade": {
+    "whenProvidersAreBuilt": "ModernBetaLevelInitializer.initStarting (L17-L39) is registered on Fabric SERVER_STARTING (ModernerBetaFabric.java L67). It walks the LEVEL_STEM registry and calls ModernBetaBiomeSource.initProvider(seed) then ModernBetaChunkGenerator.initProvider(seed). Server start is the ONLY place providers are created.",
+    "whatHoldsLiveState": [
+      "ModernBetaChunkGenerator.chunkProvider (built in initProvider L279-L296 from ModernBetaRegistries.CHUNK.getValue(chunkSettings.getProvider()).apply(this, seed))",
+      "ChunkProviderHolder (L1008-L1019, volatile field, set at L292) - feeds ModernBetaChunkSurfaceLevel (L166) and the NoiseRouter's chunk_surface_level in the 26.3 path",
+      "ModernBetaBiomeSource.biomeProvider / caveBiomeProvider / biomeInjectionHandler (L90-L107)",
+      "CachedBiomeInjectionHandler wrapper (L104-L106) and the biome injection caches cleared by clearBiomeInjectionCaches (L55-L63)",
+      "generatorSettings() holder: DefferedDirectHolder.of(lazy supplier) (ModernBetaChunkGenerator.java L130) - the NoiseGeneratorSettings object itself is built lazily from the resolved preset"
+    ],
+    "restartBehavior": "Re-opening a world re-reads the chunk generator from level.dat, which stores only the settings maps (provider_settings / cave_provider_settings). initProvider runs again at SERVER_STARTING, so a restart with an edited settings map or an edited config produces DIFFERENT terrain in never-generated chunks while already-generated chunks keep their stored blocks - a silent seam, not an error.",
+    "unsafeSwitchingPoints": [
+      {
+        "why": "moderner_beta:default is stored inside level.dat for any world created through the UI default path; getPreset() resolves it through ModernerBeta.getDefaultPresetId() at load time (ModernBetaSettingsPreset.java L271-L273). Restarting then regenerates unloaded chunks under a different preset.",
+        "evidence": "ModernBetaSettingsPreset.java L266-L283; ModernerBeta.java L198-L202; ModernerBetaFabric.java L56 vs L67",
+        "point": "Editing defaultSettingsPreset in config/moderner_beta.json"
+      },
+      {
+        "why": "config is read once at mod init (L56) and also written back by setDefaultSettingsPreset (ModernerBeta.java L181-L196) on successful save; an external concurrent write is last-writer-wins and can be silently overwritten.",
+        "evidence": "ModernerBeta.java L126-L196",
+        "point": "Editing config/moderner_beta.json *while the server is running*"
+      },
+      {
+        "why": "There is no public setter for chunkSettings or the provider list. ChunkProviderHolder.set is private (L1016-L1018). Any live swap would desynchronize: NoiseRouter/density functions are captured from generatorSettings() (L160-L186), carvers/Aquifer hold the surface-level function, biome injection caches retain stale biomes, and RandomState/StructureState are already seeded.",
+        "evidence": "ModernBetaChunkGenerator.java L85-L120, L123-L186, L279-L296, L1008-L1019",
+        "point": "Live swap of the chunk provider / settings object"
+      },
+      {
+        "why": "The settings map is merged with the referenced preset (mapPreset L139-L155) and differences are re-derived against the base preset via getDifference (L205-L229). A key removed or changed silently reshapes terrain; an unknown provider id throws at initProvider (getValue on a defaulted registry) and can prevent the level from starting.",
+        "evidence": "ModernBetaSettings.java L139-L155, L205-L229; ModernBetaChunkGenerator.java L282-L289",
+        "point": "Editing the stored per-world settings maps in level.dat"
+      },
+      {
+        "why": "Clears biome injection caches (ModernerBetaFabric.java L69-L73 -> clearBiomeInjectionCaches L55-L63) but does NOT re-run initStarting. Datapack changes to settings presets take effect for newly generated chunks with already-initialized providers still holding the old provider objects; caches and providers can therefore disagree until the next restart.",
+        "evidence": "ModernerBetaFabric.java L69-L73; ModernBetaLevelInitializer.java L41-L63",
+        "point": "/reload (END_DATA_PACK_RELOAD)"
+      },
+      {
+        "why": "The generator/biome-source codecs are type-specific. A stored moderner_beta:moderner_beta generator cannot be read by a vanilla noise generator and vice versa; also the WorldDimensionDataMixin path only fires when the world preset is moderner_beta:moderner_beta (L44).",
+        "evidence": "WorldDimensionDataMixin.java L44-L67; ModernBetaChunkGenerator.java L1025-L1028",
+        "point": "Switching a world's world-preset away from moderner_beta:moderner_beta (or the reverse)"
+      },
+      {
+        "why": "Both fall back to the noise settings (192 / -64) when chunkProvider == null, then change to chunkProvider.getWorldHeight()/getWorldMinY() after init. Anything that caches height bounds too early observes different values across the server-start boundary.",
+        "evidence": "ModernBetaChunkGenerator.java L949-L966",
+        "point": "Relying on getGenDepth()/getMinY() before initProvider"
+      }
+    ],
+    "recommendedRestartRecipe": [
+      "1. Stop the server cleanly (drain generation; normal stop saves level.dat).",
+      "2. Snapshot the whole world directory AND config/moderner_beta.json.",
+      "3. Change exactly one thing: config defaultSettingsPreset, or the world's stored provider_settings.",
+      "4. Start the server; watch the log for 'Unable to read settings NBT! Reverting to previous settings..' (ModernBetaSettingsPreset.java L254) or a getValue failure.",
+      "5. Verify the effective preset. The /modernerbeta_debug_provider_settings command exists ONLY in a dev environment (ModernerBetaFabric.java L63-L65, ModernerBeta.DEV_ENV), so a production dedicated server must be verified by other means: read back the stored generator NBT, or observe block/biome content in a freshly generated region.",
+      "6. Generate chunks only in a new area; never assume the existing chunks changed."
+    ]
+  },
+  "minimalExternalDependencyIntegration": {
+    "principle": "Treat the published jar as an external, opaque MOD dependency. Do not fork, vendor, or patch .upstream, and do not re-implement any terrain algorithm (project AGENTS.md constraint).",
+    "dependency": {
+      "coordinate": "moderner-beta-fabric-5.0.0-alpha.4+26.3.jar",
+      "source": "https://cdn.modrinth.com/data/xkrdwmh2/versions/Ucgo1y8G/moderner-beta-fabric-5.0.0-alpha.4%2B26.3.jar",
+      "sha256": "2da0b0ded6053dbc18b630d73c3252e30f961ad920589edf75a6dbe243220727",
+      "modrinthProject": "xkrdwmh2",
+      "modrinthVersionId": "Ucgo1y8G",
+      "license": "MIT",
+      "versionType": "alpha",
+      "companion": "Fabric API 0.160.4+26.3 (moderner_beta requires fabric-api '*'; the 26.3 build pins 0.160.4+26.3 in versions/26.3/gradle.properties)",
+      "pinningAdvice": "Pin the jar by SHA-256 and the loader by version. Multiple 5.0.0-alpha.4+<mc>-fabric jars share the same mod version string 5.0.0-alpha.4+<mc>, so version-string pinning alone is ambiguous across MC targets."
+    },
+    "integrationSurface": [
+      "One launcher/dedicated-server instance per historical era profile; the era -> terrain binding is the settings preset id (moderner_beta:beta for Beta 1.7.3).",
+      "Per-instance config/moderner_beta.json supplies defaultSettingsPreset so that no UI interaction is needed.",
+      "Server-side world creation uses server.properties level-type=moderner_beta:moderner_beta plus generator-settings = an object with a \"preset\" key whose value is \"moderner_beta:beta\" (parsed by WorldDimensionDataMixin).",
+      "The project's own profile/world metadata must record the preset id, the mod jar hash, and the MC/loader versions, because the mod itself stores only settings maps and the 'default' sentinel in level.dat."
+    ],
+    "explicitNonGoals": [
+      "No custom chunk generator, biome provider, layer, feature, or carver registration.",
+      "No datapack overrides of moderner_beta presets in the first slice.",
+      "No live generator switching."
+    ],
+    "openRisk": "Modern decoration leakage (modern ores/geodes/monster rooms etc.) is present in the beta preset. Whether the project must strip it via a data pack is an architectural decision owned by the parent."
+  },
+  "runtimeAcceptanceTestRecipe": {
+    "status": "NOT EXECUTED. Everything in this recipe is prepared from verified external facts (URLs, versions, hashes) plus the mod's own source; no Minecraft process was started by this research.",
+    "environmentFactsVerified": {
+      "minecraftVersionExists": "26.3 is the current release in https://launchermeta.mojang.com/mc/game/version_manifest_v2.json (latest.release == 26.3)",
+      "javaInstalled": "java 25.0.4.1+1-LTS present on this host (java -version)",
+      "fabricLoaderAvailableFor26_3": "https://meta.fabricmc.net/v2/versions/loader/26.3 returned 253 loader entries; newest listed 0.19.5, mod's own pin is 0.19.3",
+      "fabricApiArtifactExists": "HEAD https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api/0.160.4+26.3/fabric-api-0.160.4+26.3.jar -> HTTP 200, 2587950 bytes",
+      "fabricInstaller": "https://maven.fabricmc.net/net/fabricmc/fabric-installer/1.1.2/fabric-installer-1.1.2.jar"
+    },
+    "recipeDedicatedServer": [
+      "0. Work in the project run/ directory only. Never touch %APPDATA%/.minecraft.",
+      "1. mkdir run/era-beta173 and place moderner-beta-fabric-5.0.0-alpha.4+26.3.jar (sha256 above) + fabric-api-0.160.4+26.3.jar in run/era-beta173/mods/.",
+      "2. Install the Fabric server for MC 26.3 with loader 0.19.3 via fabric-installer 1.1.2 (server -mcversion 26.3 -loader 0.19.3 -downloadMinecraft).",
+      "3. In eula.txt set eula=true ONLY with explicit human authorization (project contract forbids accepting Mojang terms on the user's behalf).",
+      "4. server.properties: level-type=moderner_beta:moderner_beta ; generator-settings={\"preset\":\"moderner_beta:beta\"} ; level-name=era-beta173-world ; online-mode=false for a local test.",
+      "5. config/moderner_beta.json: {\"moderner_beta:config_miscellaneous\":{\"oldFogColorWeighting\":true,\"defaultSettingsPreset\":\"moderner_beta:beta\"}} - the key name must be the registered SettingsComponentType id.",
+      "6. Start once, then assert: (a) the log contains no 'Unable to read settings JSON/NBT' error line from ModernBetaSettingsPreset; (b) the world's level.dat stores generator type 'moderner_beta:moderner_beta' with biome_source type 'moderner_beta:moderner_beta'; (c) /seed and a new chunk in a fresh region contain beta_* biomes only.",
+      "7. Historical-fidelity spot checks (these are the acceptance probes, not proofs): sea level 64; sky/void above the Beta band rather than a 320-tall overworld; no amethyst geodes; no deepslate below Y 8 (beta preset sets deepslate enabled with minY 0 / maxY 8); Beta cave carver Y range 0..127.",
+      "8. Negative-path check: set generator-settings to {\"preset\":\"moderner_beta:does_not_exist\"} and confirm the mod logs a warning/refusal rather than silently falling back (getPreset logs WARN at ModernBetaSettingsPreset.java L279; the mixin's resultOrPartial logs parse errors at L48).",
+      "9. Restart-upgrade check: stop, snapshot, change config defaultSettingsPreset to moderner_beta:beta_1_8_1, restart, generate in a NEW area, and confirm the old chunks are byte-identical while the new area differs. This is the concrete demonstration that preset switching is a restart-time, partial-world operation."
+    ],
+    "deterministicAlternativeWithoutMinecraft": [
+      "Datagen-only check, no game launch, no credentials: fetch tag 5.0.0-alpha.4 (commit 95f3da6), run './gradlew runDatagen' with JDK 25, and diff src/main/generated/data/moderner_beta/moderner_beta/settings_preset/*.json against the same paths extracted from the published jar. Expected: byte-identical for all 71 files (hashes in presetInventory)."
+    ]
+  },
+  "reproduction": {
+    "commands": [
+      "git -C .upstream/moderner-beta ls-remote --tags origin   # showed 5.0.0-alpha.1..alpha.4 only; no 4.1.x tags",
+      "git clone --bare https://github.com/Nostalgica-Reverie/moderner-beta.git .upstream/refs-26.3",
+      "git --git-dir=.upstream/refs-26.3 fetch --depth 60 origin refs/heads/work/26.3:refs/heads/work/26.3 refs/tags/5.0.0-alpha.4:refs/tags/5.0.0-alpha.4",
+      "git --git-dir=.upstream/refs-26.3 --work-tree=.upstream/alpha4-tree checkout -f 5.0.0-alpha.4",
+      "Invoke-WebRequest https://cdn.modrinth.com/data/xkrdwmh2/versions/Ucgo1y8G/moderner-beta-fabric-5.0.0-alpha.4%2B26.3.jar -OutFile .upstream/dist/...jar",
+      "expand the jar's data/moderner_beta/** into .upstream/extracted (this is how every preset/carver/structure/biome JSON in this file was obtained)"
+    ],
+    "sourceUrls": [
+      "https://github.com/Nostalgica-Reverie/moderner-beta",
+      "https://codeberg.org/Nostalgica-Reverie/moderner-beta",
+      "https://github.com/Nostalgica-Reverie/moderner-beta/releases/tag/5.0.0-alpha.4",
+      "https://modrinth.com/mod/moderner-beta/version/5.0.0-alpha.4+26.3-fabric",
+      "https://api.modrinth.com/v2/project/xkrdwmh2/version",
+      "https://launchermeta.mojang.com/mc/game/version_manifest_v2.json",
+      "https://meta.fabricmc.net/v2/versions/loader/26.3"
+    ],
+    "inTreePaths": {
+      "tagTree": ".upstream/alpha4-tree (checked out at 5.0.0-alpha.4)",
+      "jar": ".upstream/dist/moderner-beta-fabric-5.0.0-alpha.4+26.3.jar",
+      "extractedData": ".upstream/extracted (data/moderner_beta/** and data/minecraft/** from the jar)",
+      "referenceClone": ".upstream/refs-26.3 (bare, holds work/26.3 + the release tag)",
+      "upstreamWorkingClone": ".upstream/moderner-beta (shallow, branch multiversion @ 87c015b, untouched)"
+    }
+  },
+  "outOfScopeNotAssessed": {
+    "flashback": "NOT ASSESSED. Per the updated project contract the Flashback target is the user's https://github.com/j-w-i/Flashback fork, not the upstream release. No Flashback fork revision was fetched or inspected by this research, so nothing here should be read as fork compatibility, recording, playback or seeking evidence. The only loader-viability fact established is that Moderner Beta 5.0.0-alpha.4 publishes a Fabric 26.3 artifact; whether any Flashback revision coexists with it on Fabric 26.3/Java 25 is unverified.",
+    "modernerBetaUpstreamArtifactAsFlashbackEvidence": "The upstream published artifact is used here ONLY as loader/target viability evidence (Fabric 26.3 + Java 25 + fabric-api 0.160.4+26.3)."
+  },
+  "verificationState": {
+    "verifiedByReadingSource": [
+      "release commit/tag identity and branch divergence",
+      "MIT license text and README license history",
+      "all 71 generated preset JSON files (extracted from the published jar, per-file sha256 recorded)",
+      "codec field names for ModernBetaSettingsPreset, ModernBetaSettings, ModernBetaChunkGenerator, ModernBetaBiomeSource",
+      "default-preset sentinel resolution chain and config key names",
+      "structure modifiers default (ocean_shrine override, empty removed list)",
+      "modern feature leakage across all 56 biome JSON files",
+      "built-in optional pack contents (reduced_height, deepslate_blobs)",
+      "provider initialization timing and the volatile ChunkProviderHolder"
+    ],
+    "verifiedByNetworkFetch": [
+      "Modrinth version metadata + file hashes for 5.0.0-alpha.4+26.3-fabric",
+      "GitHub release asset names for 5.0.0-alpha.4",
+      "Mojang version manifest contains 26.3",
+      "Fabric meta has loaders for 26.3; Fabric API 0.160.4+26.3 jar exists"
+    ],
+    "notVerified": {
+      "runtime": "No Minecraft process was started. No world was created. Terrain values in this file are read from source/JSON, never observed.",
+      "dataFormatGenerality": "Mojang's on-disk level.dat NBT layout for 26.3 generators is inferred from the codec, not parsed from a real level.dat.",
+      "historicalFidelity": "No Beta 1.7.3 reference world was compared against. 'Fidelity' statements here describe what the code and data contain, not a validated match to 1.7.3."
+    }
+  },
+  "uncertainties": {
+    "high": [
+      "Beta 1.7.3 vertical mapping: the preset declares Y -64..127 (min_y -64 + height 192 - 1) with sea level 64, so the historical 0..127 band is inside the envelope and the open question is only whether anything generates below Y 0 (see dimensionsAndHeight).",
+      "Whether modern structures (ancient city, trial chambers, villages, ...) actually place in a beta world - depends on hasBiomesForStructureSet against beta_* biomes; not executed.",
+      "Whether modern cave biomes (lush_caves, dripstone_caves, deep_dark, sulfur_caves) ever win a Voronoi sample given depthMaxY=64 and the beta terrain envelope.",
+      "Whether 'moderner_beta:use_carvers' inside cave_generation still has any effect on 26.3 (26.3 uses generateCarvers with material rules); the field is present in every preset but no 26.3 code path was found reading it."
+    ],
+    "medium": [
+      "Byte-identity of the published jar's generated JSON vs a fresh './gradlew runDatagen' at tag 5.0.0-alpha.4 (hashes recorded so it is checkable).",
+      "Whether 'reduced_height' + 'deepslate_blobs' can be force-enabled on a dedicated server without a client, and whether they are safe to enable on an existing world.",
+      "How the mod behaves when a world's stored settings map references a provider id removed by a datapack (expected: getValue throws in initProvider, potentially blocking world load)."
+    ],
+    "low": [
+      "Exact structure of Mojang's on-disk level.dat NBT for 26.3 chunk generators (the JSON form is proven; the NBT form is inferred from the same codec)."
+    ]
+  }
+}

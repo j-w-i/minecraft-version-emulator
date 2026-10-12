@@ -1,0 +1,63 @@
+// Dumps the fork's REAL resolved runtime and compile classpaths, plus the Minecraft merged jar and
+// the ImGui file deps, for the verification harness. Applied with --init-script so it lives outside
+// the fork checkout and modifies no fork file.
+//
+// The harness needs both configurations:
+//   runtimeClasspath - what the mod actually loads at runtime.
+//   compileClasspath - additionally contains the compileOnly mods (Distant Horizons, Sodium, Iris,
+//                      Bobby, simple-voice-chat, ModMenu, ScalableLux) whose classes are referenced
+//                      by Flashback's compat mixins and by the fork's own source-check helpers.
+// Using compileClasspath alone would overstate what ships and would let unrelated versions in;
+// using runtimeClasspath alone makes source checks fail on classes the code was compiled against.
+// Both are dumped, from the project's own declarations, so nothing is picked by scanning ~/.gradle.
+//
+// Output paths are passed with -P so this script contains no machine-specific paths.
+
+def runtimeOut = providers.gradleProperty('dshOutFile')
+def compileOut = providers.gradleProperty('dshOutCompileFile')
+
+gradle.projectsEvaluated {
+    def target = gradle.rootProject
+
+    def registerDump = { String taskName, String configurationName, Object outProperty ->
+        target.tasks.register(taskName) {
+            group = 'dsh'
+            description = "Writes the resolved ${configurationName} plus MC/ImGui jars to its -P output file."
+            doLast {
+                def dest = new File(outProperty.get())
+                dest.parentFile.mkdirs()
+                def lines = []
+
+                def config = target.configurations.findByName(configurationName)
+                if (config == null) {
+                    throw new GradleException("Configuration '${configurationName}' not found in ${target.name}")
+                }
+                config.resolvedConfiguration.resolvedArtifacts.each { a -> lines << a.file.absolutePath }
+
+                // Minecraft's merged jar is not part of these configurations under Loom; take it from
+                // the project's own Loom cache rather than from a global search.
+                def mcDir = new File(target.projectDir, '.gradle/loom-cache/minecraftMaven/net/minecraft')
+                if (mcDir.isDirectory()) {
+                    mcDir.eachFileRecurse { f ->
+                        if (f.name.startsWith('minecraft-merged-') && f.name.endsWith('.jar') && !f.name.contains('sources')) {
+                            lines << f.absolutePath
+                        }
+                    }
+                }
+
+                // ImGui binding and natives are file dependencies in deps/, not published artifacts.
+                def depsDir = new File(target.projectDir, 'deps')
+                if (depsDir.isDirectory()) {
+                    depsDir.eachFile { f -> if (f.name.endsWith('.jar')) { lines << f.absolutePath } }
+                }
+
+                def unique = lines.unique()
+                dest.text = unique.join('\n') + '\n'
+                println "DSH_DUMP configuration=${configurationName} entries=${unique.size()} out=${dest.absolutePath}"
+            }
+        }
+    }
+
+    registerDump('dshDumpRuntimeClasspath', 'runtimeClasspath', runtimeOut)
+    registerDump('dshDumpCompileClasspath', 'compileClasspath', compileOut)
+}

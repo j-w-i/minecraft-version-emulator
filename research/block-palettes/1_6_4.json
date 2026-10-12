@@ -1,0 +1,548 @@
+{
+  "schemaVersion": 1,
+  "kind": "1_6_4-block-name-set",
+  "reviewStatus": "WORKER_GENERATED_PENDING_PARENT_VERIFICATION",
+  "generatedAt": "2026-10-12T17:55:02.478324+00:00",
+  "source": {
+    "jar": "C:\\Users\\jwalr\\AppData\\Local\\Temp\\mce-palette\\jars\\1.6.4-client.jar",
+    "bytes": 4745096,
+    "sha1": "1703704407101cf72bd88e68579e3696ce733ecd",
+    "sha1MatchesExpected": true,
+    "sizeMatchesExpected": true,
+    "provenance": "MOJANG",
+    "manifestId": "1.6.4",
+    "hashPublishedWhere": "Mojang version_manifest_v2.json -> https://piston-meta.mojang.com/v1/packages/b71bae449192fbbe1582ff32fb3765edf0b9b0a8/1.6.4.json -> downloads.client.sha1"
+  },
+  "method": {
+    "tool": "scripts/extract-block-palette.py (standard library only)",
+    "scope": "block NAME SET only; numeric ids are deliberately not paired. Ids are what the previous rejected artifact got wrong, so they are not inferred here.",
+    "identifyRegistry": "STRUCTURAL, no name is used to find the class: the class whose static initialiser constructs the most distinct classes via the new/dup/invokespecial <init> pattern. Ranking by distinct constructed classes is what separates the block registry from the item registry, which constructs a few classes many times each.",
+    "nameConventionDetected": "setter",
+    "nameConventionNote": "Block names are attached by a chained `(String) -> <registry type>` setter called once per block (the post-Beta-1.9 mechanism). Each name is the string constant loaded immediately before the setter call. For Release 1.6.4 two setter families exist: `setName` carries the post-flattening registered name (e.g. `gold_ore`) and `setIconName` carries the pre-flattening legacy name (e.g. `oreGold`). Both are recorded here; the union is the set of names this client registers.",
+    "classCount": 1562,
+    "classesParsedToExactEnd": 1562,
+    "classParseFailures": [],
+    "unsupportedConstantPoolTags": [],
+    "blockClass": "aqz.class",
+    "blockClassSuper": "java/lang/Object",
+    "structuralBlockClass": "aqz",
+    "structuralBlockClassSubclasses": 65,
+    "structuralBlockClassIdentityEvidence": "aqz has 65 direct subclasses in this jar; a block class is the class block variants extend (Beta 1.7.3's equivalent is uu with 49).",
+    "blockClassInitCalls": 199,
+    "blockClassDistinctConstructedClasses": 126,
+    "blockClassPutstatic": 181,
+    "blockClassStringLoads": 322,
+    "blockClassStringDecodeComplete": true,
+    "blockClassMostConstructed": [
+      [
+        "aqp",
+        10
+      ],
+      [
+        "ard",
+        9
+      ],
+      [
+        "aqz",
+        9
+      ],
+      [
+        "yl",
+        8
+      ]
+    ],
+    "blockClassCommonBlockType": "aqz",
+    "blockClassStaticFieldsOfBlockType": 131,
+    "nameSetterCallCounts": {
+      "c": 160,
+      "d": 120
+    },
+    "topStructuralCandidates": [
+      {
+        "class": "aqz.class",
+        "super": "java/lang/Object",
+        "initCalls": 199,
+        "distinctConstructedClasses": 126,
+        "putstatic": 181,
+        "topConstructedClass": "aqz",
+        "staticFieldsOfBlockType": 131,
+        "stringLoads": 322,
+        "plainNameCandidates": 248,
+        "tileKeyCandidates": 0,
+        "nameSetterCalls": 280,
+        "nameSetterMethods": {
+          "c": 160,
+          "d": 120
+        },
+        "walkComplete": true,
+        "topConstructed": [
+          [
+            "aqp",
+            10
+          ],
+          [
+            "ard",
+            9
+          ],
+          [
+            "aqz",
+            9
+          ],
+          [
+            "yl",
+            8
+          ]
+        ]
+      },
+      {
+        "class": "yc.class",
+        "super": "java/lang/Object",
+        "initCalls": 171,
+        "distinctConstructedClasses": 53,
+        "putstatic": 173,
+        "topConstructedClass": "yc",
+        "staticFieldsOfBlockType": 143,
+        "stringLoads": 354,
+        "plainNameCandidates": 224,
+        "tileKeyCandidates": 0,
+        "nameSetterCalls": 341,
+        "nameSetterMethods": {
+          "b": 170,
+          "d": 170,
+          "c": 1
+        },
+        "walkComplete": true,
+        "topConstructed": [
+          [
+            "yc",
+            33
+          ],
+          [
+            "wh",
+            20
+          ],
+          [
+            "xx",
+            18
+          ],
+          [
+            "yr",
+            12
+          ]
+        ]
+      },
+      {
+        "class": "aau.class",
+        "super": "java/lang/Object",
+        "initCalls": 23,
+        "distinctConstructedClasses": 16,
+        "putstatic": 24,
+        "topConstructedClass": "aau",
+        "staticFieldsOfBlockType": 22,
+        "stringLoads": 0,
+        "plainNameCandidates": 0,
+        "tileKeyCandidates": 0,
+        "nameSetterCalls": 0,
+        "nameSetterMethods": {},
+        "walkComplete": true,
+        "topConstructed": [
+          [
+            "abg",
+            5
+          ],
+          [
+            "aar",
+            3
+          ],
+          [
+            "abe",
+            2
+          ],
+          [
+            "abf",
+            1
+          ]
+        ]
+      },
+      {
+        "class": "acq.class",
+        "super": "java/lang/Object",
+        "initCalls": 23,
+        "distinctConstructedClasses": 14,
+        "putstatic": 24,
+        "topConstructedClass": "acq",
+        "staticFieldsOfBlockType": 23,
+        "stringLoads": 23,
+        "plainNameCandidates": 0,
+        "tileKeyCandidates": 0,
+        "nameSetterCalls": 23,
+        "nameSetterMethods": {
+          "a": 23
+        },
+        "walkComplete": true,
+        "topConstructed": [
+          [
+            "ade",
+            2
+          ],
+          [
+            "acw",
+            2
+          ],
+          [
+            "acx",
+            2
+          ],
+          [
+            "acz",
+            2
+          ]
+        ]
+      },
+      {
+        "class": "ww.class",
+        "super": "java/lang/Object",
+        "initCalls": 12,
+        "distinctConstructedClasses": 12,
+        "putstatic": 13,
+        "topConstructedClass": "ww",
+        "staticFieldsOfBlockType": 12,
+        "stringLoads": 14,
+        "plainNameCandidates": 12,
+        "tileKeyCandidates": 0,
+        "nameSetterCalls": 2,
+        "nameSetterMethods": {
+          "a": 2
+        },
+        "walkComplete": true,
+        "topConstructed": [
+          [
+            "wx",
+            1
+          ],
+          [
+            "xb",
+            1
+          ],
+          [
+            "xc",
+            1
+          ],
+          [
+            "xd",
+            1
+          ]
+        ]
+      },
+      {
+        "class": "akc.class",
+        "super": "java/lang/Object",
+        "initCalls": 33,
+        "distinctConstructedClasses": 6,
+        "putstatic": 33,
+        "topConstructedClass": "akc",
+        "staticFieldsOfBlockType": 33,
+        "stringLoads": 0,
+        "plainNameCandidates": 0,
+        "tileKeyCandidates": 0,
+        "nameSetterCalls": 0,
+        "nameSetterMethods": {},
+        "walkComplete": true,
+        "topConstructed": [
+          [
+            "akc",
+            22
+          ],
+          [
+            "ajz",
+            5
+          ],
+          [
+            "aka",
+            2
+          ],
+          [
+            "akb",
+            2
+          ]
+        ]
+      }
+    ],
+    "selfCheck": {
+      "target": "research/beta173-block-palette.json (83 names, parent-reviewed)",
+      "passed": true,
+      "detail": "reproduced all 83 names in the reviewed order from uu.class; reproduced all 92 hand-read Beta 1.8.1 names from lr.class"
+    }
+  },
+  "controls": {
+    "positiveMustBePresent": [
+      "stone",
+      "dirt",
+      "bedrock",
+      "water",
+      "lava",
+      "melon",
+      "brewingStand",
+      "enchantmentTable",
+      "endPortalFrame",
+      "whiteStone",
+      "dragonEgg",
+      "redstoneLight",
+      "oreEmerald",
+      "enderChest",
+      "netherquartz",
+      "quartzBlock",
+      "hopper",
+      "beacon",
+      "commandBlock",
+      "anvil",
+      "hayBlock",
+      "blockCoal",
+      "clayHardened",
+      "clayHardenedStained",
+      "woolCarpet",
+      "monsterStoneEgg",
+      "cobbleWall",
+      "flowerPot",
+      "tripWire",
+      "tripWireSource",
+      "woodSlab",
+      "cocoa"
+    ],
+    "positiveMissing": [],
+    "negativeMustBeAbsent": [
+      "oreRuby",
+      "enderStone",
+      "stone_granite",
+      "acacia_log",
+      "prismarine",
+      "red_sand",
+      "sea_lantern",
+      "slime_block"
+    ],
+    "negativeObserved": [],
+    "passed": true
+  },
+  "nameRecovery": {
+    "status": "RECOVERED",
+    "count": 142,
+    "note": "Block names are attached by a chained `(String) -> <registry type>` setter called once per block (the post-Beta-1.9 mechanism). Each name is the string constant loaded immediately before the setter call. For Release 1.6.4 two setter families exist: `setName` carries the post-flattening registered name (e.g. `gold_ore`) and `setIconName` carries the pre-flattening legacy name (e.g. `oreGold`). Both are recorded here; the union is the set of names this client registers."
+  },
+  "blockNames": [
+    "stone",
+    "grass",
+    "dirt",
+    "stonebrick",
+    "wood",
+    "sapling",
+    "bedrock",
+    "water",
+    "lava",
+    "sand",
+    "gravel",
+    "oreGold",
+    "oreIron",
+    "oreCoal",
+    "log",
+    "leaves",
+    "sponge",
+    "glass",
+    "oreLapis",
+    "blockLapis",
+    "dispenser",
+    "sandStone",
+    "musicBlock",
+    "bed",
+    "goldenRail",
+    "detectorRail",
+    "pistonStickyBase",
+    "web",
+    "tallgrass",
+    "deadbush",
+    "pistonBase",
+    "cloth",
+    "flower",
+    "rose",
+    "mushroom",
+    "blockGold",
+    "blockIron",
+    "stoneSlab",
+    "brick",
+    "tnt",
+    "bookshelf",
+    "stoneMoss",
+    "obsidian",
+    "torch",
+    "fire",
+    "mobSpawner",
+    "stairsWood",
+    "chest",
+    "redstoneDust",
+    "oreDiamond",
+    "blockDiamond",
+    "workbench",
+    "crops",
+    "farmland",
+    "furnace",
+    "sign",
+    "doorWood",
+    "ladder",
+    "rail",
+    "stairsStone",
+    "lever",
+    "pressurePlate",
+    "doorIron",
+    "oreRedstone",
+    "notGate",
+    "button",
+    "snow",
+    "ice",
+    "cactus",
+    "clay",
+    "reeds",
+    "jukebox",
+    "fence",
+    "pumpkin",
+    "hellrock",
+    "hellsand",
+    "lightgem",
+    "portal",
+    "litpumpkin",
+    "cake",
+    "diode",
+    "lockedchest",
+    "trapdoor",
+    "monsterStoneEgg",
+    "stonebricksmooth",
+    "fenceIron",
+    "thinGlass",
+    "melon",
+    "pumpkinStem",
+    "vine",
+    "fenceGate",
+    "stairsBrick",
+    "stairsStoneBrickSmooth",
+    "mycel",
+    "waterlily",
+    "netherBrick",
+    "netherFence",
+    "stairsNetherBrick",
+    "netherStalk",
+    "enchantmentTable",
+    "brewingStand",
+    "cauldron",
+    "endPortalFrame",
+    "whiteStone",
+    "dragonEgg",
+    "redstoneLight",
+    "woodSlab",
+    "cocoa",
+    "stairsSandStone",
+    "oreEmerald",
+    "enderChest",
+    "tripWireSource",
+    "tripWire",
+    "blockEmerald",
+    "stairsWoodSpruce",
+    "stairsWoodBirch",
+    "stairsWoodJungle",
+    "commandBlock",
+    "beacon",
+    "cobbleWall",
+    "flowerPot",
+    "carrots",
+    "potatoes",
+    "skull",
+    "anvil",
+    "chestTrap",
+    "weightedPlate_light",
+    "weightedPlate_heavy",
+    "comparator",
+    "daylightDetector",
+    "blockRedstone",
+    "netherquartz",
+    "hopper",
+    "quartzBlock",
+    "stairsQuartz",
+    "activatorRail",
+    "dropper",
+    "clayHardenedStained",
+    "hayBlock",
+    "woolCarpet",
+    "clayHardened",
+    "blockCoal"
+  ],
+  "aliasNames": {
+    "hardened_clay_stained": "legacy alias from the other name setter",
+    "crafting_table": "legacy alias from the other name setter",
+    "rail_golden": "legacy alias from the other name setter",
+    "repeater_off": "legacy alias from the other name setter",
+    "netherrack": "legacy alias from the other name setter",
+    "quartz_ore": "legacy alias from the other name setter",
+    "flower_dandelion": "legacy alias from the other name setter",
+    "sandstone": "legacy alias from the other name setter",
+    "diamond_block": "legacy alias from the other name setter",
+    "mob_spawner": "legacy alias from the other name setter",
+    "glowstone": "legacy alias from the other name setter",
+    "diamond_ore": "legacy alias from the other name setter",
+    "mycelium": "legacy alias from the other name setter",
+    "rail_detector": "legacy alias from the other name setter",
+    "coal_ore": "legacy alias from the other name setter",
+    "flower_rose": "legacy alias from the other name setter",
+    "flower_pot": "legacy alias from the other name setter",
+    "emerald_block": "legacy alias from the other name setter",
+    "lapis_ore": "legacy alias from the other name setter",
+    "door_iron": "legacy alias from the other name setter",
+    "redstone_lamp_off": "legacy alias from the other name setter",
+    "coal_block": "legacy alias from the other name setter",
+    "gold_block": "legacy alias from the other name setter",
+    "nether_wart": "legacy alias from the other name setter",
+    "trip_wire_source": "legacy alias from the other name setter",
+    "end_stone": "legacy alias from the other name setter",
+    "cobblestone": "legacy alias from the other name setter",
+    "cobblestone_mossy": "legacy alias from the other name setter",
+    "planks": "legacy alias from the other name setter",
+    "pumpkin_stem": "legacy alias from the other name setter",
+    "rail_activator": "legacy alias from the other name setter",
+    "torch_on": "legacy alias from the other name setter",
+    "melon_stem": "legacy alias from the other name setter",
+    "door_wood": "legacy alias from the other name setter",
+    "rail_normal": "legacy alias from the other name setter",
+    "mushroom_brown": "legacy alias from the other name setter",
+    "iron_block": "legacy alias from the other name setter",
+    "gold_ore": "legacy alias from the other name setter",
+    "daylight_detector": "legacy alias from the other name setter",
+    "comparator_on": "legacy alias from the other name setter",
+    "command_block": "legacy alias from the other name setter",
+    "redstone_block": "legacy alias from the other name setter",
+    "water_flow": "legacy alias from the other name setter",
+    "quartz_block": "legacy alias from the other name setter",
+    "lava_still": "legacy alias from the other name setter",
+    "dragon_egg": "legacy alias from the other name setter",
+    "lava_flow": "legacy alias from the other name setter",
+    "enchanting_table": "legacy alias from the other name setter",
+    "mushroom_red": "legacy alias from the other name setter",
+    "brewing_stand": "legacy alias from the other name setter",
+    "endframe": "legacy alias from the other name setter",
+    "redstone_torch_on": "legacy alias from the other name setter",
+    "repeater_on": "legacy alias from the other name setter",
+    "iron_ore": "legacy alias from the other name setter",
+    "hardened_clay": "legacy alias from the other name setter",
+    "water_still": "legacy alias from the other name setter",
+    "soul_sand": "legacy alias from the other name setter",
+    "redstone_dust": "legacy alias from the other name setter",
+    "mushroom_block": "legacy alias from the other name setter",
+    "hay_block": "legacy alias from the other name setter",
+    "emerald_ore": "legacy alias from the other name setter",
+    "lapis_block": "legacy alias from the other name setter",
+    "redstone_lamp_on": "legacy alias from the other name setter",
+    "redstone_torch_off": "legacy alias from the other name setter",
+    "wool_colored": "legacy alias from the other name setter",
+    "redstone_ore": "legacy alias from the other name setter",
+    "wheat": "legacy alias from the other name setter",
+    "trip_wire": "legacy alias from the other name setter",
+    "noteblock": "legacy alias from the other name setter",
+    "nether_brick": "legacy alias from the other name setter",
+    "comparator_off": "legacy alias from the other name setter"
+  }
+}

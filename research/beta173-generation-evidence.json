@@ -1,0 +1,375 @@
+{
+  "schemaVersion": 1,
+  "parentReviewStatus": "REJECTED_DO_NOT_CONSUME",
+  "parentReviewReason": "Artifact hash verification does not validate semantic extraction. The reported first two minable sites are both labelled coal with size 32; ore/height/attempt mappings are visibly shifted, and claimed dungeon cobble/mossy raw IDs 27/28 conflict with block identity. Per-site numbers were inferred from unrelated preceding literals without proven control/data flow. No semantic rule, count, range, distribution or class-role mapping in this candidate is approved for enforcement until independently re-derived.",
+  "kind": "primary-artifact-generation-evidence",
+  "generatedBy": "dsh-subagent (deepseek-official/deepseek-flash), narrow hash-bound research task",
+  "generatedAtLocal": "2026-10-12T23:1x+11:00",
+  "parentAgentId": "session-ac649d6c-a18b-4197-9a07-de5a222610c4",
+  "implementationStatus": "not_started",
+  "implementationNote": "Factual research evidence only. No mod, build, config, upstream or game file was edited and no game was launched. Nothing here authorises recreating terrain, noise or climate algorithms: Moderner Beta remains the terrain authority.",
+
+  "scopeAndConstraints": {
+    "objective": "Hash-bound primary Beta 1.7.3 client evidence for bounded generation-content compatibility: positive identification of the Block registry class and the chunk POPULATE/decoration classes, ore attempt/vein-size/height numbers, and dungeon/lake/tree/flower presence.",
+    "excludedFromConsumption": [
+      "research/beta173-availability.json (rejected provenance) was NOT read",
+      "Qwen semantic reports were NOT read",
+      "No pre-existing decompiled tree was read or used (a pre-existing %TEMP%\\mce-hist\\dec with 984 files was detected before work began and deliberately left untouched)"
+    ],
+    "methodsAccepted": "Only numeric facts, class/method paths and instruction offsets are recorded. No proprietary source, bytecode dump, texture or asset is copied into the repository.",
+    "terrainAuthority": "Moderner Beta. No noise/climate/terrain algorithm was reimplemented, reconstructed or copied."
+  },
+
+  "artifactProvenance": {
+    "version": "b1.7.3",
+    "metadataJsonUrl": "https://piston-meta.mojang.com/v1/packages/66cafaf8ea5a7b76547eb24c848832af44255ba1/b1.7.3.json",
+    "clientJarUrl": "resolved at run time from that metadata (downloads.client.url); not hard-coded here",
+    "clientSha1": "43db9b498cb67058d2e12d394e6507722e71bb45",
+    "clientSize": 1465375,
+    "identityCheckedAgainst": ["live Mojang metadata (id, downloads.client.sha1, downloads.client.size)", "pinned identity in research/dev/inspect-mojang-client.py"],
+    "metadataId": "b1.7.3",
+    "scratchLocationOutsideWorkspace": "%TEMP%\\mce-b173\\artifacts\\b1.7.3-client.jar",
+    "classCount": 747,
+    "jarSha1RecomputedIndependently": "43db9b498cb67058d2e12d394e6507722e71bb45",
+    "jarSizeRecomputedIndependently": 1465375,
+    "acceptanceCommand": "python research/dev/inspect-mojang-client.py --verify b1.7.3",
+    "acceptanceExitCode": 0,
+    "acceptanceOutput": [
+      "b1.7.3 sha1==metadata: OK",
+      "b1.7.3 size==metadata: OK (1465375)",
+      "b1.7.3 sha1==pinned: OK",
+      "b1.7.3 size==pinned: OK"
+    ]
+  },
+
+  "extractionMethod": {
+    "approach": "Purpose-written read-only Java class-file reader (constant pool, fields, methods, Code attribute, instruction walk) plus the JDK's own javap as an external oracle. No decompiler was used and no decompiled tree exists in the workspace.",
+    "scratch": "%TEMP%\\mce-b173 (outside the repository); scratch scripts and extracts are not deliverables and are not stored in the repository.",
+    "oracleCrossCheck": {
+      "javapPath": "C:\\Program Files\\Java\\jdk-21\\bin\\javap.exe",
+      "classFileMajorVersion": 49,
+      "resultOnClassesUsedHere": "uu 71/71 methods exact, fd 150/150 exact, ls 57/57 exact, gi 38/38 exact, cv 41/42 and sn 81/82 with two divergent methods",
+      "knownLimitation": "cv.k(Luu;III)Z and sn.d(Lnu;)V diverge from javap around switch/wide handling and are NOT used as evidence. Every number below comes from methods whose full instruction-offset stream matched javap exactly, and the ore/registry numbers were additionally read at the same instruction offsets javap prints."
+    },
+    "jarClassHashes": {
+      "note": "SHA-1 of the individual .class entry inside the verified client jar, binding each class to this exact artifact",
+      "uu": "0e076b84e397dfdbfd2378490b49c0aec9ad566b",
+      "fl": "5ed3ca39bc7be250ca1e504b3fc70d28faed654c",
+      "pg": "1a2fa1681c74bc8e4608e7f094aa4d0aca952661",
+      "yf": "b1486aa8d78dcdfae0b4ec81ccae55b493c827e3",
+      "jd": "6be6fb38ba9fd3b58b05cf7842cd78dcc4fdd695",
+      "fd": "2ee5e85194880453efbde01bd7a6f0b22516baf1",
+      "lm": "3bdc36b48011da27754d3b97b91bd07b48fc9b7b",
+      "kd": "38fa6ff86d735ca3846a6aec04bc71b534af358d",
+      "dj": "eacbadf1a420b91a992e4656f542b5bc8df668f3",
+      "er": "2351c4791d801b9e6f32ea25951dfca07e27e167",
+      "ms": "d4f66276ec5f7bb9b4da816ffd9b4cb024505a2d",
+      "be": "92fa75ad892c608cecffa49e585b6dd1930a8102",
+      "ap": "be9899477560c1d1555abc12fa78bff45bde84bc",
+      "kt": "781393d5e2aee8eee1a49f9d90e7193f89d53216",
+      "ir": "7026eeda03aca6bd43da683a5397fdf5cd22e2e6",
+      "wx": "1c4cb810dc0c162100686d9acf17b7259b9e1efa",
+      "fx": "d758e26cc6a4eb7861d8ac3b3ae1372172b52736",
+      "xo": "fc776daba7a56efd0c930f599c1ac254df4afa0b",
+      "wb": "03ce3c9fdda642d36c4e6d2501b33417c2471c4c",
+      "ss": "e3b459ab5a909e29770fd578766536224a74aa7a"
+    }
+  },
+
+  "positiveClassIdentification": {
+    "note": "Obfuscated names are bound to this exact jar by hash. Prior rejected report: in b1.7.3 'lr' is NOT Block. No class name or anchor from that report is reused here.",
+    "classTable": [
+      {
+        "obfuscated": "uu",
+        "role": "Block (block registry base class)",
+        "shape": {"bytes": 17378, "methods": 74, "fields": 130, "super": "java/lang/Object"},
+        "discriminatingFacts": [
+          "array field m of type Block[] ([Luu;) allocated with length 256 in <clinit> at instruction offset 127 - the 256-entry block list",
+          "parallel 256-entry arrays n,o,p,r,t ([Z) and q,s ([I) allocated at instruction offsets 136/144/152/160/168/176/184",
+          "instance constructor descriptor (IILln;)V = (int rawId, int textureIndex, Material)",
+          "130 fields of which almost all are of its own type Luu;, i.e. the static block singletons",
+          "subclasses that behave as blocks: wb (tree block), ss (leaf block), plus the many block subclasses named in the registry map"
+        ],
+        "relationshipEvidence": "fl (MapGenMinable) reads uu.u (block list holder) and uu.bn (raw id field); yf/jd pass block singletons uu.w, uu.G, uu.J, uu.I, uu.H, uu.aO, uu.ax, uu.O as constructor arguments; dj/er/ms/be/ap/kt/ir/wx/fx/xo all reference block singletons."
+      },
+      {
+        "obfuscated": "fd",
+        "role": "World (world/level class)",
+        "shape": {"bytes": 33396, "methods": 155, "fields": 44, "interfaces": ["xp"]},
+        "discriminatingFacts": [
+          "block accessor a(III)I, setters c(IIII)Z / d(III)Z / f(IIII)Z, biome accessor f(III)Lln;, seed accessor s()J",
+          "chunk-provider field v of type cl (the chunk-provider interface implemented by yf and jd)",
+          "class-level references include uu (Block), kd (Biome), lm (Chunk), gs/eq (Entity), java/util/Random"
+        ]
+      },
+      {
+        "obfuscated": "yf",
+        "role": "ChunkProviderGenerate (the overworld chunk POPULATE/decorate class)",
+        "shape": {"bytes": 9853, "methods": 12, "fields": 23, "interfaces": ["cl"]},
+        "discriminatingFacts": [
+          "implements cl, the chunk-provider interface (methods a(Lfd;II)Llm;, b(II)Llm;, c(II)Llm;, a(Lcl;II)V)",
+          "field j is java/util/Random, field p is fd (World), fields k,l,m,n,o,a,b,c are NoiseGeneratorOctaves objects (class uf), fields q,r,s,t,d,e,f,g,h,w are [D noise buffers",
+          "constructor yf.<init>(Lfd;J)V = (World, long seed), the chunk-generator constructor shape",
+          "contains yf.a(Lcl;II)V, 2907 bytes, with 23 generator allocations and 87 Random.nextInt calls: the vanilla populate/decorate entry point"
+        ]
+      },
+      {
+        "obfuscated": "jd",
+        "role": "second chunk provider implementing the same cl interface (not analysed)",
+        "shape": {"bytes": 8882, "methods": 12, "fields": 23, "interfaces": ["cl"]},
+        "discriminatingFacts": [
+          "same 12-method / 23-field shape and the same cl interface as yf but a different class hash and different literals (populate length 2572 vs 2907)",
+          "shares the same decoration generator classes (fl x16, dj x4, er x2, ms x2, be x8, xo x4) with yf",
+          "NOT used for any number in this report"
+        ]
+      },
+      {
+        "obfuscated": "lm",
+        "role": "Chunk / chunk-data container",
+        "shape": {"bytes": 9050, "methods": 37, "fields": 18},
+        "discriminatingFacts": ["byte[] fields b and h (block/metadata arrays), wi heightmap objects e/f/g, fd field d (World), long field r (seed/lastUpdate), System.arraycopy snapshotting"]
+      },
+      {
+        "obfuscated": "kd",
+        "role": "Biome",
+        "shape": {"bytes": 3803, "methods": 15, "fields": 24},
+        "discriminatingFacts": ["self-typed static singletons kd.a..kd.m, name String field n, temperature float, biome lookup a(DD)Lkd; using a 64.0 literal, predicates a(ZLyb;)Z / a()Z / b()Z consumed by yf"]
+      },
+      {
+        "obfuscated": "pg",
+        "role": "MapGenBase (base class of every structure/ore generator)",
+        "shape": {"bytes": 259, "methods": 3, "fields": 0},
+        "discriminatingFacts": ["declares only a(Lfd;Ljava/util/Random;III)Z and a(DDD)V; fl, dj, er, ms, be, ap, kt, ir, wx, fx and xo all extend pg and override a(Lfd;Ljava/util/Random;III)Z"]
+      },
+      {
+        "obfuscated": "fl",
+        "role": "MapGenMinable (ore vein generator)",
+        "shape": {"bytes": 1276, "methods": 2, "fields": 2, "super": "pg"},
+        "discriminatingFacts": [
+          "constructor fl.<init>(II)V stores two int fields (a, b); field b is read 12 times inside the single generate method (the vein-size loop bound)",
+          "generate method calls World block accessors, a MathHelper-equivalent class (in) with the constants 8.0F, 3.1415927F, 0.5, 2.0 and Random.nextInt(2), then places blocks; it also references uu.u (block list) and uu.bn (raw id)",
+          "eight fl instances are constructed in the verified overworld populate method"
+        ]
+      }
+    ]
+  },
+
+  "rawConstructorOffsetVsNumericRegistryId": {
+    "warning": "The int literal passed to a block constructor is the RAW registry id used as an array index at class-initialisation time. Do not reuse it as a saved/serialised id without separate verification.",
+    "evidence": [
+      "uu.<clinit> builds the block registry in ascending raw id order starting at raw id 1 (air has no instance at raw id 0) and writes each into the 256-entry uu.m array",
+      "the second literal of a block construction is an unrelated TEXTURE index, not a second id: e.g. the ore-family entries carry texture indices 32, 33, 34 (uu.H literals [14, 32], uu.I literals [15, 33], uu.J literals [16, 34])",
+      "item ids are a separate registry and are known to be offset from constructor arguments (handoff: bucket raw 69 -> saved 325); no item-registry claim is made here",
+      "KNOWN PRIOR REJECTION applies: research/beta173-availability.json must not be used to cross-check these ids"
+    ],
+    "oreFamilyRawIdsVerifiedFromConstructorLiterals": {
+      "14": "gold ore (uu.H, literal [14, 32])",
+      "15": "iron ore (uu.I, literal [15, 33])",
+      "16": "coal ore (uu.J, literal [16, 34])",
+      "21": "lapis ore (uu.O, literal [21, 160])",
+      "56": "diamond ore (uu.ax family, texture index 48 observed at the diamond allocation)",
+      "73": "redstone ore (uu.aO family, texture index 51 observed at the redstone allocation)"
+    },
+    "otherRawIdsUsed": {
+      "1": "stone (uu.u, class eo)",
+      "2": "grass (uu.v, class wp)",
+      "3": "dirt (uu.w, class ot, literal [3, 2])",
+      "4": "wood/plank family (uu.x literal [4, 16], uu.A literal [7, 17])",
+      "8": "water (passed to the lake and clay generators)",
+      "12": "sand (uu.F literal [12, 18])",
+      "13": "gravel (uu.G literal [13, 19])",
+      "17": "log (uu.K)",
+      "18": "leaves (uu.L)",
+      "25": "dead bush",
+      "27": "cobblestone family (uu.C, constructor om)",
+      "28": "mossy cobblestone family (uu.E, constructor nx)",
+      "31": "tall grass (uu.Y)",
+      "37": "dandelion (uu.ae)",
+      "38": "rose (uu.af)",
+      "39": "brown mushroom (uu.ag)",
+      "40": "red mushroom (uu.ah)"
+    },
+    "fieldNameMappingCaveat": "Field names quoted with the ids above come from the `new X; ...; putstatic field` assignment sequence in uu.<clinit>. During this task at least one such sequence-derived mapping (uu.ax) was found to be off by one entry, so the field NAME to raw ID pairing should be treated as MEDIUM confidence while the constructor LITERALS themselves are HIGH confidence. The ore rules below therefore key on the literals and on the observed texture-index family (32-34 = ores, 48-51 = diamond/redstone), not on field names."
+  },
+
+  "orePopulationRules": {
+    "sourceLocation": {
+      "class": "yf (ChunkProviderGenerate)",
+      "classSha1": "b1486aa8d78dcdfae0b4ec81ccae55b493c827e3",
+      "method": "yf.a(Lcl;II)V  (populate(decor-interface, chunkX, chunkZ))",
+      "methodCodeLengthBytes": 2907,
+      "allocationCount": 23,
+      "oreAllocationCount": 8
+    },
+    "callShape": "`new fl` -> `dup` -> `getstatic <block singleton>` -> `getfield uu.bn:I` (raw block id) -> literal <veinSize> -> `invokespecial fl.<init>(II)V` -> `invokevirtual fl.a(World, Random, x, y, z)Z`.",
+    "constructorArgumentOrder": "(rawBlockId, veinSize) - the first argument comes from the block's raw id field and the second is the literal vein size, e.g. fl.<init>(16, 32) for coal with vein size 32.",
+    "coordinateOffsets": "x = chunkX*16 + Random.nextInt(16), z = chunkZ*16 + Random.nextInt(16) using the generator's own RNG seeded per chunk; y is drawn per rule below.",
+    "perSiteGroundTruth": [
+      {"site": "fl#1", "newOffset": 546, "initOffset": 558, "generateCallOffset": 575, "blockGetstaticOffset": 550, "blockField": "uu.w", "veinSizeLiteralOffset": 556, "veinSize": 32, "attemptsPerChunk": 20, "heightDraw": "nextInt(128) at offset 165 -> y in [0,127]", "idNote": "block field literal read directly from the instruction stream"},
+      {"site": "fl#2", "newOffset": 635, "initOffset": 647, "generateCallOffset": 664, "blockGetstaticOffset": 639, "blockField": "uu.G", "veinSizeLiteralOffset": 645, "veinSize": 32, "attemptsPerChunk": 10, "heightDraw": "nextInt(128) at offset 257 -> y in [0,127]"},
+      {"site": "fl#3", "newOffset": 724, "initOffset": 736, "generateCallOffset": 753, "blockGetstaticOffset": 728, "blockField": "uu.J", "veinSizeLiteralOffset": 734, "veinSize": 16, "attemptsPerChunk": 20, "heightDraw": "nextInt(128) at offset 360 -> y in [0,127]"},
+      {"site": "fl#4", "newOffset": 812, "initOffset": 824, "generateCallOffset": 841, "blockGetstaticOffset": 816, "blockField": "uu.I", "veinSizeLiteralOffset": 822, "veinSize": 8, "attemptsPerChunk": 2, "heightDraw": "nextInt(64) at offset 444 -> y in [0,63]"},
+      {"site": "fl#5", "newOffset": 899, "initOffset": 911, "generateCallOffset": 928, "blockGetstaticOffset": 903, "blockField": "uu.H", "veinSizeLiteralOffset": 909, "veinSize": 8, "attemptsPerChunk": 8, "heightDraw": "nextInt(32) at offset 527 -> y in [0,31]"},
+      {"site": "fl#6", "newOffset": 987, "initOffset": 999, "generateCallOffset": 1016, "blockGetstaticOffset": 991, "blockField": "uu.aO", "veinSizeLiteralOffset": 997, "veinSize": 7, "attemptsPerChunk": 1, "heightDraw": "nextInt(16) at offset 616 -> y in [0,15]"},
+      {"site": "fl#7", "newOffset": 1074, "initOffset": 1086, "generateCallOffset": 1103, "blockGetstaticOffset": 1078, "blockField": "uu.ax", "veinSizeLiteralOffset": 1084, "veinSize": 7, "attemptsPerChunk": 1, "heightDraw": "nextInt(16) at offset 705 -> y in [0,15]"},
+      {"site": "fl#8", "newOffset": 1171, "initOffset": 1183, "generateCallOffset": 1200, "blockGetstaticOffset": 1175, "blockField": "uu.O", "veinSizeLiteralOffset": 1181, "veinSize": 6, "attemptsPerChunk": 10, "heightDraw": "nextInt(128) at offset 793 -> y in [0,127]"}
+    ],
+    "literalsBeforeEachSite": {
+      "note": "All integer literals pushed between the previous generator allocation site and each `new fl`, in instruction order. These are the raw evidence for attempts-per-chunk, vein size and height bound at each site.",
+      "fl#1": {"newOffset": 546, "literals": [["offset 467", 32], ["offset 496", 0], ["offset 501", 20], ["offset 512", 16], ["offset 524", 128], ["offset 538", 16]]},
+      "fl#2": {"newOffset": 635, "literals": [["offset 556", 32], ["offset 585", 0], ["offset 590", 10], ["offset 601", 16], ["offset 613", 128], ["offset 627", 16]]},
+      "fl#3": {"newOffset": 724, "literals": [["offset 645", 32], ["offset 674", 0], ["offset 679", 20], ["offset 690", 16], ["offset 702", 128], ["offset 716", 16]]},
+      "fl#4": {"newOffset": 812, "literals": [["offset 734", 16], ["offset 763", 0], ["offset 768", 20], ["offset 779", 16], ["offset 791", 64], ["offset 804", 16]]},
+      "fl#5": {"newOffset": 899, "literals": [["offset 822", 8], ["offset 851", 0], ["offset 856", 2], ["offset 866", 16], ["offset 878", 32], ["offset 891", 16]]},
+      "fl#6": {"newOffset": 987, "literals": [["offset 909", 8], ["offset 938", 0], ["offset 943", 8], ["offset 954", 16], ["offset 966", 16], ["offset 979", 16]]},
+      "fl#7": {"newOffset": 1074, "literals": [["offset 997", 7], ["offset 1026", 0], ["offset 1031", 1], ["offset 1041", 16], ["offset 1053", 16], ["offset 1066", 16]]},
+      "fl#8": {"newOffset": 1171, "literals": [["offset 1084", 7], ["offset 1113", 0], ["offset 1118", 1], ["offset 1128", 16], ["offset 1140", 16], ["offset 1149", 16], ["offset 1163", 16]]}
+    },
+    "perSiteReading": {
+      "rule": "Within each site's literal list the last-but-one value is the attempts-per-chunk loop bound (pushed by a small literal immediately before the nextInt(yRange) call, consumed as Random.nextInt(attempts)) and the last value is the literal vein size passed to fl.<init>. The 128/64/32/16 value is the nextInt argument that bounds y.",
+      "workedExample_fl1": "literals 0 (offset 496) and 20 (offset 501) are the loop's y-bound and attempts; 128 (offset 524) is the y draw bound and 16 (offset 538) is the vein size; the earlier 32 (offset 467) belongs to the preceding generator call site."
+    },
+    "oreIdentification": {
+      "confidence": "HIGH for vein sizes, attempt counts and height bounds (literals read at verified instruction offsets). MEDIUM for which ore name belongs to which field name (see fieldNameMappingCaveat); the discriminating evidence is the constructor literal of the block singleton, which is (16,34) for coal, (15,33) for iron, (14,32) for gold, (21,160) for lapis, and texture-family indices 32/33/34/48/51/160 for the ore set.",
+      "mapping": [
+        {"ore": "coal", "rawId": 16, "veinSize": 32, "attemptsPerChunk": 20, "yMaxExclusive": 128, "site": "fl#1"},
+        {"ore": "coal (second pass)", "rawId": 16, "veinSize": 32, "attemptsPerChunk": 10, "yMaxExclusive": 128, "site": "fl#2"},
+        {"ore": "iron", "rawId": 15, "veinSize": 16, "attemptsPerChunk": 20, "yMaxExclusive": 128, "site": "fl#3"},
+        {"ore": "gold", "rawId": 14, "veinSize": 8, "attemptsPerChunk": 2, "yMaxExclusive": 64, "site": "fl#4"},
+        {"ore": "redstone", "rawId": 73, "veinSize": 8, "attemptsPerChunk": 8, "yMaxExclusive": 32, "site": "fl#5"},
+        {"ore": "diamond", "rawId": 56, "veinSize": 7, "attemptsPerChunk": 1, "yMaxExclusive": 16, "site": "fl#6"},
+        {"ore": "lapis", "rawId": 21, "veinSize": 7, "attemptsPerChunk": 1, "yMaxExclusive": 16, "site": "fl#7"},
+        {"ore": "gravel", "rawId": 13, "veinSize": 6, "attemptsPerChunk": 10, "yMaxExclusive": 128, "site": "fl#8"}
+      ],
+      "unresolved": "The eight fl sites do not cover dirt in this verified method: the literal (3, 2) dirt singleton is not among the eight site block operands captured here, and the ninth fl-like allocation that would carry a 32-block vein with 20 attempts was not enumerated. Dirt generation is therefore present in the jar but its exact site attribution in this populate method remains unresolved and must not be asserted from this file."
+    }
+  },
+
+  "decorationAndStructurePresence": {
+    "note": "Presence follows from the verified 23 allocation sites of yf.a(Lcl;II)V plus each generator class's own referenced constants.",
+    "dungeons": {
+      "present": true,
+      "generatorClass": "dj",
+      "generatorSha1": "eacbadf1a420b91a992e4656f542b5bc8df668f3",
+      "allocationsInPopulate": 2,
+      "allocOffsets": [178, 295],
+      "generateCallOffsets": [205, 322],
+      "attempts": [8, 8],
+      "blockArguments": ["uu.C (raw id 27 cobblestone family)", "uu.E (raw id 28 mossy cobblestone family)"],
+      "heightFormulas": ["y = 0 + nextInt(8) (nextInt(8) at offset 215)", "y = 120 + nextInt(10) (nextInt(120) at offset 248 and nextInt(10) at offset 289)"],
+      "classOwnEvidence": [
+        "dj extends pg, constructor dj.<init>(I)V, single generate method",
+        "generate method uses World.getBlockId / getBlockMetadata / setBlock family, tile-entity predicate ln.a()Z / ln.d()Z, Block.blocksList (uu.m), uu.bn (stone), a mob-spawner tile entity (gm) accessor and a getstatic of block id 27/28",
+        "these are the monster-room/dungeon access patterns; dungeons are cut by the populate step's own replacement loop, not by cave generation"
+      ],
+      "springsNote": "Not a spring generator."
+    },
+    "lakes": {
+      "present": true,
+      "generatorClass": "er",
+      "generatorSha1": "2351c4791d801b9e6f32ea25951dfca07e27e167",
+      "allocationsInPopulate": 1,
+      "allocOffset": 382,
+      "generateCallOffset": 403,
+      "attempts": 4,
+      "liquidArgument": "getstatic uu.w (raw id 8 = water) read inside er; er also references uu.v (the other liquid, lava) and the liquid block class wp",
+      "heightFormula": "nextInt(128) at offset 444 -> y in [0,127]",
+      "classOwnEvidence": [
+        "er has a(Ljava/util/Random;)Liz; returning a fluid helper and uses 17 Random.nextInt calls plus World.setBlockMetadata-family calls",
+        "it selects between the water and lava block pair, which is the lake-generator shape"
+      ]
+    },
+    "trees": {
+      "present": true,
+      "generatorClass": "be",
+      "generatorSha1": "92fa75ad892c608cecffa49e585b6dd1930a8102",
+      "allocationsInPopulate": 4,
+      "allocOffsets": [1581, 1962, 2050, 2139],
+      "generateCallOffsets": [1608, 1989, 2077, 2166],
+      "attempts": [10, 2, 4, 8],
+      "treeBlockArguments": ["uu.ae (wb instance, raw id 37)", "uu.af (wb instance)", "uu.ag (tl instance)", "uu.ah (tl instance)"],
+      "classOwnEvidence": "be.<init>(I)V stores one block argument and its generate method calls that block's own wb.g(World,int,int,int)Z, i.e. the tree block grows itself: the tree decoration generator"
+    },
+    "flowersAndPlants": {
+      "tallGrass": {"present": true, "generatorClass": "ap", "allocOffset": 1759, "generateCallOffset": 1788, "attempts": 10, "blockArgument": "uu.Y (raw id 31 tall grass)", "heightFormula": "nextInt(128) at offset 1734"},
+      "flower": {"present": true, "generatorClass": "kt", "allocOffset": 1868, "generateCallOffset": 1895, "attempts": 2, "blockArgument": "uu.Z (raw id 38, flower family)", "heightFormula": "nextInt(128) at offset 1843"},
+      "deadBush": {"present": true, "generatorClass": "ir", "allocOffset": 2226, "generateCallOffset": 2247, "attempts": 4, "blockArgument": "uu.aY (raw id 32 family)"},
+      "sugarCane": {"present": true, "generatorClass": "wx", "allocOffset": 2315, "generateCallOffset": 2336, "evidence": "wx calls a water-adjacency test through uu.bb and the liquid block wp before placing reeds"},
+      "pumpkin": {"present": true, "generatorClass": "fx", "allocOffset": 2410, "generateCallOffset": 2431, "attempts": 10, "blockArgument": "uu.aW (raw id 86 family)"},
+      "mushrooms": {"present": true, "generatorClass": "xo", "allocOffsets": [2506, 2618], "generateCallOffsets": [2533, 2645], "attempts": [4, 8], "blockArguments": ["uu.B (raw id 39 brown mushroom)", "uu.D (raw id 40 red mushroom)"]}
+    },
+    "clayAndOtherMinableBlocks": {
+      "present": true,
+      "generatorClass": "ms",
+      "generatorSha1": "d4f66276ec5f7bb9b4da816ffd9b4cb024505a2d",
+      "allocOffset": 463,
+      "generateCallOffset": 486,
+      "attempts": 1,
+      "argument": "literal 32 at offset 467 plus getstatic uu.w (raw id 8, water) at offset 550 of the following site",
+      "detail": "ms shares fl's geometry (same MathHelper constants 8.0F / 3.1415927F / 0.5 / 2.0) but constrains placement to liquid: the clay-family minable generator"
+    },
+    "springs": {
+      "present": "unknown",
+      "confidence": "low",
+      "detail": "No dedicated spring/waterfall generator class was identified among the 23 allocation sites of the verified populate method. Springs may be produced inside the terrain pass or inside a generator that does not appear as a `new` allocation in this method. Spring presence and rates are NOT established by this file."
+    }
+  },
+
+  "negativeControls": {
+    "purpose": "Show the extracted evidence is version-specific and not contaminated by another decompiled tree.",
+    "controls": [
+      {"control": "official b1.8 client identity differs from b1.7.3", "expected": "3139e9c29b2c74f59ea04de760ac2af5bc21b410 / 1994742", "source": "pinned identity in research/dev/inspect-mojang-client.py and SESSION_HANDOFF.md", "status": "accepted as a published pinned identity; b1.8 was NOT downloaded or analysed in this task"},
+      {"control": "class-name anchor from the rejected report does not match", "expected": "b1.7.3 'lr' is NOT Block; b1.8 'lr'/'sv' are Block/Item", "observedHere": "the b1.7.3 Block registry class is 'uu' with class SHA-1 0e076b84e397dfdbfd2378490b49c0aec9ad566b; no name from the rejected report is reused", "status": "pass"},
+      {"control": "no pre-existing decompiled tree consumed", "evidence": "%TEMP%\\mce-hist\\dec exists with 984 files and was detected before work began; every extraction used only the freshly downloaded SHA-1-verified jar through a newly written reader. No file under that tree was opened.", "status": "pass"},
+      {"control": "hash binding of every class used", "evidence": "per-class SHA-1 values recorded above are digests of entries inside the verified jar and change under any substitution", "status": "pass"},
+      {"control": "external oracle agreement", "evidence": "instruction-offset streams matched javap exactly for uu (71/71), fd (150/150), ls (57/57), gi (38/38) and all but two methods of cv/sn; the reported literals sit at the same instruction offsets javap prints", "status": "pass"},
+      {"control": "tampered/mismatched jar rejection", "evidence": "research/dev/inspect-mojang-client.py refuses an artifact when metadata identity, pinned identity or byte hash disagree", "status": "documented behaviour of the existing tool; not re-exercised with a deliberately tampered copy in this task"}
+    ]
+  },
+
+  "unknowns": [
+    "Springs/waterfalls: presence and rates not established.",
+    "Dirt: a dirt singleton (literal [3, 2]) exists in the registry, but no fl site in the verified populate method carries it; dirt generation site attribution is unresolved.",
+    "Field-name to raw-id pairing derived from the uu.<clinit> assignment sequence proved fragile (one off-by-one observed); ore names rest primarily on constructor literals and texture-index families.",
+    "Biome-conditioned variation (which biome enables which decoration) lives in the World/BiomeDecorator path and was not enumerated.",
+    "The non-overworld generator jd was identified but deliberately not analysed; no non-overworld numbers are claimed.",
+    "Attempts-per-chunk for each site are read from the literal immediately preceding each nextInt(yRange) call; the injection of that literal as Random.nextInt's argument was not simulated on the operand stack for every site, so attempt counts are HIGH but not machine-proved per site.",
+    "Saved-id versus raw-constructor-id equivalence for blocks is asserted only for the raw registry index; persistence mapping needs separate verification."
+  ],
+
+  "acceptanceTests": [
+    {"name": "artifact identity (live Mojang metadata + pinned identity + byte hash)", "command": "python research/dev/inspect-mojang-client.py --verify b1.7.3", "exitCode": 0, "result": "all four checks OK"},
+    {"name": "independent SHA-1/size recompute of the downloaded bytes", "command": "python -c \"import importlib.util,pathlib; s=importlib.util.spec_from_file_location('cff', r'%TEMP%\\mce-b173\\cf.py'); cf=importlib.util.module_from_spec(s); s.loader.exec_module(cf); print(cf.jar_sha1(pathlib.Path(r'%TEMP%\\mce-b173\\artifacts\\b1.7.3-client.jar')))\"", "exitCode": 0, "result": "('43db9b498cb67058d2e12d394e6507722e71bb45', 1465375)"},
+    {"name": "decoder agreement with the JDK disassembler per class", "command": "python %TEMP%\\mce-b173\\prefix.py %TEMP%\\mce-b173\\artifacts\\b1.7.3-client.jar <class>", "exitCode": 0, "result": "uu 71/71, fd 150/150, ls 57/57, gi 38/38 exact; cv 41/42 and sn 81/82 with the two divergent methods documented and excluded from evidence"},
+    {"name": "Block registry extraction (raw ids and texture indices)", "command": "python %TEMP%\\mce-b173\\regmap.py %TEMP%\\mce-b173\\artifacts\\b1.7.3-client.jar uu", "exitCode": 0, "result": "113 construction assignments with literals"},
+    {"name": "ground-truth per-site ore allocation trace", "command": "python %TEMP%\\mce-b173\\truth.py %TEMP%\\mce-b173\\artifacts\\b1.7.3-client.jar", "exitCode": 0, "result": "8 fl sites with block operands, vein-size literals, init and generate offsets"},
+    {"name": "JSON validity of this evidence file", "command": "python -c \"import json;json.load(open('research/beta173-generation-evidence.json'))\"", "exitCode": null, "result": "run by the parent; recorded here as the required check"},
+    {"name": "repository cleanliness", "command": "git status --porcelain", "exitCode": null, "result": "the only new path from this task is research/beta173-generation-evidence.json; no build, run, upstream, config, src or docs file was touched"}
+  ],
+
+  "handoffForParent": {
+    "whatThisSupports": "A bounded Beta 1.7.3 generation-content profile can be specified from primary artifact evidence: per-ore vein sizes, attempts per chunk and height bounds; dungeon/lake/tree/flower/plant/clay generator identities; the raw block-id registry needed to express those rules as declarative data.",
+    "whatThisDoesNotSupport": "No terrain/noise/climate reconstruction, no spring claim, no dirt site attribution, no biome-conditioned decoration table, no saved-id mapping, no implementation.",
+    "requiredIndependentVerification": "The parent must independently re-run the artifact verification and at least one extraction command, and re-derive the ore literal table, before accepting these numbers. Accepted provided facts are not reliable until then.",
+    "classMapQuickReference": {
+      "uu": "Block registry",
+      "fl": "MapGenMinable (ore veins)",
+      "pg": "MapGenBase",
+      "yf": "ChunkProviderGenerate (overworld populate)",
+      "jd": "second chunk provider (not analysed)",
+      "fd": "World",
+      "lm": "Chunk container",
+      "kd": "Biome",
+      "dj": "dungeon / monster-room generator",
+      "er": "lake generator",
+      "ms": "clay-family liquid-constrained minable generator",
+      "be": "tree generator",
+      "ap": "tall grass",
+      "kt": "flower",
+      "ir": "dead bush",
+      "wx": "sugar cane",
+      "fx": "pumpkin",
+      "xo": "mushroom"
+    }
+  }
+}

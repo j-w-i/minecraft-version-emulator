@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "kind": "historical-version-boundaries-from-primary-and-secondary-sources",
+  "reviewStatus": "PARENT_RECORDED_PENDING_WIDER_REVIEW",
+  "generatedAt": "2026-10-13",
+  "purpose": "Records when features were introduced, with the source for each claim and an explicit confidence, so per-version enable/disable decisions cite evidence instead of memory. A boundary with no source is NOT recorded here as fact.",
+  "evidenceStandard": {
+    "primary": "A hash-verified client jar for the version in question. Strongest, and used wherever a jar is available and published by Mojang.",
+    "secondary": "The Minecraft Wiki's per-block History section, which cites Notch's own changelist posts for the early versions. Used where no jar extraction exists yet, and marked as secondary.",
+    "rule": "Unknown stays unknown. A plausible boundary from memory is never recorded as evidence, because a wrong boundary either admits later content into an early world or removes content the version had, and both are invisible."
+  },
+  "boundaries": [
+    {
+      "feature": "grass (the plant; modern id minecraft:short_grass, pre-1.13 block id 31 named 'tallgrass')",
+      "introducedIn": "Beta 1.6, Test Build 3",
+      "confidence": "high",
+      "source": {
+        "type": "secondary",
+        "url": "https://minecraft.wiki/w/Short_Grass",
+        "quote": "|1.6|dev=Test Build 3| Added grass.",
+        "supportingQuote": "Prior to The Flattening, the block's numeral ID was 31, with metadata 1.",
+        "crossCheck": "This project's own b1.7.3 extraction lists 'tallgrass' among the 83 block names read from the hash-verified b1.7.3 client, which is consistent with the block existing by 1.7.3 and with the wiki's pre-1.13 name."
+      },
+      "consequence": "Alpha v1.1.2_01 and both Infdev builds must place no grass. Moderner Beta places ModernBetaVegetationPlacedFeatures.PATCH_GRASS_ALPHA_2 (registry id moderner_beta:patch_grass_alpha_2) in those versions' biomes, so it is excluded for them.",
+      "implementedAs": "HistoricalFeatureExclusions.BEFORE_GRASS_EXISTED, applied by revision 1 of historical_experience:alpha, historical_experience:infdev_420 and historical_experience:infdev_611",
+      "verifiedBy": "A 289-chunk Alpha world generated on revision 1 contains no grass plant and 31,531 grass BLOCKS, which is correct: the block existed, the plant did not."
+    },
+    {
+      "feature": "vine",
+      "introducedIn": "Beta 1.8",
+      "confidence": "medium",
+      "source": {
+        "type": "reasoning-from-this-projects-own-extraction",
+        "detail": "Vines are absent from the 83 block names extracted from the hash-verified b1.7.3 client (checked: 'vine' is not in the set), and the Beta 1.8.1 boundary is what this project already records for endermen, cave spiders, silverfish and XP orbs.",
+        "url": null
+      },
+      "consequence": "Vines must not appear in Infdev, Alpha or Beta 1.7.3.",
+      "status": "FOUND, NOT YET FIXED",
+      "observedDefect": "A 289-chunk Alpha world on revision 1 contains 10 vine blocks. The block-suppression hook cannot remove them because it decides from a version's EXTRACTED BLOCK PALETTE, and only Beta 1.7.3 has one; Alpha and Infdev fall back to making no claim.",
+      "nextStep": "Replace the palette-only decision with a block-introduction table covering every version, so an anachronistic block is suppressed wherever it is placed rather than only on versions whose palette has been extracted."
+    }
+  ],
+  "openGaps": [
+    "Alpha and Infdev have no extracted block palette of their own. The b1.7.3 extraction tool parses their jars (474/474 Alpha classes parse to the exact last byte) but cannot find a block class by name, because those versions do not load plain block-name strings the way Beta 1.7.3 does. The Alpha jar is hash-verified and present, so this is a tooling gap, not a provenance one.",
+    "Structure introduction boundaries for Beta 1.8.1 and later are not yet recorded, so no structure rule is declared for those versions and none is enforced."
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "checked": 25,
+  "failures": [],
+  "results": [
+    {
+      "url": "https://launcher.mojang.com/v1/objects/3139e9c29b2c74f59ea04de760ac2af5bc21b410/client.jar",
+      "citations": 25,
+      "status": 200,
+      "detail": "HEAD",
+      "ok": true
+    },
+    {
+      "url": "https://launcher.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar",
+      "citations": 5,
+      "status": 200,
+      "detail": "HEAD",
+      "ok": true
+    },
+    {
+      "url": "https://minecraft.wiki/index.php?title=Armor&action=raw",
+      "citations": 2,
+      "status": 200,
+      "detail": "HEAD",
+      "ok": true
+    },
+    {
+      "url": "https://minecraft.wiki/index.php?title=Blocking&action=raw",
+      "citations": 1,
+      "status": 200,
+      "detail": "HEAD",
+      "ok": true
+    },
+    {
+      "url": "https://minecraft.wiki/index.php?title=Chicken&action=raw",
+      "citations": 1,
+      "status": 200,
+      "detail": "HEAD",
+      "ok": true
+    },
+    {
+      "url": "https://minecraft.wiki/index.php?title=Cow&action=raw",
+      "citations": 1,
+      "status": 200,
+      "detail": "HEAD",
+      "ok": true
+    },
+    {
+      "url": "https://minecraft.wiki/index.php?title=Damage&action=raw",
+      "citations": 4,
+      "status": 200,
+      "detail": "HEAD",
+      "ok": true
+    },
+    {
+      "url": "https://minecraft.wiki/index.php?title=Experience&action=raw",
+      "citations": 1,
+      "status": 200,
+      "detail": "HEAD",
+      "ok": true
+    },
+    {
+      "url": "https://minecraft.wiki/index.php?title=Food&action=raw",
+      "citations": 10,
+      "status": 200,
+      "detail": "HEAD",
+      "ok": true
+    },
+    {
+      "url": "https://minecraft.wiki/index.php?title=Health&action=raw",
+      "citations": 2,
+      "status": 200,
+      "detail": "HEAD",
+      "ok": true
+    },
+    {
+      "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.7.3&action=raw",
+      "citations": 2,
+      "status": 200,
+      "detail": "HEAD",
+      "ok": true
+    },
+    {
+      "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8&action=raw",
+      "citations": 33,
+      "status": 200,
+      "detail": "HEAD",
+      "ok": true
+    },
+    {
+      "url": "https://minecraft.wiki/index.php?title=Java_Edition_Beta_1.8.1&action=raw",
+      "citations": 2,
+      "status": 200,
+      "detail": "HEAD",
+      "ok": true
+    },
+    {
+      "url": "https://minecraft.wiki/index.php?title=Java_Edition_guides/Adventure_Update:_Part_I&action=raw",
+      "citations": 5,
+      "status": 200,
+      "detail": "HEAD",
+      "ok": true
+    },
+    {
+      "url": "https://minecraft.wiki/index.php?title=Melee_attack&action=raw",
+      "citations": 3,
+      "status": 200,
+      "detail": "HEAD",
+      "ok": true
+    },
+    {
+      "url": "https://minecraft.wiki/index.php?title=Pig&action=raw",
+      "citations": 1,
+      "status": 200,
+      "detail": "HEAD",
+      "ok": true
+    },
+    {
+      "url": "https://minecraft.wiki/index.php?title=Sheep&action=raw",
+      "citations": 2,
+      "status": 200,
+      "detail": "HEAD",
+      "ok": true
+    },
+    {
+      "url": "https://minecraft.wiki/index.php?title=Sprinting&action=raw",
+      "citations": 2,
+      "status": 200,
+      "detail": "HEAD",
+      "ok": true
+    },
+    {
+      "url": "https://minecraft.wiki/index.php?title=Swimming&action=raw",
+      "citations": 1,
+      "status": 200,
+      "detail": "HEAD",
+      "ok": true
+    },
+    {
+      "url": "https://minecraft.wiki/index.php?title=Sword_blocking&action=raw",
+      "citations": 2,
+      "status": 200,
+      "detail": "HEAD",
+      "ok": true
+    },
+    {
+      "url": "https://minecraft.wiki/index.php?title=Zombie&action=raw",
+      "citations": 1,
+      "status": 200,
+      "detail": "HEAD",
+      "ok": true
+    },
+    {
+      "url": "https://minecraft.wiki/w/Java_Edition_guides/Adventure_Update:_Part_I",
+      "citations": 1,
+      "status": 200,
+      "detail": "HEAD",
+      "ok": true
+    },
+    {
+      "url": "https://piston-meta.mojang.com/v1/packages/237811ba6f3418f3e64edb26246037625528ddf8/b1.8.json",
+      "citations": 1,
+      "status": 200,
+      "detail": "HEAD",
+      "ok": true
+    },
+    {
+      "url": "https://piston-meta.mojang.com/v1/packages/2f6d2141c99bd626a069d8655135c4b13c45b981/b1.8.1.json",
+      "citations": 1,
+      "status": 200,
+      "detail": "HEAD",
+      "ok": true
+    },
+    {
+      "url": "https://twitter.com/jeb_/status/111047534318858240",
+      "citations": 1,
+      "status": 200,
+      "detail": "HEAD",
+      "ok": true
+    }
+  ]
+}

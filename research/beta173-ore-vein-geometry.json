@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "reviewStatus": "PARENT_VERIFIED_PRIMARY_EVIDENCE",
+  "scope": "The complete ore vein placement algorithm of Beta 1.7.3, re-derived by the parent from the hash-verified client with JDK 25 javap. Combined with the already-accepted call-site parameters this is sufficient to reproduce Beta ore placement. It is NOT a claim about the resulting block distribution, the number of veins that survive terrain, or any non-ore feature.",
+  "source": {
+    "version": "b1.7.3",
+    "clientUrl": "https://launcher.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar",
+    "clientSha1": "43db9b498cb67058d2e12d394e6507722e71bb45",
+    "clientBytes": 1465375,
+    "classFile": "fl.class",
+    "classSha1": "5ed3ca39bc7be250ca1e504b3fc70d28faed654c",
+    "classBytes": 1058,
+    "method": "fl.a(Lfd;Ljava/util/Random;III)Z  (World, Random, x, y, z) -> boolean",
+    "disassembly": "javap -p -c on the extracted fl.class; the full method body was read top to bottom and every referenced field resolved in its own static initialiser. Disassembly remains outside the repository.",
+    "classRole": "fl is the ore vein generator (WorldGenMinable). yf.a(...) constructs it as new fl(blockId, size) and calls this method; uu.<clinit> names the block constants."
+  },
+  "constructor": {
+    "signature": "fl(int blockId, int size)",
+    "fieldA": "blockId  (the block the vein writes)",
+    "fieldB": "size     (the vein size argument from the call site)"
+  },
+  "algorithm": {
+    "angle": "f = random.nextFloat() * 3.1415927f",
+    "axisX": "from = x + 8 + sin(f) * size / 8.0 ; to = x + 8 - sin(f) * size / 8.0",
+    "axisZ": "from = z + 8 + cos(f) * size / 8.0 ; to = z + 8 - cos(f) * size / 8.0",
+    "axisY": "from = y + random.nextInt(3) - 2 ; to = y + random.nextInt(3) - 2",
+    "iterationCount": "i = 0 while i <= size, i.e. size + 1 iterations. The comparison is if_icmpgt, so the bound is inclusive - one more iteration than the i < size form.",
+    "centreAlongVein": "cx = axisX.from + (axisX.to - axisX.from) * i / size, and likewise for cy and cz",
+    "radiusNoise": "n = random.nextDouble() * size / 16.0",
+    "radiusX": "rx = (sin(3.1415927f * i / size) + 1.0f) * n + 1.0",
+    "radiusY": "ry = same expression as rx (both read the sin term)",
+    "radiusZ": "rz = rx  (the z bound and its half-radius use the SAME value as x, not ry)",
+    "bounds": [
+      "minX = floor(cx - rx / 2), maxX = floor(cx + rx / 2)",
+      "minY = floor(cy - ry / 2), maxY = floor(cy + ry / 2)",
+      "minZ = floor(cz - rx / 2), maxZ = floor(cz + rx / 2)"
+    ],
+    "shapeTest": "For each integer (bx, by, bz) in the box: dx = (bx + 0.5 - cx) / (rx / 2), dy = (by + 0.5 - cy) / (ry / 2), dz = (bz + 0.5 - cz) / (rx / 2); the block is inside when dx*dx < 1 and dx*dx + dy*dy < 1 and dx*dx + dy*dy + dz*dz < 1, i.e. an ellipsoid tested with strict < at every level.",
+    "replacement": "Only when the existing block is uu.u is it set to the vein block. uu.u is stone: uu.<clinit> loads the string \"stone\" immediately before putstatic Field u. Nothing else is replaced - no dirt, gravel or deepslate target, and there is no air-exposure discard.",
+    "returnValue": "true, unconditionally"
+  },
+  "offsets": {
+    "angle": [0, 7],
+    "axisX": [9, 55],
+    "axisZ": [55, 85],
+    "axisY": [86, 103],
+    "loopInitAndBound": [104, 109],
+    "centreLerp": [110, 199],
+    "radiusNoise": [201, 215],
+    "radiusXAndY": [217, 265],
+    "integerBounds": [267, 349],
+    "outerLoop": [351, 538],
+    "middleLoop": [391, 532],
+    "innerLoop": [437, 526],
+    "blockReadAndStoneTest": [489, 505],
+    "blockWrite": [508, 522],
+    "loopBackEdges": [132, 355, 395, 441],
+    "return": [547, 548]
+  },
+  "callSiteParameters": {
+    "note": "Already independently accepted in research/beta173-ore-parameters-parent-reviewed.json. Repeated here only to keep the complete recipe in one readable place; that file remains the authority for the per-call-site evidence.",
+    "dirt": {"size": 32, "attempts": 20, "originY": "0..127"},
+    "gravel": {"size": 32, "attempts": 10, "originY": "0..127"},
+    "coal": {"size": 16, "attempts": 20, "originY": "0..127"},
+    "iron": {"size": 8, "attempts": 20, "originY": "0..63"},
+    "gold": {"size": 8, "attempts": 2, "originY": "0..31"},
+    "redstone": {"size": 7, "attempts": 8, "originY": "0..15"},
+    "diamond": {"size": 7, "attempts": 1, "originY": "0..15"},
+    "lapis": {"size": 6, "attempts": 1, "originY": "0..30 (sum of two nextInt(16))"}
+  },
+  "derivedExpectationsForVerification": {
+    "note": "Origin height is where a vein STARTS. The centre is then offset by nextInt(3) - 2 and the radius reaches at most (2 * size / 16) + 1 blocks, so a vein can extend a few blocks beyond its origin range. These bounds are therefore deliberately generous; a measured maximum far outside them is evidence of a different placement, not of this algorithm.",
+    "coal": "origin 0..127, radius <= 3, centre offset +-2 -> expected roughly 0..132",
+    "iron": "origin 0..63, radius <= 2, centre offset +-2 -> expected roughly 0..67",
+    "gold": "origin 0..31, radius <= 2 -> expected roughly 0..35",
+    "redstone": "origin 0..15, radius <= 2 -> expected roughly 0..19",
+    "diamond": "origin 0..15, radius <= 2 -> expected roughly 0..19",
+    "lapis": "origin 0..30, radius <= 2 -> expected roughly 0..34"
+  },
+  "measuredContradiction": {
+    "world": "run/probe/world-ore-check (Beta 1.7.3 historical revision 4)",
+    "evidence": "logs/continuation-111-ore-histogram.log",
+    "measuredYRange": {
+      "minecraft:coal_ore": "14..58",
+      "minecraft:iron_ore": "1..56",
+      "minecraft:gold_ore": "5..18",
+      "minecraft:redstone_ore": "1..31",
+      "minecraft:diamond_ore": "3..53",
+      "minecraft:lapis_ore": "2..55"
+    },
+    "verdict": "Redstone, diamond and lapis are placed well above the range Beta 1.7.3's algorithm can reach: redstone to 31 against a maximum of about 19, diamond to 53 against about 19, lapis to 55 against about 34. Moderner Beta's Beta biomes use vanilla ore placed features, whose height bands differ from Beta's, so ore DISTRIBUTIONS are still not historical even though the ores themselves are the right ones. This is the gap the ore-feature work must close.",
+    "notClaimed": "The measured bands are a single 5x5-chunk sample on one seed, and they were taken with the anchor ore features re-examined only at revision 4. They are evidence of a real difference in placement, not a full distribution comparison."
+  },
+  "measuredResolution": {
+    "revision": "historical_experience:beta_1_7_3_content_preview_5",
+    "evidence": ["logs/continuation-124-ore5-establish.log", "logs/continuation-126-ore5-reload.log"],
+    "implementation": "BetaOreVein transcribes this algorithm; BetaOrePlacement runs the call-site parameters per chunk; the revision also excludes every vanilla ore feature so the two cannot double up.",
+    "measuredYRangeAfter": {
+      "minecraft:coal_ore": "1..57",
+      "minecraft:iron_ore": "1..57",
+      "minecraft:gold_ore": "5..30",
+      "minecraft:redstone_ore": "1..14",
+      "minecraft:diamond_ore": "1..15",
+      "minecraft:lapis_ore": "4..18"
+    },
+    "ceilingChecks": "coal 57<=132, iron 57<=67, gold 30<=35, redstone 14<=19, diamond 15<=19, lapis 18<=34 - every measured maximum is inside the ceiling this algorithm allows, and diamond, redstone and lapis moved into Beta's ranges from 53, 31 and 55 at revision 4.",
+    "populationDiagnostics": "2788 veins attempted, 50709 blocks placed in 34 decorated chunks, per ore: dirt 27497, gravel 14069, coal 4868, iron 2882, redstone 897, gold 293, lapis 105, diamond 98. Diamond's ~2.9 blocks per vein matches the size-7 vein shape measured independently in BetaOreVeinTest.",
+    "nonInterference": "A fresh revision-4 world at the same seed still shows the vanilla overshoot (diamond 3..53, lapis 2..55, redstone 1..31) with zero veins attempted, and an ordinary Moderner Beta world is untouched with its deepslate ores intact.",
+    "stillNotEstablished": "Individual vein positions do not match a real Beta 1.7.3 world at the same seed, because the chunk-local random is seeded the way vanilla seeds decoration rather than Beta's own population sequence. The attempted counts, sizes, height ranges and vein shape are the verified ones."
+  },
+  "unknowns": [
+    "The resulting block distribution after terrain overlap, cave carving and structure overlap is not derived here.",
+    "Whether any Beta vein extends outside the world's build bounds, and how it behaves there, is not established.",
+    "Non-ore features (clay, and the non-minable population steps) are outside this artifact."
+  ]
+}

@@ -1,0 +1,277 @@
+{
+  "schemaVersion": 1,
+  "kind": "inf_20100611-block-name-set",
+  "reviewStatus": "BLOCKED_NAME_CONVENTION_NOT_PRESENT_IN_JAR",
+  "generatedAt": "2026-10-12T17:55:00.457709+00:00",
+  "source": {
+    "jar": "C:\\Users\\jwalr\\AppData\\Local\\Temp\\mce-palette\\jars\\inf-20100611.jar",
+    "bytes": 566417,
+    "sha1": "421318a554f17463a56a271d08e9597941d066d9",
+    "sha1MatchesExpected": true,
+    "sizeMatchesExpected": true,
+    "provenance": "ARCHIVE_VERIFIED",
+    "manifestId": "inf-20100611",
+    "hashPublishedWhere": "independently published version metadata https://meta.celestia.sh/versions/v1/inf-20100611.json -> downloads.client.sha1 (not in Mojang's manifest; the jar is archive-hosted)"
+  },
+  "method": {
+    "tool": "scripts/extract-block-palette.py (standard library only)",
+    "scope": "block NAME SET only; numeric ids are deliberately not paired. Ids are what the previous rejected artifact got wrong, so they are not inferred here.",
+    "identifyRegistry": "STRUCTURAL, no name is used to find the class: the class whose static initialiser constructs the most distinct classes via the new/dup/invokespecial <init> pattern. Ranking by distinct constructed classes is what separates the block registry from the item registry, which constructs a few classes many times each.",
+    "nameConventionDetected": "none",
+    "nameConventionNote": "This client's registry initialiser loads no block-name strings at all: no plain lowerCamelCase names and no `tile.<name>` keys exist anywhere in the jar. The names were added to the jar only in Beta 1.8, so they cannot be recovered from this build. No palette is claimed.",
+    "classCount": 320,
+    "classesParsedToExactEnd": 320,
+    "classParseFailures": [],
+    "unsupportedConstantPoolTags": [],
+    "blockClass": "net/minecraft/a/a/b/y.class",
+    "blockClassSuper": "java/lang/Object",
+    "structuralBlockClass": "net/minecraft/a/a/b/y",
+    "structuralBlockClassSubclasses": 24,
+    "structuralBlockClassIdentityEvidence": "net/minecraft/a/a/b/y has 24 direct subclasses in this jar; a block class is the class block variants extend (Beta 1.7.3's equivalent is uu with 49).",
+    "blockClassInitCalls": 75,
+    "blockClassDistinctConstructedClasses": 36,
+    "blockClassPutstatic": 78,
+    "blockClassStringLoads": 9,
+    "blockClassStringDecodeComplete": true,
+    "blockClassMostConstructed": [
+      [
+        "net/minecraft/a/a/b/y",
+        21
+      ],
+      [
+        "net/minecraft/a/a/b/n",
+        7
+      ],
+      [
+        "net/minecraft/a/a/b/c",
+        4
+      ],
+      [
+        "net/minecraft/a/a/b/d",
+        3
+      ]
+    ],
+    "blockClassCommonBlockType": "net/minecraft/a/a/b/y",
+    "blockClassStaticFieldsOfBlockType": 57,
+    "nameSetterCallCounts": {},
+    "topStructuralCandidates": [
+      {
+        "class": "net/minecraft/a/a/b/y.class",
+        "super": "java/lang/Object",
+        "initCalls": 75,
+        "distinctConstructedClasses": 36,
+        "putstatic": 78,
+        "topConstructedClass": "net/minecraft/a/a/b/y",
+        "staticFieldsOfBlockType": 57,
+        "stringLoads": 9,
+        "plainNameCandidates": 9,
+        "tileKeyCandidates": 0,
+        "nameSetterCalls": 0,
+        "nameSetterMethods": {},
+        "walkComplete": true,
+        "topConstructed": [
+          [
+            "net/minecraft/a/a/b/y",
+            21
+          ],
+          [
+            "net/minecraft/a/a/b/n",
+            7
+          ],
+          [
+            "net/minecraft/a/a/b/c",
+            4
+          ],
+          [
+            "net/minecraft/a/a/b/d",
+            3
+          ]
+        ]
+      },
+      {
+        "class": "net/minecraft/a/b/i.class",
+        "super": "java/lang/Object",
+        "initCalls": 70,
+        "distinctConstructedClasses": 16,
+        "putstatic": 71,
+        "topConstructedClass": "net/minecraft/a/b/i",
+        "staticFieldsOfBlockType": 69,
+        "stringLoads": 0,
+        "plainNameCandidates": 0,
+        "tileKeyCandidates": 0,
+        "nameSetterCalls": 0,
+        "nameSetterMethods": {},
+        "walkComplete": true,
+        "topConstructed": [
+          [
+            "net/minecraft/a/b/l",
+            20
+          ],
+          [
+            "net/minecraft/a/b/i",
+            12
+          ],
+          [
+            "net/minecraft/a/b/n",
+            5
+          ],
+          [
+            "net/minecraft/a/b/a",
+            5
+          ]
+        ]
+      },
+      {
+        "class": "net/minecraft/a/a/d/c.class",
+        "super": "java/lang/Object",
+        "initCalls": 16,
+        "distinctConstructedClasses": 4,
+        "putstatic": 16,
+        "topConstructedClass": "net/minecraft/a/a/d/c",
+        "staticFieldsOfBlockType": 16,
+        "stringLoads": 0,
+        "plainNameCandidates": 0,
+        "tileKeyCandidates": 0,
+        "nameSetterCalls": 0,
+        "nameSetterMethods": {},
+        "walkComplete": true,
+        "topConstructed": [
+          [
+            "net/minecraft/a/a/d/c",
+            10
+          ],
+          [
+            "net/minecraft/a/a/d/d",
+            2
+          ],
+          [
+            "net/minecraft/a/a/d/b",
+            2
+          ],
+          [
+            "net/minecraft/a/a/d/a",
+            2
+          ]
+        ]
+      },
+      {
+        "class": "com/jcraft/jorbis/FuncResidue.class",
+        "super": "java/lang/Object",
+        "initCalls": 3,
+        "distinctConstructedClasses": 3,
+        "putstatic": 1,
+        "topConstructedClass": null,
+        "staticFieldsOfBlockType": 0,
+        "stringLoads": 0,
+        "plainNameCandidates": 0,
+        "tileKeyCandidates": 0,
+        "nameSetterCalls": 0,
+        "nameSetterMethods": {},
+        "walkComplete": true,
+        "topConstructed": [
+          [
+            "com/jcraft/jorbis/Residue0",
+            1
+          ],
+          [
+            "com/jcraft/jorbis/Residue1",
+            1
+          ],
+          [
+            "com/jcraft/jorbis/Residue2",
+            1
+          ]
+        ]
+      },
+      {
+        "class": "com/jcraft/jorbis/FuncFloor.class",
+        "super": "java/lang/Object",
+        "initCalls": 2,
+        "distinctConstructedClasses": 2,
+        "putstatic": 1,
+        "topConstructedClass": null,
+        "staticFieldsOfBlockType": 0,
+        "stringLoads": 0,
+        "plainNameCandidates": 0,
+        "tileKeyCandidates": 0,
+        "nameSetterCalls": 0,
+        "nameSetterMethods": {},
+        "walkComplete": true,
+        "topConstructed": [
+          [
+            "com/jcraft/jorbis/Floor0",
+            1
+          ],
+          [
+            "com/jcraft/jorbis/Floor1",
+            1
+          ]
+        ]
+      },
+      {
+        "class": "net/minecraft/a/c/d.class",
+        "super": "java/lang/Enum",
+        "initCalls": 19,
+        "distinctConstructedClasses": 1,
+        "putstatic": 20,
+        "topConstructedClass": "net/minecraft/a/c/d",
+        "staticFieldsOfBlockType": 19,
+        "stringLoads": 38,
+        "plainNameCandidates": 0,
+        "tileKeyCandidates": 0,
+        "nameSetterCalls": 0,
+        "nameSetterMethods": {},
+        "walkComplete": true,
+        "topConstructed": [
+          [
+            "net/minecraft/a/c/d",
+            19
+          ]
+        ]
+      }
+    ],
+    "selfCheck": {
+      "target": "research/beta173-block-palette.json (83 names, parent-reviewed)",
+      "passed": true,
+      "detail": "reproduced all 83 names in the reviewed order from uu.class; reproduced all 92 hand-read Beta 1.8.1 names from lr.class"
+    }
+  },
+  "controls": {
+    "positiveMustBePresent": [
+      "stone",
+      "dirt",
+      "bedrock",
+      "water",
+      "lava"
+    ],
+    "positiveMissing": [
+      "stone",
+      "dirt",
+      "bedrock",
+      "water",
+      "lava"
+    ],
+    "negativeMustBeAbsent": [
+      "tallgrass",
+      "vine",
+      "melon",
+      "netherStalk",
+      "hellrock",
+      "hellsand",
+      "lightgem",
+      "pistonBase",
+      "pistonStickyBase",
+      "stonebrick"
+    ],
+    "negativeObserved": [],
+    "passed": false,
+    "note": "Positives cannot be satisfied because this build attaches no block-name string; the version is reported as BLOCKED rather than given a palette."
+  },
+  "nameRecovery": {
+    "status": "NOT_AVAILABLE_IN_THIS_JAR",
+    "count": 0,
+    "note": "This client's registry initialiser loads no block-name strings at all: no plain lowerCamelCase names and no `tile.<name>` keys exist anywhere in the jar. The names were added to the jar only in Beta 1.8, so they cannot be recovered from this build. No palette is claimed."
+  },
+  "blockNames": [],
+  "aliasNames": {}
+}

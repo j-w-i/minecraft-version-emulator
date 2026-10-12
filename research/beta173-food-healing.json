@@ -1,0 +1,246 @@
+{
+  "schemaVersion": 1,
+  "reviewStatus": "WORKER_GENERATED_PENDING_PARENT_VERIFICATION",
+  "scope": "Per-food-item health restored by eating in the Beta 1.7.3 client, extracted from the hash-verified b1.7.3 client jar. Beta 1.7.3 has no hunger system, so eating restores health directly. This file establishes the heal value of every edible item/block, so that a no-hunger emulation profile can reproduce Beta 1.7.3 eating behaviour. It is a value table only: it does not describe modern FoodData, and it does not authorise copying Minecraft code.",
+  "version": "b1.7.3",
+  "clientSha1": "43db9b498cb67058d2e12d394e6507722e71bb45",
+  "clientBytes": 1465375,
+  "verifiedHow": "Downloaded the b1.7.3 entry from Mojang's official version manifest (https://launchermeta.mojang.com/mc/game/version_manifest.json -> id=b1.7.3 -> version json https://piston-meta.mojang.com/v1/packages/44f6969326bd45aa00dcd3c4ca3a7c05ebb24c04/b1.7.3.json). That version json lists downloads.client = { sha1: 43db9b498cb67058d2e12d394e6507722e71bb45, size: 1465375, url: https://launcher.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar }. Fetched that exact URL, then computed Get-FileHash -Algorithm SHA1 over the downloaded file and measured its length. Observed SHA1 43db9b498cb67058d2e12d394e6507722e71bb45 and 1465375 bytes; both match the manifest metadata and the values the task supplied. Only after that check was the jar decompiled. The jar, the extracted class files and the decompilation all live under %TEMP%\\mce-food-heal\\ and none of them is in the repository.",
+  "itemRegistryClass": "gm",
+  "foodItemClasses": {
+    "base": "yw",
+    "subclasses": {
+      "bz": "extends yw; only overrides the on-eat method to also return an empty bowl item after delegating to yw's on-eat. Adds no heal value.",
+      "qk": "extends yw; only overrides stack size in its constructor. Adds no heal value."
+    }
+  },
+  "foodMechanism": "In Beta 1.7.3 there is no hunger system at all: no food level, no saturation and no exhaustion exist anywhere in the jar (a case-insensitive search of the whole decompilation for food/hunger/satur/exhaust returns nothing, and the language file has no such strings). All food is class `yw` (an item subclass), whose constructor takes the heal amount as an int second argument and stores it in private int field `a`. Consumption is `yw`'s item-use override: it decrements the held stack and calls `gs.c(field a)` on the acting player. `gs` (the player class) does not override that method, so the call resolves to `ls.c(int)` on the living-entity base class (`gs extends ls extends sn`), which heals by adding the argument to public int field `Y` (the health field) and clamps it to a maximum of 20. Therefore the constructor's second argument IS the heal amount in health points (1 point = half a heart), applied directly and unconditionally as long as the entity is alive. Independently of food, the same `ls.c(1)` is called by `gs.o()` when world difficulty `fd.q == 0` (Peaceful), which is Peaceful-only natural regeneration and is NOT hunger-driven regeneration; this is context, not part of the food values.",
+  "unitStatement": {
+    "unit": "health points (half-hearts)",
+    "reasoning": "The heal argument is added directly to `ls.Y`, a health field whose maximum is clamped to 20, and Beta health is 20 points = 10 hearts. No division, no multiplier and no saturating-food state is involved, so the constructor argument is already in health points. `healHearts` below is therefore `healPoints / 2` with no other conversion.",
+    "workedExamples": [
+      "bread: constructor argument 5 -> 5 health points -> 5 / 2 = 2.5 hearts.",
+      "cooked porkchop: constructor argument 8 -> 8 health points -> 8 / 2 = 4 hearts.",
+      "golden apple: constructor argument 42 -> 42 health points -> 42 / 2 = 21 hearts, i.e. a single golden apple refills a full 20-point health bar and the surplus is discarded by the clamp to 20."
+    ]
+  },
+  "modernIdMappingBasis": {
+    "rule": "modernId = the modern registry identifier for the same item. For every Beta item that still exists in the modern game, the numeric registry id is unchanged and the modern id is BetaId + 256, because Beta used id 256+n for item n and the modern flat item registry keeps those numeric ids. Each mapping below is anchored by that numeric id and cross-checked against an independent use-site in the decompiled jar.",
+    "betaToModernNumericIds": {
+      "26": 26,
+      "39": 39,
+      "41": 41,
+      "63": 63,
+      "64": 64,
+      "66": 66,
+      "92": 92,
+      "93": 93,
+      "94": 94,
+      "98": 98,
+      "101": 101
+    },
+    "caveat": "The +256 numeric-id correspondence is the strongest available evidence for identifying which modern item each Beta item became, but it is a registry-identity argument, not a line of Beta bytecode. It is marked as such per item rather than being presented as a value read out of the jar. No Beta food item was renamed in a way that breaks the chain: Beta `porkchopRaw`/`porkchopCooked` and `fishRaw`/`fishCooked` became modern `porkchop`/`cooked_porkchop` and `cod`/`cooked_cod` (modern generic 'fish' was later split into cod/salmon/etc., with cod keeping the old ids)."
+  },
+  "items": [
+    {
+      "betaName": "apple",
+      "modernId": "minecraft:apple",
+      "betaNumericId": 260,
+      "betaRegistryId": 4,
+      "modernNumericId": 260,
+      "healPoints": 4,
+      "healHearts": 2,
+      "evidence": "class `gm` (item registry), field `h`, initialised in the static initialiser to `new yw(4, 4, false)`; class `yw`, private int field `a`, assigned from constructor argument 2 in `<init>` (bytecode: `aload_0; iload_2; putfield Field a:I`); the heal is applied by `yw.a(iz, fd, gs)` (bytecode offset 12: `getfield Field a:I`, offset 15: `invokevirtual Method gs.c:(I)V`); `gs` has no override of `c(int)`, so it resolves to class `ls`, method `c(int)` (line 266), which does `this.Y += n2` and clamps `this.Y` to 20.",
+      "confidence": "verified",
+      "notes": "Beta name string is `apple` (registry `.a(\"apple\")`), display name 'Apple' in lang/en_US.lang. Stack size 1 (yw sets bg=1). Used at `gs` line 205 as the item Notch drops on death; the numeric id is not otherwise referenced."
+    },
+    {
+      "betaName": "mushroomStew",
+      "modernId": "minecraft:mushroom_stew",
+      "betaNumericId": 282,
+      "betaRegistryId": 26,
+      "modernNumericId": 282,
+      "healPoints": 10,
+      "healHearts": 5,
+      "evidence": "class `gm`, field `D`, initialised in the static initialiser to `new bz(26, 10)`; class `bz` extends `yw` and its `<init>` is `super(n2, n3, false)`, i.e. it forwards argument 2 straight into `yw`'s heal field `a`; `bz`'s only override is `a(iz, fd, gs)`, which calls `super.a(...)` (the `yw` heal path) and then returns `new iz(gm.C)` (an empty bowl).",
+      "confidence": "verified",
+      "notes": "Beta name string is `mushroomStew` (`.a(\"mushroomStew\")`), display name 'Mushroom Stew'. Stack size 1 via `yw`'s `bg=1`; craftable two ways in class `od`, both consuming an empty bowl `gm.C`. Eating returns an empty bowl, which is why the `bz` override exists; that is a container behaviour, not a different heal value."
+    },
+    {
+      "betaName": "bread",
+      "modernId": "minecraft:bread",
+      "betaNumericId": 297,
+      "betaRegistryId": 41,
+      "modernNumericId": 297,
+      "healPoints": 5,
+      "healHearts": 2.5,
+      "evidence": "class `gm`, field `S`, initialised in the static initialiser to `new yw(41, 5, false)`; heal stored in `yw` private int field `a` and applied by `yw.a(iz, fd, gs)` via `invokevirtual gs.c:(I)V`.",
+      "confidence": "verified",
+      "notes": "Beta name string is `bread`, display name 'Bread'. Craft recipe registered in class `hk` line 63 from three wheat (`gm.R`); referenced at `er` line 99 and `yv` line 29. 2.5 hearts is a legitimate half-heart-granular heal and is reproduced exactly by the field value."
+    },
+    {
+      "betaName": "porkchopRaw",
+      "modernId": "minecraft:porkchop",
+      "betaNumericId": 319,
+      "betaRegistryId": 63,
+      "modernNumericId": 319,
+      "healPoints": 3,
+      "healHearts": 1.5,
+      "evidence": "class `gm`, field `ao`, initialised in the static initialiser to `new yw(63, 3, true)`; heal stored in `yw` private int field `a`, applied by `yw.a(iz, fd, gs)`. The third constructor argument `true` is `yw` private boolean field `bk`, exposed by `yw.m()` and used only for wolf feeding.",
+      "confidence": "verified",
+      "notes": "Beta name string is `porkchopRaw`, display name 'Raw Porkchop'. Modern id is `minecraft:porkchop` (not `minecraft:raw_porkchop`; modern renamed it and kept numeric id 319). Smelted to `gm.ap` by class `ey` line 20. Used at `wh` line 50 and `ya` line 86."
+    },
+    {
+      "betaName": "porkchopCooked",
+      "modernId": "minecraft:cooked_porkchop",
+      "betaNumericId": 320,
+      "betaRegistryId": 64,
+      "modernNumericId": 320,
+      "healPoints": 8,
+      "healHearts": 4,
+      "evidence": "class `gm`, field `ap`, initialised in the static initialiser to `new yw(64, 8, true)`; heal stored in `yw` private int field `a`, applied by `yw.a(iz, fd, gs)`.",
+      "confidence": "verified",
+      "notes": "Beta name string is `porkchopCooked`, display name 'Cooked Porkchop'. Smelting product of `gm.ao`. Also named by `wh` line 48 and `ya` line 86 as a wolf-feeding item."
+    },
+    {
+      "betaName": "appleGold",
+      "modernId": "minecraft:golden_apple",
+      "betaNumericId": 322,
+      "betaRegistryId": 66,
+      "modernNumericId": 322,
+      "healPoints": 42,
+      "healHearts": 21,
+      "evidence": "class `gm`, field `ar`, initialised in the static initialiser to `new yw(66, 42, false)`; heal stored in `yw` private int field `a`, applied by `yw.a(iz, fd, gs)`. Craft recipe registered in class `hk` line 68 from eight gold blocks (`uu.ai`) around one apple (`gm.h`), yielding one golden apple.",
+      "confidence": "verified",
+      "notes": "Beta name string is `appleGold`, display name 'Golden Apple'. 42 points exceeds the 20-point maximum, so in practice one golden apple restores a full health bar from any non-zero health value; the excess is dropped by the clamp `if (this.Y > 20) this.Y = 20;`. The literal 42 is read straight out of the registry initialiser, not inferred. Class `er` line 114 also returns `new iz(gm.ar)` (dungeon chest loot)."
+    },
+    {
+      "betaName": "fishRaw",
+      "modernId": "minecraft:cod",
+      "betaNumericId": 349,
+      "betaRegistryId": 93,
+      "modernNumericId": 349,
+      "healPoints": 2,
+      "healHearts": 1,
+      "evidence": "class `gm`, field `aS`, initialised in the static initialiser to `new yw(93, 2, false)`; heal stored in `yw` private int field `a`, applied by `yw.a(iz, fd, gs)`.",
+      "confidence": "verified",
+      "notes": "Beta name string is `fishRaw`, display name 'Raw Fish'. Modern id is `minecraft:cod`: the modern generic-fish split later divided the old 'fish' into cod/salmon/tropical_fish/pufferfish, and cod kept numeric id 349. Obtained from fishing (class `lx` line 317) and smelted to `gm.aT` by `ey` line 21. The modern-id half of this row is the one place the mapping depends on the +256 registry-identity argument plus the cod/salmon split; the heal value 2 is unaffected."
+    },
+    {
+      "betaName": "fishCooked",
+      "modernId": "minecraft:cooked_cod",
+      "betaNumericId": 350,
+      "betaRegistryId": 94,
+      "modernNumericId": 350,
+      "healPoints": 5,
+      "healHearts": 2.5,
+      "evidence": "class `gm`, field `aT`, initialised in the static initialiser to `new yw(94, 5, false)`; heal stored in `yw` private int field `a`, applied by `yw.a(iz, fd, gs)`.",
+      "confidence": "verified",
+      "notes": "Beta name string is `fishCooked`, display name 'Cooked Fish'. Modern id is `minecraft:cooked_cod` for the same cod/salmon split reason as `fishRaw`. Smelting recipe registered in class `ep` line 45; also referenced at `vq` line 22."
+    },
+    {
+      "betaName": "cookie",
+      "modernId": "minecraft:cookie",
+      "betaNumericId": 357,
+      "betaRegistryId": 101,
+      "modernNumericId": 357,
+      "healPoints": 1,
+      "healHearts": 0.5,
+      "evidence": "class `gm`, field `ba`, initialised in the static initialiser to `new qk(101, 1, false, 8)`; class `qk` extends `yw` and its `<init>` is `super(n2, n3, bl2)` followed by `this.bg = n4`, so argument 2 (the value 1) is the `yw` heal field `a` and argument 4 (the value 8) is only the stack size; the heal is therefore applied by inherited `yw.a(iz, fd, gs)` via `invokevirtual gs.c:(I)V`.",
+      "confidence": "verified",
+      "notes": "Beta name string is `cookie`, display name 'Cookie'. Beta cookie saved in the `qk` subclass purely to raise stack size to 8 (recipe in class `od` yields 8 cookies from one cocoa bean `gm.aU` metadata 3 over two wheat). Heals only half a heart, which is unusual but is the literal constructor argument; a modern `minecraft:cookie` instead restores 2 hunger points, so this is a real behavioural divergence worth preserving rather than a mapping error."
+    }
+  ],
+  "blockFoods": [
+    {
+      "betaName": "cake",
+      "modernId": "minecraft:cake",
+      "betaNumericId": 354,
+      "betaRegistryId": 98,
+      "betaBlockId": 92,
+      "modernNumericId": 354,
+      "healPoints": 3,
+      "healHearts": 1.5,
+      "healPointsPerSlice": 3,
+      "healPointsPerWholeCake": 18,
+      "totalSlices": 6,
+      "evidence": "class `uu` (block registry), field `bh`, line 116: `new um(92, 121)...a(\"cake\")`, i.e. block id 92. Class `um` extends `uu`; its private method `c(fd, int, int, int, gs)` (line 83) begins `if (gs2.Y < 20) { gs2.c(3); ... }`, i.e. it heals 3 health points, and then increments the cake's metadata slice counter, removing the block when the counter reaches 6. Both interaction entry points `a(fd, int, int, int, gs)` (line 74) and `b(fd, int, int, int, gs)` (line 79) delegate to that method. The corresponding item is class `gm`, field `aX`, `new lv(98, uu.bh)` at registry line 107, which places block id 92.",
+      "confidence": "verified",
+      "notes": "Eating a cake in Beta 1.7.3 is a BLOCK interaction, not an item consumption: right-clicking a placed cake calls `um.c(...)` directly and never routes through `yw`, so no held item is consumed and the player does not need to be holding anything edible. Each of the six slices heals 3 points, and the heal is gated on `gs.Y < 20`, so a slice eaten at full health is consumed without effect. This is the only heal path in the jar outside the `yw` family. Included because it is player-facing food healing and a no-hunger emulation profile has to decide about it."
+    }
+  ],
+  "totals": {
+    "edibleEntriesFound": 10,
+    "itemsFound": 9,
+    "blockFoodsFound": 1,
+    "verified": 10,
+    "inferred": 0,
+    "unsure": 0,
+    "note": "All ten heal values are integer literals read from the verified jar's registry initialisers or from the cake block's heal call, so every heal value is `verified`. The only non-bytecode element anywhere is the Beta->modern numeric identifier correspondence, which is recorded once in modernIdMappingBasis and flagged per item rather than being silently treated as a jar reading. `inferred`/`unsure` are therefore zero for heal values, not because nothing was uncertain, but because the uncertainty lives in the id mapping rather than the values."
+  },
+  "excludedButRelevant": [
+    {
+      "betaName": "milk",
+      "modernId": "minecraft:milk_bucket",
+      "why": "class `gm`, field `aE`, `new bc(79, -1)` (registry line 88). It is the empty-bucket item class `bc` with parameter -1, which makes it the 'milk' bucket variant, and `bc` has no heal call at all. Drinking milk in Beta 1.7.3 did nothing for health; it existed to clear status effects, and there were no status effects in this version. It is therefore not a food item for this purpose.",
+      "confidence": "verified"
+    },
+    {
+      "betaName": "(all other 96 item registry entries)",
+      "modernId": null,
+      "why": "The complete Beta 1.7.3 item registry was enumerated: class `gm` contains exactly 106 distinct `.a(\"...\")` name strings, matching the count the project had already established for this jar. Only the ten entries above are reachable from a heal call. This completeness check matters because the two food classes are `yw` and its subclasses, and the only classes in the jar overriding item use are `bc`, `bz`, `cs`, `dm`, `mo`, `qz`, `vd` and `yw`; of those only `yw` (and `bz`, which delegates to it) calls the heal method.",
+      "confidence": "verified"
+    },
+    {
+      "betaName": "seeds",
+      "modernId": "minecraft:wheat_seeds",
+      "why": "class `gm`, field `Q`, `new rk(39, uu.aA.bn)`, an item that places a crop block. It is not edible and calls no heal method. Listed only to record that a plantable item was checked and excluded.",
+      "confidence": "verified"
+    },
+    {
+      "betaName": "sugar",
+      "modernId": "minecraft:sugar",
+      "why": "class `gm`, field `aW`, plain `new gm(97)` with no heal path and no use override. Not edible in Beta 1.7.3.",
+      "confidence": "verified"
+    }
+  ],
+  "relatedFinding": {
+    "what": "Class `gi` (a wolf-like mob class) line 326-331 feeds on any `yw` item, but heals itself with a hard-coded literal taken from `porkchopRaw` rather than from the item actually fed: `if (iz2 != null && gm.c[iz2.c] instanceof yw && (yw2 = (yw)gm.c[iz2.c]).m() && this.bD.b(18) < 20) { ... this.c(((yw)gm.ao).l()); }`. `((yw)gm.ao).l()` returns `porkchopRaw`'s heal field, which is 3.",
+    "relevance": "This is a genuine quirk of the version, not part of the per-food-item table: it means feeding a wolf cooked porkchop or raw fish heals the wolf for 3, i.e. the raw-porkchop amount, regardless of which meat was used.",
+    "citation": "class `gi`, method `a(...)` around lines 326-331, referencing `gm.ao` (field `ao`) and calling `yw.l()`.",
+    "confidence": "verified"
+  },
+  "methodNotes": {
+    "identification": "The food/heal logic was located by structure rather than by name-guessing. Step 1: the player class `gs` was known, so every call to a one-int method on a player instance was searched; only class `yw` (line 18) called one during item use. Step 2: every class in the jar that overrides the item-use method `public iz a(iz, fd, gs)` was enumerated (nine classes), and only `yw` contains a heal call, with `bz` delegating into it. Step 3: `yw`'s constructor stores its second int argument in a private field and its only reader feeds that field into the player heal method; enumerating the item registry `gm` for `new yw(...)`/`new qk(...)`/`new bz(...)` then yields every food and its literal heal amount. Step 4: the independent cake heal was found by searching the whole decompilation for the heal method name on a player instance and then resolving the one non-food hit (`um`) to its block registry entry.",
+    "caseSensitivity": "All field resolution was done case-sensitively, both with ripgrep-style case-sensitive matching and with `javap -p -c` on the class files, which shows real field names/descriptors. The known trap in this jar is `gm.J` (feather) vs `gm.j` (arrow); neither is a food item, but the method used here never lower-cases identifiers, so no such conflation occurred. Note also the specific collision risk in this task: `yw`'s heal field is lowercase `a`, while the item registry's `gm` class has many uppercase single-letter fields (`S`, `D`, `h`, `ao`, `ap`, `ar`, `aS`, `aT`, `ba`) and a separate lowercase-`a` field of its own; every reference in this file names its owning class explicitly.",
+    "artifacts": "Temp directory %TEMP%\\mce-food-heal\\ contains b1.7.3-client.jar, the decompiled sources and the extracted lang file. Nothing from the jar, and no decompiled Minecraft source, was written into the repository; this JSON contains only identifiers, numeric literals, class/field/method names and short prose descriptions."
+  },
+  "unknowns": [
+    {
+      "question": "Whether the Beta numeric item id -> modern registry numeric id correspondence (BetaId + 256) is exactly what modern Minecraft's id-remap paths use for these items, since that part of the mapping is a registry-identity argument and not a reading from the jar.",
+      "whatWouldSettleIt": "Reading the modern (Minecraft 26.3) item registry ids in the actual runtime, e.g. dumping `BuiltInRegistries.ITEM` ids for minecraft:apple/bread/porkchop/cooked_porkchop/golden_apple/mushroom_stew/cod/cooked_cod/cookie/milk_bucket/cake, or reading the modern item id remap/legacy data. The Beta-side values do not change either way; only the modernId strings would be confirmed."
+    },
+    {
+      "question": "Which modern identifier the two Beta fish items should map to if the emulation profile targets a modern version where generic 'fish' still exists rather than the cod/cooked_cod split.",
+      "whatWouldSettleIt": "Deciding the target modern version's registry, then checking that version's item registry for the id that carries numeric id 349/350. On Minecraft 26.3 the answer is minecraft:cod / minecraft:cooked_cod."
+    },
+    {
+      "question": "Whether anything outside a direct heal call could restore health on eating (for example an indirect item effect or a container/food interaction not reached through `yw` or `um`).",
+      "whatWouldSettleIt": "This was bounded two ways and came up empty, so the residual risk is low rather than zero: (a) every overrider of the item-use method in the jar was enumerated and only `yw`/`bz` heal, and (b) the whole decompilation was searched case-insensitively for food/hunger/saturation/exhaustion and returned nothing, so there is no hidden food-state system. A behavioural test in a running Beta 1.7.3 instance (eating each item and watching health) would settle it empirically but cannot be run here."
+    },
+    {
+      "question": "Whether `ls.c(int)`'s guard `if (this.Y <= 0) return;` should be modelled, i.e. that food cannot revive a dead/zero-health entity.",
+      "whatWouldSettleIt": "Already verified in the jar (class `ls` method `c(int)`); recorded here only because the emulation profile must reproduce it. No further research needed, listed for transparency."
+    },
+    {
+      "question": "Exact interaction/timing semantics of eating in Beta 1.7.3 (there is no eat-duration/use-tick concept in this version; the heal is applied on the item-use call), and how that should translate into a modern-version eating animation if the profile shows one.",
+      "whatWouldSettleIt": "Design decision for the emulation profile plus runtime testing in the modern game; not a jar-extraction question. The jar is unambiguous that the heal is instantaneous and unconditional in `yw.a(iz, fd, gs)`."
+    }
+  ],
+  "provenance": {
+    "metadataUrl": "https://piston-meta.mojang.com/v1/packages/44f6969326bd45aa00dcd3c4ca3a7c05ebb24c04/b1.7.3.json",
+    "clientUrl": "https://launcher.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar",
+    "decompiler": "CFR 0.152 (already present in the temp directory; used only to read the verified jar's bytecode and to corroborate it against `javap -p -c` output for the decisive class `yw`).",
+    "bytecodeCorroboration": "The decisive mechanism was re-read as raw bytecode with `javap -p -c` on `yw`: constructor `putfield Field a:I` from `iload_2`, and item-use `getfield Field a:I` followed by `invokevirtual Method gs.c:(I)V`. The literal heal values themselves come from the registry class `gm`'s static initialisers, which are constant-pool integer arguments."
+  }
+}

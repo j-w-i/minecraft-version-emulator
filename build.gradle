@@ -1,0 +1,102 @@
+plugins {
+    id 'fabric-loom' version '1.18.4'
+    id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+repositories {
+    maven {
+        name = 'Fabric'
+        url = 'https://maven.fabricmc.net/'
+    }
+    // Moderner Beta is published on Modrinth; the maven endpoint serves the same artefact as the website.
+    maven {
+        name = 'Modrinth'
+        url = 'https://api.modrinth.com/maven'
+        content {
+            includeGroup 'maven.modrinth'
+        }
+    }
+    mavenCentral()
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    // Official Mojang mappings, NOT Yarn. This is not a preference: the whole existing codebase, and
+    // Nostalgic Tweaks itself, are written against Mojang names (net.minecraft.resources.Identifier,
+    // net.minecraft.world.level.Level, net.minecraft.core.registries.BuiltInRegistries). Yarn renames all
+    // of those, so choosing Yarn would mean rewriting every ported file for no reason.
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    // The point of this project: does Moderner Beta 5.0.0-alpha.4 generate on 1.21.1?
+    modImplementation "maven.modrinth:moderner-beta:${project.moderner_beta_version}"
+
+    testImplementation platform('org.junit:junit-bom:5.11.4')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+// The mod is the repository root now: the 26.3 tree this was ported from is gone, and 1.21.1 is the only
+// target, so there is no second source set to reach into.
+test {
+    useJUnitPlatform()
+    workingDir projectDir
+    testLogging { events 'failed'; exceptionFormat 'full' }
+}
+
+java {
+    // 1.21.1 is a Java 21 runtime; the build itself runs on whatever JDK Gradle was started with.
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+    withSourcesJar()
+}
+
+tasks.named('jar') {
+    from('THIRD_PARTY_NOTICES.md')
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 21
+}
+
+loom {
+    runs {
+        // A quick-play client, so CLIENT mixins can be verified the way server ones are. There was no client
+        // run config at all, which is why scripts/client-launch-probe.ps1 failed with
+        // "Task 'runClientQuickPlay' not found" - and why the HUD mixin from round 31 could not be checked.
+        // Client code that cannot be launched cannot be verified, and unverified is the state this project
+        // keeps having to dig itself out of.
+        clientQuickPlay {
+            client()
+            configName = 'Client Quick Play'
+            runDir 'run/client'
+            programArgs '--quickPlaySingleplayer',
+                (project.findProperty('quickPlayWorld') ?: 'hexflash')
+        }
+        server {
+            // A dedicated server is the cheapest way to prove generation: no window, and the log shows
+            // exactly which chunks were produced.
+            server()
+            ideConfigGenerated = true
+            runDir project.findProperty('generationRunDir') ?: 'run'
+            if (project.hasProperty('generationProbe')) {
+                vmArg '-Dhistorical_experience.generationProbe=true'
+                vmArg "-Dhistorical_experience.generationProbe.token=${project.findProperty('probeToken') ?: ''}"
+                vmArg "-Dhistorical_experience.generationProbe.radius=${project.findProperty('probeRadius') ?: '3'}"
+                vmArg "-Dhistorical_experience.generationProbe.center=${project.findProperty('probeCenter') ?: '0'}"
+                if (project.hasProperty('probeUpgradeTo')) {
+                    vmArg "-Dhistorical_experience.generationProbe.upgradeTo=${project.findProperty('probeUpgradeTo')}"
+                }
+            }
+        }
+    }
+}

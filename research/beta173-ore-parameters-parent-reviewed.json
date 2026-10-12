@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "reviewStatus": "PARENT_VERIFIED_PARAMETERS_ONLY",
+  "implementationStatus": "not_started",
+  "scope": "Eight minable population call-site parameters, independently re-derived by the parent from hash-verified class files with JDK 25 javap. Not a full generation profile, block whitelist, saved-ID mapping, ore-geometry proof, or resulting block-distribution claim.",
+  "source": {
+    "version": "b1.7.3",
+    "metadataUrl": "https://piston-meta.mojang.com/v1/packages/44f6969326bd45aa00dcd3c4ca3a7c05ebb24c04/b1.7.3.json",
+    "clientUrl": "https://launcher.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar",
+    "clientSha1": "43db9b498cb67058d2e12d394e6507722e71bb45",
+    "clientBytes": 1465375,
+    "independentArtifactCheck": "logs/continuation-13-parent-beta-artifact-review.log",
+    "classSha1": {
+      "uu": "0e076b84e397dfdbfd2378490b49c0aec9ad566b",
+      "yf": "b1486aa8d78dcdfae0b4ec81ccae55b493c827e3",
+      "fl": "5ed3ca39bc7be250ca1e504b3fc70d28faed654c"
+    },
+    "populationMethod": "yf.a(Lcl;II)V",
+    "registryIdentityMethod": "uu.<clinit>",
+    "method": "Read each complete local loop: zero initialization, comparison/branch, RNG result stored in local 15, exact uu field load, size constructor argument, local x/y/z passed to fl.a, increment and back edge. Join the same uu field to its named block assignment in uu.<clinit>. Do not pair nearby unrelated constants or texture indices with IDs.",
+    "inspectionOnly": "Disassembly remains outside the repository in the parent's hash-bound temporary review directory; no proprietary implementation body is included."
+  },
+  "commonParameters": {
+    "rawOriginX": "chunkX * 16 + nextInt(16)",
+    "rawOriginZ": "chunkZ * 16 + nextInt(16)",
+    "rngCoordinateOrder": ["x", "y", "z"],
+    "originEvidenceOffsets": [4, 5, 7, 8, 10, 11, 13, 14],
+    "heightWarning": "Origin Y distributions below are not the final generated ore-block height ranges. Vein geometry may shift/extend positions; that geometry is not yet independently accepted."
+  },
+  "rules": [
+    {"content": "dirt", "modernIdentifier": "minecraft:dirt", "blockField": "uu.w", "namedBlockAssignmentOffset": 280, "constructorFirstLiteral": 3, "veinSizeArgument": 32, "attemptsPerChunk": 20, "loopCompareOffset": 503, "loopBackEdgeOffset": 582, "originY": {"type": "uniform_integer", "minInclusive": 0, "maxExclusive": 128}, "yNextIntOffsets": [527], "generatorNewOffset": 546, "generatorConstructorOffset": 558, "generateCallOffset": 575},
+    {"content": "gravel", "modernIdentifier": "minecraft:gravel", "blockField": "uu.G", "namedBlockAssignmentOffset": 636, "constructorFirstLiteral": 13, "veinSizeArgument": 32, "attemptsPerChunk": 10, "loopCompareOffset": 592, "loopBackEdgeOffset": 671, "originY": {"type": "uniform_integer", "minInclusive": 0, "maxExclusive": 128}, "yNextIntOffsets": [616], "generatorNewOffset": 635, "generatorConstructorOffset": 647, "generateCallOffset": 664},
+    {"content": "coal ore", "modernIdentifier": "minecraft:coal_ore", "blockField": "uu.J", "namedBlockAssignmentOffset": 741, "constructorFirstLiteral": 16, "veinSizeArgument": 16, "attemptsPerChunk": 20, "loopCompareOffset": 681, "loopBackEdgeOffset": 760, "originY": {"type": "uniform_integer", "minInclusive": 0, "maxExclusive": 128}, "yNextIntOffsets": [705], "generatorNewOffset": 724, "generatorConstructorOffset": 736, "generateCallOffset": 753},
+    {"content": "iron ore", "modernIdentifier": "minecraft:iron_ore", "blockField": "uu.I", "namedBlockAssignmentOffset": 706, "constructorFirstLiteral": 15, "veinSizeArgument": 8, "attemptsPerChunk": 20, "loopCompareOffset": 770, "loopBackEdgeOffset": 848, "originY": {"type": "uniform_integer", "minInclusive": 0, "maxExclusive": 64}, "yNextIntOffsets": [793], "generatorNewOffset": 812, "generatorConstructorOffset": 824, "generateCallOffset": 841},
+    {"content": "gold ore", "modernIdentifier": "minecraft:gold_ore", "blockField": "uu.H", "namedBlockAssignmentOffset": 671, "constructorFirstLiteral": 14, "veinSizeArgument": 8, "attemptsPerChunk": 2, "loopCompareOffset": 857, "loopBackEdgeOffset": 935, "originY": {"type": "uniform_integer", "minInclusive": 0, "maxExclusive": 32}, "yNextIntOffsets": [880], "generatorNewOffset": 899, "generatorConstructorOffset": 911, "generateCallOffset": 928},
+    {"content": "redstone ore", "modernIdentifier": "minecraft:redstone_ore", "blockField": "uu.aO", "namedBlockAssignmentOffset": 2595, "constructorFirstLiteral": 73, "veinSizeArgument": 7, "attemptsPerChunk": 8, "loopCompareOffset": 945, "loopBackEdgeOffset": 1023, "originY": {"type": "uniform_integer", "minInclusive": 0, "maxExclusive": 16}, "yNextIntOffsets": [968], "generatorNewOffset": 987, "generatorConstructorOffset": 999, "generateCallOffset": 1016},
+    {"content": "diamond ore", "modernIdentifier": "minecraft:diamond_ore", "blockField": "uu.ax", "namedBlockAssignmentOffset": 2005, "constructorFirstLiteral": 56, "veinSizeArgument": 7, "attemptsPerChunk": 1, "loopCompareOffset": 1032, "loopBackEdgeOffset": 1110, "originY": {"type": "uniform_integer", "minInclusive": 0, "maxExclusive": 16}, "yNextIntOffsets": [1055], "generatorNewOffset": 1074, "generatorConstructorOffset": 1086, "generateCallOffset": 1103},
+    {"content": "lapis ore", "modernIdentifier": "minecraft:lapis_ore", "blockField": "uu.O", "namedBlockAssignmentOffset": 912, "constructorFirstLiteral": 21, "veinSizeArgument": 6, "attemptsPerChunk": 1, "loopCompareOffset": 1119, "loopBackEdgeOffset": 1207, "originY": {"type": "sum_of_two_uniform_integers", "eachMinInclusive": 0, "eachMaxExclusive": 16, "sumMinInclusive": 0, "sumMaxInclusive": 30}, "yNextIntOffsets": [1142, 1151], "generatorNewOffset": 1171, "generatorConstructorOffset": 1183, "generateCallOffset": 1200}
+  ],
+  "unknowns": ["Full minable vein geometry and replacement predicate", "Final resulting block-height distribution", "Complete population RNG consumption/order including lakes, dungeons and biome decoration", "Nether generation", "Other decoration rules and mob spawning", "World upgrade compatibility"],
+  "rejectedCandidate": "research/beta173-generation-evidence.json remains REJECTED_DO_NOT_CONSUME. This separately reviewed slice does not rehabilitate that file's other semantic claims."
+}

@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "reviewStatus": "PARENT_VERIFIED_PRIMARY_EVIDENCE",
+  "scope": "The complete set of entity type names registered by the Beta 1.7.3 client, and the entity-type mapping derived from it. This is registry existence, not natural-spawn lists: it establishes which entity types could exist at all, and therefore which spawn entries in a modern world are provably anachronistic.",
+  "source": {
+    "version": "b1.7.3",
+    "metadataUrl": "https://piston-meta.mojang.com/v1/packages/44f6969326bd45aa00dcd3c4ca3a7c05ebb24c04/b1.7.3.json",
+    "clientUrl": "https://launcher.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar",
+    "clientSha1": "43db9b498cb67058d2e12d394e6507722e71bb45",
+    "clientBytes": 1465375,
+    "classFile": "jc.class",
+    "classSha1": "4f6bb330149cde1f8971a67ebc0c6e7d63e51103",
+    "classBytes": 3076,
+    "method": "Enumerate every printable string constant in jc.class. That class is the Beta entity name registry: it is the only class in the jar containing the known Beta mob names, and it also holds the non-mob entity names, the java.util.HashMap/reflection scaffolding and the register method. Reading the whole constant pool rather than searching for names I already suspected is what makes the list complete: a name I did not think of cannot be missed."
+  },
+  "registeredEntityNames": {
+    "mobs": [
+      "Chicken", "Cow", "Creeper", "Ghast", "Giant", "Pig", "PigZombie",
+      "Sheep", "Skeleton", "Slime", "Spider", "Squid", "Wolf", "Zombie"
+    ],
+    "nonMobEntities": [
+      "Arrow", "Boat", "FallingSand", "Item", "Minecart", "Painting", "PrimedTnt", "Snowball"
+    ],
+    "otherStringsInClass": [
+      "Class", "Code", "Constructor", "Entity", "Exception", "HashMap", "ILfd", "Integer",
+      "Lfd", "LineNumberTable", "Ljava", "Lnu", "Lsn", "Map", "Mob", "Monster", "Object",
+      "PrintStream", "Skipping", "SourceFile", "String", "StringBuilder", "System", "append",
+      "clinit", "get", "getClass", "getConstructor", "init", "intValue", "java", "lang",
+      "newInstance", "out", "printStackTrace", "println", "put", "reflect", "toString", "util",
+      "valueOf", "with"
+    ]
+  },
+  "modernIdMapping": {
+    "Chicken": "minecraft:chicken",
+    "Cow": "minecraft:cow",
+    "Creeper": "minecraft:creeper",
+    "Ghast": "minecraft:ghast",
+    "Giant": "minecraft:giant",
+    "Pig": "minecraft:pig",
+    "PigZombie": "minecraft:zombie_pigman",
+    "Sheep": "minecraft:sheep",
+    "Skeleton": "minecraft:skeleton",
+    "Slime": "minecraft:slime",
+    "Spider": "minecraft:spider",
+    "Squid": "minecraft:squid",
+    "Wolf": "minecraft:wolf",
+    "Zombie": "minecraft:zombie"
+  },
+  "provenAbsentInBeta173": [
+    "Enderman", "Silverfish", "CaveSpider", "Bat", "Witch", "Wither", "Blaze", "MagmaCube",
+    "SnowMan", "Villager", "Ozelot", "Cat", "IronGolem", "EnderDragon",
+    "Turtle", "GlowSquid", "Phantom", "Drowned", "Guardian", "Axolotl", "Goat", "Frog", "Panda",
+    "Bee", "Horse", "Rabbit", "Llama", "Parrot", "Vindicator", "Evoker", "Shulker", "Stray",
+    "Husk", "WanderingTrader", "ZombieVillager", "Pillager", "Ravager", "Fox", "Dolphin", "Cod",
+    "Salmon", "Pufferfish", "TropicalFish", "Mooshroom", "Mule", "Donkey", "SkeletonHorse",
+    "ZombieHorse", "WitherSkeleton", "ElderGuardian"
+  ],
+  "measuredAnachronisticSpawnEntries": {
+    "world": "run/probe/world-preview4b (Beta 1.7.3 historical revision 4)",
+    "evidence": "logs/continuation-99-spawn-historical.log",
+    "observedSpawnLists": "ambient={bat:10} creature={chicken:10, cow:8, pig:10, sheep:12, turtle:5, wolf:5} monster={creeper:100, enderman:10, skeleton:100, slime:100, spider:100, witch:5, zombie:95, zombie_villager:5} underground_water_creature={glow_squid:10} water_creature={squid:10}",
+    "anachronistic": ["minecraft:bat", "minecraft:turtle", "minecraft:enderman", "minecraft:witch", "minecraft:zombie_villager", "minecraft:glow_squid"],
+    "note": "Every Beta-era mob Moderner Beta lists (chicken, cow, pig, sheep, wolf, squid, creeper, skeleton, spider, zombie, slime) is present in the Beta registry, so none of those is affected."
+  },
+  "unknowns": [
+    "Beta 1.7.3's own per-biome spawn weights and pack sizes are not enumerated here, so this establishes WHICH entity types may spawn, not the historical probability distribution.",
+    "Whether Moderner Beta's beta preset intends 1.7.3 or a slightly later Beta-era game remains the separate open question already recorded for emerald ore.",
+    "Spawn egg, breeding, spawner-block and mob-conversion paths are not natural spawning and are out of scope."
+  ]
+}

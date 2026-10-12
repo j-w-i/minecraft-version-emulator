@@ -1,0 +1,473 @@
+package net.historicalexperience.gameplay;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import net.historicalexperience.version.HistoricalVersions;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
+
+/**
+ * Per-version gates for behaviours that came and went across Minecraft's history.
+ *
+ * <h2>What this is for</h2>
+ *
+ * <p>Each gate answers one question - "did this version's game behave this way?" - so a mixin can ask it and
+ * change nothing else. Because the version is read from the world at runtime, an upgrade from Beta 1.7.3 to
+ * Beta 1.8.1 changes every gate at once, with no separate migration.
+ *
+ * <h2>Where the behaviours come from, and where the boundaries come from</h2>
+ *
+ * <p>The behaviours are ported from <b>Nostalgic Tweaks</b> (LGPL-3.0; see THIRD_PARTY_NOTICES.md). Each
+ * method names the upstream tweak it came from. Upstream is a global config flag; here it is a per-version
+ * rule, which is the whole point of this project.
+ *
+ * <p>The boundaries come from <b>research/feature-timeline.json</b>, which records 143 rows with a source
+ * URL and an exact quote for each - mostly the Minecraft Wiki's own History tables, cross-checked against
+ * hash-verified client jars where one exists. That file is what turned several of these gates from
+ * "UNVERIFIED, applies to everything" into sourced boundaries, and it corrected four assumptions this
+ * code previously made.
+ *
+ * <h2>Expressing a boundary</h2>
+ *
+ * <p>Boundaries are written as {@code olderThan(version, "<declared version>")}, using the registry's own
+ * chronology. A few real boundaries fall between two declared versions - Release 1.8.9 is not declared, for
+ * instance - so the nearest declared version on the correct side of the boundary is used as the proxy and
+ * the comment says so. That is a deliberate, visible approximation; a hand-written list of version ids
+ * would be the invisible kind.
+ */
+public final class HistoricalGameplayTweaks {
+    /** The versions that predate the goal-based mob AI and the Adventure Update's systems. */
+    private static final Set<String> BEFORE_BETA_1_8 = Set.of(
+        "historical_experience:infdev_420",
+        "historical_experience:infdev_611",
+        "historical_experience:alpha",
+        "historical_experience:beta_1_7_3");
+
+    private static final Map<String, String> EVIDENCE = Map.ofEntries(
+        Map.entry("skeletonStrafing",
+            "RangedBowAttackGoal, which is what strafes while shooting, belongs to the goal-based mob AI "
+                + "that arrives with Beta 1.8/1.9, so none of the pre-Beta-1.8 versions had it. Upstream "
+                + "tweak: DISABLE_SKELETON_STRAFING."),
+        Map.entry("criticalHit",
+            "Critical hits were added in the Beta 1.8 Pre-release, so Infdev, Alpha and Beta 1.7.3 had "
+                + "none and Beta 1.8.1 onwards did. Upstream tweak: DISABLE_CRITICAL_HIT."),
+        Map.entry("monsterPickup",
+            "Monsters picking dropped items up is 1.4.2 (12w32a/12w34b). Every declared version before "
+                + "Release 1.6.4 predates it; Release 1.6.4 does not. Upstream tweak: "
+                + "DISABLE_MONSTER_ITEM_PICKUP."),
+        Map.entry("gearedMobs",
+            "Mobs spawning with armour and weapons is 1.4.2 as well, having existed before Indev "
+                + "20100202 and been removed. Upstream tweak: DISABLE_MONSTER_ITEM_SPAWN."),
+        Map.entry("panic",
+            "Animals fleeing when attacked is the Beta 1.8 Pre-release (feature-timeline mechanics row "
+                + "\"animals fleeing when attacked (panic)\"), so Infdev, Alpha and Beta 1.7.3 had no panic "
+                + "response and every later declared version did. Upstream tweak: DISABLE_ANIMAL_PANIC."),
+        Map.entry("babyZombie",
+            "Baby zombies spawning naturally is Release 1.6.2 (feature-timeline mechanics row \"baby "
+                + "zombies spawning naturally\"), proxied by Release 1.6.4 as the only declared version "
+                + "after it. Baby zombified piglins share the same date and the same hook. Upstream "
+                + "tweaks: DISABLE_BABY_ZOMBIE_SPAWN, DISABLE_BABY_PIGLIN_SPAWN."),
+        Map.entry("monsterEnchant",
+            "Mobs spawning with enchanted gear is Release 1.4.2 (12w32a), the same boundary as the armour "
+                + "and weapons themselves, proxied by Release 1.6.4. Upstream tweak: "
+                + "DISABLE_MONSTER_ENCHANT_SPAWN."),
+        Map.entry("mobArms",
+            "Zombie arm-swinging attack animations were REMOVED in Indev 20100202, and every declared profile "
+                + "is later (the oldest is Infdev 20100420), so the swinging arms are modern behaviour in all "
+                + "ten. Upstream tweak: OLD_ZOMBIE_ARMS."),
+        Map.entry("customDeathLoot",
+            "A skeleton dropping its bow is Release 1.2.1 (12w06a, 8.5%): the timeline records arrows from "
+                + "Indev 20100219 and bones from Beta 1.2, with the bow as a separate later behaviour. "
+                + "Upstream tweak: OLD_SKELETON_DROPS."),
+        Map.entry("avoidSun",
+            "Monsters BURNING in daylight is Indev 20100213 - in range everywhere - but the goal that makes "
+                + "them run for shade is Release 1.2.1 (12w04a). Upstream tweak: DISABLE_MONSTER_AVOID_SUN."),
+        Map.entry("breeding",
+            "Animal breeding AND tempting arrive together in Beta 1.9 Prerelease 2, so Beta 1.8.1 had "
+                + "neither. Baby animals are Beta 1.9 Prerelease 3. Upstream tweaks: DISABLE_ANIMAL_BREEDING, "
+                + "DISABLE_ANIMAL_TEMPTING, DISABLE_BABY_ANIMAL_SPAWNING. This is a PORT: an earlier note here "
+                + "called it a project rule after a worklist search found nothing, but the worklist is a "
+                + "200-row subset of the research and the timeline itself names the tweak under the feature "
+                + "'animal breeding'."));
+
+    private HistoricalGameplayTweaks() {
+    }
+
+    // -------------------------------------------------------------------------------------
+    // Version arithmetic
+    // -------------------------------------------------------------------------------------
+
+    private static String versionOf(Level level) {
+        if (!(level instanceof ServerLevel serverLevel)) {
+            return null;
+        }
+        return HistoricalProfileLookup.profileIdForLevel(serverLevel);
+    }
+
+    private static boolean isDeclaredVersion(String versionId) {
+        return versionId != null && HistoricalVersions.byId(versionId).isPresent();
+    }
+
+    /**
+     * Whether a version is older than another declared version, by the registry's own chronology.
+     *
+     * <p>Writing a boundary this way means it cannot silently go stale: adding a version between two others
+     * moves it to the correct side of every boundary automatically.
+     */
+    private static boolean olderThan(String versionId, String otherVersionId) {
+        var self = HistoricalVersions.byId(versionId).orElse(null);
+        var other = HistoricalVersions.byId(otherVersionId).orElse(null);
+        return self != null && other != null && self.chronology() < other.chronology();
+    }
+
+    // -------------------------------------------------------------------------------------
+    // Gates with sourced boundaries
+    // -------------------------------------------------------------------------------------
+
+    /**
+     * The boundary each gate is computed from, in <b>one</b> place, so a gate and its test cannot disagree.
+     *
+     * <p>Every gate below is this method plus one call. That shape exists because the gates take a
+     * {@link Level}, which an offline unit test cannot build; without a version-keyed entry point the
+     * per-version behaviour is untestable, and an untestable boundary is how this project shipped a panic
+     * gate that applied to every version and a structure allow-list that suppressed its own village.
+     *
+     * <p>An unrecognised gate name <b>throws</b> rather than answering false. A gate that silently never
+     * applies looks exactly like a gate that correctly does not apply, which is the failure this method
+     * exists to make impossible.
+     */
+    public static boolean appliesTo(String gate, String versionId) {
+        return switch (gate) {
+            case "skeletonStrafing", "criticalHit", "panic" ->
+                versionId != null && BEFORE_BETA_1_8.contains(versionId);
+            case "avoidSun" -> isDeclaredVersion(versionId) && olderThan(versionId, RELEASE_1_2_5);
+            // Same boundary as avoidSun and the same declared proxy: the skeleton bow drop is 1.2.1
+            // (12w06a, 8.5%) per the timeline, so through Release 1.1 there is no bow to drop.
+            case "customDeathLoot" ->
+                isDeclaredVersion(versionId) && olderThan(versionId, RELEASE_1_2_5);
+            case "breeding", "tempting", "babyAnimal" ->
+                isDeclaredVersion(versionId) && olderThan(versionId, BETA_1_9_PRE_3);
+            case "itemPickup", "monsterGear", "monsterEnchant", "babyZombie" ->
+                isDeclaredVersion(versionId) && olderThan(versionId, RELEASE_1_6_4);
+            // 1.9 combat, and every declared profile is older than 1.9 - the newest is Release 1.6.4 - so
+            // these apply to all ten. Expressed as a boundary above every version rather than as a separate
+            // rule, so the tested table stays the single source of truth.
+            case "cooldown", "sweep", "swim" -> isDeclaredVersion(versionId);
+            // True for every declared version for its OWN reason, not because it shares an era with the
+            // line above: zombie arm swinging was removed in Indev 20100202, earlier than every profile.
+            case "mobArms" -> isDeclaredVersion(versionId);
+            default -> throw new IllegalArgumentException("unknown gate '" + gate + "'; a gate that never "
+                + "applies is indistinguishable from one that correctly does not, so this refuses to guess");
+        };
+    }
+
+    /** Every gate name {@link #appliesTo} understands, so a test can walk all of them. */
+    public static List<String> gateNames() {
+        return List.of("avoidSun", "babyAnimal", "babyZombie", "breeding", "cooldown", "criticalHit",
+            "customDeathLoot", "itemPickup", "mobArms", "monsterEnchant", "monsterGear", "panic", "skeletonStrafing", "sweep", "swim",
+            "tempting");
+    }
+
+    private static final String RELEASE_1_2_5 = "historical_experience:release_1_2_5";
+    private static final String RELEASE_1_6_4 = "historical_experience:release_1_6_4";
+    private static final String BETA_1_9_PRE_3 = "historical_experience:beta_1_9_pre_3";
+
+    /** Skeletons that shoot also strafe sideways: the goal-based mob AI, so the Beta 1.8 boundary. */
+    public static boolean skeletonStrafingDisabled(Level level) {
+        return appliesTo("skeletonStrafing", versionOf(level));
+    }
+
+    /** Critical hits, added in the Beta 1.8 Pre-release. */
+    public static boolean criticalHitDisabled(Level level) {
+        return appliesTo("criticalHit", versionOf(level));
+    }
+
+    /**
+     * Monsters pick dropped items up: 1.4.2.
+     *
+     * <p>Release 1.4.2 is not a declared version, so Release 1.6.4 - the only declared version after it -
+     * proxies the boundary: everything older than 1.6.4 is before 1.4.2, and 1.6.4 is after.
+     */
+    public static boolean monsterItemPickupDisabled(Level level) {
+        return appliesTo("itemPickup", versionOf(level));
+    }
+
+    /** Mobs spawn already wearing armour and holding weapons: 1.4.2, same proxy as item pickup. */
+    public static boolean monsterItemSpawnDisabled(Level level) {
+        return appliesTo("monsterGear", versionOf(level));
+    }
+
+    /** Monsters flee the sun: Release 1.2.1, proxied by Release 1.2.5 as the next declared version. */
+    public static boolean monsterAvoidSunDisabled(Level level) {
+        return appliesTo("avoidSun", versionOf(level));
+    }
+
+    /** Animals eat from a player's hand to breed: Beta 1.9 Prerelease 2. */
+    public static boolean animalBreedingDisabled(Level level) {
+        return appliesTo("breeding", versionOf(level));
+    }
+
+    /** Animals follow a player holding food: arrives with breeding, Beta 1.9 Prerelease 2. */
+    public static boolean animalTemptingDisabled(Level level) {
+        return appliesTo("tempting", versionOf(level));
+    }
+
+    /** Baby animals: Beta 1.9 Prerelease 3, so Beta 1.9 Prerelease 3 itself HAS them. */
+    public static boolean babyAnimalSpawningDisabled(Level level) {
+        return appliesTo("babyAnimal", versionOf(level));
+    }
+
+    /**
+     * Animals panic and flee when hurt: the <b>Beta 1.8 Pre-release</b>, per the feature timeline.
+     *
+     * <p>Now sourced. The timeline row is "animals fleeing when attacked (panic)", introduced in Beta 1.8,
+     * so it belongs to the same boundary as the rest of the Adventure Update's mob behaviour and NOT to
+     * every declared version - the previous version of this gate returned true everywhere, which would have
+     * removed a behaviour Release 1.6.4 really had. Upstream tweak: DISABLE_ANIMAL_PANIC.
+     */
+    public static boolean animalPanicDisabled(Level level) {
+        return appliesTo("panic", versionOf(level));
+    }
+
+    /**
+     * Baby zombies spawn naturally: <b>Release 1.6.2</b> (Pre-release), per the feature timeline.
+     *
+     * <p>Release 1.6.2 is not a declared version, so Release 1.6.4 - the only declared version after it -
+     * proxies the boundary: everything older than 1.6.4 has only full-sized zombies, and 1.6.4 itself has
+     * babies. Zombified piglins are Zombie subclasses, so the same hook covers their babies, which the
+     * timeline also dates to 1.6.2. Upstream tweak: DISABLE_BABY_ZOMBIE_SPAWN.
+     */
+    public static boolean babyZombieSpawningDisabled(Level level) {
+        return appliesTo("babyZombie", versionOf(level));
+    }
+
+    /**
+     * Monsters spawn already enchanted: <b>Release 1.4.2</b>, the same boundary as armour and weapons.
+     *
+     * <p>Separate from {@link #monsterItemSpawnDisabled} only so the upstream tweak
+     * ({@code DISABLE_MONSTER_ENCHANT_SPAWN}) has a name of its own to map onto; the boundary is shared, so
+     * the two cannot drift apart by accident.
+     */
+    public static boolean monsterEnchantmentSpawnDisabled(Level level) {
+        return appliesTo("monsterEnchant", versionOf(level));
+    }
+
+    /**
+     * A chest may be opened with something on top of it.
+     *
+     * <p>UNVERIFIED: the timeline's only related row is chest-on-chest placement in Beta 1.9 Pre6, which is
+     * not the same question, so this stays on for every declared version rather than pretending to a
+     * boundary. Upstream tweak: ALWAYS_OPEN_CHEST.
+     */
+    public static boolean alwaysOpenChestEnabled(Level level) {
+        return isDeclaredWorld(level);
+    }
+
+    private static boolean isDeclaredWorld(Level level) {
+        return isDeclaredVersion(versionOf(level));
+    }
+
+    // -------------------------------------------------------------------------------------
+    // Gates that are one rule read twice
+    // -------------------------------------------------------------------------------------
+
+    /**
+     * The 1.9 attack cooldown: attacks are always at full strength.
+     *
+     * <p>Ported from Nostalgic Tweaks {@code combat_player/PlayerMixin.java} (LGPL-3.0), which pins
+     * {@code getAttackStrengthScale} to 1.0 and resets the attack strength ticker on every attack. Both
+     * halves are implemented, because pinning only the scale leaves the cooldown visible and lets the
+     * client refuse the next attack.
+     */
+    public static boolean attackCooldownDisabled(Level level) {
+        return appliesTo("cooldown", versionOf(level));
+    }
+
+    /** The 1.9 sweep attack: hitting one target never damages the ones beside it. */
+    public static boolean sweepAttackDisabled(Level level) {
+        return appliesTo("sweep", versionOf(level));
+    }
+
+    /**
+     * Sword blocking, from the Beta 1.8 Pre-release until 1.9.
+     *
+     * <p>Note the direction: blocking did NOT exist before Beta 1.8, so this is false for Infdev, Alpha and
+     * Beta 1.7.3, and true from Beta 1.8.1 up. The first draft of this gate had it the other way round,
+     * which the timeline caught before it was wired to anything.
+     */
+    public static boolean swordBlockingEnabled(Level level) {
+        return swordBlockingEnabled(versionOf(level));
+    }
+
+    /**
+     * The same boundary, asked about a version instead of a level.
+     *
+     * <p>Needed because the answer has to hold on the CLIENT too: a client's player level is a ClientLevel, so a
+     * level-based question returns null there and the rule switches itself off on the side that draws the block.
+     * {@code HistoricalActiveSession} is set on both sides, which is what client-visible rules must ask.
+     */
+    public static boolean swordBlockingEnabled(String versionId) {
+        return isDeclaredVersion(versionId)
+            && !BEFORE_BETA_1_8.contains(versionId);
+    }
+
+    /**
+     * Whether the old block's FALL DAMAGE reduction applies, which is a narrower window than blocking itself.
+     *
+     * <p>The timeline records that blocking reduced fall damage and let the player rise faster underwater, and that
+     * <b>both were removed in Beta 1.9 Prerelease</b> - earlier than blocking itself, which lasted until 1.9. So a
+     * version can have the stance and not the reduction, and Beta 1.9 Prerelease 3 is exactly that version.
+     *
+     * <p>Of the ten declared profiles only Beta 1.8.1 is inside the window, and Beta 1.9 Prerelease 3 is the
+     * nearest declared version past the removal, so it is the proxy - the same technique the registry uses
+     * wherever a real boundary falls between two declared versions.
+     *
+     * <p>This was wrong in the first version of the port: the reduction used the blocking gate and so applied in
+     * Beta 1.9 Prerelease 3, which is after the prerelease that removed it.
+     */
+    /**
+     * Whether a version is older than another declared version, exposed so a rule can state its own boundary.
+     *
+     * <p>The private comparator has been here all along; rules that need a two-sided or sub-behaviour boundary
+     * could not reach it, which is how the fall damage reduction ended up wearing the blocking gate's window.
+     */
+    public static boolean olderThanVersion(String versionId, String boundaryVersionId) {
+        return isDeclaredVersion(versionId) && olderThan(versionId, boundaryVersionId);
+    }
+
+    /**
+     * Whether a sword deals the PRE-Release-1.0.0 value, which is every version before Beta 1.9 Prerelease 3.
+     *
+     * <p>The offset is three, not one: research/historical-features.json records "Sword damage decreased (diamond
+     * sword from 5 hearts to 3.5 hearts)" at Release 1.0.0, and ten damage becoming seven is a difference of three.
+     * An earlier version of this applied one, taken from a later and unrelated wiki line about 1.9.
+     *
+     * <p>Named rather than inlined because the boundary is the point: a reader should be able to ask "which
+     * profiles have the higher sword damage?" without reading a comparison inside a damage calculation.
+     */
+    /**
+     * Whether critical hits use the Beta 1.8 formula rather than the flat +50%.
+     *
+     * <p>The formula changed in the "1.6/1.7 era" per research/historical-features.json, so every declared profile
+     * older than Release 1.6.4 is on the earlier one - and critical hits do not exist before Beta 1.8 at all, which
+     * the {@code criticalHit} gate already enforces by never letting a pre-1.8 player crit.
+     *
+     * <p>Release 1.6.4 is the proxy for the change: no profile is declared between the era's start and it.
+     */
+    /**
+     * Whether regeneration uses the Beta 1.8 model: food 18 or more, once per 80 ticks, and no exhaustion cost.
+     *
+     * <p>Gated on the hunger boundary, since a version with no hunger meter has no regeneration to model. The
+     * research does not date when the modern fast branch or the exhaustion charge arrived, and every declared
+     * profile with hunger is Release 1.6.4 or earlier, so all six are treated as Beta-era. That assumption is
+     * deliberate and would be replaced by a real boundary the moment one is sourced.
+     */
+    /**
+     * Whether cookies and mushroom stew fill their pre-change hunger values.
+     *
+     * <p>Both changes - cookie 1 to 2 in Release 1.3.1, stew 8 to 6 in Release 1.4.2 - happened before Release
+     * 1.6.4, the newest declared profile, so it serves as the proxy for both. Gated on the hunger boundary as well,
+     * since a food bar is what these values fill.
+     */
+    /**
+     * Whether ores drop the ore block rather than a raw metal.
+     *
+     * <p>Raw iron, gold and copper arrive in Release 1.17, which is later than every declared profile, so all ten
+     * drop the block. The dating is already in this project's availability data, which marks the raw items and
+     * their blocks as 1.17 additions.
+     *
+     * <p>Nostalgic Tweaks implements this as {@code SELF_BLOCK_DROPS}, a listing of six ore blocks, with the server
+     * flag defaulting to off; here the version decides.
+     */
+    public static boolean oreDropsAsBlocks() {
+        return isDeclaredVersion(HistoricalActiveSession.current());
+    }
+
+    /**
+     * Whether the golden apple is the pre-Release-1.1 item: 10 hunger, no Regeneration.
+     *
+     * <p>Release 1.1 remade it as a gold-nugget recipe granting Regeneration and 4 hunger, so Beta 1.8.1 through
+     * Release 1.0.0 are on the earlier item. Release 1.2.5 is the nearest declared profile past the change and
+     * serves as the proxy.
+     */
+    /**
+     * Whether exhaustion costs are the Beta 1.8 ones: attacking 0.3 rather than 0.1, and a non-sprint jump 0.2
+     * rather than 0.05.
+     *
+     * <p>Gated on the hunger boundary, since exhaustion only exists with a hunger meter. The research does not date
+     * when the modern attack and jump costs arrived, and every declared profile with hunger is Release 1.6.4 or
+     * earlier, so all six are treated as Beta-era - the same deliberate assumption as the regeneration model.
+     */
+    public static boolean betaExhaustionCosts(String versionId) {
+        return isDeclaredVersion(versionId) && !BEFORE_BETA_1_8.contains(versionId);
+    }
+
+    /**
+     * Whether a sprint jump costs the Beta 1.8 value of 0.8 rather than 0.2.
+     *
+     * <p>The research dates this one exactly: 0.8 in Beta 1.8, lowered to 0.2 in Release 1.3.1, raised back to 0.8
+     * in Release 1.7.2. Release 1.6.4 is the only declared profile inside the 0.2 window, and Release 1.6.4 is
+     * also the proxy for both changes since no profile is declared between them.
+     */
+    public static boolean betaSprintJumpExhaustion(String versionId) {
+        return betaExhaustionCosts(versionId) && olderThan(versionId, RELEASE_1_6_4);
+    }
+
+    public static boolean betaGoldenApple(String versionId) {
+        return isDeclaredVersion(versionId)
+            && !BEFORE_BETA_1_8.contains(versionId)
+            && olderThan(versionId, RELEASE_1_2_5);
+    }
+
+    public static boolean betaFoodHungerValues(String versionId) {
+        return isDeclaredVersion(versionId)
+            && !BEFORE_BETA_1_8.contains(versionId)
+            && olderThan(versionId, RELEASE_1_6_4);
+    }
+
+    public static boolean betaRegenerationModel(String versionId) {
+        return isDeclaredVersion(versionId) && !BEFORE_BETA_1_8.contains(versionId);
+    }
+
+    public static boolean betaCriticalHitFormula(String versionId) {
+        return isDeclaredVersion(versionId)
+            && !BEFORE_BETA_1_8.contains(versionId)
+            && olderThan(versionId, RELEASE_1_6_4);
+    }
+
+    public static boolean swordDamageBeforeReleaseOnePointZero(String versionId) {
+        return isDeclaredVersion(versionId) && olderThan(versionId, BETA_1_9_PRE_3);
+    }
+
+    public static boolean blockFallDamageReductionEnabled(String versionId) {
+        return swordBlockingEnabled(versionId) && olderThan(versionId, BETA_1_9_PRE_3);
+    }
+
+    /**
+     * Experience orbs must not exist, in a version that awarded no experience.
+     *
+     * <p>Reads the version's own {@code awardsExperience} rule rather than a boundary of its own, so the two
+     * cannot disagree.
+     */
+    public static boolean experienceOrbSpawnDisabled(Level level) {
+        String versionId = versionOf(level);
+        if (versionId == null) {
+            return false;
+        }
+        return HistoricalVersions.byId(versionId)
+            .map(version -> !version.rules().awardsExperience())
+            .orElse(false);
+    }
+
+    /** Why a gate applies where it does, for tests and reporting. */
+    public static String evidenceFor(String gate) {
+        return EVIDENCE.get(gate);
+    }
+
+    /** Every gate name that carries a recorded reason. */
+    public static List<String> documentedGates() {
+        return EVIDENCE.keySet().stream().sorted().toList();
+    }
+}

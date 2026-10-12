@@ -1,0 +1,7 @@
+{
+  "type": "historical_experience:historical_village",
+  "biomes": "#historical_experience:has_structure/historical_village",
+  "spawn_overrides": {},
+  "step": "surface_structures",
+  "terrain_adaptation": "none"
+}

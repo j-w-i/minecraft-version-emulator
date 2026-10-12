@@ -1,0 +1,269 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/j-w-i/minecraft-version-emulator/research/historical-features.schema.json",
+  "title": "Minecraft Historical Feature Database",
+  "description": "Evidence-backed record of Java Edition gameplay/feature deltas used to drive the historical profiles of the Minecraft Version Emulator. Every entry must cite at least one source with a URL and a precise reference. Invented facts are forbidden; unverified values must be recorded as explicit unknowns or omitted.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "generated", "scope", "categories", "confidenceLevels", "implementationStatuses", "validation", "entries"],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "description": "Schema revision; bump on breaking structural change.",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "generated": {
+      "type": "string",
+      "description": "ISO-8601 timestamp (with offset) when this database was written.",
+      "format": "date-time"
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["focusComparison", "targetEmulationRange", "inScope", "outOfScope"],
+      "properties": {
+        "focusComparison": {
+          "type": "array",
+          "description": "The version pair/matrix that entries describe first.",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 2
+        },
+        "targetEmulationRange": {
+          "type": "array",
+          "description": "Full product emulation range the database plans to cover.",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 2
+        },
+        "inScope": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "outOfScope": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+      }
+    },
+    "categories": {
+      "type": "array",
+      "description": "Closed vocabulary of categories; every entry.category must appear here.",
+      "items": { "type": "string", "enum": ["food_hunger", "movement_water", "combat", "mobs", "mob_drops", "spawning", "crafting_recipes", "worldgen", "structures", "progression", "hud_ui", "lighting_visuals", "technical"] },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "confidenceLevels": {
+      "type": "object",
+      "description": "Definitions of the confidence scale, so low/unknown ratings are unambiguous.",
+      "additionalProperties": false,
+      "required": ["high", "medium", "low", "unknown"],
+      "properties": {
+        "high": {
+          "type": "string",
+          "description": "Confirmed by a primary artifact (official Mojang client jar: registry inspection, NBT field names, or decoded class logic) or by two independent sources that agree. NOTE: a whole-jar string scan returning zero hits is NOT high-confidence evidence on its own - absence of a marker string does not prove absence of behaviour in obfuscated code."
+        },
+        "medium": { "type": "string" },
+        "low": { "type": "string" },
+        "unknown": { "type": "string" }
+      }
+    },
+    "implementationStatuses": {
+      "type": "object",
+      "description": "Definitions of implementation status values. This repository has no gameplay code yet, so realistic statuses are 'not_started' and 'unknown'.",
+      "additionalProperties": false,
+      "required": ["not_started", "partial", "implemented", "unknown", "not_applicable"],
+      "properties": {
+        "not_started": { "type": "string" },
+        "partial": { "type": "string" },
+        "implemented": { "type": "string" },
+        "unknown": { "type": "string" },
+        "not_applicable": { "type": "string" }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "description": "Machine-checkable claims about this file's own coverage; kept in-file so the count can be verified.",
+      "additionalProperties": false,
+      "required": ["entryCount", "categoryCounts", "confidenceCounts", "implementationStatusCounts"],
+      "properties": {
+        "entryCount": { "type": "integer", "minimum": 1 },
+        "categoryCounts": {
+          "type": "object",
+          "additionalProperties": { "type": "integer", "minimum": 0 }
+        },
+        "confidenceCounts": {
+          "type": "object",
+          "additionalProperties": { "type": "integer", "minimum": 0 }
+        },
+        "implementationStatusCounts": {
+          "type": "object",
+          "additionalProperties": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/entry" }
+    }
+  },
+  "$defs": {
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "category",
+        "verificationStatus",
+        "firstSupportedVersion",
+        "removedIn",
+        "changes",
+        "values",
+        "evidence",
+        "confidence",
+        "confidenceReason",
+        "implementationStatus",
+        "coverage",
+        "risks"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Stable kebab-case identifier, unique across the database.",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "name": { "type": "string", "minLength": 2 },
+        "category": { "type": "string", "minLength": 2 },
+        "verificationStatus": {
+          "type": "string",
+          "description": "How far this entry has been validated. 'documented_only' means no runtime or artifact verification was performed in this project.",
+          "enum": ["documented_only", "artifact_verified", "runtime_verified", "contradicted"]
+        },
+        "firstSupportedVersion": {
+          "type": "string",
+          "description": "Earliest version in which the feature exists as described, using wiki-style names (e.g. 'Beta 1.8'); 'unknown' when no source pins it down.",
+          "minLength": 3
+        },
+        "firstSupportedPrecise": {
+          "type": ["string", "null"],
+          "description": "Exact snapshot/pre-release/build where the feature first appears, or null if never pinned down in a source."
+        },
+        "removedIn": {
+          "type": ["string", "null"],
+          "description": "Version in which the feature was removed/replaced, or null if it still exists in that form."
+        },
+        "changes": {
+          "type": "array",
+          "description": "Ordered list of changes/replacements across versions.",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["version", "change"],
+            "properties": {
+              "version": { "type": "string", "minLength": 2 },
+              "precise": { "type": ["string", "null"] },
+              "change": { "type": "string", "minLength": 3 }
+            }
+          }
+        },
+        "values": {
+          "type": "array",
+          "description": "Machine-consumable numbers. Only confirmed numbers may appear; each value carries an appliesToVersion list.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["key", "value", "unit", "appliesToVersions", "confidence"],
+            "properties": {
+              "key": { "type": "string", "minLength": 1 },
+              "value": {
+                "description": "Scalar value, list of scalars, or a small key/value object for multi-part values (e.g. {hunger, saturationModifier}).",
+                "oneOf": [
+                  { "type": ["number", "string", "boolean"] },
+                  { "type": "array", "items": { "type": ["number", "string", "boolean"] } },
+                  {
+                    "type": "object",
+                    "additionalProperties": { "type": ["number", "string", "boolean"] }
+                  }
+                ]
+              },
+              "unit": { "type": "string" },
+              "appliesToVersions": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+              "confidence": { "type": "string", "enum": ["high", "medium", "low", "unknown"] },
+              "note": { "type": "string" }
+            }
+          }
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["kind", "url", "reference", "supports"],
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": ["wiki_page", "wiki_raw_wikitext", "official_client_artifact", "official_metadata", "developer_statement", "community_archive"]
+              },
+              "url": { "type": "string", "format": "uri" },
+              "reference": {
+                "type": "string",
+                "description": "Precise locus: section anchor, wikitext History line, class/method, JSON field, etc.",
+                "minLength": 3
+              },
+              "supports": { "type": "string", "minLength": 3 },
+              "retrieved": { "type": "string", "format": "date" },
+              "sha1": { "type": ["string", "null"], "pattern": "^[a-f0-9]{40}$" }
+            }
+          }
+        },
+        "confidence": { "type": "string", "enum": ["high", "medium", "low", "unknown"] },
+        "confidenceReason": { "type": "string", "minLength": 5 },
+        "unknowns": {
+          "type": "array",
+          "description": "Explicitly unresolved items for this feature; keeps uncertainty visible instead of guessed.",
+          "items": { "type": "string" }
+        },
+        "contradictions": {
+          "type": "array",
+          "description": "Conflicting sources encountered for this feature, with the resolution chosen.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["description", "resolution"],
+            "properties": {
+              "description": { "type": "string", "minLength": 5 },
+              "resolution": { "type": "string", "minLength": 3 }
+            }
+          }
+        },
+        "implementationStatus": { "type": "string", "enum": ["not_started", "partial", "implemented", "unknown", "not_applicable"] },
+        "implementationNotes": { "type": "string" },
+        "coverage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["coversProfile", "modernBehaviourDifference"],
+          "properties": {
+            "coversProfile": {
+              "type": "array",
+              "description": "Which historical profiles this entry is expected to parameterise.",
+              "items": { "type": "string" },
+              "minItems": 1
+            },
+            "modernBehaviourDifference": {
+              "type": "string",
+              "description": "How Minecraft 26.3 (the host runtime) differs; this is the emulation gap.",
+              "minLength": 5
+            },
+            "requiresHostWorkaround": { "type": "boolean" }
+          }
+        },
+        "risks": {
+          "type": "array",
+          "description": "Modern-acquisition/spawning/behaviour hazards for implementers.",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "testLink": {
+          "type": ["string", "null"],
+          "description": "Path or test id that will validate this entry once gameplay code exists; null while unimplemented."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1073 @@
+{
+  "reviewStatus": "WORKER_GENERATED_PENDING_PARENT_VERIFICATION",
+  "auditDate": "2026-10-13",
+  "auditor": "DeepSeek worker (delegated subagent session)",
+  "repository": {
+    "requestedUrl": "https://github.com/rdh-gg/Nostalgic-Tweaks",
+    "requestedUrlStatus": "DOES NOT EXIST. Verified two independent ways on 2026-10-13: `git ls-remote https://github.com/rdh-gg/Nostalgic-Tweaks` returned 'remote: Repository not found.' with exit 128, and https://api.github.com/users/rdh-gg returned HTTP 404 ('Not Found'), so the account/org 'rdh-gg' does not exist on GitHub either.",
+    "canonicalUrl": "https://github.com/Nostalgica-Reverie/Nostalgic-Tweaks",
+    "canonicalUrlHowEstablished": [
+      "`git ls-remote` proved the requested URL does not exist, so the canonical repository had to be located rather than assumed.",
+      "https://api.github.com/repos/Nostalgica-Reverie/Nostalgic-Tweaks returned HTTP 200 with \"fork\": false, topics [minecraft-mod, nostalgia-project, nostalgic-tweaks], and \"homepage\": \"https://modrinth.com/mod/nostalgic-tweaks\". A non-fork repository whose homepage is the mod's official Modrinth page is the canonical upstream.",
+      "https://api.github.com/repos/Adrenix/Nostalgic-Tweaks (the URL the mod's own source names) returned HTTP 200 for the SAME repository id 466280964, i.e. GitHub redirects Adrenix/Nostalgic-Tweaks to Nostalgica-Reverie/Nostalgic-Tweaks. That is a repository transfer, established from the API, not inferred.",
+      "The mod's own build metadata names the same project: gradle.properties:16-26 (mod_id=nostalgic_tweaks, mod_source=https://github.com/Adrenix/Nostalgic-Tweaks, mod_modrinth=https://modrinth.com/mod/nostalgic-tweaks)."
+    ],
+    "canonicalDefaultBranch": "main",
+    "canonicalDefaultBranchTip": "6f2614ef50836feef2bbf675d07e6b968b6209e7",
+    "canonicalDefaultBranchTipDate": "2026-06-02T08:55:27+10:00",
+    "canonicalDefaultBranchContentWarning": "origin/main is a DOCS-ONLY branch. `git ls-tree --name-only origin/main` returns exactly: .github, LICENSE.txt, README.md, contributors.md. It contains zero .java files. The default branch therefore cannot be used to inventory features.",
+    "auditedRef": "origin/1.21",
+    "auditedRefWhy": "origin/1.21 is the branch carrying the actual source (917 .java files under common/, fabric/, neoforge/) and is the most recently pushed of all 25+ branches (2026-08-14T00:50:27-04:00, ahead of origin/26.1.x at 2026-08-13 and origin/main at 2026-06-01). An audit of 'the actual repository source' must use it. Any finding below is specific to this commit unless stated otherwise.",
+    "clonePath": ".upstream/nostalgic-tweaks",
+    "cloneNote": "The required directory already contained an `origin` remote pointing at the canonical URL, checked out detached at origin/1.21. It was NOT re-cloned over (that would have discarded existing state); the existing clone was reused read-only and `git fetch --all --tags` was run. `git remote -v` confirms origin = https://github.com/Nostalgica-Reverie/Nostalgic-Tweaks.git. No tracked file in the clone was modified (`git status --porcelain` empty).",
+    "worktreeNote": "Deep analysis used a detached git worktree of origin/1.21 at %TEMP%\\nt-audit-wt, deliberately outside the repository tree. No .upstream file was modified."
+  },
+  "commit": "51d6d3dc1fa33223f8548e1625ed7595183c2b9e",
+  "commitShort": "51d6d3dc",
+  "commitDate": "2026-08-14T14:50:27+10:00",
+  "commitSubject": "chore: update changelog",
+  "commitBranch": "origin/1.21",
+  "modVersionAtCommit": "2.0.0-beta.923-indev.2 (gradle.properties:15)",
+  "tags": {
+    "tagCountAtAudit": 16,
+    "tags": [
+      "2.0.0-beta.910",
+      "2.0.0-beta.911-indev",
+      "2.0.0-beta.920-indev.1",
+      "2.0.0-beta.920-indev.2",
+      "2.0.0-beta.923-indev.1",
+      "v2.0",
+      "v2.0.0-Beta-8.4-1.18.2",
+      "v2.0.0-Beta-8.4-1.19.2-1.20.1",
+      "v2.0.0-Beta-9-1.20.4-Indev-1",
+      "v2.0.0-Beta-9-1.20.4-Indev-2",
+      "v2.0.0-Beta-9-1.20.4-Indev-3",
+      "v2.0.0-Beta-9-1.20.4-Indev-4",
+      "v2.0.0-Beta-9-1.20.4-RC",
+      "v2.0.0-beta-903-1.20.4",
+      "v2.0.0-beta.910",
+      "v2.0.0-beta.910-rc.2"
+    ],
+    "tagsPointAtAuditedCommit": false,
+    "tagsNote": "No tag points at 51d6d3dc. Verified by inspection of `git tag` plus branch dates; the two tags present on the 1.21.4 line (2.0.0-beta.920-indev.*, 2.0.0-beta.923-indev.1) are later than the audited branch tip's release numbering, and the audited commit is an untagged in-development tip of the 1.21 branch."
+  },
+  "licence": {
+    "githubApiReportedLicence": "LGPL-3.0 (spdx_id LGPL-3.0), from https://api.github.com/repos/Nostalgica-Reverie/Nostalgic-Tweaks",
+    "githubApiReportedLicenceIsMisleading": "TRUE for the audited revision. GitHub resolves the repository licence from the default branch, main, which is docs-only. The branch that actually contains the source under audit has no licence file at all.",
+    "licenceFilePresentAtAuditedCommit": false,
+    "licenceFileAtAuditedCommitEvidence": "`git rev-parse origin/1.21:LICENSE.txt` and `git rev-parse origin/1.21:LICENSE` both fail with \"path ... does not exist in 'origin/1.21'\". A recursive listing of origin/1.21 shows no LICENSE or LICENSE.txt at the repository root (root entries: .github, .gitignore, .idea, README.md, build.gradle, changelog.md, common, fabric, gradle.properties, gradle, gradlew, gradlew.bat, neoforge, settings.gradle).",
+    "currentLicenceOnDefaultBranch": {
+      "path": "LICENSE.txt",
+      "branch": "main",
+      "blobSha1": "0a041280bd00a9d068f503b8ee7ce35214bd24a1",
+      "spdx": "LGPL-3.0-only (the unmodified GNU Lesser General Public License version 3 text, 165 lines)",
+      "quotedText": [
+        {
+          "file": "LICENSE.txt",
+          "line": 1,
+          "quote": "                   GNU LESSER GENERAL PUBLIC LICENSE"
+        },
+        {
+          "file": "LICENSE.txt",
+          "line": 2,
+          "quote": "                       Version 3, 29 June 2007"
+        },
+        {
+          "file": "LICENSE.txt",
+          "line": 9,
+          "quote": "  This version of the GNU Lesser General Public License incorporates"
+        },
+        {
+          "file": "LICENSE.txt",
+          "line": 10,
+          "quote": "the terms and conditions of version 3 of the GNU General Public"
+        },
+        {
+          "file": "LICENSE.txt",
+          "line": 11,
+          "quote": "License, supplemented by the additional permissions listed below."
+        }
+      ],
+      "incorporatedByReferenceWarning": "This 165-line file is ONLY the LGPL's additional-permissions preamble. It is the standard COPYING.LESSER text. It incorporates GPLv3 by reference and does not itself restate GPLv3. Full LGPL-3.0 compliance therefore also requires the GPLv3 text, which this repository does not contain at any revision examined (only four distinct licence blobs exist in all of history: this LGPL preamble plus three versions of the MMPL)."
+    },
+    "historyOfLicenceFiles": {
+      "method": "`git log --all --name-status -- 'LICENSE' 'LICENSE.txt'` over all refs, plus `git cat-file -p` of every distinct licence blob sha found by walking that history.",
+      "distinctLicenceBlobsEver": [
+        {
+          "blobSha1": "c5774af051e6c7bfaf094040105c48d5cd4033b4",
+          "firstLine": "============================",
+          "title": "Minecraft Mod Public License",
+          "version": "2.0.3",
+          "lines": 136,
+          "proprietary": true,
+          "seenFrom": "LICENSE, added at first commits 09c62ac2 / 9a5c0cba / 730f9408 (2022-03-04 to 2022-03-14)"
+        },
+        {
+          "blobSha1": "75c07fbd67a4915d21aa296eee7d397a39dfa15f",
+          "firstLine": "============================",
+          "title": "Minecraft Mod Public License",
+          "version": "2.0.3-Modified",
+          "lines": 136,
+          "proprietary": true,
+          "seenFrom": "LICENSE, after commit 460853d2 (2022-10-10) which changed the version line and section 5"
+        },
+        {
+          "blobSha1": "de7d7565a97a04b48dec0f36fdc8c96f9b78db2d",
+          "firstLine": "============================",
+          "title": "Minecraft Mod Public License",
+          "version": "2.0.3-Modified (Last updated: November 18, 2022)",
+          "lines": 139,
+          "proprietary": true,
+          "seenFrom": "LICENSE, after commit b8ae0287 (2022-11-18) which added three sentences about categorical and path exceptions"
+        },
+        {
+          "blobSha1": "0a041280bd00a9d068f503b8ee7ce35214bd24a1",
+          "firstLine": "                   GNU LESSER GENERAL PUBLIC LICENSE",
+          "title": "GNU Lesser General Public License version 3",
+          "lines": 165,
+          "proprietary": false,
+          "seenFrom": "LICENSE.txt, added by commit 6f2614ef (2026-06-01, 'Update README.md') on branch main"
+        }
+      ],
+      "relicensingEvents": [
+        {
+          "date": "2022-10-10",
+          "commit": "460853d2",
+          "subject": "Update LICENSE",
+          "change": "MMPL 'Version 2.0.3' to 'Version 2.0.3-Modified'; section 5 sentence changed from 'The Author may revoke distribution rights from any Distributor.' to '... at any time.'",
+          "isRelicensing": false,
+          "why": "Same licence family, same version number, edit to one clause. Not a change of licence."
+        },
+        {
+          "date": "2022-11-18",
+          "commit": "b8ae0287",
+          "subject": "Update LICENSE",
+          "change": "'Version 2.0.3-Modified' to 'Version 2.0.3-Modified (Last updated: November 18, 2022)' and three added sentences: 'The Author may specify categorical exceptions to Mod licensing.', 'The Author may specify exact or Codebase path exceptions to Mod licensing.', 'The Author may include source code files licensed under different licenses.'",
+          "isRelicensing": false,
+          "why": "Same licence, four added lines. NOTE: it does introduce path/categorical exception provisions, which is the clause that a future LGPL grant would rely on."
+        },
+        {
+          "date": "2024-08-15",
+          "commit": "42fc93c4",
+          "subject": "Create LICENSE.txt",
+          "change": "LICENSE deleted by be334c0d the same day; LICENSE.txt added. Both on a branch whose content is the then-current source (the commit immediately precedes source initialisations such as 1.20.6/1.21/1.21.4).",
+          "isRelicensing": "UNKNOWN",
+          "why": "Both the added and deleted blobs are textually IDENTICAL (verified: `git cat-file -p 42fc93c4:LICENSE.txt` and the predecessor LICENSE are the same blob de7d7565, i.e. the same MMPL 2.0.3-Modified text). This is a rename, not a licence change."
+        },
+        {
+          "date": "2025-01-15",
+          "commit": "47fd9155",
+          "subject": "Init 1.21.4",
+          "change": "Deletes LICENSE.txt from the source branch.",
+          "isRelicensing": false,
+          "why": "Deletion without replacement. Every subsequent source branch, including the audited origin/1.21 (pushed 2026-08-14), therefore carries NO licence file."
+        },
+        {
+          "date": "2026-06-01",
+          "commit": "6f2614ef",
+          "subject": "Update README.md",
+          "change": "Adds LICENSE.txt (LGPL-3.0 preamble, blob 0a041280) on branch main, which contains only .github, LICENSE.txt, README.md, contributors.md.",
+          "isRelicensing": "PROBABLE BUT UNVERIFIABLE FOR THE SOURCE",
+          "why": "This is the only substantive licence change in the repository's history: from the proprietary MMPL to LGPL-3.0. But it lands on a docs-only branch and no commit shows the source itself being relicensed. Whether it was intended to cover the source cannot be established from the repository. No commit message in the history says 'relicense', and the README on neither main nor 1.21 was found to state a licence."
+        }
+      ],
+      "mMPLQuoteBlocking": {
+        "file": "LICENSE",
+        "blobSha1": "c5774af051e6c7bfaf094040105c48d5cd4033b4",
+        "note": "This is the licence text in force for the source branch family from 2022-10-10 until it was deleted from source branches in 2025-01-15. Section and line numbers are from the 136-line blob.",
+        "quotes": [
+          {
+            "line": 95,
+            "section": "7. Right to derive",
+            "quote": "The User may create Derivative(s) based on the Mod."
+          },
+          {
+            "line": 96,
+            "quote": "A Derivative must contain changes which a reasonably informed person would consider significant."
+          },
+          {
+            "line": 98,
+            "quote": "The User may distribute a Derivative if the following conditions are met:"
+          },
+          {
+            "line": 99,
+            "quote": "- The Derivative does not generate revenue."
+          },
+          {
+            "line": 100,
+            "quote": "- The Derivative provides credit to the Author."
+          },
+          {
+            "line": 101,
+            "quote": "- The Derivative complies with the Mod license."
+          },
+          {
+            "line": 78,
+            "section": "5. Right to distribute",
+            "quote": "The User may not distribute the Mod without being granted distribution rights from the Author."
+          },
+          {
+            "line": 84,
+            "section": "6. Right to contribute",
+            "quote": "The User may \"fork\" the Codebase."
+          },
+          {
+            "line": 129,
+            "section": "11. Author responsibilities",
+            "quote": "The Author must make the Mod source freely and publicly available."
+          },
+          {
+            "line": 136,
+            "section": "12. Author rights",
+            "quote": "The Author may change the Mod license, but cannot do so retroactively."
+          },
+          {
+            "line": 22,
+            "section": "0. Definitions",
+            "quote": "**Derivative**: Software which includes any portion of the Mod other than the API, with modifications, additions, or subtractions."
+          }
+        ],
+        "analysis": "The MMPL does not forbid derivation, so the task's precondition 'if the licence forbids reuse, say so explicitly' is not triggered in those words. But it is not a permissive licence either: a distributed derivative of the source must be non-revenue-generating (line 99), must credit the Author (line 100) and must itself comply with the MMPL (line 101). Condition 101 is the operative blocker: it means a derivative incorporating MMPL code cannot simply be relicensed under whatever licence Minecraft Historical Experience uses; the derivative would have to carry a compatible mod licence and keep the Mod name right with the Author (line 135). Line 136 ('cannot do so retroactively') means the later LGPL grant, even if it were intended to cover the source, could not retroactively free code authored under the MMPL."
+      }
+    },
+    "perFileHeaders": {
+      "filesWithLicenceHeadersInCommon": 1,
+      "detail": "A scan of the first 12 lines of every .java file under common/src/main/java found exactly ONE file carrying a licence header: mod/adrenix/nostalgic/util/client/search/algorithm/NormalizedLevenshtein.java, which carries an MIT header, 'Copyright 2015 Thibault Debatty' (NormalizedLevenshtein.java:2-5). Every other .java file in the tree has no licence header. There are therefore no per-file LGPL grants and no per-file MMPL exceptions declared anywhere in the source.",
+      "consequence": "The MMPL clause permitting 'exact or Codebase path exceptions to Mod licensing' exists in the licence but is NOT exercised by any file in the audited tree. There is consequently no path-specific exception that would let HX copy a particular subsystem more freely than the rest."
+    },
+    "buildMetadataLicenceClaim": {
+      "file": "gradle.properties",
+      "line": 20,
+      "quote": "mod_license=https://github.com/Adrenix/Nostalgic-Tweaks/blob/master/LICENSE",
+      "note": "The mod ships this string to mod loaders and Modrinth as its declared licence. It points at the LICENSE path on a branch named master, and at the Adrenix repository (which redirects to Nostalgica-Reverie). At the audited commit there is no LICENSE file on the audited branch at all, and origin/main has LICENSE.txt rather than LICENSE. So the declared licence URL is stale and does not resolve to the licence text in force at the audited revision."
+    }
+  },
+  "reusePermitted": false,
+  "reuseVerdict": "NOT SAFE TO COPY. The licence that governs the audited source revision cannot be established from the repository, and the most recent licence text actually recorded against the source is proprietary. Copying is not permitted on this evidence; every candidate below must be reimplemented from described behaviour.",
+  "reuseVerdictReasoning": [
+    "The audited revision (origin/1.21 at 51d6d3dc) ships no LICENSE or LICENSE.txt. Verified by git rev-parse failure and by the branch root listing.",
+    "The only licence text ever recorded against a source-carrying branch is the proprietary Minecraft Mod Public License version 2.0.3-Modified, whose condition at line 101 requires any distributed derivative to itself comply with the Mod licence, and whose line 136 states the licence cannot be changed retroactively.",
+    "The LGPL-3.0 text exists only on the docs-only main branch, added 2026-06-01 in a commit whose subject is 'Update README.md'. Nothing in the repository shows the source being relicensed, and no licence statement was found in either README.",
+    "The repository's own build metadata advertises a licence URL that is stale (gradle.properties:20 points at LICENSE on master, which does not exist at the audited revision).",
+    "GitHub's API reports LGPL-3.0 for the repository, but it derives that from the docs-only default branch and therefore does not describe the source under audit.",
+    "Consequence applied consistently below: every feature is treated as reimplement-from-described-behaviour. No file in the audited source was copied into this audit or into the deliverables, and the adaptation classes are chosen on architectural grounds alone, never on a licence grant."
+  ],
+  "inventorySummary": {
+    "method": "Enumerated from the mod's own config declaration classes, not from the README. Every tweak is a constant field declared in one of six interfaces under mod/adrenix/nostalgic/tweak/config/, read with pattern `^\\s{4}(Tweak\\w+(<[^>]+>)?)\\s+([A-Z][A-Z0-9_]*)\\s*=`. Interpretation was joined from the mod's own en_us.json resource (2095 keys) by camel-casing the constant and looking up gui.nostalgic_tweaks.config.<category>.<camel>, and from the mixin registration manifests common/src/main/resources/mixin.nostalgic_tweaks.json and mixin.nostalgic_tweaks-required.json.",
+    "totalTweakDeclarations": 527,
+    "perCategory": {
+      "CandyTweak": 308,
+      "GameplayTweak": 106,
+      "SoundTweak": 42,
+      "ModTweak": 28,
+      "AnimationTweak": 26,
+      "SwingTweak": 17
+    },
+    "perSide": {
+      "client": 410,
+      "server": 103,
+      "dynamic": 14
+    },
+    "sideSemantics": "The side is read from the factory call in the declaration itself: `.client(...)`, `.server(...)` or `.dynamic(...)`. 'dynamic' means the mod synchronises the value between client and server, so it is not purely one side.",
+    "implementationMixins": {
+      "common": 256,
+      "inTweakPackage": 211,
+      "registeredInCommonMixinsArray": 65,
+      "registeredInClientArray": 144
+    },
+    "gameplaySubsystems": [
+      "animal_sheep",
+      "animal_spawn",
+      "bugs",
+      "combat_bow",
+      "combat_item",
+      "combat_player",
+      "experience_orb",
+      "food_health",
+      "item_stacking",
+      "mechanics_block",
+      "mechanics_boat",
+      "mechanics_farming",
+      "mechanics_fire",
+      "mechanics_fishing",
+      "mechanics_item",
+      "mechanics_minecart",
+      "mechanics_player",
+      "mechanics_swim",
+      "mob_ai",
+      "mob_drops",
+      "monster_rule",
+      "monster_spawn",
+      "sponge_block",
+      "stamina_sprint"
+    ],
+    "otherSubsystems": {
+      "animation": [
+        "arm_sway",
+        "boat",
+        "entity",
+        "ghast_charge",
+        "held_item",
+        "mob_arms",
+        "player",
+        "swing"
+      ],
+      "candy": [
+        "ambient_occlusion",
+        "anvil_screen",
+        "block_bed",
+        "block_hitbox",
+        "block_lighting",
+        "block_offsets",
+        "block_particles",
+        "button_hover",
+        "chat_screen",
+        "chest_block",
+        "crafting_screen",
+        "create_world_screen",
+        "death_screen",
+        "debug_entity",
+        "debug_screen",
+        "experience_particles",
+        "explosion_particles",
+        "flat_items",
+        "furnace_screen",
+        "grass_texture",
+        "gui_background",
+        "inventory_screen",
+        "item_display",
+        "item_holding",
+        "item_merge",
+        "item_tooltip",
+        "loading_overlay",
+        "mip_map",
+        "missing_texture",
+        "name_tag",
+        "old_hud",
+        "particle_engine",
+        "player_particles",
+        "progress_screen",
+        "select_world_screen",
+        "square_border",
+        "uncap_title_fps",
+        "window_title",
+        "world_fog",
+        "world_lighting",
+        "world_sky",
+        "world_weather"
+      ],
+      "sound": [
+        "block_sound",
+        "cave_ambience",
+        "damage_sound",
+        "disabled_sound",
+        "entity_step",
+        "experience_level",
+        "game_music",
+        "nether_ambience",
+        "old_bed",
+        "position_sound",
+        "water_ambience"
+      ]
+    }
+  },
+  "archiveLevelLicenceVerdict": {
+    "fandomLicenceClaim": "UNKNOWN / NOT ESTABLISHED. No Fandom licence text or archive licence was found in the repository; the claim is recorded as an unverified external assertion and was not used as evidence anywhere in this audit."
+  },
+  "sourceScopingFinding": {
+    "finding": "This mod reads its tweaks from a static, process-global configuration object, not from world state.",
+    "evidence": [
+      "Tweak declarations are `static final` interface fields, e.g. GameplayTweak.DISABLE_HUNGER at mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:204, and every implementation site gates on that static, e.g. mod/adrenix/nostalgic/mixin/tweak/gameplay/food_health/FoodDataMixin.java:34 (`if (GameplayTweak.DISABLE_HUNGER.get())`) and FoodDataMixin.java:55.",
+      "Configuration is persisted per client and per server as JSON files in the mod-loader config directory, not per world: mod/adrenix/nostalgic/config/ServerConfig.java:32 annotates the structure with @Config(filename = NostalgicTweaks.MOD_ID + \"-server\"), and mod/adrenix/nostalgic/config/factory/ConfigHandler.java:100-106 documents that 'The config file will be kept in the default config folder used by mod loaders'."
+    ],
+    "consequenceForHX": "This is the single most important architectural difference between the two projects. Nostalgic Tweaks answers 'what should this world do' from ambient global configuration; Minecraft Historical Experience requires every rule to be resolved from the world or generator itself so that different historical versions can run side by side in one server (see VersionRules javadoc at src/main/java/net/historicalexperience/version/HistoricalVersion.java:150-161 noting that empty collections 'leave the modern behaviour alone', and HistoricalPlayerRules.java:15-16 which states the hook 'asks the registry what this version does'). Every NT behaviour is therefore only directly reusable as an ALGORITHM, never as a configuration mechanism. This is recorded once here and referenced by every adaptation classification below."
+  },
+  "features": [
+    {
+      "id": "sprint-suppression",
+      "name": "Disable sprinting",
+      "sourceFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:142 (DISABLE_SPRINT, side=dynamic, group MECHANICS_PLAYER, default false)",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/mechanics_player/LivingEntityMixin.java:15-49 (@ModifyVariable on setSprinting)",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/stamina_sprint/PlayerMixin.java:15-55 (stamina persistence, unrelated to the sprint flag itself)",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/stamina_sprint/LocalPlayerMixin.java:30-41 (client-side canStartSprinting gate for stamina exhaustion)"
+      ],
+      "historicalBoundary": "Pre-Beta 1.8 (no sprint at all). NT expresses this as 'old'/'disable', not as a version string.",
+      "boundaryStatus": "INFERRED",
+      "evidence": "NT's own config description for DISABLE_SPRINT (en_us.json gui.nostalgic_tweaks.config.gameplay.disableSprint.info) says only 'Disables the ability for the player to sprint. This tweak is only applied in survival mode.' and names NO version. The boundary is inferred from the tweak's framing as a restoration of old behaviour plus the mod's overall Alpha/Beta scope, not asserted. No comment, enum or constant in the source names Beta 1.8 for this. Separately and independently, the consuming project already records that 'the b1.8.1 jar's sprint fingerprint could not be located, so Beta 1.8 added sprinting is documented version history rather than a jar observation' (src/main/java/net/historicalexperience/version/HistoricalVersions.java:126-128) — that is HX's own primary-source status, and NT adds no primary evidence beyond it.",
+      "secondarySourceCaveat": "Nostalgic Tweaks asserts no boundary here at all. Its implementation is evidence about how NT behaves, not about when the original game changed.",
+      "adaptationNote": "NOT APPLICABLE — ALREADY IMPLEMENTED in the consuming project, and implemented more strictly than NT's approach. HX cancels only the request to START sprinting (src/main/java/net/historicalexperience/mixin/LivingEntityHistoricalSprintMixin.java:29-52, which returns early when sprinting==false) and resolves the version from the world the player is in. NT instead rewrites the boolean argument outright and, notably, lets creative and spectator players sprint unconditionally (mechanics_player/LivingEntityMixin.java:39-41). NT's version is NOT a candidate for adaptation.",
+      "adaptationClass": "d",
+      "notes": "Already implemented in HX and implemented more strictly; listed only to close the task's priority topic. NT exempts creative and spectator, which HX does not."
+    },
+    {
+      "id": "swim-suppression",
+      "name": "Disable sprint-swimming under water",
+      "sourceFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:165 (DISABLE_SWIM, side=dynamic, group MECHANICS_SWIMMING, default false)",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/mechanics_player/LivingEntityMixin.java:15-49 (same setSprinting injection; when the player isUnderWater it returns canSwim)"
+      ],
+      "historicalBoundary": "Pre-1.13 (sprint-swimming arrived with the Update Aquatic), which is OUTSIDE the consuming project's declared target range of Pre-Classic through Release 1.7.10 plus 1.8.9.",
+      "boundaryStatus": "UNKNOWN",
+      "evidence": "The config description (en_us.json gui.nostalgic_tweaks.config.gameplay.disableSwim.info) says only 'Disables the ability for the player to \"sprint swim\" under water. This tweak is only applied in survival mode.' No version is stated anywhere in the source. The 1.13 attribution is the auditor's external domain knowledge and is deliberately NOT counted as evidence.",
+      "secondarySourceCaveat": "NT makes no boundary claim; only a behavioural one.",
+      "adaptationNote": "NOT APPLICABLE for the current version registry: the boundary lies after Release 1.8.9, so no declared HX historical version needs it. Recorded because it shares an implementation site with sprint and should not be conflated with it.",
+      "adaptationClass": "d",
+      "notes": "Out of the declared HX version range (arrives after 1.8.9). Shares an implementation site with sprint in NT, so the two must never be conflated; NT handles both with one @ModifyVariable."
+    },
+    {
+      "id": "instant-air-refill",
+      "name": "Air supply refills immediately on surfacing",
+      "sourceFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:166 (INSTANT_AIR, side=server, default true)",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/mechanics_swim/LivingEntityMixin.java:24-36 (@ModifyReturnValue on increaseAirSupply)"
+      ],
+      "historicalBoundary": "UNKNOWN — no version stated.",
+      "boundaryStatus": "UNKNOWN",
+      "evidence": "Description is purely behavioural: 'Immediately refill the player's air bubbles once the player is above water.' No comment, enum or lang string names a Minecraft version.",
+      "secondarySourceCaveat": "No boundary claim to caveat.",
+      "adaptationNote": "ADAPTABLE WITH A NEW SHARED HOOK. The behaviour is a clean, single-point return-value modification on LivingEntity.increaseAirSupply, identical in shape to the mixins HX already writes, and the player check (this.getType() == EntityType.PLAYER) is explicit. What it lacks for HX is a world-derived gate: NT's gate is the global INSTANT_AIR flag, so HX would need the same value-resolution hook it already uses in LivingEntityHistoricalSprintMixin (HistoricalProfileLookup.profileIdForLevel) plus a new boolean on VersionRules. This would be the first new VersionRules field added by this audit.",
+      "adaptationClass": "b",
+      "notes": "Clean single-point hook with an explicit player check. Needs a new boolean on VersionRules plus the world-derived gate HX already uses. Boundary is unknown, so it is not yet safe to assign to a version."
+    },
+    {
+      "id": "hunger-suppression",
+      "name": "Disable the hunger system and convert food to direct healing",
+      "sourceFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:204 (DISABLE_HUNGER, side=server, default false)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:205 (PREVENT_HUNGER_EFFECT, side=server)",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/food_health/FoodDataMixin.java:28-60",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/food_health/PlayerMixin.java:29-61",
+        "common/src/main/java/mod/adrenix/nostalgic/helper/gameplay/FoodHelper.java"
+      ],
+      "historicalBoundary": "Beta 1.8 (hunger added; before it, food healed directly). NT never states the version.",
+      "boundaryStatus": "INFERRED",
+      "evidence": "The description (en_us.json gui.nostalgic_tweaks.config.gameplay.disableHunger.info) is 'All consumed food will give hearts instead of hunger. The hunger bar will be hidden when this tweak's effects are active. To change the amount of health restored by foods, edit the gameplay.customFoodHealth list.' No version named. The consuming project independently treats hunger as a Beta 1.8 arrival and cites b1.8.1 client evidence for a 'FoodStats-shaped hunger class' (src/main/java/net/historicalexperience/version/HistoricalVersions.java:123-125); NT contributes nothing to that.",
+      "secondarySourceCaveat": "NT's boundary framing is 'old' only. Its behavioural evidence is strong and interesting (see adaptationNote) but is evidence about NT.",
+      "adaptationNote": "ADAPTABLE WITH A NEW SHARED HOOK, and this is the single most valuable finding of the audit for HX. HX currently CANCELS FoodData.tick entirely (src/main/java/net/historicalexperience/mixin/FoodDataHistoricalHungerMixin.java:38-51) and its own javadoc at HistoricalPlayerRules.java:28-31 records this as a known gap: 'Beta 1.7.3 healed directly when the player ate. That is not implemented yet ... eating also does not yet heal.' NT supplies the mechanism HX is missing. NT does NOT replace tick; it lets tick run and instead: (a) heals directly in Player.eat (PlayerMixin.java:29-42), computing the amount as the item's modern FoodProperties.nutrition unless a per-item override exists, and (b) zeroes exhaustionLevel and tickTimer at the head of FoodData.tick (FoodDataMixin.java:55-60) so no drain, regeneration or starvation occurs while retaining the method's other behaviour. CRITICAL COMPATIBILITY FACT: NT's secondary heal path is inside FoodData.tick itself (FoodDataMixin.java:43-53, healing from a stored nt$restoreHealthAmount), so if HX keeps cancelling tick, that path is dead. HX should adopt the Player.eat-side heal (which is outside tick) rather than the tick-side one. Also worth noting: NT's heal amount defaults to the modern nutrition value, and its override map only lists the items whose modern nutrition differs — see the foodHealingValues feature below.",
+      "adaptationClass": "b",
+      "notes": "Highest-value finding for HX. NT reaches the eat path from Player.eat, which is OUTSIDE FoodData.tick, so HX can adopt healing without abandoning its cancellation. Do not uncancel tick to get healing."
+    },
+    {
+      "id": "food-healing-values",
+      "name": "Per-item food heal amounts under no-hunger",
+      "sourceFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:212-216 (CUSTOM_FOOD_HEALTH, side=server, ItemMap<Integer>, slider 0..20 hearts)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/listing/DefaultListing.java:110-129 (foodHealth() default map)",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/food_health/PlayerMixin.java:38-41 (lookup order)"
+      ],
+      "historicalBoundary": "UNKNOWN as a version; the values are a curated list, not a version-scoped table.",
+      "boundaryStatus": "UNKNOWN",
+      "evidence": "DefaultListing.foodHealth() (lines 112-128) sets a base value of 10 for every edible item and then overrides: rotten flesh 0, spider eye 0, carrot 1, melon slice 1, chorus fruit 1, sweet berries 1, glow berries 1, mushroom stew 10, beetroot soup 10, rabbit stew 10, suspicious stew 10, golden apple 20, enchanted golden apple 20. NO comment in DefaultListing.java states where any of these numbers come from, and no version is attributed. PlayerMixin.java:38-41 shows the resolution rule: modern nutrition, overridden by the map entry when present.",
+      "secondarySourceCaveat": "Because no provenance is given for the numbers, they are NT's own claim and must not be treated as Beta 1.7.3 values. This matters directly: HX's HistoricalPlayerRules.java:30-31 says direct healing 'needs Beta's per-item heal amounts verified from the client, which has not been done', and NT does not supply that verification.",
+      "adaptationNote": "DIRECTLY ADAPTABLE AS A VERSION RULE — the shape fits HX's rule table exactly (a map of item id to integer, keyed by version, expressed as data). However the VALUES must not be trusted: they are uncited secondary-source data. Use the shape, and populate it from HX's own hash-verified Beta 1.7.3 client evidence as HistoricalLootRules.java:56-65 does for drops. Note also the model difference: NT expresses this as a sparse override over modern nutrition; HX's existing loot model prefers an explicit complete table, and an explicit table avoids inheriting anachronistic modern values for items whose override is missing.",
+      "adaptationClass": "a",
+      "notes": "Shape is reusable; the numbers are uncited and must be re-derived. NT expresses it as a sparse override over modern nutrition, which silently inherits modern values for unlisted items; HX should prefer an explicit complete table."
+    },
+    {
+      "id": "eat-only-when-hurt",
+      "name": "Food is only edible when the player is below full health",
+      "sourceFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/food_health/PlayerMixin.java:49-60 (@ModifyReturnValue on Player.canEat)"
+      ],
+      "historicalBoundary": "UNKNOWN — no version stated.",
+      "boundaryStatus": "UNKNOWN",
+      "evidence": "No comment or lang string attributes this to a version. It follows logically from direct healing (if food heals rather than feeds, eating at full health is pointless) and is presented in source as part of the DISABLE_HUNGER behaviour, but no boundary is asserted.",
+      "secondarySourceCaveat": "No boundary claim to caveat.",
+      "adaptationNote": "DIRECTLY ADAPTABLE AS A VERSION RULE, but should be treated as part of the same rule as direct food healing, not a separate version parameter. It is one line of behaviour (compare ceil(health) < ceil(maxHealth)) and needs no new hook — it belongs on the same Player.eat hook the feature above requires. Flag for the parent: this is a behavioural consequence HX has not yet decided on, and adopting direct healing without it would let a player waste food.",
+      "adaptationClass": "a",
+      "notes": "Behavioural consequence of direct healing rather than an independent historical rule; belongs on the same hook. Flagged so the parent can decide, since adopting healing without it lets a player waste food."
+    },
+    {
+      "id": "instant-eat",
+      "name": "Instantaneous eating",
+      "sourceFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:209 (INSTANT_EAT, side=server, default false)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:210 (PREVENT_INSTANT_EAT_EFFECTS)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:211 (IGNORED_EDIBLES, ItemSet restricted to edibles)",
+        "common/src/main/java/mod/adrenix/nostalgic/helper/gameplay/FoodHelper.java:19-25"
+      ],
+      "historicalBoundary": "UNKNOWN — no version stated.",
+      "boundaryStatus": "UNKNOWN",
+      "evidence": "No comment, enum or lang string names a version for instantaneous eating. The description is 'Eating food is now instant.'",
+      "secondarySourceCaveat": "No boundary claim to caveat.",
+      "adaptationNote": "ADAPTABLE WITH A NEW SHARED HOOK. Suppressing the eat duration is not expressible in HX's current VersionRules (five booleans, a spawn set and a drop map), and it requires touching item use duration rather than a boolean. It is also genuinely a bundle: NT pairs it with sound suppression (food_health/LivingEntityMixin.java:28-36), effect suppression (LivingEntityMixin.java:40-48), a client re-equip animation change (food_health/MinecraftMixin.java:22-40) and a client movement-stutter fix (food_health/LocalPlayerMixin.java:24-36), of which the last two are client-only. Classified b rather than c because the server rule itself is a single coherent behaviour, but the parent should scope it carefully: the server-side half is separable from the client presentation half.",
+      "adaptationClass": "b",
+      "notes": "A bundle, not one rule: server-side duration plus sound and effect suppression, and a client-only animation change and movement-stutter fix. The server half is separable from the client half."
+    },
+    {
+      "id": "food-stacking",
+      "name": "Old food stack sizes",
+      "sourceFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:220 (OLD_FOOD_STACKING, side=server, default false)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:221-226 (CUSTOM_FOOD_STACKING, ItemMap<Integer>)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/listing/DefaultListing.java:131-175 (foodStacks() default map)"
+      ],
+      "historicalBoundary": "UNKNOWN — no version stated.",
+      "boundaryStatus": "UNKNOWN",
+      "evidence": "Descriptions are 'Bring back the old stack sizes for food items.' and 'Add, edit, and/or remove custom stack sizes for food items.' DefaultListing.foodStacks() gives an explicit table (cookie 8, beetroot 8, carrot 8, chorus fruit 8, dried kelp 9, melon slice 8, potato 8, poisonous potato 8, sweet berries 8, glow berries 8, and 1 for apple, baked potato, beef, beetroot soup, bread, chicken, cod, cooked beef, cooked chicken, cooked cod, cooked mutton, cooked porkchop, cooked rabbit, cooked salmon, enchanted golden apple, golden apple, golden carrot, mushroom stew, mutton, porkchop, pufferfish, pumpkin pie, rabbit, rabbit stew, salmon, suspicious stew, tropical fish; honey bottle 4). No version is attributed to any value.",
+      "secondarySourceCaveat": "UNCITED VALUES. The map is NT's claim with no provenance comment; it must not be presented as historically verified.",
+      "adaptationNote": "DIRECTLY ADAPTABLE AS A VERSION RULE in shape — this is literally a per-item integer table plus a fallback, which is the same shape as HX's BetaOreRules.OreRule list and HistoricalLootRules.DropRule list. Same caveat as food-healing-values: use the shape, re-derive the values from primary evidence. Also note it interacts with HX's existing stack-size model: CUSTOM_ITEM_STACKING (GameplayTweak.java:191-195) is a separate, broader per-item stack map, and HX should decide whether one general stack table serves both rather than adopting two.",
+      "adaptationClass": "a",
+      "notes": "Shape fits the existing per-item table style. Values uncited. Interacts with NT's separate broader CUSTOM_ITEM_STACKING map; HX should decide whether one general stack table serves both instead of adopting two."
+    },
+    {
+      "id": "attack-cooldown-removal",
+      "name": "Remove the attack cooldown",
+      "sourceFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:103 (DISABLE_COOLDOWN, side=server, default false)",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/combat_player/PlayerMixin.java:26-42 (attack-strength ticker reset)",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/combat_player/PlayerMixin.java:44-51 (getAttackStrengthScale forced to 1.0F)"
+      ],
+      "historicalBoundary": "Pre-Release 1.9 (attack cooldown arrived in 1.9), which is OUTSIDE the consuming project's declared target range of Pre-Classic..1.7.10 plus 1.8.9.",
+      "boundaryStatus": "INFERRED",
+      "evidence": "The description is purely behavioural: 'Remove attack power cooldown. When enabled, this will also hide attack status indicators on the heads-up display.' No version named anywhere in source or lang. The 1.9 attribution is external domain knowledge and is deliberately not counted as evidence.",
+      "secondarySourceCaveat": "NT claims no boundary.",
+      "adaptationNote": "NOT APPLICABLE for the current registry. Every version HX declares predates the cooldown's introduction, so the modern cooldown is an anachronism that would be WRONG to disable via a version rule if it is present at all in the target runtime. If HX's target Minecraft version has a cooldown and a declared historical version must not, the correct HX action is a version rule saying 'this version has no cooldown', which is a NEW rule not covered by NT's global flag semantics. Recorded so it is not silently dropped.",
+      "adaptationClass": "d",
+      "notes": "Out of range for every currently declared version. If the runtime has a cooldown and a declared version must not, that is a NEW rule NT's global flag cannot express."
+    },
+    {
+      "id": "critical-hit-removal",
+      "name": "Remove critical hits",
+      "sourceFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:105 (DISABLE_CRITICAL_HIT, side=server, default false)",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/combat_player/PlayerMixin.java:53-67 (@ModifyExpressionValue on Player.onClimbable inside attack)"
+      ],
+      "historicalBoundary": "Beta 1.8 (critical hits arrived with the Adventure Update).",
+      "boundaryStatus": "INFERRED",
+      "evidence": "The description is 'Removes the ability for players to perform critical hit attacks.' No version named. The boundary is inferred from the consuming project's own registry shape, which groups critical-hit-era mechanics with Beta 1.8, not from any NT statement.",
+      "secondarySourceCaveat": "NT asserts no boundary. Additionally, NT's IMPLEMENTATION MECHANISM is notable and slightly alarming: it fakes a climbable state (PlayerMixin.java:62-66 returns true from the onClimbable expression) to defeat the vanilla critical-hit precondition. That is a clever trick for a global flag but a poor fit for a rule engine that must not have side effects on other climbability consumers.",
+      "adaptationNote": "ADAPTABLE WITH A NEW SHARED HOOK. A boolean on VersionRules would express the DECISION, but the ENFORCEMENT needs a hook HX does not have. Recommended shape: gate on a world-resolved version and neutralise the critical-hit condition directly rather than by faking climbability, because in HX a mixin that lies about onClimbable could affect ladder/water logic in the same call path. Classified b rather than a specifically because the enforcement site is new and the mechanism should not be copied.",
+      "adaptationClass": "b",
+      "notes": "Do NOT copy NT's enforcement: it fakes onClimbable to defeat the vanilla precondition, which in HX could perturb ladder and water logic in the same call path. Contribute the decision, not the mechanism."
+    },
+    {
+      "id": "sword-blocking",
+      "name": "Old sword blocking (right-click block, durability cost)",
+      "sourceFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:95 (OLD_SWORD_BLOCKING, side=server, default true)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:96 (ATTACK_WHILE_SWORD_BLOCKING, side=server)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:97 (SWORD_BLOCK_DAMAGE_REDUCTION, side=server, default 50%)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:94 (BLOCK_WITH_SWORD_ON_SHIELD, side=client)",
+        "common/src/main/java/mod/adrenix/nostalgic/helper/gameplay/combat/SwordBlockingHelper.java",
+        "common/src/main/java/mod/adrenix/nostalgic/helper/gameplay/combat/SwordBlockingRenderer.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/combat_player/PlayerMixin.java (combat_player package)"
+      ],
+      "historicalBoundary": "Beta 1.8 (sword blocking arrived with the Adventure Update; it was removed in 1.9 with shields). The mod frames it as 'old'.",
+      "boundaryStatus": "INFERRED",
+      "evidence": "The description is 'Bring back the old sword blocking combat mechanics and animation. The sword will lose durability when it successfully blocks damage. This tweak will not work if there is an item in the offhand.' No version named. NT does ship a client renderer for it (SwordBlockingRenderer.java, and BLOCK_WITH_SWORD_ON_SHIELD is client-side), i.e. NT treats it as a server rule plus a client presentation.",
+      "secondarySourceCaveat": "NT asserts no version; the boundary is inferred.",
+      "adaptationNote": "GENUINELY A DIFFERENT ALGORITHM — MUST NOT BE FORCED INTO THE RULE TABLE. Blocking is a stateful interaction (a use-action latch, a damage-reduction path in the damage pipeline, an offhand-occupancy precondition, a durability cost, and client animation state). NT implements it as a helper plus a damage helper plus a renderer, and it spans the damage pipeline (helper/gameplay/combat/DamageHelper.java). This is not a boolean in a record; forcing it into VersionRules would violate HX's stated rule that 'dedicated algorithms for behavior' apply. It is also the feature most likely to need its own architecture decision, so it belongs in a design ADR, not a version-table entry.",
+      "adaptationClass": "c",
+      "notes": "Stateful interaction spanning the damage pipeline, an offhand precondition, durability cost and client animation. NT needs a helper, a damage helper and a renderer for it. Belongs in an ADR, not the rule table."
+    },
+    {
+      "id": "old-damage-values",
+      "name": "Old sword and tool damage values",
+      "sourceFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:102 (OLD_DAMAGE_VALUES, side=server, default false)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:101 (IGNORED_OLD_DAMAGE_ITEMS, ItemSet restricted to tools)",
+        "common/src/main/java/mod/adrenix/nostalgic/helper/gameplay/combat/DamageHelper.java:22-30 (getAttackDamage formula)"
+      ],
+      "historicalBoundary": "UNKNOWN — no version stated.",
+      "boundaryStatus": "UNKNOWN",
+      "evidence": "The description is 'Bring back the old damage values for swords and tool items.' DamageHelper.getAttackDamage computes sword tier bonus + 6.0, axe + 2.0, pickaxe + 1.0, shovel + 0.5 and applies it as an ADD_VALUE attribute modifier replacing the modern ATTACK_DAMAGE entry. NO comment states which Minecraft version these constants reproduce.",
+      "secondarySourceCaveat": "The formula is NT's claim about old values, uncited. It must not be presented as verified historical damage values.",
+      "adaptationNote": "DIRECTLY ADAPTABLE AS A VERSION RULE in shape — a per-tier additive damage bonus is a small data table keyed by version. Same caveat as the food tables: the shape is reusable, the numbers are not evidence. Note the mechanism difference for the parent: NT replaces an ATTRIBUTE modifier, which is how modern Minecraft expresses item damage; HX cannot express that in VersionRules today, so the DATA is adaptable but the ENFORCEMENT would need HX's own item-attribute hook.",
+      "adaptationClass": "a",
+      "notes": "Data shape reusable, values uncited. Mechanism difference matters to HX: NT replaces an ATTACK_DAMAGE attribute modifier, which HX's current rule surface cannot express, so the data is adaptable but the enforcement site is new."
+    },
+    {
+      "id": "left-click-interaction",
+      "name": "Left-click to open doors, levers and buttons",
+      "sourceFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:143 (LEFT_CLICK_DOOR, side=server, default false)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:144 (LEFT_CLICK_LEVER, side=server, default false)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:145 (LEFT_CLICK_BUTTON, side=server, default false)",
+        "common/src/main/java/mod/adrenix/nostalgic/listener/common/InteractionListener.java"
+      ],
+      "historicalBoundary": "UNKNOWN — no version stated.",
+      "boundaryStatus": "UNKNOWN",
+      "evidence": "Descriptions are behavioural: 'Allows the player to interact with doors, trapdoors, and fence gates by left-clicking. This action is rate-limited to about half of a second, wait before left-clicking again.' No version named.",
+      "secondarySourceCaveat": "No boundary claim to caveat.",
+      "adaptationNote": "ADAPTABLE WITH A NEW SHARED HOOK. Three booleans map cleanly onto VersionRules, so the DECISION is class-a data, but the ENFORCEMENT is a new interaction hook HX does not have — HX currently has no interaction-restriction mixin at all. Two design cautions worth passing to the parent: (1) NT applies a rate limit (about half a second) as part of the behaviour, which is state and therefore not expressible as a plain version boolean; (2) left-click interaction must not bypass the block-break path. Classified b on the strength of the missing hook plus the rate-limit state.",
+      "adaptationClass": "b",
+      "notes": "First interaction-restriction hook in HX; none exists today. NT applies a half-second rate limit, which is state and cannot be a plain version boolean. Must not bypass the block-break path."
+    },
+    {
+      "id": "tool-interaction-restrictions",
+      "name": "Disable axe stripping and shovel pathing",
+      "sourceFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:199 (DISABLE_AXE_STRIPPING, side=dynamic, default false)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:200 (DISABLE_SHOVEL_PATHING, side=dynamic, default false)",
+        "common/src/main/java/mod/adrenix/nostalgic/helper/gameplay/InteractionHelper.java:16-29"
+      ],
+      "historicalBoundary": "UNKNOWN — no version stated. Both features are post-1.7.10 additions (stripping arrived in 1.13, path-making in 1.9), which is consistent with 'disable' framing, but NT states no version.",
+      "boundaryStatus": "UNKNOWN",
+      "evidence": "InteractionHelper.shouldNotUseItem returns true when the held item is a ShovelItem whose block is in the flattenables map, or an AxeItem whose block is in the strippables map, gated on the two tweaks. It uses accessor mixins (ShovelItemAccess.NT$FLATTENABLES, AxeItemAccess.NT$STRIPPABLES) to read the vanilla maps rather than duplicating them. No version attribution anywhere.",
+      "secondarySourceCaveat": "No boundary claim to caveat.",
+      "adaptationNote": "ADAPTABLE WITH A NEW SHARED HOOK, and the class boundary is genuinely convenient for HX. The useful insight to pass on is the IMPLEMENTATION TECHNIQUE: NT reads the vanilla flattenables/strippables maps through accessor mixins instead of hard-coding a block list. HX should do the same, so that a future Minecraft version adding entries does not silently escape the restriction. The restriction itself is a boolean pair on VersionRules (class a data) but needs a new item-use hook (hence b).",
+      "adaptationClass": "b",
+      "notes": "Useful technique to copy in spirit (not code): read the runtime's own flattenables and strippables maps rather than hard-coding block lists, so future additions cannot escape the restriction."
+    },
+    {
+      "id": "old-mob-movement-speed",
+      "name": "Old mob movement speeds",
+      "sourceFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:31-34 (OLD_MOB_MOVEMENT_SPEED, TweakMobMap<Double>, side=server)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/listing/DefaultListing.java:63-78 (oldMobSpeeds() default)",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/mob_ai/MobMixin.java"
+      ],
+      "historicalBoundary": "Alpha/Beta — this is one of the VERY FEW boundaries NT states explicitly.",
+      "evidence": "NT states it in the config description itself: en_us.json gui.nostalgic_tweaks.config.gameplay.oldMobSpeeds.info reads 'Override the movement speed attribute for the mobs defined in this list. A value of 0.25 was the movement speed used for mobs in Minecraft Alpha/Beta other than for zombies and spiders. Zombie (0.23) and Spider (0.3) speeds have not changed since their introduction.' The default map (DefaultListing.oldMobSpeeds, lines 65-77) assigns 0.25 to cow, wolf, sheep, ghast, ocelot and enderman with a fallback of 0.25, and the map starts DISABLED (line 75).",
+      "secondarySourceCaveat": "MANDATORY DISTINCTION: NT's sentence is a claim by NT about Alpha/Beta. It is VERIFIED that NT asserts this boundary and VERIFIED what NT's numbers are; it is NOT verified that Alpha/Beta mobs moved at 0.25. NT cites no client, no class, no jar. Treat the boundary as NT's assertion.",
+      "adaptationNote": "DIRECTLY ADAPTABLE AS A VERSION RULE — a per-entity-type double keyed by version is exactly the shape of HX's existing HistoricalLootRules.DropRule map (entity type id to data). This is probably the cleanest single fit in the whole audit, and it is one of the few places NT names its boundary.",
+      "adaptationClass": "a",
+      "boundaryStatus": "VERIFIED",
+      "boundaryStatusDetail": "NT states this boundary in words, which is rare. It remains a claim by NT about Alpha/Beta and cites no client, class, jar or hash.",
+      "notes": "Cleanest single table fit in the audit and one of the few places NT names its boundary. NT's 0.25/0.23/0.3 numbers are uncited and must be re-derived before use."
+    },
+    {
+      "id": "old-animal-spawning",
+      "name": "Old animal spawning algorithm and cap",
+      "sourceFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:57 (OLD_ANIMAL_SPAWNING, side=server, default false)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:58 (OLD_ANIMAL_SPAWN_LIST, TweakStringSet, side=server)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:59 (ANIMAL_SPAWN_CAP, TweakNumber<Integer> default 15, side=server)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:60 (KEEP_BABY_ANIMAL_WHILE_OLD_SPAWN, side=server)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:61 (IGNORE_ANIMAL_BIOME_RESTRICTIONS, side=server)",
+        "common/src/main/java/mod/adrenix/nostalgic/helper/gameplay/AnimalSpawnHelper.java:30-253",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/animal_spawn/SeverChunkCacheMixin.java:29-47 (hooks ServerChunkCache.tickChunks twice)",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/animal_spawn/AnimalMixin.java:48-49 and ChickenMixin.java:28-29 (removeWhenFarAway)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/listing/DefaultListing.java:80-91 (oldAnimalSpawns() default list)"
+      ],
+      "historicalBoundary": "Alpha/Beta — explicitly stated by NT.",
+      "evidence": "NT states the boundary in the config description: en_us.json gui.nostalgic_tweaks.config.gameplay.animalSpawnCap.info reads 'Controls how many groups of animals can spawn around a player when gameplay.oldAnimalSpawning is enabled. A higher cap yields more animals. This only applies to animals defined in the gameplay.oldAnimalSpawnList tweak. To simulate alpha and beta spawn rates, set this value to 15.' The default is 15 (GameplayTweak.java:59), i.e. the shipped default is the stated Alpha/Beta value. The default spawn list is chicken, cow, mooshroom, pig, sheep (DefaultListing.java:84-88). The implemented algorithm is in AnimalSpawnHelper: 17x17 chunks polled around each player (lines 84-91), a cap test of ANIMAL_SPAWN_CAP * chunks/256 (line 110), 3 outer attempts each with up to 4 inner placements (lines 126-133), a 24-block exclusion around the world spawn point computed as a squared distance of 576 (lines 165-174), a light-level floor of > 8 (lines 241-242), list membership and canSummon (line 246), SpawnPlacements.checkSpawnRules and a noCollision AABB test (lines 249-252).",
+      "secondarySourceCaveat": "NT's 'to simulate alpha and beta spawn rates, set this value to 15' is an assertion with no citation. The algorithm's structure is strong evidence that NT reconstructed the old logic deliberately, but it is still a reconstruction by a third party, not the original code.",
+      "adaptationNote": "GENUINELY A DIFFERENT ALGORITHM — MUST NOT BE FORCED INTO THE RULE TABLE. This is the single most important classification in the audit. HX's existing spawn work is an ALLOW-LIST FILTER over candidate entries (HistoricalSpawnFilter applied from NaturalSpawnerHistoricalSpawnMixin.java:48-82, and HistoricalSpawnRules.java:122-124 isAllowed). NT's old animal spawning does not filter at all: it REPLACES the spawning algorithm, running its own chunk polling loop, its own cap arithmetic, its own attempts-per-chunk and pack logic, its own light and spawn-distance rules, and it separately alters entity persistence (removeWhenFarAway overrides, and the persistent-baby marking in AnimalSpawnHelper.isPersistent at lines 61-64). Forcing that into HX's allow-list table would be exactly the 'fundamentally different algorithm in a simple configuration table' failure the project's core rule forbids. Recommendation: the allow LIST is class-a data (it is just a set of entity ids and could even be subsumed by HX's existing allowedNaturalSpawns), but the ALGORITHM must be a separate subsystem with its own design, and its cap/attempt constants should be version data feeding that algorithm rather than a VersionRules boolean.",
+      "adaptationClass": "c",
+      "boundaryStatus": "VERIFIED",
+      "boundaryStatusDetail": "NT states the boundary in the animalSpawnCap description. The underlying history is NT's assertion; the default of 15 is the value NT says simulates Alpha and Beta.",
+      "notes": "Most important classification in the audit. The allow LIST is class-a data and may be subsumed by allowedNaturalSpawns; the ALGORITHM is class c and must not be forced into the rule table. Split accordingly."
+    },
+    {
+      "id": "monster-spawn-cap",
+      "name": "Monster spawn cap",
+      "sourceFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:48-51 (MONSTER_SPAWN_CAP, TweakNumber<Integer> default 90, slider 0..100)",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/monster_spawn/MobCategoryMixin.java:27-28 (@ModifyReturnValue on MobCategory.getMaxInstancesPerChunk)"
+      ],
+      "historicalBoundary": "UNKNOWN — no version stated, but a modern comparison value IS stated.",
+      "boundaryStatus": "UNKNOWN",
+      "evidence": "NT states the modern value, not a historical one: 'Controls how many groups of monsters can spawn around a player. A higher cap yields more monsters. The vanilla monster cap is 70.' Confirmed in source as an override of MobCategory.getMaxInstancesPerChunk, with a default of 90.",
+      "secondarySourceCaveat": "The claim 'the vanilla monster cap is 70' is a statement about modern Minecraft and is not verifiable from this repository alone.",
+      "adaptationNote": "DIRECTLY ADAPTABLE AS A VERSION RULE in shape — a single per-version integer. This is a clean, low-risk parameter that fits VersionRules. But the parent should note the semantic gap: HX's current rule surface expresses spawning as an allow-list of entity types, not as a cap integer, so this would be the first numeric spawn parameter on the rule set. It is also worth checking whether the historical versions in scope (Beta 1.7.3, Beta 1.8.1) had a cap concept expressed the same way at all before committing to the parameter.",
+      "adaptationClass": "a",
+      "notes": "Caps are a new parameter class for HX, which currently restricts WHICH types spawn rather than HOW MANY. Historical cap semantics for Beta 1.7.3 and 1.8.1 are not established in HX's evidence base."
+    },
+    {
+      "id": "mob-drops-substitution",
+      "name": "Old mob loot tables",
+      "sourceFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:72-79 (OLD_ZOMBIE_PIGMEN_DROPS, OLD_SKELETON_DROPS, OLD_CHICKEN_DROPS, OLD_ZOMBIE_DROPS, OLD_SPIDER_DROPS, OLD_SHEEP_DROPS, OLD_COW_DROPS, OLD_PIG_DROPS; all side=server, all default false)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:83-90 (OLD_STYLE_*_DROPS for modern-only mobs; all side=server, default false)",
+        "common/src/main/java/mod/adrenix/nostalgic/helper/gameplay/MobLootHelper.java:103-170 (table construction and entity-to-table wiring)",
+        "common/src/main/java/mod/adrenix/nostalgic/helper/gameplay/MobLootHelper.java:172-198 (getTable dispatch)",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/mob_drops/MobMixin.java and LivingEntityMixin.java (registration in the common mixin array)"
+      ],
+      "historicalBoundary": "Classic/Beta — the config group is literally named 'Classic Mobs' (en_us.json gui.nostalgic_tweaks.container.gameplay.mob_drops_classic) but no version is named.",
+      "boundaryStatus": "UNKNOWN",
+      "evidence": "MobLootHelper.init (lines 144-170) builds replacement tables and assigns them: zombified piglin to cooked porkchop max 2, zombie to feather max 2, zombie villager/drowned/husk to feather max 2, spider and cave spider to string max 2, cow and mooshroom to leather max 2, rabbit to rabbit hide max 1, chicken to feather max 2, pig to porkchop max 2 (smeltable), stray and bogged to an arrow+bone table. Sheep is special-cased at lines 186-195 to drop wool of the sheep's colour or nothing when sheared. The count is expressed as SetItemCountFunction with UniformGenerator.between(0.0F, max) (lines 81 and 91) and each pool carries EnchantedCountIncreaseFunction.lootingMultiplier (lines 82 and 92). No version is attributed to any entry.",
+      "secondarySourceCaveat": "The values are NT's reconstruction. Note a subtle but reportable difference from HX's own primary-source finding: HX records Beta 1.7.3 as 'random.nextInt(3) copies ... 0, 1 or 2, one at a time' (HistoricalLootRules.java:20-22) and models it as maxExclusiveCount 3. NT models the same 0-or-more range as a uniform float between 0.0 and max, which is a DIFFERENT distribution, and it additionally applies a looting multiplier that Beta 1.7.3 did not have. NT's model is therefore not a drop-in match for HX's verified behaviour even where the item agrees.",
+      "adaptationNote": "NOT APPLICABLE — ALREADY IMPLEMENTED in the consuming project, and implemented from stronger evidence. HX's HistoricalLootRules (src/main/java/net/historicalexperience/gameplay/HistoricalLootRules.java:56-65) already substitutes drops for zombie, chicken, spider and cow, reading each value from the hash-verified Beta 1.7.3 client's own getDropItemId(). NT adds nothing here, uses a different count distribution, and its own defaults are all disabled. TWO GENUINE GAPS NT DOES REVEAL, worth passing on as follow-ups rather than adaptations: (1) HX covers four mobs; NT's classic set also covers pig and sheep, and sheep wool is colour-dependent with a sheared case (NT lines 186-195); (2) HX's BETA_1_7_3 table has no skeleton entry while NT has one (arrow and bone, max 2), so HX's skeleton drop behaviour is currently unmodelled. Neither should be adopted from NT on NT's numbers; both identify a place where HX should look at its own client evidence.",
+      "adaptationClass": "d",
+      "notes": "Already implemented from stronger evidence. Two incidental gaps NT reveals are recorded as follow-ups for HX's own client research: pig and colour-dependent sheep wool, and a skeleton entry HX lacks. Do not adopt NT's numbers or its uniform count distribution."
+    },
+    {
+      "id": "old-xp-and-orb-behaviour",
+      "name": "Experience orbs: spawn suppression, immediate pickup, orb rendering, early-1.8 pickup sound",
+      "sourceFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:116 (DISABLE_ORB_SPAWN, side=server)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:117 (DISABLE_ORB_RENDERING, side=client)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:118 (IMMEDIATE_EXPERIENCE_PICKUP, side=server)",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/experience_orb/ExperienceOrbMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/experience_orb/ServerLevelMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/SoundTweak.java:76 (OLD_XP, side=client)"
+      ],
+      "historicalBoundary": "Beta 1.8 for the pickup sound (explicitly stated); UNKNOWN for the orb behaviours.",
+      "evidence": "The sound states its boundary: en_us.json gui.nostalgic_tweaks.config.sound.oldXp.info reads 'Bring back the old early 1.8 beta pickup sound for experience orbs.' The orb behaviours state none; their descriptions are 'Disables experience orbs from spawning.', 'Disables rendering of experience orbs.' and 'Experience orbs will be picked up as soon as they spawn.' Note that DISABLE_ORB_RENDERING is registered in the CLIENT mixin array while the other two are server-side.",
+      "secondarySourceCaveat": "'early 1.8 beta' is NT's phrasing. NT does not distinguish Beta 1.8 from Release 1.8 anywhere, which is a real ambiguity in the claim.",
+      "adaptationNote": "SPLIT CLASSIFICATION, deliberately. DISABLE_ORB_SPAWN is class a: HX already has exactly this concept as a boolean — VersionRules.awardsExperience, set false for Beta 1.7.3 (HistoricalVersions.java:66) and documented as 'Beta 1.7.3's entity registry contains no experience orb at all' (HistoricalLootRules.java:34-35). Already implemented; do not duplicate. The exact XP orb count/merge behaviour of Beta 1.7.3 remains unmodelled in HX (the registry says orbs did not exist, so this is consistent, but the moment a version with orbs is declared the pickup behaviour matters). DISABLE_ORB_RENDERING is a pure client presentation tweak and is class d for the server rule table — it belongs in the future client package, never in VersionRules. The XP pickup SOUND is likewise client-only presentation.",
+      "adaptationClass": "a",
+      "boundaryStatus": "VERIFIED",
+      "boundaryStatusDetail": "The sound boundary is stated by NT. No boundary is stated for orb spawn suppression, immediate pickup or orb rendering.",
+      "notes": "Split row kept deliberately: DISABLE_ORB_SPAWN is already implemented in HX as awardsExperience, while DISABLE_ORB_RENDERING and the XP sound are client presentation. Do not duplicate; do not misplace."
+    },
+    {
+      "id": "stamina-system",
+      "name": "Stamina sprint system (sprint limited by a stamina meter)",
+      "sourceFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:127-132 (STAMINA_SPRINT, STAMINA_INFINITE_PEACEFUL, STAMINA_REGAIN_WHEN_MOVING, STAMINA_DURATION default 5s, STAMINA_RECHARGE default 7s, STAMINA_COOLDOWN default 0s; all side=dynamic)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:136-137 (STAMINA_SATURATION_EFFECT, STAMINA_HUNGER_EFFECT, side=dynamic)",
+        "common/src/main/java/mod/adrenix/nostalgic/helper/gameplay/stamina/PlayerStamina.java (317 lines)",
+        "common/src/main/java/mod/adrenix/nostalgic/helper/gameplay/stamina/StaminaData.java, StaminaCodec.java, StaminaHelper.java, StaminaHolder.java, StaminaRenderer.java (207 lines)",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/stamina_sprint/PlayerMixin.java:18-55 (NBT-persisted per-player stamina)",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/stamina_sprint/LocalPlayerMixin.java:30-41 (client gate on canStartSprinting)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/enums/StaminaRegain.java"
+      ],
+      "historicalBoundary": "UNKNOWN — and importantly, the whole subsystem is NOT a Minecraft version feature at all.",
+      "boundaryStatus": "UNKNOWN",
+      "evidence": "No version is attributed to stamina anywhere in the source. The config group is GameplayGroup.STAMINA with six numeric/flag parameters plus two effect toggles, and the feature is implemented as a persisted per-player data structure with its own codec, its own HUD renderer and its own client-side sprint gate. A grep of the lang file for version mentions returns nothing for any STAMINA key.",
+      "secondarySourceCaveat": "This is a Nostalgic Tweaks ORIGINAL mechanic, not a historical restoration. Any HX adoption would be inventing gameplay, not emulating history.",
+      "adaptationNote": "NOT APPLICABLE, and for two independent reasons. First, it is not a historical feature: it is a mod-authored gameplay system, so it cannot belong in a registry whose contract is 'one historical Minecraft version and the rules that version applies'. Second, it is architecturally incompatible: it stores per-player state in NBT and gates on a static dynamic flag, whereas HX's contract is that a rule resolves the version from the world. Recorded so that the size of this subsystem (roughly 900 lines across six files plus a renderer) is not mistaken for importance.",
+      "adaptationClass": "d",
+      "notes": "Not a historical Minecraft feature at all; it is NT's own mechanic. Its ~900 lines across six files plus a renderer must not be mistaken for importance, and its per-player NBT plus dynamic global flag conflicts with HX's world-derived rule resolution."
+    },
+    {
+      "id": "old-sword-block-adjacent-combat-misc",
+      "name": "Miscellaneous combat and bow differences (arrow speed, instant bow, invincible bow, miss timer, sweep)",
+      "sourceFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:104 (DISABLE_MISS_TIMER, side=server)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:106 (DISABLE_SWEEP, side=server)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:110 (ARROW_SPEED, side=server, default 70)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:111 (INSTANT_BOW, side=server)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/GameplayTweak.java:112 (INVINCIBLE_BOW, side=server)",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/combat_player/PlayerMixin.java (sweep suppression)",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/combat_player/MinecraftMixin.java:29-53 (miss timer, client-side)",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/combat_bow/ProjectileWeaponItemMixin.java, ServerGamePacketListenerImplMixin.java, client MinecraftMixin.java"
+      ],
+      "historicalBoundary": "UNKNOWN for all five — no version stated for any.",
+      "boundaryStatus": "UNKNOWN",
+      "evidence": "Descriptions are behavioural only: sweep 'Removes the ability for players to perform sweep attacks.', miss timer 'Removes the attack miss timer.', arrow speed is a 0..100 slider defaulting to 70, instant bow and invincible bow are flags. Sweep attacks arrived with the combat update, but no NT source states that.",
+      "secondarySourceCaveat": "For the sweep and cooldown family, the boundary is genuinely post-1.7.10; NT does not say so.",
+      "adaptationNote": "Sweep and the miss timer are class d: both are modern mechanics whose removal is only meaningful for a version that postdates their introduction, and no version in HX's declared range (Pre-Classic..1.7.10, 1.8.9) both has them and should not. ARROW_SPEED is class a in shape (a scalar) but the parent should treat it as UNKNOWN-boundary and not adopt it without evidence. A useful implementation note for the parent: NT's miss-timer suppression is CLIENT-side (combat_player/MinecraftMixin.java:29-53 operates on Minecraft.missTime), which is a reminder that HX must not assume an old-combat behaviour is server-enforceable — see the client-only section.",
+      "adaptationClass": "d",
+      "notes": "Reminder that an old-combat behaviour is not automatically server-enforceable: NT suppresses the attack miss timer on the CLIENT. Boundary unknown for all five toggles."
+    },
+    {
+      "id": "world-lighting-presentation",
+      "name": "Old lighting engines, smooth lighting, leaves lighting and light colour",
+      "sourceFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/CandyTweak.java:382 (OLD_LEAVES_LIGHTING, side=client, reloadChunks)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/CandyTweak.java:390 (OLD_SMOOTH_LIGHTING, side=client, reloadChunks)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/CandyTweak.java:392 (OLD_CLASSIC_ENGINE, side=SERVER, reloadChunks, warningTag, default false)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/CandyTweak.java:399 (OLD_LIGHT_COLOR, side=client)",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/world_lighting/BlockStateBaseMixin.java:38-39",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/world_lighting/MinecraftMixin.java:14"
+      ],
+      "historicalBoundary": "Classic and Alpha for the lighting engines (explicitly stated); Beta for smooth lighting and light colour (explicitly stated).",
+      "evidence": "NT states them in the config descriptions: oldSmoothLighting.info 'Bring back the old smooth lighting from beta. This will darken the ambient occlusion casted around the edges of blocks.'; oldClassicEngine.info 'Bring back the lighting engine from Minecraft Classic edition.'; oldLightColor.info 'Bring back the old light colors from alpha/beta.'; oldLeavesLighting.info 'Bring back the old leaves lighting from beta.' A code comment reinforces the classic case at Mixin/tweak/candy/world_lighting/MinecraftMixin.java:14: 'versions of the game that did not have smooth lighting, such as alpha and classic'.",
+      "secondarySourceCaveat": "NT's stated boundaries here are at era granularity (Classic / Alpha / Beta), not at a specific version. Note the internal inconsistency worth flagging: OLD_CLASSIC_ENGINE is declared side=SERVER (CandyTweak.java:392) while the other three lighting tweaks are side=client, and BlockStateBaseMixin.java:38-39 explains the server-side part as making light-emitting blocks emissive so that 'block light values no longer exist'.",
+      "adaptationNote": "NOT APPLICABLE. Three of the four are client rendering and belong to the future client package. The fourth, OLD_CLASSIC_ENGINE, is server-side and is precisely the 'different algorithm' case: it replaces the lighting engine, which is a rendering/light-propagation system, not a version parameter, and it would interact destructively with the terrain authority Moderner Beta holds. There is also a genuine preservation risk the parent should know about: a server-side change that removes block light values would alter stored light data in saved chunks, which conflicts with HX's invariant that unsupported stored content is preserved and that ordinary worlds are unaffected.",
+      "adaptationClass": "d",
+      "boundaryStatus": "VERIFIED",
+      "boundaryStatusDetail": "NT states these in config descriptions and one code comment. Boundaries are at era granularity (Classic / Alpha / Beta), not version numbers, and cite no client.",
+      "notes": "Preservation risk worth the parent's attention: NT's server-side OLD_CLASSIC_ENGINE removes block light values, which would alter stored light data in saved chunks and conflicts with HX's rule that unsupported stored content is preserved and ordinary worlds are unaffected."
+    },
+    {
+      "id": "world-fog-sky-weather",
+      "name": "Old fog, sky colour, clouds and weather rendering",
+      "sourceFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/CandyTweak.java:461 (OLD_DYNAMIC_FOG_COLOR, side=client)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/CandyTweak.java:463 (OLD_NETHER_FOG, side=client)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/CandyTweak.java:486 (OLD_WATER_FOG_DENSITY, side=client)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/CandyTweak.java:487 (OLD_WATER_FOG_COLOR, side=client)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/CandyTweak.java:493 (OLD_CLOUD_HEIGHT, TweakNumber<Integer> default 128, range 108..192, side=client)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/CandyTweak.java:498 (OLD_DYNAMIC_SKY_COLOR, side=client)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/CandyTweak.java:509 (ALWAYS_RENDER_WEATHER, side=client)",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/world_fog/LevelRendererMixin.java:59",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/enums/WorldFog.java, SkyColor.java, FogColor.java"
+      ],
+      "historicalBoundary": "Alpha through 1.6.4 for fog (a literal enum range is given); Alpha/Beta for water fog, sky and nether fog; the cloud-height description gives alpha y-108, beta y-128, modern y-192.",
+      "evidence": "The strongest boundary statement in the whole mod is an ENUM VALUE: tweak/enums/WorldFog.java:14 defines RELEASE_ORANGE with the literal label '§61.0§r - §61.6.4', and its localisation key gui.nostalgic_tweaks.enum.worldFog.alpha_r164 is labelled 'Alpha - 1.6.4'. A code comment states another: mixin/tweak/candy/world_fog/LevelRendererMixin.java:59 — 'render distance is less than four, and the old world fog tweak is set to alpha - r1.6.4'. Config descriptions state the rest: oldWaterFogDensity 'from alpha/beta', oldDynamicSkyColor 'simulates the old beta sky colors', oldNetherFog 'from alpha/beta', and oldCloudHeight 'The old heights are; alpha y-108, beta y-128, and modern y-192.'",
+      "secondarySourceCaveat": "These are NT's OWN enum labels and comments, so they are VERIFIED as NT claims and simultaneously unverified as game history. Note that the enum names an upper bound of 1.6.4, which is INSIDE the consuming project's declared range (Pre-Classic..1.7.10), so this is the one client-visual area whose boundary actually overlaps HX's targets.",
+      "adaptationNote": "NOT APPLICABLE to the server rule table — every one of these is declared side=client and is a rendering concern belonging to the future client package. Recorded in detail anyway because the WorldFog enum is the clearest single piece of boundary evidence NT possesses and because fog/sky is the one visual area whose stated upper bound (1.6.4) falls inside HX's target range, making it a plausible early client-package task. It must NOT go into VersionRules.",
+      "adaptationClass": "d",
+      "boundaryStatus": "VERIFIED",
+      "boundaryStatusDetail": "NT states these in its own enum labels and a code comment, which is the strongest boundary evidence it owns. The history remains NT's assertion.",
+      "notes": "Strongest single piece of boundary evidence NT owns is the WorldFog enum label 'Alpha - 1.6.4', whose upper bound falls INSIDE the HX target range, making fog a plausible early client-package task. Must not enter VersionRules."
+    },
+    {
+      "id": "gui-hud-inventory-screens",
+      "name": "Old GUI, HUD, inventory, pause, title and debug screens",
+      "sourceFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/CandyTweak.java (the great majority of its 308 declarations; groups include INTERFACE_HUD, INTERFACE_INVENTORY, INTERFACE_PAUSE, INTERFACE_TITLE, INTERFACE_DEBUG, INTERFACE_CRAFTING, INTERFACE_WORLD_SELECT, INTERFACE_LOADING, INTERFACE_TOOLTIP)",
+        "common/src/main/java/mod/adrenix/nostalgic/client/gui/screen/config/ (the mod's own config UI, not a historical feature)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/enums/Overlay.java:14, PauseLayout.java, TitleLayout.java, Hotbar.java, GuiBackground.java, RecipeBook.java"
+      ],
+      "historicalBoundary": "Mixed and usually era-level. Examples of explicitly stated boundaries: OLD_DEATH_SCREEN 'from alpha and beta'; OLD_ALPHA_LOGO 'old alpha animated Minecraft logo'; REMOVE_TITLE_LANGUAGE_BUTTON 'the modern or 1.0-1.7.9 button layouts'; OLD_ANVIL_SCREEN 'from before Minecraft 1.13'; OLD_MISSING_TEXTURE 'ranging from Beta 1.4 until 1.12'; the pause-layout enum values name ranges such as alpha - b1.4_01, b1.5 - 1.0, 1.1 - 1.2.5 and 1.3 - 1.11.",
+      "evidence": "Verified by the lang strings listed above, all under gui.nostalgic_tweaks.config.eyeCandy.* in common/src/main/resources/assets/nostalgic_tweaks/lang/en_us.json. The pause-menu enum is the most precise boundary set in the mod: gui.nostalgic_tweaks.config.eyeCandy.oldPauseMenu.enum.achieve_lower names 'alpha - b1.4_01', achieve_upper 'b1.5 - 1.0', lan '1.1 - 1.2.5', advancement '1.3 - 1.11'.",
+      "secondarySourceCaveat": "These are NT's claims about its own reproductions, not verified game history. The older NT is, the more likely these were reconstructed from memory rather than from a client jar — the mod's own source cites no jar for any GUI boundary.",
+      "adaptationNote": "NOT APPLICABLE to the server rules. 308 of the mod's 527 declarations are in CandyTweak, and the server-side subset is only ten entries (APPLY_FULL_BLOCK_COLLISIONS, APPLY_FULL_HITBOX_TARGETING, APPLY_CHEST_VOXEL, HIDE_ADVANCEMENT_CHATS, DEBUG_ENTITY_ID, OLD_CREATIVE_HOTBAR, OLD_ITEM_MERGING, ITEM_MERGE_LIMIT, OLD_CLASSIC_ENGINE, OLD_SQUARE_BORDER) — the rest are client presentation and belong in the future client package. TWO of those ten deserve separate mention rather than a blanket d: OLD_CREATIVE_HOTBAR (CandyTweak.java:222, enum Hotbar.CLASSIC) is server-side inventory state, and OLD_ITEM_MERGING with ITEM_MERGE_LIMIT (CandyTweak.java:355-356) changes item-entity merging on the server, which is real simulation behaviour rather than cosmetics. Both are flagged in unknowns as needing their own boundary work before they could be classified.",
+      "adaptationClass": "d",
+      "boundaryStatus": "VERIFIED",
+      "boundaryStatusDetail": "VERIFIED where the lang or enum states a range (death screen, alpha logo, 1.0-1.7.9 buttons, pre-1.13 anvil, Beta 1.4-1.12 textures, the four pause-layout ranges). UNKNOWN for most individual HUD entries.",
+      "notes": "308 of NT's 527 declarations live here but only ten are server-side. Two of those ten are not obviously cosmetic and are flagged in unknowns: OLD_CREATIVE_HOTBAR (server inventory state) and OLD_ITEM_MERGING/ITEM_MERGE_LIMIT (server item-entity merging)."
+    },
+    {
+      "id": "particle-and-sound-replacement",
+      "name": "Old particles and sounds",
+      "sourceFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/CandyTweak.java:447 (OLD_EXPLOSION_PARTICLES, side=client)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/CandyTweak.java:448 (OLD_MIXED_EXPLOSION_PARTICLES, side=client)",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/explosion_particles/ExplosionMixin.java:64",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/SoundTweak.java:49 (OLD_CHEST, side=client)",
+        "common/src/main/java/mod/adrenix/nostalgic/tweak/config/SoundTweak.java:76 (OLD_XP, side=client)",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/sound/ (11 subdirectories, 15 java files)"
+      ],
+      "historicalBoundary": "Beta 1.8 for the chest sound (explicit), 'early 1.8 beta' for the XP sound (explicit), Classic for explosion particles (explicit); UNKNOWN for most of the remaining 42 SoundTweak entries.",
+      "evidence": "en_us.json gui.nostalgic_tweaks.config.sound.oldChest.info reads 'Bring back the beta 1.8 chest sounds. The open and close chest sound will be replaced with a wooden door's open and close sounds.'; gui.nostalgic_tweaks.config.sound.oldXp.info reads 'Bring back the old early 1.8 beta pickup sound for experience orbs.'; gui.nostalgic_tweaks.config.eyeCandy.oldExplosionParticles.info reads 'Bring back the classic explosion particles for all explosions.'",
+      "secondarySourceCaveat": "As elsewhere, VERIFIED applies to NT's assertion only. An important ambiguity: NT writes 'beta 1.8' and 'early 1.8 beta' but the mod never distinguishes Beta 1.8 from Release 1.8, and the mod's supported Minecraft versions are all 1.18+, so NT is reasoning about the past without a client to check.",
+      "adaptationNote": "NOT APPLICABLE — CLIENT-ONLY PRESENTATION. Every particle and sound tweak examined is declared side=client; the SoundTweak list contains ZERO server or dynamic entries (verified by filtering the whole inventory for side != client, which returns nothing for SoundTweak). These belong in the future client package. They do matter to HX for one non-code reason worth stating plainly: recreating historical sounds and particles requires the historical ASSETS, which HX may not redistribute — the same provenance problem that makes this audit's licence verdict restrictive.",
+      "adaptationClass": "d",
+      "boundaryStatus": "VERIFIED",
+      "boundaryStatusDetail": "VERIFIED where NT states it (beta 1.8 chest sound, early 1.8 beta XP sound, classic explosion particles). UNKNOWN for most of the remaining 42 sound entries.",
+      "notes": "Every sound and particle tweak examined is client-only; SoundTweak contains zero server or dynamic entries. Reproduction would require historical assets HX may not be able to redistribute, the same provenance problem as the licence verdict."
+    }
+  ],
+  "clientOnlyFeatures": {
+    "summary": "410 of 527 declarations are side=client, and a further 14 are side=dynamic. Only 103 are server-side. The following areas are ENTIRELY or almost entirely client presentation and must NOT be placed in the server rule table.",
+    "areas": [
+      {
+        "area": "All sound",
+        "tweaks": 42,
+        "serverSideEntries": 0,
+        "evidence": "Filtering SoundTweak for side != client returns no rows."
+      },
+      {
+        "area": "All animation and swing",
+        "tweaks": 43,
+        "serverSideEntries": 0,
+        "evidence": "AnimationTweak (26) and SwingTweak (17) are registered in the client mixin array of common/src/main/resources/mixin.nostalgic_tweaks.json; the only common-array animation entry is animation.player.PlayerMixin."
+      },
+      {
+        "area": "Nearly all of CandyTweak (blocks, particles, fog, sky, weather, GUI, models, textures)",
+        "tweaks": 298,
+        "serverSideEntries": 10,
+        "evidence": "308 declarations minus the ten server-side ones listed in the gui-hud-inventory-screens feature."
+      },
+      {
+        "area": "ModTweak configuration UI and bindings",
+        "tweaks": 28,
+        "serverSideEntries": 5,
+        "evidence": "Only SERVER_SIDE_ONLY, SERVER_LOGGING, SERVER_DEBUG, NUMBER_OF_BACKUPS and (by declaration) the server config structure are server-side; the rest are the mod's own config screen and are irrelevant to HX."
+      },
+      {
+        "area": "Client halves of server features",
+        "tweaks": 6,
+        "serverSideEntries": 0,
+        "evidence": "gameplay.combat_bow.MinecraftMixin, gameplay.combat_player.GuiMixin/HumanoidModelMixin/ItemInHandRendererMixin/MinecraftMixin/PlayerItemInHandLayerMixin, gameplay.food_health.LocalPlayerMixin/MinecraftMixin, gameplay.mechanics_boat.LocalPlayerMixin, gameplay.mechanics_minecart.EntityMixin and gameplay.stamina_sprint.LocalPlayerMixin are all registered in the CLIENT mixin array. This is the important category for HX: several features that look server-side have a client half that a server-side rule cannot substitute for, e.g. the attack miss timer is suppressed on the client (gameplay/combat_player/MinecraftMixin.java:29-53)."
+      }
+    ]
+  },
+  "adaptationClassCounts": {
+    "a": 7,
+    "b": 6,
+    "c": 2,
+    "d": 10,
+    "totalFeatures": 25,
+    "note": "Counts are over the 25 feature rows in features[], and sum to 25. Every row's adaptationClass is a single letter; the letter shown is the PRIMARY class. Three rows additionally carry a split classification which is stated in full in that row's adaptationNote: old-xp-and-orb-behaviour (primary a, with DISABLE_ORB_RENDERING being class d), old-sword-block-adjacent-combat-misc (primary d, with ARROW_SPEED being class a if a version ever needs it) and gui-hud-inventory-screens (class d, with OLD_CREATIVE_HOTBAR, OLD_ITEM_MERGING and ITEM_MERGE_LIMIT flagged in unknowns as server-side items needing their own boundary work). Counting convention: each feature id contributes exactly one class to the counts above, so the four letters sum to totalFeatures."
+  },
+  "recommendations": [
+    {
+      "rank": 1,
+      "feature": "Direct food healing for no-hunger versions (the mechanism, not NT's numbers)",
+      "boundary": "Beta 1.7.3 and earlier: food heals hearts directly and there is no hunger bar. Boundary status for HX purposes: HX already treats hunger as a Beta 1.8 arrival with b1.8.1 client evidence (HistoricalVersions.java:123-125), so the 'before Beta 1.8' side of the boundary is HX's own; NT adds no boundary.",
+      "evidence": "NT's mechanism: heal on Player.eat (mixin/tweak/gameplay/food_health/PlayerMixin.java:29-42) using the item's nutrition unless a per-item override exists (PlayerMixin.java:38-41), plus zeroing exhaustionLevel and tickTimer at the head of FoodData.tick (FoodDataMixin.java:55-60) rather than cancelling tick, plus allowing eating only below full health (PlayerMixin.java:49-60). HX's current gap is documented in its own source: HistoricalPlayerRules.java:28-31.",
+      "proposingTest": "Pure unit test first, mirroring the project's existing null-object style: assert that for the Beta 1.7.3 profile and a player at less than full health, eating a known food raises health by the profile's declared heal amount and leaves foodLevel/exhaustionLevel at their pre-eat values; then an integration test in run/ that a Beta 1.7.3 world and a Beta 1.8.1 world loaded in the SAME server show different behaviour for the same food item, which is the invariant HX's architecture exists to guarantee. A negative test must confirm an ordinary (non-historical) world is unaffected.",
+      "alreadyImplementedInConsumingProject": false,
+      "alreadyImplementedDetail": "The hunger-has-no-effect half is implemented (FoodDataHistoricalHungerMixin.java cancels FoodData.tick). The healing half is explicitly NOT implemented. IMPORTANT: any adoption must not simply uncancel tick, because HX's existing suppression and the project's per-world gating were designed around cancellation; the correct change is to heal from the eat path, which NT shows is available outside tick."
+    },
+    {
+      "rank": 2,
+      "feature": "Version-keyed mob movement speeds",
+      "boundary": "Alpha/Beta, as asserted by NT. Zombie 0.23 and spider 0.3 are explicitly excluded by NT as unchanged.",
+      "evidence": "This is one of the few boundaries NT states in words: en_us.json gui.nostalgic_tweaks.config.gameplay.oldMobSpeeds.info. The data shape is a per-entity double map with a fallback (tweak/listing/DefaultListing.java:63-78) and the tweak is server-side (GameplayTweak.java:31-34).",
+      "proposingTest": "Unit test asserting the declared speed for each entity in a Beta profile and the fallback for an unlisted entity, plus an integration test that a mob spawned in a Beta world reports the historical movement-speed attribute while the same entity type in a Beta 1.8.1 or ordinary world reports the modern value. Because NT's numbers are uncited, the acceptance criterion should be that the values come from an HX-verified source, and the test should fail loudly if a value is still marked provisional.",
+      "alreadyImplementedInConsumingProject": false,
+      "alreadyImplementedDetail": "HX has mob DROPS and natural SPAWN restrictions, but no movement-speed or attribute data of any kind. This is a clean new rule with an existing map shape to copy."
+    },
+    {
+      "rank": 3,
+      "feature": "Block/entity interaction restrictions (left-click door/lever/button; disable axe stripping and shovel pathing)",
+      "boundary": "UNKNOWN from NT — no version is stated for any of the five toggles. NT's framing is 'disable' (these are modern conveniences), and axe stripping and shovel pathing both postdate Release 1.7.10.",
+      "evidence": "GameplayTweak.java:143-145 (three server-side booleans) and GameplayTweak.java:199-200 (two dynamic booleans); InteractionHelper.java:16-29 shows the technique of reading the vanilla flattenables/strippables maps through accessor mixins rather than hard-coding block lists.",
+      "proposingTest": "Integration test in run/: in a historical world, right-click a log with an axe and assert the block is unchanged and no sound plays; left-click a door and assert it opens subject to the rate limit; then repeat both in an ordinary world and assert vanilla behaviour. The negative path is essential here because a mis-scoped interaction hook is the classic way an emulation mod breaks ordinary worlds.",
+      "alreadyImplementedInConsumingProject": false,
+      "alreadyImplementedDetail": "HX currently has NO interaction-restriction mixin at all (the mixin package holds only feature-placer, ore, loot, sprint, hunger and natural-spawn mixins). This would be the first, which is why it is ranked below the two data-only items.",
+      "implementationCaution": "Do not copy NT's accessor-map technique blindly; read the maps so the restriction tracks the runtime's own data, but the rate limit NT applies to left-click interaction is stateful and needs an explicit design decision."
+    },
+    {
+      "rank": 4,
+      "feature": "Per-version numeric spawn caps and spawn-parameter data",
+      "boundary": "UNKNOWN. NT states only that the vanilla monster cap is 70 and that animal spawn cap 15 'simulates alpha and beta spawn rates'.",
+      "evidence": "GameplayTweak.java:48-51 (MONSTER_SPAWN_CAP default 90, overriding MobCategory.getMaxInstancesPerChunk via mixin/tweak/gameplay/monster_spawn/MobCategoryMixin.java:27-28) and GameplayTweak.java:59 with the animalSpawnCap lang string.",
+      "proposingTest": "A bounded integration test that spawns a historical world, counts naturally-spawned monsters per player over a fixed number of ticks, and asserts the count stays within the profile's declared cap while an ordinary world is unchanged. The test must assert the cap is applied through the world-derived version, not a global, which is the exact failure mode NT's architecture would import into HX.",
+      "alreadyImplementedInConsumingProject": false,
+      "alreadyImplementedDetail": "HX restricts WHICH entity types may spawn (HistoricalSpawnRules allow list), not HOW MANY. Caps are a genuinely new parameter class. Ranked below interaction restrictions because the historical cap semantics for Beta 1.7.3 and Beta 1.8.1 are not established in HX's own evidence base and would need research before the parameter can be trusted.",
+      "implementationCaution": "Do NOT adopt NT's animal spawning algorithm here — see rank-5 note and the old-animal-spawning feature, which is class c. Only the numeric parameter is proposed."
+    },
+    {
+      "rank": 5,
+      "feature": "Combat critical-hit and cooldown gating expressed as version rules",
+      "boundary": "Post-Release 1.7.10 / post-Beta 1.8. NT states NO boundary for either; the boundary follows from HX's version range instead.",
+      "evidence": "GameplayTweak.java:103 (DISABLE_COOLDOWN) and GameplayTweak.java:105 (DISABLE_CRITICAL_HIT), both server-side; enforcement at mixin/tweak/gameplay/combat_player/PlayerMixin.java:26-51 (cooldown) and PlayerMixin.java:53-67 (critical hit, implemented by faking a climbable result).",
+      "proposingTest": "Unit test that the profile flags resolve correctly per version, plus an integration test that a critical hit does not occur in a Beta 1.7.3 world while it does in an ordinary world, and that the same player attacking from a LADDER in an ordinary world still behaves correctly — that last case is the specific regression NT's climbable-faking trick would risk in HX, which is why the test must cover it.",
+      "alreadyImplementedInConsumingProject": false,
+      "alreadyImplementedDetail": "Nothing in this area is implemented. It is ranked last of the five because its boundary is inferred rather than stated, its enforcement mechanism must deliberately NOT be copied, and the practical impact inside HX's current version range is small (critical hits and the cooldown both postdate most declared versions)."
+    }
+  ],
+  "recommendationsExplicitlyNotProposed": [
+    {
+      "feature": "Mob loot substitution",
+      "reason": "Already implemented in HX from stronger evidence (HistoricalLootRules.java:56-65 cites the hash-verified b1.7.3 client per mob). NT's equivalent is uncited, uses a uniform count distribution rather than nextInt(3), and adds a looting multiplier Beta 1.7.3 did not have. Two gaps NT incidentally reveals are recorded as follow-ups in that feature row, not as adaptations."
+    },
+    {
+      "feature": "Sprint suppression",
+      "reason": "Already implemented, and HX's implementation is stricter and better scoped than NT's (HX blocks only the start request and does not exempt creative/spectator; NT rewrites the boolean and exempts creative and spectator)."
+    },
+    {
+      "feature": "Natural spawn allow-list",
+      "reason": "Already implemented via HistoricalSpawnRules plus NaturalSpawnerHistoricalSpawnMixin. NT's equivalent is a deny-oriented filter on modern entities (DISABLE_BABY_ZOMBIE_SPAWN etc.) rather than an era allow list, which is the weaker construction the HX documentation explicitly argues against at HistoricalSpawnRules.java:22-28."
+    },
+    {
+      "feature": "Ore placement / generation content",
+      "reason": "Already implemented by HX (BetaOreRules, HistoricalFeatureExclusions) and owned by the Moderner Beta terrain authority. NT has no terrain generation at all, so there is nothing to adapt and any suggestion to add generation logic to HX from NT would violate the upstream-authority invariant."
+    },
+    {
+      "feature": "XP orb spawn suppression",
+      "reason": "Already implemented as VersionRules.awardsExperience, set false for Beta 1.7.3 (HistoricalVersions.java:66) and grounded in HX's own b1.7.3 evidence (HistoricalLootRules.java:34-35)."
+    },
+    {
+      "feature": "Stamina system",
+      "reason": "Not a historical Minecraft feature; it is a mod-authored mechanic with per-player NBT state and a dynamic global flag. Adopting it would mean inventing gameplay, and its state model conflicts with HX's world-derived rule resolution."
+    },
+    {
+      "feature": "All client visual/sound/GUI features",
+      "reason": "Belong in the future client package by the project's own separation of concerns, and reproducing them would require historical assets HX may not be able to redistribute."
+    },
+    {
+      "feature": "Old animal spawning algorithm",
+      "reason": "Deliberately NOT proposed despite being high-impact, because it is class c: it replaces the spawning algorithm with its own chunk polling, cap arithmetic, attempts-per-chunk, light floor, spawn-distance rule and persistence overrides (AnimalSpawnHelper.java:73-253 plus removeWhenFartherAway overrides). It needs its own design and ADR, not a row in the rule table."
+    }
+  ],
+  "unknowns": [
+    {
+      "id": "licence-over-source",
+      "unknown": "Which licence actually covers origin/1.21 at 51d6d3dc, and therefore whether any copying is permitted at all.",
+      "why": "The audited branch has no licence file. The last licence recorded against a source-carrying branch was the proprietary MMPL, deleted from source branches on 2025-01-15. The LGPL-3.0 text was added only on the docs-only main branch on 2026-06-01 in a commit titled 'Update README.md'.",
+      "whatWouldSettleIt": "A relicensing commit or ADR on a source branch, an explicit licence statement in the source-branch README, or written clarification from the copyright holder (Adrenix / the Nostalgica-Reverie organisation)."
+    },
+    {
+      "id": "lgpl-copyright-holder",
+      "unknown": "Who the LGPL copyright holder is, and whether the LGPL grant was ever intended to cover the source.",
+      "why": "LICENSE.txt on main is the verbatim, unmodified COPYING.LESSER text with no copyright line naming a holder, and no source file carries an LGPL header.",
+      "whatWouldSettleIt": "An LGPL notice naming a copyright holder, per-file headers, or an explicit statement in the repository."
+    },
+    {
+      "id": "gplv3-text-absence",
+      "unknown": "Whether LGPL-3.0 compliance is even satisfiable from this repository as distributed.",
+      "why": "LGPL-3.0 incorporates GPLv3 by reference (LICENSE.txt:9-11) and the repository contains no GPLv3 text at any revision examined, only the LGPL preamble.",
+      "whatWouldSettleIt": "An accompanying GPLv3 copy, or evidence that one was distributed with the mod binary."
+    },
+    {
+      "id": "requested-url-provenance",
+      "unknown": "What the user's reference to 'rdh-gg/Nostalgic-Tweaks' was intended to identify.",
+      "why": "Both the repository URL and the GitHub account return 404. No fork, mirror or organisation by that name could be found. It could be a remembered owner name, a private/deleted repository, or a different project entirely.",
+      "whatWouldSettleIt": "The exact URL the user saw it from, or a commit SHA or release artefact from that source."
+    },
+    {
+      "id": "precise-boundaries-in-general",
+      "unknown": "Precise Minecraft version boundaries for the overwhelming majority of the 527 tweaks.",
+      "why": "NT encodes boundaries in prose, not in structured data. A scan of the whole en_us.json (2095 keys) found only 78 values mentioning any version-like token, and a scan of the mixin tree found exactly one version token in a code comment. There is no version-tagged schema, no per-tweak boundary field, and no preset that maps to a specific Minecraft version. Most tweaks are labelled only 'old' or 'classic', and where a boundary IS stated it is usually at era granularity (Classic, Alpha, Beta) rather than a version number.",
+      "whatWouldSettleIt": "Primary evidence from the original game clients (which is what HX's own research already does and what makes NT insufficient as a source for boundaries), or an upstream NT release that adds structured boundary metadata."
+    },
+    {
+      "id": "nt-boundary-claims-are-unverified-history",
+      "unknown": "Whether ANY boundary NT states is historically correct.",
+      "why": "NT cites no client jar, class file, hash or version manifest anywhere for any boundary. Its boundaries are assertions by a third-party mod author. This audit can verify only that NT asserts them.",
+      "whatWouldSettleIt": "The same method HX already applies to its own boundaries: reading a hash-verified historical client's classes and recording sha1 evidence, as HistoricalVersions.java:72-75 and HistoricalLootRules.java:56-65 do."
+    },
+    {
+      "id": "uncited-numeric-tables",
+      "unknown": "The provenance of NT's numeric tables: food heal values (DefaultListing.java:110-129), food stack sizes (DefaultListing.java:131-175), mob movement speeds (DefaultListing.java:63-78), old damage formulas (DamageHelper.java:22-30) and the spawn cap defaults.",
+      "why": "None of these carries a comment, citation or version attribution. They are reproduced in this audit only as descriptions of NT's defaults.",
+      "whatWouldSettleIt": "Client-derived evidence, which HX must gather independently before any of these values is used."
+    },
+    {
+      "id": "old-damage-values-boundary",
+      "unknown": "Which Minecraft version's damage values the DamageHelper formula reproduces.",
+      "why": "The formula (sword tier bonus + 6, axe + 2, pickaxe + 1, shovel + 0.5) has no version attribution, and HX's own research notes that Release-level damage/tool changes are a separate, unresolved area.",
+      "whatWouldSettleIt": "Client evidence for the relevant versions, or an upstream statement."
+    },
+    {
+      "id": "beta-1-8-versus-release-1-8-in-nt-claims",
+      "unknown": "Whether NT's several '1.8' and 'beta 1.8' statements mean Minecraft Beta 1.8 or Release 1.8.9.",
+      "why": "NT's own supported Minecraft versions are all 1.18 or later and it never distinguishes the two, yet the distinction is exactly the boundary HX needs for its Beta 1.8.1 and 1.8.9 targets. Examples: 'Bring back the beta 1.8 chest sounds' (SoundTweak.java:49) and 'the old early 1.8 beta pickup sound' (SoundTweak.java:76).",
+      "whatWouldSettleIt": "An upstream statement, or a client-side comparison by HX against both b1.8.1 and 1.8.9 assets."
+    },
+    {
+      "id": "old-creative-hotbar-and-item-merging",
+      "unknown": "The boundary and full behaviour of the two server-side CandyTweak items that are not obviously cosmetic: OLD_CREATIVE_HOTBAR (CandyTweak.java:222, enum Hotbar.CLASSIC) and OLD_ITEM_MERGING / ITEM_MERGE_LIMIT (CandyTweak.java:355-356).",
+      "why": "Both are declared side=server, so they change simulation rather than presentation, but neither carries a version attribution and neither was analysed in depth because they fall outside the eight priority categories.",
+      "whatWouldSettleIt": "A focused read of the candy.old_hud, candy.item_merge and inventory mixins plus client evidence for the relevant versions."
+    },
+    {
+      "id": "sneak-boundary",
+      "unknown": "The historical boundary for sneaking/crouching, which the task listed as a priority topic.",
+      "why": "NT has NO sneak/crouch gameplay rule. The nearest items are presentation only: OLD_CREEPER_STRAFE_ON_SWELL, OLD_SNEAKING and OLD_CREATIVE_CROUCH (animation group PLAYER, side=client) affect animation, not the sneak mechanic. No crouch-height, sneak-speed or sneak-duration rule exists in the mod.",
+      "whatWouldSettleIt": "Primary client evidence for the versions in question; NT cannot supply it. Recorded explicitly so this priority topic is not silently omitted from the audit."
+    },
+    {
+      "id": "boat-and-minecart-boundary",
+      "unknown": "The historical boundaries for boat and minecart physics, which the task listed as a priority topic.",
+      "why": "NT has real server-side mechanics here — DISABLE_BOAT_BUSY_HANDS (side=server, default true), OLD_BOAT_WATER_LIFT (side=server, default true), OLD_BOAT_DROPS (side=server), CART_BOOSTING (side=server), CART_RIDER_TURNING (side=client), CART_SAFE_RIDER_TURNING (side=client) at GameplayTweak.java:170-178 — and CART_BOOSTING has a detailed behavioural description of parallel-rail minecart boosting in its lang string. But NONE of the six carries any version attribution.",
+      "whatWouldSettleIt": "Primary client evidence for the two-rail minecart booster (a well-known Alpha/Beta mechanic that was removed later) and for boat lift/drops. NT's behavioural descriptions are a useful specification to test against, but not evidence of when the behaviour existed."
+    },
+    {
+      "id": "hunger-adjacent-mob-ai-boundary",
+      "unknown": "The historical boundaries for the mob AI tweaks, which the task listed as a priority topic.",
+      "why": "NT has eight server-side mob AI tweaks (GameplayTweak.java:26-34: DISABLE_ANIMAL_TEMPTING, DISABLE_ANIMAL_PANIC, DISABLE_MONSTER_AVOID_SUN, DISABLE_SKELETON_STRAFING, OLD_CREEPER_STRAFE_ON_SWELL, OLD_MOB_MOVEMENT_SPEED) plus a monster-rule tweak (DISABLE_MONSTER_ITEM_PICKUP, GameplayTweak.java:38), and only OLD_MOB_MOVEMENT_SPEED states a boundary (Alpha/Beta). The remainder carry no version.",
+      "whatWouldSettleIt": "Primary client evidence per behaviour. Note that several of these are 'disable a modern behaviour' rather than 'restore a historical one', which is a weaker form of emulation and does not by itself establish what the historical behaviour was."
+    }
+  ],
+  "methodology": {
+    "primarySourcesOnly": "Every claim in this audit is sourced to the cloned repository's own files, its git history objects, its own resource files, or its own build metadata. External web pages were used ONLY to establish the canonical repository URL and to test whether the requested URL exists. No wiki, README marketing text, forum post or third-party summary was used as evidence for any behaviour or boundary.",
+    "readmeExplicitlyNotUsedForFeatures": "The feature inventory was built from the six config declaration classes and cross-checked against the mod's own mixin registration manifests, deliberately NOT from README.md as the task required.",
+    "noCodeCopied": "No source file, asset or texture was copied into the deliverables. Findings are expressed as file:line citations and behavioural descriptions, per the project's instruction not to copy proprietary code or textures into deliverables.",
+    "nothingExecuted": "No build, Gradle task, Minecraft launch, test suite or mod run was performed. All findings come from reading source, resource files and git objects. Consequently every adaptation proposal is a design proposal and has NOT been runtime-verified; the proposingTest fields describe tests that would need to be written and run.",
+    "cloneNotModified": "The clone at .upstream/nostalgic-tweaks was used read-only. `git status --porcelain` on it returns empty. Deep reading used a separate worktree outside the repository tree.",
+    "boundaryStatusSemantics": "VERIFIED means the mod's own source, resource or enum states the boundary, and the citation is given; it does NOT mean the boundary is historically true. INFERRED means the auditor concluded it from structure or context and says why. UNKNOWN means no boundary could be established and the search performed is recorded. Every row also names what NT's claim is evidence ABOUT."
+  },
+  "filesOwnedByThisAudit": [
+    "research/nostalgic-tweaks-audit.json",
+    "docs/NOSTALGIC_TWEAKS.md"
+  ],
+  "parentVerification": {
+    "verifiedBy": "parent agent, round 14",
+    "date": "2026-10-13",
+    "workerFindingKept": {
+      "claim": "reusePermitted=false",
+      "whyItIsAccurate": "Branch origin/1.21, which holds the 917 source files, genuinely contains no licence file, and the only licence ever attached to a source-carrying branch was the proprietary Minecraft Mod Public License. Re-verified by the parent with git ls-tree and git log --all --diff-filter=A -- 'LICENSE*' 'COPYING*'."
+    },
+    "parentCorrection": {
+      "correctedConclusion": "reusePermitted=true under LGPL-3.0-only, with weak-copyleft obligations",
+      "evidence": [
+        "Modrinth project 'nostalgic-tweaks' (the repository's own declared homepage) reports license id=LGPL-3.0-only, name='GNU Lesser General Public License v3.0 only', url=https://github.com/Adrenix/Nostalgic-Tweaks/blob/main/LICENSE.txt",
+        "GET api.github.com/repos/Nostalgica-Reverie/Nostalgic-Tweaks reports default_branch=main and license spdx_id=LGPL-3.0",
+        "Branch main carries LICENSE.txt (LGPL) and zero .java files; branch 1.21 carries the source and no licence file"
+      ],
+      "whyTheWorkerAndParentDisagree": "The audit correctly described the audited BRANCH and the parent initially over-generalised that to the PROJECT, concluding copying was forbidden. The project's declared licence, on the default branch and on its distribution page, is LGPL-3.0-only. The mismatch between the two branches is a real repository hygiene problem for the upstream project, but it does not remove the licence the project declares.",
+      "obligationsIfCodeIsReused": [
+        "Any distributed derivative containing Nostalgic Tweaks code must itself be licensed LGPL-3.0-only; this workspace currently has no LICENSE file, so that is an explicit decision for the project owner before any distribution",
+        "Copyright notices and the licence text must be retained",
+        "Modified files must carry prominent notices stating that they were changed",
+        "LGPL is weak copyleft, not permissive: it is not sufficient to merely attribute",
+        "This project's own contract already forbids shipping proprietary Minecraft code or assets, which is unaffected by the upstream licence"
+      ],
+      "practicalConsequence": "Copying is permitted, but the architecture mismatch still decides the approach: Nostalgic Tweaks reads a process-global static config while this project resolves the version from the world, and ~80% of its tweaks are client-only with no client package here yet. Values, tables and algorithms remain the useful part, and they are reimplemented against our own world-derived gate either way. Where a class is copied verbatim, the LGPL obligations above apply and THIRD_PARTY_NOTICES.md must record it."
+    },
+    "reviewStatus": "PARENT_VERIFIED_WITH_CORRECTION"
+  }
+}

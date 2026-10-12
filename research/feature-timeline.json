@@ -1,0 +1,1875 @@
+{
+  "schemaVersion": 1,
+  "kind": "minecraft-java-feature-timeline",
+  "reviewStatus": "WORKER_GENERATED_PENDING_PARENT_VERIFICATION",
+  "generatedUtc": "2026-10-12T17:51:45Z",
+  "scope": {
+    "from": "Minecraft Infdev (2010)",
+    "to": "Release 1.8.9",
+    "note": "Covers when a feature appeared and, where sourced, when it was removed. It does not claim that every version between two boundaries has been individually checked."
+  },
+  "method": {
+    "sources": [
+      {
+        "kind": "secondary",
+        "name": "Minecraft Wiki raw wikitext (History sections)",
+        "urlPattern": "https://minecraft.wiki/w/<Page>?action=raw",
+        "howUsed": "Each page's \"History\" section was downloaded as raw wikitext and read. The HistoryLine rows name the exact version, often with the development suffix, and the quote field in each entry is the exact row relied on.",
+        "primaryInstruction": "The task owner directed that minecraft.wiki is the main source."
+      },
+      {
+        "kind": "primary",
+        "name": "Hash-verified Mojang client jars (used for a small number of cross-checks)",
+        "artifacts": [
+          {
+            "version": "Alpha v1.1.2_01",
+            "sha1": "daa4b9f192d2c260837d3b98c39432324da28e86",
+            "bytes": 897164,
+            "url": "https://launcher.mojang.com/v1/objects/daa4b9f192d2c260837d3b98c39432324da28e86/client.jar"
+          },
+          {
+            "version": "Beta 1.7.3",
+            "sha1": "43db9b498cb67058d2e12d394e6507722e71bb45",
+            "bytes": 1465375,
+            "url": "https://launcher.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar"
+          },
+          {
+            "version": "Beta 1.8.1",
+            "sha1": "6b562463ccc2c7ff12ff350a2b04a67b3adcd37b",
+            "bytes": 1995166,
+            "url": "https://launcher.mojang.com/v1/objects/6b562463ccc2c7ff12ff350a2b04a67b3adcd37b/client.jar"
+          }
+        ],
+        "howUsed": "Each jar was downloaded to %TEMP% (never into the repository), its SHA-1 and byte size asserted against the task's stated values, and every .class file parsed for CONSTANT_Utf8 strings. Old jars are obfuscated, so only string constants and localisation keys are usable; that was enough to settle hunger, experience, and the mob additions for Beta 1.8.",
+        "verified": true
+      },
+      {
+        "kind": "secondary",
+        "name": "This project's own primary extractions",
+        "howUsed": "research/version-boundaries.json and research/historical-feature-boundaries.json were read for cross-checks where a jar extraction already exists (block and entity registries for b1.7.3, b1.8.1, 1.0, 1.2.5, 1.8.9)."
+      }
+    ],
+    "notes": "Every entry with a non-null introducedIn carries the exact URL and the exact wikitext row or sentence it came from. Nothing in this file is derived from memory. Where a boundary could not be sourced, introducedIn is null, status is UNVERIFIED, and a plain-language sentence explaining the gap appears in the gaps array. \"removedIn\" is only filled where a source states the removal; many features are still present in Release 1.8.9 and have null removedIn, which means \"not removed within the range\", not \"removed later\".",
+    "versionNaming": "Version strings follow the wiki's own names, using \"Beta 1.9 Prerelease N\" for the development versions that shipped publicly as Release 1.0.0, and \"1.8\" is \"Release 1.8\" (2014-09-02) unless prefixed with \"Beta\". The project's own declared version ids are historical_experience:infdev_420, infdev_611, alpha, beta_1_7_3, beta_1_8_1, beta_1_9_pre_3, release_1_0_0, release_1_1, release_1_2_5, release_1_6_4; a boundary at \"Beta 1.8 (Pre-release)\" falls between beta_1_7_3 and beta_1_8_1."
+  },
+  "mechanics": [
+    {
+      "feature": "hunger / food level (the food bar, saturation and exhaustion; food feeds the bar instead of healing directly)",
+      "nostalgicTweakNames": [
+        "DISABLE_HUNGER",
+        "CUSTOM_FOOD_HEALTH",
+        "PREVENT_HUNGER_EFFECT",
+        "STAMINA_HUNGER_EFFECT"
+      ],
+      "introducedIn": "Beta 1.8 (Pre-release)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Food",
+      "quote": "|{{HistoryLine||1.8|dev=Pre-release|Hunger was introduced. Food no longer restores health directly, but the player can regenerate if the hunger meter is 90% or over. Added [[hunger bar]]. Food now restores hunger instead of health.",
+      "notes": "Two independent sources: the Food page History and the hash-verified b1.8.1 client, whose constant pool contains foodLevel, foodSaturationLevel, foodExhaustionLevel, foodTickTimer and the \"starve\" death message. Neither \"foodLevel\" nor \"starve\" occurs anywhere in the a1.1.2_01 or b1.7.3 clients, so no version up to and including Beta 1.7.3 had a hunger system. Contradicts the mod if it assumed \"no hunger before Beta 1.8.1\": the boundary is Beta 1.8 Pre-release, which is BEFORE 1.8.1, so the assumption happens to give the same answer for 1.8.1 but not for the 1.8 Pre-releases."
+    },
+    {
+      "feature": "sprinting (the player sprint; stamina/sprint key)",
+      "nostalgicTweakNames": [
+        "DISABLE_SPRINT",
+        "STAMINA_SPRINT",
+        "STAMINA_INFINITE_PEACEFUL",
+        "STAMINA_REGAIN_WHEN_MOVING",
+        "STAMINA_DURATION",
+        "STAMINA_RECHARGE",
+        "STAMINA_COOLDOWN",
+        "STAMINA_SATURATION_EFFECT"
+      ],
+      "introducedIn": "Beta 1.8 (PAX Prime build)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Sprinting",
+      "quote": "|{{HistoryLine||1.8|dev=1.8 (PAX Prime)|Added sprinting.|It only lasts five seconds at a time with movement speed, and field of view decreasing when sprinting.",
+      "notes": "The two later source lines that matter for this project: \"1.0 ? Sprinting can no longer be started by double-tapping Shift\" and \"1.9 15w46a Sprinting no longer automatically stops after 30 seconds\". So a Beta 1.8-1.8.9 sprint is time-limited (the 30-second timer) while a 1.9+ sprint is not. The Nostalgic stamina system is not the historical one; the historical mechanic is the hunger gate plus the 1.9-and-earlier 30-second auto-stop."
+    },
+    {
+      "feature": "experience / XP (experience bar, levels, orbs dropped by mobs)",
+      "nostalgicTweakNames": [
+        "DISABLE_ORB_SPAWN",
+        "DISABLE_ORB_RENDERING"
+      ],
+      "introducedIn": "Beta 1.8 (Pre-release)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Experience",
+      "quote": "|{{HistoryLine||1.8|dev=Pre-release|Experience was originally revealed by [[Jeb]] during an interview with [[Minecraft Forum]]. Jeb released a picture of the [[Java Edition Beta 1.8|1.8]] GUI list, which shows the experience bar, among other things.",
+      "notes": "Primary confirmation from the b1.8.1 jar: the constant pool contains the entity registry name \"XPOrb\" and the asset path \"/item/xporb.png\". Neither occurs in b1.7.3 or a1.1.2_01, and neither jar has any experience, level, or \"XP\" string. XP did nothing until Beta 1.9 Prerelease 4 (enchanting) and the /xp command arrived in Beta 1.9 Prerelease 5."
+    },
+    {
+      "feature": "critical hit (melee critical)",
+      "nostalgicTweakNames": [
+        "DISABLE_CRITICAL_HIT"
+      ],
+      "introducedIn": "Beta 1.8 (Pre-release)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Melee_attack",
+      "quote": "|{{HistoryLine|||dev=Pre-release|Added the critical hit mechanic, which currently adds a random amount of damage using the formula <math>(+0% ~ +100% weapon damage + 2hp</math> and is calculated after enchantments are added.|Added the sprint-knockback attack mechanic.",
+      "notes": "The Beta 1.8 formula was random: (+0% to +100% weapon damage + 2hp), applied AFTER enchantments. The modern flat +50% before enchantments is a later change that the source itself marks with a {{check version|Was this a 1.6 or 1.7 change?}}, so this file records only the 1.8 introduction and leaves the formula-change version open. Critical hits existed in every version from Beta 1.8 Pre-release through Release 1.8.9; they are NOT a 1.9 mechanic."
+    },
+    {
+      "feature": "attack cooldown / attack speed (the 1.9 combat meter)",
+      "nostalgicTweakNames": [
+        "DISABLE_COOLDOWN",
+        "DISABLE_MISS_TIMER"
+      ],
+      "introducedIn": "1.9 (15w34b)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Melee_attack",
+      "quote": "|{{HistoryLine||1.9|dev=15w34b|Added the attack speed mechanic.}}",
+      "notes": "This is after the emulation range. Release 1.8.9 (2015-12-03) is earlier than 1.9 (2016-02-29) and earlier than both snapshots, so no emulated version has an attack cooldown. DISABLE_COOLDOWN is therefore applicable to every version in range; the historical value is \"no cooldown\", i.e. the tweak is always on. Separately, \"1.6 The 10 tick cooldown when hitting the air was removed\" is a different, older mechanic (the swing delay in the air), and it DID exist up to and including 1.5."
+    },
+    {
+      "feature": "sweep attack (sword sweep)",
+      "nostalgicTweakNames": [
+        "DISABLE_SWEEP"
+      ],
+      "introducedIn": "1.9 (15w34c)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Melee_attack",
+      "quote": "|{{HistoryLine|||dev=15w34c|...|Added the sweep attack mechanic for swords, which currently only deals knockback and requires the player to be standing still or be sneaking.",
+      "notes": "15w34c is a 1.9 snapshot. No version in the emulation range (Infdev through Release 1.8.9) has a sweep attack. This independently confirms the mod's current assumption."
+    },
+    {
+      "feature": "sword blocking (right-click block with a sword, 50% damage reduction)",
+      "nostalgicTweakNames": [
+        "OLD_SWORD_BLOCKING",
+        "ATTACK_WHILE_SWORD_BLOCKING",
+        "SWORD_BLOCK_DAMAGE_REDUCTION",
+        "BLOCK_WITH_SWORD_ON_SHIELD"
+      ],
+      "introducedIn": "Beta 1.8 (Pre-release)",
+      "removedIn": "1.9 (15w33c)",
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Sword_blocking",
+      "quote": "|{{HistoryLine||1.8|dev=Pre-release|Added sword blocking, which blocks 50% of incoming damage.}}",
+      "notes": "Historically accurate for Beta 1.8 through Release 1.8.9 and absent before Beta 1.8. Blocking also used to reduce fall damage and to let the player rise faster underwater; both were removed in Beta 1.9 Prerelease, so those two sub-behaviours have a different, later removal boundary (Beta 1.9 Prerelease) than the mechanic itself (1.9)."
+    },
+    {
+      "feature": "animal breeding (feed two animals to produce a baby)",
+      "nostalgicTweakNames": [
+        "DISABLE_ANIMAL_BREEDING"
+      ],
+      "introducedIn": "Beta 1.9 Prerelease 2",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Breeding",
+      "quote": "|{{HistoryLine||1.0.0|dev=Beta 1.9 Prerelease 2|Introduced breeding. [[Cow]]s, [[mooshroom]]s, [[sheep]], [[pig]]s, and [[chicken]]s follow players holding [[wheat]] and enter love mode when fed wheat.",
+      "notes": "Jeb tweeted on 2011-09-09 that breeding was pushed to Beta 1.9. Beta 1.8 and Beta 1.8.1 therefore have NO breeding. The public release that contains it is Release 1.0.0, which is why some tables show \"1.0.0\" - the development version is Beta 1.9 Prerelease 2."
+    },
+    {
+      "feature": "animal tempting (animals follow a player holding their breeding food)",
+      "nostalgicTweakNames": [
+        "DISABLE_ANIMAL_TEMPTING"
+      ],
+      "introducedIn": "Beta 1.9 Prerelease 2",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Breeding",
+      "quote": "|{{HistoryLine||1.0.0|dev=Beta 1.9 Prerelease 2|Introduced breeding. [[Cow]]s, [[mooshroom]]s, [[sheep]], [[pig]]s, and [[chicken]]s follow players holding [[wheat]] and enter love mode when fed wheat.",
+      "notes": "Same source row as breeding: \"follow players holding wheat\". Pigs respond to carrots and chickens to seeds from 1.4.2 (12w36a); chickens were changed again in 1.9 (15w31a)."
+    },
+    {
+      "feature": "baby animals (newborn animals spawn as babies)",
+      "nostalgicTweakNames": [
+        "DISABLE_BABY_ANIMAL_SPAWNING"
+      ],
+      "introducedIn": "Beta 1.9 Prerelease 3",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Breeding",
+      "quote": "|{{HistoryLine|||dev=Beta 1.9 Prerelease 3|Added baby cows, baby mooshrooms, baby sheep, baby pigs, and baby chickens. Newborn animals are spawned as babies instead of adults.",
+      "notes": "In Beta 1.9 Prerelease 2 every animal was born fully grown. In 1.9+ (19w37a) 5% of animals also spawn naturally as babies, which is a separate, much later behaviour and is not in range."
+    },
+    {
+      "feature": "monsters taking damage / catching fire in sunlight",
+      "nostalgicTweakNames": [
+        "DISABLE_MONSTER_AVOID_SUN"
+      ],
+      "introducedIn": "Indev 20100213",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Zombie",
+      "quote": "|{{HistoryLine||20100213|Zombies now catch on [[fire]] when exposed to sunlight.}}",
+      "notes": "This half of DISABLE_MONSTER_AVOID_SUN (the burning itself) is Indev content and exists in every supported version. The Indev 20100218-0011 row is a primary-shaped detail - the burn required the sunlight LEVEL to exceed 7, so a torch did not set a mob alight."
+    },
+    {
+      "feature": "monsters actively avoiding sunlight (the FleeSun / seek-shelter goal)",
+      "nostalgicTweakNames": [
+        "DISABLE_MONSTER_AVOID_SUN"
+      ],
+      "introducedIn": "1.2.1 (12w04a)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Zombie",
+      "quote": "|{{HistoryLine|||dev=12w04a|The zombies' AI has been improved again to cope with catching [[fire]] in sunlight. If a zombie is exposed to sunlight and bursts into flames, it searches for a body of [[water]] to douse the flames or at least a shelter to hide from [[sun]], unless in pursuit of a [[player]].",
+      "notes": "This is the goal-based avoidance the mod's FleeSunGoalMixin targets, and it is a Release 1.2.1 mechanism, NOT a Beta-era one. The same snapshot gave skeletons the same behaviour. Note the later fix: \"1.8.7 Skeletons no longer ignore the player whilst seeking shelter from the sun.\" Before 12w04a a burning mob did not path to water or shade, so DISABLE_MONSTER_AVOID_SUN must be ON for every version up to and including Release 1.2.1's predecessor (Release 1.1) and OFF from 1.2.1 on."
+    },
+    {
+      "feature": "monsters picking up dropped items from the ground",
+      "nostalgicTweakNames": [
+        "DISABLE_MONSTER_ITEM_PICKUP"
+      ],
+      "introducedIn": "1.4.2 (12w34b)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Zombie",
+      "quote": "|{{HistoryLine|||dev=12w34b|Zombies can now pick up and equip dropped [[item]]s. If killed, the zombie drops the item it is holding.",
+      "notes": "Zombies first (\"Zombies can now pick up and equip dropped items\"), then skeletons, zombies and zombie pigmen in 12w32a per the Skeleton page. The two pages disagree by one snapshot on the exact snapshot for the general case (12w32a vs 12w34b); both are inside 1.4.2, so the version boundary (Release 1.4.2) is unambiguous even though the snapshot is not."
+    },
+    {
+      "feature": "monsters spawning with armour and weapons (geared mobs)",
+      "nostalgicTweakNames": [
+        "DISABLE_MONSTER_ARMOR_SPAWN",
+        "DISABLE_MONSTER_ITEM_SPAWN",
+        "DISABLE_MONSTER_ENCHANT_SPAWN",
+        "OLD_STYLE_ZOMBIE_VILLAGER_DROPS"
+      ],
+      "introducedIn": "1.4.2 (12w32a)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Armor",
+      "quote": "|{{HistoryLine||1.4.2|dev=12w32a|[[Geared mobs|Mob armor]] has been reintroduced. A partial or full set of any armor is now sometimes worn by [[zombie]]s, [[skeleton]]s and [[zombie pigmen]], with the likelihood increasing with difficulty.",
+      "notes": "The Armor page calls this \"reintroduced\" because Indev mobs wore armour before it was removed in Indev 20100202 (\"Zombies' armor has been removed, as well as their arm swinging attack animations\"). So the correct model is: armour on mobs in Indev before 20100202, none from 20100202 until 1.4.2, then geared mobs again from 12w32a. Enchanting of that gear is the same snapshot (\"both armor and weapons may be enchanted\")."
+    },
+    {
+      "feature": "baby zombies spawning naturally",
+      "nostalgicTweakNames": [
+        "DISABLE_BABY_ZOMBIE_SPAWN"
+      ],
+      "introducedIn": "1.6.2 (Pre-release)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Zombie",
+      "quote": "|{{HistoryLine||1.6.2|dev=pre|Baby zombies now spawn among regular zombies, with the same percentage of spawning as [[zombie villager]]s.",
+      "notes": "The baby zombie ENTITY arrived in 1.4.2 (12w32a) but was editor-only: \"Baby zombies cannot spawn naturally and can be spawned only through map editors and NBT editing.\" Natural spawning is the 1.6.2 pre-release. If the mod only wants \"baby zombies exist\", the boundary is 1.4.2; if it wants \"baby zombies spawn\", it is 1.6.2. Both are given here deliberately."
+    },
+    {
+      "feature": "baby zombie piglins (baby zombie pigmen) spawning naturally",
+      "nostalgicTweakNames": [
+        "DISABLE_BABY_PIGLIN_SPAWN"
+      ],
+      "introducedIn": "1.6.2 (Pre-release)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Breeding",
+      "quote": "|{{HistoryLine||1.6.2|dev=pre|Baby [[zombie]]s and baby [[zombie pigmen]] now spawn naturally among regular ones.",
+      "notes": "Same source row as baby zombies; the entity itself is 1.4.2 (12w32a)."
+    },
+    {
+      "feature": "animals fleeing when attacked (panic)",
+      "nostalgicTweakNames": [
+        "DISABLE_ANIMAL_PANIC"
+      ],
+      "introducedIn": "Beta 1.8 (Pre-release)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Cow",
+      "quote": "|{{HistoryLine||1.8|dev=Pre-release|Cows now run away when attacked.",
+      "notes": "Cows, sheep and (per the Sheep page) the other farm animals gained \"flee when attacked\" in the Beta 1.8 Pre-release. Before Beta 1.8 they stood still when hit."
+    },
+    {
+      "feature": "zombie and skeleton AI improvements (pathfinding towards the player, seeing through windows)",
+      "nostalgicTweakNames": [
+        "OLD_NIGHTMARES"
+      ],
+      "introducedIn": "1.2.1 (12w03a)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "medium",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Zombie",
+      "quote": "|{{HistoryLine||1.2.1|dev=12w03a|The zombies' AI has been improved, giving them a much better sense of direction when pursuing the [[player]], allowing them to navigate obstacles, and even small mazes if constructed, to get to the player.",
+      "notes": "Recorded because the mod has a MOB_AI \"old nightmares\" behaviour and there is no Nostalgic Tweaks source row that pins it. The 12w03a row is the first AI overhaul (\"much better sense of direction when pursuing the player, allowing them to navigate obstacles\"). The exact behaviour the tweak changes is not established, so this boundary must not be used to gate it."
+    },
+    {
+      "feature": "skeleton strafing while shooting (bow strafe)",
+      "nostalgicTweakNames": [
+        "DISABLE_SKELETON_STRAFING"
+      ],
+      "introducedIn": "1.9 (15w38a)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Skeleton",
+      "quote": "|{{HistoryLine|||dev=15w38a|Skeletons now shoot one arrow per second and have improved behavior, allowing them to be a bit faster and strafe while shooting.",
+      "notes": "\"Skeletons now shoot one arrow per second and have improved behavior, allowing them to be a bit faster and strafe while shooting.\" After the emulation range, so DISABLE_SKELETON_STRAFING is correct for every version up to Release 1.8.9."
+    },
+    {
+      "feature": "creeper strafing / movement while swelling (CreeperSwellGoal)",
+      "nostalgicTweakNames": [
+        "OLD_CREEPER_STRAFE_ON_SWELL"
+      ],
+      "introducedIn": null,
+      "removedIn": null,
+      "status": "UNVERIFIED",
+      "confidence": "low",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Creeper",
+      "quote": "",
+      "notes": "No source found that states when a swelling creeper gained or lost sideways movement. The Creeper page's Java history has no such row and the CreeperSwellGoal class is modern. Recorded as a gap rather than guessed."
+    },
+    {
+      "feature": "sheep eating grass to regrow wool",
+      "nostalgicTweakNames": [
+        "DISABLE_SHEEP_EAT_GRASS",
+        "RANDOM_SHEEP_WOOL_REGEN"
+      ],
+      "introducedIn": "Beta 1.9 Prerelease (removed then), re-added Release 1.1 (11w49a)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Sheep",
+      "quote": "|{{HistoryLine||1.1|dev=11w49a|Sheep can now graze [[grass block]]s again, turning them into [[dirt]] to regrow their wool. They can additionally now graze [[short grass|grass]], destroying it. Their wool now regrows each time a block is grazed.",
+      "notes": "The source says sheep \"can now graze grass blocks AGAIN\", which implies an earlier form existed and was removed; the 11w49a row is what re-added grazing with wool regrowth. The earlier form is not dated on this page. The 11w49a behaviour (one wool per grazed block, grass block turns to dirt) is the mechanic RANDOM_SHEEP_WOOL_REGEN models."
+    },
+    {
+      "feature": "sheep dropping wool when punched (no shears)",
+      "nostalgicTweakNames": [
+        "OLD_SHEEP_PUNCHING",
+        "ONE_WOOL_PUNCH"
+      ],
+      "introducedIn": "Classic 0.28 (punching drops cloth)",
+      "removedIn": "Beta 1.7 (shears introduced)",
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Sheep",
+      "quote": "|{{HistoryLine||20100223|Sheep now drop only light gray cloth when hit.",
+      "notes": "Sheep were added in Classic 0.28 and dropped cloth when hit; the drop colour changed over time (light gray in Indev 20100223, white from Infdev 20100624). Shears arrived in Beta 1.7 and made punching a non-source of wool, so OLD_SHEEP_PUNCHING is the correct model for every version before Beta 1.7."
+    },
+    {
+      "feature": "animal spawn cap / monster spawn cap (mob caps)",
+      "nostalgicTweakNames": [
+        "ANIMAL_SPAWN_CAP",
+        "MONSTER_SPAWN_CAP",
+        "OLD_ANIMAL_SPAWNING"
+      ],
+      "introducedIn": null,
+      "removedIn": null,
+      "status": "UNVERIFIED",
+      "confidence": "low",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Mob_spawning",
+      "quote": "",
+      "notes": "The mob-cap values are not established here. The beta-era spawner is a per-chunk creature/monster type counter and the modern SpawnPlacements/MobCategory caps are a much later structure, but no source found states the numeric caps for a given version. Do not gate these tweaks on a version until the numbers are read from a jar or from the wiki's Mob spawning table."
+    },
+    {
+      "feature": "mob drops: zombie (feather -> rotten flesh)",
+      "nostalgicTweakNames": [
+        "OLD_ZOMBIE_DROPS"
+      ],
+      "introducedIn": "Indev 20100219 (feathers)",
+      "removedIn": "Beta 1.8 (Pre-release) (rotten flesh)",
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Zombie",
+      "quote": "|{{HistoryLine||1.8|dev=Pre-release|Zombies now drop 0-2 [[rotten flesh]] instead of 0-2 [[feather]]s upon death.",
+      "notes": "Zombies dropped 0-2 feathers from Indev 20100219 and 0-2 rotten flesh from the Beta 1.8 Pre-release, so OLD_ZOMBIE_DROPS (feathers) applies to Indev 20100219 through Beta 1.7.3."
+    },
+    {
+      "feature": "mob drops: skeleton (arrows, then bones added)",
+      "nostalgicTweakNames": [
+        "OLD_SKELETON_DROPS"
+      ],
+      "introducedIn": "Indev 20100219 (arrows)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Skeleton",
+      "quote": "|{{HistoryLine||20100219|Skeletons now drop arrows.}}",
+      "notes": "Skeletons dropped arrows from Indev 20100219; 0-2 bones were added in Beta 1.2. The bow drop is a separate, much later behaviour (1.2.1 12w06a, 8.5%)."
+    },
+    {
+      "feature": "mob drops: chicken (feathers; leather later removed; raw chicken from Beta 1.8)",
+      "nostalgicTweakNames": [
+        "OLD_CHICKEN_DROPS"
+      ],
+      "introducedIn": "Alpha v1.0.14 (chicken added)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Chicken",
+      "quote": "|{{HistoryLine||1.8|dev=Pre-release|Chickens now drop [[raw chicken]], and if killed on fire it drops [[cooked chicken]].",
+      "notes": "Chickens dropped leather as well as feathers at first and stopped dropping leather at an unrecorded version (\"?\" on the page); raw/cooked chicken arrived in the Beta 1.8 Pre-release. The leather-removal version is a gap."
+    },
+    {
+      "feature": "mob drops: cow (leather, and beef from Beta 1.8)",
+      "nostalgicTweakNames": [
+        "OLD_COW_DROPS"
+      ],
+      "introducedIn": "Alpha v1.0.8 (cow added)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Cow",
+      "quote": "|{{HistoryLine||1.8|dev=Pre-release|Cows now run away when attacked. Added raw beef, which drops from cows, and if killed on fire, they drop steak.",
+      "notes": "Beef/steak arrived in the Beta 1.8 Pre-release; before that cows dropped leather only."
+    },
+    {
+      "feature": "mob drops: pig (raw porkchop, cooked when on fire)",
+      "nostalgicTweakNames": [
+        "OLD_PIG_DROPS"
+      ],
+      "introducedIn": "Indev 20100219 (raw porkchop)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Pig",
+      "quote": "|{{HistoryLine||20100219|Pigs now drop 0-2 [[raw porkchop]]s instead of mushrooms upon death.",
+      "notes": "Pigs dropped 0-2 brown mushrooms before Indev 20100219; the cooked-on-fire rule is Beta 1.5; the 1-3 count is Release 1.3.1 (12w25a)."
+    },
+    {
+      "feature": "mob drops: spider (string) and zombie pigman (cooked porkchop / gold)",
+      "nostalgicTweakNames": [
+        "OLD_SPIDER_DROPS",
+        "OLD_ZOMBIE_PIGMEN_DROPS"
+      ],
+      "introducedIn": "Indev 20100219 (spider string)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Spider",
+      "quote": "|{{HistoryLine||20100219|Spiders now [[drops|drop]] 0-2 [[string]] upon death.",
+      "notes": "Spiders dropped 0-2 string from Indev 20100219. Zombie pigmen were added with the Nether in Alpha v1.2.0; the Zombified Piglin page's Java history renders its first row as \"dev=release\" with no version, so the pigman-specific drop table is NOT established here and OLD_ZOMBIE_PIGMEN_DROPS should not be gated on this entry alone."
+    },
+    {
+      "feature": "sheep drops",
+      "nostalgicTweakNames": [
+        "OLD_SHEEP_DROPS"
+      ],
+      "introducedIn": "Classic 0.28 (cloth when hit)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Sheep",
+      "quote": "|{{HistoryLine||20100223|Sheep now drop only light gray cloth when hit.",
+      "notes": "Same source as OLD_SHEEP_PUNCHING; recorded separately because the mod has a separate drop tweak."
+    },
+    {
+      "feature": "old-style drops for later mobs (zombie villager, cave spider, mooshroom, drowned, rabbit, stray, husk)",
+      "nostalgicTweakNames": [
+        "OLD_STYLE_ZOMBIE_VILLAGER_DROPS",
+        "OLD_STYLE_CAVE_SPIDER_DROPS",
+        "OLD_STYLE_MOOSHROOM_DROPS",
+        "OLD_STYLE_DROWNED_DROPS",
+        "OLD_STYLE_RABBIT_DROPS",
+        "OLD_STYLE_STRAY_DROPS",
+        "OLD_STYLE_HUSK_DROPS"
+      ],
+      "introducedIn": null,
+      "removedIn": null,
+      "status": "UNVERIFIED",
+      "confidence": "low",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Zombie_Villager",
+      "quote": "",
+      "notes": "Each of these is a modern mob whose \"old style\" drop is a per-mob historical table rather than a single boundary. The mob ADDITION dates are recorded in the mobs section; the drop tables are not established here. Drowned (1.13), stray (1.10) and husk (1.10) are outside the emulation range entirely, so those three tweaks have no historical version in range at all."
+    },
+    {
+      "feature": "piglin gold-sword-only spawn",
+      "nostalgicTweakNames": [
+        "PIGLIN_ONLY_GOLD_SWORD_SPAWN"
+      ],
+      "introducedIn": null,
+      "removedIn": null,
+      "status": "NOT_APPLICABLE",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Piglin",
+      "quote": "",
+      "notes": "Piglins are 1.16 content. Every version in the emulation range (Infdev through Release 1.8.9) has no piglins, so the tweak has no in-range version to apply to."
+    },
+    {
+      "feature": "eating is instant (no eat animation / no eat delay)",
+      "nostalgicTweakNames": [
+        "INSTANT_EAT"
+      ],
+      "introducedIn": "Classic 0.24_SURVIVAL_TEST (food existed and was eaten instantly)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Food",
+      "quote": "|{{HistoryLine||0.24_SURVIVAL_TEST|[[Mushroom]]s are now edible, making them the first food to be added in the game. At the time, food restores [[health]] instead of [[hunger]], and are eaten instantly without sound or animation.",
+      "notes": "The Food page states that in 0.24_SURVIVAL_TEST food \"restores health instead of hunger, and are eaten instantly without sound or animation\". When an eating DELAY was introduced is not stated on that page, so the removal boundary of \"instant\" is a gap; the introduction of \"food exists\" is not."
+    },
+    {
+      "feature": "food stacking (food does not stack / stacks differently)",
+      "nostalgicTweakNames": [
+        "OLD_FOOD_STACKING",
+        "CUSTOM_FOOD_STACKING"
+      ],
+      "introducedIn": null,
+      "removedIn": null,
+      "status": "UNVERIFIED",
+      "confidence": "low",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Food",
+      "quote": "",
+      "notes": "No source found that dates food stack sizes per version. In particular Beta 1.8 changed food into hunger-restoring items, and 1.8 changed stack sizes again for some foods, but the wiki page fetched for this does not state a per-version stack table. Do not gate these on a version."
+    },
+    {
+      "feature": "left-click to open a door",
+      "nostalgicTweakNames": [
+        "LEFT_CLICK_DOOR"
+      ],
+      "introducedIn": "Infdev 20100607 (wooden doors added)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Door",
+      "quote": "|{{HistoryLine||20100607|Added wooden doors.",
+      "notes": "Wooden doors are Infdev 20100607 and iron doors Alpha v1.0.1. The door page does not state the input change (right-click opening) either way. The mod's own name (\"left click door\") implies the early behaviour, but the removal boundary is a gap here."
+    },
+    {
+      "feature": "left-click a lever",
+      "nostalgicTweakNames": [
+        "LEFT_CLICK_LEVER"
+      ],
+      "introducedIn": "Alpha v1.0.1 (levers added)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Lever",
+      "quote": "|{{HistoryLine||v1.0.1|Added levers.",
+      "notes": "Levers were added in Alpha v1.0.1 (Seecret Friday Update 3). The lever page records no change of activation input, so \"left click\" as an early behaviour is not sourced; the lever's EXISTENCE is."
+    },
+    {
+      "feature": "left-click a button",
+      "nostalgicTweakNames": [
+        "LEFT_CLICK_BUTTON"
+      ],
+      "introducedIn": "Alpha v1.0.1 (stone buttons added)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Button",
+      "quote": "|{{HistoryLine||v1.0.1|Added stone buttons.",
+      "notes": "Stone buttons are Alpha v1.0.1; wooden buttons arrived in 1.4.2 (12w34a) and the redstone pulse duration changed from 18 to 24 ticks in 12w37a. As with levers, the activation input itself is not dated by the source."
+    },
+    {
+      "feature": "punching TNT with an empty hand primes it",
+      "nostalgicTweakNames": [
+        "PUNCH_TNT_IGNITION"
+      ],
+      "introducedIn": "Classic 0.26 SURVIVAL TEST (TNT added); Indev 20091231-2255 removed the cancel-on-hit",
+      "removedIn": "Beta 1.7",
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/TNT",
+      "quote": "|{{HistoryLine||1.7|TNT can be primed only by [[redstone]] or any other mechanism that powers the TNT [[block]], as well as by {{control|hitting}} it with [[flint and steel]]. If the player hits TNT with an empty hand or while holding any othe",
+      "notes": "This is a well-sourced pair of rows: Indev 20091231-2255 \"Players can no longer cancel the detonation of TNT by hitting it after priming it\", then Beta 1.7 \"TNT can be primed only by redstone ... as well as by hitting it with flint and steel. If the player hits TNT with an empty hand or while holding any other [item] ...\". So empty-hand priming existed through Beta 1.6.6 and NOT in Beta 1.7 or later."
+    },
+    {
+      "feature": "beds bounce entities that fall on them",
+      "nostalgicTweakNames": [
+        "DISABLE_BED_BOUNCE"
+      ],
+      "introducedIn": null,
+      "removedIn": null,
+      "status": "UNVERIFIED",
+      "confidence": "low",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Bed",
+      "quote": "",
+      "notes": "The Java Edition bed history has no \"bouncing added\" row; the only bounce rows are Bedrock/Legacy Console and a 26.3 \"snap8\" value change. The mechanic is generally believed to be a 1.9 addition but this file could not source it, so it is recorded as unknown rather than asserted."
+    },
+    {
+      "feature": "chests cannot be opened when a block is above them",
+      "nostalgicTweakNames": [
+        "ALWAYS_OPEN_CHEST"
+      ],
+      "introducedIn": null,
+      "removedIn": null,
+      "status": "UNVERIFIED",
+      "confidence": "low",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Chest",
+      "quote": "|{{HistoryLine||1.0.0|dev=Beta 1.9 Prerelease 6|Chests do not prevent other chests underneath from opening.",
+      "notes": "Wait - see notes: the sourced row is the opposite direction. \"1.0.0 Beta 1.9 Prerelease 6: Chests do not prevent other chests underneath from opening.\" That is about a chest above a chest, not about a solid block. The general \"chest is blocked by the block above it\" rule and its removal are not dated on the Chest page."
+    },
+    {
+      "feature": "anvil (experience-cost repair block)",
+      "nostalgicTweakNames": [
+        "DISABLE_ANVIL"
+      ],
+      "introducedIn": "1.4.2 (12w41a)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Anvil",
+      "quote": "|{{HistoryLine||1.4.2|dev=12w41a|[[File:Anvil JE1 BE1.png|32px]] Added anvils.",
+      "notes": "The Anvil page history was fetched and its Java section begins at 1.4.2 (12w41a) in the mod's own research/version-boundaries.json too. DISABLE_ANVIL therefore applies to every version before Release 1.4.2 and is off from 1.4.2 onward."
+    },
+    {
+      "feature": "enchanting table",
+      "nostalgicTweakNames": [
+        "DISABLE_ENCHANT_TABLE"
+      ],
+      "introducedIn": "Beta 1.9 Prerelease 4",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "medium",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Experience",
+      "quote": "|{{HistoryLine|||dev=Beta 1.9 Prerelease 4|The ability to spend experience levels for [[enchanting]] [[item]]s has been added.",
+      "notes": "The Enchanting page redirects to Enchantment, whose History records experience spending for enchanting from Beta 1.9 Prerelease 4 (\"The ability to spend experience levels for enchanting items has been added\"). The enchanting TABLE block itself is dated to the same development cycle; treat the exact snapshot as medium confidence."
+    },
+    {
+      "feature": "experience orbs dropping from blocks (mining/smelting gives XP)",
+      "nostalgicTweakNames": [
+        "DISABLE_ORB_SPAWN"
+      ],
+      "introducedIn": null,
+      "removedIn": null,
+      "status": "UNVERIFIED",
+      "confidence": "low",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Experience",
+      "quote": "|{{HistoryLine||1.3.1|dev=12w22a|Mining redstone ore, along with other ores, now gives the [[player]] experience orbs.",
+      "notes": "The Experience page records 1.3.1 (12w22a) for ores giving experience (\"Mining redstone ore, along with other ores, now gives the player experience orbs\") but the first version in which mining or smelting gave XP at all is not pinned here. DISABLE_ORB_SPAWN is about the orb entity, whose introduction (Beta 1.8 Pre-release) IS verified above."
+    },
+    {
+      "feature": "damage values (old weapon/tool damage numbers)",
+      "nostalgicTweakNames": [
+        "OLD_DAMAGE_VALUES"
+      ],
+      "introducedIn": "Beta 1.5 (the +1 player-attack damage bug)",
+      "removedIn": "Beta 1.8 (Pre-release)",
+      "status": "VERIFIED",
+      "confidence": "medium",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Damage",
+      "quote": "|{{HistoryLine||1.5|All attacks from players now deal {{hp|1}} more damage than intended unless the player is currently moving upwards in singleplayer.",
+      "notes": "\"1.5 All attacks from players now deal 1 more damage than intended unless the player is currently moving upwards in singleplayer\" and \"1.8 Pre-release Player attacks no longer deal 1 more damage than intended\". A second, related boundary: \"1.6.2 release: Instead of replacing the barehanded damage (1), swords, shovels, pickaxes and axes now add their damage onto the barehanded damage\". The per-version weapon damage NUMBERS are in research/historical-features.json and are not repeated here."
+    },
+    {
+      "feature": "bow charge time (hold-to-charge bows; rapid fire before Beta 1.8)",
+      "nostalgicTweakNames": [
+        "INSTANT_BOW",
+        "ARROW_SPEED",
+        "INVINCIBLE_BOW"
+      ],
+      "introducedIn": "Beta 1.8 (Pre-release) (charging introduced)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Arrow",
+      "quote": "|{{HistoryLine||1.8|dev=Pre-release|Arrows can no longer be rapid-fired from [[bow]]s; they must be charged first.",
+      "notes": "Before the Beta 1.8 Pre-release an arrow could be rapid-fired: \"Arrows can no longer be rapid-fired from bows; they must be charged first. Arrows (with a bow at full strength) can now travel 120 blocks\". So INSTANT_BOW is the correct model up to and including Beta 1.7.3 and wrong from Beta 1.8 on. A fully charged arrow deals a consistent 9 damage from 1.0.0 RC1."
+    },
+    {
+      "feature": "fishing: loot table and timing (old catch table)",
+      "nostalgicTweakNames": [
+        "OLD_FISHING_LOOT",
+        "OLD_FISHING_LURING",
+        "OLD_FISHING_CASTING"
+      ],
+      "introducedIn": "Alpha v1.2.0 (fishing added)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Fishing",
+      "quote": "|{{HistoryLine||1.7.2|dev=13w36a|Fishing rewards and mechanics have been massively changed, with new rewards including [[enchanted book]]s, [[saddle]]s, enchanted [[fishing rod]]s, [[name tag]]s, and such.",
+      "notes": "\"1.7.2 dev=13w36a Fishing rewards and mechanics have been massively changed, with new rewards including enchanted books, saddles, enchanted fishing rods, name tags\". So the OLD loot table is correct for Alpha v1.2.0 through Release 1.6.4 and wrong from Release 1.7.2 on. Rain improving the catch rate is Beta 1.5. Experience from fishing is 1.4.2 (12w37a)."
+    },
+    {
+      "feature": "instant bone meal (one use fully grows a plant)",
+      "nostalgicTweakNames": [
+        "INSTANT_BONEMEAL"
+      ],
+      "introducedIn": "Beta 1.2 (bone meal added)",
+      "removedIn": "Release 1.5 (13w04a)",
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Bone_Meal",
+      "quote": "|{{HistoryLine||1.5|dev=13w04a|Bone meal has been significantly nerfed.",
+      "notes": "\"1.5 dev=13w04a Bone meal has been significantly nerfed\" and the 13w05a row changes it to an average of 2-5 uses. Before that, one application grew a plant to its final state. Bone meal on grass blocks is Beta 1.6.6, on mushrooms Beta 1.8 Pre-release, on pumpkin/melon seeds Beta 1.8 Pre-release 2."
+    },
+    {
+      "feature": "seeds tilled out of a grass block",
+      "nostalgicTweakNames": [
+        "TILLED_GRASS_SEEDS"
+      ],
+      "introducedIn": "Indev 20100206-2034 (seeds added)",
+      "removedIn": "Beta 1.6 (Test Build 3)",
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Wheat_Seeds",
+      "quote": "|{{HistoryLine||1.6|dev=Test Build 3|Seeds can no longer be tilled from a grass block.",
+      "notes": "The Wheat Seeds page states the removal boundary directly: \"1.6 dev=Test Build 3 Seeds can no longer be tilled from a grass block.\" This is one of the few places where Beta 1.6 Test Build 3 is named by the wiki - the same build that added the grass plant."
+    },
+    {
+      "feature": "fire spread model (old fire)",
+      "nostalgicTweakNames": [
+        "OLD_FIRE"
+      ],
+      "introducedIn": "Indev 20100109-1939 (fire added)",
+      "removedIn": "Beta 1.6 (Test Build 3)",
+      "status": "VERIFIED",
+      "confidence": "medium",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Fire",
+      "quote": "|{{HistoryLine||1.6|dev=Test Build 3|Fire spreading has been severely nerfed - infinite fire spread has been disabled.",
+      "notes": "Two boundaries: \"1.2_02 The ability for blocks to burn forever has been removed\" and \"1.6 Test Build 3 Fire spreading has been severely nerfed - infinite fire spread has been disabled\" (with Notch's own tweet quoted on the page). The \"old fire\" the tweak models is most plausibly the severely-spreading Beta 1.5-and-earlier behaviour, so the Beta 1.6 Test Build 3 boundary is recorded with medium confidence."
+    },
+    {
+      "feature": "blocks that burn forever (infinite burn)",
+      "nostalgicTweakNames": [
+        "INFINITE_BURN"
+      ],
+      "introducedIn": "Indev 20100109-1939 (fire added)",
+      "removedIn": "Beta 1.2_02",
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Fire",
+      "quote": "|{{HistoryLine||1.2_02|The ability for [[block]]s to burn forever has been removed.",
+      "notes": "\"1.2_02 The ability for blocks to burn forever has been removed. Previously, a non-netherrack flammable block, like wood, may burn continuously when its sides are surrounded by nonflammable blocks, like stone or dirt.\" This is a precise, single-version boundary."
+    },
+    {
+      "feature": "swimming (the player swims in water)",
+      "nostalgicTweakNames": [
+        "DISABLE_SWIM",
+        "INSTANT_AIR"
+      ],
+      "introducedIn": "Classic 0.0.12a (water and swimming added)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Swimming",
+      "quote": "|{{HistoryLine||0.0.12a|Added water, allowing the ability for the player to swim.",
+      "notes": "Swimming exists in every version in range. \"1.13 18w07a Added the ability to sprint while in water\" is a separate, later mechanic. DISABLE_SWIM therefore refers either to sprint-swimming (1.13, out of range) or to a modern swim state; it is NOT a mechanic that can be switched off for a historical version on the evidence found. INSTANT_AIR (drowning) was already present in Indev: \"Indev 0.31 20100125 Drowning damage has been reduced to 1 per second\"."
+    },
+    {
+      "feature": "minecart boosting (adjacent carts accelerate each other)",
+      "nostalgicTweakNames": [
+        "CART_BOOSTING"
+      ],
+      "introducedIn": "Infdev 20100618 (minecarts added)",
+      "removedIn": "Beta 1.6 (Test Build 3)",
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Tutorial:Minecart_booster",
+      "quote": "Minecart boosters no longer work as of [[Beta 1.6]]. [[Powered Rail]]s should be used instead.",
+      "notes": "Two sources agree: the Minecart page's Infdev 20100618 row records \"A glitch creates a new method of speeding up minecarts, known as Boosting\", and the tutorial page states \"Minecart boosters no longer work as of Beta 1.6\". The Minecart page adds the exact build: \"1.6 dev=Test Build 3 [Boosters] no longer work.\" So CART_BOOSTING is correct for Infdev 20100618 through Beta 1.5_01."
+    },
+    {
+      "feature": "minecart rider turning with the cart",
+      "nostalgicTweakNames": [
+        "CART_RIDER_TURNING",
+        "CART_SAFE_RIDER_TURNING"
+      ],
+      "introducedIn": "Infdev 20100618 (minecarts added)",
+      "removedIn": "Release 1.6.2",
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Minecart",
+      "quote": "|{{HistoryLine||1.6.2|dev=release|A [[player]] in a moving minecart no longer turns with the minecart.",
+      "notes": "\"1.6.2 dev=release A player in a moving minecart no longer turns with the minecart.\" So the rider turned with the cart from Infdev through Release 1.6.1 and did not from 1.6.2 on. In 1.21.2 (24w37a) it became an accessibility setting again."
+    },
+    {
+      "feature": "boat destruction drops (planks and sticks instead of the boat item)",
+      "nostalgicTweakNames": [
+        "OLD_BOAT_DROPS"
+      ],
+      "introducedIn": "Indev/Infdev (boats added)",
+      "removedIn": "Release 1.2.1 (12w27a)",
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Boat",
+      "quote": "|{{HistoryLine|||dev=12w27a|Boats now drop their [[item]] instead of 3 [[oak planks]] and 2 [[stick]]s if broken by a [[player]].",
+      "notes": "\"12w27a Boats now drop their item instead of 3 oak planks and 2 sticks if broken by a player. Instead, it needs to fall certain heights to drop 3 oak wood planks and 2 sticks.\" The old drop is therefore correct up to and including Release 1.2 (12w27a is inside 1.2.1)."
+    },
+    {
+      "feature": "boats rising quickly when submerged (the old water lift)",
+      "nostalgicTweakNames": [
+        "OLD_BOAT_WATER_LIFT"
+      ],
+      "introducedIn": "Alpha v1.0.6 (boats added)",
+      "removedIn": "Beta 1.6",
+      "status": "VERIFIED",
+      "confidence": "medium",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Boat",
+      "quote": "|{{HistoryLine||1.6|Submerged boats no longer rise quickly.",
+      "notes": "The Boat page has a Beta section row with no development suffix: \"1.6 Submerged boats no longer rise quickly.\" That is the removal boundary for the old lift behaviour."
+    },
+    {
+      "feature": "right-clicking a boat is blocked when the hands are busy (boat busy hands)",
+      "nostalgicTweakNames": [
+        "DISABLE_BOAT_BUSY_HANDS"
+      ],
+      "introducedIn": null,
+      "removedIn": null,
+      "status": "UNVERIFIED",
+      "confidence": "low",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Boat",
+      "quote": "",
+      "notes": "No source found dating this interaction restriction. Recorded as a gap."
+    },
+    {
+      "feature": "block breaking drops the block itself (self block drops)",
+      "nostalgicTweakNames": [
+        "SELF_BLOCK_DROPS"
+      ],
+      "introducedIn": null,
+      "removedIn": null,
+      "status": "UNVERIFIED",
+      "confidence": "low",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Breaking",
+      "quote": "",
+      "notes": "The rule \"a block always drops itself\" is not version-uniform (gravel drops flint, ores drop items, and in Indev/Survival Test many blocks dropped nothing or dropped the wrong thing), but no source found states a single introduction boundary for it. Recorded as a gap rather than guessed."
+    },
+    {
+      "feature": "custom item stacking / stack limits",
+      "nostalgicTweakNames": [
+        "CUSTOM_ITEM_STACKING"
+      ],
+      "introducedIn": null,
+      "removedIn": null,
+      "status": "UNVERIFIED",
+      "confidence": "low",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Inventory",
+      "quote": "",
+      "notes": "No source found giving a per-version stack-size table. Release 1.8 (14w02a) made doors stack to 64, and 1.4.2/1.8 changed several food stack sizes, but the general table is a gap."
+    },
+    {
+      "feature": "axe stripping (right-click a log with an axe)",
+      "nostalgicTweakNames": [
+        "DISABLE_AXE_STRIPPING"
+      ],
+      "introducedIn": "1.13 (17w47a)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Axe",
+      "quote": "|{{HistoryLine||1.13|dev=17w47a|Axes can now be used to strip [[log]]s into stripped logs.",
+      "notes": "Stripped logs are 1.13 content, after the emulation range. No version from Infdev through Release 1.8.9 can strip a log, so DISABLE_AXE_STRIPPING is on for every in-range version."
+    },
+    {
+      "feature": "shovel pathing (right-click grass to make a path)",
+      "nostalgicTweakNames": [
+        "DISABLE_SHOVEL_PATHING"
+      ],
+      "introducedIn": "1.9 (15w31a)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "medium",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Shovel",
+      "quote": "|{{HistoryLine||1.9|dev=15w31a|Shovels can now be used to create [[path]]s.",
+      "notes": "Grass paths are 1.9 content (15w31a added the grass path block). No in-range version can create one, so DISABLE_SHOVEL_PATHING is on for every version up to Release 1.8.9."
+    },
+    {
+      "feature": "old ladder gap (falling through the space next to a ladder)",
+      "nostalgicTweakNames": [
+        "OLD_LADDER_GAP"
+      ],
+      "introducedIn": "Infdev 20100607 (ladders added)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "low",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Ladder",
+      "quote": "|{{HistoryLine||1.1|dev=12w01a|The collision boxes for ladders have now been removed.",
+      "notes": "Ladder collision boxes were removed in Release 1.1 (12w01a) and re-added in 1.2.1 (12w03a), which is a real, sourced window in which ladders had no collision at all. Whether that is the \"old ladder gap\" the tweak models is not established; the ladder ADDITION date is."
+    },
+    {
+      "feature": "milking a squid (old squid milking)",
+      "nostalgicTweakNames": [
+        "OLD_SQUID_MILKING"
+      ],
+      "introducedIn": null,
+      "removedIn": null,
+      "status": "UNVERIFIED",
+      "confidence": "low",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Squid",
+      "quote": "",
+      "notes": "Squid were added in Beta 1.2 and the Squid page's Java history has no milking row. This is most likely a Nostalgic Tweaks joke/absent-feature tweak; no historical boundary was found."
+    }
+  ],
+  "blocks": [
+    {
+      "feature": "grass block (the dirt-with-grass top block)",
+      "introducedIn": "Pre-Classic \"Cave game tech test\" (the game's first build)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Grass_Block",
+      "quote": "|{{HistoryLine||Cave game tech test|link=Cave game tech test|[[File:Grass Block JE1.png|32px]] Added grass blocks, internally called just \"grass\".",
+      "notes": "Present in every version in the emulation range. Snowy grass blocks are the Alpha v1.0.4 addition."
+    },
+    {
+      "feature": "grass (the plant; modern minecraft:short_grass, pre-1.13 block 31 \"tallgrass\")",
+      "introducedIn": "Beta 1.6 (Test Build 3)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Short_Grass",
+      "quote": "|{{HistoryLine||1.6|dev=Test Build 3| Added grass.",
+      "notes": "This CONFIRMS the mod's current assumption \"tall grass added in Beta 1.6\". Two follow-on rows matter: Beta 1.6.6 bone meal grows grass on a grass block, and Beta 1.8 Pre-release made grass harvestable with shears (before that the item was unobtainable)."
+    },
+    {
+      "feature": "vines",
+      "introducedIn": "Beta 1.8 (Pre-release)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Vines",
+      "quote": "|{{HistoryLine||1.8|dev=Pre-release| Added vines.",
+      "notes": "This corrects the project's earlier record, which had vines at \"Beta 1.8, medium confidence, reasoned from the b1.7.3 block list\". Vines are absent from b1.7.3 and present from the Beta 1.8 Pre-release."
+    },
+    {
+      "feature": "melon",
+      "introducedIn": "Beta 1.8 (Pre-release)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Melon",
+      "quote": "|{{HistoryLine||1.8|dev=Pre-release| Added melons.",
+      "notes": null
+    },
+    {
+      "feature": "clay block",
+      "introducedIn": "Alpha v1.0.11",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Clay",
+      "quote": "|{{HistoryLine||v1.0.11| Added clay blocks. |Clay generates naturally as clay blobs.",
+      "notes": "The Beta 1.8 Pre-release row changes WHERE clay generates (underwater disks in rivers, beaches, oceans, swamps), which is a separate generation boundary from the block's existence."
+    },
+    {
+      "feature": "cactus",
+      "introducedIn": "Alpha v1.0.6",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Cactus",
+      "quote": "|{{HistoryLine||v1.0.6| Added cacti. It currently renders as a full block.",
+      "notes": "Alpha v1.0.11 constrained placement to sand and required empty space; Alpha v1.0.14 allowed growth to three blocks."
+    },
+    {
+      "feature": "sugar cane (pre-1.13 \"reeds\")",
+      "introducedIn": "Alpha v1.0.11",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Sugar_Cane",
+      "quote": "|{{HistoryLine||v1.0.11| Added reeds. |Since no in-game name was indicated, they were referred to by names such as \"bamboo\" or \"papyrus\".",
+      "notes": "Renamed to \"Sugar Canes\" in Beta 1.2. Placement next to water on sand is the Beta 1.8 Pre-release row."
+    },
+    {
+      "feature": "sandstone",
+      "introducedIn": "Beta 1.2",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Sandstone",
+      "quote": "|{{HistoryLine||1.2| Added sandstone.",
+      "notes": "Beta 1.3 added natural generation below three blocks of sand."
+    },
+    {
+      "feature": "wool / cloth",
+      "introducedIn": "Classic (cloth is present by Classic 0.0.20a, which is the page's first versioned cloth row; sheep dropped cloth from Classic 0.28)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "medium",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Wool",
+      "quote": "|{{HistoryLine||0.0.20a|[[File:White Cloth.png|32px]] [[File:Light Gray Cloth JE1.png|32px]] (the row enumerates every cloth colour sprite; sounds were added in 0.0.22a)",
+      "notes": "The 0.0.20a row on the Wool page is a colour-set row rather than an explicit \"Added\" row, so the exact first Classic build is medium confidence; cloth is confirmed present in a1.1.2_01 by primary evidence (sheep drop \"cloth\")."
+    },
+    {
+      "feature": "coal ore",
+      "introducedIn": "Classic 0.0.14a",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Coal_Ore",
+      "quote": "|{{HistoryLine||0.0.14a|[[File:Coal Ore JE1 BE1.png|32px]] Added coal ore.",
+      "notes": null
+    },
+    {
+      "feature": "iron ore",
+      "introducedIn": "Classic 0.0.14a",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Iron_Ore",
+      "quote": "|{{HistoryLine||0.0.14a|[[File:Iron Ore JE1.png|32px]] Added iron ore.",
+      "notes": null
+    },
+    {
+      "feature": "gold ore",
+      "introducedIn": "Classic 0.0.14a",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Gold_Ore",
+      "quote": "|{{HistoryLine||0.0.14a|[[File:Gold Ore JE1.png|32px]] Added gold ore.",
+      "notes": null
+    },
+    {
+      "feature": "diamond ore",
+      "introducedIn": "Indev 0.31 (20100128-2200); initial generation withdrawn in Infdev 20100227-1414 and restored 20100320",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Diamond_Ore",
+      "quote": "|{{HistoryLine||0.31|dev=20100128-2200|[[File:Diamond Ore JE1 BE1.png|32px]] Added diamond ore. Initially, it was referred to as \"emerald ore\".",
+      "notes": "IMPORTANT for per-version gating: diamond ore did NOT generate at all in Infdev 20100227-1414, came back as single scattered blocks in 20100320, and became blobs in 20100325-1545. \"Diamond ore exists\" and \"diamond ore generates\" are different questions."
+    },
+    {
+      "feature": "redstone ore",
+      "introducedIn": "Alpha v1.0.1 (Seecret Friday Update 3)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Redstone_Ore",
+      "quote": "|{{HistoryLine||v1.0.1|[[File:Redstone Ore JE1 BE1.png|32px]] Added redstone ore in [[Seecret Updates|Seecret Friday Update 3]]",
+      "notes": null
+    },
+    {
+      "feature": "lapis lazuli ore",
+      "introducedIn": "Beta 1.2",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Lapis_Lazuli_Ore",
+      "quote": "|{{HistoryLine||1.2|[[File:Lapis Lazuli Ore JE1 BE1.png|32px]] Added lapis lazuli ore.",
+      "notes": null
+    },
+    {
+      "feature": "emerald ore",
+      "introducedIn": "Release 1.3.1 (12w21a)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Emerald_Ore",
+      "quote": "|{{HistoryLine||1.3.1|dev=12w21a|[[File:Emerald Ore JE1.png|30px]] Added emerald ore.",
+      "notes": "Out of range for every version up to Release 1.2.5 and in range for 1.6.4 and 1.8.9. The project already records that no \"oreEmerald\" string exists in the b1.7.3 client, which agrees."
+    },
+    {
+      "feature": "gravel",
+      "introducedIn": "Classic 0.0.14a",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "medium",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Gravel",
+      "quote": "|{{HistoryLine||0.0.14a|[[File:Gravel JE1.png|32px]] Added gravel.",
+      "notes": "The Gravel page history is grouped, so the exact Classic build is medium confidence; gravel is present in every emulated version."
+    },
+    {
+      "feature": "snow (snow layer/cover)",
+      "introducedIn": "Alpha v1.0.4",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "medium",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Snow",
+      "quote": "|{{HistoryLine||v1.0.4|[[File:Snow (layers 1) JE1 BE1.png|32px]] Snowfall has been added to maps only in winter mode.",
+      "notes": "Grouped history rows; snow is a Winter Update (Alpha v1.0.4) block and present in every later emulated version."
+    },
+    {
+      "feature": "ice",
+      "introducedIn": "Alpha v1.0.4 (with snow, Winter Update)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "medium",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Ice",
+      "quote": "|{{HistoryLine||v1.0.4|[[File:Ice JE1.png|32px]] Added ice.",
+      "notes": "Grouped history rows."
+    },
+    {
+      "feature": "obsidian",
+      "introducedIn": "Classic 0.28 (as a map-editor/creative block); natural formation from water on lava in Indev",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "medium",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Obsidian",
+      "quote": "|{{HistoryLine||0.28|[[File:Obsidian JE1 BE1.png|32px]] Added obsidian.",
+      "notes": "The 20100227-1414 and 20100313 Infdev rows cover natural obsidian generation."
+    },
+    {
+      "feature": "bedrock",
+      "introducedIn": "Classic 0.0.12a",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "medium",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Bedrock",
+      "quote": "|{{HistoryLine|||dev=release|slink=Java Edition Classic 0.0.12a|[[File:Bedrock JE1 BE1.png|32px]] Added bedrock.",
+      "notes": "Grouped history rows."
+    },
+    {
+      "feature": "netherrack",
+      "introducedIn": "Alpha v1.2.0 (preview, with the Nether)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Netherrack",
+      "quote": "|{{HistoryLine||v1.2.0|dev=preview| Added netherrack, along with the Nether.",
+      "notes": "The Alpha v1.2.0 preview added the Nether and its blocks together."
+    },
+    {
+      "feature": "glowstone",
+      "introducedIn": "Alpha v1.2.0 (with the Nether)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Glowstone",
+      "quote": "|{{HistoryLine||v1.2.0|dev=preview| Added glowstone, along with the Nether.",
+      "notes": "Beta 1.6.6 changed glowstone dust dropping; that is not the block boundary."
+    },
+    {
+      "feature": "cobweb",
+      "introducedIn": "Beta 1.5",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Cobweb",
+      "quote": "|{{HistoryLine||1.5|[[File:Cobweb JE1 BE1.png|32px]] Added cobwebs.",
+      "notes": "Correction against an earlier reading: the Classic 0.26 SURVIVAL TEST row only added a cobweb TEXTURE to terrain.png that was not associated with a block. The block itself is Beta 1.5."
+    },
+    {
+      "feature": "mossy cobblestone",
+      "introducedIn": "Classic 0.26 SURVIVAL TEST",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Mossy_Cobblestone",
+      "quote": "|{{HistoryLine||0.26 SURVIVAL TEST|[[File:Mossy Cobblestone JE1.png|32px]] Added moss stone.",
+      "notes": "Infdev 20100625-1917 added it to monster rooms, which is the generation boundary. The mod's own Alpha/b1.7.3 evidence already has moss stone present."
+    },
+    {
+      "feature": "bookshelf",
+      "introducedIn": "Classic 0.26 SURVIVAL TEST",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "medium",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Bookshelf",
+      "quote": "|{{HistoryLine||0.26 SURVIVAL TEST|[[File:Bookshelf JE1.png|32px]] Added bookshelves.",
+      "notes": null
+    },
+    {
+      "feature": "sponge",
+      "introducedIn": "Classic 0.0.19a",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "medium",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Sponge",
+      "quote": "|{{HistoryLine||0.0.19a|[[File:Sponge JE1 BE1.png|32px]] Added sponges.",
+      "notes": null
+    },
+    {
+      "feature": "glass",
+      "introducedIn": "Classic 0.0.19a",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "medium",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Glass",
+      "quote": "|{{HistoryLine||0.0.19a|[[File:Glass JE1.png|32px]] Added glass.",
+      "notes": null
+    },
+    {
+      "feature": "stone bricks",
+      "introducedIn": "Beta 1.8 (Pre-release)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Stone_Bricks",
+      "quote": "|{{HistoryLine||1.8|dev=Pre-release|[[File:Stone Bricks JE1 BE1.png|32px]] Added stone bricks.",
+      "notes": "The Beta 1.7 row on that page is about the texture of the EXISTING smooth-stone block, not about adding stone bricks; Beta 1.7 added smooth stone (the double-slab block). Chiselled stone bricks were unobtainable by crafting until Release 1.8 (14w02a)."
+    },
+    {
+      "feature": "nether wart (the crop)",
+      "introducedIn": "Beta 1.9 Prerelease (Release 1.0.0)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Nether_Wart",
+      "quote": "|{{HistoryLine||1.0.0|dev=Beta 1.9 Prerelease|[[File:Nether Wart Age 0 JE1.png|32px]] Added Nether wart.",
+      "notes": "Cross-checked against the mod's own version-boundaries.json: the b1.7.3 and b1.8.1 block registries contain neither \"netherStalk\" nor \"nether_wart\", and the 1.0 registry does contain \"netherStalk\". Nether wart is therefore NOT in Beta 1.8.1."
+    },
+    {
+      "feature": "end stone",
+      "introducedIn": "Beta 1.9 Prerelease (Release 1.0.0, with the End)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "medium",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/End_Stone",
+      "quote": "... Added End stone. (the Java Edition History places end stone in the Beta 1.9 Prerelease / Release 1.0.0 batch that added the End dimension; the page's explicit \"Added\" rows are the Bedrock, Legacy Console and New 3DS ones, so this boundary is corroborated rather than quoted.)",
+      "notes": "Medium confidence because the exact Java row is inside a development batch, but unambiguous at the version level: end stone cannot exist before the End, which is Beta 1.9 Prerelease 4 at the earliest (endermen \"now spawn frequently in the End\")."
+    },
+    {
+      "feature": "monster spawner block",
+      "introducedIn": "Infdev 20100625-1917 (with monster rooms)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Monster_Spawner",
+      "quote": "|{{HistoryLine||20100625-1917|[[File:Monster Spawner JE1.png|32px]] Added monster spawners.",
+      "notes": "Independently confirmed by primary evidence: the a1.1.2_01 client constant pool contains the string \"MobSpawner\"."
+    },
+    {
+      "feature": "pumpkin",
+      "introducedIn": "Alpha v1.2.0 (with the Nether)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Pumpkin",
+      "quote": "|{{HistoryLine||v1.2.0|dev=preview|Added pumpkins, which are always [[Carved Pumpkin#History|carved]].",
+      "notes": "Always carved until a later version; jack o'lanterns are a separate block."
+    },
+    {
+      "feature": "wheat crop / farmland",
+      "introducedIn": "Indev 20100206-2034",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Farmland",
+      "quote": "|{{HistoryLine||20100206-2034| Added farmland.",
+      "notes": "Seeds were added in the same Indev build per the Wheat Seeds page."
+    },
+    {
+      "feature": "leaves",
+      "introducedIn": "Classic 0.0.14a",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "medium",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Leaves",
+      "quote": "|{{HistoryLine||0.0.14a|[[File:Oak Leaves JE1.png|32px]] Added leaves.",
+      "notes": "Grouped history rows."
+    },
+    {
+      "feature": "sapling",
+      "introducedIn": "Pre-Classic rd-161348 (tree leaves/saplings)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "medium",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Sapling",
+      "quote": "|{{HistoryLine||rd-161348|[[File:Oak Sapling JE1.png|32px]] Added saplings as the fifth placeable block in the game.",
+      "notes": null
+    },
+    {
+      "feature": "snow golem pumpkin head / pumpkin as a wearable head",
+      "introducedIn": "Release 1.4.2 (12w37a Halloween pumpkins on mobs)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "medium",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Zombie",
+      "quote": "|{{HistoryLine|||dev=12w37a| On [[wikipedia:Halloween|Halloween]], zombies and baby zombies can now spawn wearing [[pumpkin]]s or [[jack o'lantern]]s.",
+      "notes": "Recorded because \"monsters spawn wearing pumpkins\" is a spawn-equipment rule and a 1.4.2 addition, not a Beta one."
+    }
+  ],
+  "mobs": [
+    {
+      "feature": "mob: zombie",
+      "introducedIn": "Classic 0.24_SURVIVAL_TEST",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/zombie",
+      "quote": "|{{HistoryLine||0.24_SURVIVAL_TEST|[[File:Zombie JE1.png|40px]] Added zombies.",
+      "notes": null
+    },
+    {
+      "feature": "mob: skeleton",
+      "introducedIn": "Classic 0.24_SURVIVAL_TEST",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/skeleton",
+      "quote": "|{{HistoryLine||0.24_SURVIVAL_TEST|[[File:Skeleton JE1.png|32px]] Added skeletons.",
+      "notes": null
+    },
+    {
+      "feature": "mob: creeper",
+      "introducedIn": "Classic 0.24_SURVIVAL_TEST",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/creeper",
+      "quote": "|{{HistoryLine|java classic}} |{{HistoryLine||0.24_SURVIVAL_TEST|[[File:Creeper JE1.png|24px]] Added creepers.",
+      "notes": null
+    },
+    {
+      "feature": "mob: pig",
+      "introducedIn": "Classic 0.24_SURVIVAL_TEST",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/pig",
+      "quote": "|{{HistoryLine||0.24_SURVIVAL_TEST|[[File:Pig JE1.png|48px]] Added pigs.",
+      "notes": null
+    },
+    {
+      "feature": "mob: spider",
+      "introducedIn": "Classic 0.26 SURVIVAL TEST",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/spider",
+      "quote": "|{{HistoryLine||0.26 SURVIVAL TEST|[[File:Spider JE2 BE1.png|48px]] Added spiders.",
+      "notes": null
+    },
+    {
+      "feature": "mob: sheep",
+      "introducedIn": "Classic 0.28",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/sheep",
+      "quote": "|{{HistoryLine||0.28|[[File:White Sheep JE1.png|32px]] Added sheep.",
+      "notes": null
+    },
+    {
+      "feature": "mob: cow",
+      "introducedIn": "Alpha v1.0.8",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/cow",
+      "quote": "|{{HistoryLine||v1.0.8|[[File:Cow JE1.png|48px]] Added cows.",
+      "notes": null
+    },
+    {
+      "feature": "mob: slime",
+      "introducedIn": "Alpha v1.0.11",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/slime",
+      "quote": "|{{HistoryLine||v1.0.11|[[File:Slime JE1.png|52px]] Added slimes.",
+      "notes": null
+    },
+    {
+      "feature": "mob: chicken",
+      "introducedIn": "Alpha v1.0.14",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/chicken",
+      "quote": "|{{HistoryLine||v1.0.14|[[File:Chicken JE1 BE1.png|32px]] Added chickens.",
+      "notes": null
+    },
+    {
+      "feature": "mob: ghast",
+      "introducedIn": "Alpha v1.2.0 (with the Nether)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/ghast",
+      "quote": "|{{HistoryLine||v1.2.0|dev=preview|[[File:Ghast JE1 BE1.gif|32px]][[File:Ghast shooting JE1 BE1.png|32px]] Added ghasts, along with [[the Nether]].",
+      "notes": null
+    },
+    {
+      "feature": "mob: zombie pigman (modern zombified piglin)",
+      "introducedIn": "Alpha v1.2.0 (with the Nether)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/zombie_pigman",
+      "quote": "The b1.7.3 client entity registry constant pool contains \"PigZombie\", so pigmen exist by Beta 1.7.3; the wiki's Zombified Piglin page renders its first Java history row in a batch whose version label is \"release\" rather than a version number, so the exact Alpha build is taken from the Nether's own addition (the mob arrived with the Nether in Alpha v1.2.0).",
+      "notes": null
+    },
+    {
+      "feature": "mob: squid",
+      "introducedIn": "Beta 1.2",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/squid",
+      "quote": "|{{HistoryLine||1.2|[[File:Squid JE1 BE1.png|32px]] Added squid.",
+      "notes": null
+    },
+    {
+      "feature": "mob: wolf (tameable)",
+      "introducedIn": "Beta 1.4",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/wolf",
+      "quote": "|{{HistoryLine||1.4|[[File:Wolf JE1 BE1.png|42px]] [[File:Tamed Wolf with Red Collar JE1 BE1.png|42px]] [[File:Angry Wolf JE1 BE1.png|42px]] Added wolves.",
+      "notes": null
+    },
+    {
+      "feature": "mob: enderman",
+      "introducedIn": "Beta 1.8 (Pre-release)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/enderman",
+      "quote": "|{{HistoryLine||1.8|dev=Pre-release|[[File:Enderman JE1.png|22px]] Added endermen.",
+      "notes": null
+    },
+    {
+      "feature": "mob: cave spider",
+      "introducedIn": "Beta 1.8 (Pre-release)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/cave_spider",
+      "quote": "|{{HistoryLine||1.8|dev=Pre-release|[[File:Cave Spider JE1 BE1.png|48px]] Added cave spiders.",
+      "notes": null
+    },
+    {
+      "feature": "mob: silverfish",
+      "introducedIn": "Beta 1.8 (Pre-release)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/silverfish",
+      "quote": "|{{HistoryLine||1.8|dev=Pre-release|[[File:Silverfish JE1 BE1.gif|32px]] Added silverfish.",
+      "notes": null
+    },
+    {
+      "feature": "mob: blaze",
+      "introducedIn": "Beta 1.9 Prerelease (Release 1.0.0)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/blaze",
+      "quote": "|{{HistoryLine||1.0.0|dev=Beta 1.9 Prerelease|[[File:Blaze JE1 BE1.gif|32px]] Added blazes.",
+      "notes": null
+    },
+    {
+      "feature": "mob: magma cube",
+      "introducedIn": "Beta 1.9 Prerelease (Release 1.0.0)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/magma_cube",
+      "quote": "|{{HistoryLine||1.0.0|dev=Beta 1.9 Prerelease|[[File:Magma Cube JE1 BE1.png|52px]] Added magma cubes.",
+      "notes": null
+    },
+    {
+      "feature": "mob: villager",
+      "introducedIn": "Beta 1.9 Prerelease (Release 1.0.0)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/villager",
+      "quote": "|{{HistoryLine||1.0.0|dev=Beta 1.9 Prerelease|[[File:Farmer.png|x48px]] Added villagers.",
+      "notes": null
+    },
+    {
+      "feature": "mob: snow golem",
+      "introducedIn": "Beta 1.9 Prerelease (Release 1.0.0)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/snow_golem",
+      "quote": "|{{HistoryLine||1.0.0|dev=Beta 1.9 Prerelease|[[File:Snow Golem JE1 BE1.png|32px]] Added snow golems.",
+      "notes": null
+    },
+    {
+      "feature": "mob: ender dragon",
+      "introducedIn": "Beta 1.9 Prerelease 5 (can be damaged and killed); the End and the dragon exist from Beta 1.9 Prerelease (Release 1.0.0)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/ender_dragon",
+      "quote": "|{{HistoryLine|||dev=Beta 1.9 Prerelease 5|Added the ability for the ender dragon to take damage and die, which now has a unique animation. It still does not spawn naturally however.",
+      "notes": null
+    },
+    {
+      "feature": "mob: ocelot / cat",
+      "introducedIn": "Release 1.2.1 (12w04a)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/ocelot_/_cat",
+      "quote": "|{{HistoryLine||1.2.1|dev=12w04a|[[File:Ocelot JE1 BE1.png|60px]] Added ocelots. |Cats were also added but not as an individual mob.",
+      "notes": null
+    },
+    {
+      "feature": "mob: iron golem",
+      "introducedIn": "Release 1.2.1 (12w08a)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/iron_golem",
+      "quote": "|{{HistoryLine||1.2.1|dev=12w08a|[[File:Iron Golem JE1 BE1.png|32px]] Added iron golems.",
+      "notes": null
+    },
+    {
+      "feature": "mob: bat",
+      "introducedIn": "Release 1.4.2 (12w38a)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/bat",
+      "quote": "|{{HistoryLine||1.4.2|dev=12w38a|[[File:Bat JE1 BE1.png|32px]] Added bats.",
+      "notes": null
+    },
+    {
+      "feature": "mob: witch",
+      "introducedIn": "Release 1.4.2 (12w38a)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/witch",
+      "quote": "|{{HistoryLine||1.4.2|dev=12w38a|[[File:Witch Revision 1.png|32px]] Added witches, hostile monster mobs based on the witch found in the [[wikipedia:Baba Yaga|Baba Yaga]] folk tale from Eastern Europe.",
+      "notes": null
+    },
+    {
+      "feature": "mob: wither skeleton",
+      "introducedIn": "Release 1.4.2 (12w36a)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/wither_skeleton",
+      "quote": "|{{HistoryLine||1.4.2|dev=12w36a|[[File:Wither Skeleton JE1 BE1.png|32px]] Added wither skeletons.",
+      "notes": null
+    },
+    {
+      "feature": "mob: wither (boss)",
+      "introducedIn": "Release 1.4.2 (12w34a)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/wither",
+      "quote": "|{{HistoryLine||1.4.2|dev=12w34a|[[File:Wither JE1 BE1.png|50px]] Added withers.",
+      "notes": null
+    },
+    {
+      "feature": "mob: horse / donkey / mule",
+      "introducedIn": "Release 1.6.1 (13w16a)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/horse_/_donkey_/_mule",
+      "quote": "The Horse page's Java History groups its earliest rows in \"java\" development batches; 1.6.1 (13w16a) is the snapshot named by the Breeding and Taming pages for \"Added horses, donkeys and mules\".",
+      "notes": null
+    },
+    {
+      "feature": "mob: guardian",
+      "introducedIn": "Release 1.8 (14w25a)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/guardian",
+      "quote": "|{{HistoryLine||1.8|dev=14w25a|[[File:Guardian Revision 1.png|42px]] Added guardians.",
+      "notes": null
+    },
+    {
+      "feature": "mob: rabbit",
+      "introducedIn": "Release 1.8 (14w27a)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/rabbit",
+      "quote": "|{{HistoryLine||1.8|dev=14w27a| Added rabbits (the row lists every rabbit variant sprite, including the killer bunny, immediately before the words \"Added rabbits\").",
+      "notes": null
+    },
+    {
+      "feature": "mob: giant (unused)",
+      "introducedIn": "Classic 0.24_SURVIVAL_TEST (Survival Test; never spawns naturally)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "medium",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Giant",
+      "quote": "The Giant page records the mob being added in Survival Test and being unobtainable/unused since.",
+      "notes": "Included because the project's Infdev and Alpha spawn sets list giant. It is confirmed present in the Alpha client entity registry as \"Giant\" by primary evidence."
+    },
+    {
+      "feature": "mob: zombie pigman presence in b1.7.3 and earlier",
+      "introducedIn": "Alpha v1.2.0",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "primary_jar",
+      "url": "https://launcher.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar",
+      "quote": "The b1.7.3 client entity registry constant pool contains the name \"PigZombie\" (also present in b1.8.1).",
+      "notes": "Primary cross-check for the Zombified Piglin page, whose first Java history row omits a version."
+    }
+  ],
+  "structures": [
+    {
+      "feature": "structures in general (any structure placement at all)",
+      "introducedIn": "Infdev 20100625-1917 (monster rooms/dungeons)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Structure",
+      "quote": "|{{HistoryLine|java infdev}} |{{HistoryLine||20100625-1917|Added [[Monster Room|dungeon]]s.",
+      "notes": "CONTRADICTS the mod's current assumption \"no structures before Beta 1.8.1\". Dungeons (monster rooms) generate from Infdev 20100625-1917 onward, so Infdev 20100611 has no structures but Infdev 20100618 does, and Alpha and Beta 1.7.3 DO have dungeons. HistoricalStructureRules currently declares an empty allowed set for Alpha and Beta 1.7.3, which is wrong for dungeons."
+    },
+    {
+      "feature": "monster room (dungeon)",
+      "introducedIn": "Infdev 20100625-1917",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Monster_Room",
+      "quote": "|{{HistoryLine||20100625-1917|[[File:Monster Room JE1.png|50px]] Added monster rooms. The chests may contain [[Gunpowder|sulphur]], [[string]], [[wheat]], [[bread]], [[iron ingot]]s, [[bucket]]s, [[saddle]]s and rarely [[golden apple]]s.",
+      "notes": "Also confirmed by the Chest page (\"20100625-1917 Chests now generate in the newly added monster rooms\") and by the Spawner page. Primary cross-check: the a1.1.2_01 client contains the \"MobSpawner\" string."
+    },
+    {
+      "feature": "mineshaft",
+      "introducedIn": "Beta 1.8 (Pre-release)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Mineshaft",
+      "quote": "|{{HistoryLine||1.8|dev=Pre-release|Added mineshafts.",
+      "notes": "Beta 1.8 Pre-release 2 reduced density and made them 2.5x as common; Beta 1.8.1 changed the support beams from planks to fences."
+    },
+    {
+      "feature": "village",
+      "introducedIn": "Beta 1.8 (Pre-release)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Village",
+      "quote": "|{{HistoryLine||1.8|dev=Pre-release|Added villages, which only generated in plains and desert biomes.",
+      "notes": "The Beta 1.8 Pre-release villages were broken (only wells, paths and lampposts generated) and were fixed in a Pre-release reupload. Villagers themselves arrive in Beta 1.9 Prerelease, so a Beta 1.8.1 village is EMPTY of villagers. Desert villages were re-built from sandstone in Release 1.3.1 (12w21a)."
+    },
+    {
+      "feature": "stronghold",
+      "introducedIn": "Beta 1.8 (Pre-release)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Stronghold",
+      "quote": "|{{HistoryLine||1.8|dev=Pre-release|Added strongholds as part of the [[Adventure Update]]. A single one generates per world. They are vacant except for regular mobs that spawn under normal conditions.",
+      "notes": "Also broken at first (only the central staircase generated) and fixed in a Pre-release reupload; two more were added in Pre-release 2, for three per world. The End portal room is Beta 1.9 Prerelease 3. Strongholds are therefore three per world for Release 1.0.0-1.8.9."
+    },
+    {
+      "feature": "nether fortress",
+      "introducedIn": "Beta 1.9 Prerelease (Release 1.0.0)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Nether_Fortress",
+      "quote": "|{{HistoryLine||1.0.0|dev=Beta 1.9 Prerelease|Added Nether fortresses.",
+      "notes": "No chests generated in fortresses until Release 1.6.1 (13w18a); wither skeletons and skeletons began spawning in them in Release 1.4.2 (12w36a)."
+    },
+    {
+      "feature": "desert well",
+      "introducedIn": "Release 1.2.1 (12w04a)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Desert_Well",
+      "quote": "|{{HistoryLine||1.2.1|dev=12w04a|[[File:Desert Well JE1 BE1.png|50px]] Added desert wells.",
+      "notes": null
+    },
+    {
+      "feature": "desert pyramid (desert temple)",
+      "introducedIn": "Release 1.3.1 (12w21a)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Desert_Pyramid",
+      "quote": "|{{HistoryLine||1.3.1|dev=12w21a|[[File:Desert Pyramid JE1 BE1.png|50px]] Added desert pyramids.",
+      "notes": "Built from wool until Release 1.8 (14w03a), when stained clay replaced it."
+    },
+    {
+      "feature": "jungle pyramid (jungle temple)",
+      "introducedIn": "Release 1.3.1 (12w22a)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Jungle_Pyramid",
+      "quote": "|{{HistoryLine||1.3.1|dev=12w22a|Added jungle temples.",
+      "notes": null
+    },
+    {
+      "feature": "witch hut (modern swamp hut)",
+      "introducedIn": "Release 1.4.2 (12w40a)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Swamp_Hut",
+      "quote": "|{{HistoryLine||1.4.2|dev=12w40a|[[File:Swamp hut JE1 BE1.png|40px]] Added witch huts.",
+      "notes": "Witch spawning at the hut is version-sensitive: 1.8 (14w34d) changed the spawning zone and 1.8.1 (pre1) introduced the Y 64-71 range."
+    },
+    {
+      "feature": "ocean monument",
+      "introducedIn": "Release 1.8 (14w25a)",
+      "removedIn": null,
+      "status": "VERIFIED",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Ocean_Monument",
+      "quote": "|{{HistoryLine||1.8|dev=14w25a|Added ocean monuments.",
+      "notes": "Release 1.8.9 therefore has ocean monuments; anything before Release 1.8 does not."
+    },
+    {
+      "feature": "abandoned mineshaft in a modern sense, and every other post-1.8.9 structure (end city, igloo, fossil, woodland mansion, ocean ruins, shipwreck, pillager outpost, bastion, ancient city, trial chamber)",
+      "introducedIn": null,
+      "removedIn": null,
+      "status": "NOT_APPLICABLE",
+      "confidence": "high",
+      "sourceType": "secondary_wiki",
+      "url": "https://minecraft.wiki/w/Structure",
+      "quote": "|{{HistoryLine||1.9|dev=15w31a|Added [[End cities]]. |{{HistoryLine|||dev=15w43a|Added [[igloo]]s. |{{HistoryLine||1.11|dev=16w39a|Added [[Woodland Mansion|woodland mansion]]s.",
+      "notes": "Every one of these is later than Release 1.8.9 (2015-12-03) and therefore has no in-range version. Recorded so it is explicit that they cannot be enabled anywhere in the range."
+    }
+  ],
+  "gaps": [
+    "Attack cooldown and sweep attack are 1.9 snapshots (15w34b, 15w34c). I verified the wiki Melee attack History, but I did NOT open a 1.9 jar to confirm their absence from 1.8.9 by primary evidence; the wiki boundary plus the release dates are what this entry rests on.",
+    "Critical-hit damage FORMULA change (random +0..100%+2hp in Beta 1.8, flat +50% before enchantments later) is not dated: the wiki itself carries a {{check version|Was this a 1.6 or 1.7 change?}} on that row. Only the Beta 1.8 introduction is recorded.",
+    "Creeper movement while swelling (OLD_CREEPER_STRAFE_ON_SWELL): no source found for when a swelling creeper gained or lost sideways movement.",
+    "Mob caps (ANIMAL_SPAWN_CAP, MONSTER_SPAWN_CAP) and OLD_ANIMAL_SPAWNING: no per-version cap numbers found. The modern MobCategory caps and the Beta-era per-chunk counters are different mechanisms and neither's numbers are recorded here.",
+    "Food stacking (OLD_FOOD_STACKING, CUSTOM_FOOD_STACKING) and general item stacking (CUSTOM_ITEM_STACKING): no per-version stack-size table found.",
+    "Eating delay / when eating stopped being instant (INSTANT_EAT): the wiki records that Classic 0.24 food was eaten instantly with no animation, but not the version that introduced an eating delay.",
+    "Bed bouncing (DISABLE_BED_BOUNCE): the Java Edition Bed history has no \"bouncing added\" row at all. Therefore the version that introduced bed bouncing is unknown from this source.",
+    "Chest blockage (ALWAYS_OPEN_CHEST): the only sourced row is Beta 1.9 Prerelease 6 (\"Chests do not prevent other chests underneath from opening\"), which is about chest-on-chest, not about a solid block above a chest. The general rule and its removal are undated here.",
+    "Old ladder gap (OLD_LADDER_GAP): ladder collision boxes were removed in Release 1.1 (12w01a) and re-added in 1.2.1 (12w03a), but whether that window is what the tweak models is not established.",
+    "Boat busy hands (DISABLE_BOAT_BUSY_HANDS), self block drops (SELF_BLOCK_DROPS), XP from mining/smelting, orbs dropping from blocks, squid milking (OLD_SQUID_MILKING), and the pigman drop table: no usable source found for the underlying behaviour boundary.",
+    "\"Old style\" drop tables for the modern mobs (zombie villager, cave spider, mooshroom, drowned, rabbit, stray, husk): the mob ADDITION dates are recorded, the drop tables are not. Drowned, stray and husk are outside the emulation range entirely (1.10 and 1.13), so those three tweaks have no in-range version.",
+    "Left-click activation of doors, levers and buttons: the blocks' existence is sourced (doors Infdev 20100607, iron doors Alpha v1.0.1, levers and stone buttons Alpha v1.0.1) but the wiki does not record when the activation input changed, so the removal boundary for \"left click\" is unknown.",
+    "Structure boundaries for Release 1.0.0, 1.1, 1.2.5, 1.6.4 and 1.8.9 are recorded only as \"which structure first appeared\", not as a complete per-version allowed set. In particular I did not check whether Moderner Beta places any structure Moderner Beta adds for the modern era (for example trial chambers or ancient cities) inside a historical preset, which is an integration question, not a wiki question.",
+    "I did not extract the block or entity registries of 1.0, 1.2.5, 1.6.4 or 1.8.9 myself. The project already holds those extractions in research/version-boundaries.json and research/historical-features.json; this file deliberately cites the wiki for the boundaries and leaves registry cross-checks to those files.",
+    "Grass Block, Wool, Gravel, Snow, Ice, Obsidian, Bedrock, Cobweb, Mossy Cobblestone, Bookshelf, Sponge, Glass, Leaves and Sapling pages render their early history inside collapsed \"java classic\"/\"java indev\" groups, so for those the exact first build is medium confidence even though the era is certain."
+  ]
+}

@@ -1,0 +1,290 @@
+{
+  "schemaVersion": 1,
+  "kind": "a1_1_2_01-block-name-set",
+  "reviewStatus": "BLOCKED_NAME_CONVENTION_NOT_PRESENT_IN_JAR",
+  "generatedAt": "2026-10-12T17:54:59.981272+00:00",
+  "source": {
+    "jar": "C:\\Users\\jwalr\\AppData\\Local\\Temp\\mce-palette\\jars\\alpha-1.1.2_01-client.jar",
+    "bytes": 897164,
+    "sha1": "daa4b9f192d2c260837d3b98c39432324da28e86",
+    "sha1MatchesExpected": true,
+    "sizeMatchesExpected": true,
+    "provenance": "MOJANG",
+    "manifestId": "a1.1.2_01",
+    "hashPublishedWhere": "Mojang version_manifest_v2.json -> version JSON -> downloads.client.sha1"
+  },
+  "method": {
+    "tool": "scripts/extract-block-palette.py (standard library only)",
+    "scope": "block NAME SET only; numeric ids are deliberately not paired. Ids are what the previous rejected artifact got wrong, so they are not inferred here.",
+    "identifyRegistry": "STRUCTURAL, no name is used to find the class: the class whose static initialiser constructs the most distinct classes via the new/dup/invokespecial <init> pattern. Ranking by distinct constructed classes is what separates the block registry from the item registry, which constructs a few classes many times each.",
+    "nameConventionDetected": "none",
+    "nameConventionNote": "This client's registry initialiser loads no block-name strings at all: no plain lowerCamelCase names and no `tile.<name>` keys exist anywhere in the jar. The names were added to the jar only in Beta 1.8, so they cannot be recovered from this build. No palette is claimed.",
+    "classCount": 474,
+    "classesParsedToExactEnd": 474,
+    "classParseFailures": [],
+    "unsupportedConstantPoolTags": [],
+    "blockClass": "ly.class",
+    "blockClassSuper": "java/lang/Object",
+    "structuralBlockClass": "ly",
+    "structuralBlockClassSubclasses": 36,
+    "structuralBlockClassIdentityEvidence": "ly has 36 direct subclasses in this jar; a block class is the class block variants extend (Beta 1.7.3's equivalent is uu with 49).",
+    "blockClassInitCalls": 80,
+    "blockClassDistinctConstructedClasses": 52,
+    "blockClassPutstatic": 101,
+    "blockClassStringLoads": 9,
+    "blockClassStringDecodeComplete": true,
+    "blockClassMostConstructed": [
+      [
+        "bb",
+        7
+      ],
+      [
+        "ly",
+        6
+      ],
+      [
+        "gw",
+        4
+      ],
+      [
+        "c",
+        3
+      ]
+    ],
+    "blockClassCommonBlockType": "ly",
+    "blockClassStaticFieldsOfBlockType": 78,
+    "nameSetterCallCounts": {},
+    "topStructuralCandidates": [
+      {
+        "class": "ly.class",
+        "super": "java/lang/Object",
+        "initCalls": 80,
+        "distinctConstructedClasses": 52,
+        "putstatic": 101,
+        "topConstructedClass": "ly",
+        "staticFieldsOfBlockType": 78,
+        "stringLoads": 9,
+        "plainNameCandidates": 9,
+        "tileKeyCandidates": 0,
+        "nameSetterCalls": 0,
+        "nameSetterMethods": {},
+        "walkComplete": true,
+        "topConstructed": [
+          [
+            "bb",
+            7
+          ],
+          [
+            "ly",
+            6
+          ],
+          [
+            "gw",
+            4
+          ],
+          [
+            "c",
+            3
+          ]
+        ]
+      },
+      {
+        "class": "di.class",
+        "super": "java/lang/Object",
+        "initCalls": 94,
+        "distinctConstructedClasses": 24,
+        "putstatic": 95,
+        "topConstructedClass": "di",
+        "staticFieldsOfBlockType": 93,
+        "stringLoads": 2,
+        "plainNameCandidates": 1,
+        "tileKeyCandidates": 0,
+        "nameSetterCalls": 0,
+        "nameSetterMethods": {},
+        "walkComplete": true,
+        "topConstructed": [
+          [
+            "di",
+            21
+          ],
+          [
+            "mr",
+            20
+          ],
+          [
+            "ms",
+            5
+          ],
+          [
+            "y",
+            5
+          ]
+        ]
+      },
+      {
+        "class": "gb.class",
+        "super": "java/lang/Object",
+        "initCalls": 22,
+        "distinctConstructedClasses": 4,
+        "putstatic": 22,
+        "topConstructedClass": "gb",
+        "staticFieldsOfBlockType": 22,
+        "stringLoads": 0,
+        "plainNameCandidates": 0,
+        "tileKeyCandidates": 0,
+        "nameSetterCalls": 0,
+        "nameSetterMethods": {},
+        "walkComplete": true,
+        "topConstructed": [
+          [
+            "gb",
+            15
+          ],
+          [
+            "w",
+            3
+          ],
+          [
+            "gg",
+            2
+          ],
+          [
+            "kb",
+            2
+          ]
+        ]
+      },
+      {
+        "class": "com/jcraft/jorbis/FuncResidue.class",
+        "super": "java/lang/Object",
+        "initCalls": 3,
+        "distinctConstructedClasses": 3,
+        "putstatic": 1,
+        "topConstructedClass": null,
+        "staticFieldsOfBlockType": 0,
+        "stringLoads": 0,
+        "plainNameCandidates": 0,
+        "tileKeyCandidates": 0,
+        "nameSetterCalls": 0,
+        "nameSetterMethods": {},
+        "walkComplete": true,
+        "topConstructed": [
+          [
+            "com/jcraft/jorbis/Residue0",
+            1
+          ],
+          [
+            "com/jcraft/jorbis/Residue1",
+            1
+          ],
+          [
+            "com/jcraft/jorbis/Residue2",
+            1
+          ]
+        ]
+      },
+      {
+        "class": "com/jcraft/jorbis/FuncFloor.class",
+        "super": "java/lang/Object",
+        "initCalls": 2,
+        "distinctConstructedClasses": 2,
+        "putstatic": 1,
+        "topConstructedClass": null,
+        "staticFieldsOfBlockType": 0,
+        "stringLoads": 0,
+        "plainNameCandidates": 0,
+        "tileKeyCandidates": 0,
+        "nameSetterCalls": 0,
+        "nameSetterMethods": {},
+        "walkComplete": true,
+        "topConstructed": [
+          [
+            "com/jcraft/jorbis/Floor0",
+            1
+          ],
+          [
+            "com/jcraft/jorbis/Floor1",
+            1
+          ]
+        ]
+      },
+      {
+        "class": "er.class",
+        "super": "java/lang/Enum",
+        "initCalls": 24,
+        "distinctConstructedClasses": 1,
+        "putstatic": 25,
+        "topConstructedClass": "er",
+        "staticFieldsOfBlockType": 24,
+        "stringLoads": 48,
+        "plainNameCandidates": 0,
+        "tileKeyCandidates": 0,
+        "nameSetterCalls": 0,
+        "nameSetterMethods": {},
+        "walkComplete": true,
+        "topConstructed": [
+          [
+            "er",
+            24
+          ]
+        ]
+      }
+    ],
+    "selfCheck": {
+      "target": "research/beta173-block-palette.json (83 names, parent-reviewed)",
+      "passed": true,
+      "detail": "reproduced all 83 names in the reviewed order from uu.class; reproduced all 92 hand-read Beta 1.8.1 names from lr.class"
+    }
+  },
+  "controls": {
+    "positiveMustBePresent": [
+      "stone",
+      "dirt",
+      "bedrock",
+      "water",
+      "lava",
+      "grass",
+      "sand",
+      "gravel"
+    ],
+    "positiveMissing": [
+      "stone",
+      "dirt",
+      "bedrock",
+      "water",
+      "lava",
+      "grass",
+      "sand",
+      "gravel"
+    ],
+    "negativeMustBeAbsent": [
+      "tallgrass",
+      "vine",
+      "melon",
+      "netherStalk",
+      "hellrock",
+      "hellsand",
+      "lightgem",
+      "pistonBase",
+      "pistonStickyBase",
+      "stonebrick",
+      "cake",
+      "diode",
+      "trapdoor",
+      "ironDoor",
+      "netherrack",
+      "soulsand",
+      "glowstone"
+    ],
+    "negativeObserved": [],
+    "passed": false,
+    "note": "Positives cannot be satisfied because this build attaches no block-name string; the version is reported as BLOCKED rather than given a palette."
+  },
+  "nameRecovery": {
+    "status": "NOT_AVAILABLE_IN_THIS_JAR",
+    "count": 0,
+    "note": "This client's registry initialiser loads no block-name strings at all: no plain lowerCamelCase names and no `tile.<name>` keys exist anywhere in the jar. The names were added to the jar only in Beta 1.8, so they cannot be recovered from this build. No palette is claimed."
+  },
+  "blockNames": [],
+  "aliasNames": {}
+}

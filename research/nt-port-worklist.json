@@ -1,0 +1,3266 @@
+{
+  "schemaVersion": 1,
+  "kind": "nostalgic-tweaks-port-worklist",
+  "upstreamRevision": "51d6d3dc1fa33223f8548e1625ed7595183c2b9e",
+  "upstreamBranch": "1.21.4 (project-owner direction)",
+  "licence": "LGPL-3.0; see THIRD_PARTY_NOTICES.md - owner accepted the obligation on 2026-10-13",
+  "counts": {
+    "matching": 489,
+    "alreadyTouched": 18,
+    "toPort": 471
+  },
+  "worklist": [
+    {
+      "name": "ADVENTURE_CRAFT_OFFHAND",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_HUD_OFFHAND",
+      "defaultValue": false,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/old_hud/GuiMixin.java"
+      ],
+      "referenceCount": 4,
+      "alreadyTouched": false
+    },
+    {
+      "name": "AMBIENT_OCCLUSION_BLOCKS",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "BLOCK",
+      "defaultValue": "DefaultListing.ambientOcclusion(",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/ambient_occlusion/BlockBehaviourMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "ANIMAL_SPAWN_CAP",
+      "category": "gameplay",
+      "env": "server",
+      "group": "MOB_ANIMAL_SPAWN",
+      "defaultValue": 20,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/animal_spawn/MobCategoryMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "APPLY_CHEST_VOXEL",
+      "category": "eyeCandy",
+      "env": "server",
+      "group": "BLOCK_CHEST",
+      "defaultValue": true,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/chest_block/BlockStateBaseMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "APPLY_FULL_BLOCK_COLLISIONS",
+      "category": "eyeCandy",
+      "env": "server",
+      "group": "BLOCK_HITBOX",
+      "defaultValue": true,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/block_hitbox/BlockStateBaseMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "APPLY_GUI_COLOR_BACKGROUND",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_GUI_COLOR",
+      "defaultValue": true,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/screen/ScreenHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "ARM_SWAY_INTENSITY",
+      "category": "animation",
+      "env": "client",
+      "group": "ARM_SWAY",
+      "defaultValue": 100,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/animation/arm_sway/ItemInHandRendererMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "ARM_SWAY_MIRROR",
+      "category": "animation",
+      "env": "client",
+      "group": "ARM_SWAY",
+      "defaultValue": false,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/animation/arm_sway/ItemInHandRendererMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "ATTACK_BLOCK_SPEED",
+      "category": "swing",
+      "env": "client",
+      "group": "ITEM",
+      "defaultValue": "OLD_SPEED",
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/swing/SwingHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "ATTACK_FATIGUE_SPEED",
+      "category": "swing",
+      "env": "client",
+      "group": "POTION",
+      "defaultValue": "DISABLED",
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/swing/SwingHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "ATTACK_GLOBAL_SPEED",
+      "category": "swing",
+      "env": "client",
+      "group": "GLOBAL",
+      "defaultValue": "DISABLED",
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/swing/SwingHelper.java"
+      ],
+      "referenceCount": 3,
+      "alreadyTouched": false
+    },
+    {
+      "name": "ATTACK_HASTE_SPEED",
+      "category": "swing",
+      "env": "client",
+      "group": "POTION",
+      "defaultValue": "DISABLED",
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/swing/SwingHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "ATTACK_ITEM_SPEED",
+      "category": "swing",
+      "env": "client",
+      "group": "ITEM",
+      "defaultValue": "OLD_SPEED",
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/swing/SwingHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "ATTACK_SWING_SPEEDS",
+      "category": "swing",
+      "env": "client",
+      "group": "CUSTOM",
+      "defaultValue": "constructed",
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/swing/SwingHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "ATTACK_SWORD_SPEED",
+      "category": "swing",
+      "env": "client",
+      "group": "ITEM",
+      "defaultValue": "OLD_SPEED",
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/swing/SwingHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "ATTACK_TOOL_SPEED",
+      "category": "swing",
+      "env": "client",
+      "group": "ITEM",
+      "defaultValue": "OLD_SPEED",
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/swing/SwingHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "ATTACK_WHILE_SWORD_BLOCKING",
+      "category": "gameplay",
+      "env": "server",
+      "group": "COMBAT_BLOCKING",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/combat_player/MinecraftMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "BLOCK_OUTLINE_COLOR",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "BLOCK_HITBOX_OUTLINE_AESTHETIC",
+      "defaultValue": "\"#00000066\"",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/block_hitbox/LevelRendererMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "BLOCK_OUTLINE_THICKNESS",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "BLOCK_HITBOX_OUTLINE_AESTHETIC",
+      "defaultValue": "2.5F",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/block_hitbox/LineStateShardMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "BLOCK_OVERLAY_COLOR",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "BLOCK_HITBOX_OVERLAY_COLOR",
+      "defaultValue": "\"#FFFFFF5A\"",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/block/HitboxHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "BLOCK_OVERLAY_COLOR_TYPE",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "BLOCK_HITBOX_OVERLAY_COLOR",
+      "defaultValue": "ColorType.SOLID",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/block/HitboxHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "BLOCK_OVERLAY_GRADIENT_BOTTOM",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "BLOCK_HITBOX_OVERLAY_COLOR",
+      "defaultValue": "\"#FFFFFF5A\"",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/block/HitboxHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "BLOCK_OVERLAY_GRADIENT_TOP",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "BLOCK_HITBOX_OVERLAY_COLOR",
+      "defaultValue": "\"#0000005A\"",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/block/HitboxHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "BLOCK_OVERLAY_RENDER_ORDER",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "BLOCK_HITBOX_OVERLAY",
+      "defaultValue": "RenderOrder.FIRST",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/block_hitbox/LevelRendererMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "BLOCK_OVERLAY_SPEED",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "BLOCK_HITBOX_OVERLAY_ANIMATION",
+      "defaultValue": "0.2F",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/block/HitboxHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "BLOCK_WITH_SWORD_ON_SHIELD",
+      "category": "gameplay",
+      "env": "client",
+      "group": "COMBAT_BLOCKING",
+      "defaultValue": true,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/gameplay/combat/SwordBlockingHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "CART_BOOSTING",
+      "category": "gameplay",
+      "env": "server",
+      "group": "MECHANICS_CART",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/mechanics_minecart/AbstractMinecartMixin.java"
+      ],
+      "referenceCount": 3,
+      "alreadyTouched": false
+    },
+    {
+      "name": "CART_RIDER_TURNING",
+      "category": "gameplay",
+      "env": "client",
+      "group": "MECHANICS_CART",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/mechanics_minecart/EntityMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "CART_SAFE_RIDER_TURNING",
+      "category": "gameplay",
+      "env": "client",
+      "group": "MECHANICS_CART",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/mechanics_minecart/EntityMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "CHAT_OFFSET",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_CHAT",
+      "defaultValue": 0,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/chat_screen/ChatComponentMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "CHEST_LIGHT_BLOCK",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "LIGHTING_BLOCK",
+      "defaultValue": true,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/block/ChestHelper.java",
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/light/LightingHelper.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/world_lighting/BlockStateBaseMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/world_lighting/ClientChunkCacheMixin.java"
+      ],
+      "referenceCount": 5,
+      "alreadyTouched": false
+    },
+    {
+      "name": "CRAFTING_BOOK",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_CRAFTING",
+      "defaultValue": "RecipeBook.SMALL",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/crafting_screen/CraftingScreenMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "CUSTOM_FOOD_HEALTH",
+      "category": "gameplay",
+      "env": "server",
+      "group": "HUNGER_FOOD",
+      "defaultValue": "DefaultListing.foodHealth(",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/food_health/FoodPropertiesMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "CUSTOM_FOOD_STACKING",
+      "category": "gameplay",
+      "env": "server",
+      "group": "HUNGER_FOOD",
+      "defaultValue": "DefaultListing.foodStacks(",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/item_stacking/ItemStackMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "CUSTOM_GUI_BACKGROUND",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_GUI_COLOR",
+      "defaultValue": false,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/screen/ScreenHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "CUSTOM_GUI_BOTTOM_GRADIENT",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_GUI_COLOR",
+      "defaultValue": "\"#00000000\"",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/screen/ScreenHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "CUSTOM_GUI_TOP_GRADIENT",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_GUI_COLOR",
+      "defaultValue": "\"#00000000\"",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/screen/ScreenHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "CUSTOM_ITEM_STACKING",
+      "category": "gameplay",
+      "env": "server",
+      "group": "MECHANICS_ITEMS",
+      "defaultValue": "constructed",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/item_stacking/ItemStackMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "CUSTOM_LOADING_OVERLAY_BACKGROUND",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_LOADING_COLOR",
+      "defaultValue": false,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/LoadingOverlayHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "CUSTOM_LOADING_PROGRESS_BAR",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_LOADING_COLOR",
+      "defaultValue": false,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/LoadingOverlayHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "CUSTOM_OVERWORLD_SKY",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "WORLD_SKY_CUSTOM",
+      "defaultValue": false,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/level/SkyHelper.java"
+      ],
+      "referenceCount": 3,
+      "alreadyTouched": false
+    },
+    {
+      "name": "CUSTOM_OVERWORLD_SKY_COLOR",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "WORLD_SKY_CUSTOM",
+      "defaultValue": "\"#FFFFFF\"",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/level/SkyHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "CUSTOM_VOID_SKY",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "WORLD_VOID_SKY",
+      "defaultValue": false,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/level/SkyHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "CUSTOM_VOID_SKY_COLOR",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "WORLD_VOID_SKY",
+      "defaultValue": "\"#0000FF\"",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/level/SkyHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DEBUG_ENTITY_ID",
+      "category": "eyeCandy",
+      "env": "server",
+      "group": "INTERFACE_DEBUG",
+      "defaultValue": true,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/debug/DebugOverlayHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DEBUG_LEFT_BACKGROUND_COLOR",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_DEBUG_COLOR",
+      "defaultValue": "\"#50505090\"",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/debug_screen/DebugScreenOverlayMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DEBUG_LEFT_TEXT_COLOR",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_DEBUG_COLOR",
+      "defaultValue": "\"#FFFFFFFF\"",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/debug_screen/DebugScreenOverlayMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DEBUG_RIGHT_BACKGROUND_COLOR",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_DEBUG_COLOR",
+      "defaultValue": "\"#50505090\"",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/debug_screen/DebugScreenOverlayMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DEBUG_RIGHT_TEXT_COLOR",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_DEBUG_COLOR",
+      "defaultValue": "\"#E0E0E0FF\"",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/debug_screen/DebugScreenOverlayMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLED_GLOBAL_SOUNDS",
+      "category": "sound",
+      "env": "client",
+      "group": "DISABLED",
+      "defaultValue": "constructed",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/sound/disabled_sound/SoundEngineMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLED_PARTICLES",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "PARTICLE_DISABLED",
+      "defaultValue": "constructed",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/ParticleHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLED_POSITIONED_SOUNDS",
+      "category": "sound",
+      "env": "client",
+      "group": "DISABLED",
+      "defaultValue": "constructed",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/sound/SoundHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_ALL_OFFSET",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "BLOCK",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/block_offsets/BlockStateBaseMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_AXE_STRIPPING",
+      "category": "gameplay",
+      "env": "dynamic",
+      "group": "MECHANICS_TOOLS",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/gameplay/InteractionHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_BABY_PIGLIN_SPAWN",
+      "category": "gameplay",
+      "env": "server",
+      "group": "MOB_MONSTER_SPAWN",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/monster_spawn/PiglinMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_BED_BOUNCE",
+      "category": "gameplay",
+      "env": "server",
+      "group": "MECHANICS_BLOCK_BED",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/mechanics_block/BedBlockMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_BED_PLACE",
+      "category": "sound",
+      "env": "client",
+      "group": "BLOCK_BED",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/sound/SoundHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_BLAST_FURNACE",
+      "category": "sound",
+      "env": "client",
+      "group": "BLOCK_FURNACE",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/sound/SoundHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_BLOCK_OFFSETS",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "BLOCK",
+      "defaultValue": "DefaultListing.disabledOffsets(",
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/block_offsets/BlockStateBaseMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_BOAT_BUSY_HANDS",
+      "category": "gameplay",
+      "env": "server",
+      "group": "MECHANICS_BOAT",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/mechanics_boat/LocalPlayerMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_BUBBLE_COLUMN",
+      "category": "sound",
+      "env": "client",
+      "group": "BLOCK",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/sound/block_sound/BubbleColumnBlockMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_CHEST",
+      "category": "sound",
+      "env": "client",
+      "group": "BLOCK_CHEST",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/sound/SoundHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_DOOR_PLACE",
+      "category": "sound",
+      "env": "client",
+      "group": "BLOCK",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/sound/SoundHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_EMPTY_ARMOR_TEXTURE",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_INVENTORY",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/inventory_screen/InventoryArmorSlotMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_EMPTY_SHIELD_TEXTURE",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_INVENTORY",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/inventory_screen/InventoryShieldSlotMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_ENCHANTED_GROUND_ITEMS",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "ITEM_FLAT",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/flat_items/ItemRendererMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_ENCHANTED_STATIC_ITEMS",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "ITEM_FLAT",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/flat_items/ItemRendererMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_ENDER_CHEST_PARTICLES",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "PARTICLE_BLOCK",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/chest_block/EnderChestBlockMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_FALLING_PARTICLES",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "PARTICLE_PLAYER",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/player_particles/ClientLevelMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_FISH_DEATH",
+      "category": "sound",
+      "env": "client",
+      "group": "MOB_FISH",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/sound/SoundHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_FISH_HURT",
+      "category": "sound",
+      "env": "client",
+      "group": "MOB_FISH",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/sound/SoundHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_FISH_SWIM",
+      "category": "sound",
+      "env": "client",
+      "group": "MOB_FISH",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/sound/SoundHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_FURNACE",
+      "category": "sound",
+      "env": "client",
+      "group": "BLOCK_FURNACE",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/sound/SoundHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_GENERIC_SWIM",
+      "category": "sound",
+      "env": "client",
+      "group": "MOB_GENERIC",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/sound/SoundHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_GLOW_SQUID_AMBIENCE",
+      "category": "sound",
+      "env": "client",
+      "group": "MOB_SQUID",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/sound/SoundHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_GLOW_SQUID_OTHER",
+      "category": "sound",
+      "env": "client",
+      "group": "MOB_SQUID",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/sound/SoundHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_GROWTH",
+      "category": "sound",
+      "env": "client",
+      "group": "BLOCK",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/sound/SoundHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_GROWTH_PARTICLES",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "PARTICLE_BLOCK",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/block_particles/BoneMealItemMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_HITBOX_OVERRIDE",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "BLOCK_HITBOX_OUTLINE_AESTHETIC",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/block_hitbox/LevelRendererMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_HUNGER",
+      "category": "gameplay",
+      "env": "server",
+      "group": "HUNGER",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/food_health/FoodDataMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/food_health/FoodPropertiesMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/food_health/PlayerMixin.java"
+      ],
+      "referenceCount": 9,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_LAVA_AMBIENCE",
+      "category": "sound",
+      "env": "client",
+      "group": "BLOCK_LAVA",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/sound/SoundHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_LAVA_DRIP_PARTICLES",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "PARTICLE_BLOCK",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/ParticleHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_LAVA_PARTICLES",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "PARTICLE_BLOCK",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/ParticleHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_LAVA_POP",
+      "category": "sound",
+      "env": "client",
+      "group": "BLOCK_LAVA",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/sound/SoundHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_LEVER_PARTICLES",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "PARTICLE_BLOCK",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/block_particles/LeverBlockMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_LIGHT_BRIGHTNESS",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "LIGHTING_WORLD_TEXTURE",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/light/LightTextureHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_LIGHT_FLICKER",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "LIGHTING_BLOCK",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/world_lighting/LightTextureMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_MODEL_DESTRUCTION_PARTICLES",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "PARTICLE_BLOCK",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/particle_engine/ParticleEngineMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_MONSTER_ARMOR_SPAWN",
+      "category": "gameplay",
+      "env": "server",
+      "group": "MOB_MONSTER_SPAWN",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/monster_spawn/MobMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/monster_spawn/PiglinMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_MONSTER_ENCHANT_SPAWN",
+      "category": "gameplay",
+      "env": "server",
+      "group": "MOB_MONSTER_SPAWN",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/monster_spawn/MobMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_NETHER_AMBIENCE",
+      "category": "sound",
+      "env": "client",
+      "group": "AMBIENT",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/sound/nether_ambience/BiomeAmbientSoundsHandlerMixin.java"
+      ],
+      "referenceCount": 3,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_NETHER_PARTICLES",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "PARTICLE_BIOME",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/ParticleHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_ORB_RENDERING",
+      "category": "gameplay",
+      "env": "client",
+      "group": "EXPERIENCE_ORB",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/experience_particles/ExperienceOrbRendererMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_SHEEP_EAT_GRASS",
+      "category": "gameplay",
+      "env": "server",
+      "group": "MOB_ANIMAL_SHEEP",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/gameplay/SheepHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_SHOVEL_PATHING",
+      "category": "gameplay",
+      "env": "dynamic",
+      "group": "MECHANICS_TOOLS",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/gameplay/InteractionHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_SIGNATURE_BOXES",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_CHAT",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/chat_screen/ChatComponentMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_SMOOTH_LIGHTING",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "LIGHTING_WORLD_ENGINE",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/world_lighting/MinecraftMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_SPRINT",
+      "category": "gameplay",
+      "env": "dynamic",
+      "group": "MECHANICS_PLAYER",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/mechanics_player/LivingEntityMixin.java"
+      ],
+      "referenceCount": 4,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_SPRINTING_PARTICLES",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "PARTICLE_PLAYER",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/player_particles/EntityMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_SQUID",
+      "category": "sound",
+      "env": "client",
+      "group": "MOB_SQUID",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/sound/SoundHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_SWIM",
+      "category": "gameplay",
+      "env": "dynamic",
+      "group": "MECHANICS_SWIMMING",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/mechanics_player/LivingEntityMixin.java"
+      ],
+      "referenceCount": 3,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_UNDERWATER_PARTICLES",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "PARTICLE_BIOME",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/ParticleHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_WATER_AMBIENCE",
+      "category": "sound",
+      "env": "client",
+      "group": "AMBIENT",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/sound/water_ambience/LocalPlayerMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/sound/water_ambience/UnderwaterAmbientSoundHandlerMixin.java"
+      ],
+      "referenceCount": 3,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_WATER_DRIP_PARTICLES",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "PARTICLE_BLOCK",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/ParticleHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_XP_LEVEL",
+      "category": "sound",
+      "env": "client",
+      "group": "EXPERIENCE",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/sound/experience_level/PlayerMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DISABLE_XP_PICKUP",
+      "category": "sound",
+      "env": "client",
+      "group": "EXPERIENCE",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/sound/SoundHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "DYNAMIC_LIGHT_BRIGHTNESS",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "LIGHTING_WORLD_TEXTURE",
+      "defaultValue": true,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/light/LightTextureHelper.java"
+      ],
+      "referenceCount": 3,
+      "alreadyTouched": false
+    },
+    {
+      "name": "ENABLED",
+      "category": "mod",
+      "env": "client",
+      "group": null,
+      "defaultValue": true,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/swing/SwingHelper.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/animation/arm_sway/ItemInHandRendererMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/animation/held_item/ItemInHandRendererMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/debug_screen/DebugScreenOverlayMixin.java"
+      ],
+      "referenceCount": 37,
+      "alreadyTouched": false
+    },
+    {
+      "name": "ENABLE_WINDOW_TITLE",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_WINDOW",
+      "defaultValue": false,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/window_title/MinecraftMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "FIX_ITEM_MODEL_GAP",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "ITEM",
+      "defaultValue": true,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "fabric/src/main/java/mod/adrenix/nostalgic/fabric/mixin/tweak/candy/model_gap_fix/ItemModelGeneratorMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "FIX_SAVING_INDICATOR_OFFSET",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_GUI",
+      "defaultValue": true,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/gui_background/GuiMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "FPS_CHART",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_DEBUG_CHART",
+      "defaultValue": "DebugChart.CLASSIC",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/debug_screen/DebugScreenOverlayMixin.java"
+      ],
+      "referenceCount": 3,
+      "alreadyTouched": false
+    },
+    {
+      "name": "FULL_BLOCK_COLLISIONS",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "BLOCK_HITBOX",
+      "defaultValue": "constructed",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/block/HitboxHelper.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/block_hitbox/BlockStateBaseMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "FULL_BLOCK_OUTLINES",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "BLOCK_HITBOX_OUTLINE",
+      "defaultValue": "DefaultListing.blockOutlines(",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/block/HitboxHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "FURNACE_BOOK",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_FURNACE",
+      "defaultValue": "RecipeBook.SMALL",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/furnace_screen/AbstractFurnaceScreenMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "HIDE_ADVANCEMENT_CHATS",
+      "category": "eyeCandy",
+      "env": "server",
+      "group": "INTERFACE_HUD_TOAST",
+      "defaultValue": false,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/old_hud/PlayerAdvancementsMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "HIDE_ADVANCEMENT_TOASTS",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_HUD_TOAST",
+      "defaultValue": false,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/old_hud/ClientAdvancementsMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "HIDE_BOAT_ROWING",
+      "category": "animation",
+      "env": "client",
+      "group": "BOAT",
+      "defaultValue": true,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/sound/SoundHelper.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/animation/boat/AbstractBoatMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/animation/boat/AbstractBoatModelMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/animation/boat/ItemInHandRendererMixin.java"
+      ],
+      "referenceCount": 4,
+      "alreadyTouched": false
+    },
+    {
+      "name": "HIDE_CAUSE_OF_DEATH",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_DEATH",
+      "defaultValue": true,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/death_screen/DeathScreenMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "HIDE_EXPERIENCE_BAR",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_HUD_EXP_BAR",
+      "defaultValue": false,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "fabric/src/main/java/mod/adrenix/nostalgic/fabric/mixin/tweak/candy/old_hud/GuiMixin.java"
+      ],
+      "referenceCount": 3,
+      "alreadyTouched": false
+    },
+    {
+      "name": "HIDE_FIRST_PERSON_MAGIC_PARTICLES",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "PARTICLE_PLAYER",
+      "defaultValue": false,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/ParticleHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "HIDE_HUNGER_BAR",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_HUD_HUNGER_BAR",
+      "defaultValue": false,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/hud/HudHelper.java",
+        "fabric/src/main/java/mod/adrenix/nostalgic/fabric/mixin/tweak/candy/old_hud/GuiMixin.java",
+        "neoforge/src/main/java/mod/adrenix/nostalgic/neoforge/mixin/tweak/candy/old_hud/GuiMixin.java"
+      ],
+      "referenceCount": 16,
+      "alreadyTouched": false
+    },
+    {
+      "name": "HIDE_PLAYER_IN_BED",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "BLOCK_BED",
+      "defaultValue": true,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/block_bed/LivingEntityRendererMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "HIDE_RECIPE_TOASTS",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_HUD_TOAST",
+      "defaultValue": true,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/old_hud/ClientPacketListenerMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "HIDE_TUTORIAL_TOASTS",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_HUD_TOAST",
+      "defaultValue": true,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/old_hud/TutorialMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "IGNORED_HOLDING_ITEMS",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "ITEM",
+      "defaultValue": "DefaultListing.ignoredHoldingItems(",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/item_holding/ItemInHandRendererMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "IGNORE_MODDED_STEP",
+      "category": "sound",
+      "env": "client",
+      "group": "MOB",
+      "defaultValue": false,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/sound/SoundHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "INFINITE_BURN",
+      "category": "gameplay",
+      "env": "server",
+      "group": "MECHANICS_FIRE",
+      "defaultValue": false,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/gameplay/FireBlockHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "INSTANT_AIR",
+      "category": "gameplay",
+      "env": "server",
+      "group": "MECHANICS_SWIMMING",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/mechanics_swim/LivingEntityMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "INSTANT_BONEMEAL",
+      "category": "gameplay",
+      "env": "server",
+      "group": "MECHANICS_FARMING",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/mechanics_farming/BeetrootBlockMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/mechanics_farming/CocoaBlockMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/mechanics_farming/CropBlockMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/mechanics_farming/PitcherCropBlockMixin.java"
+      ],
+      "referenceCount": 9,
+      "alreadyTouched": false
+    },
+    {
+      "name": "INSTANT_BOW",
+      "category": "gameplay",
+      "env": "server",
+      "group": "COMBAT_BOW",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/combat_bow/MinecraftMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/combat_bow/ServerGamePacketListenerImplMixin.java"
+      ],
+      "referenceCount": 4,
+      "alreadyTouched": false
+    },
+    {
+      "name": "INSTANT_EAT",
+      "category": "gameplay",
+      "env": "server",
+      "group": "HUNGER_FOOD",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/food_health/ConsumableMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/food_health/FoodPropertiesMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/food_health/MinecraftMixin.java"
+      ],
+      "referenceCount": 5,
+      "alreadyTouched": false
+    },
+    {
+      "name": "INVENTORY_BOOK",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_INVENTORY",
+      "defaultValue": "RecipeBook.SMALL",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/inventory_screen/InventoryScreenMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "INVENTORY_SHIELD",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_INVENTORY",
+      "defaultValue": "InventoryShield.MODERN",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/screen/inventory/InventoryScreenHelper.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/inventory_screen/InventoryScreenMixin.java"
+      ],
+      "referenceCount": 4,
+      "alreadyTouched": false
+    },
+    {
+      "name": "INVERTED_BLOCK_LIGHTING",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "LIGHTING_BLOCK",
+      "defaultValue": true,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/block_lighting/LightingMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "INVERTED_PLAYER_LIGHTING",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_INVENTORY",
+      "defaultValue": true,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/inventory_screen/LightingMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "INVINCIBLE_BOW",
+      "category": "gameplay",
+      "env": "server",
+      "group": "COMBAT_BOW",
+      "defaultValue": false,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/combat_bow/ProjectileWeaponItemMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "ITEM_MERGE_LIMIT",
+      "category": "eyeCandy",
+      "env": "server",
+      "group": "ITEM_MERGING",
+      "defaultValue": 16,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/ItemHelper.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/item_merge/ItemEntityMixin.java"
+      ],
+      "referenceCount": 4,
+      "alreadyTouched": false
+    },
+    {
+      "name": "LEFT_OFFHAND_OFFSET",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_HUD_OFFHAND",
+      "defaultValue": 0,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/old_hud/GuiMixin.java"
+      ],
+      "referenceCount": 3,
+      "alreadyTouched": false
+    },
+    {
+      "name": "LEVEL_SELECT_WHEN_EMPTY",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_WORLD_SELECT",
+      "defaultValue": true,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/select_world_screen/WorldSelectionListMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "LOADING_OVERLAY_BACKGROUND_COLOR",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_LOADING_COLOR",
+      "defaultValue": "\"#000000\"",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/LoadingOverlayHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "MATCH_VERSION_OVERLAY",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_WINDOW",
+      "defaultValue": false,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/window_title/MinecraftMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "MAXIMUM_PULSATION_TRANSPARENCY",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "BLOCK_HITBOX_OVERLAY_ANIMATION",
+      "defaultValue": "0.4F",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/block/HitboxHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "MAX_BLOCK_LIGHT",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "LIGHTING_WORLD_SHADER",
+      "defaultValue": 15,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/light/LightingHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "MINIMUM_PULSATION_TRANSPARENCY",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "BLOCK_HITBOX_OVERLAY_ANIMATION",
+      "defaultValue": "0.1F",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/block/HitboxHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "MONSTER_SPAWN_CAP",
+      "category": "gameplay",
+      "env": "server",
+      "group": "MOB_MONSTER_SPAWN",
+      "defaultValue": 90,
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/monster_spawn/MobCategoryMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "MUSIC_FOR_CREATIVE",
+      "category": "sound",
+      "env": "client",
+      "group": "MUSIC",
+      "defaultValue": "MusicType.ALPHA",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/sound/MusicHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "MUSIC_FOR_MENU",
+      "category": "sound",
+      "env": "client",
+      "group": "MUSIC",
+      "defaultValue": "MusicType.ALPHA",
+      "historicalClaim": null,
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/sound/MusicHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_2D_ITEMS",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "ITEM_FLAT",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/flat_items/ItemEntityRendererMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/flat_items/ItemRendererMixin.java"
+      ],
+      "referenceCount": 3,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_ANIMAL_SPAWNING",
+      "category": "gameplay",
+      "env": "server",
+      "group": "MOB_ANIMAL_SPAWN",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/animal_spawn/AnimalMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/animal_spawn/ChickenMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/animal_spawn/MobCategoryMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/animal_spawn/SpawnStateMixin.java"
+      ],
+      "referenceCount": 6,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_ANVIL_SCREEN",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_ANVIL",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/anvil_screen/AnvilScreenMixin.java"
+      ],
+      "referenceCount": 3,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_ATTACK",
+      "category": "sound",
+      "env": "client",
+      "group": "DAMAGE",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/sound/SoundHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_BACKWARD_WALKING",
+      "category": "animation",
+      "env": "client",
+      "group": "PLAYER",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/animation/player/LivingEntityMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_BED",
+      "category": "sound",
+      "env": "client",
+      "group": "BLOCK_BED",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/sound/old_bed/BlockBehaviourMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_BLOCK_OVERLAY",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "BLOCK_HITBOX_OVERLAY",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/block_hitbox/LevelRendererMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_BLUE_VOID",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "WORLD_VOID_SKY",
+      "defaultValue": "Generic.ALPHA",
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/level/SkyHelper.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/world_sky/LevelRendererMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/world_sky/SkyRendererMixin.java"
+      ],
+      "referenceCount": 3,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_BLUE_VOID_OVERRIDE",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "WORLD_VOID_SKY",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/world_sky/SkyRendererMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_BOAT_DROPS",
+      "category": "gameplay",
+      "env": "server",
+      "group": "MECHANICS_BOAT",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/mechanics_boat/AbstractBoatMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_BOAT_MOVEMENT_PARTICLES",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "PARTICLE_BOAT",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/mechanics_boat/AbstractBoatMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_BOAT_WATER_LIFT",
+      "category": "gameplay",
+      "env": "server",
+      "group": "MECHANICS_BOAT",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/mechanics_boat/AbstractBoatMixin.java"
+      ],
+      "referenceCount": 4,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_BUTTON_TEXT_COLOR",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_GUI",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/button_hover/AbstractButtonMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/button_hover/AbstractSliderButtonMixin.java"
+      ],
+      "referenceCount": 4,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_CAVE_AMBIENCE",
+      "category": "sound",
+      "env": "client",
+      "group": "AMBIENT",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/sound/cave_ambience/BiomeAmbientSoundsHandlerMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_CAVE_SOUNDS",
+      "category": "sound",
+      "env": "client",
+      "group": "AMBIENT",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/sound/cave_ambience/BiomeAmbientSoundsHandlerMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_CHAT_BOX",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_CHAT",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/chat_screen/ChatComponentMixin.java"
+      ],
+      "referenceCount": 4,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_CHAT_INPUT",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_CHAT",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/chat_screen/ChatScreenMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_CHEST",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "BLOCK_CHEST",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/block/ChestHelper.java",
+        "common/src/main/java/mod/adrenix/nostalgic/helper/sound/SoundHelper.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/chest_block/BlockEntityRenderDispatcherMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/chest_block/BlockStateModelLoaderMixin.java"
+      ],
+      "referenceCount": 6,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_CHEST",
+      "category": "sound",
+      "env": "client",
+      "group": "BLOCK_CHEST",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/block/ChestHelper.java",
+        "common/src/main/java/mod/adrenix/nostalgic/helper/sound/SoundHelper.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/chest_block/BlockEntityRenderDispatcherMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/chest_block/BlockStateModelLoaderMixin.java"
+      ],
+      "referenceCount": 6,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_CHICKEN_DROPS",
+      "category": "gameplay",
+      "env": "server",
+      "group": "MOB_DROPS_CLASSIC",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/gameplay/MobLootHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_CLASSIC_ATTACK_SWING",
+      "category": "animation",
+      "env": "client",
+      "group": "ARM_SWING",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/animation/PlayerArmHelper.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/swing/LivingEntityMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_CLASSIC_ENGINE",
+      "category": "eyeCandy",
+      "env": "server",
+      "group": "LIGHTING_WORLD_ENGINE",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/world_fog/LevelRendererMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/world_lighting/BlockStateBaseMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/world_lighting/LightTextureMixin.java"
+      ],
+      "referenceCount": 6,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_CLASSIC_USE_SWING",
+      "category": "animation",
+      "env": "client",
+      "group": "ARM_SWING",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/animation/PlayerArmHelper.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/swing/LivingEntityMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_CLASSIC_WALK_ARMS",
+      "category": "animation",
+      "env": "client",
+      "group": "PLAYER",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/animation/player/HumanoidModelMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_CLASSIC_WALK_BOBBING",
+      "category": "animation",
+      "env": "client",
+      "group": "PLAYER",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/animation/player/LivingEntityRendererMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_CLOUD_HEIGHT",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "WORLD_SKY",
+      "defaultValue": 128,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/world_sky/DimensionSpecialEffectsMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_COW_DROPS",
+      "category": "gameplay",
+      "env": "server",
+      "group": "MOB_DROPS_CLASSIC",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/gameplay/MobLootHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_CRAFTING_SCREEN",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_CRAFTING",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/crafting_screen/AbstractContainerScreenMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_CREATIVE_CROUCH",
+      "category": "animation",
+      "env": "dynamic",
+      "group": "PLAYER",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/animation/player/LocalPlayerMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/animation/player/PlayerMixin.java"
+      ],
+      "referenceCount": 3,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_CREEPER_STRAFE_ON_SWELL",
+      "category": "gameplay",
+      "env": "server",
+      "group": "MOB_AI",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/mob_ai/CreeperMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_DAMAGE_ARMOR_TINT",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "ITEM",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/ArmorHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_DARK_VOID_HEIGHT",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "WORLD_VOID_SKY",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/world_sky/SkyRendererMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_DEATH_SCORE",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_DEATH",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/death_screen/DeathScreenMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_DEATH_SCREEN",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_DEATH",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/death_screen/DeathScreenMixin.java"
+      ],
+      "referenceCount": 4,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_DEBUG",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_DEBUG",
+      "defaultValue": "Generic.BETA",
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/debug_screen/GuiMixin.java",
+        "fabric/src/main/java/mod/adrenix/nostalgic/fabric/mixin/tweak/candy/debug_screen/DebugScreenOverlayMixin.java",
+        "neoforge/src/main/java/mod/adrenix/nostalgic/neoforge/mixin/tweak/candy/debug_screen/DebugScreenOverlayMixin.java"
+      ],
+      "referenceCount": 5,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_DIRT_SCREEN_BACKGROUND",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_GUI",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/screen/ScreenHelper.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/gui_background/AbstractSelectionListMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/gui_background/GenericMessageScreenMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/progress_screen/ReceivingLevelScreenMixin.java"
+      ],
+      "referenceCount": 12,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_DURABILITY_COLORS",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "ITEM_DISPLAY",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/item_display/GuiGraphicsMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_DYNAMIC_SKY_COLOR",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "WORLD_SKY",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/level/SkyHelper.java"
+      ],
+      "referenceCount": 3,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_ENDER_CHEST",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "BLOCK_CHEST",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/block/ChestHelper.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/chest_block/BlockEntityRenderDispatcherMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/chest_block/BlockStateModelLoaderMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/chest_block/ModelBakeryMixin.java"
+      ],
+      "referenceCount": 5,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_EXPLOSION_PARTICLES",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "PARTICLE_EXPLOSION",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/explosion_particles/ExplosionMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_FALL",
+      "category": "sound",
+      "env": "client",
+      "group": "DAMAGE",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/sound/damage_sound/LivingEntityMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/sound/damage_sound/PlayerMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_FAST_GRASS_TEXTURE",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "BLOCK",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/grass_texture/ModelBakeryMixin.java",
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/grass_texture/ScreenMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_FIRE",
+      "category": "gameplay",
+      "env": "server",
+      "group": "MECHANICS_FIRE",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/mechanics_fire/FireBlockMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_FISHING_CASTING",
+      "category": "gameplay",
+      "env": "dynamic",
+      "group": "MECHANICS_FISHING",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/mechanics_fishing/FishingRodItemMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_FISHING_LOOT",
+      "category": "gameplay",
+      "env": "server",
+      "group": "MECHANICS_FISHING",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/mechanics_fishing/FishingHookMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_FISHING_LURING",
+      "category": "gameplay",
+      "env": "server",
+      "group": "MECHANICS_FISHING",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/mechanics_fishing/FishingHookMixin.java"
+      ],
+      "referenceCount": 3,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_FOOD_STACKING",
+      "category": "gameplay",
+      "env": "server",
+      "group": "HUNGER_FOOD",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/gameplay/item_stacking/ItemStackMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_FURNACE_SCREEN",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_FURNACE",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/furnace_screen/AbstractContainerScreenMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_GHAST_CHARGING",
+      "category": "animation",
+      "env": "client",
+      "group": "MOB",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/animation/ghast_charge/GhastRendererMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_GRASS_SIDE_TEXTURE",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "BLOCK",
+      "defaultValue": false,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/grass_texture/ModelBakeryMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_GUI_BACKGROUND",
+      "category": "eyeCandy",
+      "env": "client",
+      "group": "INTERFACE_GUI_COLOR",
+      "defaultValue": "GuiBackground.SOLID_BLACK",
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/helper/candy/screen/ScreenHelper.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    },
+    {
+      "name": "OLD_HURT",
+      "category": "sound",
+      "env": "client",
+      "group": "DAMAGE",
+      "defaultValue": true,
+      "historicalClaim": "name implies a historical/\"old\" behavior or a removal; UNVERIFIED against primary version evidence",
+      "boundary": "unknown",
+      "verification": "not_started",
+      "portObstacles": [],
+      "carrierFiles": [
+        "common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/sound/damage_sound/PlayerMixin.java"
+      ],
+      "referenceCount": 2,
+      "alreadyTouched": false
+    }
+  ]
+}

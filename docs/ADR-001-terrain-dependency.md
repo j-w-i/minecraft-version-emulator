@@ -7,7 +7,8 @@ Status: accepted for the first vertical slice; revisit only with runtime evidenc
 - Moderner Beta version Ucgo1y8G publishes `5.0.0-alpha.4+26.3-fabric`; required Fabric API; alpha stability warning: https://api.modrinth.com/v2/version/Ucgo1y8G
 - Flashback 0.43.6 version cV1pa0YV publishes Fabric-only 26.3: https://api.modrinth.com/v2/version/cV1pa0YV
 - Fabric loader metadata provides 0.19.5: https://meta.fabricmc.net/v2/versions/loader/26.3/0.19.5
-- Inspected upstream commit `87c015b63e8618795dbeafe41166a3818eb81f8f`, branch multiversion: https://github.com/Nostalgica-Reverie/moderner-beta/tree/87c015b63e8618795dbeafe41166a3818eb81f8f
+- Initially inspected multiversion `87c015b63e8618795dbeafe41166a3818eb81f8f`; release research identifies tag `5.0.0-alpha.4` at `95f3da6c3f23e7e128b319e5c721201ed4c17243`, independently verified from the fetched ref. Use the release tag and published artifact rather than a branch tip: https://github.com/Nostalgica-Reverie/moderner-beta/tree/95f3da6c3f23e7e128b319e5c721201ed4c17243
+- Parent independently hashed the downloaded published jar: SHA256 `2da0b0ded6053dbc18b630d73c3252e30f961ad920589edf75a6dbe243220727`. Java25 and published SHA512 also independently fetched from Mojang/Modrinth metadata.
 - Upstream `versions/26.3/gradle.properties` requires Java25; `fabric/build-unobf.gradle.kts` uses unobfuscated Fabric Loom.
 - `ModernBetaSettingsPresets` maps Beta1.7.3 to `moderner_beta:beta`, separately Beta1.8.1 to `moderner_beta:beta_1_8_1`.
 - `ModernBetaWorldPresets` builds existing generator and biome source using registry lookups. `ModernBetaChunkGenerator.CODEC` serializes biome_source/provider_settings; constructor binds biome source to generator; initProvider creates seeded provider; createState derives structure state; biome/terrain stages use asynchronous tasks. Reference mutation alone cannot safely update the pipeline.

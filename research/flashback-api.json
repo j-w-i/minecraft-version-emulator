@@ -1,0 +1,258 @@
+{
+  "schemaVersion": 1,
+  "reviewStatus": "WORKER_GENERATED_PENDING_PARENT_VERIFICATION",
+  "revision": "076b96b9fa400212d3d75fa2239d0f3836cf085b",
+  "version": "0.43.6.1",
+  "licensePath": "LICENSE.md",
+  "licenseRestriction": "\"Do not redistribute. All rights reserved.\" (LICENSE.md lines 3-4); no fork code, jar, class or asset may be copied into this repository's artifacts.",
+  "entryPoints": [
+    {
+      "purpose": "start_recording",
+      "class": "com.moulberry.flashback.Flashback",
+      "method": "public static void startRecordingReplay()",
+      "file": ".upstream/flashback-j-w-i/src/main/java/com/moulberry/flashback/Flashback.java",
+      "line": 1088,
+      "reachability": "mod_callable",
+      "notes": "Static, public, no arguments, so a client-side third-party mod compiled against this class can invoke it. Client-only at runtime: line 1101 dereferences Minecraft.getInstance().player.registryAccess(), and the call chain after that adds a ClientToast, so a null player (main menu) throws. The only in-repo callers are the /flashback start command binding (Flashback.java:483) and the auto-start branch (Flashback.java:653), both driven by the client tick event at Flashback.java:632."
+    },
+    {
+      "purpose": "start_recording",
+      "class": "com.moulberry.flashback.Flashback",
+      "method": "private int startRecordingReplay(CommandContext<FabricClientCommandSource>)",
+      "file": ".upstream/flashback-j-w-i/src/main/java/com/moulberry/flashback/Flashback.java",
+      "line": 1073,
+      "reachability": "command",
+      "notes": "Registered on the Fabric client command dispatcher as /flashback start (Flashback.java:483, dispatcher registration at Flashback.java:515). FabricClientCommandSource means the node exists client-side only."
+    },
+    {
+      "purpose": "start_recording_scheduled",
+      "class": "com.moulberry.flashback.Flashback",
+      "method": "field private static int delayedStartRecording",
+      "file": ".upstream/flashback-j-w-i/src/main/java/com/moulberry/flashback/Flashback.java",
+      "line": 159,
+      "reachability": "not_found",
+      "notes": "Private field, not an API. Set to 20 on client join when config.recordingControls.automaticallyStart is true (Flashback.java:568-571), counted down and consumed on the client tick event (Flashback.java:646-657) before calling startRecordingReplay(). This is the only automatic path, and it is a client tick path, not a mod-facing API."
+    },
+    {
+      "purpose": "start_recording_config",
+      "class": "com.moulberry.flashback.configuration.FlashbackConfigV1.RecordingControls",
+      "method": "field public boolean automaticallyStart",
+      "file": ".upstream/flashback-j-w-i/src/main/java/com/moulberry/flashback/configuration/FlashbackConfigV1.java",
+      "line": 68,
+      "reachability": "mod_callable",
+      "notes": "Public config field on a persisted config object (config is reachable via public static FlashbackConfigV1 Flashback.getConfig(), Flashback.java:1027). Setting it can arm automatic recording, but the recording still starts only from the client tick path above."
+    },
+    {
+      "purpose": "pause_recording",
+      "class": "com.moulberry.flashback.Flashback",
+      "method": "public static void pauseRecordingReplay(boolean pause)",
+      "file": ".upstream/flashback-j-w-i/src/main/java/com/moulberry/flashback/Flashback.java",
+      "line": 1111,
+      "reachability": "mod_callable",
+      "notes": "Public static. Delegates to Recorder.setPaused (Recorder.java:522). Note it dereferences RECORDER without a null check, so it throws if no recording is active. Also reachable as /flashback pause and /flashback unpause (Flashback.java:486-493)."
+    },
+    {
+      "purpose": "stop_recording",
+      "class": "com.moulberry.flashback.Flashback",
+      "method": "public static void finishRecordingReplay()",
+      "file": ".upstream/flashback-j-w-i/src/main/java/com/moulberry/flashback/Flashback.java",
+      "line": 1137,
+      "reachability": "mod_callable",
+      "notes": "Public static. Null-recording case only shows a toast and returns (lines 1138-1142). On success it detaches RECORDER, calls Recorder.endTickWithContext(true) (line 1146) and then either quicksaves to the replay folder via ReplayExporter.export (line 1168) or queues the record folder in pendingReplaySave (line 1170). Also reachable as /flashback finish and /flashback end (Flashback.java:484-485)."
+    },
+    {
+      "purpose": "cancel_recording",
+      "class": "com.moulberry.flashback.Flashback",
+      "method": "public static void cancelRecordingReplay()",
+      "file": ".upstream/flashback-j-w-i/src/main/java/com/moulberry/flashback/Flashback.java",
+      "line": 1120,
+      "reachability": "mod_callable",
+      "notes": "Public static, but no in-repo caller was found: it is reachable from a third-party mod only. It calls recorder.finish() (Recorder.java:526) and deletes the record folder."
+    },
+    {
+      "purpose": "write_recording_files",
+      "class": "com.moulberry.flashback.record.Recorder",
+      "method": "public Path finish()",
+      "file": ".upstream/flashback-j-w-i/src/main/java/com/moulberry/flashback/record/Recorder.java",
+      "line": 526,
+      "reachability": "mod_callable",
+      "notes": "Returns the record folder path by delegating to AsyncReplaySaver.finish (AsyncReplaySaver.java:310), which blocks until the async writer thread stops (lines 311-323). Recorder is public and constructible (public Recorder(RegistryAccess), Recorder.java:165) but the constructor does not start a recording session; the session lives in Flashback.RECORDER, a public static volatile field (Flashback.java:153)."
+    },
+    {
+      "purpose": "write_recording_zip",
+      "class": "com.moulberry.flashback.record.ReplayExporter",
+      "method": "public static void export(Path recordFolder, Path outputFile, @Nullable String name)",
+      "file": ".upstream/flashback-j-w-i/src/main/java/com/moulberry/flashback/record/ReplayExporter.java",
+      "line": 26,
+      "reachability": "mod_callable",
+      "notes": "Packs the record folder into a .zip containing metadata.json and chunk caches (lines 60-80). Metadata must already exist at recordFolder/metadata.json or metadata.json.old (lines 28-34) or it logs an error and returns. No client or renderer dependency was found in this class."
+    },
+    {
+      "purpose": "start_recording_keybind",
+      "class": "com.moulberry.flashback.Flashback",
+      "method": "KeyMapping createMarker1KeyBind..createMarker4KeyBind",
+      "file": ".upstream/flashback-j-w-i/src/main/java/com/moulberry/flashback/Flashback.java",
+      "line": 176,
+      "reachability": "keybind",
+      "notes": "These four registered keybinds create replay markers inside an active recording (consumed at Flashback.java:666-677); none of them starts or stops a recording. No keybind for start/stop recording was found."
+    }
+  ],
+  "playback": [
+    {
+      "purpose": "open_replay_file",
+      "class": "com.moulberry.flashback.Flashback",
+      "method": "public static void openReplayFromFileBrowser()",
+      "file": ".upstream/flashback-j-w-i/src/main/java/com/moulberry/flashback/Flashback.java",
+      "line": 1216,
+      "reachability": "gui_only",
+      "notes": "Opens an OS file dialog (AsyncFileDialogs.openFileDialog, line 1218) so a human must pick the zip; the continuation re-dispatches onto the client via Minecraft.getInstance().submit (line 1221). Not drivable programmatically without a dialog or a substitute call to openReplayWorld."
+    },
+    {
+      "purpose": "begin_playback",
+      "class": "com.moulberry.flashback.Flashback",
+      "method": "public static void openReplayWorld(Path path)",
+      "file": ".upstream/flashback-j-w-i/src/main/java/com/moulberry/flashback/Flashback.java",
+      "line": 1244,
+      "reachability": "mod_callable",
+      "notes": "Public static and the real entry point: it is callable from a third-party client mod given a Path to a replay .zip. It disconnects the current level and shows a TitleScreen (lines 1246-1251), reads /metadata.json from the zip (lines 1273-1282), then loads a real world via WorldLoader.load on Util.backgroundExecutor (lines 1318-1331) and calls MinecraftExt.flashback$startReplayServer (line 1333). Client-only: it is implemented as Minecraft.doWorldLoad (MixinMinecraft.java:453-460). It is reachable from the file browser (line 1222) and from the recent-replays UI."
+    },
+    {
+      "purpose": "begin_playback_server",
+      "class": "com.moulberry.flashback.ext.MinecraftExt",
+      "method": "void flashback$startReplayServer(LevelStorageSource.LevelStorageAccess, PackRepository, WorldStem, Optional<GameRules>, StartReplayServerInfo)",
+      "file": ".upstream/flashback-j-w-i/src/main/java/com/moulberry/flashback/ext/MinecraftExt.java",
+      "line": 19,
+      "reachability": "mod_callable",
+      "notes": "Interface-injected method on Minecraft (duck interface). Requires the client Minecraft instance. Its implementation (MixinMinecraft.java:453) calls doWorldLoad, so it is client-render-thread world loading, not a standalone server start."
+    },
+    {
+      "purpose": "playback_transport_play_pause",
+      "class": "com.moulberry.flashback.editor.ui.windows.TimelineWindow",
+      "method": "private static void togglePaused(ReplayServer replayServer)",
+      "file": ".upstream/flashback-j-w-i/src/main/java/com/moulberry/flashback/editor/ui/windows/TimelineWindow.java",
+      "line": 3620,
+      "reachability": "gui_only",
+      "notes": "The transport control that starts and stops playback. It toggles the public volatile field ReplayServer.replayPaused (ReplayServer.java:136; declared true at construction, so an opened replay loads paused). Called from the P keybind handler at TimelineWindow.java:3419-3420 (Keybinds.PAUSE, Keybinds.java:16) and from the transport button at TimelineWindow.java:2424-2425. Both paths are inside the ImGui editor window, i.e. requiring the client UI to be rendering. No mod-facing method wraps this toggle; a mod would have to write replayPaused directly."
+    },
+    {
+      "purpose": "playback_tick_advance",
+      "class": "com.moulberry.flashback.playback.ReplayServer",
+      "method": "public void tickServer(BooleanSupplier booleanSupplier)",
+      "file": ".upstream/flashback-j-w-i/src/main/java/com/moulberry/flashback/playback/ReplayServer.java",
+      "line": 986,
+      "reachability": "mod_callable",
+      "notes": "Overrides IntegratedServer.tickServer and drives one replay step; the normal-playback branch increments targetTick at lines 1080-1083 and the end-of-replay pause is at lines 1096-1104. ReplayServer extends IntegratedServer (ReplayServer.java:130) and imports net.minecraft.client.Minecraft (ReplayServer.java:55), so the class is client-environment only even though the ticking itself runs on the server thread."
+    },
+    {
+      "purpose": "playback_client_render_gate",
+      "class": "com.moulberry.flashback.playback.ReplayServer",
+      "method": "public boolean doClientRendering()",
+      "file": ".upstream/flashback-j-w-i/src/main/java/com/moulberry/flashback/playback/ReplayServer.java",
+      "line": 518,
+      "reachability": "mod_callable",
+      "notes": "Reports whether the client should draw this frame (false while processing or fast-forwarding through snapshots). Called from MixinMinecraft.java:419 to decide whether high-frequency poses are applied, which is the explicit client/renderer coupling of playback."
+    },
+    {
+      "purpose": "playback_requires_client_tick",
+      "class": "com.moulberry.flashback.mixin.MixinMinecraft",
+      "method": "public void flashback$applyKeyframes()",
+      "file": ".upstream/flashback-j-w-i/src/main/java/com/moulberry/flashback/mixin/MixinMinecraft.java",
+      "line": 364,
+      "reachability": "gui_only",
+      "notes": "Unique mixin method, invoked from ReplayServer on the client when forceApplyKeyframes is set (ReplayServer.java:1145-1147). It and the runTick injection at MixinMinecraft.java:368 mean replay camera/state application is delivered through Minecraft's client tick, so playback cannot be driven from a dedicated-server or headless-server-only harness."
+    }
+  ],
+  "seeking": [
+    {
+      "purpose": "request_seek_to_tick",
+      "class": "com.moulberry.flashback.playback.ReplayServer",
+      "method": "public void goToReplayTick(int tick)",
+      "file": ".upstream/flashback-j-w-i/src/main/java/com/moulberry/flashback/playback/ReplayServer.java",
+      "line": 464,
+      "reachability": "mod_callable",
+      "notes": "Public, single-argument, assignment-only: it sets the public volatile field jumpToTick (ReplayServer.java:135). It does not perform the seek itself. Reachable by a third-party mod holding the ReplayServer, and obtainable via public static ReplayServer Flashback.getReplayServer() (Flashback.java:1032)."
+    },
+    {
+      "purpose": "perform_seek",
+      "class": "com.moulberry.flashback.playback.ReplayServer",
+      "method": "tickServer jump handling (jumpToTick >= 0 branch)",
+      "file": ".upstream/flashback-j-w-i/src/main/java/com/moulberry/flashback/playback/ReplayServer.java",
+      "line": 1041,
+      "reachability": "mod_callable",
+      "notes": "The actual seek: consumes jumpToTick, sets targetTick (lines 1045-1046), and for jumps of more than one tick resets the forwarded GUI (1055), block destruction, lerp and particles for each replay viewer (1068-1078). Backward seeks clamp through the playable-chunk map (lines 1118-1123) and forward seeks are walked tick by tick with fastForwarding (lines 1129-1140). Requires the replay server thread to be ticking, which in this fork only exists behind a client world load."
+    },
+    {
+      "purpose": "seek_direct_field_write",
+      "class": "com.moulberry.flashback.playback.ReplayServer",
+      "method": "field public volatile int jumpToTick",
+      "file": ".upstream/flashback-j-w-i/src/main/java/com/moulberry/flashback/playback/ReplayServer.java",
+      "line": 135,
+      "reachability": "mod_callable",
+      "notes": "Same effect as goToReplayTick without the method: it is a public volatile field with default -1 meaning 'no pending jump' (checked at lines 1041, 1730, 1735). This is the shortest programmatic seek path available, but it still only takes effect on a server tick."
+    },
+    {
+      "purpose": "seek_to_tick_from_editor",
+      "class": "com.moulberry.flashback.editor.ui.windows.TimelineWindow",
+      "method": "private static void seek(Frame f, int tick)",
+      "file": ".upstream/flashback-j-w-i/src/main/java/com/moulberry/flashback/editor/ui/windows/TimelineWindow.java",
+      "line": 3337,
+      "reachability": "gui_only",
+      "notes": "The editor's seek: clamps the tick, calls goToReplayTick only when the playhead actually moved (lines 3341-3343), and forces forceApplyKeyframes.set(true) (line 3344). Its callers are the ImGui timeline interactions and key handlers, including the step-backwards path at TimelineWindow.java:3425. Any seek from here requires the ImGui editor to be running on the client render thread."
+    },
+    {
+      "purpose": "seek_forced_by_export",
+      "class": "com.moulberry.flashback.exporting.ExportJob",
+      "method": "private void setServerTickAndWait(ReplayServer replayServer, int targetTick, boolean force)",
+      "file": ".upstream/flashback-j-w-i/src/main/java/com/moulberry/flashback/exporting/ExportJob.java",
+      "line": 699,
+      "reachability": "gui_only",
+      "notes": "Deterministic seek-and-wait used by export: writes jumpToTick, forces replayPaused = true and sendFinishedServerTick, then parks the caller until the server thread reports the tick (lines 700-710). This is the strongest existing seek primitive, but ExportJob.run() needs a mouse handler, sound manager and framebuffers (ExportJob.java:191-232), so it is not headless either. Export is started from the StartExportWindow UI (StartExportWindow.java:263)."
+    },
+    {
+      "purpose": "seek_requires_loaded_world",
+      "class": "com.moulberry.flashback.playback.ReplayServer",
+      "method": "public PlaybackTime getPlaybackTime() / public double getPartialReplayTick()",
+      "file": ".upstream/flashback-j-w-i/src/main/java/com/moulberry/flashback/playback/ReplayServer.java",
+      "line": 499,
+      "reachability": "mod_callable",
+      "notes": "Public read-side timing API for a seeked/interpolated playback position (also getReplayTick() line 489, getTotalReplayTicks() line 514, getPlaybackTime's record at line 497). All of it reads state that only advances while a ReplayServer instance exists, i.e. after a replay world is loaded; PlaybackTime's own comment (lines 500-501) is about the render thread reading it across seeks."
+    }
+  ],
+  "headlessVerification": {
+    "possible": false,
+    "blockers": [
+      "Replay world load goes through Minecraft.doWorldLoad: Flashback.openReplayWorld (Flashback.java:1244) calls MinecraftExt.flashback$startReplayServer (Flashback.java:1333), implemented in MixinMinecraft.java:453, which calls doWorldLoad. There is no server-only or headless entry point to start a ReplayServer; ReplayServer extends IntegratedServer (ReplayServer.java:130) but is constructed from this client mixin (MixinMinecraft.java:441).",
+      "ReplayServer is client-environment code: it imports net.minecraft.client.Minecraft (ReplayServer.java:55) and its class is only present in the client jar set; a dedicated-server harness cannot load it.",
+      "Playback and seeking are delivered through the client render thread: forceApplyKeyframes is applied by MixinMinecraft.flashback$applyKeyframes (MixinMinecraft.java:364) invoked from ReplayServer.java:1145-1147, and the pose/lerp gate is MixinMinecraft.java:419 reading doClientRendering (ReplayServer.java:518).",
+      "Starting a recording is client-only at runtime: Flashback.startRecordingReplay (Flashback.java:1088) dereferences Minecraft.getInstance().player at line 1101, so it needs a loaded client player; its automatic path is a ClientTickEvents.START_CLIENT_TICK handler (Flashback.java:632-657).",
+      "The command surface is client-side only: the /flashback tree is registered through ClientCommandRegistrationCallback with FabricClientCommandSource (Flashback.java:481-483).",
+      "Seeking as a user operation is ImGui-only: TimelineWindow.seek (TimelineWindow.java:3337) and the play/pause transport TimelineWindow.togglePaused (TimelineWindow.java:3620, called from key handler at 3419 and button at 2424) live in the editor window that is drawn inside the client render loop.",
+      "There is no headless end-to-end path shipped by the fork, and the fork states its own headless suites are not a substitute: devtools/checks/README.md lines 6-8 (\"It is a headless model, not a substitute for recording and replaying in game\"). Those suites shadow the game client with stubs, and devtools/uitest/stubs/ replaces ReplayServer, ReplayUI, EditorStateManager and Flashback outright, so they never instantiate the real replay server.",
+      "The only remaining route is a real client launch. That is a human/input and GPU-bound process: the export path explicitly requires framebuffers and a framebuffer downloader (ExportJob.java:230-231), and the recording transport toggles are keybind (TimelineWindow.java:3419) or ImGui button (TimelineWindow.java:2424) driven, not an API."
+    ]
+  },
+  "modDependency": {
+    "coordinates": "None published. The fork's build.gradle applies the maven-publish plugin (build.gradle:15) but declares no publishing{} block, no publications and no repository, and the build produces only local files: build/libs/flashback-0.43.6.1.jar, build/libs/flashback-0.43.6.1-sources.jar, build/libs/merged-0.43.6.1.jar. There are no published Maven coordinates for revision 076b96b9fa400212d3d75fa2239d0f3836cf085b, and the licence forbids redistribution, so a dependent mod must be built against the locally built artifact.",
+    "packages": [
+      "com.moulberry.flashback (Flashback: startRecordingReplay 1088, finishRecordingReplay 1137, cancelRecordingReplay 1120, pauseRecordingReplay 1111, openReplayWorld 1244, getReplayServer 1032, getConfig 1027, RECORDER 153)",
+      "com.moulberry.flashback.record (Recorder, ReplayExporter, FlashbackMeta, ReplayMarker)",
+      "com.moulberry.flashback.playback (ReplayServer, ReplayReader-adjacent playback state)",
+      "com.moulberry.flashback.io (ReplayReader, ReplayWriter, AsyncReplaySaver)",
+      "com.moulberry.flashback.state (EditorState, EditorStateManager)",
+      "com.moulberry.flashback.ext (MinecraftExt and the other accessor interfaces)"
+    ],
+    "notes": [
+      "environment is \"client\" with only main and client entrypoints in fabric.mod.json (lines 16-27); there is no server entrypoint and nothing is exposed server-side.",
+      "There is no public API package and no capability registry: the only mod-facing contract is whatever classes happen to be public under com.moulberry.flashback. The fork's own in-tree example consumer, inventory-addon-mod, uses mixins rather than API calls (inventory-addon-mod/src/main/java/com/flashbackinventoryaddon/FlashbackCompat.java) and does not declare Flashback in its fabric.mod.json depends block; it also targets Minecraft 1.21.1 with Loom 1.7.4 (inventory-addon-mod/gradle.properties, inventory-addon-mod/build.gradle), so it is stale relative to this revision (26.3, Loom 1.15-SNAPSHOT, Java 25 per build.gradle:113-135 and gradle.properties).",
+      "The jar uses official Mojang mappings (intermediary is not applied to this local build tree); a dependent mod compiled against named/Mojmap symbols must match the fork's mapping set."
+    ]
+  },
+  "unknowns": [
+    "Nothing here was executed: no Gradle build, no client launch and no replay was run for this audit. All reachability is source reading only; 'mod_callable' means the symbol is public and its runtime preconditions are described, not that a call was observed to succeed.",
+    "Whether Flashback.startRecordingReplay tolerates a null Minecraft.player in practice (it would throw on line 1101) versus some other guard reached first was not exercised.",
+    "Whether the fork's own devtools checks (16 behaviour suites + static checks) can be extended to cover record -> replay -> seek was not attempted, because stubs replace the classes under test (devtools/checks/stubs, devtools/uitest/stubs).",
+    "The exact input-device requirement for a bounded client harness (whether a headless/offscreen GL context is enough for Minecraft.doWorldLoad plus ReplayServer) was not tested; the renderer coupling in MixinMinecraft.java:364 and 419 makes it likely insufficient, but that is inference from source, not a measurement.",
+    "No server-side integration surface was found; whether a server-side mod could influence an ongoing recording through ordinary packets was not investigated beyond finding no server entrypoint.",
+    "The replay file format's stability (metadata.json schema version and chunk layout) was not assessed for third-party readers beyond FlashbackMeta's public fields (FlashbackMeta.java:17-35)."
+  ]
+}

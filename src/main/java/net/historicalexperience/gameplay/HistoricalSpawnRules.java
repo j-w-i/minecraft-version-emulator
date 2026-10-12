@@ -1,0 +1,249 @@
+package net.historicalexperience.gameplay;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.LongAdder;
+
+import net.historicalexperience.profile.HistoricalProfiles;
+
+/**
+ * Which entity types a historical gameplay profile may spawn naturally.
+ *
+ * <p>This is a <b>gameplay</b> rule, not a generation-recipe rule, and it is keyed by the gameplay
+ * profile id rather than by a generation revision. That distinction is deliberate: a spawn list does
+ * not change any stored chunk, so applying it to every world of an era is correct, whereas a
+ * generation-content change would have to be a new immutable revision. It also means the rule
+ * applies to every revision of Beta 1.7.3, including already-generated worlds, without
+ * reinterpreting what any world's recipe recorded.
+ *
+ * <h2>Why an allow list, and where it comes from</h2>
+ *
+ * <p>The set is the complete entity registry of the Beta 1.7.3 client, extracted from the
+ * hash-verified jar's {@code jc.class} constant pool. An allow list is used rather than a deny list
+ * because the historical set is fully enumerable and closed: anything not in it - including an
+ * entity type that a future Minecraft version adds - is denied by construction, where a deny list
+ * would quietly admit it.
+ *
+ * <p>What this establishes is <b>which entity types may spawn</b>, not the historical weights or
+ * pack sizes; those remain unestablished. Non-mob entities (arrows, boats, minecarts, items,
+ * falling sand, primed TNT, snowballs, paintings) are not natural spawns and are unaffected, and so
+ * are spawn eggs, breeding, spawner blocks and mob conversion.
+ */
+public final class HistoricalSpawnRules {
+    /**
+     * The mobs registered by the Beta 1.7.3 client, as modern entity type identifiers.
+     *
+     * <p>Derived one-to-one from the {@code jc.class} constant pool; see
+     * {@code research/beta173-entity-types.json}. {@code minecraft:giant} is included because it
+     * existed in Beta, even though neither version gives it a natural spawn entry - including it is
+     * inert and avoids inventing a restriction that the evidence does not support.
+     */
+    public static final Set<String> BETA_1_7_3_MOBS = Set.of(
+        "minecraft:chicken",
+        "minecraft:cow",
+        "minecraft:creeper",
+        "minecraft:ghast",
+        "minecraft:giant",
+        "minecraft:pig",
+        "minecraft:sheep",
+        "minecraft:skeleton",
+        "minecraft:slime",
+        "minecraft:spider",
+        "minecraft:squid",
+        "minecraft:wolf",
+        "minecraft:zombie",
+        "minecraft:zombie_pigman"
+    );
+
+    /**
+     * Beta 1.8.1's natural spawns: the Beta 1.7.3 set plus the four the Adventure Update added.
+     *
+     * <p>Verified from the b1.8.1 client's entity registry (class {@code um}, SHA1
+     * {@code 0db6b648...}, 28 names, 17 of them mobs): endermen, cave spiders and silverfish appear,
+     * while bats, ocelots and every later mob still do not.
+     *
+     * <p><b>Villagers are deliberately NOT here.</b> A provisional version of this set included them on
+     * the assumption that villages and villagers arrived together in Beta 1.8. The registry scan shows
+     * no villager in b1.8.1 at all - it arrives in 1.0 - so the assumption was wrong and the entry was
+     * removed rather than kept because it seemed likely. See {@code research/version-boundaries.json}.
+     */
+    public static final Set<String> BETA_1_8_1_MOBS = java.util.stream.Stream.concat(
+            BETA_1_7_3_MOBS.stream(),
+            java.util.stream.Stream.of(
+                "minecraft:enderman",
+                "minecraft:cave_spider",
+                "minecraft:silverfish"))
+        .collect(java.util.stream.Collectors.toUnmodifiableSet());
+
+    /**
+     * Alpha v1.1.2_01's natural spawns: ten mobs, verified from that client's own entity registry.
+     *
+     * <p>Read from class {@code ew} (SHA-1 of the client: {@code daa4b9f192d2c260837d3b98c39432324da28e86},
+     * 897,164 bytes, checked against Mojang's own version metadata before use). The registry holds 20
+     * registrations: these ten mobs, eight non-mob entities and the two base classes `Mob` and `Monster`.
+     *
+     * <p><b>Four of Beta 1.7.3's mobs are absent and were confirmed absent</b> as UTF-8 constants
+     * anywhere in the jar, not merely missing from a list: ghasts, zombie pigmen, squid and wolves.
+     *
+     * <p>Giant is included for consistency with the Beta 1.7.3 set, which also registers it. It is
+     * registered here and there alike and is not understood to have spawned naturally in either; the
+     * registry is the convention this project uses, and the self-check that fixed that convention
+     * reproduced Beta 1.7.3's 14 mobs exactly.
+     */
+    public static final Set<String> ALPHA_1_1_2_MOBS = Set.of(
+        "minecraft:chicken",
+        "minecraft:cow",
+        "minecraft:creeper",
+        "minecraft:giant",
+        "minecraft:pig",
+        "minecraft:sheep",
+        "minecraft:skeleton",
+        "minecraft:slime",
+        "minecraft:spider",
+        "minecraft:zombie"
+    );
+
+    /**
+     * Infdev 20100325's mobs, from the only place that build enumerates them.
+     *
+     * <p>That jar has <b>no entity-name registry at all</b> - a case-sensitive scan for every entity name
+     * returns zero hits - so the set comes from the one place the build creates mobs: a
+     * {@code random.nextInt(6)} switch that constructs zombie, creeper, skeleton, spider, pig and sheep.
+     * Giant is present with a renderer but is never constructed.
+     *
+     * <p><b>Inferred rather than proven</b>, and the entry says so: the switch calls the world spawn
+     * method and a sound, which fits a natural spawner - but it would also fit an effect entity, and
+     * settling it needs a runtime observation rather than a static read.
+     */
+    public static final Set<String> INFDEV_20100325_MOBS = Set.of(
+        "minecraft:zombie",
+        "minecraft:creeper",
+        "minecraft:skeleton",
+        "minecraft:spider",
+        "minecraft:pig",
+        "minecraft:sheep"
+    );
+
+    /**
+     * Infdev 20100420 and 20100611's mobs: the registry-backed set, seven species.
+     *
+     * <p>Both builds carry entity registry class {@code net/minecraft/a/c/e} with an identical
+     * {@code <clinit>} instruction sequence and 13 registrations: the base classes Mob and Monster, seven
+     * species (creeper, skeleton, spider, giant, zombie, pig, sheep) and four non-mob entities (arrow,
+     * item, painting, primed TNT). There is no numeric entity id yet in that registry - the class/id form
+     * Beta uses arrives later - so the set is by class and name.
+     */
+    public static final Set<String> INFDEV_20100420_AND_20100611_MOBS = Set.of(
+        "minecraft:creeper",
+        "minecraft:skeleton",
+        "minecraft:spider",
+        "minecraft:giant",
+        "minecraft:zombie",
+        "minecraft:pig",
+        "minecraft:sheep"
+    );
+
+    /**
+     * Infdev 20100227's mobs: <b>none</b>.
+     *
+     * <p>Not an extraction failure. That jar has no entity-name registry and no {@code (Class, String)}
+     * registrar anywhere; a case-sensitive constant-pool scan for every entity name returns zero hits;
+     * twelve entity-derived classes exist and the client even ships seven mob renderers, but a scan of
+     * every {@code new} instruction in all 289 classes finds <b>no mob ever instantiated</b> - only
+     * primed TNT, an item stack and an arrow.
+     *
+     * <p>So the correct rule is "nothing spawns naturally", which is why this is an EMPTY set that still
+     * restricts rather than an empty set meaning "unrestricted".
+     */
+    public static final Set<String> INFDEV_20100227_MOBS = Set.of();
+
+    /** One era's natural-spawn rule and the evidence behind it. */
+    public record SpawnRule(String profileId, Set<String> allowedEntityTypes, String evidence) {
+    }
+
+    private static final LongAdder FILTER_INVOCATIONS = new LongAdder();
+    private static final LongAdder REMOVED_ENTRIES = new LongAdder();
+    private static final Set<String> REMOVED_ENTITY_TYPES = ConcurrentHashMap.newKeySet();
+
+    private HistoricalSpawnRules() {
+    }
+
+    /** Every version that currently restricts natural spawning, for diagnostics and tests. */
+    public static Set<String> restrictedProfiles() {
+        return net.historicalexperience.version.HistoricalVersions.all().stream()
+            .filter(version -> version.rules().restrictsSpawns())
+            .map(net.historicalexperience.version.HistoricalVersion::id)
+            .collect(java.util.stream.Collectors.toUnmodifiableSet());
+    }
+
+    /** The spawn rule a version declares, or empty when that version is unrestricted. */
+    public static java.util.Optional<SpawnRule> forProfile(String profileId) {
+        return net.historicalexperience.version.HistoricalVersions.byId(profileId)
+            .filter(version -> version.rules().restrictsSpawns())
+            .map(version -> new SpawnRule(
+                version.id(), version.rules().allowedNaturalSpawns(), version.rules().evidence()));
+    }
+
+    /**
+     * The gameplay profile a persisted generation-recipe alias belongs to, or {@code null} when the
+     * alias is not one this build declares.
+     *
+     * <p>Resolved through the same binding table the lifecycle uses, so a world cannot be treated as
+     * historical by this rule while being rejected as historical everywhere else.
+     */
+    public static String profileIdForAlias(String rawAlias) {
+        return HistoricalProfiles.byGenerationPreset(rawAlias)
+            .map(binding -> binding.profile().id().value())
+            .orElse(null);
+    }
+
+    /** True when this entity type may spawn naturally under the given rule. */
+    public static boolean isAllowed(SpawnRule rule, String entityTypeId) {
+        return rule == null || rule.allowedEntityTypes().contains(entityTypeId);
+    }
+
+    /** Records that a spawn-list filter ran. */
+    public static void recordFilterInvocation() {
+        FILTER_INVOCATIONS.increment();
+    }
+
+    /** Records that one candidate spawn entry was removed, and which entity type it named. */
+    public static void recordRemoval(String entityTypeId) {
+        REMOVED_ENTRIES.increment();
+        REMOVED_ENTITY_TYPES.add(entityTypeId);
+    }
+
+    /** How many spawn-list filters have run since process start. */
+    public static long filterInvocations() {
+        return FILTER_INVOCATIONS.sum();
+    }
+
+    /** How many candidate spawn entries have been removed since process start. */
+    public static long removedEntries() {
+        return REMOVED_ENTRIES.sum();
+    }
+
+    /** The distinct entity types removed so far, for verdict reporting. */
+    public static Set<String> removedEntityTypes() {
+        return Set.copyOf(REMOVED_ENTITY_TYPES);
+    }
+
+    /** Diagnostics as an ordered map, for verdict reporting. */
+    public static Map<String, String> diagnostics() {
+        Map<String, String> report = new LinkedHashMap<>();
+        report.put("restrictedProfiles", restrictedProfiles().toString());
+        report.put("allowedEntityTypes", Integer.toString(BETA_1_7_3_MOBS.size()));
+        report.put("filterInvocations", Long.toString(FILTER_INVOCATIONS.sum()));
+        report.put("removedEntries", Long.toString(REMOVED_ENTRIES.sum()));
+        report.put("removedEntityTypes", REMOVED_ENTITY_TYPES.toString());
+        return report;
+    }
+
+    /** The ordered allow list, so tests and reports do not depend on set iteration order. */
+    public static List<String> beta173MobsInOrder() {
+        return BETA_1_7_3_MOBS.stream().sorted().toList();
+    }
+}
