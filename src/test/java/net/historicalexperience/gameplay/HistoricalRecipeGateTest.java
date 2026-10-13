@@ -70,7 +70,41 @@ class HistoricalRecipeGateTest {
     }
 
     @Test
-    @DisplayName("an unknown version makes no claim, so nothing is refused")
+    @DisplayName("blocks introduced between the two earliest palettes get their STATED date, not beta_1_7_3")
+    void inferredDatesMustNotRefuseContentTheVersionHad() {
+        // The regression this exists for. The extracted palettes jump from Alpha v1.1.2_01 to Beta 1.7.3, so cake,
+        // note blocks, pistons and both rails were all merely INFERRED as beta_1_7_3. The first version of this
+        // gate trusted that and would have refused all of them in every Alpha world and in Beta 1.0 to Beta 1.6 -
+        // content those builds really had, which is the worse of the two errors. Their dates are now stated by the
+        // reviewed research, so the boundary is both earlier and trustworthy.
+        for (String atOrAfter : new String[] {"historical_experience:beta_1_2", "historical_experience:beta_1_3",
+                "historical_experience:beta_1_6", RELEASE_1_6_4}) {
+            assertFalse(HistoricalRecipeGate.isBlockUnavailable(atOrAfter, "minecraft:cake"),
+                atOrAfter + " had cake (Beta 1.2) and must be able to craft it");
+            assertFalse(HistoricalRecipeGate.isBlockUnavailable(atOrAfter, "minecraft:note_block"),
+                atOrAfter + " had note blocks (Beta 1.2)");
+        }
+
+        // And the stated date still refuses it where it genuinely was absent: cake is Beta 1.2, so Alpha has none.
+        assertTrue(HistoricalRecipeGate.isBlockUnavailable(ALPHA_1_0_1, "minecraft:cake"),
+            "Alpha 1.0.1 predates cake (Beta 1.2) and must not be able to craft one");
+        assertTrue(HistoricalRecipeGate.isBlockUnavailable(INFDEV, "minecraft:cake"));
+
+        // Beta 1.5's rails and Beta 1.7's pistons, each refused on the earlier side of its own boundary.
+        assertTrue(HistoricalRecipeGate.isBlockUnavailable(ALPHA_1_0_1, "minecraft:powered_rail"));
+        assertTrue(HistoricalRecipeGate.isBlockUnavailable("historical_experience:beta_1_3",
+            "minecraft:powered_rail"), "Beta 1.3 predates powered rails (Beta 1.5)");
+        assertFalse(HistoricalRecipeGate.isBlockUnavailable("historical_experience:beta_1_5",
+            "minecraft:powered_rail"), "Beta 1.5 introduced powered rails");
+
+        assertTrue(HistoricalRecipeGate.isBlockUnavailable("historical_experience:beta_1_6",
+            "minecraft:piston"), "Beta 1.6 predates pistons (Beta 1.7)");
+        assertFalse(HistoricalRecipeGate.isBlockUnavailable(BETA_1_7_3, "minecraft:piston"),
+            "Beta 1.7.3 is the declared profile for Beta 1.7 and introduced pistons");
+    }
+
+    @Test
+    @DisplayName("an UNKNOWN version makes no claim, so nothing is refused")
     void unknownVersionRefusesNothing() {
         assertFalse(HistoricalRecipeGate.isBlockUnavailable(null, "minecraft:white_bed"),
             "no version means no claim, which is the same direction every other table in this project takes");

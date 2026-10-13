@@ -254,12 +254,22 @@ public final class HistoricalBlockAvailability {
                 "minecraft:nether_portal",
                 "minecraft:netherrack",
                 "minecraft:pumpkin"});
+        // version-transitions beta_1_2 introduced: "charcoal, note blocks, dyes and colored wool, sugar, dispensers" and "cake, cocoa beans (Creative/editor-only at this point), brown wool (external-tool-only)"; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
+        introduce("historical_experience:beta_1_2", true,
+            "version-transitions beta_1_2 introduced: \"charcoal, note blocks, dyes and colored wool, sugar, dispensers\" and \"cake, cocoa beans (Creative/editor-only at this point), brown wool (external-tool-only)\"; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
+            new String[] {
+                "minecraft:cake"});
         // feature-timeline blocks: lapis lazuli ore introduced Beta 1.2 (Beta 1.2_02 later adjusted its frequency and height and permitted bedrock-level generation, which must NOT be backdated into 1.2); the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
         introduce("historical_experience:beta_1_2", true,
             "feature-timeline blocks: lapis lazuli ore introduced Beta 1.2 (Beta 1.2_02 later adjusted its frequency and height and permitted bedrock-level generation, which must NOT be backdated into 1.2); the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:lapis_block",
                 "minecraft:lapis_ore"});
+        // version-transitions beta_1_2 introduced: "charcoal, note blocks, dyes and colored wool, sugar, dispensers" and "cake, cocoa beans (Creative/editor-only at this point), brown wool (external-tool-only)"; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
+        introduce("historical_experience:beta_1_2", true,
+            "version-transitions beta_1_2 introduced: \"charcoal, note blocks, dyes and colored wool, sugar, dispensers\" and \"cake, cocoa beans (Creative/editor-only at this point), brown wool (external-tool-only)\"; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
+            new String[] {
+                "minecraft:note_block"});
         // feature-timeline blocks: sandstone introduced Beta 1.2, so Alpha and Infdev have none; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
         introduce("historical_experience:beta_1_2", true,
             "feature-timeline blocks: sandstone introduced Beta 1.2, so Alpha and Infdev have none; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
@@ -319,6 +329,12 @@ public final class HistoricalBlockAvailability {
             "feature-timeline blocks: cobweb introduced Beta 1.5; version-transitions beta_1_5 lists it with the explicit caveat that it is \"unobtainable without inventory editing\", which is noted rather than reproduced because this project does not gate item obtainability; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:cobweb"});
+        // version-transitions beta_1_5 introduced: "detector rails" and "powered rails (need redstone; transmit across up to 8 powered rails and accelerate minecarts)"; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
+        introduce("historical_experience:beta_1_5", true,
+            "version-transitions beta_1_5 introduced: \"detector rails\" and \"powered rails (need redstone; transmit across up to 8 powered rails and accelerate minecarts)\"; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
+            new String[] {
+                "minecraft:detector_rail",
+                "minecraft:powered_rail"});
         // feature-timeline blocks: grass (the plant) introduced Beta 1.6 Test Build 3, and version-transitions beta_1_6 lists "short grass and fern (grass patches in most grassy-soil biomes; fern naturally only in swamps/rainforests)" and "dead bush (deserts only, placeable only on sand)" - all three are this build's; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
         introduce("historical_experience:beta_1_6", true,
             "feature-timeline blocks: grass (the plant) introduced Beta 1.6 Test Build 3, and version-transitions beta_1_6 lists \"short grass and fern (grass patches in most grassy-soil biomes; fern naturally only in swamps/rainforests)\" and \"dead bush (deserts only, placeable only on sand)\" - all three are this build's; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
@@ -334,6 +350,13 @@ public final class HistoricalBlockAvailability {
             "feature-timeline blocks: grass (the plant) introduced Beta 1.6 Test Build 3, and version-transitions beta_1_6 lists \"short grass and fern (grass patches in most grassy-soil biomes; fern naturally only in swamps/rainforests)\" and \"dead bush (deserts only, placeable only on sand)\" - all three are this build's; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:short_grass"});
+        // feature-timeline: version-transitions beta_1_7 introduced: "piston and sticky piston". This project declares Beta 1.7 through the Beta 1.7.3 profile, so that profile is the earliest version that may have them
+        introduce("historical_experience:beta_1_7_3", true,
+            "feature-timeline: version-transitions beta_1_7 introduced: \"piston and sticky piston\". This project declares Beta 1.7 through the Beta 1.7.3 profile, so that profile is the earliest version that may have them",
+            new String[] {
+                "minecraft:moving_piston",
+                "minecraft:piston",
+                "minecraft:sticky_piston"});
         // first appears in the beta_1_7_3 extracted palette as "brick" (the reviewed mapping name)
         introduce("historical_experience:beta_1_7_3", false,
             "first appears in the beta_1_7_3 extracted palette as \"brick\" (the reviewed mapping name)",
@@ -344,11 +367,6 @@ public final class HistoricalBlockAvailability {
             "first appears in the beta_1_7_3 extracted palette as \"mushroom\" (the reviewed mapping name)",
             new String[] {
                 "minecraft:brown_mushroom"});
-        // first appears in the beta_1_7_3 extracted palette as "cake" (the reviewed mapping name)
-        introduce("historical_experience:beta_1_7_3", false,
-            "first appears in the beta_1_7_3 extracted palette as \"cake\" (the reviewed mapping name)",
-            new String[] {
-                "minecraft:cake"});
         // first appears in the beta_1_7_3 extracted palette as "chest" (the reviewed mapping name)
         introduce("historical_experience:beta_1_7_3", false,
             "first appears in the beta_1_7_3 extracted palette as \"chest\" (the reviewed mapping name)",
@@ -374,11 +392,6 @@ public final class HistoricalBlockAvailability {
             "first appears in the beta_1_7_3 extracted palette as \"flower\" (the reviewed mapping name)",
             new String[] {
                 "minecraft:dandelion"});
-        // first appears in the beta_1_7_3 extracted palette as "detectorRail" (the reviewed mapping name)
-        introduce("historical_experience:beta_1_7_3", false,
-            "first appears in the beta_1_7_3 extracted palette as \"detectorRail\" (the reviewed mapping name)",
-            new String[] {
-                "minecraft:detector_rail"});
         // first appears in the beta_1_7_3 extracted palette as "blockDiamond" (the reviewed mapping name)
         introduce("historical_experience:beta_1_7_3", false,
             "first appears in the beta_1_7_3 extracted palette as \"blockDiamond\" (the reviewed mapping name)",
@@ -439,11 +452,6 @@ public final class HistoricalBlockAvailability {
             "first appears in the beta_1_7_3 extracted palette as \"lever\" (the reviewed mapping name)",
             new String[] {
                 "minecraft:lever"});
-        // first appears in the beta_1_7_3 extracted palette as "musicBlock" (the reviewed mapping name)
-        introduce("historical_experience:beta_1_7_3", false,
-            "first appears in the beta_1_7_3 extracted palette as \"musicBlock\" (the reviewed mapping name)",
-            new String[] {
-                "minecraft:note_block"});
         // first appears in the beta_1_7_3 extracted palette as "doorWood" (the reviewed mapping name)
         introduce("historical_experience:beta_1_7_3", false,
             "first appears in the beta_1_7_3 extracted palette as \"doorWood\" (the reviewed mapping name)",
@@ -479,21 +487,11 @@ public final class HistoricalBlockAvailability {
             "first appears in the beta_1_7_3 extracted palette as \"trapdoor\" (the reviewed mapping name)",
             new String[] {
                 "minecraft:oak_trapdoor"});
-        // first appears in the beta_1_7_3 extracted palette as "pistonBase" (the reviewed mapping name)
-        introduce("historical_experience:beta_1_7_3", false,
-            "first appears in the beta_1_7_3 extracted palette as \"pistonBase\" (the reviewed mapping name)",
-            new String[] {
-                "minecraft:piston"});
         // first appears in the beta_1_7_3 extracted palette as "rose" (the reviewed mapping name)
         introduce("historical_experience:beta_1_7_3", false,
             "first appears in the beta_1_7_3 extracted palette as \"rose\" (the reviewed mapping name)",
             new String[] {
                 "minecraft:poppy"});
-        // first appears in the beta_1_7_3 extracted palette as "goldenRail" (the reviewed mapping name)
-        introduce("historical_experience:beta_1_7_3", false,
-            "first appears in the beta_1_7_3 extracted palette as \"goldenRail\" (the reviewed mapping name)",
-            new String[] {
-                "minecraft:powered_rail"});
         // first appears in the beta_1_7_3 extracted palette as "rail" (the reviewed mapping name)
         introduce("historical_experience:beta_1_7_3", false,
             "first appears in the beta_1_7_3 extracted palette as \"rail\" (the reviewed mapping name)",
@@ -519,11 +517,6 @@ public final class HistoricalBlockAvailability {
             "first appears in the beta_1_7_3 extracted palette as \"hellsand\" (the reviewed mapping name)",
             new String[] {
                 "minecraft:soul_sand"});
-        // first appears in the beta_1_7_3 extracted palette as "pistonStickyBase" (the reviewed mapping name)
-        introduce("historical_experience:beta_1_7_3", false,
-            "first appears in the beta_1_7_3 extracted palette as \"pistonStickyBase\" (the reviewed mapping name)",
-            new String[] {
-                "minecraft:sticky_piston"});
         // first appears in the beta_1_7_3 extracted palette as "stone" (the reviewed mapping name)
         introduce("historical_experience:beta_1_7_3", false,
             "first appears in the beta_1_7_3 extracted palette as \"stone\" (the reviewed mapping name)",

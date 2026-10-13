@@ -3,8 +3,7 @@ package net.historicalexperience.gameplay;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import net.historicalexperience.generation.HistoricalBlockAvailability;
-import net.historicalexperience.generation.HistoricalBlockContent;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.historicalexperience.generation.HistoricalBlockContent;import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 
@@ -74,10 +73,34 @@ public final class HistoricalRecipeGate {
      * id, and this project has no test bootstrap - a unit test that touched {@code BuiltInRegistries} died with
      * {@code NoClassDefFoundError} when the village style check tried it. The decision itself is a pure table
      * lookup, so it is kept where it can be tested directly and the registry lookup stays a thin wrapper.
+     *
+     * <h2>Why only a STATED boundary may refuse a craft</h2>
+     *
+     * <p>Two kinds of date live in the availability table, and they are not equally strong. A <b>stated</b> one
+     * comes from the reviewed research - "beds are Beta 1.3", "cobweb is Beta 1.5". An <b>inferred</b> one comes
+     * from an extracted palette: the block's NAME appears in that version's client, so it is dated to the earliest
+     * extraction containing it. The extracted set jumps from Alpha v1.1.2_01 straight to Beta 1.7.3, so every
+     * block introduced in between is inferred as Beta 1.7.3 - a lower bound on the evidence, not a claim that the
+     * block arrived then.
+     *
+     * <p>For world generation that over-refusal was mostly invisible, because none of those blocks generate
+     * naturally. For <b>crafting</b> it is not: the owner's own request was to stop beds being craftable too
+     * early, and the first version of this gate would have refused a <b>cake</b> in a Beta 1.2 world - cake is
+     * dated {@code beta_1_7_3} from the palette, while the reviewed research states Beta 1.2 introduced it - along
+     * with the jukebox, the note block and the piston for the same reason. Refusing content a version really had
+     * is the worse error of the two, so an inferred date is not allowed to refuse anything here.
+     *
+     * <p>A block with NO recorded boundary at all is still refused, and that is the strongest case rather than an
+     * oversight: those come from {@link HistoricalBlockAnachronisms}, which lists content later than <b>every</b>
+     * declared version - copper, deepslate, the 1.13 ocean blocks, the 1.21 plants.
      */
     public static boolean isBlockUnavailable(String versionId, String blockId) {
-        return versionId != null && blockId != null
-            && HistoricalBlockContent.isAnachronistic(versionId, blockId);
+        if (versionId == null || blockId == null
+            || !HistoricalBlockContent.isAnachronistic(versionId, blockId)) {
+            return false;
+        }
+        var boundary = HistoricalBlockAvailability.boundaryFor(blockId);
+        return boundary == null || boundary.timeline();
     }
 
     /** The same decision, recording the refusal and the evidence for the probe to report. */

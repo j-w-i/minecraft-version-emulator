@@ -210,6 +210,22 @@ TIMELINE = [
     # that gets read.
     (['minecraft:sandstone'], 'historical_experience:beta_1_2',
      'feature-timeline blocks: sandstone introduced Beta 1.2, so Alpha and Infdev have none'),
+    # SEVEN BLOCKS THAT WERE ONLY EVER INFERRED, found while wiring crafting checkpoints. The extracted palettes
+    # jump from Alpha v1.1.2_01 to Beta 1.7.3, so every block introduced in between was dated to beta_1_7_3 - a
+    # lower bound on the evidence rather than a claim about the block. That was nearly invisible for world
+    # generation, because none of these generate naturally. For CRAFTING it was not: the gate would have refused
+    # a cake, a note block, a piston and both rails in every Alpha world AND in Beta 1.0 through Beta 1.6, which
+    # is content those builds really had. Each date below is STATED by the reviewed research rather than inferred.
+    (['minecraft:cake', 'minecraft:note_block'], 'historical_experience:beta_1_2',
+     'version-transitions beta_1_2 introduced: "charcoal, note blocks, dyes and colored wool, sugar, dispensers" '
+     'and "cake, cocoa beans (Creative/editor-only at this point), brown wool (external-tool-only)"'),
+    (['minecraft:detector_rail', 'minecraft:powered_rail'], 'historical_experience:beta_1_5',
+     'version-transitions beta_1_5 introduced: "detector rails" and "powered rails (need redstone; transmit '
+     'across up to 8 powered rails and accelerate minecarts)"'),
+    (['minecraft:piston', 'minecraft:sticky_piston', 'minecraft:moving_piston'],
+     'historical_experience:beta_1_7_3',
+     'version-transitions beta_1_7 introduced: "piston and sticky piston". This project declares Beta 1.7 through '
+     'the Beta 1.7.3 profile, so that profile is the earliest version that may have them'),
     # Beta 1.3's own content, which was NOT dated anywhere before this: beds and redstone repeaters arrive here,
     # along with the cobblestone, wood and sandstone slabs and the smooth stone slab that is present but
     # unobtainable. Without these entries a Beta 1.2 world accepts a bed, because an undated block is never vetoed -
