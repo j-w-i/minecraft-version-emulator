@@ -1,5 +1,3 @@
-# Persistent project status — 2026-10-13 (7) / the whole 32-version matrix re-validated, and the sweep can now time itself
-
 # Persistent project status — 2026-10-13 (8) / the matrix now has ZERO anachronisms — Beta 1.0's sandstone is fixed
 
 ## Round 73 — the last anachronism in the matrix is gone
