@@ -73,6 +73,7 @@ class HistoricalVillageGeneration1211Test {
         "historical_experience:alpha_1_2_0",
         "historical_experience:alpha",
         "historical_experience:beta_1_0",
+        "historical_experience:beta_1_2",
         "historical_experience:beta_1_7_3",
         "historical_experience:beta_1_8_1",
         "historical_experience:beta_1_9_pre_1",
@@ -90,10 +91,10 @@ class HistoricalVillageGeneration1211Test {
         "historical_experience:release_1_6_4");
 
     /** Versions that must NOT generate a village, from the Beta 1.8 boundary. */
-    private static final List<String> NO_VILLAGE = DECLARED.subList(0, 13);
+    private static final List<String> NO_VILLAGE = DECLARED.subList(0, 14);
 
     /** Versions that must be able to, from the same boundary. */
-    private static final List<String> VILLAGE = DECLARED.subList(13, DECLARED.size());
+    private static final List<String> VILLAGE = DECLARED.subList(14, DECLARED.size());
 
     /**
      * The extracted palette each village version is judged against.

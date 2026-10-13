@@ -29,6 +29,7 @@ NAMESPACE = 'historical_experience'
 PUBLIC_RECIPES = {
     'beta_1_7_3': 'beta_1_7_3_content_preview_10',
     'beta_1_0': 'beta_1_0_no_modern_content',
+    'beta_1_2': 'beta_1_2_no_modern_content',
     'alpha_1_0_1': 'alpha_1_0_1_no_modern_content',
     'alpha_1_0_4': 'alpha_1_0_4_no_modern_content',
     'alpha_1_0_6': 'alpha_1_0_6_no_modern_content',

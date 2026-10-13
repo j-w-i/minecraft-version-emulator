@@ -70,6 +70,7 @@ public final class HistoricalBlockAvailability {
         "historical_experience:alpha",
         "historical_experience:alpha_1_2_0",
         "historical_experience:beta_1_0",
+        "historical_experience:beta_1_2",
         "historical_experience:beta_1_7_3",
         "historical_experience:beta_1_8_1",
         "historical_experience:beta_1_9_pre_1",
@@ -249,22 +250,22 @@ public final class HistoricalBlockAvailability {
                 "minecraft:nether_portal",
                 "minecraft:netherrack",
                 "minecraft:pumpkin"});
+        // feature-timeline blocks: lapis lazuli ore introduced Beta 1.2 (Beta 1.2_02 later adjusted its frequency and height and permitted bedrock-level generation, which must NOT be backdated into 1.2); the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
+        introduce("historical_experience:beta_1_2", true,
+            "feature-timeline blocks: lapis lazuli ore introduced Beta 1.2 (Beta 1.2_02 later adjusted its frequency and height and permitted bedrock-level generation, which must NOT be backdated into 1.2); the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
+            new String[] {
+                "minecraft:lapis_block",
+                "minecraft:lapis_ore"});
+        // feature-timeline blocks: sandstone introduced Beta 1.2, so Alpha and Infdev have none; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
+        introduce("historical_experience:beta_1_2", true,
+            "feature-timeline blocks: sandstone introduced Beta 1.2, so Alpha and Infdev have none; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
+            new String[] {
+                "minecraft:sandstone"});
         // feature-timeline: feature-timeline blocks: cobweb introduced Beta 1.5
         introduce("historical_experience:beta_1_7_3", true,
             "feature-timeline: feature-timeline blocks: cobweb introduced Beta 1.5",
             new String[] {
                 "minecraft:cobweb"});
-        // feature-timeline: feature-timeline blocks: lapis lazuli ore introduced Beta 1.2
-        introduce("historical_experience:beta_1_7_3", true,
-            "feature-timeline: feature-timeline blocks: lapis lazuli ore introduced Beta 1.2",
-            new String[] {
-                "minecraft:lapis_block",
-                "minecraft:lapis_ore"});
-        // feature-timeline: feature-timeline blocks: sandstone introduced Beta 1.2, so Alpha and Infdev have none
-        introduce("historical_experience:beta_1_7_3", true,
-            "feature-timeline: feature-timeline blocks: sandstone introduced Beta 1.2, so Alpha and Infdev have none",
-            new String[] {
-                "minecraft:sandstone"});
         // feature-timeline: feature-timeline blocks: grass (the plant) introduced Beta 1.6 Test Build 3, after every profile older than Beta 1.7.3
         introduce("historical_experience:beta_1_7_3", true,
             "feature-timeline: feature-timeline blocks: grass (the plant) introduced Beta 1.6 Test Build 3, after every profile older than Beta 1.7.3",

@@ -314,6 +314,16 @@ public final class HistoricalSpawnRules {
         return unknown;
     }
 
+    /**
+     * Beta 1.2: the Beta 1.7.3 set without wolves, because the squid have arrived and the wolves have not.
+     *
+     * <p>Derived by subtraction so the relationship stays visible: this is Beta 1.0 PLUS the squid, and Beta 1.4 is
+     * this plus the wolf.
+     */
+    public static final Set<String> BETA_1_2_MOBS = BETA_1_7_3_MOBS.stream()
+        .filter(mob -> !mob.equals("minecraft:wolf"))
+        .collect(java.util.stream.Collectors.toUnmodifiableSet());
+
     public static final Set<String> INFDEV_20100325_MOBS = Set.of(
         "minecraft:zombie",
         "minecraft:creeper",

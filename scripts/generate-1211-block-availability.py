@@ -37,6 +37,7 @@ CHRONOLOGY = [
     'historical_experience:alpha',
     'historical_experience:alpha_1_2_0',
     'historical_experience:beta_1_0',
+    'historical_experience:beta_1_2',
     'historical_experience:beta_1_7_3',
     'historical_experience:beta_1_8_1',
     'historical_experience:beta_1_9_pre_1',
@@ -181,10 +182,15 @@ TIMELINE = [
      'older than Beta 1.7.3'),
     (['minecraft:cobweb'], 'historical_experience:beta_1_7_3',
      'feature-timeline blocks: cobweb introduced Beta 1.5'),
-    (['minecraft:sandstone'], 'historical_experience:beta_1_7_3',
+    # Sandstone and lapis were BOTH held at beta_1_7_3 while their own evidence said "introduced Beta 1.2" - proxy
+    # dates, correct for the declared set until Beta 1.2 existed. Both appeared in the audit output many rounds ago
+    # and I only ever read its Alpha section, which is its own lesson: an audit is only as useful as the part of it
+    # that gets read.
+    (['minecraft:sandstone'], 'historical_experience:beta_1_2',
      'feature-timeline blocks: sandstone introduced Beta 1.2, so Alpha and Infdev have none'),
-    (['minecraft:lapis_ore', 'minecraft:lapis_block'], 'historical_experience:beta_1_7_3',
-     'feature-timeline blocks: lapis lazuli ore introduced Beta 1.2'),
+    (['minecraft:lapis_ore', 'minecraft:lapis_block'], 'historical_experience:beta_1_2',
+     'feature-timeline blocks: lapis lazuli ore introduced Beta 1.2 (Beta 1.2_02 later adjusted its frequency and '
+     'height and permitted bedrock-level generation, which must NOT be backdated into 1.2)'),
     (['minecraft:vine', 'minecraft:melon', 'minecraft:stone_bricks'],
      'historical_experience:beta_1_8_1',
      'feature-timeline blocks: vines, melon and stone bricks introduced Beta 1.8 (Pre-release). The '

@@ -231,7 +231,7 @@ public final class HistoricalVersionCatalogue {
         planned(entries, Era.ALPHA, "Alpha 1.2.0", 1, 2, 0, "historical_experience:alpha_1_2_0", null);
 
         planned(entries, Era.BETA, "Beta 1.0", 1, 0, 0, "historical_experience:beta_1_0", null);
-        planned(entries, Era.BETA, "Beta 1.2", 1, 2, 0, null, null);
+        planned(entries, Era.BETA, "Beta 1.2", 1, 2, 0, "historical_experience:beta_1_2", null);
         planned(entries, Era.BETA, "Beta 1.3", 1, 3, 0, null, null);
         planned(entries, Era.BETA, "Beta 1.4", 1, 4, 0, null, null);
         planned(entries, Era.BETA, "Beta 1.5", 1, 5, 0, null, null);

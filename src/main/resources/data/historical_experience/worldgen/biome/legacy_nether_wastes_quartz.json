@@ -1,37 +1,31 @@
 {
-  "temperature": 2,
+  "carvers": {
+    "air": "minecraft:nether_cave"
+  },
   "downfall": 0,
-  "has_precipitation": false,
   "effects": {
-    "sky_color": 7254527,
-    "fog_color": 3344392,
-    "water_color": 4159204,
-    "water_fog_color": 329011,
+    "additions_sound": {
+      "sound": "minecraft:ambient.nether_wastes.additions",
+      "tick_chance": 0.0111
+    },
     "ambient_sound": "minecraft:ambient.nether_wastes.loop",
+    "fog_color": 3344392,
     "mood_sound": {
       "sound": "minecraft:ambient.nether_wastes.mood",
       "tick_delay": 6000,
       "block_search_extent": 8,
       "offset": 2
     },
-    "additions_sound": {
-      "sound": "minecraft:ambient.nether_wastes.additions",
-      "tick_chance": 0.0111
+    "music": {
+      "sound": "minecraft:music.nether.nether_wastes",
+      "min_delay": 12000,
+      "max_delay": 24000,
+      "replace_current_music": false
     },
-    "music": [
-      {
-        "weight": 1,
-        "data": {
-          "sound": "minecraft:music.nether.nether_wastes",
-          "min_delay": 12000,
-          "max_delay": 24000,
-          "replace_current_music": false
-        }
-      }
-    ],
-    "music_volume": 1
+    "sky_color": 7254527,
+    "water_color": 4159204,
+    "water_fog_color": 329011
   },
-  "carvers": "minecraft:nether_cave",
   "features": [
     [],
     [],
@@ -60,7 +54,13 @@
       "minecraft:red_mushroom_normal"
     ]
   ],
+  "has_precipitation": false,
+  "spawn_costs": {},
   "spawners": {
+    "ambient": [],
+    "axolotls": [],
+    "creature": [],
+    "misc": [],
     "monster": [
       {
         "type": "minecraft:zombified_piglin",
@@ -87,11 +87,9 @@
         "maxCount": 2
       }
     ],
-    "creature": [],
-    "ambient": [],
+    "underground_water_creature": [],
     "water_ambient": [],
-    "water_creature": [],
-    "misc": []
+    "water_creature": []
   },
-  "spawn_costs": {}
+  "temperature": 2
 }

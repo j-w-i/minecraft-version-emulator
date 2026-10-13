@@ -769,6 +769,35 @@ public final class HistoricalVersions {
                     + "no longer hold items, and tools on the ground stop repairing themselves. No mob is added here."),
             HistoricalFeatureExclusions.BETA_1_7_3_RESTRICTIONS));
 
+        // Beta 1.2. Two things converge, and both are the payoff of declaring a build rather than approximating it:
+        // the SQUID arrive here, and lapis lazuli's date becomes true - it was held at beta_1_7_3 as a proxy while
+        // 1.2 did not exist, while its own evidence read "lapis lazuli ore introduced Beta 1.2".
+        versions.add(terrainOnlyWithRules(
+            "historical_experience:beta_1_2", "Beta 1.2", "beta",
+            chronology(ERA_BETA, 1, 2, 0), "moderner_beta:beta",
+            new VersionRules(
+                true,
+                HistoricalSpawnRules.BETA_1_2_MOBS,
+                java.util.Map.of(),
+                java.util.Map.of(),
+                false,
+                false,
+                false,
+                false,
+                "Charcoal, note blocks, dyes and coloured wool, sugar, dispensers, bone and bone meal, sandstone, "
+                    + "birch and spruce logs and leaves, cake, and lapis lazuli with its block and ore. The squid "
+                    + "arrive, with 10 health and an ink sac, no sounds yet, and milkable in this build - which is "
+                    + "recorded as a quirk rather than reproduced. Sugar cane is renamed from reeds and the crafting "
+                    + "table from workbench; tool durability rises across the board, wood 33 to 59, stone 65 to 131, "
+                    + "iron 129 to 250, diamond 1025 to 1561; skeletons start dropping bones; spiders climb walls; "
+                    + "sheep can be dyed; bone meal fertilises saplings and wheat. World generation adds birch trees "
+                    + "to forests, replaces oak with spruce in taiga, and introduces lapis ore - whose frequency and "
+                    + "height were adjusted in Beta 1.2_02, which must NOT be backdated into this build. Cocoa beans "
+                    + "and brown wool are registry content obtainable only by external tools here, so they are "
+                    + "recorded rather than given a survival route. NOT implemented: the tool durability table, which "
+                    + "needs an item-attribute gate this project does not have."),
+            HistoricalFeatureExclusions.BETA_1_7_3_RESTRICTIONS));
+
         // WINTER MODE IS NOT DECLARED YET, and the reason is a conflict in the model rather than missing research.
         // Moderner Beta ships `moderner_beta:alpha_winter`, and this project's own settings preset
         // `alpha_1_0_4_winter` inherits it, so the terrain is available. What is missing is a place to put it:
