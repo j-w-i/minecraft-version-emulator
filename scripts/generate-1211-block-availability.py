@@ -103,8 +103,20 @@ TIMELINE = [
      'feature-timeline blocks: monster spawner introduced Infdev 20100625-1917, after both Infdev profiles'),
     (['minecraft:snow', 'minecraft:ice'], 'historical_experience:alpha_1_0_4',
      'feature-timeline blocks: snow and ice introduced Alpha v1.0.4 (Winter Update)'),
-    (['minecraft:redstone_ore'], 'historical_experience:alpha',
+    # Redstone ore was dated to "alpha" - which is Alpha v1.1.2_01 - while its own evidence says Alpha v1.0.1. That
+    # was harmless while it was documentation and became a live defect when the block veto started enforcing dates:
+    # Alpha 1.0.1 worlds were refusing the ore that build introduced. Same shape as the spawner entry below.
+    (['minecraft:redstone_ore'], 'historical_experience:alpha_1_0_1',
      'feature-timeline blocks: redstone ore introduced Alpha v1.0.1 (Seecret Friday Update 3)'),
+    # STILL DATED TOO LATE, on purpose, and to be re-pointed the moment the build is declared. Their evidence names
+    # an Alpha build that is a target but not yet declared, so "alpha" stays the earliest declared version that had
+    # them - conservative, and wrong only for builds that do not exist yet:
+    #   cactus      -> Alpha v1.0.6
+    #   clay        -> Alpha v1.0.11
+    #   sugar_cane  -> Alpha v1.0.11
+    # Declaring any of those builds requires moving its entry here, or the veto will refuse a block that build
+    # introduced. scripts/audit-proxy-dates.py finds every entry in this state by comparing each date to its own
+    # evidence string.
     (['minecraft:cactus'], 'historical_experience:alpha',
      'feature-timeline blocks: cactus introduced Alpha v1.0.6'),
     (['minecraft:clay', 'minecraft:sugar_cane'], 'historical_experience:alpha',
