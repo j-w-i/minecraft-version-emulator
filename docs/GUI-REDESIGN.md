@@ -7,18 +7,20 @@ re-deriving the architecture, and so the decisions below can be argued with rath
 
 Verified by reading the source, not assumed.
 
-### No GUI exists today
+### No GUI existed at the time of this inspection
 
 `src/main/java/net/historicalexperience/client/` holds only `HistoricalClientDiagnostics`, `HistoricalClientRules`,
 `HistoricalExperienceClient`, `ReplayProbe`, `hud/{FlagHolder,HudElement,HudHelper}` and
 `render/{ArmorHelper,MobArmHelper,SwordBlockingRenderer}`. A repository-wide grep for
-`Screen|setScreen|CreateWorldScreen|WorldPreset` in Java returns **no matches**. The screens are entirely new work.
+`Screen|setScreen|CreateWorldScreen|WorldPreset` in Java returned **no matches at that point**. The screens were
+entirely new work, and they have since been written - see the Progress table below and the four classes under
+`client/version/`. Read the rest of this section as the survey it was, not as the current state..
 
 ### Choosing a version at world creation is already a datapack mechanism
 
-- `src/main/resources/data/historical_experience/moderner_beta/settings_preset/<alias>.json` — 47 settings presets,
+- `src/main/resources/data/historical_experience/moderner_beta/settings_preset/<alias>.json` - 38 settings presets,
   one per declared generation revision, each inheriting through `"moderner_beta:preset"`.
-- `src/main/resources/data/historical_experience/worldgen/world_preset/<name>.json` — 47 matching world presets,
+- `src/main/resources/data/historical_experience/worldgen/world_preset/<name>.json` - 38 matching world presets,
   named `historical_experience:<name>`, so `level-type=historical_experience:<name>`.
 - `src/main/resources/data/minecraft/tags/worldgen/world_preset/normal.json` tags **10** of them into
   `minecraft:normal`, which is why ten versions appear in the create-world world-type list today.

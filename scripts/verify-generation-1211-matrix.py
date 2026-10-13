@@ -6,7 +6,24 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 VERIFY = ROOT / 'scripts/verify-generation-1211.py'
+NORMAL_TAG = ROOT / 'src/main/resources/data/minecraft/tags/worldgen/world_preset/normal.json'
 rows = []
+
+# The versions that predate Beta 1.8, which are the ones that must not generate short grass. Kept in step with
+# HistoricalGameplayTweaks.preBeta18, which PreBeta18BoundaryTest asserts against the registry; this list exists
+# only because the assertion below runs per measured fixture.
+PRE_BETA_1_8 = ('alpha', 'infdev_420', 'infdev_611')
+
+
+def selectable_versions():
+    """Every version world creation can choose, read from the tag the create-world screen searches.
+
+    Derived rather than listed: a hardcoded list meant a newly declared version was registered, made selectable,
+    and then skipped by the only harness that measures saved chunks - with nothing reporting that it had been
+    skipped.
+    """
+    values = json.loads(NORMAL_TAG.read_text(encoding='utf-8'))['values']
+    return [value.split(':', 1)[1] for value in values if value.startswith('historical_experience:')]
 
 
 def execute(name, preset, production=False, reload=False, center=0, seed='hexbackport'):
@@ -64,10 +81,12 @@ try:
     for pos, digest in before['fullChunkBlockHashes'].items():
         assert far['fullChunkBlockHashes'].get(pos) == digest, 'New terrain changed an old chunk at ' + pos
     execute('sol-production-beta-seed2', 'historical_experience:beta_1_7_3', production=True, seed='12345')
-    for version in ['alpha', 'infdev_420', 'infdev_611', 'beta_1_8_1', 'beta_1_9_pre_3',
-                    'release_1_0_0', 'release_1_1', 'release_1_2_5', 'release_1_6_4']:
+    # The versions to measure are READ from the tag world creation searches, not listed here. A hardcoded list
+    # meant a newly declared version was skipped by the only harness that measures saved chunks - it would have
+    # been registered, made selectable in the GUI, and never measured, with nothing saying so.
+    for version in selectable_versions():
         evidence = execute('sol-matrix-' + version, 'historical_experience:' + version)
-        if version in ('alpha', 'infdev_420', 'infdev_611'):
+        if version in PRE_BETA_1_8:
             assert evidence['sampledFullBlockCounts'].get('minecraft:short_grass', 0) == 0, version
     execute('sol-negative-vanilla', 'minecraft:normal')
     execute('sol-negative-mb', 'moderner_beta:moderner_beta')
