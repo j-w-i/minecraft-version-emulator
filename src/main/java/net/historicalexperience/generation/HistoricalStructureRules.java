@@ -163,12 +163,19 @@ public final class HistoricalStructureRules {
                     + "savanna, taiga and snowy village variants are NOT allowed even though the structure "
                     + "system now exists. Nether fortresses are Beta 1.9 Prerelease content and are not yet "
                     + "allowed, and no other vanilla structure existed.")),
+        Map.entry("historical_experience:beta_1_9_pre_1",
+            allowed("Beta 1.9 Prerelease 1", union(BETA_1_8_STRUCTURES, Set.of("minecraft:fortress")),
+                "THE NETher fortress arrives here, not in Prerelease 3: the research lists Pre1 introducing "
+                    + "\"Nether fortresses in world generation, with two blaze spawners\". Mineshafts, villages and "
+                    + "strongholds are the Beta 1.8 set.")),
+        Map.entry("historical_experience:beta_1_9_pre_2",
+            allowed("Beta 1.9 Prerelease 2", union(BETA_1_8_STRUCTURES, Set.of("minecraft:fortress")),
+                "Adds no structure: its deltas are potions, hardcore mode, breeding and tool repair. Same set as "
+                    + "Prerelease 1.")),
         Map.entry("historical_experience:beta_1_9_pre_3",
             allowed("Beta 1.9 Prerelease 3", union(BETA_1_8_STRUCTURES, Set.of("minecraft:fortress")),
-                "Adds the nether fortress, introduced in the Beta 1.9 Prerelease (feature-timeline "
-                    + "structures row \"nether fortress\", quote |{{HistoryLine||1.0.0|dev=Beta 1.9 "
-                    + "Prerelease|Added Nether fortresses.). Everything else that exists is the Beta 1.8 "
-                    + "set.")),
+                "The nether fortress was introduced in Prerelease 1 and is inherited here; this build adds no "
+                    + "structure of its own. Everything else that exists is the Beta 1.8 set.")),
         Map.entry("historical_experience:release_1_0_0",
             allowed("Release 1.0.0", union(BETA_1_8_STRUCTURES, Set.of("minecraft:fortress")),
                 "Release 1.0.0 is the released form of Beta 1.9 Prerelease, so it has the same structure "

@@ -69,6 +69,8 @@ class HistoricalVillageGeneration1211Test {
         "historical_experience:alpha",
         "historical_experience:beta_1_7_3",
         "historical_experience:beta_1_8_1",
+        "historical_experience:beta_1_9_pre_1",
+        "historical_experience:beta_1_9_pre_2",
         "historical_experience:beta_1_9_pre_3",
         "historical_experience:release_1_0_0",
         "historical_experience:release_1_1",
@@ -81,9 +83,19 @@ class HistoricalVillageGeneration1211Test {
     /** Versions that must be able to, from the same boundary. */
     private static final List<String> VILLAGE = DECLARED.subList(7, DECLARED.size());
 
-    /** The extracted palette each village version is judged against. */
+    /**
+     * The extracted palette each village version is judged against.
+     *
+     * <p>Pre1 maps to the Beta 1.8.1 palette because its village places the Beta 1.8.1 workstation: the brewing
+     * stand arrives with brewing in Pre2, so Pre1's craftsman slot is a crafting table, which the Pre3 extraction
+     * does not contain. Pre2 and Pre3 map to Prerelease 3's palette, which is the honest mapping rather than a
+     * shortcut - Moderner Beta ships ONE Beta 1.9 terrain preset and every prerelease is generated from it, so the
+     * blocks those two can emit are the blocks Pre3's extraction contains.
+     */
     private static final Map<String, String> PALETTE_FILE = Map.of(
         "historical_experience:beta_1_8_1", "b1_8_1",
+        "historical_experience:beta_1_9_pre_1", "b1_8_1",
+        "historical_experience:beta_1_9_pre_2", "b1_9_pre3",
         "historical_experience:beta_1_9_pre_3", "b1_9_pre3",
         "historical_experience:release_1_0_0", "1_0_0",
         "historical_experience:release_1_1", "1_1",

@@ -230,7 +230,13 @@ public final class HistoricalVillageBlocks {
         // palette does register, so that is the substitution: a desert building gets the same stair every
         // other building in that version used.
         boolean sandstoneStairs = chronology >= release164Chronology;
-        boolean brewingStand = chronology >= HistoricalVillageRules.BETA_1_9_PRE_3_CHRONOLOGY;
+        // The brewing stand arrives with BREWING, which the research dates to Beta 1.9 Prerelease 2 -
+        // "potions and status-effect system" plus the brewing ingredients. This boundary used to be Pre3,
+        // which was a PROXY for "the Beta 1.9 line" while Pre3 was the only prerelease declared; declaring
+        // Pre1 and Pre2 turned it into a claim that Pre1's village had a brewing stand, which made Pre1
+        // place a block its palette could not account for.
+        boolean brewingStand = chronology >= HistoricalVersions
+            .byId("historical_experience:beta_1_9_pre_2").orElseThrow().chronology();
 
         Map<String, String> blocks = new LinkedHashMap<>(COMMON);
         if (!sandstoneStairs) {

@@ -244,9 +244,75 @@ public final class HistoricalVersions {
         // "unmodified" is an honest statement of the current state, not a placeholder for missing work.
         // What is NOT historical for them is stated in each evidence string: mob set, mob drops, ore
         // distribution, sea level and structure placement.
-        versions.add(terrainOnly(
+        // The Beta 1.9 prereleases differ from EACH OTHER, which is why they are declared one at a time rather than
+        // as one profile with six names. Each entry below carries what its own build changed.
+        //
+        // Pre1 and Pre2 are declared through the rules-carrying helper rather than terrainOnly, specifically so they
+        // can restrict spawns. The research found that the versions declared through terrainOnly - Pre3 and every
+        // Release profile - have NO spawn restriction at all, and therefore spawn modern 1.21.1 mobs. That is a
+        // content defect recorded in research/implementation-coverage.md and still open for those versions.
+        versions.add(terrainOnlyWithRules(
+            "historical_experience:beta_1_9_pre_1", "Beta 1.9 Prerelease 1", "beta",
+            chronology(ERA_BETA, 1, 9, 1), "moderner_beta:beta_1_9_pre_3",
+            new VersionRules(
+                true,
+                HistoricalSpawnRules.BETA_1_9_PRE_1_MOBS,
+                java.util.Map.of(),
+                java.util.Map.of(),
+                true,
+                true,
+                true,
+                true,
+                "The first half of the Adventure Update. Nether bricks, mycelium, lily pads, blaze rods, ghast tears, "
+                    + "gold nuggets and Nether wart; Nether fortresses with two blaze spawners; the mushroom island "
+                    + "and four snow biomes; the blaze, magma cube, mooshroom, snow golem and villager mobs; reduced "
+                    + "landmass and ocean height 0.5 -> 0.4. Armour stops reducing fire, explosion and projectile "
+                    + "damage and gains durability, and loses durability-based effectiveness decay; held-jump "
+                    + "auto-repeat is removed; snowfall temporarily destroys redstone, torches, saplings and rails, a "
+                    + "regression Pre5 fixes. The last three are NOT implemented: each needs a mechanism this project "
+                    + "does not have yet, and the snowfall regression deliberately must not leak into Release 1.0. "
+                    + "Terrain comes from Moderner Beta's beta_1_9_pre_3 preset, the only Beta 1.9 terrain it ships, "
+                    + "so Pre1's own reduced landmass and ocean height are not reproduced."),
+            HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES));
+
+        versions.add(terrainOnlyWithRules(
+            "historical_experience:beta_1_9_pre_2", "Beta 1.9 Prerelease 2", "beta",
+            chronology(ERA_BETA, 1, 9, 2), "moderner_beta:beta_1_9_pre_3",
+            new VersionRules(
+                true,
+                HistoricalSpawnRules.BETA_1_9_PRE_2_MOBS,
+                java.util.Map.of(),
+                java.util.Map.of(),
+                true,
+                true,
+                true,
+                true,
+                "Potions and status effects, brewing ingredients (glass bottles, spider eyes, blaze powder, "
+                    + "fermented spider eye, magma cream), nine music discs, hardcore mode, animal breeding with "
+                    + "wheat, and combining equally damaged tools to repair. The Pre1 XP-on-jump bug is removed and "
+                    + "held-jump auto-repeat is restored. Adds NO mob: breeding changes how existing mobs are made, "
+                    + "not which exist, so the spawn set is shared with Pre1 as a statement about the research. "
+                    + "Breeding and tool repair are not implemented yet; the cauldron exists in code without an "
+                    + "assigned block id in this build and is not obtainable, which is recorded rather than faked. "
+                    + "Terrain comes from beta_1_9_pre_3, the only Beta 1.9 terrain Moderner Beta ships."),
+            HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES));
+
+        versions.add(terrainOnlyWithRules(
             "historical_experience:beta_1_9_pre_3", "Beta 1.9 Prerelease 3", "beta",
             chronology(ERA_BETA, 1, 9, 3), "moderner_beta:beta_1_9_pre_3",
+            new VersionRules(
+                true,
+                HistoricalSpawnRules.BETA_1_9_PRE_2_MOBS,
+                java.util.Map.of(),
+                java.util.Map.of(),
+                true,
+                true,
+                true,
+                true,
+                "Newborn animals became baby variants in this build, which changes breeding rather than the mob set, "
+                    + "so the spawn set is inherited from Pre2. Declared through the rules-carrying helper so that "
+                    + "spawns are restricted: it was terrainOnly, which sets no restriction, and therefore spawned "
+                    + "modern mobs. Terrain comes from beta_1_9_pre_3 itself."),
             HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES));
         versions.add(terrainOnly(
             "historical_experience:release_1_0_0", "Release 1.0", "release",

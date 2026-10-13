@@ -118,12 +118,21 @@ class SpawnRestrictionSemanticsTest {
         assertTrue(HistoricalVersions.byId("historical_experience:alpha").orElseThrow().rules()
             .restrictsSpawns());
         // The five terrain-only Release-era versions must be left alone: an unresearched mob set is not
-        // a licence to invent one.
+        // a licence to invent one. Beta 1.9 Prerelease 3 was in this list and is no longer, because its
+        // set is now INHERITED rather than invented: the research records Pre1 adding blaze, magma cube,
+        // mooshroom and villagers, and Pre2 and Pre3 adding no mob at all, which is a researched answer.
         for (String id : Set.of("historical_experience:release_1_0_0",
                 "historical_experience:release_1_1", "historical_experience:release_1_2_5",
-                RELEASE_1_6_4, "historical_experience:beta_1_9_pre_3")) {
+                RELEASE_1_6_4)) {
             assertFalse(HistoricalVersions.byId(id).orElseThrow().rules().restrictsSpawns(),
                 id + " has no researched mob set, so it must not restrict");
+        }
+        // The Beta 1.9 prereleases DO restrict, and that is the owner's point: an unrestricted Beta 1.9
+        // world spawns modern 1.21.1 mobs, which is exactly what they reported.
+        for (String id : Set.of("historical_experience:beta_1_9_pre_1",
+                "historical_experience:beta_1_9_pre_2", "historical_experience:beta_1_9_pre_3")) {
+            assertTrue(HistoricalVersions.byId(id).orElseThrow().rules().restrictsSpawns(),
+                id + " has a researched mob set and must restrict, or modern mobs spawn there");
         }
         // Derived rather than counted by hand: pinning the number here would go stale on the next
         // version, and my first attempt at it was arithmetically wrong anyway.

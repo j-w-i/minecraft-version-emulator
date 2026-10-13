@@ -151,6 +151,42 @@ public final class HistoricalSpawnRules {
      * method and a sound, which fits a natural spawner - but it would also fit an effect entity, and
      * settling it needs a runtime observation rather than a static read.
      */
+    /**
+     * Beta 1.9 Prerelease 1: Beta 1.8.1's mobs plus the five that build adds.
+     *
+     * <p>From {@code research/version-transitions.json}, which lists Pre1 introducing "blaze, magma cube, mooshroom,
+     * snow golem and villagers". Four of the five are natural spawns; <b>snow golems are built by a player</b> from
+     * two snow blocks and a pumpkin, so they are not a spawn-set entry and are deliberately absent.
+     *
+     * <p>Villagers matter most here: villages arrive in Beta 1.8.1 but are uninhabited, because villagers arrive in
+     * Pre1. Without this entry a Pre1 world would have no villagers and a Beta 1.8.1 world would wrongly have them.
+     *
+     * <p>Blaze and magma cubes are Nether mobs, and this is a single flat set rather than a per-dimension one, so
+     * they are allowed everywhere the game would otherwise allow them. That is a known simplification, recorded in
+     * research/implementation-coverage.md.
+     *
+     * <p>A MYCELIUM-derived cow variant is a separate entity type - {@code minecraft:mooshroom} - so it belongs in
+     * the set, unlike the block-driven mooshroom question in Beta 1.8.1.
+     */
+    public static final Set<String> BETA_1_9_PRE_1_MOBS = java.util.stream.Stream.concat(
+        BETA_1_8_1_MOBS.stream(),
+        java.util.stream.Stream.of(
+            "minecraft:blaze",
+            "minecraft:magma_cube",
+            "minecraft:mooshroom",
+            "minecraft:villager"))
+        .collect(java.util.stream.Collectors.toUnmodifiableSet());
+
+    /**
+     * Beta 1.9 Prerelease 2 adds no mob at all.
+     *
+     * <p>Its deltas are potions and status effects, hardcore mode, animal breeding, combining damaged tools to
+     * repair, glass bottles and brewing ingredients, and nine music discs. Breeding changes how existing mobs are
+     * made, not which exist, so the set is Pre1's - and sharing it is a statement about the research, not a
+     * convenience.
+     */
+    public static final Set<String> BETA_1_9_PRE_2_MOBS = BETA_1_9_PRE_1_MOBS;
+
     public static final Set<String> INFDEV_20100325_MOBS = Set.of(
         "minecraft:zombie",
         "minecraft:creeper",
