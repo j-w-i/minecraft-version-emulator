@@ -84,6 +84,35 @@ public final class HistoricalVillageRules {
      */
     public static final int BETA_1_9_PRE_1_CHRONOLOGY = HistoricalVersions.chronology(500_000, 1, 9, 1);
 
+    /**
+     * Release 1.3's chronology: when villages gained TRADING, and therefore professions.
+     *
+     * <p>Before this a villager is a plain villager with nothing to trade, which is what the owner's Release 1.0
+     * world should contain. This existed as a gap rather than a gate until now - villagers were placed correctly and
+     * simply had no profession, which was right by omission for 1.0-1.2 and wrong for 1.3 and later.
+     */
+    public static final int RELEASE_1_3_CHRONOLOGY = HistoricalVersions.chronology(600_000, 1, 3, 0);
+
+    /**
+     * The professions Release 1.3 actually had: farmer, librarian, priest, blacksmith and butcher.
+     *
+     * <p>Held as IDS rather than as {@code VillagerProfession} constants so a test can assert this list without a
+     * bootstrapped registry, and resolved against the registry at spawn time. Later professions - cartographer,
+     * fisherman, fletcher, leatherworker, mason, shepherd and the three smiths that replaced the single blacksmith -
+     * did not exist, and a Release 1.3 village must not offer them.
+     *
+     * <p>The smiths deserve a note: Release 1.3 had ONE blacksmith, which modern Minecraft split into armorer,
+     * toolsmith and weaponsmith. Any of those three is the era-appropriate stand-in, and all three are listed.
+     */
+    public static final java.util.List<String> RELEASE_1_3_PROFESSIONS = java.util.List.of(
+        "minecraft:farmer",
+        "minecraft:librarian",
+        "minecraft:cleric",
+        "minecraft:armorer",
+        "minecraft:toolsmith",
+        "minecraft:weaponsmith",
+        "minecraft:butcher");
+
     /** Beta 1.9 Prerelease 3's chronology key: the first version with villagers, and a brewing stand. */
     public static final int BETA_1_9_PRE_3_CHRONOLOGY = HistoricalVersions.chronology(500_000, 1, 9, 3);
 

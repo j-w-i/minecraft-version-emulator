@@ -212,6 +212,24 @@ public class HistoricalVillageStructure extends Structure {
             // A villager that despawns is worse than no villager, because the village then looks broken rather
             // than empty.
             villager.setPersistenceRequired();
+
+            // PROFESSIONS ARRIVE WITH TRADING IN RELEASE 1.3. Before that a villager has none, which is the default
+            // and therefore what this leaves alone; from 1.3 it gets one of the professions that build actually had.
+            // Without this gate a Release 1.0 villager would offer trades that did not exist for five more builds.
+            if (version.chronology() >= HistoricalVillageRules.RELEASE_1_3_CHRONOLOGY) {
+                String professionId = HistoricalVillageRules.RELEASE_1_3_PROFESSIONS.get(
+                    random.nextInt(HistoricalVillageRules.RELEASE_1_3_PROFESSIONS.size()));
+                var profession = net.minecraft.core.registries.BuiltInRegistries.VILLAGER_PROFESSION
+                    .get(net.minecraft.resources.ResourceLocation.parse(professionId));
+
+                if (profession != null) {
+                    // VillagerType.PLAINS for every villager, because the biome-specific skins are a 1.14 feature
+                    // and this project's newest target is Release 1.6.4.
+                    villager.setVillagerData(new net.minecraft.world.entity.npc.VillagerData(
+                        net.minecraft.world.entity.npc.VillagerType.PLAINS, profession, 1));
+                }
+            }
+
             level.addFreshEntityWithPassengers(villager);
             spawned++;
         }
