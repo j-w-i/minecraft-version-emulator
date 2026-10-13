@@ -294,8 +294,20 @@ turned out to be "no approximation needed" rather than the decision I expected t
    with no player online — which is also faithful, since both jars iterated players.
    **Verified end-to-end, headlessly**: the probe's new `passiveSpawner` section calls the same
    `tick(level, versionId, observers)` the live hook calls, with the world spawn standing in as the observer, and
-   an Alpha v1.1.0 world went from **0 to 16 passive mobs in 200 driven cycles** (`chicken 2, cow 8, pig 2,
-   sheep 4`, 1,458 placement attempts). 348 tests green, including the era-boundary test.
+   an Alpha v1.1.0 world went from **0 to 15 passive mobs — exactly the era's cap** — in 200 driven cycles.
+  348 tests green, including the era-boundary test.
+   **Two follow-up defects the owner's screenshot exposed, both repaired and measured.** The first run of this
+   spawner carpeted a landscape with animals where the era allowed fifteen loaded in total, from two causes:
+   * the cap was compared **once per call**, and one call is up to 486 placement attempts (3 × 9×9 × 2 for Alpha,
+     3 × 17×17 × 4 for Beta), every one of which can place a mob — so a single tick could add hundreds. The
+     running total is now re-checked per placement, which is what the cap's arithmetic plainly intends.
+   * the modern **per-chunk animal pack** was still running beside it. Filling every generated chunk with a
+     biome-weighted pack and no global cap is the arrangement Beta 1.8 introduced — its own history row says
+     level-driven spawning "was no longer the case in Beta 1.8" — so it is anachronistic *and* unbounded in the
+     eras that had the cycle. Suppressed exactly where a cycle exists; Infdev keeps it deliberately, because its
+     own cycle is not implemented and suppressing this would leave it with no animals at all.
+   Measured before and after on the same world: `spawned 5 / present 16 (11 from chunk generation)` became
+   `spawned 15 / present 15 (0 from chunk generation)`. 349 tests green.
    **Still open, recorded rather than approximated:** the hostile half is untouched (modern hostile spawning
    works, and the two eras' hostile caps differ — 200 flat against 70 scaled); Beta's per-mob
    `getMaxSpawnedInChunk` ceiling and pack grouping are not reproduced; and Infdev is deliberately excluded
