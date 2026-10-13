@@ -521,33 +521,6 @@ turned out to be "no approximation needed" rather than the decision I expected t
    still exists returning `int` and that the handler still names exactly that method. What is **not** verified is
    the physical client rendering with the classic engine on; that needs a client launch, and the honest claim is
    that the rule, the gating and the toggle are tested while the on-screen result is not.
-16. **NT's lighting engine: SCOPED, boundary corroborated, not yet implemented.** Owner instruction: implement
-   Nostalgic Tweaks' lighting-engine behaviour, make it **toggleable**, and offer the toggle only up to
-   **Beta 1.3** — from Beta 1.3 onward the toggle is removed.
-   **The boundary is corroborated by our own research, not merely accepted.** `research/minecraft-version-history.md`
-   gives Beta 1.3 as *"Rendering/audio: Smooth-lighting engine and graphics option added"*, and lists it again under
-   *"Difference from Beta 1.2: beds/repeaters/slabs and worldgen fix; smooth lighting; player-entered seeds"*. So
-   the old engine is a real pre-Beta-1.3 property, and a toggle at or after 1.3 would have nothing to toggle.
-   **What NT actually has** (`research/nt-port-worklist.json`; every one is `alreadyTouched: false`, and NT states
-   no boundary — our history does):
-   | tweak | group | NT default |
-   | --- | --- | --- |
-   | `OLD_CLASSIC_ENGINE` | `LIGHTING_WORLD_ENGINE` | false |
-   | `DISABLE_SMOOTH_LIGHTING` | `LIGHTING_WORLD_ENGINE` | false |
-   | `DISABLE_LIGHT_FLICKER` | `LIGHTING_BLOCK` | true |
-   | `INVERTED_BLOCK_LIGHTING` | `LIGHTING_BLOCK` | true |
-   | `CHEST_LIGHT_BLOCK` | `LIGHTING_BLOCK` | true |
-   | `DISABLE_LIGHT_BRIGHTNESS` / `DYNAMIC_LIGHT_BRIGHTNESS` | `LIGHTING_WORLD_TEXTURE` | false / true |
-   | `MAX_BLOCK_LIGHT` | `LIGHTING_WORLD_SHADER` | 15 |
-   The engine half is carried by NT's `mixin/tweak/candy/world_lighting` package — `LightEngineMixin`,
-   `LayerLightSectionStorageMixin`, `LevelRendererMixin`, `LightTextureMixin`, `LightingMixin`,
-   `BlockBehaviourMixin`, `BlockStateBaseMixin`, `BlockAndTintGetterMixin`, `ClientChunkCacheMixin`,
-   `ClientLevelMixin`, `MinecraftMixin`, `LiquidBlockRendererMixin` — plus `helper/candy/light/LightingHelper.java`
-   and `LightTextureHelper.java`.
-   **Why it is not done in the same round as the emerald correction:** it is a client-render feature spanning a
-   dozen mixins, and a ported file must name its upstream file and be gated per version rather than by a global
-   flag. It is next, with the toggle's removal at Beta 1.3 as the acceptance test — a version at or after Beta 1.3
-   must not be *offered* the option, which is a registry-driven assertion rather than a UI-only one.
 12. **The Nether's terrain SHAPE is still the modern 1.16+ one.** Its biomes are fixed (one biome,
    `minecraft:nether_wastes`, via vanilla's `minecraft:fixed` biome source), but the shape comes from
    `minecraft:nether` noise settings and Moderner Beta ships no historical Nether to point at. Recorded as a gap.
