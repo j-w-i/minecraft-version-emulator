@@ -108,6 +108,13 @@ class HistoricalFeatureExclusionsTest {
 
         // The exact researched set. Adding an entry is a deliberate edit to this expectation.
         assertEquals(Set.of(
+                // 1.16 Nether content, which vanilla's own nether_wastes biome still places. Found by the owner
+                // looking at an Alpha 1.2.0 Nether; ancient debris in a Beta world is the visible one.
+                "minecraft:ore_ancient_debris_large",
+                "minecraft:ore_debris_small",
+                "minecraft:ore_blackstone",
+                "minecraft:ore_gold_nether",
+                "minecraft:patch_soul_fire",
                 "minecraft:ore_copper",
                 "minecraft:amethyst_geode",
                 "minecraft:underwater_magma",

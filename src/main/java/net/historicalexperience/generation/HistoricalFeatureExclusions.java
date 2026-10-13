@@ -84,7 +84,46 @@ public final class HistoricalFeatureExclusions {
      *       content or Moderner Beta's own historical implementations.</li>
      * </ul>
      */
-    public static final List<Exclusion> BETA_1_7_3_RESTRICTIONS = List.of(
+    /**
+     * The Nether content that arrived in 1.16 and belongs in NO version this project declares.
+     *
+     * <p>Found by the owner looking at an Alpha 1.2.0 Nether and asking whether it was correct. It largely is -
+     * one biome, no crimson or warped forest, no fortresses - but vanilla's own {@code nether_wastes} feature list
+     * still places five things no historical version had:
+     *
+     * <pre>
+     *   step 7: ... ore_blackstone, ore_gold_nether, ore_ancient_debris_large, ore_debris_small
+     *   step 9: ... patch_soul_fire
+     * </pre>
+     *
+     * <p>Ancient debris in a Beta world is the most obvious of these, and nether gold ore is 1.16 too. Soul fire is
+     * 1.16. Blackstone and its ore are 1.16. So they are excluded for every declared version.
+     *
+     * <p>Nether QUARTZ is deliberately NOT here: it is Release 1.5 content and the world-preset generator already
+     * gates the quartz-bearing Nether biome on that boundary, which is a per-version distinction this flat list
+     * could not express.
+     *
+     * <p>This list is prepended to {@link #BETA_1_7_3_RESTRICTIONS}, which is the root of every other list in this
+     * class - Beta 1.0 through 1.7.3 use it directly, and Alpha and Infdev reach it through
+     * {@link #BEFORE_GRASS_EXISTED}. Adding it in one place therefore covers all 29 declared versions rather than
+     * needing an edit per entry.
+     */
+    public static final List<Exclusion> MODERN_NETHER_CONTENT = List.of(
+        new Exclusion("minecraft:ore_ancient_debris_large",
+            "Ancient debris is 1.16 content and no declared version had it"),
+        new Exclusion("minecraft:ore_debris_small",
+            "Ancient debris is 1.16 content and no declared version had it"),
+        new Exclusion("minecraft:ore_blackstone",
+            "Blackstone is 1.16 content and no declared version had it"),
+        new Exclusion("minecraft:ore_gold_nether",
+            "Nether gold ore is 1.16 content; the era's Nether ores are quartz and the fortress loot"),
+        new Exclusion("minecraft:patch_soul_fire",
+            "Soul fire is 1.16 content; soul sand existed, soul fire did not"));
+
+    public static final List<Exclusion> BETA_1_7_3_RESTRICTIONS = List.copyOf(
+        java.util.stream.Stream.concat(
+            MODERN_NETHER_CONTENT.stream(),
+            java.util.stream.Stream.of(
         new Exclusion("minecraft:ore_copper",
             "Copper ore is 1.17 content; added by BiomeDefaultFeatures.addDefaultOres"),
         new Exclusion("minecraft:amethyst_geode",
@@ -101,6 +140,7 @@ public final class HistoricalFeatureExclusions {
             "Tuff is 1.17 content; added by addMineables' BETA_ADD_NEW_MINEABLES"),
         new Exclusion("minecraft:glow_lichen",
             "Glow lichen is 1.17 content; added by addMineables' BETA_ADD_NEW_MINEABLES")
+        )).toList()
     );
 
     /**
