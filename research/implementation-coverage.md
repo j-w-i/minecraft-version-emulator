@@ -244,14 +244,53 @@ Two blocks came out of it, both stated by the research rather than left to the p
   Pre2 potions imply a stand was **reverted**: the research records potions at Pre2 and the stand at Pre3, a tension
   recorded in the code rather than smoothed over.
 
-## 6. Next tasks, in order
+## 6. State of the matrix, and what is actually left
 
-1. **Alpha 1.0.1** - the pattern version: registry entry via `terrainOnlyWithRules`, its own mob set (no chickens before
-   1.0.14, no slimes before 1.0.11), its own food table, dungeon-only structures, ore deltas (gold and diamond twice as
-   often), settings and world presets, `normal` tag entry, catalogue row, block-introduction chronology, regenerated
-   artefacts, and a generation probe.
-2. The remaining Alpha targets, **one at a time**, each from its own deltas in `research/version-transitions.json`.
-3. Alpha 1.2.0, which needs the biome-era foundation decided and documented first.
-4. The Beta 1.9 prereleases, whose distinctness lives in gameplay gates rather than terrain.
-5. The armour model change at Beta 1.8 -> Pre1.
-6. Items 3 and 8 from the checklist: twelve references to non-existent Gradle tasks, and the dimension-height mismatch.
+**26 profiles declared and selectable**, pinned by `GenerationBackport1211Test` and the two rules tests. The entire
+**Alpha line from 1.0.1 to 1.2.0** is done, as are both originally-declared Infdev builds, Beta 1.7.3, Beta 1.8.1, **all
+six Beta 1.9 prereleases**, and Release 1.0, 1.1, 1.2.5, 1.3, 1.4, 1.5 and 1.6.4.
+
+The catalogue's remaining `planned` rows with no profile are **six Beta builds**: 1.0, 1.2, 1.3, 1.4, 1.5 and 1.6.
+Their content is real and distinct - beds and repeaters, wolves and cookies, achievements and weather, maps and
+trapdoors - and they need the same question answered that Release 1.3-1.5 did, except the answer is likely to be
+cleaner: the terrain generator did not change between Beta 1.0 and 1.7.3 (the Adventure Update overhauled it in 1.8),
+so `moderner_beta:beta` or `beta_1_1_02` is probably the CORRECT foundation rather than an approximation. **That must
+be verified from the research before declaring any of them**, exactly as it was for Release 1.3-1.5, where the answer
+turned out to be "no approximation needed" rather than the decision I expected to have to make.
+
+### Open defects, in the order I would take them
+
+1. **Release spawn sets are unresearched, so Release worlds spawn modern 1.21.1 mobs.** This is the largest known
+   content defect and it applies to every Release profile: 1.0, 1.1, 1.2.5, 1.3, 1.4, 1.5 and 1.6.4 are all declared
+   through `terrainOnly`, which sets no restriction. `SpawnRestrictionSemanticsTest` deliberately forbids inventing a
+   set, so the honest fix is research. The delta for Release 1.4 does enumerate four additions - bat, witch, wither
+   skeleton, zombie villager - which is a starting point rather than an answer.
+2. **A `_no_grass` revision exists on all six Beta 1.9 prereleases, and it should not.** The helper's own comment
+   says "Every caller of this helper predates that - Alpha and both Infdev builds", which was true until the
+   prereleases were routed through it. Grass was added in Beta 1.6, so a "no grass" world type for Beta 1.9 is
+   historically bogus and visible in the GUI. Revisions are append-only for PUBLISHED recipes; these were created
+   in-session with no worlds on them but probe fixtures, so the lists may be edited.
+3. **The Nether's terrain SHAPE is still the modern 1.16+ one.** Its biomes are fixed (one biome,
+   `minecraft:nether_wastes`, via vanilla's `minecraft:fixed` biome source), but the shape comes from
+   `minecraft:nether` noise settings and Moderner Beta ships no historical Nether to point at. Recorded as a gap.
+4. **Alpha 1.2.0's own terrain is approximated** by `moderner_beta:alpha`, because Moderner Beta ships no Alpha 1.2.0
+   preset. Its twelve-biome set and biome-coloured terrain are therefore not reproduced. Same shape as the Nether gap.
+5. **Unimplemented behaviours, each recorded where it was found** rather than in a list nobody reads: leaf decay
+   removal and the 10%->5% sapling cut (Alpha 1.0.6), the snow-block economy quirk (1.0.6), the 4->8 dungeon generator
+   iterations (1.0.14), the armour model change at Beta 1.9 Pre1, the snowfall-destroys-redstone regression (Pre1,
+   fixed by Pre5), slime spawn height (Pre5), Silk Touch changes (Pre5), and breeding and tool repair (Pre2).
+
+### What the last few rounds established, because the pattern matters more than the fixes
+
+Every significant defect found since the audit was found by **the owner playing or pasting a crash**, not by a test:
+sugar cane, sneaking, the offhand, cow spawns, food stacking, the portal gap, the modern Nether, and finally a village
+crash that proved villages had never generated at all. Two structural lessons came out of that:
+
+- **A server probe cannot see what a client does, and neither can see data validation.** The `Network Protocol Error`
+  and the silently dropped recipes were both invisible to 300+ passing tests and to a clean server boot.
+- **A guard that only runs in a unit test cannot cover code that needs a bootstrapped registry.** The village style
+  check had to become a runtime diagnostic (`villageStyles` in the probe) after the unit-test version died with
+  `NoClassDefFoundError: Could not initialize class HistoricalVillageStates`.
+
+The probe now reports, every round: mixin transform results, suppressed blocks and structures, spawn-filter removals,
+ore drops, village biome declines, and village style resolution per version.
