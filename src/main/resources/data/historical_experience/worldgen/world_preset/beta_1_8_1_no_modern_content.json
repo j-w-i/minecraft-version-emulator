@@ -34,7 +34,7 @@
         "type": "minecraft:noise",
         "biome_source": {
           "type": "minecraft:fixed",
-          "biome": "minecraft:nether_wastes"
+          "biome": "historical_experience:legacy_nether_wastes"
         },
         "settings": "minecraft:nether"
       }

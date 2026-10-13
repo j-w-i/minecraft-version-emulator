@@ -97,3 +97,27 @@ The audited catalogue is `research/nostalgic-tweaks-candidates.json` (489 tweaks
 licence election could not be established from the shipped text, so the derived portions carry
 **LGPL-3.0** terms and attribution, not MIT. Every ported file names the upstream file it came from.
 
+
+## Legacy-Nether (Nostalgica-Reverie)
+
+- Source: https://codeberg.org/Nostalgica-Reverie/Legacy-Nether
+- Pinned checkout: `.upstream/legacy-nether` (gitignored)
+- Licence: **CC BY-SA 4.0** (Creative Commons Attribution-ShareAlike 4.0 International)
+- Ported by: `scripts/port-legacy-nether.py`, re-runnable
+- Ported into: `src/main/resources/data/historical_experience/worldgen/biome/`
+
+Upstream file `data/minecraft/worldgen/biome/nether_wastes.json` is ported as
+`legacy_nether_wastes.json` and `legacy_nether_wastes_quartz.json`. Every field is upstream's, unchanged, except
+that the quartz variant is the original and the plain variant has `minecraft:ore_quartz_nether` removed from its
+feature list: nether quartz is Release 1.5 content, and this project must not place it before then. The world-preset
+generator picks between the two by chronology.
+
+Upstream's `data/minecraft/dimension/the_nether.json` was NOT ported, because this project already composes the same
+dimension - a fixed `nether_wastes` biome source with vanilla `minecraft:nether` settings - into
+`historical_experience` world presets. Its `data/minecraft/tags/worldgen/biome/has_structure/` entries (bastion
+remnant and the ruined portals) were also NOT ported: they empty a `minecraft:` tag, which would change every world
+including ordinary ones. This project suppresses those structures per version in `HistoricalStructureRules`, which is
+version-aware and already covers them.
+
+Share-alike: modifications to the ported biome - the single quartz removal - are documented above and in the port
+script, and the ports remain under CC BY-SA 4.0.

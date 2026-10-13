@@ -49,9 +49,16 @@ PUBLIC_RECIPES = {
 }
 
 
-def world_preset(preset_id, reduced=True):
+def world_preset(preset_id, reduced=True, quartz=False):
     def settings():
         return {'moderner_beta:preset': preset_id}
+
+    # The Nether biome is PORTED from the Legacy-Nether upstream the owner supplied, re-namespaced into this
+    # project so that no ordinary world is affected. Two variants exist because that upstream's feature list
+    # contains ore_quartz_nether, and nether quartz is Release 1.5 content: the plain variant is used before it and
+    # the quartz variant from Release 1.5 onward, which is why this takes a flag rather than hard-coding a name.
+    nether_biome = ('historical_experience:legacy_nether_wastes_quartz' if quartz
+                    else 'historical_experience:legacy_nether_wastes')
 
     return {
         'dimensions': {
@@ -94,7 +101,7 @@ def world_preset(preset_id, reduced=True):
                     # Biomes are what a player sees first, and those are now correct.
                     'biome_source': {
                         'type': 'minecraft:fixed',
-                        'biome': 'minecraft:nether_wastes',
+                        'biome': nether_biome,
                     },
                     'settings': 'minecraft:nether',
                 },
@@ -116,7 +123,10 @@ def main():
         path = out_dir / ('%s.json' % name)
         recipe = PUBLIC_RECIPES.get(name, name)
         reduced = name != 'beta_1_7_3_content_preview_1'
-        path.write_text(json.dumps(world_preset('%s:%s' % (NAMESPACE, recipe), reduced), indent=2) + '\n',
+        # Quartz ore is Release 1.5 content, so only the presets from that build onward get the variant of the
+        # ported Nether biome whose feature list contains it. Everything else names the plain variant.
+        quartz = name.startswith('release_1_5') or name.startswith('release_1_6')
+        path.write_text(json.dumps(world_preset('%s:%s' % (NAMESPACE, recipe), reduced, quartz), indent=2) + '\n',
                         encoding='utf-8')
         written.append(name)
 
