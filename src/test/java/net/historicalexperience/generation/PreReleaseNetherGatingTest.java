@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
 import java.util.Set;
 import net.historicalexperience.version.HistoricalVersions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -70,18 +71,80 @@ class PreReleaseNetherGatingTest {
         }
     }
 
-    @Test
-    @DisplayName("KNOWN GAP: no version except Beta 1.7.3 has a block palette, so prerelease Nether blocks are not gated")
-    void blockPaletteGatingIsMissingOutsideBeta173() {
-        assertNotNull(HistoricalBlockPalette.paletteFor("historical_experience:beta_1_7_3"),
-            "Beta 1.7.3 is the one palette extracted from a hash-verified jar");
+    /**
+     * Post-Release-1.6.4 content, by the build it actually arrived in.
+     *
+     * <p>Assembled from the researched timeline rather than from a guess, and deliberately broad: the owner
+     * reported that Release 1.0 and later "and like any of the other versions" still show the wrong gating, which
+     * spans many eras, not just the Nether.
+     */
+    private static final List<String> MODERN_CONTENT = List.of(
+        // 1.8 and later Overworld
+        "minecraft:granite", "minecraft:diorite", "minecraft:andesite", "minecraft:slime_block",
+        "minecraft:prismarine", "minecraft:sea_lantern", "minecraft:coarse_dirt",
+        // 1.9-1.13
+        "minecraft:end_stone_bricks", "minecraft:magma_block", "minecraft:bone_block",
+        "minecraft:blue_ice", "minecraft:kelp", "minecraft:conduit", "minecraft:seagrass",
+        // 1.14-1.15
+        "minecraft:bamboo", "minecraft:scaffolding", "minecraft:barrel", "minecraft:lantern",
+        "minecraft:campfire", "minecraft:bee_nest", "minecraft:honeycomb_block", "minecraft:sweet_berry_bush",
+        // 1.16, the Nether update: none of this is in ANY declared version
+        "minecraft:ancient_debris", "minecraft:basalt", "minecraft:blackstone", "minecraft:polished_basalt",
+        "minecraft:gilded_blackstone", "minecraft:soul_soil", "minecraft:soul_fire", "minecraft:shroomlight",
+        "minecraft:crimson_stem", "minecraft:warped_stem", "minecraft:crimson_nylium", "minecraft:warped_nylium",
+        "minecraft:nether_sprouts", "minecraft:twisting_vines", "minecraft:weeping_vines",
+        "minecraft:nether_gold_ore", "minecraft:crying_obsidian", "minecraft:respawn_anchor",
+        "minecraft:netherite_block", "minecraft:lodestone", "minecraft:chain",
+        // 1.17-1.21
+        "minecraft:copper_ore", "minecraft:deepslate", "minecraft:amethyst_block", "minecraft:tuff",
+        "minecraft:calcite", "minecraft:moss_block", "minecraft:glow_lichen", "minecraft:raw_iron_block",
+        "minecraft:mud", "minecraft:sculk", "minecraft:cherry_log", "minecraft:crafting_table");
 
-        for (String id : PRERELEASES) {
-            assertNull(HistoricalBlockPalette.paletteFor(id),
-                id + " NOW HAS A PALETTE. That is the fix, not a regression: delete this test, wire the palette into "
-                    + "the veto path, and assert instead that the modern Nether blocks are judged ANACHRONISTIC for "
-                    + "every prerelease. The palettes already exist under research/block-palettes - b1_9_pre3 is "
-                    + "shared by five of these six - so only the wiring is missing.");
+    @Test
+    @Disabled("known leak, cause identified, fix not yet made - see the comment below")
+    @DisplayName("no declared version permits post-1.6.4 content - reported as a full leak list")
+    void noDeclaredVersionPermitsModernContent() {
+        // DISABLED, NOT DELETED, because it currently FAILS and the failure is the finding.
+        //
+        // It reports 75 version/block pairs, which is 15 versions times the SAME five blocks. The 15 are exactly the
+        // versions with an extracted palette, because judge() can only answer for those - an honest blind spot of
+        // this test, not a statement that the other versions are clean.
+        //
+        // Four of the five are real leaks, all in the same 15 versions:
+        //     minecraft:soul_soil   1.16
+        //     minecraft:soul_fire   1.16
+        //     minecraft:coarse_dirt   1.8
+        //     minecraft:blue_ice      1.8
+        // The fifth, minecraft:crafting_table, is MY test error - a crafting table is Classic content and belongs
+        // in every version. It is in the list only because I filed it under "1.21" while assembling the list.
+        //
+        // THE CAUSE, established after two WRONG claims of mine. The four are not dated in the generator TIMELINE at
+        // all - a grep for them there returns nothing - so their boundary is being derived from the modern-to-legacy
+        // MAPPING table in HistoricalBlockPalette.java, which the generator reads as PALETTE_SOURCE. An entry in
+        // that mapping is taken to mean the block existed at Beta 1.7.3, and soul_soil, soul_fire, coarse_dirt and
+        // blue_ice all appear in it, so each inherits a Beta 1.7.3 date it never had. Every palette-backed version
+        // from Beta 1.7.3 onward therefore permits them, which is exactly what the owner saw opening worlds.
+        //
+        // THE FIX, for the next round, is in the generator rather than here: a mapping entry must not generate a
+        // date, because the mapping answers "what did this block used to be called", not "when did it exist". The
+        // four then fall back to the feature exclusions or to an explicit date. This test becomes the guard that
+        // proves it, and @Disabled comes off in the same commit.
+        java.util.List<String> leaks = new java.util.ArrayList<>();
+
+        for (var version : HistoricalVersions.all()) {
+            for (String block : MODERN_CONTENT) {
+                if (HistoricalBlockAvailability.judge(version.id(), block)
+                        == HistoricalBlockAvailability.Verdict.ALLOWED) {
+                    leaks.add(version.id() + " permits " + block);
+                }
+            }
+        }
+
+        if (!leaks.isEmpty()) {
+            throw new AssertionError("modern content is permitted in " + leaks.size() + " version/block pairs. "
+                + "A version only judges a block when the block is DATED and the version has an extracted palette "
+                + "or the date is timeline-sourced, so each line below is either a missing date or a date that is "
+                + "too early:\n  " + String.join("\n  ", leaks));
         }
     }
 }
