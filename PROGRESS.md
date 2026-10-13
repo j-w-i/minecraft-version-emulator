@@ -1,4 +1,62 @@
-# Persistent project status — 2026-10-13 (5) / the owner's frame test found TWO real defects, both fixed
+# Persistent project status — 2026-10-13 (6) / Pre3's light quirk and Alpha 1.0.6's free snowballs, both measured
+
+## Round 71 — two more catalogued behaviours implemented, and the first inner-class mixin target
+
+Both are exact-build bugs, verified at runtime rather than merely booted — which is the rule that round 70 paid for.
+
+### Pre3's End portal frame emitted light level 15 (implemented, measured)
+
+The same wiki history row that carries the explosion drop also carries *"Gives off a light level of 15"*, lowered in
+Pre4 to *"light level of 1"*. Both halves of that prerelease's documented frame quirks are now implemented.
+
+**Where it could not go, and why that mattered.** `getLightEmission` is declared on neither `Block` nor
+`BlockBehaviour` — checked with `javap`, not assumed. It lives on `BlockBehaviour.BlockStateBase` and its whole body
+is `getfield lightEmission; ireturn`, so a mixin targeting `Block` could not name the method at all. The new mixin
+therefore targets the **nested class** — the first in this project to do so — and it applies cleanly.
+
+Two deliberate choices in it:
+- the modern value is **never written into the code**, so only Pre3 is overridden and a future change to the block
+  cannot be frozen out;
+- the cheap block-identity test comes **before** the gate, because `getLightEmission` is on the light engine's read
+  path and the gate reads a volatile session field. Ordered the other way it would pay that read on every light
+  query in the world to answer a question that is false for every block but one.
+
+### Alpha 1.0.6's infinite snowballs (implemented, measured)
+
+The wiki row: *"Now require only 4 snowballs to be crafted instead of 9. They still always drop 6 snowballs, allowing
+for an infinite source of snowballs."* The recipe half turned out to **already be modern** — verified in the jar where
+`recipe/snow_block.json` is a 2x2 of snowballs and `loot_table/blocks/snow_block.json` sets a count of four — so the
+surplus is exactly one build returning **six**.
+
+The gate is **equality on the documented build, not a range**, and that is the point: the behaviour is documented for
+Alpha 1.0.6 but the fix boundary never was, and a range invented from a single data point is how one build's bug gets
+handed to its neighbours.
+
+### Runtime evidence — every row from a real dedicated server, with controls
+
+| Version | Snow block drops | Frame light | Torch control |
+| --- | --- | --- | --- |
+| **Alpha 1.0.6** | **`snowball x6`** | 1 | — |
+| Alpha 1.0.4 | `snowball x4` | 1 | — |
+| **Beta 1.9 Pre3** | `snowball x4` | **15** | **14** |
+| Beta 1.9 Pre4 | `snowball x4` | 1 | — |
+| Release 1.6.4 | `snowball x4` | 1 | — |
+
+The torch reads 14 on the Pre3 run, which is the control that proves the light override is scoped to the frame and has
+not lifted an unrelated block's light value.
+
+**366 tests, 65 suites, 0 failures.** Deployed:
+**5FE7045252A8F22026E168B30FF9F5FD9BAA0AF02CC76217D451350AD91D2655**.
+
+### What this round did NOT do, recorded so it is not implied
+
+- **Pre4's Silk Touch spawner drop is still not verified** in the positive direction: the probe has no player and no
+  enchanted tool. Only the safe direction is proven — no other declared build drops a spawner.
+- **The Pre1–Pre4 snowfall-destroys-blocks regression is still unimplemented.** The research records it as a range
+  and the effect, but not the *mechanism* (what snowfall does to a redstone torch), and implementing a destructive
+  block-removal path on a guess would delete player builds in four worlds. It needs its own source check first.
+- **Pre3's "Enchanted!!" placeholder tooltip is still unimplemented.** Making modern tools show a text placeholder
+  instead of real enchantments would remove working content, so it needs a decision rather than a default.
 
 ## Round 70 — the End portal frame drop was broken twice over, and both causes are now measured
 

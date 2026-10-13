@@ -308,6 +308,24 @@ public final class GenerationVerification {
         out.put("monsterSpawner", dropReport(level,
             net.minecraft.world.level.block.Blocks.SPAWNER.defaultBlockState(), new BlockPos(28, 90, 28)));
 
+        // The frame's light value, read through the same accessor the light engine calls. This is the only place a
+        // one-build light override can be observed without the owner placing a frame and looking at it: the value
+        // comes off the block STATE, so `getLightEmission` is the whole mechanism and there is nothing else to test.
+        out.put("endPortalFrameLightGate",
+            net.historicalexperience.gameplay.HistoricalGameplayTweaks.endPortalFrameLightFifteen());
+        out.put("endPortalFrameLightLevel",
+            net.minecraft.world.level.block.Blocks.END_PORTAL_FRAME.defaultBlockState().getLightEmission());
+        // A control that must NOT move: if an unrelated block's light changed, the mixin is not scoped to the frame.
+        out.put("torchLightLevelControl",
+            net.minecraft.world.level.block.Blocks.TORCH.defaultBlockState().getLightEmission());
+
+        // Alpha 1.0.6's free snowballs. Four everywhere else, six in that one build; the same call also proves the
+        // recipe's modern cost, which is what makes the surplus a surplus rather than just a bigger number.
+        out.put("snowballSurplusGate",
+            net.historicalexperience.gameplay.HistoricalGameplayTweaks.snowballSurplus());
+        out.put("snowBlock", dropReport(level,
+            net.minecraft.world.level.block.Blocks.SNOW_BLOCK.defaultBlockState(), new BlockPos(32, 90, 32)));
+
         return out;
     }
 

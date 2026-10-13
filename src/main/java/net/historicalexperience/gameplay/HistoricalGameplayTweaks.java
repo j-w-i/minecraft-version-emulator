@@ -138,6 +138,22 @@ public final class HistoricalGameplayTweaks {
                 + "jumping as a test'. The range is 1-100, so a single jump can be worth a hundred experience and "
                 + "the amount is random per jump. The disabled auto-repeat half is a client input behaviour and is "
                 + "recorded rather than implemented."),
+        Map.entry("snowballSurplus",
+            "Alpha 1.0.6 ONLY. minecraft.wiki, Java Edition Alpha v1.0.6, Changes > Snow block: 'Now require only "
+                + "4 snowballs to be crafted instead of 9. They still always drop 6 snowballs, allowing for an "
+                + "infinite source of snowballs.' The recipe half is already the modern one - verified in the jar, "
+                + "not assumed: data/minecraft/recipe/snow_block.json is a 2x2 of snowballs and "
+                + "data/minecraft/loot_table/blocks/snow_block.json returns a count of four - so the surplus is "
+                + "exactly this one build returning six, and only this build needs overriding. The fix boundary was "
+                + "not established by the research, which is why the gate is equality on the one build that is "
+                + "documented rather than a range: a range invented from a single data point is how one build's bug "
+                + "gets handed to three innocent neighbours."),
+        Map.entry("endPortalFrameLightFifteen",            "Beta 1.9 Prerelease 3 ONLY, the second half of the same history row that carries the explosion drop. "
+                + "minecraft.wiki, End Portal Frame history, Java Edition: of Pre3, 'Gives off a light level of 15'; "
+                + "of Pre4, 'Now emits light level of 1'. So for exactly one declared build the frame lit its "
+                + "surroundings like a torch and the next build dimmed it. The modern value is deliberately not "
+                + "written into the code - the hook overrides Pre3 and leaves every other build reading whatever "
+                + "the registry declares, so a future change to the block cannot be frozen out by this feature."),
         Map.entry("silkySpawners",
             "Beta 1.9 Prerelease 4 ONLY, and this is the real in-range version of the owner's 'mineable spawners' "
                 + "bug. minecraft.wiki's Monster Spawner history, Java Edition table, says of Beta 1.9 Prerelease 4: "
@@ -255,6 +271,20 @@ public final class HistoricalGameplayTweaks {
             // minecraft.wiki, Monster Spawner history: Pre4 "Monster spawners now drop when mined using a tool
             // enchanted with the new Silk Touch enchantment", Pre5 "no longer drop when broken using ... Silk Touch".
             case "silkySpawners" -> isDeclaredVersion(versionId) && versionId.equals(BETA_1_9_PRE_4);
+            // The frame emitted light level 15 in Pre3 and 1 from Pre4 on. Same one-build shape as the drop rule
+            // above, and the same equality rather than a boundary: "before Pre4" would light up Pre1 and Pre2 too.
+            // minecraft.wiki, End Portal Frame history: Pre3 "Gives off a light level of 15", Pre4 "Now emits light
+            // level of 1".
+            case "endPortalFrameLightFifteen" ->
+                isDeclaredVersion(versionId) && versionId.equals(BETA_1_9_PRE_3);
+            // Alpha 1.0.6 ONLY: the snow-block recipe dropped from nine snowballs to four while breaking a snow
+            // block still gave back six, so every cycle produced two free snowballs. The recipe half is what the
+            // modern game already has - data/minecraft/recipe/snow_block.json is a 2x2 of snowballs, and
+            // loot_table/blocks/snow_block.json returns four - so the historical surplus is exactly one build
+            // returning six, and only that build needs the override. Source: minecraft.wiki, Alpha v1.0.6,
+            // Changes > Snow block: "Now require only 4 snowballs to be crafted instead of 9. They still always
+            // drop 6 snowballs, allowing for an infinite source of snowballs."
+            case "snowballSurplus" -> isDeclaredVersion(versionId) && versionId.equals(ALPHA_1_0_6);
             default -> throw new IllegalArgumentException("unknown gate '" + gate + "'; a gate that never "
                 + "applies is indistinguishable from one that correctly does not, so this refuses to guess");
         };
@@ -273,6 +303,7 @@ public final class HistoricalGameplayTweaks {
     private static final String BETA_1_9_PRE_3 = "historical_experience:beta_1_9_pre_3";
     private static final String BETA_1_9_PRE_1 = "historical_experience:beta_1_9_pre_1";
     private static final String BETA_1_9_PRE_4 = "historical_experience:beta_1_9_pre_4";
+    private static final String ALPHA_1_0_6 = "historical_experience:alpha_1_0_6";
 
     /**
      * Beta 1.7.3, the earliest declared version that HAD shears, and therefore the boundary for the wool rule.
@@ -808,6 +839,28 @@ public final class HistoricalGameplayTweaks {
      */
     public static boolean silkySpawnerDrops() {
         return appliesTo("silkySpawners", HistoricalActiveSession.current());
+    }
+
+    /**
+     * Whether the End portal frame emits light level 15, which it did in Pre3 only.
+     *
+     * <p>No argument for the same reason as {@link #endPortalFrameExplodes()}: the value is read from a block state
+     * with no level in reach. An unknown session answers false, which leaves the frame at the registry's own value -
+     * the safe direction, because the other answer would brighten a block in every ordinary world.
+     */
+    public static boolean endPortalFrameLightFifteen() {
+        return appliesTo("endPortalFrameLightFifteen", HistoricalActiveSession.current());
+    }
+
+    /**
+     * Whether breaking a snow block returns more snowballs than the recipe cost - Alpha 1.0.6's free snowballs.
+     *
+     * <p>True for exactly one declared build. The value itself (six) is documented in the wiki quote rather than
+     * derived, and it is deliberately not written here: the hook that consumes this asks how many to return, so the
+     * number lives with the block rule and the gate stays a yes/no question like every other gate in this class.
+     */
+    public static boolean snowballSurplus() {
+        return appliesTo("snowballSurplus", HistoricalActiveSession.current());
     }
 
     /**

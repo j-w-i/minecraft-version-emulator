@@ -39,6 +39,7 @@
     "DataComponentHolderHistoricalFoodMixin",
     "DataComponentHolderHistoricalToolDurabilityMixin",
     "BlockHistoricalEndPortalFrameMixin",
+    "BlockStateBaseHistoricalEndPortalFrameLightMixin",
     "BlockBehaviourHistoricalDropMixin",
     "PlayerHistoricalExhaustionMixin",
     "PlayerHistoricalJumpExperienceMixin",

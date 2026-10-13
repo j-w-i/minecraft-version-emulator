@@ -94,6 +94,15 @@ public abstract class BlockBehaviourHistoricalDropMixin {
         // of the fix and it was wrong in a way worth naming: dead code that reads like the live rule, so a later
         // reader would find two frame rules and no way to tell which one the game takes.
 
+        // Alpha 1.0.6 ONLY: breaking a snow block returned SIX snowballs while the recipe only cost four, so every
+        // craft-and-break cycle produced two free snowballs. The recipe half is already modern - the jar's
+        // data/minecraft/recipe/snow_block.json is a 2x2 of snowballs and its loot table sets a count of four - so
+        // the historical behaviour is exactly this one build returning six. The count is written here rather than in
+        // the gate because the wiki quote states the number and the gate stays a yes/no question.
+        if (blockState.is(Blocks.SNOW_BLOCK) && HistoricalGameplayTweaks.snowballSurplus()) {
+            return List.of(new ItemStack(Items.SNOWBALL, 6));
+        }
+
         // Beta 1.9 Pre4 ONLY: Silk Touch made monster spawners drop themselves, and Pre5 removed it - so the MODERN
         // game is the one WITHOUT the drop, which is the opposite of how every other rule in this file reads.
         // minecraft.wiki, Monster Spawner history: Pre4 "Monster spawners now drop when mined using a tool

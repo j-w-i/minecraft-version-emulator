@@ -628,6 +628,31 @@ turned out to be "no approximation needed" rather than the decision I expected t
    Silk Touch because the probe has no player and no enchanted tool. This is the honest in-range answer to the
    owner's "spawners being mineable" request: the premise named the Infdev builds, which predate the block's
    addition in Infdev 20100625-1917, so Pre4 is where that bug actually lives in this matrix.
+27. **Pre3's light level 15 is implemented and MEASURED, and it needed the project's first inner-class mixin
+   target.** minecraft.wiki's End Portal Frame history carries two Pre3 facts in adjacent rows — the explosion drop
+   (item 23) and *"Gives off a light level of 15"*, lowered in Pre4 to *"light level of 1"*. Both are now
+   implemented, so that one prerelease's documented quirks are complete.
+   The light value could not be hooked where the drop rule lives: **checked with `javap`, `getLightEmission` is
+   declared on neither `Block` nor `BlockBehaviour`** — it is on `BlockBehaviour.BlockStateBase`, and its whole body
+   is `getfield lightEmission; ireturn`. A mixin targeting `Block` could not name the method at all, so
+   [the new mixin](<src/main/java/net/historicalexperience/mixin/BlockStateBaseHistoricalEndPortalFrameLightMixin.java>)
+   targets the nested class — the first in this project to do so — and it applies cleanly.
+   Two deliberate choices in it: the modern value is **never written into the code**, so only Pre3 is overridden and
+   a future change to the block cannot be frozen out; and the block identity check (`==` against the frame, a
+   reference comparison) comes **before** the gate, because `getLightEmission` is on the light engine's read path
+   and the gate reads a volatile session field. Ordered the other way it would pay that read on every light query in
+   the world to answer a question that is false for every block but one.
+   **Measured at runtime, not asserted:** Pre3 reports `endPortalFrameLightLevel: 15` with
+   `endPortalFrameLightGate: true`, and a torch control reads `14` — so the override is scoped to the frame and the
+   `@ModifyReturnValue` has not lifted an unrelated block's light.
+28. **Alpha 1.0.6's free-snowball loop is implemented and MEASURED.** The wiki row: *"Now require only 4 snowballs to
+   be crafted instead of 9. They still always drop 6 snowballs, allowing for an infinite source of snowballs."* The
+   recipe half turned out to already be the modern one — verified in the jar rather than assumed, where
+   `recipe/snow_block.json` is a 2x2 of snowballs and `loot_table/blocks/snow_block.json` sets a count of four — so
+   the historical surplus is exactly one build returning **six**, and only that build is overridden.
+   The gate is **equality on the documented build, not a range**, and that is the point: the research established
+   the behaviour in Alpha 1.0.6 but never established the fix boundary, and a range invented from a single data
+   point is precisely how one build's bug gets handed to its neighbours.
 12. **The Nether's terrain SHAPE is still the modern 1.16+ one.** Its biomes are fixed (one biome,
    `minecraft:nether_wastes`, via vanilla's `minecraft:fixed` biome source), but the shape comes from
    `minecraft:nether` noise settings and Moderner Beta ships no historical Nether to point at. Recorded as a gap.

@@ -121,6 +121,48 @@ class HistoricalBugsTest {
     }
 
     @Test
+    @DisplayName("the End portal frame emits light 15 in Pre3 only, which is the same one-build shape as the drop")
+    void endPortalFrameLightOnlyInPreThree() {
+        int applying = 0;
+        for (var version : HistoricalVersions.all()) {
+            if (HistoricalGameplayTweaks.appliesTo("endPortalFrameLightFifteen", version.id())) {
+                assertEquals(PRE_3, version.id(),
+                    "Pre3 is the only declared build whose frame emitted light 15; Pre4 lowered it to 1, so "
+                        + version.id() + " must not");
+                applying++;
+            }
+        }
+        assertEquals(1, applying,
+            "exactly one declared build had the light-15 frame. Zero makes the hook dead code; more than one means "
+                + "the equality was widened into a range, which would brighten frames in builds that never had it");
+        assertFalse(HistoricalGameplayTweaks.appliesTo("endPortalFrameLightFifteen", PRE_1),
+            "Pre1 predates the block's Pre3 quirks entirely");
+        assertFalse(
+            HistoricalGameplayTweaks.appliesTo("endPortalFrameLightFifteen", "historical_experience:beta_1_9_pre_4"),
+            "Pre4 lowered it to 1");
+    }
+
+    @Test
+    @DisplayName("the snowball surplus loop is Alpha 1.0.6 and nowhere else")
+    void snowballSurplusOnlyInAlphaOneZeroSix() {
+        int applying = 0;
+        for (var version : HistoricalVersions.all()) {
+            if (HistoricalGameplayTweaks.appliesTo("snowballSurplus", version.id())) {
+                assertEquals("historical_experience:alpha_1_0_6", version.id(),
+                    "only Alpha 1.0.6 is documented as returning more snowballs than the recipe costs; "
+                        + version.id() + " must not");
+                applying++;
+            }
+        }
+        assertEquals(1, applying,
+            "exactly one declared build had the surplus. The research never established the fix boundary, so the "
+                + "gate is deliberately equality on the documented build - a range invented from one data point "
+                + "would hand one build's bug to its neighbours");
+        assertFalse(HistoricalGameplayTweaks.appliesTo("snowballSurplus", "historical_experience:alpha_1_0_4"));
+        assertFalse(HistoricalGameplayTweaks.appliesTo("snowballSurplus", "historical_experience:alpha_1_0_11"));
+    }
+
+    @Test
     @DisplayName("the jump bug grants between 1 and 100 inclusive, and 0 where it does not apply")
     void jumpExperienceRange() {
         // The research says 1-100 per jump and that the amount is random per jump, so both ends of the range must
