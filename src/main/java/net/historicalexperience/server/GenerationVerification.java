@@ -333,6 +333,10 @@ public final class GenerationVerification {
             report.put("declaredStructureRuleVersions", HistoricalStructureRules.declaredVersions().toString());
             report.put("allowedStructuresForThisProfile", versionId == null ? "<ordinary world>"
                 : HistoricalStructureRules.allowedForVersion(versionId).toString());
+            // The village's own reason for refusing, which no other field can show: a world that generates no
+            // village and a world whose biomes are wrong look identical from outside, and this tells them apart.
+            report.put("villageDeclinedForBiome",
+                net.historicalexperience.worldgen.HistoricalVillageStructure.declinedForBiomeCount());
             report.put("spawns", HistoricalSpawnRules.diagnostics());
             // The mob-drop replacement and experience suppression, so a real session shows them working
             // instead of only a unit test asserting the tables are readable.

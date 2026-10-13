@@ -113,13 +113,20 @@ public class HistoricalVillageStructure extends Structure {
         int blockX = chunkPos.getMinBlockX() + 8;
         int blockZ = chunkPos.getMinBlockZ() + 8;
 
+        // The biome is sampled at the SURFACE, not at sea level, and that distinction is the whole reason no
+        // village ever placed. These profiles declare cave biomes (every settings preset here carries a
+        // cave_provider_settings block), so a sample taken at the fixed sea-level Y can land on a CAVE biome,
+        // biomeIsPermitted then refuses, and the structure returns empty for every candidate chunk. The village
+        // is built at the surface, so the surface is the only Y whose biome decides anything.
+        int surfaceY = context.chunkGenerator().getFirstFreeHeight(
+            blockX, blockZ, Heightmap.Types.WORLD_SURFACE, context.heightAccessor(), context.randomState());
         Holder<Biome> biome = context.biomeSource().getNoiseBiome(
-            QuartPos.fromBlock(blockX), QuartPos.fromBlock(context.chunkGenerator().getSeaLevel()),
+            QuartPos.fromBlock(blockX), QuartPos.fromBlock(Math.max(surfaceY, context.heightAccessor().getMinBuildHeight())),
             QuartPos.fromBlock(blockZ), context.randomState().sampler());
         String biomeId = biome.unwrapKey().map(key -> key.location().toString()).orElse(null);
         if (biomeId == null || !HistoricalVillageRules.biomeIsPermitted(biomeId)) {
             // Not a village biome: no village. Reported by the diagnostic so a world that generates none
-            // can be told apart from one whose biomes are wrong.
+            // can be told apart from one whose biomes are wrong, and exposed in the generation probe.
             NOT_A_VILLAGE_BIOME.increment();
             return Optional.empty();
         }
