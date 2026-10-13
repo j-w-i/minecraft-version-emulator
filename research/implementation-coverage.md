@@ -310,10 +310,32 @@ turned out to be "no approximation needed" rather than the decision I expected t
    Infdev caps read later (monsters 100, animals 50 from `inf-20100420.jar`, sha1 `27010a51…`), is recorded in
    [pre-Beta-1.8 spawning evidence](<pre-beta-1.8-spawning-evidence.json>). Reinstating it is a matter of adding
    the class and the hook back, not of redoing the research.
-5. **The newly declared Beta builds' own content is recorded but NOT implemented**: Beta 1.4's locked chest,
-   bed-spawn reset and achievement infrastructure; Beta 1.5's weather, powered/detector rails and cobweb
-   obtainability; Beta 1.6's map, trapdoor, Nether bed explosion, fire-spread slowdown and ore-quadrant-bias
-   fix. These are the next content work rather than claims.
+5. **The newly declared Beta builds' own content — Beta 1.5 weather is now IMPLEMENTED, the rest is recorded.**
+   **Beta 1.5's weather is enforced, not merely recorded.** Every world older than Beta 1.5 now has permanent
+   clear skies, because the research states the boundary four separate ways in that entry: item 4 *"Natural rain,
+   snowfall and thunderstorms"*, item 10 *"Release implements rain, snow, thunderstorms"*, item 14 which lists
+   weather as a **difference from Beta 1.4**, and item 15 — the recreation notes addressed to this project —
+   *"no modern weather defaults"*.
+   Two injections are needed and one is not enough: `advanceWeatherCycle` is the natural cycle and sets the rain
+   and thunder timers **itself** without going through the setter, while `setWeatherParameters` is every
+   deliberate change including `/weather` and the vanilla level initialisation that seeds those timers. A world
+   that already held rain is also forced clear, since a cancelled cycle would otherwise leave it raining forever
+   with nothing left to end it. The clear goes through `setRainLevel`/`setThunderLevel` rather than the cancelled
+   setter, or the clear would cancel itself.
+   The mixin is deliberately **common rather than client**: the server owns weather and sends it to clients, and a
+   common mixin is one the dedicated-server probe actually loads, so `require = 1` turns a failed injection into a
+   loud crash on a normal test run instead of a feature that silently does nothing — which is exactly how the
+   client-scoped lighting mixin behaved. Verified: `alpha`, `beta_1_4` and `beta_1_5` all load, match their
+   presets, attach the injections and report no mixin failure.
+   **Still recorded rather than implemented**, in the same register as before: Beta 1.4's locked chest, bed-spawn
+   reset and achievement infrastructure; Beta 1.5's powered/detector rails and cobweb obtainability; Beta 1.6's
+   map, trapdoor, Nether bed explosion, fire-spread slowdown and ore-quadrant-bias fix.
+   **A third Mixin lesson, learned here and worth more than the feature.** `@Shadow` **method** resolution does not
+   walk superclasses. `setRainLevel` and `setThunderLevel` are declared on `Level`, not `ServerLevel`, so a
+   `@Shadow` of them failed the whole mixin with *"@Shadow method setRainLevel … was not located in the target
+   class net.minecraft.server.level.ServerLevel"*. They are `public` on `Level`, so they need no shadow at all and
+   are simply called on the level reference. Together with the two findings under item 16, all three were caught by
+   running the thing rather than by compiling it.
 6. **Food stacking before Beta 1.8 was enforced in only one of four places (repaired).** The owner reported that
    food "picks up in a stack" and that "if you double click in inventory it turns into a stack". The rule was on
    `Slot` alone, and disassembling 1.21.1 shows why that leaks: an item's maximum is read directly by three other

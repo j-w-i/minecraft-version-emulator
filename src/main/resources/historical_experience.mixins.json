@@ -43,6 +43,7 @@
     "EnchantmentMenuHistoricalEnchantingMixin",
     "BrewingStandHistoricalBrewingMixin",
     "EnderEyeHistoricalPortalMixin",
+    "ServerLevelHistoricalWeatherMixin",
     "WorldGenRegionHistoricalBlockVetoMixin",
     "EntityHistoricalSneakingMixin",
     "PlayerHistoricalOffhandMixin",
