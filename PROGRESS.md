@@ -48,7 +48,9 @@ reasoning, so this is consistent rather than a gap. The real in-range spawner bu
 removed in Pre5**.
 
 **Final build: 361 tests, 65 suites, 0 failures/errors/skips.** Deployed and hash-verified:
-**C601B0B865129C286053716923E09539C1FB265B9095ED7A5D975719CB47317D**, `IN SYNC` with the built jar.
+**0FE23A710FE38D5E799DE3E8826E9CE5F515DA58D24C032FE228301696EC6883**, `IN SYNC` with the built jar. (An
+intermediate deploy carried `C601B0B8…`; that jar differed only in a corrected comment in the new mixin, but this is
+the hash to quote — the earlier one is superseded.)
 
 **For the owner to test — every fix here affects NEW CHUNKS ONLY, and the mod loads at launch:**
 
