@@ -653,6 +653,47 @@ turned out to be "no approximation needed" rather than the decision I expected t
    The gate is **equality on the documented build, not a range**, and that is the point: the research established
    the behaviour in Alpha 1.0.6 but never established the fix boundary, and a range invented from a single data
    point is precisely how one build's bug gets handed to its neighbours.
+29. **The sweep can now report its own cost, and it needed three fixes before its output could be trusted at all.**
+   The question "how long does one version actually take" could not be answered by this tool — round 69 had to
+   reconstruct it by hand from log timestamps after the tool reported a 30-second run as a 180-second hang. Each row
+   now carries a measured `seconds`, and the summary prints a total and mean.
+   **Full matrix, re-run against the current build: 32 declared versions, all `success=true`, all
+   `presetMatches=true`, 0 timeouts, 0 anachronisms except the one below, 0 mixin failures. 727.1s total, 22.7s mean
+   per version, min 20.2s, max 30.3s.** That is the whole 32-version matrix in about twelve minutes, which is the
+   number any future plan should use instead of the six-minute figure that came from a broken instrument.
+   Three defects were found and fixed in the tool while getting there, all the same shape — *the instrument
+   reporting something the evidence beside it contradicted*:
+   * **A stale probe verdict.** `alpha` was reported as `exit=1 success=True` — a self-contradiction — because
+     deleting the world directory is best-effort: a leftover lock leaves the previous run's `generation-probe.json`
+     in place, the wait loop breaks on its first poll, and the row then reads its `success` from that stale file. A
+     verdict now counts only if its timestamp is **newer than this run's start**, which cannot be forged by a
+     leftover. Verified by asserting the helper answers false for "since now", true for "since 2000", and false for a
+     missing file.
+   * **`BUILD SUCCESSFUL` is not proof the server ran, and a server that ran is not a startup failure.** The
+     failure scan is gated on the absence of positive evidence that the server started (`Done (…)` or the
+     verification line), so a run that demonstrably loaded cannot be labelled dead by a string in its log.
+   * **`runExit` remains informational only** and still shows `1` for runs whose log was read a moment before Gradle
+     flushed its final line. It is deliberately *not* used for any verdict — `HistoricalBugsTest`-style pass/fail
+     comes from `success`, `timedOut` and `mixinFailures` — and the summary no longer implies otherwise. Recorded
+     rather than papered over, because a field that looks authoritative and is not is how this project got misled
+     twice already.
+30. **Beta 1.0's sandstone is CONFIRMED anachronistic, and remains the matrix's only open content defect.** The
+   re-run measured `minecraft:sandstone=2993` in nine chunks of a fresh Beta 1.0 world, with every other version at
+   zero. The research is unambiguous on two counts: `version-transitions.json` lists sandstone among Beta 1.2's
+   additions (*"the big crafting/resource suite lands here (… lapis, sandstone …)"*) and dates
+   *"sandstone generates under naturally generated sand"* to **Beta 1.3**. So a Beta 1.0 world should have had
+   neither the block nor the surface rule.
+   Item 11 already established the mechanism by disassembly, and it still holds: `SurfaceSystem` writes through
+   `BlockColumn.setBlock(int, BlockState)`, and `WorldGenRegionHistoricalBlockVetoMixin` covers the **decoration
+   phase only**, so the write never reaches the hook — `blockVetoInvocations` was 24822 with 26 distinct ids seen
+   and `sandstone` never among them. This is not a refusal-logic bug; the veto is never asked.
+   **Why it is not fixed this round.** The honest options are a Moderner Beta surface-rule or settings override for
+   Beta 1.0 alone, and that third party's preset internals have not been inspected — a jar for it is not present in
+   any cache this environment searches, so the change would have been written blind. A blind change to a shared
+   `moderner_beta:beta` preset is exactly how lapis was nearly deleted from five versions that really had it.
+   **Deliberately not attempted:** a global sandstone veto. Beta 1.2 onwards legitimately generate sandstone, and
+   the same veto would have refused it there. When this is fixed it belongs in a new append-only Beta 1.0 revision
+   with its own settings/world preset, and it needs a control proving Beta 1.2 keeps its sandstone.
 12. **The Nether's terrain SHAPE is still the modern 1.16+ one.** Its biomes are fixed (one biome,
    `minecraft:nether_wastes`, via vanilla's `minecraft:fixed` biome source), but the shape comes from
    `minecraft:nether` noise settings and Moderner Beta ships no historical Nether to point at. Recorded as a gap.

@@ -44,6 +44,29 @@ function Test-LogShowsServerStartupFailure([string] $path) {
     ))
 }
 
+# Positive evidence that the server RAN, which outranks any failure-looking text. A version that reached "Done" or
+# printed its own verification line demonstrably started, so no string in its log can make it a startup failure.
+#
+# This exists because the first version of the failure detector produced `exit=1` beside `success=True` for alpha:
+# the message scan is evidently sensitive to when it is asked, and rather than guess at that, the conclusion it
+# draws is now gated on evidence that cannot be misread. A tool that reports a contradiction in its own summary is
+# worse than one that reports nothing.
+function Test-LogShowsServerStarted([string] $path) {
+    if (-not (Test-Path $path)) { return $false }
+    return [bool](Select-String -Path $path -Quiet -ErrorAction SilentlyContinue -Pattern @(
+        'Done \(.*\)! For help, type',
+        'GENERATION_VERIFICATION'
+    ))
+}
+
+# A probe verdict counts only if it was written after this version's run began. A verdict from an earlier run is
+# indistinguishable from a fresh one by content alone - that is the whole problem - so the file's own timestamp is
+# what decides. Ticks are compared rather than DateTime values so no unit confusion is possible.
+function Test-ProbeVerdictIsFresh([string] $path, [datetime] $since) {
+    if (-not (Test-Path $path)) { return $false }
+    return (Get-Item $path).LastWriteTimeUtc.Ticks -ge $since.ToUniversalTime().Ticks
+}
+
 $tagPath = 'src/main/resources/data/minecraft/tags/worldgen/world_preset/normal.json'
 if (-not (Test-Path $tagPath)) { throw "matrix tag not found at $tagPath" }
 $tag = Get-Content $tagPath -Raw | ConvertFrom-Json
@@ -65,6 +88,11 @@ $results = @()
 foreach ($version in $versions) {
     $short = $version.Split(':')[-1]
     $world = "sol-matrix-$short"
+    # Timed from here, because "how long does one version actually take" was the question this sweep could not
+    # answer: it once reported a version as a 180-second hang while the run had finished in 30s, and round 69 had to
+    # reconstruct the real cost by hand from log timestamps. A verification tool that cannot report its own cost
+    # cannot be used to plan, so each row now carries its measured wall time.
+    $versionStarted = Get-Date
     Write-Host "=== $short"
 
     # DELETE the world directory first. The first version of this sweep only set a new level-name, and for any
@@ -109,6 +137,13 @@ foreach ($version in $versions) {
     #   * "BUILD SUCCESSFUL"/"BUILD FAILED" - the run is over even if it wrote no verdict at all.
     # A run that produces none of those within the timeout is a genuine hang and is still reported as one.
     $probePath = "run/probe/$world/generation-probe.json"
+    # Timestamp the moment before the run, so a verdict left behind by an EARLIER run cannot be mistaken for this
+    # one. This is the same class of defect as the stale log fixed in round 69 and it produced the same symptom:
+    # alpha was reported as `exit=1 success=True` - a contradiction - because the world delete had not taken effect
+    # (a leftover lock), the previous run's probe JSON was still sitting there, the wait loop broke on its first
+    # poll, and the row then read its success from that stale file. Deleting the directory is best-effort; requiring
+    # the verdict to be NEWER than the run start is not.
+    $runStarted = Get-Date
     $proc = Start-Process -FilePath './gradlew.bat' -PassThru -NoNewWindow `
         -ArgumentList @('--console=plain', 'runServer', '-PgenerationRunDir=run/probe',
             '-PgenerationProbe=true', "-PprobeToken=matrix-$short", '-PprobeRadius=1') `
@@ -119,10 +154,11 @@ foreach ($version in $versions) {
     $timedOut = $false
     while ((Get-Date) -lt $deadline) {
         Start-Sleep -Seconds 2
-        if (Test-Path $probePath) { break }
+        if (Test-ProbeVerdictIsFresh $probePath $runStarted) { break }
         if (Test-LogSaysBuildFinished $log) { break }
     }
-    $finished = (Test-Path $probePath) -or (Test-LogSaysBuildFinished $log)
+    $freshVerdict = Test-ProbeVerdictIsFresh $probePath $runStarted
+    $finished = $freshVerdict -or (Test-LogSaysBuildFinished $log)
     if (-not $finished) {
         $timedOut = $true
         Write-Host "    no verdict within ${PerVersionTimeoutSeconds}s - killing the run (a hang, not a failure)"
@@ -145,14 +181,15 @@ foreach ($version in $versions) {
     # forked server process exits 0 after reporting "Failed to start the minecraft server" - so Gradle itself says
     # success for a server that never started, and runExit=0 was FAITHFUL, not broken. Reading only the Gradle
     # verdict is therefore not enough to say a version ran, and the probe verdict is what settles it.
-    $serverDied = Test-LogShowsServerStartupFailure $log
+    $serverStarted = Test-LogShowsServerStarted $log
+    $serverDied = (-not $serverStarted) -and (Test-LogShowsServerStartupFailure $log)
     $buildSucceeded = Test-LogSaysBuildSucceeded $log
     $exit = if ($timedOut -or $serverDied) { -1 } elseif ($buildSucceeded) { 0 } else { 1 }
 
     $row = [ordered]@{ version = $version; world = $world; runExit = $exit; timedOut = $timedOut
-        serverStartupFailed = $serverDied }
+        serverStartupFailed = $serverDied; seconds = [math]::Round(((Get-Date) - $versionStarted).TotalSeconds, 1) }
 
-    if (Test-Path $probePath) {
+    if ($freshVerdict) {
         $probe = Get-Content $probePath -Raw | ConvertFrom-Json
         $row.success = $probe.success
         $row.alias = $probe.alias
@@ -176,8 +213,9 @@ foreach ($version in $versions) {
     }
 
     $results += [pscustomobject]$row
-    Write-Host ("    exit={0} success={1} preset={2} anachronisms={3} mixinFailures={4}" -f `
-        $row.runExit, $row.success, $row.appliedPreset, $row.anachronisticBlockKinds, $row.mixinFailures)
+    Write-Host ("    exit={0} success={1} preset={2} anachronisms={3} mixinFailures={4} seconds={5}" -f `
+        $row.runExit, $row.success, $row.appliedPreset, $row.anachronisticBlockKinds, $row.mixinFailures,
+        $row.seconds)
 }
 
 $out = 'logs/matrix-sweep.json'
@@ -185,7 +223,11 @@ $results | ConvertTo-Json -Depth 5 | Set-Content $out -Encoding UTF8
 
 Write-Host ''
 Write-Host '=== summary ==='
-$results | Format-Table version, success, timedOut, presetMatches, anachronisticBlockKinds, mixinFailures -AutoSize
+$results | Format-Table version, success, timedOut, presetMatches, anachronisticBlockKinds, mixinFailures, seconds -AutoSize
+$totalSeconds = ($results | Measure-Object -Property seconds -Sum).Sum
+$meanSeconds = if ($results.Count -gt 0) { [math]::Round($totalSeconds / $results.Count, 1) } else { 0 }
+Write-Host ("measured: {0} versions, {1}s total, {2}s mean per version" -f `
+    $results.Count, [math]::Round($totalSeconds, 1), $meanSeconds)
 
 $bad = $results | Where-Object { $_.success -ne $true -or $_.mixinFailures -gt 0 -or $_.timedOut }
 if ($bad) {

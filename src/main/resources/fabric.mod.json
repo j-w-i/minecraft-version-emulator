@@ -5,6 +5,7 @@
   "name": "Historical Experience 1.21.1 backport",
   "description": "Minecraft Historical Experience, targeted at Minecraft 1.21.1.",
   "environment": "*",
+  "icon": "assets/historical_experience/icon.png",
   "entrypoints": {
     "main": [
       "net.historicalexperience.HistoricalExperienceMod"

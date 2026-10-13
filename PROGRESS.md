@@ -1,4 +1,48 @@
-# Persistent project status — 2026-10-13 (6) / Pre3's light quirk and Alpha 1.0.6's free snowballs, both measured
+# Persistent project status — 2026-10-13 (7) / the whole 32-version matrix re-validated, and the sweep can now time itself
+
+## Round 72 — the full matrix measured, three tool defects fixed, the last content gap narrowed
+
+**The whole matrix was re-run against the current build.** 32 declared versions, all `success=true`, all
+`presetMatches=true`, **0 timeouts, 0 mixin failures, and 0 anachronisms in 31 of 32**. Total 727.1s, **22.7s mean
+per version** (min 20.2s, max 30.3s) — so the entire matrix is about a twelve-minute job. That replaces the
+six-minute figure from round 69, which came from an instrument that was mis-reporting.
+
+**The sweep can now report its own cost**, which it could not before: round 69 had to reconstruct the real per-version
+time by hand from log timestamps because the tool had called a 30-second run a 180-second hang. Each row carries a
+measured `seconds` and the summary prints total and mean.
+
+**Three defects had to be fixed in the tool first**, all the same shape — the instrument contradicting the evidence:
+
+| Symptom | Cause | Fix |
+| --- | --- | --- |
+| `alpha` reported `exit=1 success=True` | world delete is best-effort; a leftover lock left the **previous run's probe JSON**, so the loop broke instantly and the row read success from a stale file | a verdict counts only if newer than **this** run's start |
+| a version that loaded was labelled a startup failure | the failure scan ran on log text alone | gated on the absence of positive evidence it started (`Done (…)` / the verification line) |
+| `runExit` showed `1` for runs that plainly succeeded | the log was read a moment before Gradle flushed its final line | left informational, excluded from every verdict, and said so |
+
+**The matrix's only remaining content defect is confirmed and narrowed.** Beta 1.0 still generates
+**`sandstone=2993`** in nine chunks; every other version is at zero. The research is now unambiguous on two counts:
+`version-transitions.json` puts sandstone among **Beta 1.2's** additions and dates
+*"sandstone generates under naturally generated sand"* to **Beta 1.3** — so Beta 1.0 should have had neither. The
+mechanism was already established by disassembly and still holds: `SurfaceSystem` writes through
+`BlockColumn.setBlock`, and the block veto covers the **decoration phase only** (`blockVetoInvocations` was 24,822
+across 26 block ids with sandstone never among them — the veto is never asked, so the refusal logic is not at fault).
+
+It is **not fixed this round, deliberately**: the honest fix is a Moderner Beta surface-rule or settings override for
+Beta 1.0 alone, and that third party's preset internals have not been inspected — no `moderner_beta` jar is present
+in any cache this environment searches. A blind change to the shared `moderner_beta:beta` preset is exactly how lapis
+was nearly deleted from five versions that really had it. A global sandstone veto was considered and rejected: Beta
+1.2 onwards legitimately generate sandstone.
+
+**Also fixed:** the owner's log reported `hex1211 has a broken icon`; `fabric.mod.json` declared no icon. A 128×128
+icon is now generated and shipped (verified present inside the built jar).
+
+**366 tests, 65 suites, 0 failures.** Deployed:
+**7139D1E7AEA4E6BA226FEC515DF26D32D5477B2251F14EBF86FECBE693179BF0**.
+
+**Still open, unchanged and not implied:** Pre4's Silk Touch spawner drop is unverified in the positive direction (the
+probe has no player or enchanted tool); the Pre1–Pre4 snowfall-destroys-blocks regression needs its mechanism sourced
+before anything destructive is built on a guess; Pre3's `Enchanted!!` placeholder tooltip would remove working
+enchantment display; Beta 1.0's sandstone; the Nether terrain shape.
 
 ## Round 71 — two more catalogued behaviours implemented, and the first inner-class mixin target
 
