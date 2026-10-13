@@ -313,9 +313,23 @@ turned out to be "no approximation needed" rather than the decision I expected t
    must be a separate subsystem with its own design, and its cap/attempt constants should be version data
    feeding that algorithm rather than a VersionRules boolean"*, and its rank-4 note repeats *"Do NOT adopt
    NT's animal spawning algorithm here"*.
-   **Still to establish, before any code:** why the vanilla 400-tick passive cycle yields nothing in a
-   historical Alpha world at all, and the real per-version cap and attempts-per-chunk numbers. Both are traced
-   work, not guesses — the ban on inventing values applies.
+   **The algorithm and its caps are now read from hash-verified jars** — see
+   [pre-Beta-1.8 spawning evidence](<pre-beta-1.8-spawning-evidence.json>), which replaces the `UNKNOWN` marks
+   in `research/feature-timeline.json` and `research/nostalgic-tweaks-audit.json`:
+   * **Alpha v1.1.2_01** (`alpha-1.1.2_01-client.jar`, sha1 `daa4b9f1…`, the exact jar for the `alpha`
+     profile): creature spawner cap **15 flat**, monster cap **200 flat**, both compared against
+     `world.countEntities(categoryClass)`; **radius 4 → 9×9 chunks** per player, deduped by a `ChunkPosition`
+     set; **3 passes × 2 attempts** per chunk with `±(rand(6) − rand(6))` horizontal walk and a **fixed Y**
+     from `rand(128)`; rejects a position with a player within **24 blocks** or within **24 blocks of world
+     spawn** (576 = 24²); spawns reflectively and requires the entity's own `getCanSpawnHere()` — which is
+     where the light rule actually lives, since `EntityAnimal` there demands grass below and **full block
+     light > 8**; spider jockeys at 1%.
+   * **Beta 1.7.3**: caps **monster 70, creature 15, waterCreature 5** from `EnumCreatureType`, applied as
+     `cap × eligibleChunks / 256` (scaled, not flat); **radius 8 → 17×17 chunks**, matching the wiki's note
+     that the old 17×17 size is still used for the cap arithmetic; candidates come from per-biome weighted
+     spawn lists with pack spawning.
+   The spawner itself is still **not implemented** for any pre-Beta-1.8 version; that is the next slice, and
+   it is now unblocked rather than blocked on research.
 
    **The boundary IS now sourced, and it is Beta 1.8.** Minecraft Wiki,
    [Mob spawning § History, Java Edition](https://minecraft.wiki/w/Mob_spawning), the Beta 1.8 (Pre-release)

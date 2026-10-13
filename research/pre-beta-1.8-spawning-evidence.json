@@ -1,0 +1,93 @@
+{
+  "schema": "historical-experience/pre-beta-1.8-spawning-evidence",
+  "purpose": "The passive-mob spawning algorithm and its numeric caps, read from hash-verified client jars rather than from memory, the wiki alone, or Nostalgic Tweaks. Written because the owner reported that an emptied Alpha world never repopulated, and because research/feature-timeline.json and research/nostalgic-tweaks-audit.json both recorded these numbers as UNKNOWN and forbade guessing them.",
+  "ownerReport": "Killed every entity in an Alpha world, set tick speed to 10000, waited hours: no passive mobs returned. Owner also corrected an earlier wrong claim of mine that Alpha spawned passive mobs only at chunk generation.",
+  "boundary": {
+    "changedIn": "Beta 1.8 (Pre-release)",
+    "source": "https://minecraft.wiki/w/Mob_spawning section History / Java Edition",
+    "quote": "Previously, mob spawning was determined by light level rather than the current chunk properties. This was no longer the case in Beta 1.8. In a pre-Beta 1.8 world, hostile mobs would spawn in light level 7 or lower while friendly mobs would spawn in light levels 9 or higher. ... If you had a lot of torches down, go down to your mine, then return, you would have a tendency to find your house having some cows, pigs, chickens or sheep running about.",
+    "conclusion": "Before Beta 1.8 friendly mobs spawned continuously over time, driven by light level. Beta 1.8 replaced that with chunk-property-driven spawning. The same history table records NO mob-spawning entry for a Beta 1.9 prerelease or Release 1.0, so on present evidence Beta 1.8 is a change that stuck rather than a bug that was reverted; the owner's recollection of a later fix is NOT supported. Settle by scanning a Beta 1.9-pre or 1.0 jar."
+  },
+  "jars": {
+    "a1.1.2_01": {
+      "path": "%LOCALAPPDATA%/Temp/mce-palette/jars/alpha-1.1.2_01-client.jar",
+      "sha1": "daa4b9f192d2c260837d3b98c39432324da28e86",
+      "sha1VerifiedAgainst": "scripts/extract-block-palette.py JARS table (MOJANG provenance)",
+      "classes": "fully obfuscated; the spawner was located structurally, not by name",
+      "spawnerClass": "az (per category), constructed by ia; hostiles use the subclass k",
+      "entityRegistry": "ew"
+    },
+    "b1.7.3": {
+      "path": "%LOCALAPPDATA%/Temp/mce-palette/jars/beta173-client.jar",
+      "sha1": "43db9b498cb67058d2e12d394e6507722e71bb45",
+      "sha1VerifiedAgainst": "same JARS table (MOJANG provenance)",
+      "spawnerClass": "cq",
+      "creatureTypeEnum": "lk",
+      "entityRegistry": "hc"
+    }
+  },
+  "alpha_1_1_2_01_algorithm": {
+    "note": "This is the PRE-Alpha-v1.2.0 algorithm, so it covers Alpha 1.0.1 through Alpha v1.1.2_01. The declared version `historical_experience:alpha` IS Alpha v1.1.2_01, so this is its exact jar.",
+    "derivedFrom": "javap -p -c on az and ia in alpha-1.1.2_01-client.jar",
+    "caps": {
+      "creature": 15,
+      "monster": 200,
+      "evidence": "ia.<init> does: new k(this, 200, co, {mb, cw, dd, ax, ma}) -> field j; new az(15, ag, {bo, mv, am, mz}) -> field k",
+      "capKind": "FLAT, compared against world.countEntities(categoryClass) for the whole loaded world; NOT scaled by chunk count",
+      "compare": "az.a(cn): int n = world.b(this.b); if (n < this.a) { for (int i = 0; i < 3; i++) this.a(world, 1, null); }"
+    },
+    "area": {
+      "chunksPerPlayer": "radius 4 -> 9x9 chunks around each player",
+      "evidence": "az.a(cn,int,nu): iconst_4 / ineg / loops while <= 4 on both axes",
+      "dedupe": "a HashSet of ChunkPosition (mt) is cleared each pass and re-added, so a chunk is attempted once per pass"
+    },
+    "attempts": {
+      "outerPasses": 3,
+      "attemptsPerChunk": 2,
+      "positionPicker": "az.a(cn,int,int): x = chunkX*16 + rand(16), y = rand(128), z = chunkZ*16 + rand(16)",
+      "walk": "each attempt: x += rand(6) - rand(6); z += rand(6) - rand(6); y += rand(1) - rand(1) (y therefore does NOT move)"
+    },
+    "validityChecks": [
+      "world.g(x, y-1, z) must be TRUE (support block present)",
+      "world.g(x, y, z) must be FALSE",
+      "world.getBlock(x, y, z).d() must be FALSE (not an opaque cube)",
+      "world.g(x, y+1, z) must be FALSE",
+      "world.getClosestPlayer(x+0.5, y, z+0.5, 24.0) must be NULL - no player within 24 blocks",
+      "squared distance from world spawn (world.o/p/q) must be >= 576.0 (= 24 blocks)"
+    ],
+    "spawn": "reflectively: candidateClass.getConstructor(new Class[]{World.class}).newInstance(new Object[]{world}); setLocationAndAngles(x+0.5, y, z+0.5, rand.nextFloat()*360.0f, 0.0f); if (entity.getCanSpawnHere()) { spawned++; world.spawnEntityInWorld(entity); }",
+    "lightRule": "NOT in the spawner. It lives in the entity: in this era EntityAnimal.getCanSpawnHere() requires the block below to be grass and FULL block light > 8, i.e. >= 9, which is exactly what the wiki describes as the emergent 'friendly mobs spawn in light 9+' behaviour. Hostile mobs require light <= 7 in their own getCanSpawnHere().",
+    "spiderJockey": "if the spawned entity is instanceof ax (spider) and rand.nextInt(100) == 0 (1%), a cw (skeleton) is created at the same position, mounted via cw.g(entity), and also added to the world.",
+    "failMode": "on a reflective InstantiationException/Exception the method prints the stack trace and RETURNS the running count, aborting the rest of that pass - the pre-v1.2.0 behaviour the wiki records as being changed in Alpha v1.2.0 ('trying to spawn mobs inside a solid block no longer causes that entire spawn cycle to bail out')."
+  },
+  "beta_1_7_3_algorithm": {
+    "note": "Covers Beta 1.0 through Beta 1.7.3. Different from Alpha in three ways: the cap is scaled by eligible chunks, the area is larger, and candidates come from per-biome weighted spawn lists with pack spawning.",
+    "derivedFrom": "javap -p -c on cq and lk in beta173-client.jar",
+    "caps": {
+      "monster": 70,
+      "creature": 15,
+      "waterCreature": 5,
+      "evidence": "lk static init: new lk(..., ff, 70, ..., false); new lk(..., bg, 15, ..., true); new lk(..., ar, 5, ..., true) - the trailing boolean distinguishes friendly from hostile",
+      "capKind": "SCALED: cap * eligibleChunks.size() / 256, compared against world.countEntities(categoryClass)",
+      "compare": "cq.a(fd,boolean,boolean) at offsets 210-240: world.b(type.a()) > type.b() * eligibleChunks.size() / 256 -> skip"
+    },
+    "area": {
+      "chunksPerPlayer": "radius 8 -> 17x17 chunks around each player",
+      "evidence": "cq.a(fd,boolean,boolean) offsets 76-139: bipush 8, loops while <= 8 on both axes, adding ChunkPosition (yy)",
+      "wikiCrossCheck": "'The spawning area used to be 17x17 chunks rather than 15x15. The area was reduced, but the old size is still used to calculate mob caps.' - 17x17 is therefore still current in Beta 1.7.3, matching this jar."
+    },
+    "candidates": "the biome's own weighted spawn list for the category: world.getChunkProvider().a(chunkPos) -> biome (kd); biome.a(type) -> List of SpawnListEntry (bj) with weight bj.b; total weight summed and one entry picked by nextInt(total) - i.e. packed, weighted, biome-driven",
+    "notes": "read only as far as the cap arithmetic and candidate selection; the position walk and per-pack attempt counts were NOT read from the jar and must not be assumed to equal Alpha's."
+  },
+  "consequencesForThisProject": {
+    "whatExists": "HistoricalSpawnFilter is an ALLOW-LIST FILTER over whatever candidates vanilla offers. It is correct at what it does and was measured to remove nothing from an Alpha world's creature list (chicken, cow, pig, sheep all survive). It cannot create spawning that the modern algorithm does not perform.",
+    "whatIsMissing": "the spawner itself, for every version before Beta 1.8.",
+    "notFromNT": "Nostalgic Tweaks' OLD_ANIMAL_SPAWNING is NOT ported (research/nt-port-worklist.json: alreadyTouched=false, verification=not_started), and research/nostalgic-tweaks-audit.json classifies it class c and forbids adopting its algorithm. Its shape does mirror the legacy one - its cap default of 15 and its 'cap * chunks / 256' formula match this jar's creature cap and Beta's cap arithmetic, and its 24-block player radius matches Alpha's - which is corroboration of these numbers, not a licence to copy its code.",
+    "nextSlices": [
+      "Implement the pre-Alpha-v1.2.0 creature spawner from alpha_1_1_2_01_algorithm for the nine Alpha profiles up to and including `alpha` (which IS a1.1.2_01).",
+      "Read the rest of cq from the b1.7.3 jar, then implement the Beta 1.0-1.7.3 variant with the scaled cap and biome lists.",
+      "Alpha 1.2.0 sits between the two algorithms and has no jar on disk; obtain one before implementing that single version.",
+      "Add a soak mode to the generation probe so the live spawn cycle is observed over N ticks - the current probe halts at SERVER_STARTED and therefore never sees a tick."
+    ]
+  }
+}
