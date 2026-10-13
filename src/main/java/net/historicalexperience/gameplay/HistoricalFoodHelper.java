@@ -113,7 +113,31 @@ public final class HistoricalFoodHelper {
      * <p>Keyed by id rather than by {@code Item} so the values can be asserted in a unit test: this project's tests
      * cannot construct {@code ItemStack}, whose static initialiser needs Minecraft's registries bootstrapped.
      */
+    /**
+     * The pre-change heal for an item, read from the ACTIVE version's own table when it declares one.
+     *
+     * <p>It used to read one fixed table - Beta 1.7.3's - for every version. That made each version's researched
+     * table dead data: the Alpha profile already carried {@code ALPHA_1_1_2_HEAL_POINTS} and it was never
+     * consulted, so raw fish, cooked fish, cookies and cake - none of which existed in Alpha - healed by the Beta
+     * 1.7.3 figures in an Alpha world.
+     *
+     * <p>The fallback is deliberate and documented: a version whose heals were never researched declares an empty
+     * map, and for those the pre-1.8 table remains a better answer than modern nutrition, which is what the
+     * research records for the whole pre-hunger era. That keeps Infdev's behaviour unchanged rather than silently
+     * "fixing" it into something equally unevidenced.
+     */
     public static Integer researchedHeal(String itemId) {
+        var version = net.historicalexperience.version.HistoricalVersions
+            .byId(HistoricalActiveSession.current())
+            .orElse(null);
+
+        if (version != null) {
+            java.util.Map<String, Integer> declared = version.rules().foodHealPoints();
+            if (!declared.isEmpty()) {
+                return declared.get(itemId);
+            }
+        }
+
         return DIRECT_HEAL_BY_ID.get(itemId);
     }
 
