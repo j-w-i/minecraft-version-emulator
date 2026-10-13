@@ -42,6 +42,16 @@ public abstract class BlockBehaviourHistoricalDropMixin {
             return drops;
         }
 
+        // Beta 1.9 Pre3 ONLY: the frame dropped as an item when an explosion destroyed it, which Pre4 fixed.
+        // minecraft.wiki, End Portal Frame history: Pre3 "It can drop as an item due to explosions", Pre4 "The
+        // End portal can no longer be broken by explosions". Mined directly it stays unobtainable - its hardness
+        // is -1, so the only way to reach this is an explosion, and `getDrops` is what explosions consult.
+        if (blockState.is(Blocks.END_PORTAL_FRAME) && HistoricalGameplayTweaks.endPortalFrameExplodes()) {
+            drops.clear();
+            drops.add(blockState.getBlock().asItem().getDefaultInstance());
+            return drops;
+        }
+
         if (isOre(blockState)) {
             drops.clear();
             drops.add(blockState.getBlock().asItem().getDefaultInstance());

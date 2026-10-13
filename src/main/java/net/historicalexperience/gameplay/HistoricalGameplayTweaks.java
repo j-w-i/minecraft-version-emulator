@@ -120,6 +120,24 @@ public final class HistoricalGameplayTweaks {
                 + "Beta 1.2 breaks tools sooner. Gold is deliberately not covered: the same sentence says gold "
                 + "tools gained faster mining \"while retaining old durability\", so there is no old value to apply "
                 + "and inventing one is exactly what this project refuses to do."),
+        Map.entry("endPortalFrameExplodes",
+            "Beta 1.9 Prerelease 3 ONLY. minecraft.wiki's End Portal Frame history, Java Edition table, says "
+                + "of Beta 1.9 Prerelease 3: 'It can drop as an item due to explosions', and of Beta 1.9 "
+                + "Prerelease 4: 'The End portal can no longer be broken by explosions'. So for exactly one "
+                + "declared build the frame is blast-destroyable and yields its own item, and from Pre4 onward it "
+                + "is indestructible as it is today. The same history rows give two further Pre3-only facts not "
+                + "yet implemented: the block emits light at level 15 where Pre4 and later emit 1, and the item "
+                + "form is a flat texture of the filled frame with an empty tooltip. The owner named this bug "
+                + "specifically and called it very important."),
+        Map.entry("jumpExperienceBug",
+            "Beta 1.9 Prerelease 1 ONLY, and our own corpus states it twice. minecraft-version-history.md item 6 "
+                + "for that build: 'An erroneous jump event grants 1-100 XP; auto-repeat jump was removed', item "
+                + "13: 'XP from jumping and disabled auto-repeat; Pre2 removes the XP bug and restores held-jump "
+                + "auto-repeat', and item 11 of Prerelease 2: 'XP-on-jump debug bug removed; held-jump "
+                + "auto-repeat restored'. historical-features.json records the same as 'Experience gained from "
+                + "jumping as a test'. The range is 1-100, so a single jump can be worth a hundred experience and "
+                + "the amount is random per jump. The disabled auto-repeat half is a client input behaviour and is "
+                + "recorded rather than implemented."),
         Map.entry("punchShear",
             "Before shears existed, PUNCHING a sheep shorn it and dropped its wool; the Alpha v1.1.2_01 client's "
                 + "sheep class overrides attackEntityFrom with `if (!this.sheared && attacker instanceof "
@@ -209,6 +227,19 @@ public final class HistoricalGameplayTweaks {
             // True for every declared version for its OWN reason, not because it shares an era with the
             // line above: zombie arm swinging was removed in Indev 20100202, earlier than every profile.
             case "mobArms" -> isDeclaredVersion(versionId);
+            // Two single-build bugs, and the difference matters: every other gate here is a BOUNDARY, but these
+            // are exact builds, present in one prerelease and removed by the next. Expressed as equality rather
+            // than as olderThan, because "before Beta 1.9 Pre4" would wrongly include Pre1, Pre2 and Pre3.
+            //
+            // End portal frames could be destroyed by explosions and dropped as an item in Pre3 only; Pre4 fixed
+            // it. minecraft.wiki's End Portal Frame history says of Pre3 "It can drop as an item due to
+            // explosions" and of Pre4 "The End portal can no longer be broken by explosions".
+            case "endPortalFrameExplodes" -> isDeclaredVersion(versionId) && versionId.equals(BETA_1_9_PRE_3);
+            // Jumping granted experience in Pre1 only; Pre2 removed it. Our own research states it twice:
+            // minecraft-version-history.md item 6 "An erroneous jump event grants 1-100 XP", item 13 "XP from
+            // jumping and disabled auto-repeat; Pre2 removes the XP bug", and historical-features.json records
+            // "Experience gained from jumping as a test".
+            case "jumpExperienceBug" -> isDeclaredVersion(versionId) && versionId.equals(BETA_1_9_PRE_1);
             default -> throw new IllegalArgumentException("unknown gate '" + gate + "'; a gate that never "
                 + "applies is indistinguishable from one that correctly does not, so this refuses to guess");
         };
@@ -225,6 +256,7 @@ public final class HistoricalGameplayTweaks {
     private static final String RELEASE_1_2_5 = "historical_experience:release_1_2_5";
     private static final String RELEASE_1_6_4 = "historical_experience:release_1_6_4";
     private static final String BETA_1_9_PRE_3 = "historical_experience:beta_1_9_pre_3";
+    private static final String BETA_1_9_PRE_1 = "historical_experience:beta_1_9_pre_1";
 
     /**
      * Beta 1.7.3, the earliest declared version that HAD shears, and therefore the boundary for the wool rule.
@@ -738,6 +770,44 @@ public final class HistoricalGameplayTweaks {
     }
 
     /** Every gate name that carries a recorded reason. */
+    /**
+     * Whether End portal frames can be blown up, for the session's current version.
+     *
+     * <p>The gate takes no arguments because {@code getExplosionResistance} has none, and the session holder is the
+     * same authority the other no-argument answers use. An unknown version makes {@code appliesTo} false, which
+     * leaves the frame indestructible: the safe direction, since the other answer would let players blow up a
+     * stronghold portal in every world.
+     */
+    public static boolean endPortalFrameExplodes() {
+        return appliesTo("endPortalFrameExplodes", HistoricalActiveSession.current());
+    }
+
+    /**
+     * How much experience a jump grants under the Pre1 bug, or 0 when the bug does not apply.
+     *
+     * <p>1-100 per the research, drawn per jump, so this returns the amount for one jump rather than a fixed value.
+     *
+     * <p>The zero is the safe answer twice over: it is what an unknown version and every other build get, and it is
+     * the value the hook refuses to act on, so a session that is not Pre1 cannot be handed orb-free experience by a
+     * caller that forgot to check the gate first.
+     */
+    public static int jumpExperienceBug(net.minecraft.util.RandomSource random) {
+        return jumpExperienceBug(HistoricalActiveSession.current(), random);
+    }
+
+    /**
+     * The same answer for an explicitly named version.
+     *
+     * <p>This overload exists so the amount can be asserted against a version id rather than only against the
+     * session, because the session is unset in a unit test - which meant the one-argument form could only ever be
+     * tested for its zero. The range is the part worth pinning: 1-100 inclusive, drawn fresh per jump.
+     */
+    public static int jumpExperienceBug(String versionId, net.minecraft.util.RandomSource random) {
+        return appliesTo("jumpExperienceBug", versionId)
+            ? 1 + random.nextInt(100)
+            : 0;
+    }
+
     public static List<String> documentedGates() {
         return EVIDENCE.keySet().stream().sorted().toList();
     }

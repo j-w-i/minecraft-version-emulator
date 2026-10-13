@@ -18,6 +18,13 @@ $repo = Split-Path -Parent $PSScriptRoot
 Set-Location $repo
 $env:JAVA_HOME = 'C:\Program Files\Java\jdk-25.0.4.1'
 
+# Reads the run's own log rather than asking the process object, because the process object is the thing that
+# lied. A missing log is not a finished run, so that answers false instead of throwing.
+function Test-LogSaysBuildFinished([string] $path) {
+    if (-not (Test-Path $path)) { return $false }
+    return [bool](Select-String -Path $path -Pattern '^BUILD (SUCCESSFUL|FAILED)' -Quiet -ErrorAction SilentlyContinue)
+}
+
 $tagPath = 'src/main/resources/data/minecraft/tags/worldgen/world_preset/normal.json'
 if (-not (Test-Path $tagPath)) { throw "matrix tag not found at $tagPath" }
 $tag = Get-Content $tagPath -Raw | ConvertFrom-Json
@@ -56,33 +63,63 @@ foreach ($version in $versions) {
     $lines = $lines -replace '^generate-structures=.*', 'generate-structures=true'
     Set-Content $properties ($lines -join "`r`n") -NoNewline
 
+    # DELETE the log as well as the world, for the same reason the world is deleted: completion is now judged
+    # from these files, and a log left behind by an earlier run of the same version still says BUILD SUCCESSFUL.
+    # Without this the very first check of the run passes against the PREVIOUS run's output and the version is
+    # reported finished before its server has started. Caught by this script's own first post-fix run, which
+    # wrote runExit=-1 for three versions that had in fact all succeeded.
     $log = "logs/matrix-sweep-$short.txt"
+    Remove-Item $log, "$log.err" -Force -ErrorAction SilentlyContinue
+
     # BOUNDED FROM OUTSIDE, deliberately. A version whose world never finishes loading hangs the server before any
     # in-process watchdog can arm - a Classic world did exactly that here and had to be killed by hand - so a
     # single bad version would otherwise stall the whole sweep with no evidence about which one it was. This idea
     # came from verify-version-bounded.ps1, which was wired to the dead 26.3 probe and could not run; the useful
     # part is kept and the dead part is gone.
+    #
+    # WHAT IS *NOT* TRUSTED HERE, AND WHY. This loop used to wait on `$proc.HasExited`. That test never fired: the
+    # redirected log said `BUILD SUCCESSFUL in 28s` and the probe verdict beside it said success=true, and the
+    # sweep still reported "no verdict within 180s - killing the run (a hang, not a failure)" and burned the whole
+    # timeout. Three versions of that cost the owner six minutes, and the sweep's own message blamed the mod. The
+    # mod was never hung - the run finished in thirty seconds, twice, in front of a stopwatch. What stays true for
+    # minutes after the work is done is a handle on the redirected pipe, held by a JVM that outlives the wrapper.
+    #
+    # So completion is now judged from ARTIFACTS the run writes, never from the process object:
+    #   * "GENERATION_VERIFICATION" in the log - the probe printed its verdict;
+    #   * the probe JSON exists - the verdict is readable;
+    #   * "BUILD SUCCESSFUL"/"BUILD FAILED" - the run is over even if it wrote no verdict at all.
+    # A run that produces none of those within the timeout is a genuine hang and is still reported as one.
+    $probePath = "run/probe/$world/generation-probe.json"
     $proc = Start-Process -FilePath './gradlew.bat' -PassThru -NoNewWindow `
         -ArgumentList @('--console=plain', 'runServer', '-PgenerationRunDir=run/probe',
             '-PgenerationProbe=true', "-PprobeToken=matrix-$short", '-PprobeRadius=1') `
         -RedirectStandardOutput $log -RedirectStandardError "$log.err"
+    $gradlePid = $proc.Id
 
     $deadline = (Get-Date).AddSeconds($PerVersionTimeoutSeconds)
-    $probePath = "run/probe/$world/generation-probe.json"
     $timedOut = $false
     while ((Get-Date) -lt $deadline) {
         Start-Sleep -Seconds 2
-        if ($proc.HasExited) { break }
+        if (Test-Path $probePath) { break }
+        if (Test-LogSaysBuildFinished $log) { break }
     }
-    if (-not $proc.HasExited) {
+    $finished = (Test-Path $probePath) -or (Test-LogSaysBuildFinished $log)
+    if (-not $finished) {
         $timedOut = $true
         Write-Host "    no verdict within ${PerVersionTimeoutSeconds}s - killing the run (a hang, not a failure)"
-        Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue
-        Get-Process java -ErrorAction SilentlyContinue |
-            Where-Object { $_.StartTime -gt (Get-Date).AddMinutes(-15) -and $_.WorkingSet64 -gt 200MB } |
-            ForEach-Object { Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue }
+        # Kill the tree THIS sweep started, by pid, and nothing else. The previous version ran
+        # `Get-Process java | Where-Object { $_.StartTime -gt (Get-Date).AddMinutes(-15) -and $_.WorkingSet64 -gt
+        # 200MB }` and killed every match. That is not scoped to this project in any way: `java` in this
+        # workspace is also the owner's OTHER Gradle builds - C:\Users\jwalr\Flashback launches its wrapper as
+        # `java -jar gradle-wrapper.jar`, which is both recent and over 200MB, so a single timeout here would
+        # silently kill an unrelated project's build. Killing our own pid and its children is sufficient.
+        Get-CimInstance Win32_Process -Filter "ParentProcessId=$gradlePid" -ErrorAction SilentlyContinue |
+            ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }
+        Stop-Process -Id $gradlePid -Force -ErrorAction SilentlyContinue
     }
-    $exit = if ($timedOut) { -1 } else { $proc.ExitCode }
+    # No exit code is invented. `BUILD SUCCESSFUL` in the log is positive evidence the build passed; anything else
+    # reports -1 rather than borrowing the wrapper's code, which is exactly the value that was never trustworthy.
+    $exit = if ($timedOut) { -1 } elseif (Test-LogSaysBuildFinished $log) { 0 } else { -1 }
 
     $row = [ordered]@{ version = $version; world = $world; runExit = $exit; timedOut = $timedOut }
 

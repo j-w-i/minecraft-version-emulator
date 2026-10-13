@@ -523,6 +523,70 @@ turned out to be "no approximation needed" rather than the decision I expected t
      into a loud crash on the first run rather than a feature that quietly did nothing.
    Recorded rather than erased so a future round does not re-implement this by accident and so the withdrawal is
    visible in the traceability matrix instead of only in git history.
+17. **The "six-minute hang" was a defect in MY SWEEP, not in the mod, and the sweep's own message blamed the mod.**
+   The owner stopped a three-version sweep at six minutes having seen two versions finish in about 21s each and the
+   third sit there. `scripts/verify-matrix-runtime.ps1` waited for completion with a loop over `$proc.HasExited`,
+   and that test never fired: the redirected log beside it read `BUILD SUCCESSFUL in 28s` and the probe verdict read
+   `success=true`, twice, in front of a stopwatch — 30s and 32s of real work — while the wait ran to the 180s
+   timeout and printed *"no verdict within 180s - killing the run (a hang, not a failure)"*. The JVM does not hang;
+   a handle on the redirected pipe stays open for minutes after the wrapper exits, and the script was reading that
+   as "the server is still running".
+   **The fix is to judge completion from the artifacts the run writes, never from the process object**: the
+   `GENERATION_VERIFICATION` line, the probe JSON existing, or `BUILD SUCCESSFUL`/`BUILD FAILED`. A run producing
+   none of those inside the timeout is still reported as a real hang.
+   **Cost, measured after the fix:** two versions in one invocation swept end to end in about a minute — the
+   `GENERATION_VERIFICATION` line is printed ~26s after the previous version's log ends, and the whole two-version
+   invocation returned in under 60s. The three-version batch the owner stopped is therefore roughly a 1.5-minute
+   job, not six. Reported because the earlier number was quoted from a broken instrument.
+18. **The sweep's timeout cleanup would have killed the owner's OTHER Gradle builds.** On a timeout the old code ran
+   `Get-Process java | Where-Object { $_.StartTime -gt (Get-Date).AddMinutes(-15) -and $_.WorkingSet64 -gt 200MB }`
+   and killed every match. That is not scoped to this project at all: measured during this round, `java` in this
+   workspace was also `C:\Users\jwalr\Flashback`'s Gradle wrapper, launched as
+   `java -jar gradle-wrapper.jar build --no-daemon` — recent and over 200MB, so it matched exactly. One timeout here
+   could silently kill an unrelated project's build. The cleanup now kills only the process tree the sweep itself
+   started, located by the pid `Start-Process` returned, and nothing else. Found by reading the command lines of the
+   java processes right after a timeout fired, not by reading the script.
+19. **The first post-fix sweep run failed its own honesty check, and it is worth recording how.** The run reported
+   `runExit=-1` for three versions that had all actually succeeded, because completion was judged from a log file
+   that an *earlier* run had left behind: `BUILD SUCCESSFUL` was already in it, so the very first check passed
+   against the previous run's output. The log is now deleted before each version, beside the world that was already
+   being deleted for the same reason — stale evidence that looks like a fresh result is this project's recurring
+   failure. Re-run after the fix: `exit=0 success=True` for both versions, `timedOut=False`, zero anachronisms, zero
+   mixin failures. A green result from a stale artifact is worse than a red one.
+20. **Beta 1.9 Prerelease 3's blast-destroyable End portal frame: IMPLEMENTED, boot-verified, and NOT yet verified
+   in live play.** Two hooks, both gated on the one declared build: `BlockHistoricalEndPortalFrameMixin` answers
+   `getExplosionResistance` with 0.0F when the gate applies, and `BlockBehaviourHistoricalDropMixin` makes the same
+   block drop itself. Two details that are easy to get wrong: `getExplosionResistance` is declared on `Block` while
+   `getDrops` is declared on `BlockBehaviour`, which is why this is two mixins and not one; and the drop rule cannot
+   be reached by mining, because the frame's hardness is -1, so an explosion is the only route and `getDrops` is what
+   an explosion consults. What IS verified: `HistoricalBugsTest` walks all 32 declared versions and requires the
+   gate true for exactly one, and a fresh Beta 1.9 Pre3 dedicated-server run booted with `mixinFailures=0` and
+   `success=true`. What is NOT: nobody has detonated TNT beside a frame in a real world, so the on-screen half is
+   unproven exactly as item 14 says the emerald half is. The magic number is not load-bearing and is documented as
+   such — the wiki records the behaviour and not a value, so any resistance at or below TNT's threshold reproduces
+   it, and the modern value (3,600,000) is deliberately not scaled down by an invented factor.
+   Two further Pre3-only facts from the same history rows remain **unimplemented and recorded**: the block emits
+   light level 15 where Pre4 and later emit 1, and the item form is a flat texture of the filled frame with an empty
+   tooltip.
+21. **Beta 1.9 Prerelease 1's jump experience: implemented this round.** The gate existed but nothing called it, so
+   a declared behaviour was unreachable — the exact "dead rule set" shape this project has shipped twice before.
+   `PlayerHistoricalJumpExperienceMixin` injects at `TAIL` of `Player.jumpFromGround()`, which is the method that
+   performs the jump and is entered once per jump including a held-down one. It is server-only by construction: the
+   session is set on the client too, so without the `ServerPlayer` test the grant would also run locally and fight
+   the server's authoritative value. Signatures were read from the mapped jar with `javap`, not recalled:
+   `public void jumpFromGround()`, `public void giveExperiencePoints(int)`, `public Entity.getRandom()`.
+   A second finding here is about a test rather than a feature: the original range test re-implemented
+   `1 + nextInt(100)` inline and compared it with itself, so it passed whether or not the real gate was correct — a
+   check that cannot fail. The version-keyed overload `jumpExperienceBug(String, RandomSource)` exists so the range
+   can be asserted against the METHOD the hook calls, and the test now also asserts that Pre2 and Release 1.6.4 draw
+   zero across 1,000 draws each.
+22. **`research/historical-bugs.json` cites a build this project does not declare.** Its
+   `beta-1-7-piston-invalid-block36-crash` record lists `buggyIn: ["beta_1_7"]`, and `beta_1_7` is not in the
+   registry or the menu tag — the declared id is `beta_1_7_3`, which is *Beta 1.7.3*, a build the wiki says can load
+   the affected worlds again. A record naming an undeclared build cannot be gated, and gating it against
+   `beta_1_7_3` would be wrong in the dangerous direction by re-introducing a crash the 1.7.3 profile never had. The
+   twelve records were validated against this project's own declared ids; eleven match and this one does not, so it
+   needs its boundary re-derived from a source rather than from the name.
 12. **The Nether's terrain SHAPE is still the modern 1.16+ one.** Its biomes are fixed (one biome,
    `minecraft:nether_wastes`, via vanilla's `minecraft:fixed` biome source), but the shape comes from
    `minecraft:nether` noise settings and Moderner Beta ships no historical Nether to point at. Recorded as a gap.
