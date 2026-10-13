@@ -187,6 +187,29 @@ public final class HistoricalSpawnRules {
      */
     public static final Set<String> BETA_1_9_PRE_2_MOBS = BETA_1_9_PRE_1_MOBS;
 
+    /**
+     * Alpha 1.0.11: the 1.1.2 set without chickens, because cows and slimes have both arrived by this build.
+     *
+     * <p>Derived by subtraction rather than listed, so the relationship to the other Alpha sets is visible:
+     * <ul>
+     *   <li><b>cows</b> arrive in Alpha v1.0.8 - {@code research/historical-features.json}, entry
+     *       {@code beta18-cow-drops}, confidence high - so a build at 1.0.11 has them and 1.0.1, 1.0.4 and 1.0.6 do
+     *       not.</li>
+     *   <li><b>chickens</b> arrive in Alpha 1.0.14, so this build is the last declared Alpha that lacks them.</li>
+     *   <li><b>slimes</b> are the uncertain one, and the uncertainty is named rather than hidden. The per-build
+     *       deltas have NO 1.0.11 entry, and {@code research/feature-timeline.json} has no mobs section at all, so
+     *       there is no structured statement that slimes arrive here. What there IS is the Alpha 1.0.14 delta
+     *       saying slime natural spawning was "reduced and then disabled in this build (due to a reported
+     *       spawn-limit miscalculation)" - which means slimes were spawning BEFORE 1.0.14. Including them at 1.0.11
+     *       is inference from that sentence, not a citation. If they actually arrived at 1.0.14, this build wrongly
+     *       has them; the alternative was omitting a mob the evidence says existed, which is the silent failure
+     *       mode this class keeps warning about.</li>
+     * </ul>
+     */
+    public static final Set<String> ALPHA_1_0_11_MOBS = ALPHA_1_1_2_MOBS.stream()
+        .filter(mob -> !mob.equals("minecraft:chicken"))
+        .collect(java.util.stream.Collectors.toUnmodifiableSet());
+
     public static final Set<String> INFDEV_20100325_MOBS = Set.of(
         "minecraft:zombie",
         "minecraft:creeper",

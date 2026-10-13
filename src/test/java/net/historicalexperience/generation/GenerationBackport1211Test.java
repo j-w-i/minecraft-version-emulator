@@ -65,7 +65,7 @@ class GenerationBackport1211Test {
                 dimensions.getAsJsonObject("minecraft:the_end").get("type").getAsString(), id);
             checked++;
         }
-        assertEquals(18, checked, "the menu must expose exactly the eighteen declared profiles");
+        assertEquals(19, checked, "the menu must expose exactly the nineteen declared profiles");
     }
 
     @Test void newerRevisionsExistForEveryVersionWhoseModernContentWasMissing() {
@@ -131,7 +131,7 @@ class GenerationBackport1211Test {
             }
         }
         // 31 before the four pre-Beta-1.8 revisions were added; each carries the same envelope.
-        assertEquals(63, reduced);
+        assertEquals(66, reduced);
         assertFalse(Files.exists(DATA.resolve("minecraft/worldgen/noise_settings")));
         assertFalse(Files.exists(DATA.resolve("moderner_beta/worldgen/noise_settings")));
     }
@@ -161,7 +161,7 @@ class GenerationBackport1211Test {
         assertEquals(json(Path.of("src/main/resources/data").resolve(resource)), json(DATA.resolve(resource)));
         var tag = json(DATA.resolve("minecraft/tags/worldgen/world_preset/normal.json"));
         assertFalse(tag.get("replace").getAsBoolean());
-        assertEquals(18, tag.getAsJsonArray("values").size());
+        assertEquals(19, tag.getAsJsonArray("values").size());
         assertFalse(tag.getAsJsonArray("values").toString().contains("preview"));
     }
 }

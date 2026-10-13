@@ -30,6 +30,7 @@ CHRONOLOGY = [
     'historical_experience:alpha_1_0_1',
     'historical_experience:alpha_1_0_4',
     'historical_experience:alpha_1_0_6',
+    'historical_experience:alpha_1_0_11',
     'historical_experience:alpha',
     'historical_experience:beta_1_7_3',
     'historical_experience:beta_1_8_1',
@@ -145,7 +146,7 @@ TIMELINE = [
     # evidence string.
     (['minecraft:cactus'], 'historical_experience:alpha_1_0_6',
      'feature-timeline blocks: cactus introduced Alpha v1.0.6'),
-    (['minecraft:clay', 'minecraft:sugar_cane'], 'historical_experience:alpha',
+    (['minecraft:clay', 'minecraft:sugar_cane'], 'historical_experience:alpha_1_0_11',
      'feature-timeline blocks: clay block and sugar cane introduced Alpha v1.0.11'),
     # Lily pads are STATED by the research as Prerelease 1 content - "Beta 1.9 Prerelease 1 | lily pads (visually
     # unnamed/grayscale and non-solid)" - while the palette-derived date put them at Pre3, because that is the only

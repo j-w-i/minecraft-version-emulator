@@ -561,6 +561,32 @@ public final class HistoricalVersions {
                     + "food table shared with Alpha 1.0.1: no mob or edible item is added between them."),
             HistoricalFeatureExclusions.ALPHA_BEFORE_1_0_11_CONTENT));
 
+        // Alpha 1.0.11 is the build the availability audit had been naming for many rounds: clay and sugar cane were
+        // dated to "alpha" - Alpha v1.1.2_01 - because 1.0.11 did not exist and "alpha" was the earliest DECLARED
+        // version that had them. Declaring this build is what let the date become correct, and the audit went quiet
+        // the moment it was re-pointed. This is the payoff of recording those proxy dates instead of guessing them.
+        //
+        // Its revision uses the PRE-CLAY exclusion list, because this build is the one that introduces clay and
+        // sugar cane, so nothing may exclude them here.
+        versions.add(terrainOnlyWithRules(
+            "historical_experience:alpha_1_0_11", "Alpha v1.0.11", "alpha",
+            chronology(ERA_ALPHA, 1, 0, 11), "moderner_beta:alpha",
+            new VersionRules(
+                true,
+                HistoricalSpawnRules.ALPHA_1_0_11_MOBS,
+                java.util.Map.of(),
+                HistoricalFoodRules.ALPHA_1_1_2_HEAL_POINTS,
+                false,
+                false,
+                false,
+                false,
+                "Clay, sugar cane, paper, books, bricks and slimes. Cows are present because they arrive in Alpha "
+                    + "v1.0.8, so this is the first declared Alpha build with cows AND the last without chickens "
+                    + "(1.0.14). The slime date is inference rather than citation and the reasoning is recorded in "
+                    + "HistoricalSpawnRules.ALPHA_1_0_11_MOBS. Food table shared with Alpha 1.0.1: no edible item "
+                    + "is added between them."),
+            HistoricalFeatureExclusions.BEFORE_GRASS_EXISTED_WITHOUT_DESERT_WELL));
+
         // WINTER MODE IS NOT DECLARED YET, and the reason is a conflict in the model rather than missing research.
         // Moderner Beta ships `moderner_beta:alpha_winter`, and this project's own settings preset
         // `alpha_1_0_4_winter` inherits it, so the terrain is available. What is missing is a place to put it:

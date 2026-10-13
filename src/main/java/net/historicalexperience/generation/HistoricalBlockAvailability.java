@@ -63,6 +63,7 @@ public final class HistoricalBlockAvailability {
         "historical_experience:alpha_1_0_1",
         "historical_experience:alpha_1_0_4",
         "historical_experience:alpha_1_0_6",
+        "historical_experience:alpha_1_0_11",
         "historical_experience:alpha",
         "historical_experience:beta_1_7_3",
         "historical_experience:beta_1_8_1",
@@ -223,7 +224,7 @@ public final class HistoricalBlockAvailability {
             new String[] {
                 "minecraft:cactus"});
         // feature-timeline blocks: clay block and sugar cane introduced Alpha v1.0.11; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
-        introduce("historical_experience:alpha", true,
+        introduce("historical_experience:alpha_1_0_11", true,
             "feature-timeline blocks: clay block and sugar cane introduced Alpha v1.0.11; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:clay",

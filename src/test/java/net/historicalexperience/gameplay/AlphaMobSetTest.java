@@ -1,5 +1,6 @@
 package net.historicalexperience.gameplay;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -58,6 +59,27 @@ class AlphaMobSetTest {
             "Alpha v1.1.2_01 is past 1.0.11");
         assertTrue(mobsOf(ALPHA_1_1_2).contains("minecraft:chicken"),
             "Alpha v1.1.2_01 is past 1.0.14");
+    }
+
+    @Test
+    void theBuildThatIntroducesClayAlsoHasCowsAndSlimesButStillNoChickens() {
+        // Alpha 1.0.11 sits between two boundaries, which makes it the most informative declared Alpha build:
+        // cows arrived at 1.0.8 (so it HAS them), slimes are inferred to have arrived here, and chickens do not
+        // arrive until 1.0.14 (so it still LACKS them).
+        Set<String> mobs = mobsOf("historical_experience:alpha_1_0_11");
+
+        assertTrue(mobs.contains("minecraft:cow"),
+            "Alpha 1.0.11 is past 1.0.8, where cows arrive");
+        assertTrue(mobs.contains("minecraft:slime"),
+            "slime natural spawning is described in the 1.0.14 delta as reduced and then disabled, which means "
+                + "slimes were spawning before it - inference, recorded as such in ALPHA_1_0_11_MOBS");
+        assertFalse(mobs.contains("minecraft:chicken"),
+            "chickens arrive in Alpha 1.0.14, the build after this one");
+
+        // And the neighbour that must differ from it in exactly one way.
+        assertEquals(mobs.size() + 1, mobsOf(ALPHA_1_1_2).size(),
+            "the 1.1.2 set is the 1.0.11 set PLUS the chicken, and nothing else - if that stops holding, one of the "
+                + "two builds has a mob it should not");
     }
 
     @Test
