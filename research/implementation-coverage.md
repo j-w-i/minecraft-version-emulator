@@ -820,6 +820,44 @@ turned out to be "no approximation needed" rather than the decision I expected t
    Recorded because a checker that is wrong is indistinguishable from a product that is wrong, and this project has
    now spent real rounds on each.
 
+37. **The Nostalgic Tweaks worklist the owner asked for, item by item, with what was already there.** Ten items were
+   named. Five needed new code, three were already implemented, one was recoverable work, and one is held. Recorded
+   as a table because "done" and "was already done" are different claims and this project has confused them before.
+   | Requested | Status | Boundary and source |
+   | --- | --- | --- |
+   | disable axe stripping | **ported** | 1.13 (17w47a), wiki Axe — later than all 32 declared builds |
+   | disable shovel pathing | **ported** | 1.9 (15w31a), wiki Shovel — later than all 32 |
+   | prevent swimming | **already implemented** | the `swim` gate in `LivingEntityHistoricalMovementMixin`, ported with the NT movement batch, boundary-gated rather than flag-gated |
+   | instant air refill | **ported** | `INSTANT_AIR`, NT swimming group, pre-Beta-1.8 |
+   | instant eat | **already implemented — and IS upstream's** | the owner asked for this "overriding your in-house instant eat", but `LivingEntityHistoricalInstantEatMixin` and `MinecraftHistoricalInstantEatMixin` are already the direct port of NT's food_health group; their own file headers name the upstream file |
+   | instant bow / arrow speed / invincible bow | **ported** | pre-Beta-1.8; wiki Bow: *"1.8 Pre-release: Arrows can no longer be rapid-fired from bows; they must be charged first."* |
+   | old pig / cow / sheep drops | **already implemented** | `HistoricalMobLootHelper` is the direct port of NT's `MobLootHelper` — all fourteen mappings, looting, on-fire smelting, and the sheep case. Two narrow gaps recorded: no profile carries a **pig** rule, and no pre-1.8 profile states a chicken rule |
+   | old Nether lighting | **HELD — see item 38** | NT's own code contradicts its name |
+   | old smooth lighting | **ported (corner shading); lightmap curve still a gap** | Beta 1.3 → <1.8 |
+   | disable smooth lighting | **ported** | before Beta 1.3 |
+   **The classic lighting engine was reinstated** at the owner's request after round 16 withdrew it; restored
+   verbatim from `06a9bb9` rather than rewritten, so its verified reasoning survives. Its Beta 1.3 boundary was
+   already the one the owner described, and the wiki corroborates it.
+   **One deliberate reduction in the port, stated rather than hidden:** NT's `ProjectileWeaponItemMixin` has two
+   injections on the same instruction — a wrap that refuses the durability call and a pre-call reset to zero
+   durability. Only the wrap is ported, because the reset exists so a bow on its last point of durability survives
+   the shot it is about to take, which only matters if the call is still reached. Refusing the call makes it
+   redundant, so carrying both would be dead code shaped like a safeguard.
+38. **`OLD_NETHER_LIGHTING` is HELD, because upstream contradicts both its own name and the wiki.** NT's
+   `LightTextureHelper.getSkylightSubtracted` reads
+   `boolean isNether = level.dimension() == NETHER && !OLD_NETHER_LIGHTING.get();` and
+   `float forceBrightness = isNether ? 7.0F : 15.0F;` — so with the tweak **enabled** the Nether is treated as
+   *not* Nether and gets **15**, and with it **disabled** it gets **7**. The tweak therefore *brightens* the Nether.
+   The wiki says the opposite: Light, History — *"v1.2.0 preview: Added the Nether, where light decreases by 10% each
+   level, rather than the normal 20%."* A 10%-per-level curve is **dimmer** than 20%, so the historical Nether is the
+   darker one, and neither NT's name nor its arithmetic agrees with that.
+   **The two possible implementations look opposite on screen**, so choosing one would be a guess dressed as a port.
+   **And it cannot be verified from this environment:** the effect is a client lightmap value with no server-visible
+   consequence, so the runtime probe cannot observe it and it would ship on the owner's eyes alone. That is not a
+   reason never to do it — the owner's play is a legitimate harness — but it IS a reason not to do it on contradictory
+   evidence without saying so first. Held deliberately, with the evidence recorded so the decision is not
+   rediscovered from scratch.
+
 12. **The Nether's terrain SHAPE is still the modern 1.16+ one — and the owner has ACCEPTED it as of 2026-10-13,
    so this is closed as a deliberate approximation rather than left as an open gap.** Its biomes are fixed (one
    biome, `minecraft:nether_wastes`, via vanilla's `minecraft:fixed` biome source), but the shape comes from

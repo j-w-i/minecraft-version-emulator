@@ -1,4 +1,74 @@
-# Persistent project status — 2026-10-13 (13) / the attack damage table checked against the wiki — two kinds were wrong
+# Persistent project status — 2026-10-13 (14) / the Nostalgic Tweaks worklist: nine of ten in, one held on evidence
+
+## Round 79 — the owner's ten-item NT list, worked through
+
+The owner named ten Nostalgic Tweaks behaviours to port, each "in the versions they apply to". All boundaries are now
+established from primary sources — NT's own catalogue marks every one of them `unknown` and its `historicalClaim` field
+says a name alone is not evidence — and the work is done except for one item held deliberately.
+
+| Requested | Status | Boundary and source |
+| --- | --- | --- |
+| disable axe stripping | **ported** | 1.13 (17w47a), wiki Axe — later than all 32 declared builds |
+| disable shovel pathing | **ported** | 1.9 (15w31a), wiki Shovel — later than all 32 |
+| prevent swimming | **already implemented** | the `swim` gate in `LivingEntityHistoricalMovementMixin`, added with the earlier NT movement batch |
+| instant air refill | **ported** | NT swimming group, pre-Beta-1.8 |
+| instant eat | **already implemented — and it IS upstream's** | see below |
+| instant bow / arrow speed / invincible bow | **ported** | pre-Beta-1.8; wiki Bow: *"1.8 Pre-release: Arrows can no longer be rapid-fired from bows; they must be charged first."* |
+| old pig / cow / sheep drops | **already implemented** | `HistoricalMobLootHelper` is already the direct port of NT's `MobLootHelper` |
+| old Nether lighting | **HELD** | NT's code contradicts its own name — see below |
+| old smooth lighting | **ported (corner shading)** | Beta 1.3 → 1.8; the lightmap curve is still a recorded gap |
+| disable smooth lighting | **ported** | before Beta 1.3 |
+
+**The classic lighting engine was reinstated** at your request after round 16 withdrew it — restored **verbatim** from
+`06a9bb9` rather than rewritten, so its verified reasoning survives. Its boundary was already the Beta 1.3 you named,
+and the wiki corroborates it: *"1.3: Smooth lighting engine added with the help of MrMessiah and his 'BetterLight'
+mod"*, *"1.8 Pre-release: Implemented a new lighting engine."*
+
+### Two of your items were already done — said plainly rather than re-implemented
+
+- **Instant eat.** You asked for this "overriding your own in-house instant eat". What is in the tree **is** NT's
+  implementation: `LivingEntityHistoricalInstantEatMixin` and `MinecraftHistoricalInstantEatMixin` are the direct port
+  of NT's `food_health` group, and their own file headers name the upstream file. There is nothing in-house to
+  override.
+- **Mob drops.** `HistoricalMobLootHelper` is already the full port — all fourteen entity mappings, the looting-aware
+  count, the on-fire smelting, and the sheep case. **Your sheep point is already handled**: that branch is hoisted
+  *above* the version gate precisely because sheep were still dropping raw mutton, a Release 1.8 item.
+  Two narrow gaps are recorded rather than patched: no profile carries a **pig** rule, and no pre-1.8 profile states a
+  chicken rule.
+
+### What "old smooth lighting" actually is, since the name misleads
+
+Not a different lighting model. The two engines differ in **two specific places**, and one of them is now implemented:
+the modern engine darkens a block's **corner** towards `0.2`, and the 1.3–1.7.3 engine did not darken it at all. The
+other is the **lightmap curve**, recorded as a known gap rather than claimed.
+
+The two windows are **disjoint by construction** — the classic engine is true *before* Beta 1.3, the MrMessiah engine
+from Beta 1.3 to *before* Beta 1.8 — so no version can be given both engines or neither. A single "old lighting"
+boolean would have got exactly that wrong.
+
+### The one held item, and why
+
+**`OLD_NETHER_LIGHTING` is not implemented, because upstream contradicts both its own name and the wiki.** NT's
+`LightTextureHelper` reads `isNether = dimension == NETHER && !OLD_NETHER_LIGHTING` and
+`forceBrightness = isNether ? 7.0F : 15.0F` — so with the tweak **enabled** the Nether is treated as *not* Nether and
+gets **15**; with it disabled it gets **7**. The tweak *brightens* the Nether. The wiki says the opposite: *"v1.2.0
+preview: Added the Nether, where light decreases by 10% each level, rather than the normal 20%"* — and 10% per level is
+**dimmer**, not brighter.
+
+The two possible implementations look **opposite on screen**, so picking one would be a guess dressed as a port. It
+also cannot be verified here: the effect is a client lightmap value with no server-visible consequence, so the runtime
+probe cannot see it and it would ship on your eyes alone. That is not a reason never to do it — your play is a real
+harness — but it is a reason not to do it on contradictory evidence without saying so first.
+
+**Say which you want** and I will implement that one: the **dimmer** Nether the wiki describes, or the **brighter** one
+NT's code produces.
+
+**374 tests, 0 failures.** Deployed:
+**0A0DC2E3FE278BFC23975923BA91D6932D4061B2F53C2825B4DA8B80283BD907**.
+
+**To see it:** restart fully. In a **Beta 1.7.3** world an axe should not strip logs and a shovel should not make paths;
+a bow should fire on click without charging and never lose durability; air should refill instantly on surfacing. In an
+**Alpha** world smooth lighting should be off; in **Beta 1.7.3** corners should be undarkened.
 
 ## Round 78 — the owner's damage audit found swords and shovels wrong
 
