@@ -46,7 +46,7 @@ class HistoricalSpawnRulesTest {
                 "minecraft:squid",
                 "minecraft:wolf",
                 "minecraft:zombie",
-                "minecraft:zombie_pigman"),
+                "minecraft:zombified_piglin"),
             HistoricalSpawnRules.beta173MobsInOrder());
     }
 
