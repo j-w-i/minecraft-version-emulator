@@ -5,7 +5,6 @@ import java.nio.file.Path;
 import java.util.Optional;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.historicalexperience.HistoricalExperience;
 import net.historicalexperience.HistoricalExperienceMod;
 import net.historicalexperience.HistoricalMarker;
@@ -88,10 +87,11 @@ public final class HistoricalServerLifecycle {
         // rewrite its own level stem.
         ServerLifecycleEvents.SERVER_STOPPED.register(
             HistoricalServerLifecycle::applyPendingUpgradeAdvance);
-        // The pre-Beta-1.8 passive spawner. Vanilla 1.21.1 has no equivalent to spawn from - its friendly cycle
-        // is a different algorithm - so an old world that has been emptied would never repopulate without this.
-        // It costs nothing when no player is online, because both jars iterated players and found no chunks.
-        ServerTickEvents.END_WORLD_TICK.register(HistoricalServerLifecycle::tickHistoricalAnimalSpawner);
+        // A pre-Beta-1.8 spawning ALGORITHM was registered here for a while: it ran the era's own creature cycle
+        // and suppressed the modern per-chunk animal pack beside it. The owner asked for the spawning algorithm
+        // work to be removed while the filtering stays, so the tick hook is gone and the filtering mixins are
+        // untouched. The algorithm, its caps and the jar evidence behind it are kept in
+        // research/pre-beta-1.8-spawning-evidence.json.
         if (Boolean.getBoolean(PROBE_VERIFY_PROPERTY)) {
             // The 26.3 RuntimeProbe lived here. It is deliberately NOT ported: its job - reporting what
             // generation actually produced - is done better and far more cheaply by
@@ -100,35 +100,6 @@ public final class HistoricalServerLifecycle {
             // so an old launch script does not silently mean something different.
         }
     }
-
-    /**
-     * Runs the era's passive spawner for one level, if this world has one.
-     *
-     * <p>Resolves the version from the level rather than from the session, for the same reason the loot rules do:
-     * the level is the authority, and a level whose version cannot be resolved simply does nothing.
-     */
-    private static void tickHistoricalAnimalSpawner(net.minecraft.server.level.ServerLevel level) {
-        String versionId =
-            net.historicalexperience.gameplay.HistoricalProfileLookup.profileIdForLevel(level);
-        if (versionId == null) {
-            return;
-        }
-        try {
-            net.historicalexperience.gameplay.HistoricalAnimalSpawner.tick(level, versionId);
-        } catch (RuntimeException failure) {
-            // A spawner must never take the server down. Reported once per failure rather than swallowed, because
-            // a silently dead spawner is exactly the state the owner reported and this project could not see.
-            if (SPAWNER_FAILURES.add(versionId + ": " + failure)) {
-                HistoricalExperienceMod.LOGGER.error(
-                    "the pre-Beta-1.8 animal spawner failed for {}; the world will not repopulate", versionId,
-                    failure);
-            }
-        }
-    }
-
-    /** Distinct spawner failures already logged, so a recurring fault does not flood the log. */
-    private static final java.util.Set<String> SPAWNER_FAILURES =
-        java.util.concurrent.ConcurrentHashMap.newKeySet();
 
     /** Absolute path of the historical metadata document for the server's default world. */
     public static Path metadataFileFor(MinecraftServer server) {        return server.getWorldPath(LevelResource.ROOT)

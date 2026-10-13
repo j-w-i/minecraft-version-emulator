@@ -379,68 +379,6 @@ public final class GenerationVerification {
         return out;
     }
 
-    /**
-     * Drives the pre-Beta-1.8 animal spawner for real and reports what it produced.
-     *
-     * <p>Written because the owner's report - an emptied Alpha world that never repopulated - was invisible to 340
-     * passing tests and to a clean server boot: nothing in this project had ever observed a spawn <b>cycle</b>.
-     *
-     * <p>A dedicated server has no players, and both jars only place mobs in chunks around a player, so the
-     * spawner would legitimately do nothing here. Rather than re-implement the loop and measure a copy, this calls
-     * {@link net.historicalexperience.gameplay.HistoricalAnimalSpawner#tick(ServerLevel, String, List)} - the same
-     * method the live hook calls - with the world spawn standing in as the observer. The count that comes back is
-     * therefore the deployed algorithm's output.
-     */
-    private static Map<String, Object> passiveSpawnerProbe(net.minecraft.server.level.ServerLevel level,
-            String versionId) {
-        Map<String, Object> out = new LinkedHashMap<>();
-        var shape = net.historicalexperience.gameplay.HistoricalAnimalSpawner.shapeFor(versionId);
-        out.put("shape", shape == null ? "<this version has no pre-Beta-1.8 spawner>" : shape.toString());
-        if (shape == null) {
-            return out;
-        }
-
-        BlockPos observer = level.getSharedSpawnPos();
-        int before = countCreatureEntities(level);
-        long attemptsBefore = net.historicalexperience.gameplay.HistoricalAnimalSpawner.attempts();
-
-        int spawned = 0;
-        int driven = 200;
-        for (int i = 0; i < driven; i++) {
-            spawned += net.historicalexperience.gameplay.HistoricalAnimalSpawner.tick(
-                level, versionId, java.util.List.of(observer));
-        }
-
-        Map<String, Integer> present = new java.util.TreeMap<>();
-        for (var entity : level.getAllEntities()) {
-            if (entity.getType().getCategory() == net.minecraft.world.entity.MobCategory.CREATURE) {
-                present.merge(net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE
-                    .getKey(entity.getType()).toString(), 1, Integer::sum);
-            }
-        }
-
-        out.put("cyclesDriven", driven);
-        out.put("observer", observer.toShortString());
-        out.put("creaturesBefore", before);
-        out.put("creaturesSpawned", spawned);
-        out.put("creaturesAfter", countCreatureEntities(level));
-        out.put("creatureEntitiesPresent", present);
-        out.put("spawnAttempts", net.historicalexperience.gameplay.HistoricalAnimalSpawner.attempts()
-            - attemptsBefore);
-        return out;
-    }
-
-    /** Animals currently loaded, which is the number both jars' caps were compared against. */
-    private static int countCreatureEntities(net.minecraft.server.level.ServerLevel level) {
-        int count = 0;
-        for (var entity : level.getAllEntities()) {
-            if (entity.getType().getCategory() == net.minecraft.world.entity.MobCategory.CREATURE) {
-                count++;
-            }
-        }
-        return count;
-    }
-
     private static void run(MinecraftServer server) {
         Map<String, Object> report = new LinkedHashMap<>();
         report.put("runToken", System.getProperty("historical_experience.generationProbe.token"));
@@ -562,7 +500,6 @@ public final class GenerationVerification {
                 net.historicalexperience.worldgen.HistoricalVillagePieces.styleDiagnostics());
             report.put("spawns", HistoricalSpawnRules.diagnostics());
             report.put("passiveSpawn", passiveSpawnProbe(level, versionId));
-            report.put("passiveSpawner", passiveSpawnerProbe(level, versionId));
             // An invalid id here DELETES a mob rather than failing to allow one, because the filter removes 
             // every type absent from the allowed set. This is checked against the entity registry, not against a 
             // transcription of it.

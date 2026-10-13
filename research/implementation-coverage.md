@@ -285,99 +285,37 @@ turned out to be "no approximation needed" rather than the decision I expected t
    `_historical_envelope` revisions so existing worlds keep their terrain. Every public menu recipe is now
    asserted to declare the envelope. See the evidence table in
    [completion and envelope evidence](<matrix-completion-verification.md>).
-4. **The beta-era passive spawner is IMPLEMENTED (was the owner's "world never repopulates" report).**
+4. **The pre-Beta-1.8 spawning ALGORITHM was implemented, then REMOVED at the owner's instruction. Only the
+   filtering remains.** The owner asked for "only the spawning algorithm stuff not the filtering" to be taken out,
+   so `HistoricalAnimalSpawner`, its `END_WORLD_TICK` registration, its probe section and its tests are gone, and
+   `NaturalSpawnerHistoricalSpawnMixin` is back to narrowing the candidate list and nothing else.
+   **What was removed, and why it had been built.** The owner reported that an emptied Alpha world never
+   repopulated: every entity killed, tick speed 10000, hours of waiting, nothing returned. That was architectural
+   — everything this project did about spawning was an allow-list filter over vanilla's candidates, and vanilla's
+   modern friendly cycle is a different algorithm, so the candidates were correct and nothing ever asked for them.
+   A spawner was written from the jars to fill that hole, and a second defect it exposed was fixed with it (a
+   screenshot showed a landscape carpeted with animals where the era's cap is fifteen loaded creatures: the cap
+   was compared once per call rather than per placement, and the modern per-chunk animal pack was still running
+   beside the cycle). Both were measured and green.
+   **What still holds, because it was never the algorithm.** The allow-list filtering is untouched and still
+   verified at runtime: an Alpha v1.1.0 world reports `creatureOfferedByBiome = [chicken, cow, pig, sheep]`,
+   `creatureAfterHistoricalFilter` the same, `passiveSpawnPossible = true` and 49 filter invocations. So no
+   version can spawn a mob its own build lacked — which is what the filtering was always for.
+   **The consequence, stated rather than glossed:** an emptied pre-Beta-1.8 world will again stay empty, because
+   the era's cycle that repopulated it is the part that was removed. New chunks still fill with the modern
+   per-chunk animal pack, which is what the screenshot showed in the first place and is now unfiltered-but-capped
+   by nothing. Repopulation is therefore a known, deliberate gap rather than an unnoticed one.
+   **The research is preserved, so this is reversible cheaply.** Every cap, radius, attempt count and rule read
+   from `alpha-1.1.2_01-client.jar` (sha1 `daa4b9f1…`) and `beta173-client.jar` (sha1 `43db9b49…`), plus the
+   Infdev caps read later (monsters 100, animals 50 from `inf-20100420.jar`, sha1 `27010a51…`), is recorded in
+   [pre-Beta-1.8 spawning evidence](<pre-beta-1.8-spawning-evidence.json>). Reinstating it is a matter of adding
+   the class and the hook back, not of redoing the research.
    `HistoricalAnimalSpawner` reproduces the pre-Beta-1.8 cycle from the jars, parameterised by era:
    Alpha (flat cap 15, radius 4, 3 × 2 attempts, `rand(128)` start height) below the Alpha v1.2.0 rework, and
    Beta (scaled cap `15 × eligibleChunks / 256`, radius 8, 3 × 4) from it onward, both with the `±(rand(6) −
    rand(6))` walk, the 24-block player exclusion, the 576-block spawn exclusion and the entity's own placement
    rule as the `getCanSpawnHere()` equivalent. Driven from `ServerTickEvents.END_WORLD_TICK`, so it costs nothing
    with no player online — which is also faithful, since both jars iterated players.
-   **Verified end-to-end, headlessly**: the probe's new `passiveSpawner` section calls the same
-   `tick(level, versionId, observers)` the live hook calls, with the world spawn standing in as the observer, and
-   an Alpha v1.1.0 world went from **0 to 15 passive mobs — exactly the era's cap** — in 200 driven cycles.
-  348 tests green, including the era-boundary test.
-   **Two follow-up defects the owner's screenshot exposed, both repaired and measured.** The first run of this
-   spawner carpeted a landscape with animals where the era allowed fifteen loaded in total, from two causes:
-   * the cap was compared **once per call**, and one call is up to 486 placement attempts (3 × 9×9 × 2 for Alpha,
-     3 × 17×17 × 4 for Beta), every one of which can place a mob — so a single tick could add hundreds. The
-     running total is now re-checked per placement, which is what the cap's arithmetic plainly intends.
-   * the modern **per-chunk animal pack** was still running beside it. Filling every generated chunk with a
-     biome-weighted pack and no global cap is the arrangement Beta 1.8 introduced — its own history row says
-     level-driven spawning "was no longer the case in Beta 1.8" — so it is anachronistic *and* unbounded in the
-     eras that had the cycle. Suppressed exactly where a cycle exists; Infdev keeps it deliberately, because its
-     own cycle is not implemented and suppressing this would leave it with no animals at all.
-   Measured before and after on the same world: `spawned 5 / present 16 (11 from chunk generation)` became
-   `spawned 15 / present 15 (0 from chunk generation)`. 349 tests green.
-   **Still open, recorded rather than approximated:** the hostile half is untouched (modern hostile spawning
-   works, and the two eras' hostile caps differ — 200 flat against 70 scaled); Beta's per-mob
-   `getMaxSpawnedInChunk` ceiling and pack grouping are not reproduced; and Infdev is deliberately excluded
-   because its own jar was not read for this, even though it demonstrably had natural spawning.
-   The owner reported it directly, and corrected my first account of it: in an Alpha world they killed every
-   entity, set tick speed to 10000 and waited hours — no passive mobs returned. **They are right that Alpha
-   spawned passive mobs over time**, and my initial note here claimed the opposite, which was an inference
-   from modern behaviour rather than research. The evidence says:
-   * Minecraft Wiki, [Mob spawning](https://minecraft.wiki/w/Mob_spawning): *"Most mobs have a spawning cycle
-     once every game tick … but passive mobs have only one spawning cycle every 400 game ticks (20 seconds).
-     Because of this, where conditions permit, hostile mobs spawn frequently, but passive mobs (animals)
-     spawn rarely. Most animals spawn within chunks when they are generated."* So there **is** a passive
-     spawn cycle, and it is the *relationship* between that cycle and chunk generation that differs by era.
-   * `research/feature-timeline.json`, the `animal spawn cap / monster spawn cap` row: *"The beta-era spawner
-     is a per-chunk creature/monster type counter and the modern SpawnPlacements/MobCategory caps are a much
-     later structure"* — a **counter**, i.e. a spawner that keeps running, not a generation-only path. The
-     same row records the numbers as **not established** and says plainly: *"Do not gate these tweaks on a
-     version until the numbers are read from a jar or from the wiki's Mob spawning table."*
-   * `research/historical-features.json`, *"Passive mobs no longer despawn and flee when attacked"*, changed at
-     **Beta 1.8**, with `modernBehaviourDifference` recording that pre-1.8 profiles must disable the modern
-     persistence/distance despawn path. Despawning and respawning are two halves of one mechanic, which is
-     why an era that despawned animals must also have repopulated them.
-   **We have neither half, and nothing was copied from NT.** Nostalgic Tweaks does implement this, as
-   `OLD_ANIMAL_SPAWNING` (`helper/gameplay/AnimalSpawnHelper.java`,
-   `mixin/tweak/gameplay/animal_spawn/SeverChunkCacheMixin.java`), and `research/nt-port-worklist.json`
-   records it as `alreadyTouched: false`, `verification: not_started`, `boundary: unknown` — it is **not
-   ported**. **It must not be fixed by copying NT either**: `research/nostalgic-tweaks-audit.json` classifies
-   it as class c, *"GENUINELY A DIFFERENT ALGORITHM — MUST NOT BE FORCED INTO THE RULE TABLE … the ALGORITHM
-   must be a separate subsystem with its own design, and its cap/attempt constants should be version data
-   feeding that algorithm rather than a VersionRules boolean"*, and its rank-4 note repeats *"Do NOT adopt
-   NT's animal spawning algorithm here"*.
-   **The algorithm and its caps are now read from hash-verified jars** — see
-   [pre-Beta-1.8 spawning evidence](<pre-beta-1.8-spawning-evidence.json>), which replaces the `UNKNOWN` marks
-   in `research/feature-timeline.json` and `research/nostalgic-tweaks-audit.json`:
-   * **Alpha v1.1.2_01** (`alpha-1.1.2_01-client.jar`, sha1 `daa4b9f1…`, the exact jar for the `alpha`
-     profile): creature spawner cap **15 flat**, monster cap **200 flat**, both compared against
-     `world.countEntities(categoryClass)`; **radius 4 → 9×9 chunks** per player, deduped by a `ChunkPosition`
-     set; **3 passes × 2 attempts** per chunk with `±(rand(6) − rand(6))` horizontal walk and a **fixed Y**
-     from `rand(128)`; rejects a position with a player within **24 blocks** or within **24 blocks of world
-     spawn** (576 = 24²); spawns reflectively and requires the entity's own `getCanSpawnHere()` — which is
-     where the light rule actually lives, since `EntityAnimal` there demands grass below and **full block
-     light > 8**; spider jockeys at 1%.
-   * **Beta 1.7.3**: caps **monster 70, creature 15, waterCreature 5** from `EnumCreatureType`, applied as
-     `cap × eligibleChunks / 256` (scaled, not flat); **radius 8 → 17×17 chunks**, matching the wiki's note
-     that the old 17×17 size is still used for the cap arithmetic; candidates come from per-biome weighted
-     spawn lists with pack spawning.
-   The spawner itself is still **not implemented** for any pre-Beta-1.8 version; that is the next slice, and
-   it is now unblocked rather than blocked on research.
-
-   **The boundary IS now sourced, and it is Beta 1.8.** Minecraft Wiki,
-   [Mob spawning § History, Java Edition](https://minecraft.wiki/w/Mob_spawning), the Beta 1.8 (Pre-release)
-   row: *"Previously, mob spawning was determined by light level rather than the current chunk properties.
-   This was no longer the case in Beta 1.8. In a pre-Beta 1.8 world, hostile mobs would spawn in light level 7
-   or lower while friendly mobs would spawn in light levels 9 or higher. … If you had a lot of torches down,
-   go down to your mine, then return, you would have a tendency to find your house having some cows, pigs,
-   chickens or sheep running about."* That is the mechanic the owner described from play: **before Beta 1.8,
-   friendly mobs spawned continuously over time, driven by light level**, which is why an emptied Alpha world
-   repopulated. Beta 1.8 replaced it with chunk-property-driven spawning. The same history records an Alpha
-   v1.2.0 algorithm change and a 17×17 → 15×15 spawn-area reduction whose *old* size is still used for the
-   mob-cap arithmetic.
-   The owner's recollection that a Beta 1.9 prerelease or Release 1.0 **fixed** it is **not supported by that
-   history table**, which lists no mob-spawning entry for either — so on present evidence the Beta 1.8
-   behaviour is a change rather than a bug that was reverted. What would settle it is a Beta 1.9
-   prerelease/1.0 jar scan or that version's own history page, not inference.
-
-   **Measured, so the fault is NOT the allow-list:** the probe's new `passiveSpawn` section reports, for an
-   Alpha v1.1.0 world, `creatureOfferedByBiome = [chicken, cow, pig, sheep]` and
-   `creatureAfterHistoricalFilter = [chicken, cow, pig, sheep]` — the filter removes nothing, and
-   `passiveSpawnPossible = true`. So the candidates are present and permitted, and the missing half is the
-   spawning *cycle* itself: the pre-Beta-1.8 light-driven friendly spawner, which no code here implements.
 5. **The newly declared Beta builds' own content is recorded but NOT implemented**: Beta 1.4's locked chest,
    bed-spawn reset and achievement infrastructure; Beta 1.5's weather, powered/detector rails and cobweb
    obtainability; Beta 1.6's map, trapdoor, Nether bed explosion, fire-spread slowdown and ore-quadrant-bias

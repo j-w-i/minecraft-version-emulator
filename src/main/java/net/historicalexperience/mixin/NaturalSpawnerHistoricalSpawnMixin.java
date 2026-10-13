@@ -61,20 +61,11 @@ public abstract class NaturalSpawnerHistoricalSpawnMixin {
         MobSpawnSettings settings, MobCategory category,
         ServerLevelAccessor level, Holder<Biome> biome, ChunkPos chunkPos, RandomSource random
     ) {
-        WeightedRandomList<MobSpawnSettings.SpawnerData> candidates = settings.getMobs(category);
-
-        // From Beta 1.8 the game fills every newly generated chunk with a biome-weighted animal pack, with no
-        // global cap. That is the arrangement Beta 1.8 introduced, so for the eras that had the capped spawn
-        // cycle instead it is anachronistic AND unbounded: the owner's screenshot showed a landscape carpeted
-        // with animals, and this per-chunk source is the one that can produce hundreds beside a cycle capped at
-        // fifteen. The eras with a cycle suppress it; every other version, Infdev included, is untouched.
-        if (category == MobCategory.CREATURE
-            && net.historicalexperience.gameplay.HistoricalAnimalSpawner
-                .suppressesChunkGenerationSpawning(HistoricalSpawnFilter.profileIdForGenerator(
-                    level.getLevel().getChunkSource().getGenerator()))) {
-            return WeightedRandomList.create();
-        }
-
-        return HistoricalSpawnFilter.applyForLevel(level.getLevel(), candidates);
+        // FILTER ONLY. A historical spawner algorithm lived here as well for a while - it suppressed this
+        // per-chunk creature pack for the pre-Beta-1.8 eras and replaced it with the era's own cycle. The owner
+        // asked for the spawning ALGORITHM work to be removed while the filtering stays, so this is back to
+        // narrowing the candidate list and nothing else. The algorithm and the jar evidence behind it are
+        // preserved in research/pre-beta-1.8-spawning-evidence.json for whenever it is wanted again.
+        return HistoricalSpawnFilter.applyForLevel(level.getLevel(), settings.getMobs(category));
     }
 }
