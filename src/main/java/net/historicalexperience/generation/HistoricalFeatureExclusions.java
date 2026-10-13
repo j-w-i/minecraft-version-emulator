@@ -378,6 +378,64 @@ public final class HistoricalFeatureExclusions {
     );
 
     /**
+     * The above plus vanilla lapis ore, for every version older than <b>Beta 1.2</b>.
+     *
+     * <h2>Why this is a list of its own rather than a line in the root</h2>
+     *
+     * <p>Found by the matrix sweep, not by reading: a fresh Beta 1.0 world generated
+     * <b>{@code lapis_ore: 136}</b> alongside sandstone, and Beta 1.2's own registry entry says it "introduces
+     * lapis ore". Lapis therefore has to be <b>absent for a prefix</b> (everything before Beta 1.2) and
+     * <b>present for the suffix</b> (Beta 1.2 through Release 1.6.4), and exclusions here are inherited down a
+     * linear chain. Putting these two lines in {@code BETA_1_7_3_RESTRICTIONS} would be the obvious move and it
+     * would be wrong: Beta 1.2, 1.3, 1.4, 1.5 and 1.6 all take that root, so it would delete lapis from five
+     * versions that really had it — the destructive direction this project always refuses. Hence a separate list
+     * used only by the pre-Beta-1.2 revisions.
+     *
+     * <h2>Why a feature exclusion is the right mechanism, when a block veto was not</h2>
+     *
+     * <p>The block veto could not stop this, and the reason is measured rather than assumed: for that Beta 1.0
+     * world the veto ran 24,822 times and never once saw {@code lapis_ore}, because {@code OreFeature} writes
+     * through {@code LevelChunkSection.setBlockState} rather than through {@code WorldGenRegion.setBlock}, which
+     * is the only write path the veto hooks. A placed-feature exclusion runs at {@code placeWithBiomeCheck}, one
+     * level above the write, so it does not care which method the feature uses.
+     *
+     * <p>Both ids are the ones that actually place it: Moderner Beta ships
+     * {@code data/minecraft/worldgen/placed_feature/ore_lapis.json} and {@code ore_lapis_buried.json} in its
+     * reduced-height resource pack, so the vanilla ids are the live ones here.
+     */
+    public static final List<Exclusion> BEFORE_LAPIS_EXISTED = List.copyOf(
+        java.util.stream.Stream.concat(
+            BEFORE_GRASS_EXISTED_WITHOUT_DESERT_WELL.stream(),
+            lapisOres()
+        ).toList()
+    );
+
+    /**
+     * The same two exclusions on top of the Beta root, for <b>Beta 1.0</b>, which takes the root rather than the
+     * grass list.
+     *
+     * <p>Beta 1.0 is the version the sweep caught and the only Beta build that predates lapis. Beta 1.2 and 1.3
+     * also take the root and must KEEP the vanilla feature, which is exactly why these two lines cannot simply go
+     * into the root.
+     */
+    public static final List<Exclusion> BETA_1_0_WITHOUT_LAPIS = List.copyOf(
+        java.util.stream.Stream.concat(
+            BETA_1_7_3_RESTRICTIONS.stream(),
+            lapisOres()
+        ).toList()
+    );
+
+    /** The two placed features that produce lapis ore, written once so the two lists cannot drift apart. */
+    private static java.util.stream.Stream<Exclusion> lapisOres() {
+        return java.util.stream.Stream.of(
+            new Exclusion("minecraft:ore_lapis",
+                "Lapis ore is introduced in Beta 1.2, so every declared version older than that build "
+                    + "predates it; measured generating in a fresh Beta 1.0 world by the matrix sweep"),
+            new Exclusion("minecraft:ore_lapis_buried",
+                "The buried lapis variant is the same Beta 1.2 content and is placed by its own feature"));
+    }
+
+    /**
      * The above, plus every block the research dates to Alpha 1.0.11, for the builds before it.
      *
      * <p>Alpha 1.0.11 introduces clay, sugar cane, paper, books, bricks and slimes. This list exists because the
@@ -394,7 +452,7 @@ public final class HistoricalFeatureExclusions {
      */
     public static final List<Exclusion> ALPHA_BEFORE_1_0_11_CONTENT = List.copyOf(
         java.util.stream.Stream.concat(
-            BEFORE_GRASS_EXISTED_WITHOUT_DESERT_WELL.stream(),
+            BEFORE_LAPIS_EXISTED.stream(),
             java.util.stream.Stream.of(
                 // Clay: four placed features can produce it.
                 new Exclusion("moderner_beta:ore_clay",
@@ -428,7 +486,7 @@ public final class HistoricalFeatureExclusions {
      */
     public static final List<Exclusion> INFDEV_WITHOUT_DUNGEONS = List.copyOf(
         java.util.stream.Stream.concat(
-            BEFORE_GRASS_EXISTED_WITHOUT_DESERT_WELL.stream(),
+            BEFORE_LAPIS_EXISTED.stream(),
             java.util.stream.Stream.of(
                 new Exclusion("minecraft:monster_room",
                     "Monster rooms arrive in Infdev 20100625-1917, which is after both Infdev builds this "

@@ -647,7 +647,7 @@ public final class HistoricalVersions {
                     + "(1.0.14). The slime date is inference rather than citation and the reasoning is recorded in "
                     + "HistoricalSpawnRules.ALPHA_1_0_11_MOBS. Food table shared with Alpha 1.0.1: no edible item "
                     + "is added between them."),
-            HistoricalFeatureExclusions.BEFORE_GRASS_EXISTED_WITHOUT_DESERT_WELL));
+            HistoricalFeatureExclusions.BEFORE_LAPIS_EXISTED));
 
         // Alpha 1.0.14. Two of its facts interact, and that is why it is declared separately from 1.0.11:
         // chickens ARRIVE here, and slime natural spawning is DISABLED here by a bug. A single "Alpha mobs" set
@@ -678,7 +678,7 @@ public final class HistoricalVersions {
                     + "generator iterations increase from 4 to 8, shifting decorator RNG; recorded as not "
                     + "implemented because the terrain authority does not expose it. Food table shared with Alpha "
                     + "1.0.1: no edible item is added between them."),
-            HistoricalFeatureExclusions.BEFORE_GRASS_EXISTED_WITHOUT_DESERT_WELL));
+            HistoricalFeatureExclusions.BEFORE_LAPIS_EXISTED));
 
         // Alpha 1.0.17 and 1.1.0 add NO mob between them, so 1.0.17, 1.1.0 and v1.1.2_01 share one spawn set. That
         // is a fact read off three consecutive sets of deltas, not a shortcut - and it is why 1.0.14's slime-less
@@ -702,7 +702,7 @@ public final class HistoricalVersions {
                     + "defect - broken or invisible inventory icons - which the deltas record as a short-lived "
                     + "client fault rather than a stable mechanic, so it is deliberately NOT reproduced. Food "
                     + "table shared with Alpha 1.0.1: no edible item is added between them."),
-            HistoricalFeatureExclusions.BEFORE_GRASS_EXISTED_WITHOUT_DESERT_WELL));
+            HistoricalFeatureExclusions.BEFORE_LAPIS_EXISTED));
 
         versions.add(terrainOnlyWithRules(
             "historical_experience:alpha_1_1_0", "Alpha v1.1.0", "alpha",
@@ -724,7 +724,7 @@ public final class HistoricalVersions {
                     + "parity with singleplayer AI, which is recorded rather than smoothed over. This is also the "
                     + "build that makes SNEAKING possible: this project's sneak boundary is Alpha 1.1.0, supplied "
                     + "by the owner, and it lands exactly here. Food table shared with Alpha 1.0.1."),
-            HistoricalFeatureExclusions.BEFORE_GRASS_EXISTED_WITHOUT_DESERT_WELL));
+            HistoricalFeatureExclusions.BEFORE_LAPIS_EXISTED));
 
         // Alpha 1.2.0, the Halloween Update and the last Alpha build. Three things converge here:
         //
@@ -762,7 +762,7 @@ public final class HistoricalVersions {
                     + "100 to 200, which the research itself labels low-confidence and development-preview; and the "
                     + "fishing rate, whose semantics the research records as unverified. Terrain therefore comes from "
                     + "moderner_beta:alpha. Food table shared with Alpha 1.0.1: no edible item is added between them."),
-            HistoricalFeatureExclusions.BEFORE_GRASS_EXISTED_WITHOUT_DESERT_WELL));
+            HistoricalFeatureExclusions.BEFORE_LAPIS_EXISTED));
 
         // The Release 1.3 / 1.4 / 1.5 gap, and it needs NO approximation - which is the opposite of what I expected
         // when I flagged it as needing a decision. The research states it directly: Release 1.4 says "no major
@@ -873,7 +873,7 @@ public final class HistoricalVersions {
                     + "grassland/sand biome boundary is MISALIGNED until Beta 1.3, and the Nether is inherited with "
                     + "no strongholds, villages or mineshafts. Armour-slot outlines are removed, crafting-grid slots "
                     + "no longer hold items, and tools on the ground stop repairing themselves. No mob is added here."),
-            HistoricalFeatureExclusions.BETA_1_7_3_RESTRICTIONS));
+            HistoricalFeatureExclusions.BETA_1_0_WITHOUT_LAPIS));
 
         // Beta 1.2. Two things converge, and both are the payoff of declaring a build rather than approximating it:
         // the SQUID arrive here, and lapis lazuli's date becomes true - it was held at beta_1_7_3 as a proxy while
@@ -1290,7 +1290,7 @@ public final class HistoricalVersions {
         List<HistoricalFeatureExclusions.Exclusion> revisionTwoExclusions = modernContentExclusions != null
             ? modernContentExclusions
             : (chronology >= ERA_ALPHA
-                ? HistoricalFeatureExclusions.BEFORE_GRASS_EXISTED_WITHOUT_DESERT_WELL
+                ? HistoricalFeatureExclusions.BEFORE_LAPIS_EXISTED
                 : HistoricalFeatureExclusions.INFDEV_WITHOUT_DUNGEONS);
 
         return new HistoricalVersion(

@@ -420,6 +420,14 @@ turned out to be "no approximation needed" rather than the decision I expected t
 11. **Beta 1.0 generates two blocks it never had, and the write-path reason is now PROVEN.** In a **fresh** world,
    `historical_experience:beta_1_0` reports `sampledPaletteFailures = {lapis_ore: 136, sandstone: 2993}` — both are
    Beta 1.2 content. Every other version in the sweep reported zero.
+   **The lapis half is FIXED and verified.** A new `BEFORE_LAPIS_EXISTED` list (and `BETA_1_0_WITHOUT_LAPIS` for
+   Beta 1.0, which takes the root rather than the grass list) excludes `minecraft:ore_lapis` and
+   `minecraft:ore_lapis_buried` for every revision older than Beta 1.2. Re-measured after the change: Beta 1.0 went
+   from `lapis_ore: 136` to **0**, and the control — Beta 1.2, whose own registry entry says it introduces lapis —
+   **kept its 136**. Alpha 1.0.1 and Alpha 1.2.0 have none, correctly. The direction is pinned by
+   `LapisIntroductionBoundaryTest`, because the obvious fix (two lines in the shared root) would have silently
+   deleted lapis from five versions that really had it.
+   **Sandstone remains open**, and the reason is a different one.
    **Measured, not inferred.** The probe now counts veto invocations and records which block ids reached it, which
    is the difference between "the veto said no" and "the veto was never asked". For that world:
    `blockVetoInvocations = 24822`, 26 distinct ids seen including `stone`, `dirt` and `short_grass` — and
@@ -453,6 +461,28 @@ turned out to be "no approximation needed" rather than the decision I expected t
    because none of them covered Beta 1.0.
    not, because none of them covered Beta 1.0 specifically.
 
+15. **SEVERE, LONG-STANDING: thirteen profiles generate NO ORES AT ALL. Found while fixing the lapis leak in item
+   11.** Measured in the matrix sweep, not inferred. A fresh world of each profile contains:
+   * `release_1_0_0` — **zero ores**. So do `release_1_6_4` and `beta_1_9_pre_1`, and by the same mechanism the
+     other four prereleases and the other five Release profiles.
+   * `beta_1_2`, `beta_1_7_3`, `beta_1_8_1` — all six ore types present.
+   **The mechanism, traced through the exclusion chain.** `BETA_1_7_3_WITHOUT_AQUATIC_PLANTS` is built on
+   `BETA_1_7_3_WITH_REPLACED_ORES`, and that list carries **18 ore exclusions**. They are correct *there*, because
+   Beta 1.7.3 and Beta 1.8.1 place their **own** ore population and the vanilla features must be switched off so
+   the two cannot double up. But the plant and aquatic chain inherits them, so every list downstream inherits them
+   too, including the public `_no_modern_content` revision of every Beta 1.9 prerelease and every Release. Those
+   versions place **no ores of their own** (`placesOwnOres()` is false), so the vanilla features are switched off
+   and nothing replaces them.
+   **Why nothing caught it.** It is a content *loss*, not an anachronism, so a sweep for blocks a version could
+   not have cannot see it; and a unit test asserting exclusions are *present* passes more easily the more are
+   present. It is the same directional blind spot that let the food-stacking and crafting gates over-refuse.
+   It is now pinned by `LapisIntroductionBoundaryTest.knownDefectOresAreSuppressedWithoutReplacement`, which fails
+   the moment the ores come back — so the fix cannot be forgotten and the pin cannot be deleted quietly.
+   **Fix shape.** The ore exclusions must belong only to revisions that place their own ores. Because those lists
+   are referenced by published revisions, the append-only-safe route is a new chain without the ore bans plus new
+   revisions for the affected versions, with `PUBLIC_RECIPES` moved onto them — the same shape used for the
+   missing Beta envelope. **This is the largest known content defect in the project** and belongs above items 11
+   and 12.
 12. **The Nether's terrain SHAPE is still the modern 1.16+ one.** Its biomes are fixed (one biome,
    `minecraft:nether_wastes`, via vanilla's `minecraft:fixed` biome source), but the shape comes from
    `minecraft:nether` noise settings and Moderner Beta ships no historical Nether to point at. Recorded as a gap.
