@@ -43,8 +43,7 @@
     "EnderEyeHistoricalPortalMixin",
     "WorldGenRegionHistoricalBlockVetoMixin",
     "EntityHistoricalSneakingMixin",
-    "PlayerHistoricalOffhandMixin",
-    "AbstractContainerMenuHistoricalOffhandMixin"
+    "PlayerHistoricalOffhandMixin"
   ],
   "injectors": {
     "defaultRequire": 1
