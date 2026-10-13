@@ -310,6 +310,35 @@ public final class HistoricalFeatureExclusions {
     );
 
     /**
+     * The above, plus clay, for Alpha 1.0.1 - the only declared build that predates it.
+     *
+     * <p>Clay arrives in <b>Alpha 1.0.11</b>, nine builds after 1.0.1. That was found by a generation probe rather
+     * than by reading the research: the version predates the block, so a world of it must not contain any, and the
+     * block-availability table cannot report it because only Beta 1.7.3 has an extracted palette.
+     *
+     * <p>Four placed features can place clay, and all four are excluded: Moderner Beta's own
+     * {@code moderner_beta:ore_clay} (backed by {@code BetaOreClayFeature}), and vanilla's
+     * {@code minecraft:ore_clay}, {@code minecraft:disk_clay} and {@code lush_caves_clay}.
+     *
+     * <p>This cannot go into the shared pre-Beta list: <b>Alpha v1.1.2_01 HAS clay</b>, so the exclusion belongs to
+     * 1.0.1 alone. That is why the registry helper now accepts one - the fact is about the build, not the era.
+     */
+    public static final List<Exclusion> ALPHA_1_0_1_WITHOUT_CLAY = List.copyOf(
+        java.util.stream.Stream.concat(
+            BEFORE_GRASS_EXISTED_WITHOUT_DESERT_WELL.stream(),
+            java.util.stream.Stream.of(
+                new Exclusion("moderner_beta:ore_clay",
+                    "Clay arrives in Alpha 1.0.11; observed generating in an Alpha 1.0.1 world"),
+                new Exclusion("minecraft:ore_clay",
+                    "Clay arrives in Alpha 1.0.11, and this build predates it"),
+                new Exclusion("minecraft:disk_clay",
+                    "Clay arrives in Alpha 1.0.11, and this build predates it"),
+                new Exclusion("lush_caves_clay",
+                    "Clay arrives in Alpha 1.0.11, and this build predates it"))
+        ).toList()
+    );
+
+    /**
      * The above, plus the monster room, for the two Infdev builds that predate it.
      *
      * <p>Found by observing a real world rather than by reading the research: an Infdev 20100420 sample

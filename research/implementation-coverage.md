@@ -143,7 +143,7 @@ an extracted palette. Checking each against the research:
 |---|---|
 | `dandelion`, `poppy` | **Authentic.** Alpha 1.0.11's delta is "tree/flower patch generation changed", so flower patches predate 1.0.1. Their *placement* changed in 1.0.11 and that is **U** - patch counts and heights are not documented |
 | `short_grass`, `fern` | **Absent, correctly.** Beta 1.6 introduces short grass and ferns, and neither appears in the probe - so the pre-1.8 grass suppression is working |
-| **`clay`** | **ANACHRONISTIC.** Clay is introduced in **Alpha 1.0.11**, nine builds after 1.0.1, and it appears in an Alpha 1.0.1 world because the pinned generator's alpha preset places it. The availability table cannot catch this for a version with no palette, so it must be suppressed through the feature-exclusion system |
+| **`clay`** | **FIXED AND VERIFIED.** Clay is introduced in **Alpha 1.0.11**, nine builds after 1.0.1, and it was generating in Alpha 1.0.1 worlds. Four placed features can place clay - Moderner Beta's own `moderner_beta:ore_clay` and vanilla's `minecraft:ore_clay`, `minecraft:disk_clay`, `lush_caves_clay` - and all four are now excluded through `HistoricalFeatureExclusions.ALPHA_1_0_1_WITHOUT_CLAY`. **Re-probed: the block is gone, and every other sampled block count is unchanged.** The exclusion could NOT go in the shared pre-Beta list, because Alpha v1.1.2_01 HAS clay; the registry helper now takes an exclusion override, since "this build predates clay" is a fact about the version rather than the era |
 | `oak_log`, `red_mushroom`, `sand`, `dirt`, `stone`, `lava`, `water` | Pre-Alpha content, correctly present |
 
 The clay finding is the first anachronism this task has found **in generated terrain** rather than in a rule table, and it

@@ -338,7 +338,8 @@ public final class HistoricalVersions {
                     + "from the Alpha v1.1.2_01 client registry minus slimes (Alpha 1.0.11) and chickens (Alpha "
                     + "1.0.14), per research/version-transitions.json. Food table shared with Alpha v1.1.2_01 "
                     + "because no edible item was added between them. Gold and diamond ore frequency per this "
-                    + "build is NOT implemented: see research/implementation-coverage.md.")));
+                    + "build is NOT implemented: see research/implementation-coverage.md."),
+                HistoricalFeatureExclusions.ALPHA_1_0_1_WITHOUT_CLAY));
 
         versions.add(alphaTerrainOnly(
             "historical_experience:alpha", "Alpha v1.1.2_01", "moderner_beta:alpha"));
@@ -536,6 +537,34 @@ public final class HistoricalVersions {
         String upstreamPreset,
         VersionRules rules
     ) {
+        return terrainOnlyWithRules(id, displayName, era, chronology, upstreamPreset, rules, null);
+    }
+
+    /**
+     * As above, but with the modern-content exclusion list chosen by the caller.
+     *
+     * <p>Added for Alpha 1.0.1, which predates clay: that exclusion cannot live in the shared pre-Beta list because
+     * Alpha v1.1.2_01 has clay, and it does not need a new revision because 1.0.1 was declared this session and no
+     * world exists on its recipes except this project's own probe fixture. Clay is simply modern content for that
+     * build, which is what revision 2 means.
+     *
+     * @param modernContentExclusions the list revision 2 should carry, or null to let this method derive it
+     */
+    private static HistoricalVersion terrainOnlyWithRules(
+        String id,
+        String displayName,
+        String era,
+        int chronology,
+        String upstreamPreset,
+        VersionRules rules,
+        List<HistoricalFeatureExclusions.Exclusion> modernContentExclusions
+    ) {
+        List<HistoricalFeatureExclusions.Exclusion> revisionTwoExclusions = modernContentExclusions != null
+            ? modernContentExclusions
+            : (chronology >= ERA_ALPHA
+                ? HistoricalFeatureExclusions.BEFORE_GRASS_EXISTED_WITHOUT_DESERT_WELL
+                : HistoricalFeatureExclusions.INFDEV_WITHOUT_DUNGEONS);
+
         return new HistoricalVersion(
             id,
             displayName,
@@ -577,9 +606,7 @@ public final class HistoricalVersions {
                     true,
                     "modern content: the Release 1.2.1 desert well is excluded, and the monster room as well "
                         + "for the builds older than Infdev 20100625-1917",
-                    chronology >= ERA_ALPHA
-                        ? HistoricalFeatureExclusions.BEFORE_GRASS_EXISTED_WITHOUT_DESERT_WELL
-                        : HistoricalFeatureExclusions.INFDEV_WITHOUT_DUNGEONS,
+                    revisionTwoExclusions,
                     List.of())));
     }
 
