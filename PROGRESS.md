@@ -1,4 +1,100 @@
-# Persistent project status — 2026-10-13 (9) / both sandstone defects fixed, and my "control" was the second one
+# Persistent project status — 2026-10-13 (11) / the owner found two more real defects, both fixed
+
+## Round 76 — the spawner drop never fired, and Pre3 was wrongly refused enchanting
+
+**Both reports were real defects in code I had written, and both are now verified.** The owner's play is still the
+most productive test harness this project has.
+
+### "Mined a spawner in 1.9 Pre4 with Silk Touch and it dropped nothing"
+
+The rule **could never fire**, and the cause is the same trap as the End-portal-frame bug two rounds ago: it
+assumed how the engine reaches a rule instead of checking.
+
+**A modern monster spawner drops NOTHING by design.** Its loot table is literally
+`{"type":"minecraft:block","random_sequence":"minecraft:blocks/spawner"}` — no pools — and its only reward is
+experience, which arrived in 12w22a. My rule looked for a spawner item in the **rolled list**, reasoning that only
+Silk Touch produces one. But the roll is *always* empty, so the test never passed.
+
+Two wrong shapes were tried before the right one:
+1. detect Silk Touch from the rolled result — impossible, the roll is empty;
+2. move it to the `ordinal-0` "no loot table" return where the frame rule lives — wrong, because the spawner **does**
+   have a loot table file (empty), so it takes the `ordinal-1` return.
+
+The fix reads the tool **where the tool actually is**: `Block.getDrops` sets `LootContextParams.TOOL` with
+`withParameter` and `LootParams$Builder.getOptionalParameter` reads it back — both verified by disassembling the
+mapped jar — so Silk Touch is now a real test via `EnchantmentHelper.getItemEnchantmentLevel`.
+
+**Verified with a control that proves the tool was genuinely enchanted** (a plain stone block, which Silk Touch does
+not change, drops stone in every row):
+
+| Version | spawner, no tool | spawner + Silk Touch | stone + Silk Touch |
+| --- | --- | --- | --- |
+| Pre3 | nothing | nothing | `stone x1` |
+| **Pre4** | nothing | **`minecraft:spawner x1`** | `stone x1` |
+| Pre5 | nothing | nothing | `stone x1` |
+
+### "Enchanting should work in Pre3, it should just show `Enchanted!!`"
+
+**The owner is right and my gating was too aggressive.** Pre3 had a **working** enchanting table: it applied the
+glint, made the name blue and spent levels. What did not exist yet was the *enchantment data*, so the tooltip was a
+placeholder. Cancelling the click removed the half that worked in order to imitate the half that was missing.
+
+The click is now refused only *before* Pre3 (`enchantingDisabled`), and the placeholder is implemented where the
+difference actually is — the tooltip: `ItemStackHistoricalEnchantedTooltipMixin` renders `"Enchanted!!"` in place of
+the enchantment lines for Pre3 alone, and only for an item that **has** enchantments. The data is untouched, so
+upgrading a world to Pre4 shows the real names immediately.
+
+### And the tooltip mixin crashed every server start at first
+
+`InvalidInjectionException`: `getTooltipLines` on 1.21.1 takes **`Item.TooltipContext` as its first parameter**, and
+my handler had only `Player, TooltipFlag`. Found because the sweep reported a 150-second "hang" whose log was
+actually a bootstrap crash. **Fourth time** this project has learned that only starting the game validates a mixin.
+
+### A tooling lesson: never run two sweeps at once
+
+A full 32-version sweep was left running while targeted ones ran, and **two sweeps share `run/probe/server.properties`
+and the probe directory**, so they contaminate each other. Its results were discarded rather than reported, and the
+mid-sweep Java edits made Pre3 crash, which is what produced the false "hang". One sweep at a time from here.
+
+**366 tests, 65 suites, 0 failures.** Deployed:
+**8220D2717FD92889644E832C27E96EF5273F1390187E6C8C951E7E931A50F8B5**.
+
+**To test:** restart fully, then in a new **Beta 1.9 Pre4** world mine a spawner with a Silk Touch pickaxe — it
+should drop the spawner. In a new **Pre3** world the enchanting table should work and the tooltip should read
+`Enchanted!!`.
+
+## Round 75 — a research gap settled honestly, plus a full matrix re-run
+
+**The Pre1–Pre4 "snowfall destroys blocks" regression has no source I can reach, and is therefore deliberately NOT
+implemented.** `research/historical-bugs.json` records it, but its only citation is this project's *own*
+`HistoricalVersions.java` evidence string — it is not sourced to any wiki row. Two primary sources were fetched to
+settle it and **both are silent**:
+
+- the **Beta 1.9 Prerelease 1** page (the correct title is `Java_Edition_Beta_1.9_Prerelease`; the `_1` suffix is a
+  404) lists the jump-experience bug **verbatim** — a useful independent confirmation that the implemented jump bug
+  is right — and says nothing about snowfall destroying anything;
+- the **Snow** page's Java Edition History table has no such row either. Its nearest real entries are Alpha v1.0.5's
+  snowball harvesting and Alpha v1.0.17's *"Snow can no longer fall on non solid blocks, including leaves."*
+
+So the effect, the affected block set and the trigger are all recorded-but-unsourced, and the **mechanism** — what
+snowfall does to a redstone torch — has never been established at all.
+
+**Why this one matters more than the others.** It is the only catalogued bug whose faithful emulation is
+**destructive**: implementing it means deleting a player's redstone, rails and saplings at random during weather, in
+four world versions. Building that on an unsourced description, with no mechanism and no way to verify the affected
+set, is the opposite of this project's rule about evidence direction — a wrong guess here does not under-refuse
+safely, it destroys real content. Item 16 is the precedent: the owner withdrew the NT lighting engine after it was
+implemented and verified, so wasted effort is recoverable but player builds are not.
+
+**What would unblock it, recorded so it is not left vague:** the Pre1–Pre4 client jars are archived, and the wiki's
+own infoboxes link them (`b1.9-pre1.jar` … `b1.9-pre4.jar`). The behaviour can be read out of the real code instead
+of inferred. That is the route to take if this is wanted.
+
+**A full 32-version matrix re-run is in flight** against the current build, because rounds 73 and 74 re-pointed the
+public menu mapping for **two** versions (Beta 1.0 and Beta 1.2). Those were verified individually with controls,
+but the sweep is what proves no *other* version moved. Its result belongs in the next checkpoint.
+
+**366 tests, 65 suites, 0 failures.**
 
 ## Round 74 — Beta 1.2 was generating sandstone too, and the primary source proved it
 

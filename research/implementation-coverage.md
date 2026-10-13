@@ -719,6 +719,66 @@ turned out to be "no approximation needed" rather than the decision I expected t
    That is exactly the class of silent mis-binding the guard exists for.
    **The lesson worth keeping:** an inference that a neighbour is "coherent" is not evidence that it is correct, and
    the cheapest way to settle it was to fetch the page that lists both dates.
+31. **The Pre1–Pre4 "snowfall destroys blocks" regression has NO source I can reach, and is therefore NOT
+   implemented — deliberately.** `research/historical-bugs.json` records it as
+   `beta-1-9-pre-1-snowfall-breaks-blocks`: *"Snowfall temporarily destroys redstone dust, torches, saplings, and
+   rails during the Pre1–Pre4 range."* Its only citation is this project's own
+   `HistoricalVersions.java` evidence string — it is not sourced to any wiki row.
+   Two primary sources were fetched this round to settle it, and **both are silent**:
+   * the **Beta 1.9 Prerelease 1** page (the correct title is `Java_Edition_Beta_1.9_Prerelease`; the `_1` suffix is
+     a 404) lists the jump-experience bug verbatim — which is a useful independent confirmation that the
+     implemented jump bug is right — and says nothing about snowfall destroying anything;
+   * the **Snow** page's Java Edition History table has no such row either. Its nearest real entries are Alpha
+     v1.0.5's snowball harvesting and Alpha v1.0.17's *"Snow can no longer fall on non solid blocks, including
+     leaves."*
+   So the effect, the affected block set and the triggering condition are all recorded-but-unsourced, and the
+   *mechanism* — what snowfall does to a redstone torch — has never been established at all.
+   **Why that matters more than usual here.** This is the one catalogued bug whose faithful emulation is
+   *destructive*: implementing it means deleting a player's redstone, rails and saplings at random during weather,
+   in four world versions. Building that on an unsourced description, with no mechanism and no way to verify the
+   affected set, is the opposite of this project's rule about evidence direction — a wrong guess does not
+   under-refuse safely, it destroys real content. Item 16 is the precedent: the owner withdrew the NT lighting
+   engine after it was implemented and verified, so effort spent on a doubtful destructive feature is recoverable
+   but player builds are not.
+   **What would unblock it:** the Pre1–Pre4 client jars are archived (the wiki's own infobox links
+   `b1.9-pre1.jar` through `b1.9-pre4.jar`), so the behaviour can be read out of the real code rather than inferred.
+   That is the route to take if this is wanted, and it is recorded here rather than left as a vague TODO.
+32. **Pre3's `"Enchanted!!"` placeholder tooltip: ANALYSED, THEN THE ANALYSIS WAS OVERTURNED — SUPERSEDED BY ITEM 33, READ THAT ONE.** This item originally concluded the behaviour was unreachable and deliberately left it unimplemented. The reasoning was that `functionalEnchanting` was false for Pre3, so a player could not obtain an enchanted item there and the label could only appear on an NBT-edited item. **That was wrong, and the owner corrected it:** the false gate was itself the defect — Pre3's table *did* enchant and *did* spend levels, and only the enchantment *data* was missing. Once the gate is right, an ordinary player in Pre3 gets an enchanted item and sees the placeholder, so the behaviour is reachable after all and is now implemented. Kept here rather than deleted because the mistake is instructive: an "unreachable" verdict that rests on another gate is only as good as that gate, and this one was checking the gate instead of the history.
+33. **WAS SHIPPED BROKEN TWICE OVER: the Silk Touch spawner drop never fired, and Pre3's enchanting was wrongly
+   refused.** Both were found by the owner playing, not by any test, and both are now verified.
+   **The spawner.** `silkySpawners` was gated correctly to Pre4 and the hook was registered, and the rule still could
+   never fire. A modern monster spawner drops **nothing** by design — its loot table is literally
+   `{"type":"minecraft:block","random_sequence":"minecraft:blocks/spawner"}`, no pools — so the *rolled list is always
+   empty* and the rule's test for "a spawner item came back" was looking for something the game never produces. Two
+   wrong shapes preceded the right one: detecting Silk Touch from the rolled result (impossible), and putting the
+   rule on the `ordinal-0` no-loot-table return where the End-portal-frame rule lives (wrong — the spawner *has* a
+   loot table file, empty though it is, so it takes `ordinal-1`). The fix reads the tool where it actually is:
+   `Block.getDrops` sets `LootContextParams.TOOL` with `withParameter`, `LootParams$Builder.getOptionalParameter`
+   reads it back, and `EnchantmentHelper.getItemEnchantmentLevel` tests it for real. Both jar facts were verified with
+   `javap`. **Measured with a control that proves the tool was enchanted** — plain stone, which Silk Touch does not
+   change, drops `stone x1` in every row: Pre3 nothing, **Pre4 `minecraft:spawner x1`**, Pre5 nothing.
+   The generalisable lesson, and this is the second time in three rounds: **item 23 and this are the same bug in
+   different clothes** — both assumed how the engine reaches a rule instead of checking. The frame has no loot table
+   and the spawner has an empty one; a rule written against the other one silently never runs.
+   **Pre3's enchanting.** `functionalEnchanting` was true only from Pre4 and the menu's click was cancelled for
+   everything earlier, on the reading that "Pre3 applies no enchantments" meant "enchanting does not work". The owner
+   corrected it from the historical record and is right: Prerelease 3's table **did** enchant, and **did** spend
+   levels — it applied the glint and the blue name — and what it lacked was the enchantment *data*, so the tooltip
+   was the placeholder `"Enchanted!!"`. Cancelling the click removed the half that worked in order to imitate the half
+   that was missing. The gate is now `enchantingDisabled`, true only before Pre3, and the placeholder is implemented
+   where the difference actually is: `ItemStackHistoricalEnchantedTooltipMixin` substitutes the literal for the
+   enchantment lines on Pre3 alone, only for an item that **has** enchantments, leaving the stored data untouched so
+   a world upgraded to Pre4 shows the real names again.
+   **And this cost a crash worth recording:** the first version of that mixin had the wrong handler signature —
+   1.21.1's `getTooltipLines` takes `Item.TooltipContext` as its first parameter and the handler had only
+   `Player, TooltipFlag` — so **every server start died** with `InvalidInjectionException`. The sweep reported it as a
+   150-second "hang" whose log was a bootstrap crash, which is the fourth time this project has learned that only
+   starting the game validates a mixin.
+34. **Tooling: two sweeps must never run at once.** A full 32-version sweep was left running while targeted sweeps
+   ran, and two sweeps share `run/probe/server.properties` **and** the probe directory, so they overwrite each
+   other's level-type and read each other's verdicts. The full sweep's results were therefore discarded rather than
+   reported, and one targeted run was invalidated by mid-sweep Java edits, producing a false "hang". Recorded because
+   the temptation is real: a 22-minute full sweep looks like free time to do a targeted check in, and it is not.
 12. **The Nether's terrain SHAPE is still the modern 1.16+ one.** Its biomes are fixed (one biome,
    `minecraft:nether_wastes`, via vanilla's `minecraft:fixed` biome source), but the shape comes from
    `minecraft:nether` noise settings and Moderner Beta ships no historical Nether to point at. Recorded as a gap.
