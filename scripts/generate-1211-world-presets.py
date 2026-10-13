@@ -30,6 +30,7 @@ PUBLIC_RECIPES = {
     'beta_1_7_3': 'beta_1_7_3_content_preview_10',
     'alpha_1_0_1': 'alpha_1_0_1_no_modern_content',
     'alpha_1_0_4': 'alpha_1_0_4_no_modern_content',
+    'alpha_1_0_6': 'alpha_1_0_6_no_modern_content',
 
     'alpha': 'alpha_no_modern_content',
     'infdev_420': 'infdev_420_no_modern_content',

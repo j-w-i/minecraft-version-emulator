@@ -146,6 +146,8 @@ public final class HistoricalStructureRules {
         Map.entry("historical_experience:infdev_611",
             noStructures("Infdev 20100611",
                 "It predates the 20100625-1917 monster room, so its dungeon feature is excluded too")),
+        Map.entry("historical_experience:alpha_1_0_6", noStructures("Alpha v1.0.6",
+            "It has monster rooms, which are features, but no structure-system structure")),
         Map.entry("historical_experience:alpha_1_0_4", noStructures("Alpha v1.0.4",
             "It has monster rooms, which are features, but no structure-system structure")),
         Map.entry("historical_experience:alpha_1_0_1", noStructures("Alpha v1.0.1",

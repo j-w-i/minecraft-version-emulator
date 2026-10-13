@@ -29,6 +29,7 @@ CHRONOLOGY = [
     'historical_experience:infdev_611',
     'historical_experience:alpha_1_0_1',
     'historical_experience:alpha_1_0_4',
+    'historical_experience:alpha_1_0_6',
     'historical_experience:alpha',
     'historical_experience:beta_1_7_3',
     'historical_experience:beta_1_8_1',
@@ -117,7 +118,7 @@ TIMELINE = [
     # Declaring any of those builds requires moving its entry here, or the veto will refuse a block that build
     # introduced. scripts/audit-proxy-dates.py finds every entry in this state by comparing each date to its own
     # evidence string.
-    (['minecraft:cactus'], 'historical_experience:alpha',
+    (['minecraft:cactus'], 'historical_experience:alpha_1_0_6',
      'feature-timeline blocks: cactus introduced Alpha v1.0.6'),
     (['minecraft:clay', 'minecraft:sugar_cane'], 'historical_experience:alpha',
      'feature-timeline blocks: clay block and sugar cane introduced Alpha v1.0.11'),

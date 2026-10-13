@@ -393,6 +393,34 @@ public final class HistoricalVersions {
                     HistoricalFeatureExclusions.ALPHA_BEFORE_1_0_11_CONTENT,
                     List.of()))));
 
+        // Alpha 1.0.6, the Seecret Friday that added cactus, boats and mixed tree sizes and REMOVED leaf decay.
+        //
+        // Shares the mob set and food table with 1.0.1 and 1.0.4: no mob and no edible item is added between them.
+        //
+        // Three of its own deltas are NOT implemented, and are recorded rather than approximated because each needs
+        // a mechanism this project does not have yet - not a value:
+        //   * leaves no longer decay: a vanilla behaviour to disable, not a number to set;
+        //   * sapling drop chance 10% -> 5%: a loot modifier;
+        //   * the snow-block recipe costing four snowballs while breaking yields six: the economy quirk this build
+        //     is known for, which needs recipe data rather than a gate.
+        versions.add(terrainOnlyWithRules(
+            "historical_experience:alpha_1_0_6", "Alpha v1.0.6", "alpha",
+            chronology(ERA_ALPHA, 1, 0, 6), "moderner_beta:alpha",
+            new VersionRules(
+                true,
+                HistoricalSpawnRules.ALPHA_1_0_1_MOBS,
+                java.util.Map.of(),
+                HistoricalFoodRules.ALPHA_1_1_2_HEAL_POINTS,
+                false,
+                false,
+                false,
+                false,
+                "Seecret Friday 5, 16 July 2010. Cactus, boats, mixed tree sizes and throwable snowballs; leaf decay "
+                    + "removed, sapling drop chance cut from 10% to 5%, and the snow-block recipe costs four "
+                    + "snowballs while breaking yields six. Those three are recorded as not implemented. Mob set and "
+                    + "food table shared with Alpha 1.0.1: no mob or edible item is added between them."),
+            HistoricalFeatureExclusions.ALPHA_BEFORE_1_0_11_CONTENT));
+
         // WINTER MODE IS NOT DECLARED YET, and the reason is a conflict in the model rather than missing research.
         // Moderner Beta ships `moderner_beta:alpha_winter`, and this project's own settings preset
         // `alpha_1_0_4_winter` inherits it, so the terrain is available. What is missing is a place to put it:
