@@ -38,11 +38,11 @@ class HistoricalPlayerRulesWiring1211Test {
     }
 
     @Test
-    @DisplayName("the profile list is the eleven declared versions, oldest first")
+    @DisplayName("the profile list is the twelve declared versions, oldest first")
     void profilesAreTheDeclaredVersions() {
-        assertEquals(11, PROFILES.size(), "the project declares eleven profiles: " + PROFILES);
+        assertEquals(12, PROFILES.size(), "the project declares twelve profiles: " + PROFILES);
         assertEquals("historical_experience:infdev_420", PROFILES.get(0));
-        assertEquals("historical_experience:release_1_6_4", PROFILES.get(10));
+        assertEquals("historical_experience:release_1_6_4", PROFILES.get(11));
     }
 
     @Test

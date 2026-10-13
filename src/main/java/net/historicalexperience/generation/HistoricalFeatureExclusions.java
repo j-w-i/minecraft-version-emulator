@@ -310,20 +310,21 @@ public final class HistoricalFeatureExclusions {
     );
 
     /**
-     * The above, plus clay, for Alpha 1.0.1 - the only declared build that predates it.
+     * The above, plus clay, for every Alpha build that predates it.
      *
-     * <p>Clay arrives in <b>Alpha 1.0.11</b>, nine builds after 1.0.1. That was found by a generation probe rather
-     * than by reading the research: the version predates the block, so a world of it must not contain any, and the
-     * block-availability table cannot report it because only Beta 1.7.3 has an extracted palette.
+     * <p>Clay arrives in <b>Alpha 1.0.11</b>. That was found by a generation probe rather than by reading the
+     * research: Alpha 1.0.1 was generating clay, and the block-availability table cannot report it for a version
+     * with no extracted palette.
      *
      * <p>Four placed features can place clay, and all four are excluded: Moderner Beta's own
      * {@code moderner_beta:ore_clay} (backed by {@code BetaOreClayFeature}), and vanilla's
      * {@code minecraft:ore_clay}, {@code minecraft:disk_clay} and {@code lush_caves_clay}.
      *
-     * <p>This cannot go into the shared pre-Beta list: <b>Alpha v1.1.2_01 HAS clay</b>, so the exclusion belongs to
-     * 1.0.1 alone. That is why the registry helper now accepts one - the fact is about the build, not the era.
+     * <p>Named for the boundary rather than for one build, because it is not 1.0.1's alone: <b>1.0.4 and 1.0.6
+     * predate clay too</b>. It cannot live in the shared pre-Beta list because <b>Alpha v1.1.2_01 HAS clay</b>,
+     * which is why the registry helper accepts an exclusion override - the fact is about the build, not the era.
      */
-    public static final List<Exclusion> ALPHA_1_0_1_WITHOUT_CLAY = List.copyOf(
+    public static final List<Exclusion> ALPHA_BEFORE_CLAY_ARRIVED = List.copyOf(
         java.util.stream.Stream.concat(
             BEFORE_GRASS_EXISTED_WITHOUT_DESERT_WELL.stream(),
             java.util.stream.Stream.of(

@@ -28,6 +28,7 @@ CHRONOLOGY = [
     'historical_experience:infdev_420',
     'historical_experience:infdev_611',
     'historical_experience:alpha_1_0_1',
+    'historical_experience:alpha_1_0_4',
     'historical_experience:alpha',
     'historical_experience:beta_1_7_3',
     'historical_experience:beta_1_8_1',
@@ -97,7 +98,7 @@ TIMELINE = [
     # 20100420 and 20100611 are both before Infdev 20100625-1917, so neither may have monster spawners.
     (['minecraft:spawner'], 'historical_experience:alpha',
      'feature-timeline blocks: monster spawner introduced Infdev 20100625-1917, after both Infdev profiles'),
-    (['minecraft:snow', 'minecraft:ice'], 'historical_experience:alpha',
+    (['minecraft:snow', 'minecraft:ice'], 'historical_experience:alpha_1_0_4',
      'feature-timeline blocks: snow and ice introduced Alpha v1.0.4 (Winter Update)'),
     (['minecraft:redstone_ore'], 'historical_experience:alpha',
      'feature-timeline blocks: redstone ore introduced Alpha v1.0.1 (Seecret Friday Update 3)'),

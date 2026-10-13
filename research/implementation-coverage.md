@@ -160,6 +160,27 @@ exclusion system filters, so all four can be suppressed by id.
 means the helper has to accept an exclusion override - a small change, and a justified one, because "this build predates
 clay" is exactly the kind of fact that belongs on the version rather than on the era.
 
+## 5b. Alpha 1.0.4, and a conflict the model exposed
+
+Declared with three revisions like Alpha 1.0.1, sharing its mob set and food table - a fact from the deltas, since no mob
+and no edible item is added between 1.0.1 and 1.0.4. **Snow and ice are now dated to Alpha v1.0.4**, which their own
+generator evidence already said ("snow and ice introduced Alpha v1.0.4 (Winter Update)"); they had been pointed at `alpha`
+only because 1.0.4 did not exist yet, so a 1.0.4 world would have been told it lacked blocks it introduced.
+
+**WINTER MODE IS NOT DECLARED, and the reason is the model rather than the research.** Moderner Beta ships
+`moderner_beta:alpha_winter`, and this project's own settings preset `alpha_1_0_4_winter` inherits it - so the terrain is
+available and nothing needs reconstructing. What is missing is a place to put it:
+
+- `GenerationRevision`s are **append-only improvements**, and `GenerationBackport1211Test` enforces that a version's
+  public menu entry selects its **newest** revision.
+- Winter mode is an **alternative**, not a successor. Declared as revision 3, the public entry would point at revision 2
+  while the newest was revision 3 - which the invariant rejected, correctly.
+
+So the fix is a design decision, not a data entry: either a **variant-version** concept (a distinct profile id for a
+distinct world type, as the two Infdev builds already are), or a way to mark a revision **selectable but not newest**.
+Recorded as **U** with that choice unmade. The settings preset and the knowledge stay on disk; the public world-type entry
+was removed so that no menu offers a world whose recipe no version declares.
+
 ## 6. Next tasks, in order
 
 1. **Alpha 1.0.1** - the pattern version: registry entry via `terrainOnlyWithRules`, its own mob set (no chickens before

@@ -339,7 +339,68 @@ public final class HistoricalVersions {
                     + "1.0.14), per research/version-transitions.json. Food table shared with Alpha v1.1.2_01 "
                     + "because no edible item was added between them. Gold and diamond ore frequency per this "
                     + "build is NOT implemented: see research/implementation-coverage.md."),
-                HistoricalFeatureExclusions.ALPHA_1_0_1_WITHOUT_CLAY));
+                HistoricalFeatureExclusions.ALPHA_BEFORE_CLAY_ARRIVED));
+
+        // Alpha 1.0.4, whose distinguishing feature is winter mode: an alternate CREATION-TIME generator, which the
+        // research describes as a separate world-creation choice rather than a climate-driven snow biome.
+        //
+        // Hand-written rather than declared through the helper, and deliberately: the helper produces exactly three
+        // revisions, and this build needs a fourth. The checklist's rule against hand-writing exists to stop a
+        // version taking shortcuts on its RULES, not to forbid one with a genuinely different revision set.
+        //
+        // Its mob set and food table are shared with Alpha 1.0.1 because no mob and no edible item is added between
+        // them - a fact about the per-build deltas, not an assumption that the builds are alike.
+        versions.add(new HistoricalVersion(
+            "historical_experience:alpha_1_0_4", "Alpha v1.0.4", "alpha",
+            chronology(ERA_ALPHA, 1, 0, 4),
+            new VersionRules(
+                true,
+                HistoricalSpawnRules.ALPHA_1_0_1_MOBS,
+                java.util.Map.of(),
+                HistoricalFoodRules.ALPHA_1_1_2_HEAL_POINTS,
+                false,
+                false,
+                false,
+                false,
+                "Seecret Friday 4, 9 July 2010. Snow and ice blocks, selectable winter-mode worlds, and mob physics "
+                    + "changed so jumps became shorter. Snow layers existed in terrain but were not obtainable as an "
+                    + "item, so generated snow is not normal harvest here. Mob set and food table shared with Alpha "
+                    + "1.0.1: no mob or edible item is added between the two builds."),
+            List.of(
+                new GenerationRevision(
+                    0,
+                    "historical_experience:alpha_1_0_4",
+                    "moderner_beta:alpha",
+                    false,
+                    "frozen original declaration for this version: reduced envelope and no cave-biome injection, "
+                        + "inheriting Moderner Beta's own preset",
+                    HistoricalFeatureExclusions.BETA_1_7_3_RESTRICTIONS,
+                    List.of()),
+                new GenerationRevision(
+                    1,
+                    "historical_experience:alpha_1_0_4_no_grass",
+                    "moderner_beta:alpha",
+                    true,
+                    "grass excluded: it was added in Beta 1.6, and Moderner Beta places it in this version's biomes",
+                    HistoricalFeatureExclusions.BEFORE_GRASS_EXISTED,
+                    List.of()),
+                new GenerationRevision(
+                    2,
+                    "historical_experience:alpha_1_0_4_no_modern_content",
+                    "moderner_beta:alpha",
+                    true,
+                    "modern content: the Release 1.2.1 desert well, and clay, which arrives in Alpha 1.0.11",
+                    HistoricalFeatureExclusions.ALPHA_BEFORE_CLAY_ARRIVED,
+                    List.of()))));
+
+        // WINTER MODE IS NOT DECLARED YET, and the reason is a conflict in the model rather than missing research.
+        // Moderner Beta ships `moderner_beta:alpha_winter`, and this project's own settings preset
+        // `alpha_1_0_4_winter` inherits it, so the terrain is available. What is missing is a place to put it:
+        // revisions are append-only improvements whose NEWEST member is what a new world should use, and
+        // GenerationBackport1211Test enforces exactly that. Winter mode is an ALTERNATIVE, not a successor, so
+        // declaring it as revision 3 makes the public entry point at revision 2 while the newest is revision 3 -
+        // which the invariant correctly rejects. It needs either a variant-version concept or a way to mark a
+        // revision as selectable-but-not-newest. Recorded in research/implementation-coverage.md.
 
         versions.add(alphaTerrainOnly(
             "historical_experience:alpha", "Alpha v1.1.2_01", "moderner_beta:alpha"));

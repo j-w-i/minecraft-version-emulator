@@ -61,6 +61,7 @@ public final class HistoricalBlockAvailability {
         "historical_experience:infdev_420",
         "historical_experience:infdev_611",
         "historical_experience:alpha_1_0_1",
+        "historical_experience:alpha_1_0_4",
         "historical_experience:alpha",
         "historical_experience:beta_1_7_3",
         "historical_experience:beta_1_8_1",
@@ -189,6 +190,12 @@ public final class HistoricalBlockAvailability {
             "feature-timeline blocks: wheat crop / farmland introduced Indev 20100206-2034; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:wheat"});
+        // feature-timeline blocks: snow and ice introduced Alpha v1.0.4 (Winter Update); the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
+        introduce("historical_experience:alpha_1_0_4", true,
+            "feature-timeline blocks: snow and ice introduced Alpha v1.0.4 (Winter Update); the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
+            new String[] {
+                "minecraft:ice",
+                "minecraft:snow"});
         // feature-timeline blocks: cactus introduced Alpha v1.0.6; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
         introduce("historical_experience:alpha", true,
             "feature-timeline blocks: cactus introduced Alpha v1.0.6; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
@@ -199,21 +206,11 @@ public final class HistoricalBlockAvailability {
             "feature-timeline blocks: clay block and sugar cane introduced Alpha v1.0.11; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:clay"});
-        // feature-timeline blocks: snow and ice introduced Alpha v1.0.4 (Winter Update); the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
-        introduce("historical_experience:alpha", true,
-            "feature-timeline blocks: snow and ice introduced Alpha v1.0.4 (Winter Update); the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
-            new String[] {
-                "minecraft:ice"});
         // feature-timeline blocks: redstone ore introduced Alpha v1.0.1 (Seecret Friday Update 3); the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
         introduce("historical_experience:alpha", true,
             "feature-timeline blocks: redstone ore introduced Alpha v1.0.1 (Seecret Friday Update 3); the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:redstone_ore"});
-        // feature-timeline blocks: snow and ice introduced Alpha v1.0.4 (Winter Update); the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
-        introduce("historical_experience:alpha", true,
-            "feature-timeline blocks: snow and ice introduced Alpha v1.0.4 (Winter Update); the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
-            new String[] {
-                "minecraft:snow"});
         // feature-timeline blocks: monster spawner introduced Infdev 20100625-1917, after both Infdev profiles; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
         introduce("historical_experience:alpha", true,
             "feature-timeline blocks: monster spawner introduced Infdev 20100625-1917, after both Infdev profiles; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",

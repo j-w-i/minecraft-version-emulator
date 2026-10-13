@@ -222,7 +222,7 @@ public final class HistoricalVersionCatalogue {
         // The planned matrix. A target that is already implemented carries the profile that represents it and
         // says so; a target that is not carries the reason it cannot be chosen.
         planned(entries, Era.ALPHA, "Alpha 1.0.1", 1, 0, 1, "historical_experience:alpha_1_0_1", null);
-        planned(entries, Era.ALPHA, "Alpha 1.0.4", 1, 0, 4, null, null);
+        planned(entries, Era.ALPHA, "Alpha 1.0.4", 1, 0, 4, "historical_experience:alpha_1_0_4", null);
         planned(entries, Era.ALPHA, "Alpha 1.0.6", 1, 0, 6, null, null);
         planned(entries, Era.ALPHA, "Alpha 1.0.11", 1, 0, 11, null, null);
         planned(entries, Era.ALPHA, "Alpha 1.0.14", 1, 0, 14, null, null);
