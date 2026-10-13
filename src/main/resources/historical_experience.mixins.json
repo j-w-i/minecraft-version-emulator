@@ -45,7 +45,8 @@
     "EntityHistoricalSneakingMixin",
     "PlayerHistoricalOffhandMixin",
     "SlotHistoricalOffhandMixin",
-    "ServerGamePacketListenerHistoricalOffhandMixin"
+    "ServerGamePacketListenerHistoricalOffhandMixin",
+    "ItemStackHistoricalFoodStackMixin"
   ],
   "injectors": {
     "defaultRequire": 1

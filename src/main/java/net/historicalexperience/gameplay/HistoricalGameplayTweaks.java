@@ -511,6 +511,21 @@ public final class HistoricalGameplayTweaks {
     }
 
     /**
+     * Whether food stacks in this version. It does not before <b>Beta 1.8</b>, which is when food became stackable.
+     *
+     * <p>Reported by the owner: "food also didnt stack until beta 1.8". Every pre-hunger build therefore has food at
+     * stack size one, which is the same boundary as the hunger meter, the regeneration model and the rest of the
+     * Adventure Update - so it reuses that boundary rather than inventing a second one.
+     *
+     * <p>Named for the capability, unlike the offhand predicate, because here the truth is split across the
+     * declared set: four of the thirteen declared versions DO stack food.
+     */
+    public static boolean foodStacks(String versionId) {
+        var version = HistoricalVersions.byId(versionId).orElse(null);
+        return version != null && version.chronology() >= BETA_1_8_CHRONOLOGY;
+    }
+
+    /**
      * Whether this version predates the offhand slot, which arrived in <b>Release 1.9</b>.
      *
      * <p>Reported by the owner: "the offhand is available in all versions currently and should not be available at
