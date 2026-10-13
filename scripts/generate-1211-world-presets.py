@@ -71,9 +71,22 @@ def world_preset(preset_id, reduced=True):
                 'type': 'minecraft:the_nether',
                 'generator': {
                     'type': 'minecraft:noise',
+                    # ONE biome, because every target here predates the 1.16 Nether Update that split the Nether
+                    # into crimson forest, warped forest, soul sand valley, basalt deltas and nether wastes. The
+                    # newest version this project declares is Release 1.6.4, so none of them had those biomes.
+                    #
+                    # This composes VANILLA data rather than reconstructing terrain: 'minecraft:fixed' is a vanilla
+                    # biome source and 'minecraft:nether_wastes' is the name the single old Nether region later
+                    # received. Moderner Beta ships no historical Nether at all - its only nether data file is
+                    # surface_config/nether.json, with no nether noise settings, biome source or world preset - so
+                    # the alternative would be authoring density and noise parameters, which this project forbids.
+                    #
+                    # Recorded limit: the TERRAIN SHAPE is still the modern 1.16+ nether, because that comes from
+                    # the 'minecraft:nether' noise settings and there is no historical equivalent to point at.
+                    # Biomes are what a player sees first, and those are now correct.
                     'biome_source': {
-                        'type': 'minecraft:multi_noise',
-                        'preset': 'minecraft:nether',
+                        'type': 'minecraft:fixed',
+                        'biome': 'minecraft:nether_wastes',
                     },
                     'settings': 'minecraft:nether',
                 },
