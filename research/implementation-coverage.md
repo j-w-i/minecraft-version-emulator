@@ -779,6 +779,47 @@ turned out to be "no approximation needed" rather than the decision I expected t
    other's level-type and read each other's verdicts. The full sweep's results were therefore discarded rather than
    reported, and one targeted run was invalidated by mid-sweep Java edits, producing a false "hang". Recorded because
    the temptation is real: a 22-minute full sweep looks like free time to do a targeted check in, and it is not.
+35. **The attack damage table was verified against the wiki per version, and TWO of the four kinds were wrong.** The
+   owner asked for exactly this check, and it found that the most-repeated claim in this project's own history —
+   `HistoricalDamageValues` "matches the research exactly" — was true of one tier and false of the rest.
+   **Sword.** The constant was `b+6`; 1.21.1's own raw sword modifier is `b+3`, read out of the jar. The wrong value
+   happened to give the right total for exactly **one** tier — the diamond sword, because `6+3 = 9` matches the
+   pre-Pre3 figure — while making every other sword **three points too strong**: a wooden sword dealt 7 where the
+   wiki says 4, a stone sword 8 where it says 5. This is also why the old runtime probe never caught it: that probe
+   **printed** seven sample items and asserted nothing, and the one item it displayed prominently was correct.
+   **Shovel.** The constant was `b+0.5`; the era total is `1.5`, the only non-integer figure in the table, which is
+   also what 1.21.1 gives (`b+1.5`).
+   **Axe and pickaxe** were corrected in the same pass to `b+3` and `b+2` (era totals 4 and 3). The rule that makes
+   these totals rather than bonuses: before 1.9 an item's damage **replaced** the bare hand's, and 13w21a moved
+   sword, axe and pickaxe to **add** to it — documented per item as adding exactly 1.
+   **Pre-Pre3 swords, where the wiki gives exact figures and one exemption:** Diamond Sword *"Reduced the damage from
+   10 to 7"*, Iron Sword *"Reduced the iron sword's damage from 8 to 6"*, and the Sword page *"except for wooden and
+   golden ones"* — so wood and gold are **exempt** and unchanged. The old code applied a flat +3 to every sword,
+   which is right for diamond and wrong for everything else. **Stone is the one inference** (total 5, from the shape
+   of iron and diamond); the wiki gives no pre-Pre3 figure for it and it is recorded as inferred, not sourced.
+   **Verified: 24 items — every tier of sword, axe, pickaxe and shovel — in three versions bracketing both sword
+   eras** (`beta_1_8_1` pre-nerf, `beta_1_9_pre_3` and `release_1_6_4` post-nerf), all reporting *"NONE — every tier
+   matches the wiki"*. Era totals confirmed: wooden sword 4, stone 5, iron 8, diamond 10 pre-nerf and 7 post;
+   wooden axe 3 → netherite 7; wooden pickaxe 2 → netherite 6; wooden shovel 1.5 → netherite 5.5.
+   **Hoe is correctly untouched**, and now for a sourced reason rather than an inherited one: 15w34c *"Stone, iron
+   and diamond hoes now do slightly more damage than an unarmed attack"*, so before it every hoe was 1 damage in
+   every tier — which is what 1.21.1 gives them, so there is nothing to rewrite.
+36. **The damage checker was wrong twice, and that is the more transferable lesson.** Three separate mistakes were
+   made in the *verification* while checking the product, and two of them looked exactly like product failures:
+   * it matched item names with `contains("axe")` **before** `contains("pickaxe")`, and "pickaxe" contains "axe", so
+     every pickaxe was checked against the axe base and reported as broken while the game code was correct;
+   * it derived the tier bonus from the item and produced **self-contradictory output** — one row claiming
+     `tierBonus=1` beside an expectation that only holds for a bonus of 0 — which sent the diagnosis after the
+     product for several rounds;
+   * a first attempt asserted on `ItemAttributeModifiers.compute()`, which **also folds in attack speed**, so its
+     output looks like a damage figure and is not one. That specific mistake produced the "modern wooden sword = 1.6"
+     reading that briefly looked like an attack-damage value.
+   The fixes: expectations now branch on **the same `Kind` the production code chooses** rather than on names; the
+   tier bonuses are a **locked table** and are reported separately straight from the game so a disagreement between
+   the two is itself the signal; and `compute()` is never used for an assertion — only the raw `ATTACK_DAMAGE` entry.
+   Recorded because a checker that is wrong is indistinguishable from a product that is wrong, and this project has
+   now spent real rounds on each.
+
 12. **The Nether's terrain SHAPE is still the modern 1.16+ one — and the owner has ACCEPTED it as of 2026-10-13,
    so this is closed as a deliberate approximation rather than left as an open gap.** Its biomes are fixed (one
    biome, `minecraft:nether_wastes`, via vanilla's `minecraft:fixed` biome source), but the shape comes from

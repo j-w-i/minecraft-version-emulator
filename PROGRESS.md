@@ -1,4 +1,75 @@
-# Persistent project status — 2026-10-13 (12) / MATRIX VERIFIED CLEAN: 32/32, zero anachronisms, and the Nether accepted
+# Persistent project status — 2026-10-13 (13) / the attack damage table checked against the wiki — two kinds were wrong
+
+## Round 78 — the owner's damage audit found swords and shovels wrong
+
+The owner asked for the tool and weapon damage values to be verified against the wiki per version. That check found
+**two live defects**, in data this project has repeatedly described as matching the research exactly.
+
+### Every sword was three points too strong
+
+The constant was `b+6`. 1.21.1's own raw sword modifier is **`b+3`** — read out of the jar, not inferred. The wrong
+value happened to give the right total for exactly **one tier**: the diamond sword, because `6+3 = 9` matched the
+pre-Pre3 figure. Every other sword dealt three too much — a wooden sword **7** where the wiki says **4**, a stone
+sword **8** where it says **5**.
+
+That also explains why the old probe never caught it: it **printed** seven sample items and asserted nothing, and the
+one it displayed most prominently was the correct one.
+
+### Every shovel was one point too weak
+
+The constant was `b+0.5`. The era total is **1.5** — the only non-integer figure in the table — which is also what
+1.21.1 gives them.
+
+**Axe and pickaxe** were corrected in the same pass to `b+3` (total 4) and `b+2` (total 3). The rule that makes these
+totals rather than bonuses: before 1.9 an item's damage **replaced** the bare hand's, and **13w21a** moved sword, axe
+and pickaxe to **add** to it — documented per item as adding exactly 1.
+
+### Swords before Beta 1.9 Prerelease 3, where the wiki gives exact figures
+
+| Tier | Wiki | Total before → after |
+| --- | --- | --- |
+| Diamond | *"Reduced the damage from 10 to 7"* | 10 → 7 |
+| Iron | *"Reduced the iron sword's damage from 8 to 6"* | 8 → 6 |
+| Wood, gold | *"except for wooden and golden ones"* — **exempt** | 4 → 4 |
+| Stone | **inferred** 5 from the shape of those | 5 → 5 |
+
+The old code applied a flat **+3 to every sword** — right for diamond, wrong for all the rest, and wrong by three for
+the two the wiki explicitly exempts. **Stone is the one inference** and is recorded as inferred, not sourced.
+
+### Verified, and this time it asserts
+
+**24 items — every tier of sword, axe, pickaxe and shovel — across three versions** bracketing both sword eras
+(`beta_1_8_1` pre-nerf; `beta_1_9_pre_3` and `release_1_6_4` post-nerf) all report **"NONE — every tier matches the
+wiki"**. Confirmed era totals: wooden sword 4, stone 5, iron 8, diamond 10 pre-nerf and 7 post; wooden axe 3 →
+netherite 7; wooden pickaxe 2 → netherite 6; wooden shovel 1.5 → netherite 5.5.
+
+**Hoe is correctly untouched**, now for a sourced reason: 15w34c *"Stone, iron and diamond hoes now do slightly more
+damage than an unarmed attack"*, so before it every hoe was 1 damage in every tier — which is what 1.21.1 gives them,
+so there is nothing to rewrite.
+
+### The checker was wrong twice, and that is the transferable lesson
+
+Three mistakes were made in the **verification** while checking the product, and two looked exactly like product
+failures:
+- name matching tested `contains("axe")` before `contains("pickaxe")` — and **"pickaxe" contains "axe"** — so every
+  pickaxe was checked against the axe base and reported broken while the code was right;
+- the tier bonus was derived from the item and produced **self-contradictory output** (a row claiming `tierBonus=1`
+  beside an expectation that only holds for 0), which sent the diagnosis after the product for several rounds;
+- an early attempt asserted on `ItemAttributeModifiers.compute()`, which **also folds in attack speed** — that is
+  where the "modern wooden sword = 1.6" reading came from, which is an attack-speed figure, not a damage one.
+
+A wrong checker is indistinguishable from a wrong product, and this project has now spent real rounds on each.
+
+**A unit test now pins what can be pinned offline** — the Pre3 boundary across all 32 declared versions, and the
+per-tier figures. The per-item table **cannot** be a unit test: `Items.<clinit>` initialises the registry, so
+constructing an `ItemStack` dies with `ExceptionInInitializerError`. Third time this project has hit that wall, so
+the table lives in the runtime probe.
+
+**369 tests, 66 suites, 0 failures.** Deployed:
+**65E776C623824F1842C28C64CD96344E64624CF6068BC87241D235BDC7FDCF3B**.
+
+**To see it:** restart fully, then hit a mob with a wooden sword in a **Beta 1.8.1** world — 4 damage, not 7 — and
+compare a diamond sword between a **Pre2** world (10) and a **Pre3** world (7).
 
 ## Round 77 — the full matrix is clean, and the owner closed the Nether item
 
