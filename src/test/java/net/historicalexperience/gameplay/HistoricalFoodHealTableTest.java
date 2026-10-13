@@ -29,13 +29,31 @@ class HistoricalFoodHealTableTest {
             "a cookie restored 1 HP, not its modern nutrition of 2");
     }
 
+    /**
+     * The three figures this test used to assert were ABSENT are present, and were present all along.
+     *
+     * <p>It asserted that fish and the golden apple "fall back rather than guess", which described a live table
+     * that held only six of the registry's nine researched values. The registry's table carries client-jar
+     * evidence for each one - {@code gm.aS = new yw(93,2,false)}, {@code gm.aT = new yw(94,5,false)},
+     * {@code gm.ar = new yw(66,42,false)} - so the fallback was not caution, it was three foods healing by modern
+     * nutrition in a Beta 1.7.3 world. A test that ratifies a bug is worse than no test, because it makes the bug
+     * look deliberate.
+     */
     @Test
-    void foodsWithoutAResearchedValueFallBackRatherThanGuess() {
-        assertNull(HistoricalFoodHelper.researchedHeal("minecraft:cooked_cod"),
-            "the research gives no direct-heal value for fish, so the port must fall back");
-        assertNull(HistoricalFoodHelper.researchedHeal("minecraft:golden_apple"),
-            "the golden apple is recorded as a pre-1.8 food but the entry gives it no figure");
+    void everyResearchedFoodHasItsFigure() {
+        assertEquals(2, HistoricalFoodHelper.researchedHeal("minecraft:cod"),
+            "raw fish restored 2 HP");
+        assertEquals(5, HistoricalFoodHelper.researchedHeal("minecraft:cooked_cod"),
+            "cooked fish restored 5 HP");
+        assertEquals(42, HistoricalFoodHelper.researchedHeal("minecraft:golden_apple"),
+            "the golden apple restored 42 HP before Beta 1.8, which is why it was the expensive healing item");
+    }
+
+    @Test
+    void foodsTheClientDidNotHaveHaveNoFigure() {
         assertNull(HistoricalFoodHelper.researchedHeal("minecraft:rotten_flesh"),
-            "rotten flesh did not exist before Beta 1.8");
+            "the research records rotten flesh as absent from the Beta 1.7.3 client's food registry");
+        assertNull(HistoricalFoodHelper.researchedHeal("minecraft:cooked_beef"),
+            "beef is in the same absent list, so there is no historical figure to apply");
     }
 }

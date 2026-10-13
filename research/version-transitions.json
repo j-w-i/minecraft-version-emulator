@@ -805,7 +805,8 @@
         "the death-XP cap is not established here",
         "lily-pad collision/placement specifics need testing",
         "biome/generation RNG and noise implementation not established; exact combat formula and generator code need original-build validation",
-        "an erroneous jump event grants 1-100 XP and must be treated as a bug, not intended XP earning"
+        "an erroneous jump event grants 1-100 XP and must be treated as a bug, not intended XP earning",
+        "Part IV supports only the sequence-level Nether-fortress boundary and says the exact first build is not fully verified, so attributing fortresses to Pre1 (as Part III and the Part V matrix do) is sequence-level evidence rather than a verified first-build claim"
       ],
       "researchRefs": [
         "Part III > Beta 1.9 Prerelease 1",
@@ -903,7 +904,8 @@
       "uncertain": [
         "exact recipes/IDs, survival routes, all mob changes and the full worldgen delta need research",
         "exact enchanting/brewing numeric behavior remains unverified beyond the documented 15-level cap and 30-second brew",
-        "same-day original/reupload: the original briefly places debug hotbar stacks (enchantment tables, bookshelves, End frames, End portal blocks) that the reupload removes, so the two clients are not equivalent"
+        "same-day original/reupload: the original briefly places debug hotbar stacks (enchantment tables, bookshelves, End frames, End portal blocks) that the reupload removes, so the two clients are not equivalent",
+        "the enderman health 20 -> 40 change is asserted only in Part IV's cross-version summary, while this build's own section says 'other mob AI/stat changes not audited here', so the attribution to Pre3 rests on the summary rather than build-level evidence"
       ],
       "researchRefs": [
         "Part III > Beta 1.9 Prerelease 3",
@@ -1671,7 +1673,7 @@
         {"fromBuild": "beta_1_9_pre_6", "state": "The dragon spawns, End crystals on obsidian pillars heal it, and killing it opens the exit portal, drops the egg and makes credits/End poem reachable.", "evidence": "Part III > Beta 1.9 Prerelease 6"},
         {"fromBuild": "release_1_0_0", "state": "Stable: stronghold -> Eyes of Ender/portal -> End -> dragon -> exit/credits is the progression endpoint.", "evidence": "Part III > Release 1.0 (1.0.0); Part IV > Survival progression"}
       ],
-      "notes": "Presence of a block asset, structure room, code/entity, dimension, survival route and functional boss are distinct implementation stages (Part IV > Dimensions); do not treat Pre3 portal assets, the Pre4 End dimension or the Pre5 achievement as boss access."
+      "notes": "Presence of a block asset, structure room, code/entity, dimension, survival route and functional boss are distinct implementation stages (Part IV > Dimensions); do not treat Pre3 portal assets, the Pre4 End dimension or the Pre5 achievement as boss access. Note an internal document contradiction: the Part II timeline row 'End, Ender Dragon, stronghold route' lists Release 1.0.0 as the first functional implementation, while the Part II 'Ender Dragon' row, Part III Pre6 and Part IV all make Pre6 the first build where the boss is spawnable and the game is completable."
     },
     {
       "mechanic": "villagers",

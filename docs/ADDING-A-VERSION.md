@@ -136,7 +136,7 @@ Terrain-only version with researched simulation rules — the template is Alpha 
 
 `alphaTerrainOnly` is **not reusable for a second Alpha version**: it hard-codes the era and
 `ERA_ALPHA + 112` (`HistoricalVersions.java:460-461`), so a second call would collide on chronology and fail
-`HistoricalVersionsTest.registryDeclaresDuplicates`-style uniqueness (`HistoricalVersionsTest.java:44-49`).
+`HistoricalVersionsTest.registryDeclaresDistinctVersions` (`HistoricalVersionsTest.java:44-49`).
 Call `terrainOnlyWithRules(...)` directly instead (see the worked example in §4).
 
 **Breaks if missed:** nothing exists, nothing resolves. The record's own constructor refuses the cheap
@@ -163,7 +163,7 @@ mistakes (§3), and a duplicate id or alias is refused by the registry self-chec
 `gameplay/HistoricalLootRules.java`, `generation/BetaOreRules.java`.
 
 `VersionRules` holds four maps/sets and they are **not** defaulted for you: an empty `allowedNaturalSpawns`
-with `restrictsSpawns=false`, an empty `foodHealPoints`, an empty `mobDrops` and a null `orePopulation` all
+with `restrictsSpawns=false`, an empty `foodHealPoints`, an empty `mobDrops` and an empty `orePopulation` all
 mean "leave the modern behaviour alone", which is the honest state for unresearched data
 (`HistoricalVersions.java:474-494`, `HistoricalVersion.java:150-208`).
 
@@ -579,8 +579,8 @@ vanilla's normal-preset list:
 ```
 
 The button label would still read "Historical Version: Alpha v1.2.0" while the world is created with the
-previously selected vanilla world type. This is the one checklist item with no test behind it — check it by
-eye.
+previously selected vanilla world type. This is the only **required** artefact in the checklist with no test
+behind it — everything in §6.4 is a coverage gap rather than missing required work — so check it by eye.
 
 ### Step 13 — lang keys (cosmetic)
 
@@ -1057,7 +1057,7 @@ key already fixes it — `plannedKey` writes `historical_experience:planned_alph
 an existing id: the version id is a persisted gameplay-profile identifier
 (`HistoricalMetadata.java:26-28`).
 
-Revision aliases (`HistoricalVersions.java:85-166`):
+Revision aliases (`HistoricalVersions.java:81-230` for the hand-written families, `:496-621` for the two helpers):
 
 | family | revision 0 | revision 1 | revision 2 | revision N |
 | --- | --- | --- | --- | --- |
@@ -1145,6 +1145,8 @@ python scripts/verify-generation-1211.py sol-matrix-alpha_1_2_0 --preset histori
 python scripts/verify-generation-1211.py sol-matrix-alpha_1_2_0 --preset historical_experience:alpha_1_2_0 --reload
 
 # 6. Optional: the whole matrix, including the preservation and negative controls.
+#    NOTE: its per-version list is hardcoded (scripts/verify-generation-1211-matrix.py:67-68) and does not
+#    yet name a newly added version; add it there or run step 4 by hand as above.
 python scripts/verify-generation-1211-matrix.py
 ```
 
@@ -1204,6 +1206,9 @@ For the GUI half, the client probe photographs the version screens (`build.gradl
 5. **The dimension type.** If a new version needs a different level envelope, nothing fails until a world is
    measured; the script's `reduced` flag is a hardcoded special case
    (`scripts/generate-1211-world-presets.py:93`).
+6. **The runtime matrix's version list.** `scripts/verify-generation-1211-matrix.py:67-68` enumerates the
+   versions it generates, so a new version is silently skipped by the one harness that measures saved chunks
+   (`fullChunkBlockHashes`), preset application and block anachronisms in a real world.
 
 ---
 

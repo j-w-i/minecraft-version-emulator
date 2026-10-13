@@ -34,13 +34,19 @@ public final class HistoricalFoodHelper {
      * recorded as foods present in the b1.7.3 client but have no value in the entry, so they keep the modern
      * nutrition fallback - a known approximation, narrowed from every food to two.
      */
-    private static final java.util.Map<String, Integer> DIRECT_HEAL_BY_ID = java.util.Map.of(
-        "minecraft:apple", 4,
-        "minecraft:bread", 5,
-        "minecraft:mushroom_stew", 10,
-        "minecraft:porkchop", 3,
-        "minecraft:cooked_porkchop", 8,
-        "minecraft:cookie", 1);
+    /**
+     * The direct-heal figures, taken from the one table that carries the artifact evidence.
+     *
+     * <p>This was a second, smaller copy of the same data: six entries against the registry's nine. The three it
+     * lacked - the golden apple, raw fish and cooked fish - fell through to modern nutrition, so a Beta 1.7.3 world
+     * healed wrongly for exactly the foods whose values had been read out of the client jar. There is now one
+     * table, and it is the one whose every entry names the class field and the initialiser it came from.
+     *
+     * <p>The registry's table uses {@code <clinit>} evidence from the Beta 1.7.3 client, e.g. the golden apple's
+     * {@code gm.ar = new yw(66,42,false); gm:75}.
+     */
+    private static final java.util.Map<String, Integer> DIRECT_HEAL_BY_ID =
+        HistoricalFoodRules.BETA_1_7_3_HEAL_POINTS;
 
     /**
      * The hunger a food filled before the change that moved it, or null when the research records no change.
