@@ -205,6 +205,45 @@ because removing those would be the opposite mistake and a silent one.
 half. The structured `historical-features.json` answered it properly; the text-matching approach is in
 `scripts/audit-mob-sets.py` and should not be trusted.
 
+## 5d. Beta 1.9 Prerelease 1 and 2, and the "they have restrictions" report
+
+The owner asked whether the prereleases were selectable on purpose, then: *"they definitely have restrictions so dont
+let them spawn modern 1.21.1 mobs"*. Both parts were right.
+
+**Only Pre3 was declared, and it was declared through `terrainOnly`, which sets NO spawn restriction.** So a Beta 1.9
+world spawned modern mobs. Now:
+
+| Version | Spawn set | Note |
+|---|---|---|
+| Pre1 | Beta 1.8.1's 17 mobs + blaze, magma cube, mooshroom, villager | snow golem deliberately absent: it is **built**, not a natural spawn |
+| Pre2 | Pre1's set | adds **no** mob - breeding changes how mobs are made, not which exist |
+| Pre3 | Pre2's set | was unrestricted; the research adds no mob here either |
+
+Runtime evidence, Pre1 probe: `restrictedProfiles` now lists all three prereleases, `filterInvocations: 74`, and
+`removedEntityTypes: [minecraft:llama]` - a 1.11 mob actually removed from a Beta 1.9 Prerelease 1 world.
+
+**Still open, and the same defect:** every **Release** profile (1.0.0, 1.1, 1.2.5, 1.6.4) is also declared through
+`terrainOnly` and therefore has **no spawn restriction** - the research's mob sets for those builds are not extracted,
+and `SpawnRestrictionSemanticsTest` deliberately forbids inventing one. This is recorded as **U**: they spawn modern
+mobs, and the honest fix is to research their sets, not to copy Pre3's.
+
+### The palette lesson, which cost two wrong attempts
+
+`HistoricalBlockAvailability.judge` answers UNKNOWN for a palette-derived date judged against a version with no
+extracted palette, so Pre1's twenty village blocks were unjudgeable. The first fix mapped Pre1 to `b1_9_pre3` in
+`PALETTE_FILES` - which **also drives dating**, so it dated `brewing_stand` to Pre1 and would have allowed Pre1
+everything Pre2 and Pre3 added. **Dating and membership are different questions** and are now separate lists;
+`SHARED_PALETTE_VERSIONS` exists only so the shared-terrain versions are judgeable at all.
+
+Two blocks came out of it, both stated by the research rather than left to the palette:
+
+- `lily_pad` → **Pre1** ("lily pads (visually unnamed/grayscale and non-solid)"). The palette put it at Pre3 - the only
+  Beta 1.9 palette extracted, so the **latest** such date, not the earliest - and Pre1/Pre2 were refusing a block their
+  build added, the same false-veto shape as redstone ore in Alpha 1.0.1.
+- `brewing_stand` → **Pre3**, matching both sources. A village boundary moved to Pre2 last round on the reasoning that
+  Pre2 potions imply a stand was **reverted**: the research records potions at Pre2 and the stand at Pre3, a tension
+  recorded in the code rather than smoothed over.
+
 ## 6. Next tasks, in order
 
 1. **Alpha 1.0.1** - the pattern version: registry entry via `terrainOnlyWithRules`, its own mob set (no chickens before
