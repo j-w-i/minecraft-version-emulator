@@ -95,8 +95,11 @@ TIMELINE = [
      'feature-timeline blocks: wheat crop / farmland introduced Indev 20100206-2034'),
     (['minecraft:diamond_ore'], 'historical_experience:infdev_420',
      'feature-timeline blocks: diamond ore restored Infdev 20100320, before the earliest profile'),
-    # 20100420 and 20100611 are both before Infdev 20100625-1917, so neither may have monster spawners.
-    (['minecraft:spawner'], 'historical_experience:alpha',
+    # 20100420 and 20100611 are both before Infdev 20100625-1917, so neither may have monster spawners. The date is
+    # the EARLIEST declared version after that build, not "alpha": alpha used to be the only version on the far side
+    # of the boundary, so naming it worked as a proxy. Declaring Alpha 1.0.1 between them turned the proxy into a
+    # claim that spawners did not exist there - and the block veto acted on it, emptying Alpha 1.0.1 dungeons.
+    (['minecraft:spawner'], 'historical_experience:alpha_1_0_1',
      'feature-timeline blocks: monster spawner introduced Infdev 20100625-1917, after both Infdev profiles'),
     (['minecraft:snow', 'minecraft:ice'], 'historical_experience:alpha_1_0_4',
      'feature-timeline blocks: snow and ice introduced Alpha v1.0.4 (Winter Update)'),

@@ -40,7 +40,9 @@
     "PlayerHistoricalExhaustionMixin",
     "EnchantmentMenuHistoricalEnchantingMixin",
     "BrewingStandHistoricalBrewingMixin",
-    "EnderEyeHistoricalPortalMixin"
+    "EnderEyeHistoricalPortalMixin",
+    "WorldGenRegionHistoricalBlockVetoMixin",
+    "EntityHistoricalSneakingMixin"
   ],
   "injectors": {
     "defaultRequire": 1

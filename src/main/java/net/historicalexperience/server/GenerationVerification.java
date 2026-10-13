@@ -149,7 +149,8 @@ public final class GenerationVerification {
             // ender, or letting a stand finish brewing. Loading them here turns that into a probe failure.
             "net.minecraft.world.inventory.EnchantmentMenu",
             "net.minecraft.world.item.EnderEyeItem",
-            "net.minecraft.world.level.block.entity.BrewingStandBlockEntity");
+            "net.minecraft.world.level.block.entity.BrewingStandBlockEntity",
+            "net.minecraft.world.entity.Entity");
 
         for (String name : serverTargets) {
             try {

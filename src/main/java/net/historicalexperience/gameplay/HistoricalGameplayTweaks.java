@@ -482,6 +482,36 @@ public final class HistoricalGameplayTweaks {
     }
 
     /**
+     * Alpha 1.1.0's chronology: the build sneaking was added in, corrected by the project owner.
+     *
+     * <p>Written as a literal because Alpha 1.1.0 is not a declared profile yet, and tied to the registry's scheme
+     * by a test so it cannot drift. The research is SILENT on this boundary - its only sneak reference is Beta
+     * 1.4's "sneaking while climbing holds position", which implies sneaking already existed by then but does not
+     * date its arrival - so the owner's correction is the best evidence available and is recorded as such.
+     */
+    private static final int ALPHA_1_1_0_CHRONOLOGY = 401_100;
+
+    /** The sneak boundary, exposed so a test can tie the literal to the registry's numbering. */
+    public static int sneakingBoundaryChronology() {
+        return ALPHA_1_1_0_CHRONOLOGY;
+    }
+
+    /**
+     * Whether the player can sneak in this version. Sneaking arrives in <b>Alpha 1.1.0</b>.
+     *
+     * <p>Reported by the owner after playing an Alpha 1.0.1 world: "i can also still sneak way before sneaking was
+     * added". There was no gate for it anywhere in the project - a search for sneak, crouch and the shift-key
+     * methods returned nothing outside vanilla - so this is a newly implemented behaviour rather than a correction.
+     *
+     * <p>Refusing the crouch outright is the faithful answer: before Alpha 1.1.0 the shift key did nothing, so the
+     * player neither crouched, nor moved at sneak speed, nor used the sneak pose.
+     */
+    public static boolean sneakingAvailable(String versionId) {
+        var version = HistoricalVersions.byId(versionId).orElse(null);
+        return version != null && version.chronology() >= ALPHA_1_1_0_CHRONOLOGY;
+    }
+
+    /**
      * Whether brewing works in this version.
      *
      * <p>From {@code research/version-history-transitions}: Beta 1.9 Prerelease 2 carries a cauldron-based potion
