@@ -34,7 +34,11 @@ PUBLIC_RECIPES = {
     # world. The revision is new rather than an edit to that one, because a world created earlier recorded the old
     # alias and must keep the terrain it was given.
     'beta_1_0': 'beta_1_0_no_sandstone',
-    'beta_1_2': 'beta_1_2_historical_envelope',
+    # Beta 1.2 has the sandstone BLOCK but not the generation RULE. The Sandstone History table states the two dates
+    # separately: `1.2` "Added sandstone." and `1.3` "Sandstone is now found below three blocks of naturally
+    # generated sand." This version used `beta_1_2_historical_envelope`, whose foundation enables the rule, so a
+    # fresh Beta 1.2 world generated 2,993 sandstone that its own build could not have placed under sand.
+    'beta_1_2': 'beta_1_2_no_sandstone',
     'beta_1_3': 'beta_1_3_historical_envelope',
     'beta_1_4': 'beta_1_4_no_modern_content',
     'beta_1_5': 'beta_1_5_no_modern_content',

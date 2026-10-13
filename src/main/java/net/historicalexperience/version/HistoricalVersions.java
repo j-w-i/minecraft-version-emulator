@@ -890,7 +890,7 @@ public final class HistoricalVersions {
         // the settings preset, and its own `alpha` preset sets this same flag to false while `beta` sets it true -
         // read from the shipped preset JSON, not guessed. So this version's preset declares the full surface object
         // with that one flag flipped, and the key it is registered under here is what names it.
-        versions.set(versions.size() - 1, withNoSandstoneRevision(
+        versions.set(versions.size() - 1, withSurfaceSandstoneDisabled(
             versions.get(versions.size() - 1), "historical_experience:beta_1_0_no_sandstone"));
 
         // Beta 1.2. Two things converge, and both are the payoff of declaring a build rather than approximating it:
@@ -923,6 +923,16 @@ public final class HistoricalVersions {
                     + "iron 129 and diamond 1025 hold for every declared version older than this one and this build "
                     + "itself gets the raised values."),
             HistoricalFeatureExclusions.BETA_1_7_3_RESTRICTIONS));
+        // Beta 1.2 HAS sandstone but must not GENERATE it under sand, and the Sandstone History table states those
+        // two dates separately: `1.2` is "Added sandstone." and `1.3` is "Sandstone is now found below three blocks
+        // of naturally generated sand." This version used `beta_1_2_historical_envelope`, whose foundation enables
+        // the rule, so a fresh Beta 1.2 world generated 2,993 sandstone its own build could not have placed.
+        //
+        // A new revision rather than an edit, for the same reason Beta 1.0's was: `_historical_envelope` is
+        // published. Beta 1.3 KEEPS its sandstone - the rule is genuine from that build - so this is deliberately a
+        // two-version change and not a blanket one.
+        versions.set(versions.size() - 1, withSurfaceSandstoneDisabled(
+            versions.get(versions.size() - 1), "historical_experience:beta_1_2_no_sandstone"));
 
         // Beta 1.3. Beds, redstone repeaters and slabs arrive, the grassland/sand biome boundary that Beta 1.0
         // misaligned is FIXED, and slimes spawn again after being removed in Alpha 1.2.0 - so this build's mob set
@@ -1294,7 +1304,7 @@ public final class HistoricalVersions {
      * changes is a surface setting inside the settings preset named by {@code alias}. Two things must therefore
      * agree, and a test catches it if they do not: this alias and the preset JSON file of the same name.
      */
-    private static HistoricalVersion withNoSandstoneRevision(HistoricalVersion base, String alias) {
+    private static HistoricalVersion withSurfaceSandstoneDisabled(HistoricalVersion base, String alias) {
         List<HistoricalVersion.GenerationRevision> revisions = new java.util.ArrayList<>(base.revisions());
         HistoricalVersion.GenerationRevision previous = revisions.get(revisions.size() - 1);
         revisions.add(new HistoricalVersion.GenerationRevision(

@@ -1,4 +1,46 @@
-# Persistent project status — 2026-10-13 (8) / the matrix now has ZERO anachronisms — Beta 1.0's sandstone is fixed
+# Persistent project status — 2026-10-13 (9) / both sandstone defects fixed, and my "control" was the second one
+
+## Round 74 — Beta 1.2 was generating sandstone too, and the primary source proved it
+
+Round 73 fixed Beta 1.0's sandstone and deliberately **kept** Beta 1.2's, reasoning that the block existing from
+Beta 1.2 made its presence coherent. That reasoning was wrong, and one fetch settled it. The **Sandstone** History
+table states the two dates as separate rows:
+
+> `1.2` — **Added sandstone.**
+> `1.3` — **Sandstone is now found below three blocks of naturally generated sand.**
+
+So Beta 1.0 had neither the block nor the rule, **Beta 1.2 had the block but not the rule**, and Beta 1.3 has both.
+Beta 1.2 was generating 2,993 sandstone its own build could not have placed — the "control" was a second instance of
+the same defect.
+
+Both are fixed, each as its own append-only revision: `beta_1_0_no_sandstone` and `beta_1_2_no_sandstone`. Beta 1.3
+deliberately keeps the rule, because there it is genuine.
+
+**Verified in three fresh worlds — and the middle row is now the control:**
+
+| Version | alias | sandstone | sand | anachronisms |
+| --- | --- | --- | --- | --- |
+| Beta 1.0 | `beta_1_0_no_sandstone` | **none** | 8,183 | 0 |
+| Beta 1.2 | `beta_1_2_no_sandstone` | **none** | 8,183 | 0 |
+| **Beta 1.3** | `beta_1_3_historical_envelope` | **2,993 retained** | 8,198 | 0 |
+
+Beta 1.3 keeping its sandstone is what proves the change is scoped to the two builds whose own history lacked the
+rule, rather than to "sandstone everywhere".
+
+**A test guard caught my first attempt at this.** `everyPublicMenuEntryNamesOneAgreeingRevision` failed with
+*"beta_1_2 selects beta_1_2_historical_envelope but the newest recipe for that version is beta_1_2_no_sandstone"*,
+which exposed a **duplicate dictionary key** in the preset generator where the second entry silently won — the
+module would have shipped the fix while the menu still selected the old recipe. Found by a test, not by a player,
+which is the outcome to want.
+
+**The lesson, written into the coverage doc:** an inference that a neighbour is "coherent" is not evidence that it is
+correct. The cheapest way to settle it was to fetch the page that lists both dates.
+
+**366 tests, 65 suites, 0 failures.** Deployed:
+**A1DF45506B062C6596FFA7E387DEC648CF3B9C81803111ED0ED20D78447D4791**.
+
+**To see it:** a **new Beta 1.0** or **Beta 1.2** world has sand with no sandstone beneath it; a **new Beta 1.3**
+world still has both.
 
 ## Round 73 — the last anachronism in the matrix is gone
 

@@ -694,15 +694,31 @@ turned out to be "no approximation needed" rather than the decision I expected t
    **Verified with a control, in two fresh worlds:** Beta 1.0 → alias `beta_1_0_no_sandstone`, **zero anachronisms,
    no sandstone at all**, and 8,183 sand blocks still present, so the surface rule that matters was not switched off
    with it; Beta 1.2 → **2,993 sandstone retained**, i.e. the change did not leak to its neighbour.
-   **The unresolved tension, recorded rather than quietly decided.** If "sandstone generates under naturally
-   generated sand" is Beta 1.3, then Beta 1.2 has the same defect, and so does Beta 1.3 if the rule arrived later in
-   that build. Checked directly: `beta_1_2_historical_envelope`, `beta_1_3_historical_envelope` and
-   `beta_1_7_3_content_preview_10` all **declare no surface properties at all**, so all three inherit the `beta`
-   foundation's `true`. That is coherent — sandstone exists from Beta 1.2, so its presence there is no longer
-   anachronistic — but it is not proven, and Beta 1.0 is now the ONLY version that switches the rule off. The honest
-   statement is that the date distinguishes "the block did not exist" (Beta 1.0, certain) from "the rule's exact
-   build is not pinned" (Beta 1.2/1.3, unresolved). Changing a second version on that inference would be the same
-   mistake as the lapis near-miss in item 11, in the opposite direction, so nothing else was touched.
+   **RESOLVED, and my own "control" was the thing that was wrong.** Round 73 kept Beta 1.2's sandstone deliberately, as
+   a control, reasoning that the block's existence from Beta 1.2 made its presence coherent. Fetching the **Sandstone**
+   page's History table settled it, and it states the two dates as separate rows: `1.2` — *"Added sandstone."* —
+   and `1.3` — *"Sandstone is now found below three blocks of naturally generated sand."* So Beta 1.0 had neither
+   the block nor the rule, **Beta 1.2 had the block but not the rule**, and Beta 1.3 has both. Beta 1.2 was
+   therefore generating 2,993 sandstone its own build could not have placed, and the "control" was a second instance
+   of the same defect.
+   **Both are fixed, each as its own append-only revision:** `beta_1_0_no_sandstone` and
+   `beta_1_2_no_sandstone`. Beta 1.3 deliberately keeps the rule, because there it is genuine.
+   **Verified in three fresh worlds, and the middle row is now the control:**
+
+   | Version | alias | sandstone | sand |
+   | --- | --- | --- | --- |
+   | Beta 1.0 | `beta_1_0_no_sandstone` | **none** | 8,183 |
+   | Beta 1.2 | `beta_1_2_no_sandstone` | **none** | 8,183 |
+   | **Beta 1.3** | `beta_1_3_historical_envelope` | **2,993 retained** | 8,198 |
+
+   All three report zero anachronisms, and Beta 1.3 keeping its 2,993 is what proves the change is scoped to the two
+   builds whose own history lacked the rule rather than to "sandstone everywhere".
+   A test guard caught my first attempt at this: `everyPublicMenuEntryNamesOneAgreeingRevisionOfADeclaredVersion`
+   failed with *"beta_1_2 selects beta_1_2_historical_envelope but the newest recipe for that version is
+   beta_1_2_no_sandstone"*, exposing a duplicate dictionary key in the preset generator where the second entry won.
+   That is exactly the class of silent mis-binding the guard exists for.
+   **The lesson worth keeping:** an inference that a neighbour is "coherent" is not evidence that it is correct, and
+   the cheapest way to settle it was to fetch the page that lists both dates.
 12. **The Nether's terrain SHAPE is still the modern 1.16+ one.** Its biomes are fixed (one biome,
    `minecraft:nether_wastes`, via vanilla's `minecraft:fixed` biome source), but the shape comes from
    `minecraft:nether` noise settings and Moderner Beta ships no historical Nether to point at. Recorded as a gap.
