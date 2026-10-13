@@ -131,7 +131,12 @@ class GenerationBackport1211Test {
             }
         }
         // 31 before the four pre-Beta-1.8 revisions were added; each carries the same envelope.
-        assertEquals(87, reduced);
+        //
+        // 81 after the six Beta 1.9 PRERELEASES stopped offering a _no_grass world type: 87 minus those six bogus
+        // revisions. They were declared through a helper whose own comment says every caller it was written for
+        // predates Beta 1.6 - and grass arrives IN Beta 1.6, so all six predate it by years. The world-creation list
+        // offered a "no grass" variant for versions that had grass, and this count is how that showed up as a number.
+        assertEquals(81, reduced);
         assertFalse(Files.exists(DATA.resolve("minecraft/worldgen/noise_settings")));
         assertFalse(Files.exists(DATA.resolve("moderner_beta/worldgen/noise_settings")));
     }

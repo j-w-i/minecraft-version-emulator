@@ -251,7 +251,7 @@ public final class HistoricalVersions {
         // can restrict spawns. The research found that the versions declared through terrainOnly - Pre3 and every
         // Release profile - have NO spawn restriction at all, and therefore spawn modern 1.21.1 mobs. That is a
         // content defect recorded in research/implementation-coverage.md and still open for those versions.
-        versions.add(terrainOnlyWithRules(
+        versions.add(releaseTerrainOnlyWithRules(
             "historical_experience:beta_1_9_pre_1", "Beta 1.9 Prerelease 1", "beta",
             chronology(ERA_BETA, 1, 9, 1), "moderner_beta:beta_1_9_pre_3",
             new VersionRules(
@@ -275,7 +275,7 @@ public final class HistoricalVersions {
                     + "so Pre1's own reduced landmass and ocean height are not reproduced."),
             HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES));
 
-        versions.add(terrainOnlyWithRules(
+        versions.add(releaseTerrainOnlyWithRules(
             "historical_experience:beta_1_9_pre_2", "Beta 1.9 Prerelease 2", "beta",
             chronology(ERA_BETA, 1, 9, 2), "moderner_beta:beta_1_9_pre_3",
             new VersionRules(
@@ -302,7 +302,7 @@ public final class HistoricalVersions {
         // enchanting and the end portal - become live the moment this profile is declared, which is exactly the
         // inter-build transition this project is for, and it is why these three are declared one at a time rather
         // than as one profile with three names.
-        versions.add(terrainOnlyWithRules(
+        versions.add(releaseTerrainOnlyWithRules(
             "historical_experience:beta_1_9_pre_4", "Beta 1.9 Prerelease 4", "beta",
             chronology(ERA_BETA, 1, 9, 4), "moderner_beta:beta_1_9_pre_3",
             new VersionRules(
@@ -326,7 +326,7 @@ public final class HistoricalVersions {
                     + "Beta 1.9 terrain Moderner Beta ships."),
             HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES));
 
-        versions.add(terrainOnlyWithRules(
+        versions.add(releaseTerrainOnlyWithRules(
             "historical_experience:beta_1_9_pre_5", "Beta 1.9 Prerelease 5", "beta",
             chronology(ERA_BETA, 1, 9, 5), "moderner_beta:beta_1_9_pre_3",
             new VersionRules(
@@ -349,7 +349,7 @@ public final class HistoricalVersions {
                     + "beta_1_9_pre_3."),
             HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES));
 
-        versions.add(terrainOnlyWithRules(
+        versions.add(releaseTerrainOnlyWithRules(
             "historical_experience:beta_1_9_pre_6", "Beta 1.9 Prerelease 6", "beta",
             chronology(ERA_BETA, 1, 9, 6), "moderner_beta:beta_1_9_pre_3",
             new VersionRules(
@@ -371,7 +371,7 @@ public final class HistoricalVersions {
                     + "Terrain is beta_1_9_pre_3."),
             HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES));
 
-        versions.add(terrainOnlyWithRules(
+        versions.add(releaseTerrainOnlyWithRules(
             "historical_experience:beta_1_9_pre_3", "Beta 1.9 Prerelease 3", "beta",
             chronology(ERA_BETA, 1, 9, 3), "moderner_beta:beta_1_9_pre_3",
             new VersionRules(
