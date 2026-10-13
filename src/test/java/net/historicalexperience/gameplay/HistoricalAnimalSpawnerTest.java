@@ -1,6 +1,7 @@
 package net.historicalexperience.gameplay;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -70,6 +71,33 @@ class HistoricalAnimalSpawnerTest {
         assertNull(HistoricalAnimalSpawner.shapeFor(null), "no version means no claim");
         assertNull(HistoricalAnimalSpawner.shapeFor("moderner_beta:beta"),
             "an undeclared recipe must not acquire a historical spawner");
+    }
+
+    @Test
+    @DisplayName("the modern per-chunk animal spawn is suppressed exactly where the cycle replaces it")
+    void chunkGenerationSpawningIsSuppressedOnlyWhereACycleExists() {
+        // Beta 1.8's own history row is the boundary: spawning was light-level-driven and "was no longer the case
+        // in Beta 1.8", replaced by spawning determined by the current chunk properties. So the per-chunk biome
+        // pack is the arrangement that arrived WITH the version that removed the cycle.
+        for (String id : new String[] {ALPHA_1_0_1, ALPHA_V1_1_2_01, ALPHA_1_2_0, BETA_1_0, BETA_1_7_3}) {
+            assertTrue(HistoricalAnimalSpawner.suppressesChunkGenerationSpawning(id),
+                id + " has the capped cycle, so the unbounded per-chunk pack must not run beside it - leaving it "
+                    + "on is what carpeted a world with animals when the era allowed fifteen");
+        }
+
+        for (String id : new String[] {BETA_1_8_1, RELEASE_1_6_4}) {
+            assertFalse(HistoricalAnimalSpawner.suppressesChunkGenerationSpawning(id),
+                id + " spawns animals into chunks as they generate, which is its own behaviour and must be kept");
+        }
+
+        // Infdev keeps the modern path deliberately: its own cycle is not implemented, so suppressing this would
+        // leave it with no animals at all rather than with the right ones.
+        for (HistoricalVersion version : HistoricalVersions.all()) {
+            if ("infdev".equals(version.era())) {
+                assertFalse(HistoricalAnimalSpawner.suppressesChunkGenerationSpawning(version.id()),
+                    version.id() + " must keep the modern path until its own cycle is read from its jar");
+            }
+        }
     }
 
     @Test

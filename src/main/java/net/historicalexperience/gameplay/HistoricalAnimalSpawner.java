@@ -114,6 +114,24 @@ public final class HistoricalAnimalSpawner {
         return version.chronology() < alphaRework ? ALPHA_SHAPE : BETA_SHAPE;
     }
 
+    /**
+     * Whether this version's animals come ONLY from the cycle, so the modern per-chunk spawn must not run.
+     *
+     * <p>This is the second half of the overpopulation the owner's screenshot showed. The modern game spawns a
+     * biome-weighted pack of animals into <b>every chunk as it is generated</b>, with no global cap - the wiki's
+     * "most animals spawn within chunks when they are generated". That is the arrangement Beta 1.8 introduced:
+     * its own history row says spawning was light-level-driven and "was no longer the case in Beta 1.8", replaced
+     * by spawning "determined by the current chunk properties". So in the eras this spawner covers, the per-chunk
+     * spawn is anachronistic as well as unbounded, and leaving it on means the cap of 15 is enforced for the cycle
+     * while an unlimited second source floods the world beside it.
+     *
+     * <p>Keyed off {@link #shapeFor}, so a version whose own cycle is not implemented keeps the modern behaviour
+     * rather than being silently left with no animals at all. Infdev is the case that matters today.
+     */
+    public static boolean suppressesChunkGenerationSpawning(String versionId) {
+        return shapeFor(versionId) != null;
+    }
+
     /** How many individual spawn attempts this spawner has made since process start. */
     public static long attempts() {
         return spawnAttempts;
@@ -161,6 +179,7 @@ public final class HistoricalAnimalSpawner {
         int placed = 0;
         BlockPos spawn = level.getSharedSpawnPos();
         // Two passes only in the Alpha shape's sense: it is "outer iterations", not the number of mobs.
+        outer:
         for (int outer = 0; outer < shape.outerIterations(); outer++) {
             for (ChunkPos chunk : eligible) {
                 int baseX = chunk.getMinBlockX() + level.random.nextInt(16);
@@ -170,6 +189,18 @@ public final class HistoricalAnimalSpawner {
                     : level.random.nextInt(ALPHA_START_Y_BOUND);
 
                 for (int attempt = 0; attempt < shape.attemptsPerChunk(); attempt++) {
+                    // THE CAP IS RE-CHECKED AS MOBS ARE PLACED, which is the fix for a reported overpopulation.
+                    //
+                    // The jars compared the loaded count to the cap once per call, and one call is up to 486
+                    // attempts (3 x 9x9 chunks x 2 for Alpha, 3 x 17x17 x 4 for Beta) - every one of which can
+                    // place a mob. So a single tick could add hundreds before the next call noticed, and the
+                    // owner's screenshot showed a landscape carpeted with animals where the era allowed fifteen
+                    // loaded in total. Checking the running total is what the cap's arithmetic plainly intends,
+                    // and it is the difference between a sparse Alpha world and a zoo.
+                    if (present + placed >= cap) {
+                        break outer;
+                    }
+
                     int x = baseX + level.random.nextInt(STEP_OFFSET) - level.random.nextInt(STEP_OFFSET);
                     int z = baseZ + level.random.nextInt(STEP_OFFSET) - level.random.nextInt(STEP_OFFSET);
 
