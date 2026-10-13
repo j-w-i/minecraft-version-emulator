@@ -342,6 +342,10 @@ public final class GenerationVerification {
             report.put("villageStyles",
                 net.historicalexperience.worldgen.HistoricalVillagePieces.styleDiagnostics());
             report.put("spawns", HistoricalSpawnRules.diagnostics());
+            // An invalid id here DELETES a mob rather than failing to allow one, because the filter removes 
+            // every type absent from the allowed set. This is checked against the entity registry, not against a 
+            // transcription of it.
+            report.put("spawnIdsUnknown", HistoricalSpawnRules.unknownEntityIds());
             // The mob-drop replacement and experience suppression, so a real session shows them working
             // instead of only a unit test asserting the tables are readable.
             // The live observation of the simulation rules, which the block and structure checks cannot see.

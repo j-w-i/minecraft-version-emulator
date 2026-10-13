@@ -269,6 +269,51 @@ public final class HistoricalSpawnRules {
         .filter(mob -> !mob.equals("minecraft:squid") && !mob.equals("minecraft:wolf"))
         .collect(java.util.stream.Collectors.toUnmodifiableSet());
 
+    /**
+     * Every entity id in every declared spawn set that the ENTITY REGISTRY does not recognise.
+     *
+     * <p>This exists because an invalid id here is DESTRUCTIVE, not merely inert. The spawn filter removes every
+     * entity type absent from the allowed set, so an id that never matches does not fail to allow a mob - it
+     * actively removes that mob. {@code BETA_1_7_3_MOBS} listed {@code minecraft:zombie_pigman}, the historical
+     * name from the wiki and the deltas, while the 1.21.1 id is {@code minecraft:zombified_piglin}; zombie pigmen
+     * were being deleted from every Beta world because of a spelling.
+     *
+     * <p>It belongs here and is called by the generation probe, not by a unit test, for the same concrete reason the
+     * village style check does: resolving an id needs a bootstrapped registry, and this project has no test
+     * bootstrap. A unit test that tried died with {@code NoClassDefFoundError}.
+     *
+     * <p>The earlier hand-written test for this set asserted equality with a list that contained the SAME wrong id,
+     * because it was written from the same source as the code. Checking against the registry instead of against a
+     * transcription is the whole point.
+     *
+     * @return version id to the sorted unknown ids it allows, empty when every set is clean
+     */
+    public static java.util.Map<String, java.util.List<String>> unknownEntityIds() {
+        java.util.Map<String, java.util.List<String>> unknown = new java.util.LinkedHashMap<>();
+        for (net.historicalexperience.version.HistoricalVersion version
+                : net.historicalexperience.version.HistoricalVersions.all()) {
+            if (!version.rules().restrictsSpawns()) {
+                // An unrestricted version makes no claim, so there is nothing to validate.
+                continue;
+            }
+            java.util.List<String> bad = version.rules().allowedNaturalSpawns().stream()
+                .filter(id -> {
+                    try {
+                        return !net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE
+                            .containsKey(net.minecraft.resources.ResourceLocation.parse(id));
+                    } catch (RuntimeException malformed) {
+                        return true;
+                    }
+                })
+                .sorted()
+                .toList();
+            if (!bad.isEmpty()) {
+                unknown.put(version.id(), bad);
+            }
+        }
+        return unknown;
+    }
+
     public static final Set<String> INFDEV_20100325_MOBS = Set.of(
         "minecraft:zombie",
         "minecraft:creeper",
