@@ -150,7 +150,9 @@ public final class GenerationVerification {
             "net.minecraft.world.inventory.EnchantmentMenu",
             "net.minecraft.world.item.EnderEyeItem",
             "net.minecraft.world.level.block.entity.BrewingStandBlockEntity",
-            "net.minecraft.world.entity.Entity");
+            "net.minecraft.world.entity.Entity",
+            "net.minecraft.world.inventory.InventoryMenu",
+            "net.minecraft.world.inventory.AbstractContainerMenu");
 
         for (String name : serverTargets) {
             try {

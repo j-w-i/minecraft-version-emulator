@@ -497,6 +497,35 @@ public final class HistoricalGameplayTweaks {
     }
 
     /**
+     * Release 1.9's chronology: the build that added the offhand slot.
+     *
+     * <p>A literal because 1.9 is outside the declared matrix - the newest target is Release 1.6 - and tied to the
+     * registry's scheme by a test. Every version this project supports therefore has NO offhand, which is why the
+     * predicate below is about the boundary rather than about a version list.
+     */
+    private static final int RELEASE_1_9_CHRONOLOGY = 601_900;
+
+    /** The offhand boundary, exposed so a test can tie the literal to the registry's numbering. */
+    public static int offhandBoundaryChronology() {
+        return RELEASE_1_9_CHRONOLOGY;
+    }
+
+    /**
+     * Whether this version predates the offhand slot, which arrived in <b>Release 1.9</b>.
+     *
+     * <p>Reported by the owner: "the offhand is available in all versions currently and should not be available at
+     * all, not in the gui or via a hotkey". Correct - dual wielding is a 1.9 feature and the newest version here is
+     * Release 1.6.4, so no supported version has an offhand.
+     *
+     * <p>Named for the absence rather than the presence, because "true" is the answer for every version in the
+     * matrix and a reader should not have to work out that `!available` is the common case.
+     */
+    public static boolean offhandUnavailable(String versionId) {
+        var version = HistoricalVersions.byId(versionId).orElse(null);
+        return version != null && version.chronology() < RELEASE_1_9_CHRONOLOGY;
+    }
+
+    /**
      * Whether the player can sneak in this version. Sneaking arrives in <b>Alpha 1.1.0</b>.
      *
      * <p>Reported by the owner after playing an Alpha 1.0.1 world: "i can also still sneak way before sneaking was

@@ -42,7 +42,9 @@
     "BrewingStandHistoricalBrewingMixin",
     "EnderEyeHistoricalPortalMixin",
     "WorldGenRegionHistoricalBlockVetoMixin",
-    "EntityHistoricalSneakingMixin"
+    "EntityHistoricalSneakingMixin",
+    "PlayerHistoricalOffhandMixin",
+    "AbstractContainerMenuHistoricalOffhandMixin"
   ],
   "injectors": {
     "defaultRequire": 1
