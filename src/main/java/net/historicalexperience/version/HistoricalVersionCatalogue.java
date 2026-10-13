@@ -70,12 +70,19 @@ public final class HistoricalVersionCatalogue {
     /**
      * One row of the hierarchy.
      *
-     * @param key        a stable identifier. For an implemented entry this equals the registry id; for a future
-     *                   entry it is the id that version will take when it is implemented, so later work does not
-     *                   have to renumber anything a world or a menu refers to
+     * @param key        a stable identifier for the TARGET, not for the profile that may later represent it. An
+     *                   implemented entry carries the registry id, because that is what a world persists. A future
+     *                   entry carries a {@code planned_} key: it is deliberately not the profile id the version
+     *                   will take, so that a target can never be mistaken for a playable version by anything
+     *                   holding one - and it therefore CHANGES when the version is implemented, which is what the
+     *                   test asserting the {@code planned_} prefix records. Nothing persists this key: a world
+     *                   stores the profile id, and a menu selection is re-derived from the registry.
      * @param targetName the coarse name the project plans by, e.g. {@code Beta 1.7}
      * @param era        the group this belongs to
-     * @param order      chronological key, on the registry's own scale, so the two orderings cannot disagree
+     * @param order      chronological key. For an implemented entry this IS the registry's chronology, taken from
+     *                   it rather than computed; for a planned one it follows the registry's numbering scheme. A
+     *                   test asserts the implemented case, because the registry hand-writes at least one
+     *                   chronology that no formula covering the display name would reproduce.
      * @param status     implemented or still to come
      * @param emulated   for an implemented entry, the specific build it emulates; blank when it is the target
      *                   itself. This is what lets the screen say "Beta 1.7 - emulated as Beta 1.7.3"
@@ -205,11 +212,11 @@ public final class HistoricalVersionCatalogue {
         // Infdev builds are dated, and the registry keys them as era + month*100 + day (20100420 -> 300_420),
         // so the year is not part of the ordering and must not be.
         entries.add(new Entry("historical_experience:infdev_420", "Infdev 20100420", Era.INFDEV,
-            order(Era.INFDEV, 0, 4, 20), Status.IMPLEMENTED, "", "", false));
+            chronologyOf("historical_experience:infdev_420", Era.INFDEV, 0, 4, 20), Status.IMPLEMENTED, "", "", false));
         entries.add(new Entry("historical_experience:infdev_611", "Infdev 20100611", Era.INFDEV,
-            order(Era.INFDEV, 0, 6, 11), Status.IMPLEMENTED, "", "", false));
+            chronologyOf("historical_experience:infdev_611", Era.INFDEV, 0, 6, 11), Status.IMPLEMENTED, "", "", false));
         entries.add(new Entry("historical_experience:alpha", "Alpha v1.1.2_01", Era.ALPHA,
-            order(Era.ALPHA, 1, 1, 2), Status.IMPLEMENTED, "Alpha 1.1.2_01",
+            chronologyOf("historical_experience:alpha", Era.ALPHA, 1, 1, 2), Status.IMPLEMENTED, "Alpha 1.1.2_01",
             "achieved; not one of the planned Alpha targets", false));
 
         // The planned matrix. A target that is already implemented carries the profile that represents it and
@@ -268,7 +275,7 @@ public final class HistoricalVersionCatalogue {
         String note = status == Status.IMPLEMENTED ? "" : "no gameplay profile or generation recipe yet";
         String emulated = status == Status.IMPLEMENTED ? (emulatedBuild == null ? "" : emulatedBuild) : "";
 
-        entries.add(new Entry(key, targetName, era, order(era, major, minor, patch), status, emulated, note,
+        entries.add(new Entry(key, targetName, era, chronologyOf(key, era, major, minor, patch), status, emulated, note,
             true));
     }
 
@@ -293,16 +300,35 @@ public final class HistoricalVersionCatalogue {
     }
 
     /**
-     * Chronological key on the registry's scale, so the menu and the behaviour agree about order.
+     * The order of an entry that the registry does not declare yet.
      *
-     * <p>Infdev builds are dated rather than numbered - 20100420 - which is why that era passes a date in the
-     * major/minor/patch slots.
+     * <p>Uses the registry's own numbering scheme - {@code eraOffset + major*1000 + minor*100 + patch} - rather
+     * than a formula of its own. The first version of this used {@code major*10_000} and a separate Infdev branch,
+     * which produced orderings that agreed with the registry while the numbers did not (410102 against the
+     * registry's 400112 for the same Alpha build), so the field claimed to be on the registry's scale and was not.
+     *
+     * <p>Declared versions do not come through here at all: {@link #chronologyOf} asks the registry, because the
+     * registry hand-writes at least one chronology (the Alpha profile) that no formula covering its display name
+     * would reproduce.
      */
     private static int order(Era era, int major, int minor, int patch) {
-        if (era == Era.INFDEV) {
-            return era.chronologyBase() + major * 1_000 + minor * 10 + patch;
+        return era.chronologyBase() + major * 1_000 + minor * 100 + patch;
+    }
+
+    /**
+     * The chronology for a row: the registry's own value when the version is declared, otherwise the scheme.
+     *
+     * <p>This is what makes "an implemented entry's order is its registry chronology" true rather than merely
+     * plausible, and it is asserted by a test.
+     */
+    private static int chronologyOf(String versionId, Era era, int major, int minor, int patch) {
+        if (versionId != null) {
+            HistoricalVersion declared = HistoricalVersions.byId(versionId).orElse(null);
+            if (declared != null) {
+                return declared.chronology();
+            }
         }
-        return era.chronologyBase() + major * 10_000 + minor * 100 + patch;
+        return order(era, major, minor, patch);
     }
 
     private static void rejectDuplicates(List<Entry> entries) {
