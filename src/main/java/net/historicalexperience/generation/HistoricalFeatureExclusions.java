@@ -118,7 +118,21 @@ public final class HistoricalFeatureExclusions {
         new Exclusion("minecraft:ore_gold_nether",
             "Nether gold ore is 1.16 content; the era's Nether ores are quartz and the fortress loot"),
         new Exclusion("minecraft:patch_soul_fire",
-            "Soul fire is 1.16 content; soul sand existed, soul fire did not"));
+            "Soul fire is 1.16 content; soul sand existed, soul fire did not"),
+        // The last anachronism in vanilla's nether_wastes feature list, found by ENUMERATING that list rather than
+        // by guessing at block names. Every other entry in it - the springs, patch_fire, the two glowstone features,
+        // the nether and overworld mushrooms, and ore_gravel_nether - is Alpha 1.2.0 content or earlier, and nether
+        // quartz is Release 1.5 content gated by which biome variant a world preset names.
+        //
+        // The rest of the 1.16 Nether - basalt, soul soil, blackstone, crimson and warped wood, shroomlight, roots,
+        // vines, crying obsidian, respawn anchors, chains - is deliberately NOT listed: their features belong to the
+        // crimson forest, warped forest, basalt deltas and soul sand valley BIOMES, and historical presets generate
+        // the Nether as a single nether_wastes biome, so those features never run.
+        //
+        // The 1.16 Nether MOBS need no entry here at all: piglin, hoglin, zoglin, piglin brute and strider appear in
+        // no historical spawn set, so the spawn filter already removes them. Endermen DO belong, from Beta 1.8.
+        new Exclusion("minecraft:ore_magma",
+            "Magma BLOCKS are 1.10 content, so no declared version placed them"));
 
     public static final List<Exclusion> BETA_1_7_3_RESTRICTIONS = List.copyOf(
         java.util.stream.Stream.concat(
