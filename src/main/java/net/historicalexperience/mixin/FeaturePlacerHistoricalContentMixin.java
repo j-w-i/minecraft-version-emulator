@@ -32,7 +32,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  */
 @Mixin(PlacedFeature.class)
 public abstract class FeaturePlacerHistoricalContentMixin {
-    @Inject(method = "placeWithBiomeCheck", at = @At("HEAD"), cancellable = true)
+    // Biome decoration uses placeWithBiomeCheck; nested/explicit placements use place.
+    // Both funnel independently into placeWithContext, so neither may bypass the exclusion.
+    @Inject(method = {"placeWithBiomeCheck", "place"}, at = @At("HEAD"), cancellable = true)
     private void historicalExperience$skipAnachronisticFeatures(
         WorldGenLevel level,
         ChunkGenerator generator,

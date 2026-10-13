@@ -21,6 +21,10 @@ import net.minecraft.world.level.chunk.ChunkGenerator;
  * can measure the rule's effect on real data without polluting the counters that report whether the
  * live spawn path actually ran; {@link #apply} and {@link #applyForLevel} are the hooked paths and do
  * record.
+ *
+ * <p>Nothing here removes an entity that already exists: the filter rewrites the candidate list a spawn
+ * attempt is about to choose from, before any {@code EntityType} is instantiated, and a world that resolves
+ * to no profile gets the list it was handed.
  */
 public final class HistoricalSpawnFilter {
     /**
@@ -38,21 +42,40 @@ public final class HistoricalSpawnFilter {
     private HistoricalSpawnFilter() {
     }
 
-    /** The gameplay profile this generator belongs to, or {@code null} when it is not historical. */
+    /**
+     * The gameplay profile a world is generating with, or {@code null} when it is not historical.
+     *
+     * <p>Resolved through {@link net.historicalexperience.generation.HistoricalFeatureExclusions#activeAlias},
+     * which reads the generator's own marker first and falls back to the running server's
+     * {@link net.historicalexperience.generation.HistoricalGenerationScope} only when the generator carries
+     * none. The generator's own answer therefore still wins per dimension.
+     *
+     * <p>The fallback is what makes this correct for the Nether and the End, whose level stems are ordinary
+     * vanilla generators even in a historical world: reading the generator alone answered null there, so the
+     * spawn rule was skipped and a Beta 1.7.3 Nether kept 1.21.1's {@code nether_wastes} list (strider among
+     * others) plus the 1.16 entries of {@code crimson_forest} (piglin, hoglin). The scope is set only for a
+     * world whose overworld carries one of this project's markers and is cleared when the server stops, so an
+     * ordinary world is left untouched.
+     */
     public static String profileIdForGenerator(ChunkGenerator generator) {
         String alias = net.historicalexperience.generation.HistoricalFeatureExclusions
-            .historicalAlias(generator);
+            .activeAlias(generator);
         return alias == null ? null : HistoricalSpawnRules.profileIdForAlias(alias);
     }
 
     /**
-     * Computes the rule's effect without recording anything.
+     * Computes the rule's effect without recording anything, for a dimension that can add its own
+     * restrictions.
      *
-     * <p>An unrestricted profile returns the candidate list unchanged, so an ordinary world and a
-     * world of another era are provably untouched rather than merely believed to be.
+     * <p>{@link #analyse} is this with no dimension, so a caller with a biome or a level rather than a
+     * dimension key is unaffected. An unrestricted profile returns the candidate list unchanged, so an
+     * ordinary world and a world of another era are provably untouched rather than merely believed to be.
+     *
+     * @param dimensionId the dimension the list belongs to, or {@code null} when the caller has none
      */
-    public static Outcome analyse(
+    public static Outcome analyseForDimension(
         String profileId,
+        String dimensionId,
         WeightedRandomList<MobSpawnSettings.SpawnerData> candidates
     ) {
         Optional<HistoricalSpawnRules.SpawnRule> rule = HistoricalSpawnRules.forProfile(profileId);
@@ -68,7 +91,7 @@ public final class HistoricalSpawnFilter {
         for (MobSpawnSettings.SpawnerData candidate : candidates.unwrap()) {
             String entityId = BuiltInRegistries.ENTITY_TYPE
                 .getKey(candidate.type).toString();
-            if (HistoricalSpawnRules.isAllowed(rule.get(), entityId)) {
+            if (isAllowedInDimension(rule.get(), profileId, dimensionId, entityId)) {
                 kept.add(candidate);
             } else {
                 removed.add(entityId);
@@ -77,22 +100,77 @@ public final class HistoricalSpawnFilter {
         return new Outcome(removed.isEmpty() ? candidates : WeightedRandomList.create(kept), removed);
     }
 
-    /** The hooked natural-spawning path. */
+    /** {@link #analyseForDimension} with no dimension, so the version's own set is the only rule. */
+    public static Outcome analyse(
+        String profileId,
+        WeightedRandomList<MobSpawnSettings.SpawnerData> candidates
+    ) {
+        return analyseForDimension(profileId, null, candidates);
+    }
+
+    /**
+     * The complete verdict for one candidate entry: the version's own allow set, then the dimension's
+     * additions.
+     *
+     * <p>Today the only dimension rule is the Nether's enderman boundary - endermen reach the Nether in the
+     * 1.10 snapshot 16w20a, and every declared version is older, so a historical Nether must not spawn one
+     * while both the Overworld and the End keep them. It is expressed as a boundary rather than a veto so a
+     * later version inherits the right answer; see
+     * {@link HistoricalSpawnRules#NETHER_ENDERMAN_CHRONOLOGY}.
+     *
+     * <p>An unknown dimension id adds nothing, so a caller that cannot identify its dimension gets the
+     * version's own rule rather than an invented restriction.
+     */
+    public static boolean isAllowedInDimension(
+        HistoricalSpawnRules.SpawnRule rule,
+        String profileId,
+        String dimensionId,
+        String entityTypeId
+    ) {
+        if (rule == null) {
+            // No rule means no filtering, exactly as HistoricalSpawnRules.isAllowed(null, ...) answers. The
+            // dimension rule is an ADDITION to a version's set, so it cannot apply where there is no version
+            // to add it to - an ordinary world must not acquire a Nether restriction by asking this helper.
+            return true;
+        }
+        if (!HistoricalSpawnRules.isAllowed(rule, entityTypeId)) {
+            return false;
+        }
+        if (NETHER_DIMENSION_ID.equals(dimensionId) && "minecraft:enderman".equals(entityTypeId)) {
+            return HistoricalSpawnRules.netherEndermenAllowed(profileId);
+        }
+        return true;
+    }
+
+    /**
+     * The Nether's level identifier, as 1.21.1 spells it.
+     *
+     * <p>The End is deliberately absent: endermen are its native population in every version, so no
+     * dimension rule may touch them there.
+     */
+    private static final String NETHER_DIMENSION_ID =
+        net.minecraft.world.level.Level.NETHER.location().toString();
+
+    /**
+     * The hooked natural-spawning path.
+     *
+     * <p>Records nothing and returns the list unchanged when the world resolving through
+     * {@link #profileIdForGenerator} is not a declared historical profile - which is what an ordinary world,
+     * an unrecognised preset and a stopped server all are.
+     */
     public static WeightedRandomList<MobSpawnSettings.SpawnerData> apply(
         ChunkGenerator generator,
         WeightedRandomList<MobSpawnSettings.SpawnerData> candidates
     ) {
-        String profileId = profileIdForGenerator(generator);
-        if (profileId == null || HistoricalSpawnRules.forProfile(profileId).isEmpty()) {
-            return candidates;
-        }
-        HistoricalSpawnRules.recordFilterInvocation();
-        Outcome outcome = analyse(profileId, candidates);
-        outcome.removed().forEach(HistoricalSpawnRules::recordRemoval);
-        return outcome.kept();
+        return applyForDimension(profileIdForGenerator(generator), null, candidates);
     }
 
-    /** The hooked chunk-generation path, which has a level rather than a generator in hand. */
+    /**
+     * The hooked chunk-generation path, which has a level rather than a generator in hand.
+     *
+     * <p>The level is authoritative for both halves of the resolution: it supplies the generator, and it
+     * supplies the dimension whose rules apply. Using the generator alone would lose the second.
+     */
     public static WeightedRandomList<MobSpawnSettings.SpawnerData> applyForLevel(
         ServerLevel level,
         WeightedRandomList<MobSpawnSettings.SpawnerData> candidates
@@ -100,6 +178,32 @@ public final class HistoricalSpawnFilter {
         if (level == null) {
             return candidates;
         }
-        return apply(level.getChunkSource().getGenerator(), candidates);
+        String dimensionId;
+        try {
+            dimensionId = level.dimension().location().toString();
+        } catch (RuntimeException e) {
+            // A level that cannot name its dimension is not one we can add a dimension rule to; the
+            // version's own set still applies, which is the safe half.
+            dimensionId = null;
+        }
+        return applyForDimension(
+            profileIdForGenerator(level.getChunkSource().getGenerator()),
+            dimensionId,
+            candidates);
+    }
+
+    /** The shared resolving body of {@link #apply} and {@link #applyForLevel}. */
+    private static WeightedRandomList<MobSpawnSettings.SpawnerData> applyForDimension(
+        String profileId,
+        String dimensionId,
+        WeightedRandomList<MobSpawnSettings.SpawnerData> candidates
+    ) {
+        if (profileId == null || HistoricalSpawnRules.forProfile(profileId).isEmpty()) {
+            return candidates;
+        }
+        HistoricalSpawnRules.recordFilterInvocation();
+        Outcome outcome = analyseForDimension(profileId, dimensionId, candidates);
+        outcome.removed().forEach(HistoricalSpawnRules::recordRemoval);
+        return outcome.kept();
     }
 }

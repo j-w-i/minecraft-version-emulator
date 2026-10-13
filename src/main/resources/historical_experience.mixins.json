@@ -8,6 +8,7 @@
     "TreeDecoratorContextHistoricalSuppressionMixin",
     "StructureHistoricalSuppressionMixin",
     "NaturalSpawnerHistoricalSpawnMixin",
+    "NaturalSpawnerProbeAccessor",
     "LevelStorageHistoricalUpgradeRecoveryMixin",
     "FleeSunGoalHistoricalMixin",
     "PanicGoalHistoricalMixin",

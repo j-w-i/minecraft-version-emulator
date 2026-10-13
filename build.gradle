@@ -96,6 +96,9 @@ loom {
             runDir project.findProperty('generationRunDir') ?: 'run'
             if (project.hasProperty('generationProbe')) {
                 vmArg '-Dhistorical_experience.generationProbe=true'
+                if (project.hasProperty('netherProbe')) {
+                    vmArg '-Dhistorical_experience.generationProbe.nether=true'
+                }
                 vmArg "-Dhistorical_experience.generationProbe.token=${project.findProperty('probeToken') ?: ''}"
                 vmArg "-Dhistorical_experience.generationProbe.radius=${project.findProperty('probeRadius') ?: '3'}"
                 vmArg "-Dhistorical_experience.generationProbe.center=${project.findProperty('probeCenter') ?: '0'}"

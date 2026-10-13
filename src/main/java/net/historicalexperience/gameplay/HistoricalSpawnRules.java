@@ -458,6 +458,48 @@ public final class HistoricalSpawnRules {
         return rule == null || rule.allowedEntityTypes().contains(entityTypeId);
     }
 
+    /**
+     * The first version whose <b>Nether</b> spawns endermen naturally: the 1.10 snapshot 16w20a.
+     *
+     * <p>This is a dimension boundary rather than a mob boundary, and the two are genuinely different. The
+     * enderman arrived in Beta 1.8.1 and is Overworld content from then on - which is why it is in
+     * {@link #BETA_1_8_1_MOBS} and every set derived from it. Its <b>Nether</b> spawning began much later:
+     * 16w20a's change list records "Enderman can spawn in the Nether" (see
+     * {@code https://minewiki.pl/16w20a#1}).
+     *
+     * <p><b>602000 is Release 1.10.0 on this project's own chronology scheme</b>, which is
+     * {@code era + major * 1000 + minor * 100 + patch}: 600000 + 1 * 1000 + 10 * 100 + 0. It is written as
+     * that arithmetic rather than as a bare literal because a first attempt at this constant used the wrong
+     * scale (1010000), which is below no declared version and above the whole scheme - a value that happens
+     * to leave every declared version on the correct side of the comparison while meaning nothing.
+     * {@code NetherSpawnFilteringTest} pins the arithmetic rather than the literal, so the number cannot
+     * drift from the scheme again.
+     *
+     * <p>Measured consequence, reported by the owner's runtime probe: a Release 1.0.0 world's Nether spawned
+     * endermen, because 1.21.1's {@code nether_wastes} lists one and the flat allow set permits it. Every
+     * version this project declares is older than 1.10, so for the declared set the rule reads "endermen never
+     * spawn in the Nether" - but it is written as a dated boundary rather than as a flat veto so that a later
+     * version inherits the correct answer instead of a wrong one.
+     *
+     * <p>SOURCE AND CONFIDENCE are weaker than the sets above, and that is recorded rather than glossed: the
+     * mob sets are extracted from hash-verified client jars by this project, while this boundary rests on
+     * 16w20a's published change list - no declared build is near it, so no jar here can be scanned for it. It
+     * affects only the Nether, and Overworld endermen spawning is untouched by construction.
+     */
+    public static final int NETHER_ENDERMAN_CHRONOLOGY = 602_000;
+
+    /**
+     * True when endermen may spawn naturally <b>in the Nether</b> for this gameplay profile.
+     *
+     * <p>False for every version older than 16w20a, which is every declared version. A profile this build
+     * does not declare answers false as well: an unknown world must not acquire a Nether mob it never had.
+     */
+    public static boolean netherEndermenAllowed(String profileId) {
+        return net.historicalexperience.version.HistoricalVersions.byId(profileId)
+            .map(version -> version.chronology() >= NETHER_ENDERMAN_CHRONOLOGY)
+            .orElse(false);
+    }
+
     /** Records that a spawn-list filter ran. */
     public static void recordFilterInvocation() {
         FILTER_INVOCATIONS.increment();

@@ -246,11 +246,11 @@ Two blocks came out of it, both stated by the research rather than left to the p
 
 ## 6. State of the matrix, and what is actually left
 
-**26 profiles declared and selectable**, pinned by `GenerationBackport1211Test` and the two rules tests. The entire
-**Alpha line from 1.0.1 to 1.2.0** is done, as are both originally-declared Infdev builds, Beta 1.7.3, Beta 1.8.1, **all
-six Beta 1.9 prereleases**, and Release 1.0, 1.1, 1.2.5, 1.3, 1.4, 1.5 and 1.6.4.
+**29 profiles declared and selectable**, including Beta 1.0, 1.2 and 1.3. Declaration is not proof of complete
+historical fidelity: the Alpha line, both Infdev builds, Beta 1.7.3/1.8.1, six Beta 1.9 prereleases and Release
+1.0–1.6.4 still have the behaviour and terrain gaps recorded below.
 
-The catalogue's remaining `planned` rows with no profile are **six Beta builds**: 1.0, 1.2, 1.3, 1.4, 1.5 and 1.6.
+The catalogue's remaining `planned` rows with no profile are **three Beta builds**: 1.4, 1.5 and 1.6.
 Their content is real and distinct - beds and repeaters, wolves and cookies, achievements and weather, maps and
 trapdoors - and they need the same question answered that Release 1.3-1.5 did, except the answer is likely to be
 cleaner: the terrain generator did not change between Beta 1.0 and 1.7.3 (the Adventure Update overhauled it in 1.8),
@@ -260,16 +260,21 @@ turned out to be "no approximation needed" rather than the decision I expected t
 
 ### Open defects, in the order I would take them
 
-1. **Release spawn sets are unresearched, so Release worlds spawn modern 1.21.1 mobs.** This is the largest known
-   content defect and it applies to every Release profile: 1.0, 1.1, 1.2.5, 1.3, 1.4, 1.5 and 1.6.4 are all declared
-   through `terrainOnly`, which sets no restriction. `SpawnRestrictionSemanticsTest` deliberately forbids inventing a
-   set, so the honest fix is research. The delta for Release 1.4 does enumerate four additions - bat, witch, wither
-   skeleton, zombie villager - which is a starting point rather than an answer.
-2. **A `_no_grass` revision exists on all six Beta 1.9 prereleases, and it should not.** The helper's own comment
-   says "Every caller of this helper predates that - Alpha and both Infdev builds", which was true until the
-   prereleases were routed through it. Grass was added in Beta 1.6, so a "no grass" world type for Beta 1.9 is
-   historically bogus and visible in the GUI. Revisions are append-only for PUBLISHED recipes; these were created
-   in-session with no worlds on them but probe fixtures, so the lists may be edited.
+1. **Nether enforcement bypass (repaired in this change).** Release spawn sets already existed, but the live
+   feature and spawn filters used `historicalAlias(generator)`, which returns null for vanilla Nether generators.
+   They now resolve `activeAlias` with the server's historical scope, as structures and block-write guards do.
+   Both placed-feature entry points are guarded. Dimension-specific Enderman spawning also needs a separate
+   rule: Nether spawning arrived in [16w20a / Release 1.10](https://minewiki.pl/16w20a#1), later than every declared
+   profile, even though Endermen themselves exist from Beta 1.8. Ordinary worlds remain unrestricted.
+   Regression coverage: [scope tests](<../src/test/java/net/historicalexperience/generation/NetherEnforcementScopeTest.java>)
+   and the opt-in `-PgenerationProbe=true -PnetherProbe=true` runtime probe, which scans 49 Nether chunks,
+   calls the injected `NaturalSpawner.mobsAt` method and explicitly exercises excluded placed features.
+   [Executed evidence](<nether-enforcement-verification.md>): 338 passing tests; Release 1.0 and 1.5
+   plus an ordinary control each sampled 49 Nether chunks, with zero historical-block/spawn violations.
+   Release 1.5 retained 6,063 quartz blocks; the ordinary control retained modern content with no suppressions.
+   Dedicated-server verification and Prism deployment are distinct; no new Prism playthrough claimed.
+2. **The bogus prerelease `_no_grass` choices have been removed.** Release and prerelease declarations now use
+   `releaseTerrainOnlyWithRules`, with their own spawn sets and only the relevant content revision.
 3. **The Nether's terrain SHAPE is still the modern 1.16+ one.** Its biomes are fixed (one biome,
    `minecraft:nether_wastes`, via vanilla's `minecraft:fixed` biome source), but the shape comes from
    `minecraft:nether` noise settings and Moderner Beta ships no historical Nether to point at. Recorded as a gap.

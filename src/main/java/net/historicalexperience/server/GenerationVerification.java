@@ -225,6 +225,95 @@ public final class GenerationVerification {
         return out;
     }
 
+    /** Exercises vanilla Nether generation and the injected spawn-list path, not a table-only analysis. */
+    private static Map<String, Object> netherProbe(MinecraftServer server) {
+        var level = server.getLevel(net.minecraft.world.level.Level.NETHER);
+        if (level == null) throw new IllegalStateException("Nether level missing");
+        var generator = level.getChunkSource().getGenerator();
+        String alias = HistoricalFeatureExclusions.activeAlias(generator);
+        String versionId = alias == null ? null : net.historicalexperience.version.HistoricalVersions
+            .byRevisionAlias(alias).orElseThrow().id();
+        Map<String, Object> out = new LinkedHashMap<>();
+        out.put("generator", generator.getClass().getName());
+        out.put("ownMarker", HistoricalFeatureExclusions.historicalAlias(generator));
+        out.put("effectiveAlias", alias);
+        Map<String, Long> blocks = new TreeMap<>();
+        java.util.Set<String> candidates = new java.util.TreeSet<>();
+        java.util.Set<String> rejectedCandidates = new java.util.TreeSet<>();
+        for (int x = -3; x <= 3; x++) {
+            for (int z = -3; z <= 3; z++) {
+                var chunk = level.getChunk(x, z);
+                for (var section : chunk.getSections()) {
+                    section.getStates().count((state, count) -> blocks.merge(
+                        net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(state.getBlock()).toString(),
+                        (long) count, Long::sum));
+                }
+                for (int y : new int[] {32, 64, 96}) {
+                    var pos = new BlockPos(x * 16 + 8, y, z * 16 + 8);
+                    for (var category : net.minecraft.world.entity.MobCategory.values()) {
+                        var live = net.historicalexperience.mixin.NaturalSpawnerProbeAccessor.invokeMobsAt(
+                            level, level.structureManager(), generator, category, pos, level.getBiome(pos));
+                        for (var entry : live.unwrap()) {
+                            String id = net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(entry.type).toString();
+                            candidates.add(id);
+                            if (versionId != null && !HistoricalSpawnRules.isAllowed(
+                                    HistoricalSpawnRules.forProfile(versionId).orElseThrow(), id)) {
+                                rejectedCandidates.add(id);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (versionId != null && net.historicalexperience.version.HistoricalVersions.byId(versionId)
+                .orElseThrow().chronology() < HistoricalSpawnRules.NETHER_ENDERMAN_CHRONOLOGY && candidates.contains("minecraft:enderman")) {
+            rejectedCandidates.add("minecraft:enderman");
+        }
+        Map<String, Long> failures = new TreeMap<>();
+        boolean quartzExcluded = HistoricalFeatureExclusions.runtimeExclusionsForAlias(alias).stream()
+            .anyMatch(e -> e.featureId().equals("minecraft:ore_quartz_nether"));
+        if (quartzExcluded && blocks.getOrDefault("minecraft:nether_quartz_ore", 0L) > 0) {
+            failures.put("minecraft:nether_quartz_ore", blocks.get("minecraft:nether_quartz_ore"));
+        }
+        blocks.forEach((id, count) -> {
+            if (versionId != null && net.historicalexperience.generation.HistoricalBlockContent
+                    .isAnachronistic(versionId, id)) failures.put(id, count);
+        });
+        // Invoke the real placed-feature injection explicitly too. Excluded ore features must return
+        // before placement; this catches ore implementations that write chunk sections directly.
+        Map<String, Boolean> excludedFeatureResults = new TreeMap<>();
+        var registry = level.registryAccess().registryOrThrow(Registries.PLACED_FEATURE);
+        for (var exclusion : HistoricalFeatureExclusions.runtimeExclusionsForAlias(alias)) {
+            if (!java.util.Set.of("minecraft:ore_quartz_nether", "minecraft:ore_gold_nether",
+                    "minecraft:ore_magma", "minecraft:ore_ancient_debris_large", "minecraft:ore_debris_small",
+                    "minecraft:ore_blackstone", "minecraft:patch_soul_fire").contains(exclusion.featureId())) continue;
+            var feature = registry.get(net.minecraft.resources.ResourceLocation.parse(exclusion.featureId()));
+            if (feature == null) throw new IllegalStateException("Missing Nether exclusion " + exclusion.featureId());
+            long before = HistoricalFeatureExclusions.skippedPlacements();
+            boolean placed = feature.placeWithBiomeCheck(level, generator,
+                net.minecraft.util.RandomSource.create(1L), new BlockPos(0, 32, 0));
+            excludedFeatureResults.put(exclusion.featureId(), placed);
+            if (placed || HistoricalFeatureExclusions.skippedPlacements() != before + 1) {
+                throw new IllegalStateException("Nether feature bypassed live filter: " + exclusion.featureId());
+            }
+            boolean nestedPlaced = feature.place(level, generator,
+                net.minecraft.util.RandomSource.create(1L), new BlockPos(0, 32, 0));
+            if (nestedPlaced || HistoricalFeatureExclusions.skippedPlacements() != before + 2) {
+                throw new IllegalStateException("Nested Nether feature bypassed live filter: " + exclusion.featureId());
+            }
+        }
+        out.put("sampledFullChunks", 49);
+        out.put("blockCounts", blocks);
+        out.put("anachronisticBlocks", failures);
+        out.put("liveSpawnCandidates", candidates);
+        out.put("anachronisticSpawnCandidates", rejectedCandidates);
+        out.put("excludedFeaturePlacementResults", excludedFeatureResults);
+        if (!failures.isEmpty() || !rejectedCandidates.isEmpty()) {
+            throw new IllegalStateException("Nether enforcement failed: blocks=" + failures + "; mobs=" + rejectedCandidates);
+        }
+        return out;
+    }
+
     private static void run(MinecraftServer server) {
         Map<String, Object> report = new LinkedHashMap<>();
         report.put("runToken", System.getProperty("historical_experience.generationProbe.token"));
@@ -326,6 +415,9 @@ public final class GenerationVerification {
             report.put("sampledUnknownBlocks", unknownBlocks);
             report.put("blockAvailabilityDatedBlocks",
                 net.historicalexperience.generation.HistoricalBlockAvailability.size());
+            if (Boolean.getBoolean("historical_experience.generationProbe.nether")) {
+                report.put("nether", netherProbe(server));
+            }
             report.put("features", HistoricalFeatureExclusions.diagnostics());
             report.put("suppressedDecorationBlocks", HistoricalFeatureExclusions.suppressedBlockCount());
             report.put("suppressedDecorationIds", HistoricalFeatureExclusions.suppressedBlockIds());

@@ -20,7 +20,29 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-/** Backports the 26.3 historical candidate-list filters, before any entity is created. */
+/**
+ * Backports the 26.3 historical candidate-list filters, before any entity is created.
+ *
+ * <p>Two live paths, both resolving the world through the same {@link HistoricalSpawnFilter} code:
+ *
+ * <ul>
+ *   <li>{@code mobsAt} is the runtime path and covers <b>biome and structure lists alike</b>:
+ *       {@code ChunkGenerator.getMobsAt} returns a covering structure's own spawn override and only falls
+ *       back to the biome's {@code MobSpawnSettings.getMobs(category)} otherwise. Injecting on the return
+ *       therefore filters the Nether's structure lists - a 1.21.1 fortress returns blaze, zombified piglin,
+ *       wither skeleton, skeleton and magma cube - with no second hook to disagree with this one. It routes
+ *       through {@code applyForLevel} rather than {@code apply} because the <b>level</b> is authoritative
+ *       for both halves of the resolution: it supplies the generator and the dimension, and the dimension
+ *       carries its own rule (endermen do not spawn in the Nether before 16w20a).</li>
+ *   <li>{@code spawnMobsForChunkGeneration} is the generation-time path, which asks the <b>biome's</b>
+ *       settings directly and so never sees a structure override. It reaches the same resolution through
+ *       {@code applyForLevel}, so a generation-time list cannot disagree with a runtime one about the
+ *       dimension either.</li>
+ * </ul>
+ *
+ * <p>{@link NaturalSpawnerProbeAccessor} invokes this same {@code mobsAt}, so a probe observation is an
+ * observation of the deployed hook.
+ */
 @Mixin(NaturalSpawner.class)
 public abstract class NaturalSpawnerHistoricalSpawnMixin {
     @Inject(method = "mobsAt", at = @At("RETURN"), cancellable = true)
@@ -29,7 +51,7 @@ public abstract class NaturalSpawnerHistoricalSpawnMixin {
         MobCategory category, BlockPos pos, Holder<Biome> biome,
         CallbackInfoReturnable<WeightedRandomList<MobSpawnSettings.SpawnerData>> callback
     ) {
-        callback.setReturnValue(HistoricalSpawnFilter.apply(generator, callback.getReturnValue()));
+        callback.setReturnValue(HistoricalSpawnFilter.applyForLevel(level, callback.getReturnValue()));
     }
 
     @Redirect(method = "spawnMobsForChunkGeneration", at = @At(value = "INVOKE",

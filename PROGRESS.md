@@ -1,5 +1,26 @@
 # Persistent project status — 2026-10-13 (2) / 1.21.1 root, NT port + per-profile content correctness
 
+## Nether live-enforcement repair — 2026-10-13 14:02 AEDT
+
+Owner's repeated Nether reports were an enforcement defect, not stale worlds or missing exclusions:
+both feature and spawn filters used the generator-only marker lookup, which returns null in the vanilla
+Nether. Both now fall back to the historical server scope. Both placed-feature entry points are guarded;
+natural spawning uses the level's dimension too, so pre-1.10 Nether Endermen are excluded without affecting
+Overworld Endermen. Existing content is not deleted.
+
+Reviewed DeepSeek spawn changes directly; corrected wrong chronology and test assumptions before acceptance.
+Final build: **338 tests, 0 failures/errors/skips**. Three dedicated-server runtime controls each scanned
+49 Nether chunks: Release 1.0 had zero reported modern ores/blocks or modern spawn candidates;
+Release 1.5 retained 6,063 quartz blocks; ordinary world retained modern content with zero suppressions.
+Prism deployment hash verified **7E27C27BF871AA71**. No new Prism playthrough claimed.
+
+Commands, raw evidence, limitations and reproducible probe flags are in
+[Nether enforcement verification](<research/nether-enforcement-verification.md>).
+Remaining: historical Nether terrain shape/Legacy-Nether registry-valid port; spawn weights/pack sizes;
+full matrix behaviours and the three undeclared Beta builds. The palette-null theory in the previous
+checkpoint was not the cause of this bypass: live block content judging uses dated/late-content tables.
+
+
 ## Rounds 25-29: the combat rules, and three fixes that were structurally right and behaviourally inert
 
 This stretch is worth reading before touching combat again, because the same failure repeated three times: a

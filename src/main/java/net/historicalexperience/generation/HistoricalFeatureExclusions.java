@@ -624,7 +624,9 @@ public final class HistoricalFeatureExclusions {
         WorldGenLevel level,
         PlacedFeature feature
     ) {
-        String alias = historicalAlias(generator);
+        // Nether/End generators are vanilla and carry no Moderner Beta marker. Resolve
+        // the owning historical world's scope here, just as the block and structure hooks do.
+        String alias = activeAlias(generator);
         if (alias == null) {
             return false;
         }
