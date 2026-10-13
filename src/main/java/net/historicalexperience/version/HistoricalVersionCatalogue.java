@@ -305,7 +305,7 @@ public final class HistoricalVersionCatalogue {
      * <p>Uses the registry's own numbering scheme - {@code eraOffset + major*1000 + minor*100 + patch} - rather
      * than a formula of its own. The first version of this used {@code major*10_000} and a separate Infdev branch,
      * which produced orderings that agreed with the registry while the numbers did not (410102 against the
-     * registry's 400112 for the same Alpha build), so the field claimed to be on the registry's scale and was not.
+     * registry's 401102 for the same Alpha build), so the field claimed to be on the registry's scale and was not.
      *
      * <p>Declared versions do not come through here at all: {@link #chronologyOf} asks the registry, because the
      * registry hand-writes at least one chronology (the Alpha profile) that no formula covering its display name

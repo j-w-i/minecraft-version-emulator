@@ -458,7 +458,11 @@ public final class HistoricalVersions {
             + "therefore still modern: mob drops, ore distribution, decoration. See "
             + "research/prebeta-registries.json.";
         return terrainOnlyWithRules(
-            id, displayName, "alpha", ERA_ALPHA + 112, upstreamPreset,
+            // Chronology on the registry's own scheme, not hand-written. It used to read ERA_ALPHA + 112, which
+            // is BELOW every Alpha 1.x build the scheme produces (Alpha 1.0.1 is 401001) - so declaring Alpha 1.0.1
+            // would have placed it after this profile, inverting the Alpha line. The value is derived, never
+            // persisted: a world stores its profile id and preset, not a chronology.
+            id, displayName, "alpha", chronology(ERA_ALPHA, 1, 1, 2), upstreamPreset,
             new VersionRules(
                 true,
                 HistoricalSpawnRules.ALPHA_1_1_2_MOBS,
