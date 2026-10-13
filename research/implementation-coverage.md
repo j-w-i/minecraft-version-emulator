@@ -130,6 +130,36 @@ broke every join twice before the probe was taught to load those classes.
 
 ---
 
+## 5a. Alpha 1.0.1: what the first probe found
+
+The generation probe for `historical_experience:alpha_1_0_1` passed (success, 1018 chunks, no palette failures, 205
+dated blocks, all eleven mixin targets transformed, and **72 spawn-filter invocations that removed `minecraft:chicken`** -
+the per-version mob set working at runtime rather than merely declared).
+
+It also listed ten blocks in the generated chunks that the availability table cannot date, because only Beta 1.7.3 has
+an extracted palette. Checking each against the research:
+
+| Block | Verdict |
+|---|---|
+| `dandelion`, `poppy` | **Authentic.** Alpha 1.0.11's delta is "tree/flower patch generation changed", so flower patches predate 1.0.1. Their *placement* changed in 1.0.11 and that is **U** - patch counts and heights are not documented |
+| `short_grass`, `fern` | **Absent, correctly.** Beta 1.6 introduces short grass and ferns, and neither appears in the probe - so the pre-1.8 grass suppression is working |
+| **`clay`** | **ANACHRONISTIC.** Clay is introduced in **Alpha 1.0.11**, nine builds after 1.0.1, and it appears in an Alpha 1.0.1 world because the pinned generator's alpha preset places it. The availability table cannot catch this for a version with no palette, so it must be suppressed through the feature-exclusion system |
+| `oak_log`, `red_mushroom`, `sand`, `dirt`, `stone`, `lava`, `water` | Pre-Alpha content, correctly present |
+
+The clay finding is the first anachronism this task has found **in generated terrain** rather than in a rule table, and it
+is the case the brief describes: "an otherwise suitable historical generator must not produce" content that did not
+exist. Disabling modern content is not sufficient when the foundation preset itself places a later block.
+
+**Where the clay comes from, established from the jars rather than guessed:** Moderner Beta ships its OWN clay feature -
+`moderner_beta:ore_clay` (both configured and placed), backed by `BetaOreClayFeature` - alongside vanilla's three
+(`minecraft:ore_clay`, `minecraft:disk_clay`, `lush_caves_clay`). All four are placed features, which is what the
+exclusion system filters, so all four can be suppressed by id.
+
+**The fix must be per-version.** Alpha v1.1.2_01 HAS clay, so the exclusion cannot go into the shared pre-Beta list that
+`terrainOnlyWithRules` picks internally (`BEFORE_GRASS_EXISTED_WITHOUT_DESERT_WELL`). Alpha 1.0.1 needs its own list, which
+means the helper has to accept an exclusion override - a small change, and a justified one, because "this build predates
+clay" is exactly the kind of fact that belongs on the version rather than on the era.
+
 ## 6. Next tasks, in order
 
 1. **Alpha 1.0.1** - the pattern version: registry entry via `terrainOnlyWithRules`, its own mob set (no chickens before
