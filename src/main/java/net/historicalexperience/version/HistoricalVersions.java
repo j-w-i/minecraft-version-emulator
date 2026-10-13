@@ -273,7 +273,7 @@ public final class HistoricalVersions {
                     + "does not have yet, and the snowfall regression deliberately must not leak into Release 1.0. "
                     + "Terrain comes from Moderner Beta's beta_1_9_pre_3 preset, the only Beta 1.9 terrain it ships, "
                     + "so Pre1's own reduced landmass and ocean height are not reproduced."),
-            HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES));
+            HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES_KEEPING_ORES));
 
         versions.add(releaseTerrainOnlyWithRules(
             "historical_experience:beta_1_9_pre_2", "Beta 1.9 Prerelease 2", "beta",
@@ -295,7 +295,7 @@ public final class HistoricalVersions {
                     + "Breeding and tool repair are not implemented yet; the cauldron exists in code without an "
                     + "assigned block id in this build and is not obtainable, which is recorded rather than faked. "
                     + "Terrain comes from beta_1_9_pre_3, the only Beta 1.9 terrain Moderner Beta ships."),
-            HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES));
+            HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES_KEEPING_ORES));
 
         // Prerelease 4 is where the Adventure Update's second half lands: enchanting becomes OPERATIONAL and the
         // End replaces the Sky dimension. Two gates already coded against BETA_1_9_PRE_4_CHRONOLOGY - functional
@@ -324,7 +324,7 @@ public final class HistoricalVersions {
                     + "reachability gate, and the dragon, whose code exists but does not spawn in this build. Adds "
                     + "no naturally spawning mob, so the spawn set is inherited. Terrain is beta_1_9_pre_3, the only "
                     + "Beta 1.9 terrain Moderner Beta ships."),
-            HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES));
+            HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES_KEEPING_ORES));
 
         versions.add(releaseTerrainOnlyWithRules(
             "historical_experience:beta_1_9_pre_5", "Beta 1.9 Prerelease 5", "beta",
@@ -347,7 +347,7 @@ public final class HistoricalVersions {
                     + "AND RAILS - the regression Prerelease 1 introduced is fixed here, which is why that "
                     + "regression was recorded against Pre1 rather than carried forward. Adds no mob. Terrain is "
                     + "beta_1_9_pre_3."),
-            HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES));
+            HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES_KEEPING_ORES));
 
         versions.add(releaseTerrainOnlyWithRules(
             "historical_experience:beta_1_9_pre_6", "Beta 1.9 Prerelease 6", "beta",
@@ -369,7 +369,7 @@ public final class HistoricalVersions {
                     + "mob is added to the natural spawn set, because the dragon is a fixed End spawn rather than a "
                     + "natural one and End crystals are not mobs - which is why the spawn set is still inherited. "
                     + "Terrain is beta_1_9_pre_3."),
-            HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES));
+            HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES_KEEPING_ORES));
 
         versions.add(releaseTerrainOnlyWithRules(
             "historical_experience:beta_1_9_pre_3", "Beta 1.9 Prerelease 3", "beta",
@@ -387,7 +387,7 @@ public final class HistoricalVersions {
                     + "so the spawn set is inherited from Pre2. Declared through the rules-carrying helper so that "
                     + "spawns are restricted: it was terrainOnly, which sets no restriction, and therefore spawned "
                     + "modern mobs. Terrain comes from beta_1_9_pre_3 itself."),
-            HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES));
+            HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES_KEEPING_ORES));
         // Release 1.0.0, and the first of the Release line to carry RULES rather than being declared terrain-only.
         //
         // That declaration is the fix for the largest content defect this project had: terrainOnly sets no spawn
@@ -414,7 +414,7 @@ public final class HistoricalVersions {
                     + "add no mob, which is why the spawn set is the prerelease set rather than a new one. Experience, "
                     + "sprinting, hunger and structures all exist by this build. The End, enchanting and brewing are "
                     + "operational; the dragon exists but this project does not claim the boss fight."),
-            HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES));
+            HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES_KEEPING_ORES));
         versions.add(releaseTerrainOnlyWithRules(
             "historical_experience:release_1_1", "Release 1.1", "release",
             chronology(ERA_RELEASE, 1, 1, 0), "moderner_beta:release_1_1",
@@ -430,7 +430,7 @@ public final class HistoricalVersions {
                 "Adds NO mob, so the spawn set is Release 1.0.0's and is inherited rather than written out. Its own "
                     + "deltas are spawn eggs, sheep regrowing wool by grazing, and the usual fixes; none of them add "
                     + "a creature that spawns naturally."),
-            HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES));
+            HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES_KEEPING_ORES));
         versions.add(releaseTerrainOnlyWithRules(
             "historical_experience:release_1_2_5", "Release 1.2.5", "release",
             chronology(ERA_RELEASE, 1, 2, 5), "moderner_beta:release_1_2_5",
@@ -447,7 +447,7 @@ public final class HistoricalVersions {
                     + "Only the OCELOT is added to the spawn set: cats are a separate entity type in 1.21.1 and did "
                     + "not spawn naturally until 1.14, so including them would put a modern mob in a Release 1.2 "
                     + "world. The iron golem is included because the research names it for this build."),
-            HistoricalFeatureExclusions.RELEASE_1_2_5_WITHOUT_MODERN_VANILLA_FEATURES));
+            HistoricalFeatureExclusions.RELEASE_1_2_5_WITHOUT_MODERN_VANILLA_FEATURES_KEEPING_ORES));
         versions.add(releaseTerrainOnlyWithRules(
             "historical_experience:release_1_6_4", "Release 1.6.4", "release",
             chronology(ERA_RELEASE, 1, 6, 4), "moderner_beta:release_1_6_4",
@@ -465,7 +465,7 @@ public final class HistoricalVersions {
                     + "is bred rather than spawned. Releases 1.3 and 1.5 add no mob, and 1.4 adds witch, bat, wither "
                     + "skeleton and zombie villager, which this set inherits through RELEASE_1_4_MOBS. It uses the "
                     + "1.5 exclusion list because quartz, added in 1.5, is content this build had."),
-            HistoricalFeatureExclusions.RELEASE_1_5_WITHOUT_MODERN_VANILLA_FEATURES));
+            HistoricalFeatureExclusions.RELEASE_1_5_WITHOUT_MODERN_VANILLA_FEATURES_KEEPING_ORES));
 
         // ---- Pre-Beta eras: Infdev and Alpha ------------------------------------------------------
         //
@@ -795,7 +795,7 @@ public final class HistoricalVersions {
                 "Adds no mob: its deltas are tripwire, the ender chest, emeralds and villager trading, cocoa pods, "
                     + "the desert pyramid and jungle temple, Large Biomes, adventure mode and XP from mining ores. So "
                     + "the spawn set is Release 1.2.5's, which already carries the ocelot and iron golem."),
-            HistoricalFeatureExclusions.RELEASE_1_2_5_WITHOUT_MODERN_VANILLA_FEATURES));
+            HistoricalFeatureExclusions.RELEASE_1_2_5_WITHOUT_MODERN_VANILLA_FEATURES_KEEPING_ORES));
         versions.add(releaseTerrainOnlyWithRules(
             "historical_experience:release_1_4", "Release 1.4", "release",
             chronology(ERA_RELEASE, 1, 4, 0), "moderner_beta:release_1_2_5",
@@ -813,7 +813,7 @@ public final class HistoricalVersions {
                     + "sand and three wither skeleton skulls rather than spawning naturally. Also anvils, item frames, "
                     + "flower pots, walls, carrots and potatoes, the beacon and Nether Star, and infested monster eggs "
                     + "in Extreme Hills."),
-            HistoricalFeatureExclusions.RELEASE_1_2_5_WITHOUT_MODERN_VANILLA_FEATURES));
+            HistoricalFeatureExclusions.RELEASE_1_2_5_WITHOUT_MODERN_VANILLA_FEATURES_KEEPING_ORES));
         versions.add(releaseTerrainOnlyWithRules(
             "historical_experience:release_1_5", "Release 1.5", "release",
             chronology(ERA_RELEASE, 1, 5, 0), "moderner_beta:release_1_2_5",
@@ -831,7 +831,7 @@ public final class HistoricalVersions {
                     + "rewrite. So the spawn set is Release 1.4's, which carries the witch, bat, wither skeleton and "
                     + "zombie villager. NETHER QUARTZ IS CONTENT THIS BUILD HAD, which is why it uses the 1.5 "
                     + "exclusion list rather than the earlier one."),
-            HistoricalFeatureExclusions.RELEASE_1_5_WITHOUT_MODERN_VANILLA_FEATURES));
+            HistoricalFeatureExclusions.RELEASE_1_5_WITHOUT_MODERN_VANILLA_FEATURES_KEEPING_ORES));
 
         // Beta 1.0, the first Beta. Its terrain foundation is NOT an approximation, and that was verified rather
         // than assumed: the research says for this build "existing climate-era generator (pre-Beta-1.8) persists",

@@ -88,24 +88,41 @@ class LapisIntroductionBoundaryTest {
     }
 
     @Test
-    @DisplayName("KNOWN DEFECT: ore features are switched off for versions that place no ores of their own")
-    void knownDefectOresAreSuppressedWithoutReplacement() {
-        // Pinned deliberately. Thirteen profiles - the six Beta 1.9 prereleases and the seven Release profiles -
-        // reach a public revision that excludes the vanilla ore features while declaring no ore population, so
-        // they generate NO ores at all. Measured in the matrix sweep, not inferred:
-        //   release_1_0_0 {}, beta_1_9_pre_1 {}, release_1_6_4 {}
-        //   beta_1_2 {all six}, beta_1_7_3 {all six}, beta_1_8_1 {all six}
-        // The moment this stops being true the assertions below fail, and that is the signal to delete this test
-        // and replace it with one asserting the ores are present.
-        for (String id : new String[] {"historical_experience:release_1_0_0", "historical_experience:release_1_6_4",
-                "historical_experience:beta_1_9_pre_1"}) {
-            HistoricalVersion version = HistoricalVersions.byId(id).orElseThrow();
+    @DisplayName("FIXED: the thirteen profiles keep the vanilla ore features they place nothing to replace")
+    void oreLossIsFixedForEveryAffectedProfile() {
+        // This test replaced a pin that asserted the opposite and failed the moment the fix landed, which is what
+        // a pin is for. The defect it recorded: the ore bans in BETA_1_7_3_WITH_REPLACED_ORES propagated down the
+        // plant chain into the public revision of all six Beta 1.9 prereleases and all seven Release profiles,
+        // none of which place ores of their own, so they generated NOTHING - measured as {} for
+        // release_1_0_0, release_1_6_4 and beta_1_9_pre_1 in the matrix sweep.
+        for (String id : new String[] {"historical_experience:beta_1_9_pre_1", "historical_experience:beta_1_9_pre_2",
+                "historical_experience:beta_1_9_pre_3", "historical_experience:beta_1_9_pre_4",
+                "historical_experience:beta_1_9_pre_5", "historical_experience:beta_1_9_pre_6",
+                "historical_experience:release_1_0_0", "historical_experience:release_1_1",
+                "historical_experience:release_1_2_5", "historical_experience:release_1_3",
+                "historical_experience:release_1_4", "historical_experience:release_1_5",
+                "historical_experience:release_1_6_4"}) {
+            HistoricalVersion version = HistoricalVersions.byId(id)
+                .orElseThrow(() -> new AssertionError(id + " must still be declared"));
             HistoricalVersion.GenerationRevision latest = version.revisions().get(version.revisions().size() - 1);
             assertFalse(latest.placesOwnOres(),
-                id + " is not expected to place its own ores; when that changes this pin is obsolete");
-            assertTrue(excludedOreFeatures(latest.alias()).size() >= 6,
-                latest.alias() + " no longer excludes the vanilla ore features, so the ore-loss defect is FIXED "
-                    + "and this pinned test should be replaced by one asserting the ores generate");
+                id + " places no ores of its own, which is why leaving the bans in place emptied the world");
+            assertTrue(excludedOreFeatures(latest.alias()).isEmpty(),
+                id + "'s public revision " + latest.alias() + " still excludes " + excludedOreFeatures(
+                    latest.alias()) + ", so it generates no ores at all");
+        }
+    }
+
+    @Test
+    @DisplayName("the versions that DO place their own ores keep the bans, so the two cannot double up")
+    void ownOreRevisionsKeepTheBans() {
+        // The fix must not have lifted the bans where they are correct: Beta 1.7.3's own-ore previews and
+        // Beta 1.8.1 place a full historical ore population themselves, and running the vanilla features beside
+        // it would double the ore in the world.
+        for (String alias : new String[] {"historical_experience:beta_1_7_3_content_preview_10",
+                "historical_experience:beta_1_8_1", "historical_experience:beta_1_8_1_no_modern_content"}) {
+            assertTrue(excludedOreFeatures(alias).size() >= 6,
+                alias + " places its own ores, so it must still exclude the vanilla ore features");
         }
     }
 }

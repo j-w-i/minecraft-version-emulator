@@ -230,6 +230,51 @@ public final class HistoricalFeatureExclusions {
     );
 
     /**
+     * The lists that switch off vanilla ore placement, and the versions that must NOT inherit them.
+     *
+     * <h2>The defect these exist to fix</h2>
+     *
+     * <p>The matrix sweep measured a fresh {@code release_1_0_0}, {@code release_1_6_4} and {@code beta_1_9_pre_1}
+     * world and found <b>zero ores of any kind</b> — no coal, iron, gold, diamond, redstone or lapis — while
+     * Beta 1.2, 1.7.3 and 1.8.1 contain all six. The cause is inheritance, not intent: the ore bans live in
+     * {@link #BETA_1_7_3_WITH_REPLACED_ORES}, which is correct <em>there</em> because Beta 1.7.3 and Beta 1.8.1
+     * place their own ore population and the vanilla features must be switched off so the two cannot double up.
+     * But the aquatic/plant chain is built on that list, so the bans propagate all the way down into the public
+     * {@code _no_modern_content} revision of all six Beta 1.9 prereleases and all seven Release profiles — and
+     * those place <b>no ores of their own</b>, so nothing replaces them.
+     *
+     * <p>It survived because it is a content <em>loss</em>: a sweep for blocks a version could not have cannot
+     * see a missing block, and a test asserting exclusions are present passes more easily the more there are.
+     *
+     * <h2>Why a filtered derivation rather than a second hand-written chain</h2>
+     *
+     * <p>These three lists are the originals with the replacement bans removed. Deriving them by filtering means
+     * the two cannot drift: every plant, flower, aquatic and firefly exclusion is carried across unchanged, and
+     * the only difference is the entries that were never about this era in the first place.
+     *
+     * <p>{@code moderner_beta:ore_emerald_y95} is deliberately NOT in the filtered set, so emerald ore stays
+     * excluded here. Emerald is Release 1.3.1 content and this project's own availability table pins its earliest
+     * DECLARED version to Release 1.6.4 as a proxy, so enabling it for Release 1.4 and 1.5 would need that
+     * boundary moved at the same time. That is a separate, recorded gap rather than something to smuggle in.
+     */
+    private static final Set<String> REPLACED_BY_BETA_POPULATION = Set.of(
+        "minecraft:ore_coal_upper", "minecraft:ore_coal_lower",
+        "minecraft:ore_iron_upper", "minecraft:ore_iron_middle", "minecraft:ore_iron_small",
+        "minecraft:ore_gold", "minecraft:ore_gold_lower",
+        "minecraft:ore_redstone", "minecraft:ore_redstone_lower",
+        "minecraft:ore_diamond", "minecraft:ore_diamond_medium", "minecraft:ore_diamond_large",
+        "minecraft:ore_diamond_buried",
+        "minecraft:ore_lapis", "minecraft:ore_lapis_buried",
+        "minecraft:ore_dirt", "minecraft:ore_gravel");
+
+    /** The same restrictions without the replacement bans, for versions that place no ores of their own. */
+    private static List<Exclusion> keepingVanillaOres(List<Exclusion> exclusions) {
+        return exclusions.stream()
+            .filter(exclusion -> !REPLACED_BY_BETA_POPULATION.contains(exclusion.featureId()))
+            .toList();
+    }
+
+    /**
      * Beta 1.7.3's restrictions plus the removal of the 1.13 aquatic plants.
      *
      * <p>Found by measurement, not by reading: judging every block a generated world contains against a
@@ -569,6 +614,22 @@ public final class HistoricalFeatureExclusions {
             .toList()
     );
 
+    /**
+     * The three public lists of the thirteen profiles that were generating no ore, with their replacement bans
+     * lifted.
+     *
+     * <p>Each is the same list the version already used, so nothing but the ore bans changes: the desert well
+     * boundary, the 1.13 aquatic plants, the 1.7.2/1.14 flowers, the quartz filter for Release 1.5 and everything
+     * else is carried across by construction rather than by being retyped.
+     */
+    public static final List<Exclusion> BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES_KEEPING_ORES =
+        keepingVanillaOres(BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES);
+
+    public static final List<Exclusion> RELEASE_1_2_5_WITHOUT_MODERN_VANILLA_FEATURES_KEEPING_ORES =
+        keepingVanillaOres(RELEASE_1_2_5_WITHOUT_MODERN_VANILLA_FEATURES);
+
+    public static final List<Exclusion> RELEASE_1_5_WITHOUT_MODERN_VANILLA_FEATURES_KEEPING_ORES =
+        keepingVanillaOres(RELEASE_1_5_WITHOUT_MODERN_VANILLA_FEATURES);
     private static Exclusion desertWell(String version) {
         return new Exclusion("minecraft:desert_well",
             "Desert wells are Release 1.2.1 (12w04a) content and this is a PLACED FEATURE on 1.21.1, not "

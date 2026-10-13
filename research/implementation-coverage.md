@@ -461,28 +461,32 @@ turned out to be "no approximation needed" rather than the decision I expected t
    because none of them covered Beta 1.0.
    not, because none of them covered Beta 1.0 specifically.
 
-15. **SEVERE, LONG-STANDING: thirteen profiles generate NO ORES AT ALL. Found while fixing the lapis leak in item
-   11.** Measured in the matrix sweep, not inferred. A fresh world of each profile contains:
-   * `release_1_0_0` — **zero ores**. So do `release_1_6_4` and `beta_1_9_pre_1`, and by the same mechanism the
-     other four prereleases and the other five Release profiles.
+15. **WAS SEVERE: thirteen profiles generated NO ORES AT ALL — now FIXED and verified.** Found while fixing the
+   lapis leak in item 11. Measured in the matrix sweep, not inferred: a fresh world of each profile contained
+   * `release_1_0_0` — **zero ores**, as did `release_1_6_4` and `beta_1_9_pre_1`; by the same mechanism the other
+     four prereleases and the other five Release profiles.
    * `beta_1_2`, `beta_1_7_3`, `beta_1_8_1` — all six ore types present.
    **The mechanism, traced through the exclusion chain.** `BETA_1_7_3_WITHOUT_AQUATIC_PLANTS` is built on
-   `BETA_1_7_3_WITH_REPLACED_ORES`, and that list carries **18 ore exclusions**. They are correct *there*, because
-   Beta 1.7.3 and Beta 1.8.1 place their **own** ore population and the vanilla features must be switched off so
-   the two cannot double up. But the plant and aquatic chain inherits them, so every list downstream inherits them
-   too, including the public `_no_modern_content` revision of every Beta 1.9 prerelease and every Release. Those
-   versions place **no ores of their own** (`placesOwnOres()` is false), so the vanilla features are switched off
-   and nothing replaces them.
-   **Why nothing caught it.** It is a content *loss*, not an anachronism, so a sweep for blocks a version could
-   not have cannot see it; and a unit test asserting exclusions are *present* passes more easily the more are
-   present. It is the same directional blind spot that let the food-stacking and crafting gates over-refuse.
-   It is now pinned by `LapisIntroductionBoundaryTest.knownDefectOresAreSuppressedWithoutReplacement`, which fails
-   the moment the ores come back — so the fix cannot be forgotten and the pin cannot be deleted quietly.
-   **Fix shape.** The ore exclusions must belong only to revisions that place their own ores. Because those lists
-   are referenced by published revisions, the append-only-safe route is a new chain without the ore bans plus new
-   revisions for the affected versions, with `PUBLIC_RECIPES` moved onto them — the same shape used for the
-   missing Beta envelope. **This is the largest known content defect in the project** and belongs above items 11
-   and 12.
+   `BETA_1_7_3_WITH_REPLACED_ORES`, and that list carries **18 replacement bans**. They are correct *there*,
+   because Beta 1.7.3 and Beta 1.8.1 place their **own** ore population and the vanilla features must be switched
+   off so the two cannot double up. But the plant and aquatic chain inherits them, so every list downstream
+   inherits them too, including the public `_no_modern_content` revision of every Beta 1.9 prerelease and every
+   Release. Those versions place **no ores of their own**, so the vanilla features were switched off and nothing
+   replaced them.
+   **Why nothing caught it.** It is a content *loss*, not an anachronism, so a sweep for blocks a version could not
+   have cannot see it, and a unit test asserting exclusions are *present* passes more easily the more are present.
+   The same directional blind spot that let the food-stacking and crafting gates over-refuse.
+   **The fix.** Three new lists — `..._KEEPING_ORES` — derived by **filtering the replacement bans out of the lists
+   the thirteen versions already used**, so every plant, flower, aquatic and firefly exclusion is carried across
+   by construction rather than retyped, and the two cannot drift. The thirteen call sites were retargeted.
+   `moderner_beta:ore_emerald_y95` is deliberately still filtered *in*: emerald is Release 1.3.1 content and this
+   project pins its earliest DECLARED version to Release 1.6.4 as a proxy, so lifting it for 1.4 and 1.5 would need
+   that boundary moved too — recorded as a separate gap rather than smuggled in.
+   **Verified at runtime, before and after, on fresh worlds:** `release_1_0_0`, `release_1_6_4` and
+   `beta_1_9_pre_1` went from `{}` to coal 864, iron 528, gold 36, diamond 140, redstone 253, lapis 172 — with
+   **zero anachronisms**, so restoring the vanilla features leaked nothing. The controls `beta_1_8_1` and
+   `beta_1_7_3` are unchanged, proving the bans were lifted only where they were wrong. 352 tests green; the
+   defect pin was replaced by `oreLossIsFixedForEveryAffectedProfile` and `ownOreRevisionsKeepTheBans`.
 12. **The Nether's terrain SHAPE is still the modern 1.16+ one.** Its biomes are fixed (one biome,
    `minecraft:nether_wastes`, via vanilla's `minecraft:fixed` biome source), but the shape comes from
    `minecraft:nether` noise settings and Moderner Beta ships no historical Nether to point at. Recorded as a gap.
