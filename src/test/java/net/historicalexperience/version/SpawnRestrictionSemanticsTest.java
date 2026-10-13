@@ -60,13 +60,21 @@ class SpawnRestrictionSemanticsTest {
     @Test
     @DisplayName("an empty allowed set that does NOT restrict means unresearched, and leaves spawning alone")
     void emptyAndUnrestrictedMeansUnresearched() {
-        var version = HistoricalVersions.byId(RELEASE_1_6_4).orElseThrow();
+        // DERIVED, not named. This test used RELEASE_1_6_4 until that profile gained a researched mob set, which
+        // was the third time a pinned version here went stale as the matrix filled in. Asking the registry for a
+        // version that still makes no claim cannot go stale, and it fails loudly when none is left rather than
+        // quietly testing a restricted version.
+        var version = HistoricalVersions.all().stream()
+            .filter(candidate -> !candidate.rules().restrictsSpawns())
+            .findFirst()
+            .orElseThrow(() -> new AssertionError("every version now has a researched mob set, so this test has "
+                + "nothing left to check - delete it deliberately rather than weakening it"));
 
-        assertFalse(version.rules().restrictsSpawns(),
-            "this version's mob set has not been researched, so nothing is filtered");
-        assertTrue(version.rules().allowedNaturalSpawns().isEmpty());
-        assertTrue(HistoricalSpawnRules.forProfile(RELEASE_1_6_4).isEmpty(),
-            "a version that does not restrict must expose no rule at all, so no filter runs");
+        assertTrue(version.rules().allowedNaturalSpawns().isEmpty(),
+            version.id() + " does not restrict, so its allowed set must be empty. An EMPTY set that DOES restrict "
+                + "is a different and meaningful state - nothing may spawn - and the two must not be confused");
+        assertTrue(HistoricalSpawnRules.forProfile(version.id()).isEmpty(),
+            version.id() + " does not restrict, so it must expose no rule at all and no filter runs");
     }
 
     @Test
@@ -127,11 +135,14 @@ class SpawnRestrictionSemanticsTest {
         assertTrue(HistoricalVersions.byId("historical_experience:release_1_0_0").orElseThrow().rules()
             .restrictsSpawns(),
             "Release 1.0.0 has a researched mob set - the prerelease one - and must restrict");
-        for (String id : Set.of(
-                "historical_experience:release_1_1", "historical_experience:release_1_2_5",
-                RELEASE_1_6_4)) {
-            assertFalse(HistoricalVersions.byId(id).orElseThrow().rules().restrictsSpawns(),
-                id + " has no researched mob set, so it must not restrict");
+        for (var candidate : HistoricalVersions.all()) {
+            if (candidate.rules().restrictsSpawns()) {
+                continue;
+            }
+            assertTrue(candidate.rules().allowedNaturalSpawns().isEmpty(),
+                candidate.id() + " does not restrict, so it must expose no allowed set at all. "
+                    + "This list used to name versions one at a time and went stale three times as profiles gained "
+                    + "researched sets; the invariant is what matters, not the names");
         }
         // The Beta 1.9 prereleases DO restrict, and that is the owner's point: an unrestricted Beta 1.9
         // world spawns modern 1.21.1 mobs, which is exactly what they reported.

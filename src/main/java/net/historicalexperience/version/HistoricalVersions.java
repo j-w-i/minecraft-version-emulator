@@ -415,17 +415,55 @@ public final class HistoricalVersions {
                     + "sprinting, hunger and structures all exist by this build. The End, enchanting and brewing are "
                     + "operational; the dragon exists but this project does not claim the boss fight."),
             HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES));
-        versions.add(terrainOnly(
+        versions.add(releaseTerrainOnlyWithRules(
             "historical_experience:release_1_1", "Release 1.1", "release",
             chronology(ERA_RELEASE, 1, 1, 0), "moderner_beta:release_1_1",
+            new VersionRules(
+                true,
+                HistoricalSpawnRules.RELEASE_1_0_MOBS,
+                java.util.Map.of(),
+                java.util.Map.of(),
+                true,
+                true,
+                true,
+                true,
+                "Adds NO mob, so the spawn set is Release 1.0.0's and is inherited rather than written out. Its own "
+                    + "deltas are spawn eggs, sheep regrowing wool by grazing, and the usual fixes; none of them add "
+                    + "a creature that spawns naturally."),
             HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES));
-        versions.add(terrainOnly(
+        versions.add(releaseTerrainOnlyWithRules(
             "historical_experience:release_1_2_5", "Release 1.2.5", "release",
             chronology(ERA_RELEASE, 1, 2, 5), "moderner_beta:release_1_2_5",
+            new VersionRules(
+                true,
+                HistoricalSpawnRules.RELEASE_1_2_MOBS,
+                java.util.Map.of(),
+                java.util.Map.of(),
+                true,
+                true,
+                true,
+                true,
+                "Adds ocelots/cats and iron golems, and zombie sieges with villager breeding and transformation. "
+                    + "Only the OCELOT is added to the spawn set: cats are a separate entity type in 1.21.1 and did "
+                    + "not spawn naturally until 1.14, so including them would put a modern mob in a Release 1.2 "
+                    + "world. The iron golem is included because the research names it for this build."),
             HistoricalFeatureExclusions.RELEASE_1_2_5_WITHOUT_MODERN_VANILLA_FEATURES));
-        versions.add(terrainOnly(
+        versions.add(releaseTerrainOnlyWithRules(
             "historical_experience:release_1_6_4", "Release 1.6.4", "release",
             chronology(ERA_RELEASE, 1, 6, 4), "moderner_beta:release_1_6_4",
+            new VersionRules(
+                true,
+                HistoricalSpawnRules.RELEASE_1_6_MOBS,
+                java.util.Map.of(),
+                java.util.Map.of(),
+                true,
+                true,
+                true,
+                true,
+                "Adds horses and variants, donkeys and mules, and the research states that horses spawn naturally in "
+                    + "plains and savanna. Horse and donkey are added to the spawn set; the MULE is not, because it "
+                    + "is bred rather than spawned. Releases 1.3 and 1.5 add no mob, and 1.4 adds witch, bat, wither "
+                    + "skeleton and zombie villager, which this set inherits through RELEASE_1_4_MOBS."),
             HistoricalFeatureExclusions.RELEASE_1_2_5_WITHOUT_MODERN_VANILLA_FEATURES));
 
         // ---- Pre-Beta eras: Infdev and Alpha ------------------------------------------------------
