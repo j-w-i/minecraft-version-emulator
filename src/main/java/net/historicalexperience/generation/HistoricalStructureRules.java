@@ -164,11 +164,12 @@ public final class HistoricalStructureRules {
             "It has monster rooms, which are features, but no structure-system structure")),
         Map.entry("historical_experience:alpha", noStructures("Alpha v1.1.2_01",
             "It has monster rooms, which are features, but no structure-system structure")),
-        Map.entry("historical_experience:beta_1_0",
-            allowed("Beta 1.0", Set.of("minecraft:fortress"),
-                "The Nether is inherited, so the nether fortress exists, but the research states there are no " 
-                    + "Beta 1.8 strongholds, villages or mineshafts in this build. This is the first profile whose " 
-                    + "allowed set is not empty for a reason other than the fortress arriving later.")),
+        Map.entry("historical_experience:beta_1_0", noStructures("Beta 1.0",
+                "The Nether is INHERITED in this build, but the NETHER FORTRESS is Beta 1.9 Prerelease 1 content, so "
+                    + "this build placed no structure-set structure at all. I had this entry ALLOW the fortress, on "
+                    + "the reasoning that an inherited Nether implies an inherited fortress; the owner corrected it: "
+                    + "\"disable spawning of fortresses until beta 1.9 pre 1\". The Alpha 1.2.0 entry a few lines "
+                    + "above already said the fortress did not exist until Pre1, so the two disagreed.")),
         Map.entry("historical_experience:beta_1_7_3", noStructures("Beta 1.7.3",
             "It has monster rooms, which are features, but no structure-system structure")),
         Map.entry("historical_experience:beta_1_8_1",
