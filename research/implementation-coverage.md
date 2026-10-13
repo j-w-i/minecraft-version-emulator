@@ -285,7 +285,59 @@ turned out to be "no approximation needed" rather than the decision I expected t
    `_historical_envelope` revisions so existing worlds keep their terrain. Every public menu recipe is now
    asserted to declare the envelope. See the evidence table in
    [completion and envelope evidence](<matrix-completion-verification.md>).
-4. **The newly declared Beta builds' own content is recorded but NOT implemented**: Beta 1.4's locked chest,
+4. **The beta-era passive spawner is NOT implemented, and this is a real behavioural gap.**
+   The owner reported it directly, and corrected my first account of it: in an Alpha world they killed every
+   entity, set tick speed to 10000 and waited hours — no passive mobs returned. **They are right that Alpha
+   spawned passive mobs over time**, and my initial note here claimed the opposite, which was an inference
+   from modern behaviour rather than research. The evidence says:
+   * Minecraft Wiki, [Mob spawning](https://minecraft.wiki/w/Mob_spawning): *"Most mobs have a spawning cycle
+     once every game tick … but passive mobs have only one spawning cycle every 400 game ticks (20 seconds).
+     Because of this, where conditions permit, hostile mobs spawn frequently, but passive mobs (animals)
+     spawn rarely. Most animals spawn within chunks when they are generated."* So there **is** a passive
+     spawn cycle, and it is the *relationship* between that cycle and chunk generation that differs by era.
+   * `research/feature-timeline.json`, the `animal spawn cap / monster spawn cap` row: *"The beta-era spawner
+     is a per-chunk creature/monster type counter and the modern SpawnPlacements/MobCategory caps are a much
+     later structure"* — a **counter**, i.e. a spawner that keeps running, not a generation-only path. The
+     same row records the numbers as **not established** and says plainly: *"Do not gate these tweaks on a
+     version until the numbers are read from a jar or from the wiki's Mob spawning table."*
+   * `research/historical-features.json`, *"Passive mobs no longer despawn and flee when attacked"*, changed at
+     **Beta 1.8**, with `modernBehaviourDifference` recording that pre-1.8 profiles must disable the modern
+     persistence/distance despawn path. Despawning and respawning are two halves of one mechanic, which is
+     why an era that despawned animals must also have repopulated them.
+   **We have neither half, and nothing was copied from NT.** Nostalgic Tweaks does implement this, as
+   `OLD_ANIMAL_SPAWNING` (`helper/gameplay/AnimalSpawnHelper.java`,
+   `mixin/tweak/gameplay/animal_spawn/SeverChunkCacheMixin.java`), and `research/nt-port-worklist.json`
+   records it as `alreadyTouched: false`, `verification: not_started`, `boundary: unknown` — it is **not
+   ported**. **It must not be fixed by copying NT either**: `research/nostalgic-tweaks-audit.json` classifies
+   it as class c, *"GENUINELY A DIFFERENT ALGORITHM — MUST NOT BE FORCED INTO THE RULE TABLE … the ALGORITHM
+   must be a separate subsystem with its own design, and its cap/attempt constants should be version data
+   feeding that algorithm rather than a VersionRules boolean"*, and its rank-4 note repeats *"Do NOT adopt
+   NT's animal spawning algorithm here"*.
+   **Still to establish, before any code:** why the vanilla 400-tick passive cycle yields nothing in a
+   historical Alpha world at all, and the real per-version cap and attempts-per-chunk numbers. Both are traced
+   work, not guesses — the ban on inventing values applies.
+
+   **The boundary IS now sourced, and it is Beta 1.8.** Minecraft Wiki,
+   [Mob spawning § History, Java Edition](https://minecraft.wiki/w/Mob_spawning), the Beta 1.8 (Pre-release)
+   row: *"Previously, mob spawning was determined by light level rather than the current chunk properties.
+   This was no longer the case in Beta 1.8. In a pre-Beta 1.8 world, hostile mobs would spawn in light level 7
+   or lower while friendly mobs would spawn in light levels 9 or higher. … If you had a lot of torches down,
+   go down to your mine, then return, you would have a tendency to find your house having some cows, pigs,
+   chickens or sheep running about."* That is the mechanic the owner described from play: **before Beta 1.8,
+   friendly mobs spawned continuously over time, driven by light level**, which is why an emptied Alpha world
+   repopulated. Beta 1.8 replaced it with chunk-property-driven spawning. The same history records an Alpha
+   v1.2.0 algorithm change and a 17×17 → 15×15 spawn-area reduction whose *old* size is still used for the
+   mob-cap arithmetic.
+   The owner's recollection that a Beta 1.9 prerelease or Release 1.0 **fixed** it is **not supported by that
+   history table**, which lists no mob-spawning entry for either — so on present evidence the Beta 1.8
+   behaviour is a change rather than a bug that was reverted. What would settle it is a Beta 1.9
+   prerelease/1.0 jar scan or that version's own history page, not inference.
+
+   **Measured, so the fault is NOT the allow-list:** the probe's new `passiveSpawn` section reports, for an
+   Alpha v1.1.0 world, `creatureOfferedByBiome = [chicken, cow, pig, sheep]` and
+   `creatureAfterHistoricalFilter = [chicken, cow, pig, sheep]` — the filter removes nothing, and
+   `passiveSpawnPossible = true`. So the candidates are present and permitted, and the missing half is the
+   spawning *cycle* itself: the pre-Beta-1.8 light-driven friendly spawner, which no code here implements.
    bed-spawn reset and achievement infrastructure; Beta 1.5's weather, powered/detector rails and cobweb
    obtainability; Beta 1.6's map, trapdoor, Nether bed explosion, fire-spread slowdown and ore-quadrant-bias
    fix. These are the next content work rather than claims.

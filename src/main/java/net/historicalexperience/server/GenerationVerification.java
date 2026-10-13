@@ -225,6 +225,59 @@ public final class GenerationVerification {
         return out;
     }
 
+    /**
+     * What the passive spawn path is actually offered in this world, before and after the historical filter.
+     *
+     * <p>Written for the owner's report that an Alpha world stayed empty after every entity was killed, at tick
+     * speed 10000, for hours. The question that settles it is not "is the algorithm right" but "is there anything
+     * left to spawn": {@code NaturalSpawner.mobsAt} is the same call the live path makes, so an empty list here
+     * means no passive mob can ever appear however long the world runs, and a non-empty one means the fault is
+     * further down the chain. Both halves are recorded because a list that is non-empty before the filter and
+     * empty after it is a completely different defect from one that is empty in the biome itself.
+     */
+    private static Map<String, Object> passiveSpawnProbe(net.minecraft.server.level.ServerLevel level,
+            String versionId) {
+        Map<String, Object> out = new LinkedHashMap<>();
+        java.util.Set<String> offered = new java.util.TreeSet<>();
+        java.util.Set<String> afterFilter = new java.util.TreeSet<>();
+        java.util.Set<String> biomes = new java.util.TreeSet<>();
+        var generator = level.getChunkSource().getGenerator();
+        for (int x = -1; x <= 1; x++) {
+            for (int z = -1; z <= 1; z++) {
+                var chunk = level.getChunk(x, z);
+                for (int px = 0; px < 16; px += 8) {
+                    for (int pz = 0; pz < 16; pz += 8) {
+                        int wx = x * 16 + px;
+                        int wz = z * 16 + pz;
+                        int wy = chunk.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.WORLD_SURFACE,
+                            px, pz) + 1;
+                        var pos = new BlockPos(wx, wy, wz);
+                        var biome = level.getBiome(pos);
+                        biomes.add(biome.unwrapKey().orElseThrow().location().toString());
+                        // Unfiltered: what the biome itself offers for the passive category.
+                        biome.value().getMobSettings().getMobs(net.minecraft.world.entity.MobCategory.CREATURE)
+                            .unwrap().forEach(data -> offered.add(
+                                net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE
+                                    .getKey(data.type).toString()));
+                        var live = net.historicalexperience.mixin.NaturalSpawnerProbeAccessor.invokeMobsAt(
+                            level, level.structureManager(), generator,
+                            net.minecraft.world.entity.MobCategory.CREATURE, pos, biome);
+                        live.unwrap().forEach(data -> afterFilter.add(
+                            net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE
+                                .getKey(data.type).toString()));
+                    }
+                }
+            }
+        }
+        out.put("biomesSampled", biomes);
+        out.put("creatureOfferedByBiome", offered);
+        out.put("creatureAfterHistoricalFilter", afterFilter);
+        out.put("passiveSpawnPossible", !afterFilter.isEmpty());
+        out.put("spawnFilterInvocations", net.historicalexperience.gameplay.HistoricalSpawnRules
+            .diagnostics().toString());
+        return out;
+    }
+
     /** Exercises vanilla Nether generation and the injected spawn-list path, not a table-only analysis. */
     private static Map<String, Object> netherProbe(MinecraftServer server) {
         var level = server.getLevel(net.minecraft.world.level.Level.NETHER);
@@ -434,6 +487,7 @@ public final class GenerationVerification {
             report.put("villageStyles",
                 net.historicalexperience.worldgen.HistoricalVillagePieces.styleDiagnostics());
             report.put("spawns", HistoricalSpawnRules.diagnostics());
+            report.put("passiveSpawn", passiveSpawnProbe(level, versionId));
             // An invalid id here DELETES a mob rather than failing to allow one, because the filter removes 
             // every type absent from the allowed set. This is checked against the entity registry, not against a 
             // transcription of it.
