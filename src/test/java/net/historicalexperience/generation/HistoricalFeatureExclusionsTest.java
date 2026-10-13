@@ -116,6 +116,7 @@ class HistoricalFeatureExclusionsTest {
                 "minecraft:ore_gold_nether",
                 "minecraft:patch_soul_fire",
                 "minecraft:ore_magma",
+                "minecraft:ore_quartz_nether",
                 "minecraft:ore_copper",
                 "minecraft:amethyst_geode",
                 "minecraft:underwater_magma",

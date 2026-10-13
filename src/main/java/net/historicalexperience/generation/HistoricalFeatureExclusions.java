@@ -153,7 +153,21 @@ public final class HistoricalFeatureExclusions {
         new Exclusion("minecraft:ore_tuff",
             "Tuff is 1.17 content; added by addMineables' BETA_ADD_NEW_MINEABLES"),
         new Exclusion("minecraft:glow_lichen",
-            "Glow lichen is 1.17 content; added by addMineables' BETA_ADD_NEW_MINEABLES")
+            "Glow lichen is 1.17 content; added by addMineables' BETA_ADD_NEW_MINEABLES"),
+        // NETHER QUARTZ belongs HERE, at the root, and NOT at the Beta 1.9 Prerelease 3 level where I first put it.
+        //
+        // Quartz ore is Release 1.5 (13w01a) content, so every version before 1.5 must exclude it - while 1.5 and
+        // 1.6.4 must NOT, because it is content they really had. That is a PREFIX of the version list, and this
+        // chain is linear, so an exclusion added partway down covers a SUFFIX and silently misses everything above
+        // it. At Prerelease 3 it therefore covered Pre3 onward and left Beta 1.7.3 and Beta 1.8.1 - the two era
+        // profiles the owner actually opens - still generating quartz. They reported it twice.
+        //
+        // In the root it reaches every version, and RELEASE_1_5_WITHOUT_MODERN_VANILLA_FEATURES filters this exact
+        // id back out for 1.5 and 1.6.4. That is the same shape the desert well already uses, and it is the only
+        // arrangement a linear chain offers for expressing "before Release 1.5".
+        new Exclusion("minecraft:ore_quartz_nether",
+            "Nether quartz ore is Release 1.5 (13w01a) content, and vanilla's nether_wastes biome places it as a "
+                + "feature, so every version before 1.5 would generate it")
         )).toList()
     );
 
@@ -467,23 +481,7 @@ public final class HistoricalFeatureExclusions {
      * from this version onwards and the Beta 1.8.1 exclusion is dropped rather than carried forward.
      */
     public static final List<Exclusion> BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES = List.copyOf(
-        java.util.stream.Stream.concat(
-            BETA_1_8_1_WITHOUT_MODERN_VANILLA_FEATURES.stream(),
-            // NETHER QUARTZ, which has to be excluded here rather than in the shared root.
-            //
-            // Quartz ore is Release 1.5 (13w01a) content. The other exclusions live on BETA_1_7_3_RESTRICTIONS and
-            // are inherited by every version the project declares, which is right for content no version had - but
-            // quartz IS content that Release 1.5 and 1.6.4 had, so putting it in the root would delete it there.
-            // It belongs at this level, the last list shared by every version BEFORE 1.5, and Release 1.5 removes
-            // it again in RELEASE_1_5_WITHOUT_MODERN_VANILLA_FEATURES.
-            //
-            // This became necessary when the Legacy-Nether port was switched off and every world preset went back
-            // to vanilla's nether_wastes, which places ore_quartz_nether. Before that the quartz-bearing biome was
-            // selected per version by the world preset; afterwards EVERY version mined quartz, which the owner saw.
-            java.util.stream.Stream.of(
-                new Exclusion("minecraft:ore_quartz_nether",
-                    "Nether quartz ore is Release 1.5 (13w01a) content, and vanilla's nether_wastes biome places "
-                        + "it as a feature, so every version before 1.5 would generate it")))
+        BETA_1_8_1_WITHOUT_MODERN_VANILLA_FEATURES.stream()
             .filter(exclusion -> !"minecraft:patch_waterlily".equals(exclusion.featureId()))
             .toList()
     );

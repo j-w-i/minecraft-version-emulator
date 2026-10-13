@@ -106,7 +106,7 @@ class BetaOreRulesTest {
             .map(HistoricalFeatureExclusions.Exclusion::featureId)
             .collect(java.util.stream.Collectors.toSet());
         assertFalse(revision4.contains("minecraft:ore_coal_lower"));
-        assertEquals(14, revision4.size());
+        assertEquals(15, revision4.size());
     }
 
     @Test
