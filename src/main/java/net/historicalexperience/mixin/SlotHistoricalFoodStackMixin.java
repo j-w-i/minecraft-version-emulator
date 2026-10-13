@@ -31,9 +31,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * <p>The slot's limit means "how many fit here", which is exactly the historical question, and nothing validates
  * recipe data against it. So the limit is applied where a player actually experiences it.
  *
- * <p>Known limitation, recorded rather than glossed: automatic pickup merging may still combine food beyond one,
- * because {@code Inventory.add} consults the item's own maximum and not the slot's. Whether that is visible in play
- * is worth checking directly - manual stacking, which this covers, is the case a player is most likely to notice.
+ * <p>The limit is applied where a player actually experiences it, and it is now one of three places rather than
+ * the only one. This mixin was the first, and its own note used to record that automatic pickup merging was still
+ * possible because {@code Inventory.add} consults the container's maximum and not the slot's. The owner then
+ * reported two live symptoms - food "picks up in a stack", and "if you double click in inventory it turns into a
+ * stack" - and disassembling 1.21.1 found three paths that read the <b>item's</b> own maximum instead:
+ * {@code Container.getMaxStackSize(ItemStack)} (what {@code Inventory.addResource} merges through),
+ * {@code AbstractContainerMenu}'s six {@code doClick} and two quick-craft calls, and
+ * {@code Inventory.placeItemBackInInventory}. Each is now capped by its own mixin, so the slot rule is no longer
+ * the weak link.
  *
  * <p>A shared mixin: the client's slots answer the same question when it predicts a click.
  */

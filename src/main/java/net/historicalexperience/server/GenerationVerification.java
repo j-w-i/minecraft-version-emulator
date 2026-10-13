@@ -154,6 +154,14 @@ public final class GenerationVerification {
             "net.minecraft.world.item.EnderEyeItem",
             "net.minecraft.world.level.block.entity.BrewingStandBlockEntity",
             "net.minecraft.world.entity.Entity",
+            // The food-stacking rule, after the owner reported that pickup and a double-click both still made a
+            // stack of food before Beta 1.8. Each of these three carries a redirect whose target must resolve,
+            // and a wrong target is fatal when the class is transformed - that is, when a player opens an
+            // inventory. Container is an interface whose default method is the choke point Inventory.addResource
+            // merges through, and Inventory and AbstractContainerMenu are the two classes that read the item's
+            // own maximum instead.
+            "net.minecraft.world.Container",
+            "net.minecraft.world.entity.player.Inventory",
             "net.minecraft.world.inventory.InventoryMenu",
             "net.minecraft.world.inventory.AbstractContainerMenu",
             "net.minecraft.world.inventory.Slot",

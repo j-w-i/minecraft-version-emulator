@@ -47,6 +47,9 @@
     "PlayerHistoricalOffhandMixin",
     "ServerGamePacketListenerHistoricalOffhandMixin",
     "SlotHistoricalFoodStackMixin",
+    "ContainerHistoricalFoodStackMixin",
+    "MenuHistoricalFoodStackMixin",
+    "InventoryHistoricalFoodStackMixin",
     "PortalShapeHistoricalNetherMixin",
     "NetherPortalBlockHistoricalNetherMixin"
   ],
