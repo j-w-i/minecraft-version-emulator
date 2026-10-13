@@ -520,6 +520,10 @@ public final class GenerationVerification {
             report.put("features", HistoricalFeatureExclusions.diagnostics());
             report.put("suppressedDecorationBlocks", HistoricalFeatureExclusions.suppressedBlockCount());
             report.put("suppressedDecorationIds", HistoricalFeatureExclusions.suppressedBlockIds());
+            // "never asked" vs "asked and allowed": a Beta 1.0 world generated lapis ore and sandstone while the
+            // refusal list held only plants, so the veto's coverage had to be measured rather than inferred.
+            report.put("blockVetoInvocations", HistoricalFeatureExclusions.vetoInvocations());
+            report.put("blockVetoSawIds", new java.util.TreeSet<>(HistoricalFeatureExclusions.seenBlockIds()));
             report.put("ores", BetaOreRules.diagnostics());
             report.put("structureSuppressions", HistoricalStructureRules.suppressedCount());
             report.put("suppressedStructureIds", HistoricalStructureRules.suppressedStructureIds());

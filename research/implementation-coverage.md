@@ -417,29 +417,40 @@ turned out to be "no approximation needed" rather than the decision I expected t
    project's safety controls and are worth repairing rather than deleting.
    `migrate-to-root.ps1` is an obsolete one-time migration, and `audit-generation-backport.py` plus
    `verify-generation-1211-matrix.py` compare against the deleted 26.3 tree, so they cannot verify anything now.
-11. **Beta 1.0 generates two blocks it never had, found by the new matrix sweep.** In a **fresh** world,
-   `historical_experience:beta_1_0` reports `sampledPaletteFailures = {lapis_ore: 132, sandstone: 2993}` — both are
-   Beta 1.2 content, so neither belongs in a Beta 1.0 world. Nothing else in the 32-version sweep leaked: every
-   other version reported zero anachronistic blocks.
-   **What the evidence already narrows.** The block veto is not simply broken: the same world's
-   `suppressedDecorationIds` lists `short_grass`, `vine`, `seagrass`, `tall_seagrass`, `kelp`, `kelp_plant` and
-   `bee_nest`, so it *is* refusing anachronistic blocks written during decoration. And the probe judges
-   `minecraft:lapis_ore` ANACHRONISTIC for this exact version, so the decision helper agrees with itself. What
-   differs is the **path**: lapis and sandstone evidently reach the chunk through something other than the
-   `WorldGenRegion.setBlock` overload the veto hooks.
-   Ruled out already, by disassembly rather than by guessing: the three-argument overload is an interface default
-   that dispatches to the four-argument one (`WorldGenRegion` declares only
-   `setBlock(BlockPos, BlockState, int, int)`), so the veto is not being bypassed by an overload it failed to
-   cover. That leaves two candidates to test next, and they need different fixes:
-   * Moderner Beta placing ores inside its own chunk provider, in the proto-chunk stage before a `WorldGenRegion`
-     exists — which would explain ores specifically and would need a settings-level answer rather than a veto;
-   * the sandstone coming from the preset's surface rules, which is a Beta 1.3 behaviour the shared
-     `moderner_beta:beta` preset applies to every Beta version, and which no write-time veto can see if it happens
-     in the noise/surface stage.
-   Both are recorded rather than guessed at, and the sweep makes re-testing cheap:
+11. **Beta 1.0 generates two blocks it never had, and the write-path reason is now PROVEN.** In a **fresh** world,
+   `historical_experience:beta_1_0` reports `sampledPaletteFailures = {lapis_ore: 136, sandstone: 2993}` — both are
+   Beta 1.2 content. Every other version in the sweep reported zero.
+   **Measured, not inferred.** The probe now counts veto invocations and records which block ids reached it, which
+   is the difference between "the veto said no" and "the veto was never asked". For that world:
+   `blockVetoInvocations = 24822`, 26 distinct ids seen including `stone`, `dirt` and `short_grass` — and
+   **`lapis_ore` and `sandstone` were never seen at all**. The refusal logic is not wrong; those writes never
+   reach it.
+   **Why, from disassembly of 1.21.1:**
+   * `OreFeature` does **not** call `setBlock` anywhere — it writes straight through
+     `LevelChunkSection.setBlockState(int, int, int, BlockState, boolean)`. That is the lapis path.
+   * `SurfaceSystem` writes through `BlockColumn.setBlock(int, BlockState)`. That is the sandstone path, and it is
+     a Beta 1.3 behaviour ("sandstone now generates under naturally generated sand") that the shared
+     `moderner_beta:beta` preset applies to every Beta version.
+   * The 3-argument `setBlock` overload is **not** the culprit, which was worth ruling out rather than assuming:
+     `LevelWriter`'s default body loads the receiver and `sipush 512`, then dispatches to the four-argument method
+     the veto does hook.
+   `WorldGenRegionHistoricalBlockVetoMixin` therefore covers the **decoration phase only** — which is the opposite
+   of what its own comment invites a reader to conclude today, since it says the hook replaces the guessing for
+   "every path" and an ore feature is the counterexample.
+   **Fix shape, and why it is not a one-liner.** Feature-level exclusion works regardless of the write path, and
+   the project already uses it (`ore_lapis` is excluded for Beta 1.7.3/1.8.1, which place their own ores). But
+   lapis must be absent for a **prefix** (everything before Beta 1.2) and present for the **suffix** (Beta 1.2
+   onwards), and exclusions are inherited down a linear chain — so this needs a new pre-1.2 list threaded to the
+   revisions older than Beta 1.2, with Beta 1.2 through Release 1.6.4 explicitly keeping the vanilla feature.
+   Getting the direction wrong deletes lapis from five versions that really had it, so it belongs in its own
+   change with the sweep as its check rather than bolted onto this diagnosis. Sandstone additionally cannot be
+   fixed by a feature id at all, because a surface rule is not a placed feature: it needs either a Moderner Beta
+   settings answer or a narrowly scoped surface hook — a design decision rather than a lookup.
+   Re-check in one command:
    `pwsh -NoProfile -File scripts/verify-matrix-runtime.ps1 -OnlyVersions historical_experience:beta_1_0`.
-   **This is exactly what the sweep was for.** It had never been run over the matrix, and it found a real leak in
-   one of the oldest declared versions on its first pass — after 348 unit tests and dozens of hand-run probes had
+   **This is what the sweep was for.** It had never been run over the matrix, and it found a real leak in one of
+   the oldest declared versions on its first pass — after 348 unit tests and dozens of hand-run probes had not,
+   because none of them covered Beta 1.0.
    not, because none of them covered Beta 1.0 specifically.
 
 12. **The Nether's terrain SHAPE is still the modern 1.16+ one.** Its biomes are fixed (one biome,

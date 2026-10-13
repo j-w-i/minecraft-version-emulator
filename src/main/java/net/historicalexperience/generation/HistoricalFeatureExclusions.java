@@ -689,8 +689,29 @@ public final class HistoricalFeatureExclusions {
             return false;
         }
         String blockId = BuiltInRegistries.BLOCK.getKey(state.getBlock()).toString();
+        // Every block this veto is ASKED about, bounded, because a refusal count alone cannot tell "the veto said
+        // no" apart from "the veto was never asked". A Beta 1.0 world was found generating lapis ore and sandstone
+        // - both Beta 1.2 content - while the same world's refusals listed only plants, so the question was which
+        // of the two it was. This is the measurement that answers it.
+        if (SEEN_BLOCK_IDS.size() < 256) {
+            SEEN_BLOCK_IDS.add(blockId);
+        }
+        VETO_INVOCATIONS.increment();
         return isAnachronisticForActiveVersion(level, blockId);
     }
+
+    /** How many block writes this veto has been asked about since process start. */
+    public static long vetoInvocations() {
+        return VETO_INVOCATIONS.sum();
+    }
+
+    /** Which block ids reached the veto, so "never asked" is distinguishable from "asked and allowed". */
+    public static Set<String> seenBlockIds() {
+        return Set.copyOf(SEEN_BLOCK_IDS);
+    }
+
+    private static final LongAdder VETO_INVOCATIONS = new LongAdder();
+    private static final Set<String> SEEN_BLOCK_IDS = ConcurrentHashMap.newKeySet();
 
     /**
      * True when the active historical version could not have had vines.
