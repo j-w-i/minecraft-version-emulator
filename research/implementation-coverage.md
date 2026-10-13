@@ -359,7 +359,22 @@ turned out to be "no approximation needed" rather than the decision I expected t
    **not** filtered, which the project forbids.
    **Limit, recorded rather than hidden: the availability table is a BLOCK table**, so an anachronistic non-block
    *item* is not yet gated — mutton, for one. Closing that needs an item-availability table that does not exist.
-   Verified: 4 new unit tests (344 total, green) plus runtime `loaded and transformed` for `CraftingMenu`,
+   **A false-refusal class found and fixed while checking this.** The gate first trusted every date in the table,
+   and two kinds of date live there. A **stated** one comes from the reviewed research; an **inferred** one comes
+   from an extracted palette, and because the extractions jump from Alpha v1.1.2_01 to Beta 1.7.3, every block
+   introduced in between was merely inferred as Beta 1.7.3 — a lower bound, not a claim. For world generation that
+   was near-invisible, because those blocks do not generate naturally. For crafting it was not: the gate would
+   have refused **cake, note blocks, pistons and both rails** in every Alpha world *and* in Beta 1.0 through Beta
+   1.6, which is content those builds really had. Two changes: the gate now refuses only on a **stated** boundary
+   (a block with *no* boundary at all is still refused, because those come from the later-than-everything list —
+   copper, deepslate, the 1.13 and 1.21 blocks), and the seven affected blocks were given their **stated** dates
+   from `version-transitions.json`: cake and note blocks Beta 1.2, detector and powered rails Beta 1.5, pistons
+   Beta 1.7. Refusals are narrower and more correct — cake is now refused in Alpha, which it should be.
+   **Also checked and rejected:** `research/beta173-availability.json`, the obvious source for an item table,
+   carries `parentReview.status = REJECTED_DO_NOT_CONSUME` — *"no entry in this candidate is approved for gameplay
+   enforcement"* — so it was not used. An item table needs a fresh provenance-bound extraction.
+   Verified: 345 tests green (a regression test asserts cake is craftable from Beta 1.2 and refused in Alpha, and
+   that rails follow Beta 1.5 and pistons Beta 1.7) plus runtime `loaded and transformed` for `CraftingMenu`,
    `InventoryMenu`, `Sheep` and `Container`.
 3. **The Nether's terrain SHAPE is still the modern 1.16+ one.** Its biomes are fixed (one biome,
    `minecraft:nether_wastes`, via vanilla's `minecraft:fixed` biome source), but the shape comes from
