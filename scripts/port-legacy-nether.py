@@ -48,20 +48,29 @@ VANILLA_ENTRY = 'data/minecraft/worldgen/biome/nether_wastes.json'
 QUARTZ_ORE = 'minecraft:ore_quartz_nether'
 
 
-def find_vanilla_biome():
-    """Locate and read vanilla's nether_wastes from the Gradle Minecraft cache."""
+def find_vanilla_jar():
+    """Path to the Gradle Minecraft jar, which holds the data-side registry this script validates against."""
     override = os.environ.get('HEX_MINECRAFT_JAR')
 
     if override and pathlib.Path(override).is_file():
-        candidates = [override]
-    else:
-        candidates = glob.glob(str(pathlib.Path.home()
-            / '.gradle/loom-cache/minecraftMaven/net/minecraft/*/*loom*/*.jar'))
+        return override
+
+    # A pattern that works on Windows too: the path has no separators in the wildcard portion beyond these.
+    candidates = []
+    cache = pathlib.Path.home() / '.gradle' / 'loom-cache' / 'minecraftMaven' / 'net' / 'minecraft'
+
+    if cache.is_dir():
+        candidates = [str(p) for p in cache.rglob('*.jar') if 'sources' not in p.name]
 
     if not candidates:
-        raise SystemExit('vanilla minecraft jar not found in the Gradle cache; set HEX_MINECRAFT_JAR to it')
+        raise SystemExit('vanilla minecraft jar not found under %s; set HEX_MINECRAFT_JAR to it' % cache)
 
-    with zipfile.ZipFile(candidates[0]) as jar:
+    return candidates[0]
+
+
+def find_vanilla_biome():
+    """Locate and read vanilla's nether_wastes from the Gradle Minecraft cache."""
+    with zipfile.ZipFile(find_vanilla_jar()) as jar:
         with jar.open(VANILLA_ENTRY) as handle:
             return json.loads(handle.read().decode('utf-8'))
 
@@ -150,6 +159,55 @@ def write(name, document, vanilla):
     (TARGET_DIR / ('%s.json' % name)).write_text(json.dumps(document, indent=2) + '\n', encoding='utf-8')
 
 
+def validate_ids(document, jar_path):
+    """Fail if the biome names any worldgen id the loaded registry does not provide.
+
+    THIS is the check whose absence crashed the owner's client at the title screen, twice. The biome registry loads
+    every biome in the mod whether or not a world references it, so a biome naming an id that does not exist is not
+    a cosmetic problem: it aborts registry loading and the game never reaches a world.
+
+        Errors in registry minecraft:root:
+        >> minecraft:worldgen/placed_feature: Unbound values: [minecraft:patch_nether_wart]
+
+    Upstream's feature list is from an older pack. patch_nether_wart is not a 1.21.1 placed feature, and I did not
+    find that out until the owner's log said so - after two wrong attempts at fixing the biome's SHAPE. Checking the
+    shape was never the same thing as checking the references.
+
+    Ids are read from the Minecraft jar's own data entries, which is a static registry: every placed_feature,
+    configured_feature and configured_carver that ships is a file in there. Entity ids are NOT checked this way -
+    they live in code rather than in data - so a note says so instead of a false all-clear.
+    """
+    with zipfile.ZipFile(jar_path) as jar:
+        names = set(jar.namelist())
+
+    def exists(kind, identifier):
+        if not identifier.startswith('minecraft:'):
+            return True  # a foreign namespace is not ours to validate
+        return 'data/minecraft/worldgen/%s/%s.json' % (kind, identifier.split(':', 1)[1]) in names
+
+    missing = []
+
+    for step in document.get('features') or []:
+        for entry in step or []:
+            if not exists('placed_feature', entry):
+                missing.append('placed_feature %s' % entry)
+
+    carvers = document.get('carvers') or {}
+
+    for entry in carvers.values():
+        for identifier in (entry if isinstance(entry, list) else [entry]):
+            if not exists('configured_carver', identifier):
+                missing.append('configured_carver %s' % identifier)
+
+    if missing:
+        raise SystemExit(
+            'REFUSING TO PORT: the biome references %d id(s) that 1.21.1 does not provide, which would abort '
+            'registry loading and crash the client before any world opens:\n  %s'
+            % (len(missing), '\n  '.join(sorted(set(missing)))))
+
+    return len([e for step in (document.get('features') or []) for e in (step or [])])
+
+
 def main():
     if not UPSTREAM.is_file():
         raise SystemExit('upstream biome not found at %s; clone it into .upstream first' % UPSTREAM)
@@ -175,6 +233,12 @@ def main():
     if removed != 1:
         raise SystemExit('expected exactly one feature step containing %s, removed from %d'
                          % (QUARTZ_ORE, removed))
+
+    # Validate BEFORE writing anything, so a bad port cannot reach the mod directory at all.
+    jar_path = find_vanilla_jar()
+    checked = validate_ids(with_quartz, jar_path)
+    validate_ids(without_quartz, jar_path)
+    print('validated %d feature references plus the carvers against the 1.21.1 registry' % checked)
 
     write('legacy_nether_wastes', without_quartz, vanilla)
     write('legacy_nether_wastes_quartz', with_quartz, vanilla)
