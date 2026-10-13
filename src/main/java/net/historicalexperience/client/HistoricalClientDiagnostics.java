@@ -56,6 +56,22 @@ public final class HistoricalClientDiagnostics {
                         + !HistoricalGameplayTweaks.sneakingAvailable(session)));
                     source.sendFeedback(Component.literal("[hex]   crouching right now, per this client: "
                         + (minecraft.player != null && minecraft.player.isCrouching())));
+                    // The offhand slot still DRAWS even though the gate above answers true. These lines report what
+                    // the menu's slots actually are, so the difference between "the hook is not reached" and "the
+                    // hook's condition is false at render time" is visible instead of guessed at.
+                    if (minecraft.player != null) {
+                        for (var slot : minecraft.player.inventoryMenu.slots) {
+                            if (slot.getContainerSlot() == 40
+                                    && slot.container instanceof net.minecraft.world.entity.player.Inventory) {
+                                source.sendFeedback(Component.literal("[hex]   offhand slot: containerSlot="
+                                    + slot.getContainerSlot() + " container=" + slot.container.getClass().getSimpleName()
+                                    + " slotClass=" + slot.getClass().getName()
+                                    + " isActive=" + slot.isActive()
+                                    + " x=" + slot.x + " y=" + slot.y
+                                    + (slot.hasItem() ? " holds=" + slot.getItem() : " empty")));
+                            }
+                        }
+                    }
                 }
 
                 source.sendFeedback(Component.literal("[hex]   armour damage tint: registered (a client mixin; "
