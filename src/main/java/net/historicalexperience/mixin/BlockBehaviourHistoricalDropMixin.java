@@ -8,6 +8,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -63,6 +65,7 @@ public abstract class BlockBehaviourHistoricalDropMixin {
         if (!HistoricalGameplayTweaks.oreDropsAsBlocks()) {
             return drops;
         }
+
         // Beta 1.9 Pre3 ONLY: the frame dropped as an item when an explosion destroyed it, which Pre4 fixed.
         // minecraft.wiki, End Portal Frame history: Pre3 "It can drop as an item due to explosions", Pre4 "The
         // End portal can no longer be broken by explosions". Mined directly it stays unobtainable - its hardness
@@ -84,9 +87,36 @@ public abstract class BlockBehaviourHistoricalDropMixin {
 
     /** Upstream: {@code nt_mechanics_block$modifyBlockDrops}. The post-roll return, which an ore takes. */
     @ModifyReturnValue(method = "getDrops", at = @At(value = "RETURN", ordinal = 1))
-    private List<ItemStack> historicalExperience$selfDrops(List<ItemStack> drops, BlockState blockState) {
+    private List<ItemStack> historicalExperience$selfDrops(List<ItemStack> drops, BlockState blockState,
+            LootParams.Builder params) {
         if (!HistoricalGameplayTweaks.oreDropsAsBlocks()) {
             return drops;
+        }
+
+        // Beta 1.9 Pre4 ONLY: Silk Touch made monster spawners drop themselves; Pre5 removed it, and the modern game
+        // has never had it. THIS RULE NEEDS THE TOOL, and it belongs on THIS return rather than the other one.
+        //
+        // Two wrong shapes were tried before this one, and both are worth naming because they are the same mistake
+        // in different clothes - assuming how the engine reaches a rule instead of checking.
+        //
+        //  * It first looked for a spawner item in the ROLLED LIST, reasoning that only Silk Touch produces one. A
+        //    modern monster spawner drops NOTHING by design: its loot table is literally
+        //    `{"type":"minecraft:block","random_sequence":"minecraft:blocks/spawner"}` with no pools, and its only
+        //    reward is experience, which arrived in 12w22a. So the roll is ALWAYS empty and the rule could never
+        //    fire - which is what the owner saw when mining a spawner in a Pre4 world with a Silk Touch pickaxe.
+        //  * It then went on the ordinal-0 "no loot table" handler, where the End portal frame rule lives. But the
+        //    spawner DOES have a loot table file, empty though it is, so it takes this return and not that one.
+        //
+        // `Block.getDrops` sets LootContextParams.TOOL with withParameter and LootParams$Builder.getOptionalParameter
+        // reads it back, both verified by disassembling the mapped jar, so the Silk Touch test is a real one now.
+        // The expensive registry lookup happens only for a spawner and only in the one build that drops it.
+        if (blockState.is(Blocks.SPAWNER)) {
+            if (HistoricalGameplayTweaks.silkySpawnerDrops() && hasSilkTouch(params)) {
+                return List.of(blockState.getBlock().asItem().getDefaultInstance());
+            }
+            // Not the build, or not the tool: a spawner yields nothing, which is what it still does today. Returning
+            // explicitly rather than dropping through matters, because the ore rule below must not see a spawner.
+            return List.of();
         }
 
         // The End portal frame rule is deliberately NOT here. It lives in the ordinal-0 handler above, because the
@@ -103,20 +133,11 @@ public abstract class BlockBehaviourHistoricalDropMixin {
             return List.of(new ItemStack(Items.SNOWBALL, 6));
         }
 
-        // Beta 1.9 Pre4 ONLY: Silk Touch made monster spawners drop themselves, and Pre5 removed it - so the MODERN
-        // game is the one WITHOUT the drop, which is the opposite of how every other rule in this file reads.
-        // minecraft.wiki, Monster Spawner history: Pre4 "Monster spawners now drop when mined using a tool
-        // enchanted with the new Silk Touch enchantment", Pre5 "Monster spawners no longer drop when broken using a
-        // tool enchanted with Silk Touch".
-        //
-        // The tool is not a parameter of getDrops - it reaches the loot pipeline as a `silk_touch` loot CONDITION,
-        // and this mixin runs after the table has been rolled. That is a help rather than an obstacle: the list
-        // returned here is non-empty only when Silk Touch was actually applied, so testing the RESULT is a
-        // self-selecting Silk Touch test and cannot suppress ordinary mining. A version gate alone would be wrong -
-        // it would empty the list for every other tool too.
-        if (isSpawnerDrop(drops, blockState) && !HistoricalGameplayTweaks.silkySpawnerDrops()) {
-            return List.of();
-        }
+        // The spawner rule was here in an earlier shape and has moved above, where it can read the tool. It is NOT
+        // restored here, because the stale version of it reasoned that "the rolled list is non-empty only when Silk
+        // Touch applied" - true for a block whose loot table has pools, and false for a spawner, which drops nothing
+        // in this version and therefore rolled an empty list every time. Left as a note so the wrong shape is not
+        // reintroduced.
 
         if (isOre(blockState)) {
             return List.of(blockState.getBlock().asItem().getDefaultInstance());
@@ -126,43 +147,54 @@ public abstract class BlockBehaviourHistoricalDropMixin {
     }
 
     /**
-     * Whether a rolled drop list is the monster spawner's self-drop, which only Silk Touch produces.
+     * Whether the loot parameters say the breaking tool was enchanted with Silk Touch.
      *
-     * <h2>Why this reaches for the block's own item instead of {@code Items.SPAWNER}</h2>
+     * <h2>Why the tool has to come from the loot parameters</h2>
      *
-     * <p>Because an expected stack is not needed and constructing one costs more than it looks: the block is
-     * already in hand, and {@code blockState.getBlock().asItem()} is the same item. An earlier version of this
-     * built {@code new ItemStack(Items.SPAWNER)} to compare against and could not be tested at all, which is
-     * recorded here rather than erased.
+     * <p>{@code BlockBehaviour.getDrops(BlockState, LootParams$Builder)} has no tool argument. The tool reaches this
+     * method inside the builder, because {@code Block.getDrops} sets {@link LootContextParams#TOOL} with
+     * {@code withParameter} - disassembled from the mapped jar, not assumed - so
+     * {@code getOptionalParameter} reads it back. That makes the check exact rather than a guess, and the guess is
+     * what broke this rule the first time.
      *
-     * <h2>What is NOT verified, stated plainly</h2>
+     * <h2>Kept private, and why that is load-bearing</h2>
      *
-     * <p>There is no unit test of this method, and it must stay {@code private}. It was made {@code public} for one
-     * round to let a test call it, and that <b>crashed every dedicated-server launch</b>:
-     * {@code InvalidMixinException: Mixin ... contains non-private static method
-     * isSpawnerDrop(Ljava/util/List;Lnet/minecraft/world/level/block/state/BlockState;)Z}. Mixin refuses to
-     * transform a mixin class whose static helpers are visible, because they would be merged onto the target and
-     * become part of {@code BlockBehaviour}'s API. A green compile says nothing about that - only starting the game
-     * does, which is the same lesson this project has recorded twice before.
+     * <p>This method must stay {@code private}. It was made {@code public} for one round so a test could call it, and
+     * that <b>crashed every dedicated-server launch</b>: {@code InvalidMixinException: Mixin ... contains non-private
+     * static method isSpawnerDrop(...)}. Mixin refuses to transform a mixin class whose static helpers are visible,
+     * because they would be merged onto the target and become part of {@code BlockBehaviour}'s API. A green compile
+     * says nothing about that - only starting the game does.
      *
-     * <p>So the version half of the rule is what is pinned in a unit test
-     * ({@code HistoricalGameplayTweaks.appliesTo("silkySpawners", ...)} applies to exactly Pre4 across all 32
-     * declared builds), and the rest is observed by the runtime block-drop probe, which reaches it through the
-     * public {@code getDrops} entry point the explosion path itself uses.
+     * <p>Being private is also why the version half is what carries the unit test
+     * ({@code appliesTo("silkySpawners", ...)} is true for exactly Pre4 of the 32 declared builds) and the runtime
+     * block-drop probe carries the rest: it calls the public {@code getDrops} entry point that a player's pickaxe
+     * and an explosion both reach.
      */
-    private static boolean isSpawnerDrop(List<ItemStack> drops, BlockState blockState) {
-        if (!blockState.is(Blocks.SPAWNER)) {
-            // Not a spawner: no rolled list from any other block can be the spawner self-drop. This is also the
-            // cheap guard, since the loop below only matters for the one block that has this rule.
+    private static boolean hasSilkTouch(LootParams.Builder params) {
+        if (params == null) {
             return false;
         }
-        net.minecraft.world.item.Item spawnerItem = blockState.getBlock().asItem();
-        for (ItemStack drop : drops) {
-            if (drop.is(spawnerItem)) {
-                return true;
-            }
+        ItemStack tool = params.getOptionalParameter(LootContextParams.TOOL);
+        if (tool == null || tool.isEmpty()) {
+            return false;
         }
-        return false;
+        var server = params.getLevel().getServer();
+        if (server == null) {
+            return false;
+        }
+        try {
+            var enchantments = server.registryAccess()
+                .registryOrThrow(net.minecraft.core.registries.Registries.ENCHANTMENT);
+            var silkTouch = enchantments.getHolderOrThrow(
+                net.minecraft.world.item.enchantment.Enchantments.SILK_TOUCH);
+            return net.minecraft.world.item.enchantment.EnchantmentHelper
+                .getItemEnchantmentLevel(silkTouch, tool) > 0;
+        } catch (RuntimeException missingRegistry) {
+            // A tool cannot be tested against an enchantment registry that is not loaded. Answering false leaves the
+            // spawner dropping nothing, which is the modern behaviour and the safe direction - a wrong true would
+            // hand out a block the version never dropped.
+            return false;
+        }
     }
 
     /** Upstream's listing, verbatim. */

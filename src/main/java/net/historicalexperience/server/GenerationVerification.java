@@ -308,6 +308,19 @@ public final class GenerationVerification {
         out.put("monsterSpawner", dropReport(level,
             net.minecraft.world.level.block.Blocks.SPAWNER.defaultBlockState(), new BlockPos(28, 90, 28)));
 
+        // The spawner rule NEEDS A TOOL, and this is the pair of measurements that settles it. Without Silk Touch a
+        // spawner yields nothing in every version - that is the modern behaviour and Pre5's. With Silk Touch it must
+        // yield the spawner in Pre4 alone. The owner found the rule dead by mining a spawner with a Silk Touch
+        // pickaxe and getting nothing, which is exactly the reading this pair exists to reproduce automatically.
+        var silkTool = toolWith(level.getServer(), net.minecraft.world.item.enchantment.Enchantments.SILK_TOUCH,
+            net.minecraft.world.item.Items.DIAMOND_PICKAXE);
+        out.put("monsterSpawnerWithSilkTouchToolPresent", !silkTool.isEmpty());
+        out.put("monsterSpawnerSilkTouch", dropReport(level,
+            net.minecraft.world.level.block.Blocks.SPAWNER.defaultBlockState(), new BlockPos(28, 90, 28), silkTool));
+        // A control: Silk Touch must NOT make an unrelated block change what it drops.
+        out.put("stoneWithSilkTouchControl", dropReport(level,
+            net.minecraft.world.level.block.Blocks.STONE.defaultBlockState(), new BlockPos(36, 90, 36), silkTool));
+
         // The frame's light value, read through the same accessor the light engine calls. This is the only place a
         // one-build light override can be observed without the owner placing a frame and looking at it: the value
         // comes off the block STATE, so `getLightEmission` is the whole mechanism and there is nothing else to test.
@@ -332,13 +345,26 @@ public final class GenerationVerification {
     /** What one block's own drop rules produce right now, through the same entry point an explosion uses. */
     private static Map<String, Object> dropReport(net.minecraft.server.level.ServerLevel level,
             net.minecraft.world.level.block.state.BlockState state, BlockPos pos) {
+        return dropReport(level, state, pos, net.minecraft.world.item.ItemStack.EMPTY);
+    }
+
+    /**
+     * The same, with an explicit tool.
+     *
+     * <p>The tool matters now. The owner mined a monster spawner in a Beta 1.9 Pre4 world with a Silk Touch pickaxe
+     * and got nothing, because the rule had been written to detect Silk Touch from the ROLLED RESULT - and a modern
+     * spawner's loot table is empty, so the roll is always empty and the rule could never fire. A probe that only
+     * ever passed {@code ItemStack.EMPTY} could not have caught that, which is why this overload exists: the
+     * positive case is only observable with a tool that has the enchantment.
+     */
+    private static Map<String, Object> dropReport(net.minecraft.server.level.ServerLevel level,
+            net.minecraft.world.level.block.state.BlockState state, BlockPos pos,
+            net.minecraft.world.item.ItemStack tool) {
         Map<String, Object> out = new LinkedHashMap<>();
         try {
             level.setBlockAndUpdate(pos, state);
             java.util.List<String> dropped = new java.util.ArrayList<>();
-            // No player and no tool: ItemStack.EMPTY, which is also what an explosion carries.
-            for (var stack : net.minecraft.world.level.block.Block.getDrops(
-                    state, level, pos, null, null, net.minecraft.world.item.ItemStack.EMPTY)) {
+            for (var stack : net.minecraft.world.level.block.Block.getDrops(state, level, pos, null, null, tool)) {
                 dropped.add(net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(stack.getItem())
                     + " x" + stack.getCount());
             }
@@ -349,6 +375,27 @@ public final class GenerationVerification {
             out.put("probeFailed", String.valueOf(failure));
         }
         return out;
+    }
+
+    /**
+     * A tool with the given enchantment, or EMPTY when the registry cannot supply it.
+     *
+     * <p>Silk Touch is what makes the Pre4 spawner rule observable, and the modern game never produces a Silk Touch
+     * spawner drop any other way, so the probe has to build the tool itself.
+     */
+    private static net.minecraft.world.item.ItemStack toolWith(MinecraftServer server,
+            net.minecraft.resources.ResourceKey<net.minecraft.world.item.enchantment.Enchantment> enchantment,
+            net.minecraft.world.item.Item item) {
+        try {
+            var stack = new net.minecraft.world.item.ItemStack(item);
+            var holder = server.registryAccess()
+                .registryOrThrow(net.minecraft.core.registries.Registries.ENCHANTMENT)
+                .getHolderOrThrow(enchantment);
+            stack.enchant(holder, 1);
+            return stack;
+        } catch (Throwable failure) {
+            return net.minecraft.world.item.ItemStack.EMPTY;
+        }
     }
 
     /**

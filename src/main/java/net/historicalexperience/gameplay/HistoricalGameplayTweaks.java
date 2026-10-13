@@ -603,6 +603,43 @@ public final class HistoricalGameplayTweaks {
     }
 
     /**
+     * Whether the enchanting table refuses to enchant at all, which is every declared build before Pre3.
+     *
+     * <h2>Why this is not just {@code !functionalEnchanting}</h2>
+     *
+     * <p>It was, and that was a defect the owner caught from the historical record. "Pre3 applies no real
+     * enchantments" is true, and it does <b>not</b> mean Pre3 refuses to enchant: the table enchanted, applied the
+     * glint and the blue name, and spent levels, and what did not exist yet was the enchantment DATA. So the two
+     * states are three states, and collapsing the middle one into "does not work" removed the working half of
+     * Prerelease 3 to imitate the half that was genuinely missing.
+     *
+     * <ul>
+     *   <li>before Pre3 - no table to open, and this refuses a click if one is forced;</li>
+     *   <li>Pre3 - enchanting works and levels are spent, with the placeholder tooltip from
+     *       {@link #placeholderEnchantmentTooltip};</li>
+     *   <li>Pre4 onward - real enchantments, real names.</li>
+     * </ul>
+     */
+    public static boolean enchantingDisabled(String versionId) {
+        return !functionalEnchanting(versionId) && !placeholderEnchantmentTooltip(versionId);
+    }
+
+    /**
+     * Whether an enchanted item shows the literal {@code "Enchanted!!"} instead of its enchantments - Pre3 only.
+     *
+     * <p>minecraft.wiki, Beta 1.9 Prerelease 3: <i>"Enchanted items display \"Enchanted!!\" on their tooltip, and
+     * their name becomes blue."</i> Pre4: <i>"Enchanted items' tooltips now display their enchantments instead of
+     * \"Enchanted!!\"."</i> The same boundary as {@code functionalEnchanting}, approached from the other side: the
+     * build where enchanting works and the data does not exist yet.
+     */
+    public static boolean placeholderEnchantmentTooltip(String versionId) {
+        var version = HistoricalVersions.byId(versionId).orElse(null);
+        return version != null
+            && version.chronology() >= BETA_1_9_PRE_3_CHRONOLOGY
+            && version.chronology() < BETA_1_9_PRE_4_CHRONOLOGY;
+    }
+
+    /**
      * Alpha 1.1.0's chronology: the build sneaking was added in, corrected by the project owner.
      *
      * <p>Written as a literal because Alpha 1.1.0 is not a declared profile yet, and tied to the registry's scheme

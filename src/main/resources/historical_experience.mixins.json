@@ -44,6 +44,7 @@
     "PlayerHistoricalExhaustionMixin",
     "PlayerHistoricalJumpExperienceMixin",
     "EnchantmentMenuHistoricalEnchantingMixin",
+    "ItemStackHistoricalEnchantedTooltipMixin",
     "BrewingStandHistoricalBrewingMixin",
     "EnderEyeHistoricalPortalMixin",
     "ServerLevelHistoricalWeatherMixin",
