@@ -30,21 +30,16 @@ VERSION_IN_EVIDENCE = re.compile(
     r'\b(Alpha v?1\.\d+(?:\.\d+)?|Beta 1\.\d+(?:\.\d+)?|Release 1\.\d+(?:\.\d+)?|'
     r'Infdev \d{8}(?:-\d+)?|Indev \d{8}(?:-\d+)?|Classic [\d.a-z_]+|Beta 1\.9 Prerelease ?\d*)\b')
 
-# Where each declared version sits historically, by the name its evidence would use.
-DECLARED = {
-    'historical_experience:infdev_420': 'Infdev 20100420',
-    'historical_experience:infdev_611': 'Infdev 20100611',
-    'historical_experience:alpha_1_0_1': 'Alpha v1.0.1',
-    'historical_experience:alpha_1_0_4': 'Alpha v1.0.4',
-    'historical_experience:alpha': 'Alpha v1.1.2_01',
-    'historical_experience:beta_1_7_3': 'Beta 1.7.3',
-    'historical_experience:beta_1_8_1': 'Beta 1.8.1',
-    'historical_experience:beta_1_9_pre_3': 'Beta 1.9 Prerelease 3',
-    'historical_experience:release_1_0_0': 'Release 1.0.0',
-    'historical_experience:release_1_1': 'Release 1.1',
-    'historical_experience:release_1_2_5': 'Release 1.2.5',
-    'historical_experience:release_1_6_4': 'Release 1.6.4',
-}
+def normalise(text):
+    """Reduce a version name or id to comparable letters and digits.
+
+    "Alpha v1.0.6" and "alpha_1_0_6" both become "alpha106"; "Beta 1.7.3" and "beta_1_7_3" both become "beta173".
+    Derived rather than looked up in a hand-written map, because the map went stale the moment a new build was
+    declared and reported a false positive on the very entry it was supposed to clear.
+    """
+    lowered = re.sub(r'\b(v|V)(?=\d)', '', str(text))
+    return re.sub(r'[^a-z0-9]', '', lowered.lower())
+
 
 findings = []
 
@@ -57,16 +52,15 @@ for match in CALL.finditer(text):
     if not mentioned:
         continue
 
-    # Does the evidence name a build that is not the version this entry is dated to?
+    # Does the evidence name a build that is not the one this entry is dated to?
     named = mentioned[0]
-    dated = DECLARED.get(version, version)
 
-    if named.lower().replace(' ', '') not in dated.lower().replace(' ', ''):
-        findings.append((version, dated, named, blocks, evidence[:150]))
+    if normalise(named) not in normalise(version):
+        findings.append((version, named, blocks, evidence[:150]))
 
 print('entries whose evidence names a different build than the one they are dated to: %d' % len(findings))
 print()
-for version, dated, named, blocks, evidence in findings:
+for version, named, blocks, evidence in findings:
     print('dated to %-38s evidence says %s' % (version, named))
     print('    blocks  : %s' % ', '.join(blocks[:6]))
     print('    evidence: %s' % evidence)
