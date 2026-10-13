@@ -843,20 +843,26 @@ turned out to be "no approximation needed" rather than the decision I expected t
    durability. Only the wrap is ported, because the reset exists so a bow on its last point of durability survives
    the shot it is about to take, which only matters if the call is still reached. Refusing the call makes it
    redundant, so carrying both would be dead code shaped like a safeguard.
-38. **`OLD_NETHER_LIGHTING` is HELD, because upstream contradicts both its own name and the wiki.** NT's
-   `LightTextureHelper.getSkylightSubtracted` reads
-   `boolean isNether = level.dimension() == NETHER && !OLD_NETHER_LIGHTING.get();` and
-   `float forceBrightness = isNether ? 7.0F : 15.0F;` — so with the tweak **enabled** the Nether is treated as
-   *not* Nether and gets **15**, and with it **disabled** it gets **7**. The tweak therefore *brightens* the Nether.
-   The wiki says the opposite: Light, History — *"v1.2.0 preview: Added the Nether, where light decreases by 10% each
-   level, rather than the normal 20%."* A 10%-per-level curve is **dimmer** than 20%, so the historical Nether is the
-   darker one, and neither NT's name nor its arithmetic agrees with that.
-   **The two possible implementations look opposite on screen**, so choosing one would be a guess dressed as a port.
-   **And it cannot be verified from this environment:** the effect is a client lightmap value with no server-visible
-   consequence, so the runtime probe cannot observe it and it would ship on the owner's eyes alone. That is not a
-   reason never to do it — the owner's play is a legitimate harness — but it IS a reason not to do it on contradictory
-   evidence without saying so first. Held deliberately, with the evidence recorded so the decision is not
-   rediscovered from scratch.
+38. **`OLD_NETHER_LIGHTING`: the "contradiction" was MY arithmetic error, and the owner caught it.** This item was
+   held on the claim that NT's code contradicts the wiki. **That claim was wrong in its premise.** The reasoning was
+   that NT brightens the Nether while the wiki says *"light decreases by 10% each level, rather than the normal 20%"*
+   — but a 10% decrease leaves **90%** of the light where a 20% decrease leaves **80%**, so a *slower* decay leaves
+   *more* light. Slower is not dimmer, and the previous round conflated the two.
+   **Measured**, as fractions of full brightness:
+   | steps down | 20%/level | 10%/level | old is |
+   | --- | --- | --- | --- |
+   | 0 | 100.0% | 100.0% | 1.0× |
+   | 5 | 32.8% | 59.0% | 1.8× |
+   | 10 | 10.7% | 34.9% | 3.2× |
+   | **13** | **5.5%** | **25.4%** | **4.6×** |
+   | 15 | 3.5% | 20.6% | 5.9× |
+   So the historical Nether is **brighter**, decisively — 4.6× at thirteen steps down — which is exactly what NT's
+   `forceBrightness = isNether ? 7.0F : 15.0F` produces. **NT was right, the wiki agrees with NT, and there was never
+   a contradiction.** The item is unblocked and the answer is unambiguous: the **brighter** Nether.
+   **The lesson is worth keeping next to the ones about wrong checkers:** "upstream disagrees with the reference" is a
+   claim about two *sources*, and it deserves the same suspicion as a claim about *code*. Here it rested on an
+   arithmetic slip that a single multiplication table would have caught, and it was recorded as rigour rather than as
+   the guess it was.
 
 12. **The Nether's terrain SHAPE is still the modern 1.16+ one — and the owner has ACCEPTED it as of 2026-10-13,
    so this is closed as a deliberate approximation rather than left as an open gap.** Its biomes are fixed (one
