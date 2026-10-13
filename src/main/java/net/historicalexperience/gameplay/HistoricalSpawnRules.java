@@ -245,6 +245,25 @@ public final class HistoricalSpawnRules {
         java.util.stream.Stream.of("minecraft:ghast", "minecraft:zombified_piglin"))
         .collect(java.util.stream.Collectors.toUnmodifiableSet());
 
+    /**
+     * Beta 1.0: the Beta 1.7.3 set without squid and without wolves.
+     *
+     * <p>Derived by subtraction, because both removals are dated by the research and the relationship is the fact:
+     * <ul>
+     *   <li><b>squid arrive in Beta 1.2</b> - {@code research/version-transitions.json}, Beta 1.2: "squid (10 health,
+     *       drops ink sac, no sounds, could be milked in this build)". So the 1.7.3 set has them and Beta 1.0 does
+     *       not, and my earlier assumption that squid were ancient was wrong.</li>
+     *   <li><b>wolves arrive in Beta 1.4</b> - the same file, Beta 1.4: "wolves (neutral, common in taiga, 10 health,
+     *       tame via bones at 1/3 chance per bone)".</li>
+     * </ul>
+     *
+     * <p>No mob is added anywhere in Beta 1.0, 1.3, 1.5 or 1.6, so this set is shared with 1.3 and Beta 1.2's is
+     * this one plus the squid.
+     */
+    public static final Set<String> BETA_1_0_MOBS = BETA_1_7_3_MOBS.stream()
+        .filter(mob -> !mob.equals("minecraft:squid") && !mob.equals("minecraft:wolf"))
+        .collect(java.util.stream.Collectors.toUnmodifiableSet());
+
     public static final Set<String> INFDEV_20100325_MOBS = Set.of(
         "minecraft:zombie",
         "minecraft:creeper",

@@ -164,6 +164,11 @@ public final class HistoricalStructureRules {
             "It has monster rooms, which are features, but no structure-system structure")),
         Map.entry("historical_experience:alpha", noStructures("Alpha v1.1.2_01",
             "It has monster rooms, which are features, but no structure-system structure")),
+        Map.entry("historical_experience:beta_1_0",
+            allowed("Beta 1.0", Set.of("minecraft:fortress"),
+                "The Nether is inherited, so the nether fortress exists, but the research states there are no " 
+                    + "Beta 1.8 strongholds, villages or mineshafts in this build. This is the first profile whose " 
+                    + "allowed set is not empty for a reason other than the fortress arriving later.")),
         Map.entry("historical_experience:beta_1_7_3", noStructures("Beta 1.7.3",
             "It has monster rooms, which are features, but no structure-system structure")),
         Map.entry("historical_experience:beta_1_8_1",

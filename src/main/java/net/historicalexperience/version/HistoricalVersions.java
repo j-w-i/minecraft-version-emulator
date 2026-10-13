@@ -727,6 +727,48 @@ public final class HistoricalVersions {
             chronology(ERA_RELEASE, 1, 5, 0), "moderner_beta:release_1_2_5",
             HistoricalFeatureExclusions.RELEASE_1_2_5_WITHOUT_MODERN_VANILLA_FEATURES));
 
+        // Beta 1.0, the first Beta. Its terrain foundation is NOT an approximation, and that was verified rather
+        // than assumed: the research says for this build "existing climate-era generator (pre-Beta-1.8) persists",
+        // for Beta 1.4 "no terrain generator change", and for Beta 1.5 "no new base generator". The generator held
+        // steady from Alpha 1.2 until the Adventure Update overhauled it in Beta 1.8, so moderner_beta:beta is the
+        // CORRECT preset for this and every Beta build up to 1.7.3 rather than the nearest available one.
+        //
+        // Declared through the rules-carrying helper so its spawns are restricted, which the research supports:
+        // squid arrive in Beta 1.2 and wolves in Beta 1.4, so this build has neither.
+        //
+        // The _no_grass revision the helper creates IS correct here, unlike on the Beta 1.9 prereleases: grass
+        // patches arrive in Beta 1.6, so a Beta 1.0 world genuinely had none. That is the same fact that makes the
+        // revision wrong three years later.
+        //
+        // Recorded as NOT enforced: the palette-derived block dates. This build has no extracted palette and the
+        // nearest is Beta 1.7.3's, whose block set includes things Beta 1.0 did not have. Borrowing it would be
+        // inventing a claim, so timeline-stated dates are enforced here and palette-derived ones are not - the same
+        // principled position SpawnRestrictionSemanticsTest takes for unresearched mob sets.
+        versions.add(terrainOnlyWithRules(
+            "historical_experience:beta_1_0", "Beta 1.0", "beta",
+            chronology(ERA_BETA, 1, 0, 0), "moderner_beta:beta",
+            new VersionRules(
+                true,
+                HistoricalSpawnRules.BETA_1_0_MOBS,
+                java.util.Map.of(),
+                java.util.Map.of(),
+                // Beta 1.0 predates all of these. Experience, sprinting and the hunger system all arrive with the
+                // Adventure Update in Beta 1.8, and I initially set them true by reflex - three tests failed on it
+                // at once, which is what those flags are for. hasStructures is TRUE because the Nether is inherited
+                // and its fortress rule is non-empty; claiming no structures while declaring a rule that allows one
+                // is the contradiction HistoricalStructureRulesTest exists to catch.
+                false,
+                false,
+                false,
+                true,
+                "Item-name tooltips, cape and deadmau5 ear support, leaf decay REINTRODUCED with different behaviour "
+                    + "from its pre-Beta form, throwable eggs at stack size 16 with a 12.5% chicken spawn chance, and "
+                    + "a server-side functional inventory. Lava lakes replace neighbouring blocks with stone, the "
+                    + "grassland/sand biome boundary is MISALIGNED until Beta 1.3, and the Nether is inherited with "
+                    + "no strongholds, villages or mineshafts. Armour-slot outlines are removed, crafting-grid slots "
+                    + "no longer hold items, and tools on the ground stop repairing themselves. No mob is added here."),
+            HistoricalFeatureExclusions.BETA_1_7_3_RESTRICTIONS));
+
         // WINTER MODE IS NOT DECLARED YET, and the reason is a conflict in the model rather than missing research.
         // Moderner Beta ships `moderner_beta:alpha_winter`, and this project's own settings preset
         // `alpha_1_0_4_winter` inherits it, so the terrain is available. What is missing is a place to put it:
