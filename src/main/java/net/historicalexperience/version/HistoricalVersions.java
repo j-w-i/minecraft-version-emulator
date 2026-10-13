@@ -775,17 +775,60 @@ public final class HistoricalVersions {
         // They use terrainOnly, matching the other Release builds, so they carry NO spawn restriction and therefore
         // inherit the known Release-line defect: their mob sets are not researched, and SpawnRestrictionSemanticsTest
         // forbids inventing one. Recorded as U in the coverage matrix rather than papered over.
-        versions.add(terrainOnly(
+        // The last three Release profiles to gain researched mob sets, which completes the fix for the largest
+        // content defect this project had: every one of these was declared terrain-only, so its world spawned
+        // modern 1.21.1 mobs including piglins and hoglins. Each set is inherited from the build before it plus
+        // whatever the research names for the interim, and none of them is invented.
+        versions.add(releaseTerrainOnlyWithRules(
             "historical_experience:release_1_3", "Release 1.3", "release",
             chronology(ERA_RELEASE, 1, 3, 0), "moderner_beta:release_1_2_5",
+            new VersionRules(
+                true,
+                HistoricalSpawnRules.RELEASE_1_2_MOBS,
+                java.util.Map.of(),
+                java.util.Map.of(),
+                true,
+                true,
+                true,
+                true,
+                "Adds no mob: its deltas are tripwire, the ender chest, emeralds and villager trading, cocoa pods, "
+                    + "the desert pyramid and jungle temple, Large Biomes, adventure mode and XP from mining ores. So "
+                    + "the spawn set is Release 1.2.5's, which already carries the ocelot and iron golem."),
             HistoricalFeatureExclusions.RELEASE_1_2_5_WITHOUT_MODERN_VANILLA_FEATURES));
-        versions.add(terrainOnly(
+        versions.add(releaseTerrainOnlyWithRules(
             "historical_experience:release_1_4", "Release 1.4", "release",
             chronology(ERA_RELEASE, 1, 4, 0), "moderner_beta:release_1_2_5",
+            new VersionRules(
+                true,
+                HistoricalSpawnRules.RELEASE_1_4_MOBS,
+                java.util.Map.of(),
+                java.util.Map.of(),
+                true,
+                true,
+                true,
+                true,
+                "Adds witch, bat, wither skeleton and zombie villager, and witch huts generating in swamps with "
+                    + "witches associated to them. The WITHER is not added to the spawn set: it is summoned from soul "
+                    + "sand and three wither skeleton skulls rather than spawning naturally. Also anvils, item frames, "
+                    + "flower pots, walls, carrots and potatoes, the beacon and Nether Star, and infested monster eggs "
+                    + "in Extreme Hills."),
             HistoricalFeatureExclusions.RELEASE_1_2_5_WITHOUT_MODERN_VANILLA_FEATURES));
-        versions.add(terrainOnly(
+        versions.add(releaseTerrainOnlyWithRules(
             "historical_experience:release_1_5", "Release 1.5", "release",
             chronology(ERA_RELEASE, 1, 5, 0), "moderner_beta:release_1_2_5",
+            new VersionRules(
+                true,
+                HistoricalSpawnRules.RELEASE_1_4_MOBS,
+                java.util.Map.of(),
+                java.util.Map.of(),
+                true,
+                true,
+                true,
+                true,
+                "Adds no mob: its deltas are the comparator, hopper, dropper, trapped chest, weighted pressure "
+                    + "plates, daylight sensor, redstone block, activator rail and nether quartz ore, plus a lighting "
+                    + "rewrite. So the spawn set is Release 1.4's, which carries the witch, bat, wither skeleton and "
+                    + "zombie villager."),
             HistoricalFeatureExclusions.RELEASE_1_2_5_WITHOUT_MODERN_VANILLA_FEATURES));
 
         // Beta 1.0, the first Beta. Its terrain foundation is NOT an approximation, and that was verified rather

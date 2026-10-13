@@ -57,25 +57,22 @@ class SpawnRestrictionSemanticsTest {
             "no rule means no filtering, which is what an unresearched version gets");
     }
 
-    @Test
-    @DisplayName("an empty allowed set that does NOT restrict means unresearched, and leaves spawning alone")
-    void emptyAndUnrestrictedMeansUnresearched() {
-        // DERIVED, not named. This test used RELEASE_1_6_4 until that profile gained a researched mob set, which
-        // was the third time a pinned version here went stale as the matrix filled in. Asking the registry for a
-        // version that still makes no claim cannot go stale, and it fails loudly when none is left rather than
-        // quietly testing a restricted version.
-        var version = HistoricalVersions.all().stream()
-            .filter(candidate -> !candidate.rules().restrictsSpawns())
-            .findFirst()
-            .orElseThrow(() -> new AssertionError("every version now has a researched mob set, so this test has "
-                + "nothing left to check - delete it deliberately rather than weakening it"));
-
-        assertTrue(version.rules().allowedNaturalSpawns().isEmpty(),
-            version.id() + " does not restrict, so its allowed set must be empty. An EMPTY set that DOES restrict "
-                + "is a different and meaningful state - nothing may spawn - and the two must not be confused");
-        assertTrue(HistoricalSpawnRules.forProfile(version.id()).isEmpty(),
-            version.id() + " does not restrict, so it must expose no rule at all and no filter runs");
-    }
+    // THE "UNRESEARCHED VERSION" TEST USED TO LIVE HERE, and its absence is the good news.
+    //
+    // It asked the registry for a version that made no spawn claim, and failed loudly when none was left rather than
+    // quietly testing a restricted one. It fired on the round that converted Release 1.3, 1.4 and 1.5 - the last
+    // three - with:
+    //
+    //   every version now has a researched mob set, so this test has nothing left to check
+    //
+    // So it is deleted deliberately, as it asked. Every declared version now restricts its natural spawns, which
+    // closes the largest content defect this project had: profiles declared terrain-only set no restriction at all,
+    // so their worlds spawned modern 1.21.1 mobs including piglins and hoglins.
+    //
+    // The INVARIANT it was half of still holds and is still tested above: a version that does not restrict must
+    // expose no allowed set at all, because an EMPTY set that DOES restrict is a different and meaningful state -
+    // nothing may spawn. If a future version is declared without researched spawns, that invariant test still
+    // covers it; only the "find an example" half became vacuous.
 
     @Test
     @DisplayName("the surviving Infdev build carries its extracted seven-mob set")
