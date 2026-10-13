@@ -874,6 +874,24 @@ public final class HistoricalVersions {
                     + "no strongholds, villages or mineshafts. Armour-slot outlines are removed, crafting-grid slots "
                     + "no longer hold items, and tools on the ground stop repairing themselves. No mob is added here."),
             HistoricalFeatureExclusions.BETA_1_0_WITHOUT_LAPIS));
+        // Beta 1.0 generates NO sandstone, and this is a fourth revision rather than an edit to
+        // `_historical_envelope` for the project's usual reason: that alias is published and a world created against
+        // it recorded the terrain it was given, so rewriting its preset would move the terrain of the chunks that
+        // world has not generated yet.
+        //
+        // The defect was measured, not inferred. A fresh Beta 1.0 world held 2,993 sandstone blocks in nine chunks
+        // while every other declared version held none, because the shared `moderner_beta:beta` foundation enables
+        // `surface_properties.generateSandstone` and this version used that foundation unchanged. Two independent
+        // research entries date the block and the rule: version-transitions.json lists sandstone among Beta 1.2's
+        // additions, and "sandstone generates under naturally generated sand" is a Beta 1.3 behaviour. Beta 1.0 had
+        // neither.
+        //
+        // The mechanism is a supported setting and not a hook: Moderner Beta serialises its surface behaviour into
+        // the settings preset, and its own `alpha` preset sets this same flag to false while `beta` sets it true -
+        // read from the shipped preset JSON, not guessed. So this version's preset declares the full surface object
+        // with that one flag flipped, and the key it is registered under here is what names it.
+        versions.set(versions.size() - 1, withNoSandstoneRevision(
+            versions.get(versions.size() - 1), "historical_experience:beta_1_0_no_sandstone"));
 
         // Beta 1.2. Two things converge, and both are the payoff of declaring a build rather than approximating it:
         // the SQUID arrive here, and lapis lazuli's date becomes true - it was held at beta_1_7_3 as a proxy while
@@ -1266,6 +1284,30 @@ public final class HistoricalVersions {
             base.revisions().get(base.revisions().size() - 1).excludedPlacedFeatures(),
             List.of()));
         return new HistoricalVersion(id, displayName, era, chronology, rules, List.copyOf(revisions));
+    }
+
+    /**
+     * Adds a revision that turns Beta sandstone generation OFF for one version, keeping everything else identical.
+     *
+     * <p>Written as a helper rather than inlined so the shape is visible: the new revision inherits the previous
+     * revision's exclusion list by reference and adds no ore population of its own, because the only thing it
+     * changes is a surface setting inside the settings preset named by {@code alias}. Two things must therefore
+     * agree, and a test catches it if they do not: this alias and the preset JSON file of the same name.
+     */
+    private static HistoricalVersion withNoSandstoneRevision(HistoricalVersion base, String alias) {
+        List<HistoricalVersion.GenerationRevision> revisions = new java.util.ArrayList<>(base.revisions());
+        HistoricalVersion.GenerationRevision previous = revisions.get(revisions.size() - 1);
+        revisions.add(new HistoricalVersion.GenerationRevision(
+            revisions.size(),
+            alias,
+            previous.foundation(),
+            true,
+            "no sandstone: the shared foundation enables surface sandstone generation, which is Beta 1.3 "
+                + "behaviour, and sandstone is itself a Beta 1.2 addition - this version had neither",
+            previous.excludedPlacedFeatures(),
+            previous.orePopulation()));
+        return new HistoricalVersion(base.id(), base.displayName(), base.era(), base.chronology(), base.rules(),
+            List.copyOf(revisions));
     }
 
     /**

@@ -1,5 +1,51 @@
 # Persistent project status — 2026-10-13 (7) / the whole 32-version matrix re-validated, and the sweep can now time itself
 
+# Persistent project status — 2026-10-13 (8) / the matrix now has ZERO anachronisms — Beta 1.0's sandstone is fixed
+
+## Round 73 — the last anachronism in the matrix is gone
+
+**Beta 1.0 was the only version still generating content it never had, and it no longer does.** Measured before:
+`minecraft:sandstone=2993` in nine chunks of a fresh Beta 1.0 world while every other declared version held none.
+The research is unambiguous on two counts: `version-transitions.json` lists sandstone among **Beta 1.2's** additions
+and dates *"sandstone generates under naturally generated sand"* to **Beta 1.3**. Beta 1.0 had neither.
+
+**The cause was a supported setting, not a hook.** Moderner Beta serialises its surface behaviour into the settings
+preset, and its own presets read `surface_properties.generateSandstone: true` for `beta` and **`false` for `alpha`** —
+read out of the shipped preset JSON. Round 72's disassembly was right that `SurfaceSystem` writes through
+`BlockColumn.setBlock` and never reaches the block veto; what it missed is that the rule can be **switched off
+upstream instead of intercepted**. That is the better fix and it needed no new hook at all.
+
+The fix is a new revision `historical_experience:beta_1_0_no_sandstone`, whose preset declares the full surface
+object with that one flag flipped and everything else identical. **Appended, not edited** — `_historical_envelope` is
+published and a world recorded against it must keep the terrain it was given. The menu mapping is re-pointed and the
+105 world presets regenerated; the regenerated `beta_1_0.json` differs in exactly the three alias strings.
+
+**Verified in two fresh worlds, with a control:**
+
+| Version | alias | anachronisms | sandstone | sand |
+| --- | --- | --- | --- | --- |
+| **Beta 1.0** | `beta_1_0_no_sandstone` | **0** | **none** | 8,183 |
+| Beta 1.2 | `beta_1_2_historical_envelope` | 0 | **2,993 retained** | 8,198 |
+
+The 8,183 sand blocks are the point of the control: the surface rule that matters was **not** switched off along with
+the sandstone, and Beta 1.2 proves the change did not leak to a neighbour.
+
+One test guard did its job and was corrected rather than deleted: `everyPublicMenuEntryNamesOneAgreeingRevision`
+rejected the new alias until it was registered, which is exactly the check that stops a menu entry from naming a
+recipe the build does not declare.
+
+**Recorded, not resolved.** If sandstone-under-sand is Beta 1.3 then Beta 1.2 has the same rule, and so might
+Beta 1.3. Checked directly: `beta_1_2`, `beta_1_3` and `beta_1_7_3` all declare **no** surface properties, so all
+three inherit the foundation's `true`. That is coherent — sandstone exists from Beta 1.2, so its presence there is
+not anachronistic — but the rule's exact build is not pinned, and Beta 1.0 is now the only version that switches it
+off. Changing a second version on that inference would repeat the lapis near-miss in the opposite direction, so
+nothing else was touched.
+
+**366 tests, 65 suites, 0 failures.** Deployed:
+**178E62C34EC870BB5A16427C26B02646D541E19860906855A3CF8CD016CBCD31**.
+
+**To see it:** restart fully and create a **new Beta 1.0 world** — there should be sand, and no sandstone under it.
+
 ## Round 72 — the full matrix measured, three tool defects fixed, the last content gap narrowed
 
 **The whole matrix was re-run against the current build.** 32 declared versions, all `success=true`, all

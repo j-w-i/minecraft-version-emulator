@@ -28,7 +28,12 @@ NAMESPACE = 'historical_experience'
 # the desert well). A world created before it keeps the alias it recorded, so nothing already generated moves.
 PUBLIC_RECIPES = {
     'beta_1_7_3': 'beta_1_7_3_content_preview_10',
-    'beta_1_0': 'beta_1_0_historical_envelope',
+    # Beta 1.0 alone generates no sandstone. Sandstone is a Beta 1.2 ADDITION and "sandstone generates under
+    # naturally generated sand" is a Beta 1.3 behaviour, so the shared moderner_beta:beta recipe - which this
+    # version used through `beta_1_0_historical_envelope` - painted 2,993 sandstone blocks into a fresh Beta 1.0
+    # world. The revision is new rather than an edit to that one, because a world created earlier recorded the old
+    # alias and must keep the terrain it was given.
+    'beta_1_0': 'beta_1_0_no_sandstone',
     'beta_1_2': 'beta_1_2_historical_envelope',
     'beta_1_3': 'beta_1_3_historical_envelope',
     'beta_1_4': 'beta_1_4_no_modern_content',

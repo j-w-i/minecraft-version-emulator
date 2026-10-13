@@ -154,7 +154,12 @@ class GenerationBackport1211Test {
         // The count is kept because it moved for the right reason this time. The invariant that would have caught
         // the defect directly - every world a player can create carries the envelope - is asserted by
         // everyPublicMenuRecipeDeclaresTheReducedEnvelope below.
-        assertEquals(92, reduced);
+        // 92 + 1 = 93 now: the new `beta_1_0_no_sandstone` revision. Beta 1.0 was the last version in the matrix
+        // with an anachronism, and it was a surface rule rather than a block exclusion - the shared
+        // moderner_beta:beta foundation enables surface sandstone generation (a Beta 1.3 behaviour) and sandstone is
+        // itself a Beta 1.2 addition, so a fresh Beta 1.0 world held 2,993 sandstone blocks while every other
+        // version held none. A new revision, never an edit, because `_historical_envelope` is published.
+        assertEquals(93, reduced);
         assertFalse(Files.exists(DATA.resolve("minecraft/worldgen/noise_settings")));
         assertFalse(Files.exists(DATA.resolve("moderner_beta/worldgen/noise_settings")));
     }

@@ -1,0 +1,40 @@
+{
+  "chunkSettings": {
+    "moderner_beta:preset": "moderner_beta:beta",
+    "moderner_beta:deepslate_generation": {
+      "enabled": false
+    },
+    "moderner_beta:noise_generator_settings": "moderner_beta:overworld_128",
+    "moderner_beta:noise_settings": {
+      "height": 128,
+      "min_y": 0,
+      "size_horizontal": 1,
+      "size_vertical": 2
+    },
+    "moderner_beta:surface_properties": {
+      "bedrockHoles": false,
+      "enableBeaches": true,
+      "erosion": true,
+      "flipNoiseCoordinates": false,
+      "generateBeaches": true,
+      "generateBedrock": true,
+      "generateLiquids": true,
+      "generateSandstone": false,
+      "gravelBeachScale": 0.03125,
+      "gravelOceanBed": false,
+      "gravelOceanBedDepth": 7,
+      "legacyBadlandsBands": false,
+      "sandBeachScale": 0.03125,
+      "surfaceNoiseScale": 0.0625,
+      "uniformBedrock": false
+    }
+  },
+  "biomeSettings": {
+    "moderner_beta:preset": "moderner_beta:beta"
+  },
+  "caveBiomeSettings": {
+    "moderner_beta:preset": "moderner_beta:beta",
+    "moderner_beta:provider": "moderner_beta:single",
+    "moderner_beta:single_biome": "moderner_beta:beta_taiga"
+  }
+}

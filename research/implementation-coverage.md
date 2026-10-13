@@ -677,23 +677,32 @@ turned out to be "no approximation needed" rather than the decision I expected t
      comes from `success`, `timedOut` and `mixinFailures` — and the summary no longer implies otherwise. Recorded
      rather than papered over, because a field that looks authoritative and is not is how this project got misled
      twice already.
-30. **Beta 1.0's sandstone is CONFIRMED anachronistic, and remains the matrix's only open content defect.** The
-   re-run measured `minecraft:sandstone=2993` in nine chunks of a fresh Beta 1.0 world, with every other version at
-   zero. The research is unambiguous on two counts: `version-transitions.json` lists sandstone among Beta 1.2's
-   additions (*"the big crafting/resource suite lands here (… lapis, sandstone …)"*) and dates
-   *"sandstone generates under naturally generated sand"* to **Beta 1.3**. So a Beta 1.0 world should have had
-   neither the block nor the surface rule.
-   Item 11 already established the mechanism by disassembly, and it still holds: `SurfaceSystem` writes through
-   `BlockColumn.setBlock(int, BlockState)`, and `WorldGenRegionHistoricalBlockVetoMixin` covers the **decoration
-   phase only**, so the write never reaches the hook — `blockVetoInvocations` was 24822 with 26 distinct ids seen
-   and `sandstone` never among them. This is not a refusal-logic bug; the veto is never asked.
-   **Why it is not fixed this round.** The honest options are a Moderner Beta surface-rule or settings override for
-   Beta 1.0 alone, and that third party's preset internals have not been inspected — a jar for it is not present in
-   any cache this environment searches, so the change would have been written blind. A blind change to a shared
-   `moderner_beta:beta` preset is exactly how lapis was nearly deleted from five versions that really had it.
-   **Deliberately not attempted:** a global sandstone veto. Beta 1.2 onwards legitimately generate sandstone, and
-   the same veto would have refused it there. When this is fixed it belongs in a new append-only Beta 1.0 revision
-   with its own settings/world preset, and it needs a control proving Beta 1.2 keeps its sandstone.
+30. **Beta 1.0's sandstone is FIXED, and it was the last anachronism in the matrix — but fixing it exposed an
+   inconsistency I have deliberately NOT resolved.** Measured before: `minecraft:sandstone=2993` in nine chunks of
+   a fresh Beta 1.0 world, every other version zero. The research is unambiguous on two counts:
+   `version-transitions.json` lists sandstone among **Beta 1.2's** additions (*"the big crafting/resource suite lands
+   here (… lapis, sandstone …)"*) and dates *"sandstone generates under naturally generated sand"* to **Beta 1.3**.
+   **The cause was a supported setting, not a hook.** Moderner Beta serialises its surface behaviour into the
+   settings preset, and its own presets read `surface_properties.generateSandstone: true` for `beta` and **`false`
+   for `alpha`** — read from the shipped preset JSON. Item 11's disassembly was right that `SurfaceSystem` writes
+   through `BlockColumn.setBlock` and never reaches the block veto; what it missed is that the rule can be switched
+   off upstream instead of intercepted.
+   **The fix is a new revision, `historical_experience:beta_1_0_no_sandstone`**, whose preset declares the full
+   surface object with that one flag flipped and everything else byte-identical to the `beta` foundation. Appended,
+   not edited: `_historical_envelope` is published and a world recorded against it must keep the terrain it was
+   given. The public menu mapping was re-pointed and 105 world presets regenerated.
+   **Verified with a control, in two fresh worlds:** Beta 1.0 → alias `beta_1_0_no_sandstone`, **zero anachronisms,
+   no sandstone at all**, and 8,183 sand blocks still present, so the surface rule that matters was not switched off
+   with it; Beta 1.2 → **2,993 sandstone retained**, i.e. the change did not leak to its neighbour.
+   **The unresolved tension, recorded rather than quietly decided.** If "sandstone generates under naturally
+   generated sand" is Beta 1.3, then Beta 1.2 has the same defect, and so does Beta 1.3 if the rule arrived later in
+   that build. Checked directly: `beta_1_2_historical_envelope`, `beta_1_3_historical_envelope` and
+   `beta_1_7_3_content_preview_10` all **declare no surface properties at all**, so all three inherit the `beta`
+   foundation's `true`. That is coherent — sandstone exists from Beta 1.2, so its presence there is no longer
+   anachronistic — but it is not proven, and Beta 1.0 is now the ONLY version that switches the rule off. The honest
+   statement is that the date distinguishes "the block did not exist" (Beta 1.0, certain) from "the rule's exact
+   build is not pinned" (Beta 1.2/1.3, unresolved). Changing a second version on that inference would be the same
+   mistake as the lapis near-miss in item 11, in the opposite direction, so nothing else was touched.
 12. **The Nether's terrain SHAPE is still the modern 1.16+ one.** Its biomes are fixed (one biome,
    `minecraft:nether_wastes`, via vanilla's `minecraft:fixed` biome source), but the shape comes from
    `minecraft:nether` noise settings and Moderner Beta ships no historical Nether to point at. Recorded as a gap.
