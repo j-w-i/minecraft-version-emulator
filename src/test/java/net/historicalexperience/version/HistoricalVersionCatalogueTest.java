@@ -44,6 +44,55 @@ class HistoricalVersionCatalogueTest {
         assertEquals(6, prereleases.size(), "Beta 1.9 has six prereleases: " + prereleases);
     }
 
+    /**
+     * The matrix is COMPLETE, which is the acceptance condition for the expansion objective and cannot be
+     * inferred from the counts above.
+     *
+     * <p>{@link #coversTheWholePlannedMatrix} asserts that twenty-nine targets are DESCRIBED. It said nothing
+     * about whether any of them could actually be played, and for a long time three could not: Beta 1.4, 1.5 and
+     * 1.6 were listed with a {@code planned_} key and the note "no gameplay profile or generation recipe yet".
+     * A matrix that names a version and cannot create a world of it is a plan, not an implementation, and the two
+     * look identical from a count.
+     *
+     * <p>So this walks the plan and requires every target to resolve to a declared profile, to have at least one
+     * generation revision, and to be reachable through a world preset - which is what "the GUI can create it"
+     * means in this project. If a future target is added it fails here until it is implemented, which is the
+     * intended direction of failure.
+     */
+    @Test
+    void everyPlannedTargetIsImplementedRatherThanMerelyNamed() {
+        List<String> unimplemented = HistoricalVersionCatalogue.plannedTargets().stream()
+            .filter(entry -> entry.status() != Status.IMPLEMENTED)
+            .map(Entry::targetName)
+            .sorted()
+            .toList();
+        assertTrue(unimplemented.isEmpty(),
+            "these planned versions are still only NAMED, so the matrix is not implemented: " + unimplemented);
+
+        for (Entry entry : HistoricalVersionCatalogue.plannedTargets()) {
+            HistoricalVersion version = HistoricalVersions.byId(entry.key())
+                .orElseThrow(() -> new AssertionError(entry.targetName() + " resolves to profile "
+                    + entry.key() + ", which the registry does not declare"));
+            assertFalse(version.revisions().isEmpty(),
+                entry.targetName() + " declares no generation revision, so no world could be created from it");
+            for (HistoricalVersion.GenerationRevision revision : version.revisions()) {
+                assertTrue(java.nio.file.Files.exists(java.nio.file.Path.of(
+                        "src/main/resources/data/historical_experience/worldgen/world_preset",
+                        revision.alias().substring(revision.alias().indexOf(':') + 1) + ".json")),
+                    entry.targetName() + " has no world preset for revision " + revision.alias()
+                        + ", so it cannot be created through the GUI at all");
+            }
+        }
+
+        // And the three that were last, asserted by name rather than only through the loop above, because these
+        // are the specific versions the objective was about.
+        for (String id : List.of("historical_experience:beta_1_4", "historical_experience:beta_1_5",
+                "historical_experience:beta_1_6")) {
+            assertTrue(HistoricalVersions.byId(id).isPresent(),
+                id + " is a planned target of the matrix and must be a declared profile");
+        }
+    }
+
     @Test
     void profilesThePlanDoesNotNameStayReachableWithoutCounting() {
         List<Entry> extras = HistoricalVersionCatalogue.implementedExtras();

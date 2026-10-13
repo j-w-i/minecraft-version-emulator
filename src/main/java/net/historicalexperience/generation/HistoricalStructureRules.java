@@ -164,11 +164,26 @@ public final class HistoricalStructureRules {
             "It has monster rooms, which are features, but no structure-system structure")),
         Map.entry("historical_experience:alpha", noStructures("Alpha v1.1.2_01",
             "It has monster rooms, which are features, but no structure-system structure")),
+        Map.entry("historical_experience:beta_1_6", noStructures("Beta 1.6",
+            "Map item, wooden trapdoor, dead bush, short grass and fern, Nether support in multiplayer and the "
+                + "removal of the missed-swing cooldown are its additions, and none is a structure-set structure: "
+                + "the nether fortress arrives in Beta 1.9 Prerelease 1 and strongholds, villages and mineshafts "
+                + "in Beta 1.8")),
+        Map.entry("historical_experience:beta_1_5", noStructures("Beta 1.5",
+            "Weather, birch and spruce saplings, detector and powered rails, cobweb and sixteen achievements are "
+                + "its additions. The research records no structure epoch for this build, and the nether fortress "
+                + "does not arrive until Beta 1.9 Prerelease 1 while strongholds, villages and mineshafts wait "
+                + "for Beta 1.8")),
+        Map.entry("historical_experience:beta_1_4", noStructures("Beta 1.4",
+            "The wolf, cookies, the April Fools locked chest and achievement infrastructure are its additions. "
+                + "The locked chest is date-gated prank content that the research explicitly calls 'not an "
+                + "ordinary structure', and the nether fortress does not arrive until Beta 1.9 Prerelease 1 "
+                + "while strongholds, villages and mineshafts wait for Beta 1.8")),
         Map.entry("historical_experience:beta_1_3", noStructures("Beta 1.3",
-            "The research records no structure epoch for this build, and the nether fortress does not arrive " 
+            "The research records no structure epoch for this build, and the nether fortress does not arrive "
                 + "until Beta 1.9 Prerelease 1 while strongholds, villages and mineshafts wait for Beta 1.8")),
         Map.entry("historical_experience:beta_1_2", noStructures("Beta 1.2",
-            "It has monster rooms, which are features, but no structure-set structure: the nether fortress does " 
+            "It has monster rooms, which are features, but no structure-set structure: the nether fortress does "
                 + "not arrive until Beta 1.9 Prerelease 1 and strongholds, villages and mineshafts not until Beta 1.8")),
         Map.entry("historical_experience:beta_1_0", noStructures("Beta 1.0",
                 "The Nether is INHERITED in this build, but the NETHER FORTRESS is Beta 1.9 Prerelease 1 content, so "

@@ -72,6 +72,9 @@ public final class HistoricalBlockAvailability {
         "historical_experience:beta_1_0",
         "historical_experience:beta_1_2",
         "historical_experience:beta_1_3",
+        "historical_experience:beta_1_4",
+        "historical_experience:beta_1_5",
+        "historical_experience:beta_1_6",
         "historical_experience:beta_1_7_3",
         "historical_experience:beta_1_8_1",
         "historical_experience:beta_1_9_pre_1",
@@ -311,14 +314,24 @@ public final class HistoricalBlockAvailability {
             "feature-timeline: feature-timeline blocks: beds, redstone repeaters and the cobblestone, wood and sandstone slabs all introduced Beta 1.3; the smooth stone slab is present in that build but explicitly unobtainable",
             new String[] {
                 "minecraft:yellow_bed"});
-        // feature-timeline: feature-timeline blocks: cobweb introduced Beta 1.5
-        introduce("historical_experience:beta_1_7_3", true,
-            "feature-timeline: feature-timeline blocks: cobweb introduced Beta 1.5",
+        // feature-timeline blocks: cobweb introduced Beta 1.5; version-transitions beta_1_5 lists it with the explicit caveat that it is "unobtainable without inventory editing", which is noted rather than reproduced because this project does not gate item obtainability; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
+        introduce("historical_experience:beta_1_5", true,
+            "feature-timeline blocks: cobweb introduced Beta 1.5; version-transitions beta_1_5 lists it with the explicit caveat that it is \"unobtainable without inventory editing\", which is noted rather than reproduced because this project does not gate item obtainability; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:cobweb"});
-        // feature-timeline: feature-timeline blocks: grass (the plant) introduced Beta 1.6 Test Build 3, after every profile older than Beta 1.7.3
-        introduce("historical_experience:beta_1_7_3", true,
-            "feature-timeline: feature-timeline blocks: grass (the plant) introduced Beta 1.6 Test Build 3, after every profile older than Beta 1.7.3",
+        // feature-timeline blocks: grass (the plant) introduced Beta 1.6 Test Build 3, and version-transitions beta_1_6 lists "short grass and fern (grass patches in most grassy-soil biomes; fern naturally only in swamps/rainforests)" and "dead bush (deserts only, placeable only on sand)" - all three are this build's; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
+        introduce("historical_experience:beta_1_6", true,
+            "feature-timeline blocks: grass (the plant) introduced Beta 1.6 Test Build 3, and version-transitions beta_1_6 lists \"short grass and fern (grass patches in most grassy-soil biomes; fern naturally only in swamps/rainforests)\" and \"dead bush (deserts only, placeable only on sand)\" - all three are this build's; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
+            new String[] {
+                "minecraft:dead_bush"});
+        // feature-timeline: feature-timeline blocks: grass (the plant) introduced Beta 1.6 Test Build 3, and version-transitions beta_1_6 lists "short grass and fern (grass patches in most grassy-soil biomes; fern naturally only in swamps/rainforests)" and "dead bush (deserts only, placeable only on sand)" - all three are this build's
+        introduce("historical_experience:beta_1_6", true,
+            "feature-timeline: feature-timeline blocks: grass (the plant) introduced Beta 1.6 Test Build 3, and version-transitions beta_1_6 lists \"short grass and fern (grass patches in most grassy-soil biomes; fern naturally only in swamps/rainforests)\" and \"dead bush (deserts only, placeable only on sand)\" - all three are this build's",
+            new String[] {
+                "minecraft:fern"});
+        // feature-timeline blocks: grass (the plant) introduced Beta 1.6 Test Build 3, and version-transitions beta_1_6 lists "short grass and fern (grass patches in most grassy-soil biomes; fern naturally only in swamps/rainforests)" and "dead bush (deserts only, placeable only on sand)" - all three are this build's; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
+        introduce("historical_experience:beta_1_6", true,
+            "feature-timeline blocks: grass (the plant) introduced Beta 1.6 Test Build 3, and version-transitions beta_1_6 lists \"short grass and fern (grass patches in most grassy-soil biomes; fern naturally only in swamps/rainforests)\" and \"dead bush (deserts only, placeable only on sand)\" - all three are this build's; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:short_grass"});
         // first appears in the beta_1_7_3 extracted palette as "brick" (the reviewed mapping name)
@@ -361,11 +374,6 @@ public final class HistoricalBlockAvailability {
             "first appears in the beta_1_7_3 extracted palette as \"flower\" (the reviewed mapping name)",
             new String[] {
                 "minecraft:dandelion"});
-        // first appears in the beta_1_7_3 extracted palette as "deadbush" (the reviewed mapping name)
-        introduce("historical_experience:beta_1_7_3", false,
-            "first appears in the beta_1_7_3 extracted palette as \"deadbush\" (the reviewed mapping name)",
-            new String[] {
-                "minecraft:dead_bush"});
         // first appears in the beta_1_7_3 extracted palette as "detectorRail" (the reviewed mapping name)
         introduce("historical_experience:beta_1_7_3", false,
             "first appears in the beta_1_7_3 extracted palette as \"detectorRail\" (the reviewed mapping name)",

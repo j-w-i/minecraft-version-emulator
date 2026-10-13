@@ -246,11 +246,14 @@ Two blocks came out of it, both stated by the research rather than left to the p
 
 ## 6. State of the matrix, and what is actually left
 
-**29 profiles declared and selectable**, including Beta 1.0, 1.2 and 1.3. Declaration is not proof of complete
-historical fidelity: the Alpha line, both Infdev builds, Beta 1.7.3/1.8.1, six Beta 1.9 prereleases and Release
-1.0–1.6.4 still have the behaviour and terrain gaps recorded below.
+**32 profiles declared and selectable**, and **every one of the 29 planned matrix targets is now implemented**:
+Beta 1.4, 1.5 and 1.6 were the last three that were named but unplayable, and they are declared. Declaration is
+not proof of complete historical fidelity: the remaining behaviour and terrain gaps are recorded below.
+[Completion and envelope evidence](<matrix-completion-verification.md>).
 
-The catalogue's remaining `planned` rows with no profile are **three Beta builds**: 1.4, 1.5 and 1.6.
+The catalogue's remaining `planned` rows with no profile are **none**: all 29 targets resolve to declared
+profiles, and `HistoricalVersionCatalogueTest.everyPlannedTargetIsImplementedRatherThanMerelyNamed` fails if
+that stops being true.
 Their content is real and distinct - beds and repeaters, wolves and cookies, achievements and weather, maps and
 trapdoors - and they need the same question answered that Release 1.3-1.5 did, except the answer is likely to be
 cleaner: the terrain generator did not change between Beta 1.0 and 1.7.3 (the Adventure Update overhauled it in 1.8),
@@ -275,6 +278,17 @@ turned out to be "no approximation needed" rather than the decision I expected t
    Dedicated-server verification and Prism deployment are distinct; no new Prism playthrough claimed.
 2. **The bogus prerelease `_no_grass` choices have been removed.** Release and prerelease declarations now use
    `releaseTerrainOnlyWithRules`, with their own spawn sets and only the relevant content revision.
+3. **The Beta settings presets stated no envelope (repaired).** Beta 1.0, 1.2 and 1.3 inherited
+   `moderner_beta:beta` bare, so their worlds generated at the modern −64..320 height with deepslate: the probe
+   measured 8,366 deepslate and 424 emerald ore in nine chunks of a Beta 1.3 world, plus dripstone and lush
+   cave biomes. Beta 1.4–1.6 were corrected directly; 1.0, 1.2 and 1.3 gained append-only
+   `_historical_envelope` revisions so existing worlds keep their terrain. Every public menu recipe is now
+   asserted to declare the envelope. See the evidence table in
+   [completion and envelope evidence](<matrix-completion-verification.md>).
+4. **The newly declared Beta builds' own content is recorded but NOT implemented**: Beta 1.4's locked chest,
+   bed-spawn reset and achievement infrastructure; Beta 1.5's weather, powered/detector rails and cobweb
+   obtainability; Beta 1.6's map, trapdoor, Nether bed explosion, fire-spread slowdown and ore-quadrant-bias
+   fix. These are the next content work rather than claims.
 3. **The Nether's terrain SHAPE is still the modern 1.16+ one.** Its biomes are fixed (one biome,
    `minecraft:nether_wastes`, via vanilla's `minecraft:fixed` biome source), but the shape comes from
    `minecraft:nether` noise settings and Moderner Beta ships no historical Nether to point at. Recorded as a gap.

@@ -850,7 +850,7 @@ public final class HistoricalVersions {
         // nearest is Beta 1.7.3's, whose block set includes things Beta 1.0 did not have. Borrowing it would be
         // inventing a claim, so timeline-stated dates are enforced here and palette-derived ones are not - the same
         // principled position SpawnRestrictionSemanticsTest takes for unresearched mob sets.
-        versions.add(terrainOnlyWithRules(
+        versions.add(terrainOnlyWithRulesWithHistoricalEnvelope(
             "historical_experience:beta_1_0", "Beta 1.0", "beta",
             chronology(ERA_BETA, 1, 0, 0), "moderner_beta:beta",
             new VersionRules(
@@ -878,7 +878,7 @@ public final class HistoricalVersions {
         // Beta 1.2. Two things converge, and both are the payoff of declaring a build rather than approximating it:
         // the SQUID arrive here, and lapis lazuli's date becomes true - it was held at beta_1_7_3 as a proxy while
         // 1.2 did not exist, while its own evidence read "lapis lazuli ore introduced Beta 1.2".
-        versions.add(terrainOnlyWithRules(
+        versions.add(terrainOnlyWithRulesWithHistoricalEnvelope(
             "historical_experience:beta_1_2", "Beta 1.2", "beta",
             chronology(ERA_BETA, 1, 2, 0), "moderner_beta:beta",
             new VersionRules(
@@ -908,7 +908,7 @@ public final class HistoricalVersions {
         // misaligned is FIXED, and slimes spawn again after being removed in Alpha 1.2.0 - so this build's mob set
         // differs from Beta 1.2's by exactly the slime, which my Beta 1.2 entry got wrong until these deltas were
         // read.
-        versions.add(terrainOnlyWithRules(
+        versions.add(terrainOnlyWithRulesWithHistoricalEnvelope(
             "historical_experience:beta_1_3", "Beta 1.3", "beta",
             chronology(ERA_BETA, 1, 3, 0), "moderner_beta:beta",
             new VersionRules(
@@ -930,6 +930,89 @@ public final class HistoricalVersions {
                     + "instead of sitting on the bottom, and can no longer be milked - a Beta 1.2 quirk this build "
                     + "REMOVES. SLIMES SPAWN AGAIN, having been removed from the spawning code in Alpha 1.2.0. Bed "
                     + "respawn-point reset is explicitly NOT in this build; it arrives bugged in Beta 1.4."),
+            HistoricalFeatureExclusions.BETA_1_7_3_RESTRICTIONS));
+
+        // Beta 1.4, 1.5 and 1.6: the last three unimplemented targets of the expansion matrix.
+        //
+        // The terrain question is the same one Beta 1.0-1.3 answered, and the research answers it the same way:
+        // Beta 1.4 and 1.5 record "no terrain generator change", and Beta 1.6 records additions to the EXISTING
+        // generator (grass patches, ferns, desert dead bushes) rather than a new one. So `moderner_beta:beta` is
+        // the CORRECT foundation for all three, not an approximation - the generator was not overhauled until the
+        // Beta 1.8 Adventure Update.
+        //
+        // Grass is the reason two different helpers are used. Short grass and ferns arrive in Beta 1.6, so a Beta
+        // 1.4 or 1.5 world genuinely had none and the helper offering a _no_grass revision is right for them;
+        // Beta 1.6 HAD them, so it uses the grass-keeping helper exactly as every Release profile does. Each
+        // carries its own spawn set rather than sharing Beta 1.3's, because Beta 1.4 adds the wolf.
+        versions.add(terrainOnlyWithRules(
+            "historical_experience:beta_1_4", "Beta 1.4", "beta",
+            chronology(ERA_BETA, 1, 4, 0), "moderner_beta:beta",
+            new VersionRules(
+                true,
+                HistoricalSpawnRules.BETA_1_4_MOBS,
+                java.util.Map.of(),
+                java.util.Map.of(),
+                false,
+                false,
+                false,
+                true,
+                "Adds the WOLF - neutral, common in taiga, 10 health, tamed with bones at a 1/3 chance per bone, "
+                    + "defending its owner and going angry when the owner or the owner's wolves are hit, its tail "
+                    + "showing health, feedable raw pork, and DROPPING NOTHING when killed. Also cookies (healing "
+                    + "1 health and stacking to 8, the first stackable food), the April Fools locked chest, bed "
+                    + "spawn-position reset - added here but BUGGED, only applying on 'Leave bed' and only working "
+                    + "for multiplayer - partly implemented achievement infrastructure, the E inventory key, a "
+                    + "changeable GUI scale, faster wheat growth, spiders no longer trampling crops, spider sounds "
+                    + "REMOVED, the zombie/spider one-block-above damage bug fixed, and ladders holding position "
+                    + "while sneaking. NO terrain generator change."),
+            HistoricalFeatureExclusions.BETA_1_7_3_RESTRICTIONS));
+
+        versions.add(terrainOnlyWithRules(
+            "historical_experience:beta_1_5", "Beta 1.5", "beta",
+            chronology(ERA_BETA, 1, 5, 0), "moderner_beta:beta",
+            new VersionRules(
+                true,
+                HistoricalSpawnRules.BETA_1_5_MOBS,
+                java.util.Map.of(),
+                java.util.Map.of(),
+                false,
+                false,
+                false,
+                true,
+                "Adds WEATHER - natural rain, snowfall and thunderstorms with their own sounds - plus birch and "
+                    + "spruce saplings, detector rails, powered rails that need redstone and accelerate minecarts, "
+                    + "cobweb (present but obtainable only by inventory editing, slowing players and mobs and "
+                    + "dropping string when broken with a sword), and sixteen achievements and statistics with "
+                    + "their UI. Unarmed damage rises 1 -> 2 health points; saplings smelt 0.5 items each; redstone "
+                    + "wire can be placed on snow; the ladder recipe yields 2; lightning creates fire and turns "
+                    + "struck pigs into zombie pigmen and struck creepers into charged creepers; wolves become more "
+                    + "common outside taiga and forest. NO mob is added and there is NO new base generator."),
+            HistoricalFeatureExclusions.BETA_1_7_3_RESTRICTIONS));
+
+        versions.add(releaseTerrainOnlyWithRules(
+            "historical_experience:beta_1_6", "Beta 1.6", "beta",
+            chronology(ERA_BETA, 1, 6, 0), "moderner_beta:beta",
+            new VersionRules(
+                true,
+                HistoricalSpawnRules.BETA_1_6_MOBS,
+                java.util.Map.of(),
+                java.util.Map.of(),
+                false,
+                false,
+                false,
+                true,
+                "Adds the map item, the wooden trapdoor, dead bush (deserts only, placeable only on sand), and "
+                    + "SHORT GRASS AND FERNS as naturally generated vegetation - grass patches on most grassy-soil "
+                    + "biomes, ferns only in swamps and rainforests. Also Nether support in multiplayer with the "
+                    + "view-distance and allow-nether server properties, and grass/foliage colour-map files that "
+                    + "exist but are initially not read. A bed placed in the Nether EXPLODES; fire spread is "
+                    + "severely slowed and no longer spreads infinitely; ice regenerates without snow; mushrooms "
+                    + "spread slowly; below a layer of source blocks water no longer behaves as source; the player "
+                    + "dismounts from a boat or minecart entering a portal, fixing the portal-ride crash; the "
+                    + "ten-tick missed-swing cooldown is REMOVED; and public Beta 1.6 fixes the ore-generation "
+                    + "quadrant bias that made some ores at least 50% more common to the south-east. NO mob is "
+                    + "added and there is NO new base generator. The unreleased Test Build 3's randomised "
+                    + "vegetation and its clay x=z coordinate defect are NOT this build."),
             HistoricalFeatureExclusions.BETA_1_7_3_RESTRICTIONS));
 
         // WINTER MODE IS NOT DECLARED YET, and the reason is a conflict in the model rather than missing research.
@@ -1138,6 +1221,49 @@ public final class HistoricalVersions {
         VersionRules rules
     ) {
         return terrainOnlyWithRules(id, displayName, era, chronology, upstreamPreset, rules, null);
+    }
+
+    /**
+     * Beta 1.0, 1.2 and 1.3: {@link #terrainOnlyWithRules}' shape plus a revision that gives the world the
+     * historical envelope.
+     *
+     * <p>This exists for a MEASURED defect, not a precaution. Those three builds' settings presets inherited
+     * {@code moderner_beta:beta} without stating the envelope or disabling deepslate, so their worlds generated at
+     * the modern -64..320 height with deepslate in them. The runtime probe measured it directly: a Beta 1.3 world
+     * (alias {@code beta_1_3_no_modern_content}) reported {@code generatorMinY=-64}, {@code generatorDepth=192},
+     * {@code deepslateDisabled=false} and the voronoi cave provider injecting dripstone and lush caves, and found
+     * <b>8,366 deepslate and 424 emerald ore</b> in nine sampled chunks - every one of them anachronistic. Beta
+     * 1.7.3's own {@code content_preview_*} presets already carried the correct envelope, which is what proved the
+     * omission was in these presets rather than a Moderner Beta limitation.
+     *
+     * <p>It is a NEW revision rather than an edit to {@code _no_modern_content}, for the project's usual reason:
+     * that alias is published, worlds may already be recorded against it, and rewriting its preset would move the
+     * terrain of chunks those worlds have not generated yet. A new world selects the new revision; an existing one
+     * keeps the generator it recorded.
+     */
+    private static HistoricalVersion terrainOnlyWithRulesWithHistoricalEnvelope(
+        String id,
+        String displayName,
+        String era,
+        int chronology,
+        String upstreamPreset,
+        VersionRules rules,
+        List<HistoricalFeatureExclusions.Exclusion> modernContentExclusions
+    ) {
+        HistoricalVersion base =
+            terrainOnlyWithRules(id, displayName, era, chronology, upstreamPreset, rules, modernContentExclusions);
+        List<HistoricalVersion.GenerationRevision> revisions = new java.util.ArrayList<>(base.revisions());
+        revisions.add(new HistoricalVersion.GenerationRevision(
+            revisions.size(),
+            alias(id.substring(id.indexOf(':') + 1) + "_historical_envelope"),
+            upstreamPreset,
+            true,
+            "the historical 0..127 envelope with deepslate disabled and no modern cave biomes, which this version's "
+                + "earlier revisions were missing: their preset inherited moderner_beta:beta without stating either, "
+                + "so the probe measured deepslate and modern cave biomes generating in a Beta world",
+            base.revisions().get(base.revisions().size() - 1).excludedPlacedFeatures(),
+            List.of()));
+        return new HistoricalVersion(id, displayName, era, chronology, rules, List.copyOf(revisions));
     }
 
     /**

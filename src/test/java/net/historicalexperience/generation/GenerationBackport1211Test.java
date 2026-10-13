@@ -65,7 +65,12 @@ class GenerationBackport1211Test {
                 dimensions.getAsJsonObject("minecraft:the_end").get("type").getAsString(), id);
             checked++;
         }
-        assertEquals(29, checked, "the menu must expose exactly the twenty-nine declared profiles");
+        assertEquals(net.historicalexperience.version.HistoricalVersions.all().size(), checked,
+            "the menu must expose exactly the declared profiles, no more and no fewer");
+        // Pinned explicitly as well, so an accidental gain or loss is a failure rather than something the
+        // expression above would silently absorb. 29 was the count before Beta 1.4, 1.5 and 1.6 were declared -
+        // the last three unimplemented targets of the expansion matrix.
+        assertEquals(32, checked, "the project declares thirty-two profiles");
     }
 
     @Test void newerRevisionsExistForEveryVersionWhoseModernContentWasMissing() {
@@ -136,9 +141,68 @@ class GenerationBackport1211Test {
         // revisions. They were declared through a helper whose own comment says every caller it was written for
         // predates Beta 1.6 - and grass arrives IN Beta 1.6, so all six predate it by years. The world-creation list
         // offered a "no grass" variant for versions that had grass, and this count is how that showed up as a number.
-        assertEquals(81, reduced);
+        //
+        // 92, and the number is now the interesting part. It was 81, and adding Beta 1.4/1.5/1.6 did NOT move it -
+        // which is how the real defect showed up. A Beta settings preset did not state the envelope at all: it
+        // inherited `moderner_beta:beta` bare, so a Beta world generated at the modern -64..320 height with
+        // deepslate, and the probe measured 8,366 deepslate and 424 emerald ore in nine chunks of a Beta 1.3 world.
+        //
+        // 81 + 8 + 3 = 92 now: the eight presets of Beta 1.4/1.5/1.6 (declared this session, so their presets could
+        // be corrected directly) and three NEW revisions for the published Beta 1.0, 1.2 and 1.3 aliases, which
+        // could not be edited without moving terrain in worlds already recorded against them.
+        //
+        // The count is kept because it moved for the right reason this time. The invariant that would have caught
+        // the defect directly - every world a player can create carries the envelope - is asserted by
+        // everyPublicMenuRecipeDeclaresTheReducedEnvelope below.
+        assertEquals(92, reduced);
         assertFalse(Files.exists(DATA.resolve("minecraft/worldgen/noise_settings")));
         assertFalse(Files.exists(DATA.resolve("moderner_beta/worldgen/noise_settings")));
+    }
+
+    /**
+     * Every world a player can create must generate on the historical 0..127 envelope with deepslate disabled.
+     *
+     * <p>This is the invariant the count above only approximated, and the defect it is written for was invisible to
+     * that count: Beta 1.0, 1.2 and 1.3 were in the menu with settings presets that named no envelope and did not
+     * disable deepslate, so their worlds generated at the modern height with deepslate and emerald ore in them. The
+     * count did not move when they were added because it counts presets that STATE the envelope, and the whole
+     * problem was that these did not - a test can be perfectly correct and still not ask the question.
+     *
+     * <p>Checked through the world presets, because that is what the menu actually offers: a version whose public
+     * entry points at an envelope-less preset is unplayable correctly whatever its older revisions say.
+     */
+    @Test void everyPublicMenuRecipeDeclaresTheReducedEnvelope() throws Exception {
+        java.util.List<String> offenders = new java.util.ArrayList<>();
+        for (String version : new String[] {"beta_1_0", "beta_1_2", "beta_1_3", "beta_1_4", "beta_1_5", "beta_1_6",
+                "beta_1_7_3", "beta_1_8_1", "beta_1_9_pre_1", "release_1_0_0", "release_1_6_4"}) {
+            var preset = json(DATA.resolve("historical_experience/worldgen/world_preset/" + version + ".json"));
+            var generator = preset.getAsJsonObject("dimensions").getAsJsonObject("minecraft:overworld")
+                .getAsJsonObject("generator");
+            // The settings preset the world actually selects. Read from the generator's own provider_settings, which
+            // is where a Moderner Beta world preset names it - the first version of this test looked for a top-level
+            // "generator" object and a "settings" key, which is the vanilla noise shape and not this one.
+            String settingsId = generator.getAsJsonObject("provider_settings")
+                .get("moderner_beta:preset").getAsString();
+            String settingsName = settingsId.substring(settingsId.indexOf(':') + 1);
+            var settings = json(DATA.resolve(
+                "historical_experience/moderner_beta/settings_preset/" + settingsName + ".json"));
+            var chunk = settings.getAsJsonObject("chunkSettings");
+
+            if (!chunk.has("moderner_beta:noise_settings")) {
+                offenders.add(version + " -> " + settingsName + " states no moderner_beta:noise_settings");
+                continue;
+            }
+            var envelope = chunk.getAsJsonObject("moderner_beta:noise_settings");
+            assertEquals(0, envelope.get("min_y").getAsInt(), version + " envelope min_y");
+            assertEquals(128, envelope.get("height").getAsInt(), version + " envelope height");
+            if (!chunk.has("moderner_beta:deepslate_generation")
+                || chunk.getAsJsonObject("moderner_beta:deepslate_generation").get("enabled").getAsBoolean()) {
+                offenders.add(version + " -> " + settingsName + " does not disable deepslate generation");
+            }
+        }
+        assertTrue(offenders.isEmpty(),
+            "these versions offer a world a player can create that is not on the historical envelope, so it "
+                + "generates modern-height terrain with deepslate in it: " + offenders);
     }
 
     @Test void betaLatestCaveSettingsKeepTheOriginalNonModernFallback() throws Exception {
@@ -166,7 +230,9 @@ class GenerationBackport1211Test {
         assertEquals(json(Path.of("src/main/resources/data").resolve(resource)), json(DATA.resolve(resource)));
         var tag = json(DATA.resolve("minecraft/tags/worldgen/world_preset/normal.json"));
         assertFalse(tag.get("replace").getAsBoolean());
-        assertEquals(29, tag.getAsJsonArray("values").size());
+        assertEquals(net.historicalexperience.version.HistoricalVersions.all().size(),
+            tag.getAsJsonArray("values").size(),
+            "the normal world-preset tag must list every declared profile exactly once");
         assertFalse(tag.getAsJsonArray("values").toString().contains("preview"));
     }
 }

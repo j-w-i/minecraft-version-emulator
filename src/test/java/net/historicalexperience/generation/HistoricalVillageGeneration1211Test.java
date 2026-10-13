@@ -59,43 +59,34 @@ import org.junit.jupiter.api.Test;
  * Beta 1.8.1 world.
  */
 class HistoricalVillageGeneration1211Test {
-    /** The ten declared profiles, oldest first, as this project declares them. */
-    private static final List<String> DECLARED = List.of(
-        "historical_experience:infdev_420",
-        "historical_experience:infdev_611",
-        "historical_experience:alpha_1_0_1",
-        "historical_experience:alpha_1_0_4",
-        "historical_experience:alpha_1_0_6",
-        "historical_experience:alpha_1_0_11",
-        "historical_experience:alpha_1_0_14",
-        "historical_experience:alpha_1_0_17",
-        "historical_experience:alpha_1_1_0",
-        "historical_experience:alpha_1_2_0",
-        "historical_experience:alpha",
-        "historical_experience:beta_1_0",
-        "historical_experience:beta_1_2",
-        "historical_experience:beta_1_3",
-        "historical_experience:beta_1_7_3",
-        "historical_experience:beta_1_8_1",
-        "historical_experience:beta_1_9_pre_1",
-        "historical_experience:beta_1_9_pre_2",
-        "historical_experience:beta_1_9_pre_3",
-        "historical_experience:beta_1_9_pre_4",
-        "historical_experience:beta_1_9_pre_5",
-        "historical_experience:beta_1_9_pre_6",
-        "historical_experience:release_1_3",
-        "historical_experience:release_1_4",
-        "historical_experience:release_1_5",
-        "historical_experience:release_1_0_0",
-        "historical_experience:release_1_1",
-        "historical_experience:release_1_2_5",
-        "historical_experience:release_1_6_4");
+    /**
+     * The declared profiles, split at the Beta 1.8.1 boundary by CHRONOLOGY rather than by hand.
+     *
+     * <p>This was a hand-written list of 29 with a hand-counted index of 15, and both went stale the moment Beta
+     * 1.4, 1.5 and 1.6 were declared: the assertion then reported the three new versions as being on the wrong side
+     * of a boundary they were never near. Deriving the split from the registry's own chronology means a new build
+     * lands on the correct side by construction, and there is no index left to miscount.
+     */
+    private static final int VILLAGE_BOUNDARY =
+        net.historicalexperience.version.HistoricalVersions.byId("historical_experience:beta_1_8_1")
+            .orElseThrow().chronology();
+
+    private static final List<String> DECLARED =
+        net.historicalexperience.version.HistoricalVersions.all().stream()
+            .map(net.historicalexperience.version.HistoricalVersion::id)
+            .toList();
 
     /** Versions that must NOT generate a village, from the Beta 1.8 boundary. */
-    private static final List<String> NO_VILLAGE = DECLARED.subList(0, 15);
+    private static final List<String> NO_VILLAGE = DECLARED.stream()
+        .filter(id -> net.historicalexperience.version.HistoricalVersions.byId(id).orElseThrow().chronology()
+            < VILLAGE_BOUNDARY)
+        .toList();
 
     /** Versions that must be able to, from the same boundary. */
-    private static final List<String> VILLAGE = DECLARED.subList(15, DECLARED.size());
+    private static final List<String> VILLAGE = DECLARED.stream()
+        .filter(id -> net.historicalexperience.version.HistoricalVersions.byId(id).orElseThrow().chronology()
+            >= VILLAGE_BOUNDARY)
+        .toList();
 
     /**
      * The extracted palette each village version is judged against.

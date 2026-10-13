@@ -39,6 +39,9 @@ CHRONOLOGY = [
     'historical_experience:beta_1_0',
     'historical_experience:beta_1_2',
     'historical_experience:beta_1_3',
+    'historical_experience:beta_1_4',
+    'historical_experience:beta_1_5',
+    'historical_experience:beta_1_6',
     'historical_experience:beta_1_7_3',
     'historical_experience:beta_1_8_1',
     'historical_experience:beta_1_9_pre_1',
@@ -188,11 +191,19 @@ TIMELINE = [
       'minecraft:jack_o_lantern'], 'historical_experience:alpha_1_2_0',
      'feature-timeline blocks: netherrack, glowstone and pumpkin introduced Alpha v1.2.0, after the '
      'Alpha v1.1.2_01 profile'),
-    (['minecraft:short_grass'], 'historical_experience:beta_1_7_3',
-     'feature-timeline blocks: grass (the plant) introduced Beta 1.6 Test Build 3, after every profile '
-     'older than Beta 1.7.3'),
-    (['minecraft:cobweb'], 'historical_experience:beta_1_7_3',
-     'feature-timeline blocks: cobweb introduced Beta 1.5'),
+    # Grass and ferns, and cobweb, were BOTH held at beta_1_7_3 as proxies while Beta 1.5 and Beta 1.6 did not
+    # exist: the notes said "after every profile older than Beta 1.7.3", which is what a proxy date looks like when
+    # there is no build to name. Declaring those two builds makes both dates TRUE cases, and leaving them would have
+    # made a Beta 1.6 world refuse the very vegetation that build introduced - the false-veto shape this file has
+    # already produced twice, for redstone ore in Alpha 1.0.1 and for lily pads in Pre1/Pre2.
+    (['minecraft:short_grass', 'minecraft:fern', 'minecraft:dead_bush'], 'historical_experience:beta_1_6',
+     'feature-timeline blocks: grass (the plant) introduced Beta 1.6 Test Build 3, and version-transitions '
+     'beta_1_6 lists "short grass and fern (grass patches in most grassy-soil biomes; fern naturally only in '
+     'swamps/rainforests)" and "dead bush (deserts only, placeable only on sand)" - all three are this build\'s'),
+    (['minecraft:cobweb'], 'historical_experience:beta_1_5',
+     'feature-timeline blocks: cobweb introduced Beta 1.5; version-transitions beta_1_5 lists it with the '
+     'explicit caveat that it is "unobtainable without inventory editing", which is noted rather than reproduced '
+     'because this project does not gate item obtainability'),
     # Sandstone and lapis were BOTH held at beta_1_7_3 while their own evidence said "introduced Beta 1.2" - proxy
     # dates, correct for the declared set until Beta 1.2 existed. Both appeared in the audit output many rounds ago
     # and I only ever read its Alpha section, which is its own lesson: an audit is only as useful as the part of it

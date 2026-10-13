@@ -332,6 +332,41 @@ public final class HistoricalSpawnRules {
         .collect(java.util.stream.Collectors.toUnmodifiableSet());
 
     /**
+     * Beta 1.4: the wolf arrives, which makes this set identical to Beta 1.7.3's.
+     *
+     * <p>Read from {@code research/version-transitions.json}, {@code beta_1_4}, introduced: <i>"wolves (neutral,
+     * common in taiga, 10 health, tame via bones at 1/3 chance per bone)"</i>, with the same entry recording that
+     * wolves <i>"drop nothing when killed"</i> - a drop rule rather than a spawn rule.
+     *
+     * <p>It is written as the Beta 1.7.3 set rather than as a new list because that IS the claim: the wolf was the
+     * last mob added before the Adventure Update. Beta 1.5, 1.6 and 1.7 add none (Beta 1.5 is weather and rails,
+     * Beta 1.6 is maps, trapdoors and vegetation, Beta 1.7 is bug fixes), and the Adventure Update's enderman,
+     * cave spider and silverfish arrive in Beta 1.8.1. Deriving it makes a future correction to the 1.7.3 set
+     * propagate here instead of silently diverging.
+     */
+    public static final Set<String> BETA_1_4_MOBS = BETA_1_7_3_MOBS;
+
+    /**
+     * Beta 1.5: no mob is added, so the set is Beta 1.4's.
+     *
+     * <p>Its deltas are weather, birch and spruce saplings, detector and powered rails, cobweb and sixteen
+     * achievements. None of them is an entity, so writing a new set here would be inventing a claim. The
+     * distinction matters because the spawn filter REMOVES anything absent from the allow set: a set that
+     * accidentally dropped the wolf would delete wolves from every Beta 1.5 world, which is the destructive
+     * failure {@code SpawnRestrictionSemanticsTest} exists to prevent.
+     */
+    public static final Set<String> BETA_1_5_MOBS = BETA_1_4_MOBS;
+
+    /**
+     * Beta 1.6: no mob is added either, so the set is Beta 1.5's.
+     *
+     * <p>Beta 1.6's own additions are the map item, the wooden trapdoor, dead bush, short grass and fern, Nether
+     * support in multiplayer, and the removal of the ten-tick missed-swing cooldown. The last is a combat rule and
+     * the rest are items or blocks, so no entity is added - and the mob set is therefore the same one.
+     */
+    public static final Set<String> BETA_1_6_MOBS = BETA_1_5_MOBS;
+
+    /**
      * The Release-era sets, each derived from the one before it by the mobs the research names for that build.
      *
      * <p>Until now every Release profile was declared through {@code terrainOnly}, which sets NO spawn restriction,

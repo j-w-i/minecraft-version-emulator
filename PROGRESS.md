@@ -1,3 +1,32 @@
+# Persistent project status — 2026-10-13 (3) / matrix complete, Beta envelope defect repaired
+
+## Round 54 — the 29-version matrix is complete
+
+Beta 1.4, 1.5 and 1.6 were the last three targets that were NAMED but not implemented. They are now declared
+profiles with spawn sets, structure rules, settings/world presets and menu entries, so all 29 planned targets
+create real worlds. `HistoricalVersionCatalogueTest.everyPlannedTargetIsImplementedRatherThanMerelyNamed` now
+fails on any target that is named without being playable — the counts it replaces could not tell the two apart.
+
+Adding them exposed a **pre-existing defect on Beta 1.0/1.2/1.3**: their settings presets stated no envelope,
+so a world created from the menu generated at the modern −64..320 height with deepslate. Measured: 8,366
+deepslate and 424 emerald ore in nine chunks of a Beta 1.3 world, plus dripstone and lush cave biomes. The
+three new builds' presets were corrected directly; the three published aliases gained append-only
+`_historical_envelope` revisions so existing worlds keep the terrain they recorded. Every public menu recipe is
+now asserted to declare the envelope.
+
+Also moved two proxy dates that had become true cases: `short_grass`/`dead_bush`/`fern` → Beta 1.6 and
+`cobweb` → Beta 1.5. Left alone, a Beta 1.6 world would have refused the vegetation that build introduced.
+
+Final build: **340 tests, 0 failures/errors/skips**. Runtime probes: Beta 1.6 went from depth 192/−64 with
+deepslate+copper+emerald to depth 128/0 with **no anachronistic blocks**; Beta 1.3's new envelope revision
+likewise clean; Beta 1.7.3's established preset sampled away from the ocean still yields grass_block 1,019 and
+short_grass 46, proving the envelope preserves vegetation and the origin sample was simply water.
+
+Remaining: the three new builds' own content (weather, rails, maps, trapdoors, ore-bias fix) is recorded but
+unimplemented; historical Nether terrain shape; spawn weights and group sizes; the full per-version behaviour
+list in [implementation coverage](<research/implementation-coverage.md>).
+Full commands, tables and limitations: [matrix completion and envelope evidence](<research/matrix-completion-verification.md>).
+
 # Persistent project status — 2026-10-13 (2) / 1.21.1 root, NT port + per-profile content correctness
 
 ## Nether live-enforcement repair — 2026-10-13 14:02 AEDT
