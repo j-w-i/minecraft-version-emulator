@@ -33,6 +33,8 @@ PUBLIC_RECIPES = {
     'alpha_1_0_6': 'alpha_1_0_6_no_modern_content',
     'alpha_1_0_11': 'alpha_1_0_11_no_modern_content',
     'alpha_1_0_14': 'alpha_1_0_14_no_modern_content',
+    'alpha_1_0_17': 'alpha_1_0_17_no_modern_content',
+    'alpha_1_1_0': 'alpha_1_1_0_no_modern_content',
 
     'alpha': 'alpha_no_modern_content',
     'infdev_420': 'infdev_420_no_modern_content',

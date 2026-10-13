@@ -32,6 +32,8 @@ CHRONOLOGY = [
     'historical_experience:alpha_1_0_6',
     'historical_experience:alpha_1_0_11',
     'historical_experience:alpha_1_0_14',
+    'historical_experience:alpha_1_0_17',
+    'historical_experience:alpha_1_1_0',
     'historical_experience:alpha',
     'historical_experience:beta_1_7_3',
     'historical_experience:beta_1_8_1',

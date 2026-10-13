@@ -618,6 +618,52 @@ public final class HistoricalVersions {
                     + "1.0.1: no edible item is added between them."),
             HistoricalFeatureExclusions.BEFORE_GRASS_EXISTED_WITHOUT_DESERT_WELL));
 
+        // Alpha 1.0.17 and 1.1.0 add NO mob between them, so 1.0.17, 1.1.0 and v1.1.2_01 share one spawn set. That
+        // is a fact read off three consecutive sets of deltas, not a shortcut - and it is why 1.0.14's slime-less
+        // set is NOT reused here: 1.0.14 removed slimes by a bug, and neither of these builds inherits that.
+        versions.add(terrainOnlyWithRules(
+            "historical_experience:alpha_1_0_17", "Alpha v1.0.17", "alpha",
+            chronology(ERA_ALPHA, 1, 0, 17), "moderner_beta:alpha",
+            new VersionRules(
+                true,
+                HistoricalSpawnRules.ALPHA_1_1_2_MOBS,
+                java.util.Map.of(),
+                HistoricalFoodRules.ALPHA_1_1_2_HEAL_POINTS,
+                false,
+                false,
+                false,
+                false,
+                "Oak fences, the spider jockey, a working multiplayer day/night cycle, pigs, chickens and slimes "
+                    + "brought to multiplayer, milk buckets that can be emptied, and chickens that no longer take "
+                    + "fall damage and glide downward. Slime spawning is BACK, because 1.0.14 disabled it as a bug "
+                    + "and the research says not to infer a permanent removal. This build also had a transient "
+                    + "defect - broken or invisible inventory icons - which the deltas record as a short-lived "
+                    + "client fault rather than a stable mechanic, so it is deliberately NOT reproduced. Food "
+                    + "table shared with Alpha 1.0.1: no edible item is added between them."),
+            HistoricalFeatureExclusions.BEFORE_GRASS_EXISTED_WITHOUT_DESERT_WELL));
+
+        versions.add(terrainOnlyWithRules(
+            "historical_experience:alpha_1_1_0", "Alpha v1.1.0", "alpha",
+            chronology(ERA_ALPHA, 1, 1, 0), "moderner_beta:alpha",
+            new VersionRules(
+                true,
+                HistoricalSpawnRules.ALPHA_1_1_2_MOBS,
+                java.util.Map.of(),
+                HistoricalFoodRules.ALPHA_1_1_2_HEAL_POINTS,
+                false,
+                false,
+                false,
+                false,
+                "The compass, pointing to world spawn; a shared client/server inventory; inventory persisted on a "
+                    + "multiplayer server; player location persisted on disconnect; chests, signs and furnaces "
+                    + "working in multiplayer; and an experimental switch that enables monsters in multiplayer. "
+                    + "Monster spawners stop rendering the mob they contain. Adds no mob, so the spawn set is Alpha "
+                    + "1.0.17's. The multiplayer monster switch is described as EXPERIMENTAL and is not evidence of "
+                    + "parity with singleplayer AI, which is recorded rather than smoothed over. This is also the "
+                    + "build that makes SNEAKING possible: this project's sneak boundary is Alpha 1.1.0, supplied "
+                    + "by the owner, and it lands exactly here. Food table shared with Alpha 1.0.1."),
+            HistoricalFeatureExclusions.BEFORE_GRASS_EXISTED_WITHOUT_DESERT_WELL));
+
         // WINTER MODE IS NOT DECLARED YET, and the reason is a conflict in the model rather than missing research.
         // Moderner Beta ships `moderner_beta:alpha_winter`, and this project's own settings preset
         // `alpha_1_0_4_winter` inherits it, so the terrain is available. What is missing is a place to put it:

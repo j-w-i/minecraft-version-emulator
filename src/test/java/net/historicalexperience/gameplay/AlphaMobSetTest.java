@@ -96,6 +96,28 @@ class AlphaMobSetTest {
     }
 
     @Test
+    void theSlimeRemovalDoesNotLeakIntoTheBuildsAfterIt() {
+        // This is the assertion the two separate constants exist for. 1.0.14 disabled slime spawning as a BUG, and
+        // the research says twice not to infer a permanent removal. If that removal leaked forward - by a shared
+        // set, a filter, an inheritance - these builds would silently lose a mob for the rest of the Alpha line.
+        for (String id : new String[] {
+            "historical_experience:alpha_1_0_17",
+            "historical_experience:alpha_1_1_0",
+            ALPHA_1_1_2}) {
+            assertTrue(mobsOf(id).contains("minecraft:slime"),
+                id + " must have slimes: the removal was a one-build bug in 1.0.14, and the research explicitly "
+                    + "says not to infer a permanent removal");
+        }
+
+        // Three builds in a row with one identical set, which is what the deltas say: 1.0.17 and 1.1.0 add no mob,
+        // and neither does v1.1.2_01.
+        assertEquals(mobsOf("historical_experience:alpha_1_0_17"), mobsOf("historical_experience:alpha_1_1_0"),
+            "1.1.0 adds no mob, so it shares 1.0.17's set");
+        assertEquals(mobsOf("historical_experience:alpha_1_1_0"), mobsOf(ALPHA_1_1_2),
+            "v1.1.2_01 adds no mob either, so all three share one set");
+    }
+
+    @Test
     void theBuildThatIntroducesClayAlsoHasCowsAndSlimesButStillNoChickens() {
         // Alpha 1.0.11 sits between two boundaries, which makes it the most informative declared Alpha build:
         // cows arrived at 1.0.8 (so it HAS them), slimes are inferred to have arrived here, and chickens do not
