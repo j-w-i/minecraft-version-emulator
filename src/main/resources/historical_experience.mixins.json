@@ -40,6 +40,8 @@
     "DataComponentHolderHistoricalToolDurabilityMixin",
     "BlockHistoricalEndPortalFrameMixin",
     "BlockStateBaseHistoricalEndPortalFrameLightMixin",
+    "AxeAccess",
+    "ShovelAccess",
     "BlockBehaviourHistoricalDropMixin",
     "PlayerHistoricalExhaustionMixin",
     "PlayerHistoricalJumpExperienceMixin",

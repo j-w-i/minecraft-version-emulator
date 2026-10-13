@@ -285,6 +285,15 @@ public final class HistoricalGameplayTweaks {
             // Changes > Snow block: "Now require only 4 snowballs to be crafted instead of 9. They still always
             // drop 6 snowballs, allowing for an infinite source of snowballs."
             case "snowballSurplus" -> isDeclaredVersion(versionId) && versionId.equals(ALPHA_1_0_6);
+            // Axe stripping and shovel pathing are MODERN features that every declared version predates, so this
+            // gate is true for all 32 - expressed as "is a declared historical version" rather than as a boundary
+            // above the newest, so the two rules read the same way as every other rule in this class.
+            //
+            // Boundaries, both from the wiki's own History tables rather than from NT, whose catalogue records them
+            // as unknown and whose historicalClaim field says a name alone is not evidence:
+            //   Axe:      "1.13 17w47a: Axes can now be used to strip logs into stripped logs."
+            //   Shovel:   "1.9 15w31a: Shovels can now be used to create paths."
+            case "noToolShaping" -> isDeclaredVersion(versionId);
             default -> throw new IllegalArgumentException("unknown gate '" + gate + "'; a gate that never "
                 + "applies is indistinguishable from one that correctly does not, so this refuses to guess");
         };
@@ -909,6 +918,22 @@ public final class HistoricalGameplayTweaks {
      */
     public static boolean snowballSurplus() {
         return appliesTo("snowballSurplus", HistoricalActiveSession.current());
+    }
+
+    /**
+     * Whether an axe must not strip logs and a shovel must not make paths - true for every declared version.
+     *
+     * <p>Axe stripping is 1.13 (17w47a) and shovel pathing is 1.9 (15w31a); the newest version this project declares
+     * is Release 1.6.4, so both features are anachronistic in all 32 builds and the rule applies throughout. Named
+     * "noToolShaping" rather than after either feature because one gate covers both and they share a boundary that
+     * is simply "later than everything declared".
+     *
+     * <p>This is the NOSTALGIC TWEAKS behaviour rather than a new invention: upstream answers
+     * {@code GameplayTweak.DISABLE_AXE_STRIPPING} and {@code DISABLE_SHOVEL_PATHING}, and the owner asked for both
+     * by name. What changed is only where the yes/no comes from - upstream a config flag, here the world's version.
+     */
+    public static boolean noToolShaping() {
+        return appliesTo("noToolShaping", HistoricalActiveSession.current());
     }
 
     /**

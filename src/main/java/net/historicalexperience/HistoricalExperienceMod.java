@@ -42,5 +42,9 @@ public final class HistoricalExperienceMod implements ModInitializer {
         // version gate lives in HistoricalSwordBlocking.canBlock, so a pre-Beta-1.8 world has no stance and
         // cannot block even if a client asks.
         HistoricalSwordBlockingEvents.register();
+        // Axe stripping (1.13) and shovel pathing (1.9) are both later than every declared version, so no
+        // historical world may perform either. Registered here rather than in a mixin because both are ordinary
+        // right-click interactions and the loader's own callback is the hook for them.
+        net.historicalexperience.gameplay.HistoricalToolInteractionEvents.register();
     }
 }
