@@ -143,7 +143,7 @@ public class HistoricalVillageStructure extends Structure {
     }
 
     /** How many villagers a village may hold. Upstream has no cap; this keeps a large village from flooding a chunk. */
-    private static final int MAX_VILLAGERS = 12;
+    private static final int MAX_VILLAGERS = 8;
 
     @Override
     public void afterPlace(
@@ -155,6 +155,16 @@ public class HistoricalVillageStructure extends Structure {
         ChunkPos chunkPos,
         net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer pieces
     ) {
+        // ONCE PER STRUCTURE START, not once per chunk.
+        //
+        // afterPlace is called for EVERY chunk the structure occupies, so a village spanning four chunks ran this
+        // whole method four times and spawned its entire complement four times over, at the same piece centres. The
+        // owner saw exactly that: "too many villagers spawn in villages and they all spawn in one place". Guarding
+        // on the chunk that holds the structure's minimum corner means the spawn happens once, and it is stable
+        // across calls because that corner does not move.
+        if (chunkPos.x != (box.minX() >> 4) || chunkPos.z != (box.minZ() >> 4)) {
+            return;
+        }
         // VILLAGERS ARE CONDITIONAL, and this replaces a deliberate shortcut that cost a real feature.
         //
         // The port originally placed no entities at all, on the reasoning that upstream spawns villagers in five of
