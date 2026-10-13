@@ -181,6 +181,30 @@ distinct world type, as the two Infdev builds already are), or a way to mark a r
 Recorded as **U** with that choice unmade. The settings preset and the knowledge stay on disk; the public world-type entry
 was removed so that no menu offers a world whose recipe no version declares.
 
+## 5c. Mob spawn sets: the audit the owner asked for
+
+Asked "have you checked what mobs can spawn?", and the honest answer was no. The sets existed, one was derived, and a
+spawn filter was seen removing chickens at runtime - none of which establishes that a set is RIGHT. Researching it
+found a real defect:
+
+| Mob | Arrives | Was |
+|---|---|---|
+| **cow** | **Alpha v1.0.8** (`beta18-cow-drops`, confidence high) | **wrongly allowed** in Alpha 1.0.1, 1.0.4 and 1.0.6 |
+| chicken | Alpha v1.0.14 | correctly excluded from those three |
+| slime | Alpha v1.0.11 | correctly excluded from those three |
+| enderman, silverfish, cave spider | Beta 1.8 | correctly present from Beta 1.8.1 |
+| **mooshroom** | Release 1.0.0, i.e. the Beta 1.9 prereleases | **U** - a Beta 1.8.1 world can still spawn them, because they are a biome-driven cow VARIANT rather than a spawn-list entry, so a spawn set cannot express their absence |
+
+`AlphaMobSetTest` now pins all three directions for the earliest builds: cows absent before 1.0.8, slimes and chickens
+absent before 1.0.11 and 1.0.14, and the pre-Alpha mobs (creeper, skeleton, spider, zombie, pig, sheep) still allowed -
+because removing those would be the opposite mistake and a silent one.
+
+**A first attempt at this audit was unsound and is recorded as such:** it matched mob names in the delta text, so it
+"found" creepers arriving in Release 1.1 from a sentence about a *skeleton killing a creeper*, and it read
+`BETA_1_8_1_MOBS` as three mobs because that constant is built by `Stream.concat` and it only captured the added
+half. The structured `historical-features.json` answered it properly; the text-matching approach is in
+`scripts/audit-mob-sets.py` and should not be trusted.
+
 ## 6. Next tasks, in order
 
 1. **Alpha 1.0.1** - the pattern version: registry entry via `terrainOnlyWithRules`, its own mob set (no chickens before

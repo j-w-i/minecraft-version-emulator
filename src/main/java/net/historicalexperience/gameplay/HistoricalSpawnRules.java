@@ -109,12 +109,22 @@ public final class HistoricalSpawnRules {
     /**
      * The mobs the Alpha line gained after 1.0.1, which the 1.0.1 set is derived by removing.
      *
-     * <p>Slimes arrive in Alpha 1.0.11 and chickens in Alpha 1.0.14, per the per-build deltas in
-     * {@code research/version-transitions.json}. Chickens matter twice over: 1.0.6 drops leaf decay and cuts the
-     * sapling chance, and 1.0.14 then adds chickens and eggs - so an Alpha 1.0.6 world has neither leaf decay nor
-     * a chicken.
+     * <p>Per build, from the research:
+     * <ul>
+     *   <li><b>Cows arrive in Alpha v1.0.8</b> - {@code research/historical-features.json}, entry
+     *       {@code beta18-cow-drops}, confidence high: "Cows added; they drop leather when killed". They were
+     *       WRONGLY allowed in the 1.0.1 set until the owner asked whether the spawn sets had been checked, which
+     *       they had not.</li>
+     *   <li>Slimes arrive in Alpha 1.0.11, per the per-build deltas.</li>
+     *   <li>Chickens arrive in Alpha 1.0.14, per the same deltas and the {@code beta18-chicken-drops} entry.</li>
+     * </ul>
+     *
+     * <p>Cows arrive at 1.0.8, which falls between these declared builds and the next one, so removing them here is
+     * correct for 1.0.1, 1.0.4 AND 1.0.6 - all three predate 1.0.8. The later Alpha profile keeps them, because it
+     * is v1.1.2_01.
      */
     private static final Set<String> ALPHA_MOBS_ADDED_AFTER_1_0_1 = Set.of(
+        "minecraft:cow",
         "minecraft:slime",
         "minecraft:chicken");
 
