@@ -779,9 +779,14 @@ turned out to be "no approximation needed" rather than the decision I expected t
    other's level-type and read each other's verdicts. The full sweep's results were therefore discarded rather than
    reported, and one targeted run was invalidated by mid-sweep Java edits, producing a false "hang". Recorded because
    the temptation is real: a 22-minute full sweep looks like free time to do a targeted check in, and it is not.
-12. **The Nether's terrain SHAPE is still the modern 1.16+ one.** Its biomes are fixed (one biome,
-   `minecraft:nether_wastes`, via vanilla's `minecraft:fixed` biome source), but the shape comes from
-   `minecraft:nether` noise settings and Moderner Beta ships no historical Nether to point at. Recorded as a gap.
+12. **The Nether's terrain SHAPE is still the modern 1.16+ one — and the owner has ACCEPTED it as of 2026-10-13,
+   so this is closed as a deliberate approximation rather than left as an open gap.** Its biomes are fixed (one
+   biome, `minecraft:nether_wastes`, via vanilla's `minecraft:fixed` biome source), but the shape comes from
+   `minecraft:nether` noise settings and Moderner Beta ships no historical Nether to point at. The owner's report
+   was *"nether is fine as of right now"*, which is the acceptance this item was waiting for. Kept in the list
+   rather than deleted, because the underlying limitation is real and would return if the Nether were revisited —
+   but it is no longer counted as outstanding work, and no round should spend effort on it again without the owner
+   reopening it.
 13. **Alpha 1.2.0's own terrain is approximated** by `moderner_beta:alpha`, because Moderner Beta ships no Alpha 1.2.0
    preset. Its twelve-biome set and biome-coloured terrain are therefore not reproduced. Same shape as the Nether gap.
 14. **Unimplemented behaviours, each recorded where it was found** rather than in a list nobody reads: leaf decay

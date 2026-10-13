@@ -1,4 +1,41 @@
-# Persistent project status — 2026-10-13 (11) / the owner found two more real defects, both fixed
+# Persistent project status — 2026-10-13 (12) / MATRIX VERIFIED CLEAN: 32/32, zero anachronisms, and the Nether accepted
+
+## Round 77 — the full matrix is clean, and the owner closed the Nether item
+
+**A clean full 32-version sweep against the current build — one sweep at a time, nothing edited during it:**
+
+| Check | Result |
+| --- | --- |
+| versions | **32 / 32** `success=true`, `presetMatches=true` |
+| anachronistic block kinds | **0 in every version** |
+| mixin failures | **0** |
+| timeouts / server startup failures | **0** |
+| cost | 686 s total, **21.5 s mean** (min 18.2, max 30.2) |
+| the two re-pointed revisions | `beta_1_0 -> beta_1_0_no_sandstone`, `beta_1_2 -> beta_1_2_no_sandstone`, both 0 anachronisms |
+
+That is the strongest single piece of evidence this project has produced: every declared profile loads, resolves its own
+identity, applies its inherited preset, and generates **nothing its era lacked**.
+
+**The Nether item is CLOSED.** The owner reported *"nether is fine as of right now"*, which is the acceptance coverage
+item 12 was waiting for. It is recorded as a **deliberate approximation the owner has accepted**, not as outstanding
+work, so no future round should spend effort on it without the owner reopening it.
+
+**A documentation-accuracy audit was run while the sweep ran**, because a matrix that passes while the docs overstate
+it is still a false traceability matrix. Every gate name in `appliesTo` was checked for a real caller through its
+no-arg wrapper: `endPortalFrameExplodes` (4 callers), `endPortalFrameLightFifteen` (2), `jumpExperienceBug` (1),
+`snowballSurplus` (2), `silkySpawnerDrops` (2). **No gate is dead code**, which matters because this project has
+shipped three dead rule sets before and "the gate exists" is not the same claim as "something consults it".
+
+**366 tests, 65 suites, 0 failures.** Deployed build:
+**8220D2717FD92889644E832C27E96EF5273F1390187E6C8C951E7E931A50F8B5**.
+
+### The only item still genuinely open
+
+The **Pre1–Pre4 snowfall-destroys-blocks** regression. It has **no reachable source** (both the Pre1 page and the Snow
+page are silent; its only citation is this project's own evidence string), no established mechanism, and it is the one
+catalogued bug whose faithful emulation **destroys player builds**. It is recorded as blocked-on-evidence rather than
+merely undone: the unblocking route is to read the archived `b1.9-pre1.jar` … `b1.9-pre4.jar` clients, which the
+wiki's own infoboxes link.
 
 ## Round 76 — the spawner drop never fired, and Pre3 was wrongly refused enchanting
 
