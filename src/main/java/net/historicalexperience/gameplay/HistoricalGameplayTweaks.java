@@ -294,6 +294,18 @@ public final class HistoricalGameplayTweaks {
             //   Axe:      "1.13 17w47a: Axes can now be used to strip logs into stripped logs."
             //   Shovel:   "1.9 15w31a: Shovels can now be used to create paths."
             case "noToolShaping" -> isDeclaredVersion(versionId);
+            // The bow trio, all gated on the same boundary and for the same reason. The wiki's Bow history:
+            // "1.8 Pre-release: Arrows can no longer be rapid-fired from bows; they must be charged first." So
+            // before that build a bow fired the moment it was used (INSTANT_BOW), the charge mattered differently
+            // (ARROW_SPEED), and a bow took no damage from shooting (INVINCIBLE_BOW) because there was no charge
+            // cycle to break it. The owner asked for all three together "for the versions that it applies to (ie pre
+            // beta 1.8)", which is exactly this boundary.
+            case "instantBow", "arrowSpeed", "invincibleBow" ->
+                isDeclaredVersion(versionId) && BEFORE_BETA_1_8.contains(versionId);
+            // Air refills the instant the player's head breaks the surface, instead of the modern trickle. Grouped
+            // with swimming by Nostalgic Tweaks (tweak group MECHANICS_SWIMMING) and gated on the same pre-Beta-1.8
+            // boundary as the rest of the swim group.
+            case "instantAir" -> isDeclaredVersion(versionId) && BEFORE_BETA_1_8.contains(versionId);
             default -> throw new IllegalArgumentException("unknown gate '" + gate + "'; a gate that never "
                 + "applies is indistinguishable from one that correctly does not, so this refuses to guess");
         };
@@ -934,6 +946,40 @@ public final class HistoricalGameplayTweaks {
      */
     public static boolean noToolShaping() {
         return appliesTo("noToolShaping", HistoricalActiveSession.current());
+    }
+
+    /**
+     * Whether the player's air refills the instant their head breaks the surface.
+     *
+     * <p>Nostalgic Tweaks groups this with swimming ({@code MECHANICS_SWIMMING}, {@code INSTANT_AIR}) and this
+     * project gates it on the same pre-Beta-1.8 boundary as the rest of that group. The affected behaviour is
+     * {@code LivingEntity.increaseAirSupply}, which modern versions step up gradually; the era's value is the full
+     * supply at once.
+     */
+    public static boolean instantAir() {
+        return appliesTo("instantAir", HistoricalActiveSession.current());
+    }
+
+    /** Whether a bow fires the moment it is used rather than after being charged - pre-Beta-1.8 only. */
+    public static boolean instantBow() {
+        return appliesTo("instantBow", HistoricalActiveSession.current());
+    }
+
+    /**
+     * The share of a full charge the era's bow needed, as a percentage, or 0 when the charge does not apply.
+     *
+     * <p>Nostalgic Tweaks' {@code ARROW_SPEED} defaults to 70, and upstream turns it into a charge window of
+     * {@code 72000 - (value / 100 * 20)} ticks. The owner named the same figure. The value lives here rather than in
+     * the mixin so the regression the gate protects - "no charge at all" versus "a shorter charge" - is expressed in
+     * one place.
+     */
+    public static int eraArrowSpeedPercent() {
+        return 70;
+    }
+
+    /** Whether a bow takes no durability from being fired - pre-Beta-1.8 only. */
+    public static boolean invincibleBow() {
+        return appliesTo("invincibleBow", HistoricalActiveSession.current());
     }
 
     /**

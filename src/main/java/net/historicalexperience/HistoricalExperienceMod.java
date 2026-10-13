@@ -46,5 +46,8 @@ public final class HistoricalExperienceMod implements ModInitializer {
         // historical world may perform either. Registered here rather than in a mixin because both are ordinary
         // right-click interactions and the loader's own callback is the hook for them.
         net.historicalexperience.gameplay.HistoricalToolInteractionEvents.register();
+        // A pre-Beta-1.8 bow fires on use rather than after a charge (INSTANT_BOW / ARROW_SPEED). Separate from the
+        // block rule above because it answers a different Fabric callback - using an ITEM, not using a block.
+        net.historicalexperience.gameplay.HistoricalToolInteractionEvents.registerInstantBow();
     }
 }

@@ -42,6 +42,8 @@
     "BlockStateBaseHistoricalEndPortalFrameLightMixin",
     "AxeAccess",
     "ShovelAccess",
+    "LivingEntityHistoricalInstantAirMixin",
+    "ProjectileWeaponItemHistoricalInvincibleBowMixin",
     "BlockBehaviourHistoricalDropMixin",
     "PlayerHistoricalExhaustionMixin",
     "PlayerHistoricalJumpExperienceMixin",

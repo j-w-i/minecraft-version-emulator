@@ -1,10 +1,15 @@
 package net.historicalexperience.gameplay;
 
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.historicalexperience.mixin.AxeAccess;
 import net.historicalexperience.mixin.ShovelAccess;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.BowItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -75,6 +80,57 @@ public final class HistoricalToolInteractionEvents {
                 return InteractionResult.FAIL;
             }
             return InteractionResult.PASS;
+        });
+    }
+
+    /**
+     * Fires a bow the instant it is used, in versions that had no charge cycle.
+     *
+     * <h2>Source</h2>
+     *
+     * <p>DIRECT PORT of Nostalgic Tweaks
+     * {@code listener/common/InteractionListener.java}, method {@code onRightClickItem} (LGPL-3.0; see
+     * THIRD_PARTY_NOTICES.md), which answers {@code GameplayTweak.INSTANT_BOW} and whose charge window is computed
+     * from {@code ARROW_SPEED}:
+     *
+     * <pre>
+     * if (INSTANT_BOW &amp;&amp; itemInHand.equals(Items.BOW)) {
+     *     int timeCharged = 72000 - (int) ((ARROW_SPEED / 100.0F) * 20.0F);
+     *     bow.releaseUsing(itemStackInHand, player.level(), player, timeCharged);
+     *     return CompoundEventResult.interruptTrue(itemStackInHand);
+     * }
+     * </pre>
+     *
+     * <p>Both constants are upstream's and both are kept: the {@code 72000} is vanilla's "held forever" start time,
+     * and the subtraction is what makes the bow read as <i>already charged</i> by the arrow-speed percentage rather
+     * than fully drawn. The percentage itself lives in
+     * {@link HistoricalGameplayTweaks#eraArrowSpeedPercent()} with the owner's figure and its reasoning.
+     *
+     * <h2>Why the charge is expressed this way rather than by shortening the draw</h2>
+     *
+     * <p>Shortening the use duration would change how long the bow can be held and how the draw animation reads.
+     * Releasing as already-charged reproduces what the era actually did - one click, one arrow, no draw - and
+     * leaves every other bow behaviour untouched, which is also upstream's choice.
+     *
+     * <p>Server side only, matching the block rule above and upstream's own {@code isServer()} guard on the
+     * neighbouring branches: the server decides whether an arrow is spawned.
+     */
+    public static void registerInstantBow() {
+        UseItemCallback.EVENT.register((player, level, hand) -> {
+            ItemStack stack = player.getItemInHand(hand);
+            if (hand != InteractionHand.MAIN_HAND
+                    || !(stack.getItem() instanceof BowItem bow)
+                    || !HistoricalGameplayTweaks.instantBow()) {
+                return InteractionResultHolder.pass(stack);
+            }
+            if (level.isClientSide()) {
+                return InteractionResultHolder.pass(stack);
+            }
+
+            int timeCharged = 72000
+                - (int) ((HistoricalGameplayTweaks.eraArrowSpeedPercent() / 100.0F) * 20.0F);
+            bow.releaseUsing(stack, level, player, timeCharged);
+            return InteractionResultHolder.consume(stack);
         });
     }
 }
