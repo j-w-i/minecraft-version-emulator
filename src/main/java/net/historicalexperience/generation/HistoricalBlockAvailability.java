@@ -94,7 +94,9 @@ public final class HistoricalBlockAvailability {
         "historical_experience:release_1_0_0",
         "historical_experience:release_1_1",
         "historical_experience:release_1_2_5",
-        "historical_experience:release_1_6_4"
+        "historical_experience:release_1_6_4",
+        "historical_experience:beta_1_9_pre_1",
+        "historical_experience:beta_1_9_pre_2"
     );
 
     private static void introduce(String versionId, boolean timeline, String evidence,
@@ -818,16 +820,16 @@ public final class HistoricalBlockAvailability {
             "first appears in the beta_1_8_1 extracted palette as \"stairsStoneBrickSmooth\" (the reviewed mapping name)",
             new String[] {
                 "minecraft:stone_brick_stairs"});
-        // first appears in the beta_1_9_pre_3 extracted palette as "brewingStand" (the reviewed mapping name)
-        introduce("historical_experience:beta_1_9_pre_3", false,
-            "first appears in the beta_1_9_pre_3 extracted palette as \"brewingStand\" (the reviewed mapping name)",
-            new String[] {
-                "minecraft:brewing_stand"});
-        // first appears in the beta_1_9_pre_3 extracted palette as "waterlily" (the reviewed mapping name)
-        introduce("historical_experience:beta_1_9_pre_3", false,
-            "first appears in the beta_1_9_pre_3 extracted palette as \"waterlily\" (the reviewed mapping name)",
+        // feature-timeline blocks: lily pads introduced Beta 1.9 Prerelease 1 (the palette-derived date was pre3, which is the only Beta 1.9 palette extracted and therefore the latest such date, not the earliest); the palette-derived boundary was beta_1_9_pre_3 and the earlier of the two is used so a block a version did have is not deleted
+        introduce("historical_experience:beta_1_9_pre_1", true,
+            "feature-timeline blocks: lily pads introduced Beta 1.9 Prerelease 1 (the palette-derived date was pre3, which is the only Beta 1.9 palette extracted and therefore the latest such date, not the earliest); the palette-derived boundary was beta_1_9_pre_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:lily_pad"});
+        // feature-timeline: feature-timeline blocks: brewing stand introduced Beta 1.9 Prerelease 3 (brewing listed at 30 seconds; a reduced set of 25 potions and 31 combinations)
+        introduce("historical_experience:beta_1_9_pre_3", true,
+            "feature-timeline: feature-timeline blocks: brewing stand introduced Beta 1.9 Prerelease 3 (brewing listed at 30 seconds; a reduced set of 25 potions and 31 combinations)",
+            new String[] {
+                "minecraft:brewing_stand"});
         // feature-timeline: feature-timeline blocks: end stone introduced Beta 1.9 Prerelease (Release 1.0.0)
         introduce("historical_experience:release_1_0_0", true,
             "feature-timeline: feature-timeline blocks: end stone introduced Beta 1.9 Prerelease (Release 1.0.0)",

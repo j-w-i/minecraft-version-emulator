@@ -230,13 +230,14 @@ public final class HistoricalVillageBlocks {
         // palette does register, so that is the substitution: a desert building gets the same stair every
         // other building in that version used.
         boolean sandstoneStairs = chronology >= release164Chronology;
-        // The brewing stand arrives with BREWING, which the research dates to Beta 1.9 Prerelease 2 -
-        // "potions and status-effect system" plus the brewing ingredients. This boundary used to be Pre3,
-        // which was a PROXY for "the Beta 1.9 line" while Pre3 was the only prerelease declared; declaring
-        // Pre1 and Pre2 turned it into a claim that Pre1's village had a brewing stand, which made Pre1
-        // place a block its palette could not account for.
-        boolean brewingStand = chronology >= HistoricalVersions
-            .byId("historical_experience:beta_1_9_pre_2").orElseThrow().chronology();
+        // The brewing stand arrives in Beta 1.9 Prerelease 3, per the research: "Beta 1.9 Prerelease 3 |
+        // brewing stand (brewing listed at 30 seconds; a reduced set of 25 potions/31 combinations)". Prerelease 2
+        // has potions - glass bottles, spider eyes, blaze powder, fermented spider eye, magma cream - so this
+        // boundary was briefly moved to Pre2 on the reasoning that potions imply a stand. The research does not
+        // support that, and the difference is visible: a Pre2 village would place a block the build did not have.
+        // Noted rather than hidden: the research records potions at Pre2 with the stand at Pre3, which is a tension
+        // in the sources, and this follows what the research states.
+        boolean brewingStand = chronology >= HistoricalVillageRules.BETA_1_9_PRE_3_CHRONOLOGY;
 
         Map<String, String> blocks = new LinkedHashMap<>(COMMON);
         if (!sandstoneStairs) {

@@ -43,6 +43,11 @@ CHRONOLOGY = [
 ]
 
 # Which extracted palette belongs to which declared version.
+#
+# This drives DATING: a block first seen in one of these palettes is dated to the EARLIEST version mapped to it. So
+# only versions whose own client was actually extracted may appear here. Adding Pre1 and Pre2 to this map was wrong
+# and a test caught it: because they share Pre3's terrain they were mapped to b1_9_pre3, which then dated
+# brewing_stand - a Pre2 block - to Pre1, and would have allowed Pre1 everything Pre2 and Pre3 added.
 PALETTE_FILES = {
     'historical_experience:beta_1_7_3': 'b1_7_3',
     'historical_experience:beta_1_8_1': 'b1_8_1',
@@ -51,6 +56,18 @@ PALETTE_FILES = {
     'historical_experience:release_1_1': '1_1',
     'historical_experience:release_1_2_5': '1_2_5',
     'historical_experience:release_1_6_4': '1_6_4',
+}
+
+# Versions that share another version's extracted palette WITHOUT being dated by it.
+#
+# Pre1 and Pre2 generate from the single Beta 1.9 terrain preset Moderner Beta ships, so Pre3's hash-verified
+# extraction is the only evidence of which block NAMES their client registered. They need that for the palette
+# membership question - otherwise HistoricalBlockAvailability.judge answers UNKNOWN for every palette-derived date
+# and all twenty of Pre1's village blocks come back unjudgeable - but they must NOT be dated by it, because their
+# content is a subset: Pre2 adds brewing and Pre3 adds baby animals.
+SHARED_PALETTE_VERSIONS = {
+    'historical_experience:beta_1_9_pre_1': 'b1_9_pre3',
+    'historical_experience:beta_1_9_pre_2': 'b1_9_pre3',
 }
 
 # Era spellings of the same block. A block whose registry name changed between two versions is present in
@@ -124,6 +141,18 @@ TIMELINE = [
      'feature-timeline blocks: cactus introduced Alpha v1.0.6'),
     (['minecraft:clay', 'minecraft:sugar_cane'], 'historical_experience:alpha',
      'feature-timeline blocks: clay block and sugar cane introduced Alpha v1.0.11'),
+    # Lily pads are STATED by the research as Prerelease 1 content - "Beta 1.9 Prerelease 1 | lily pads (visually
+    # unnamed/grayscale and non-solid)" - while the palette-derived date put them at Pre3, because that is the only
+    # Beta 1.9 palette extracted. The timeline statement wins: without this, Pre1 and Pre2 would REFUSE a block
+    # their own build introduced, which is the same false-veto shape as redstone ore in Alpha 1.0.1.
+    (['minecraft:lily_pad'], 'historical_experience:beta_1_9_pre_1',
+     'feature-timeline blocks: lily pads introduced Beta 1.9 Prerelease 1 (the palette-derived date was pre3, '
+     'which is the only Beta 1.9 palette extracted and therefore the latest such date, not the earliest)'),
+    # The brewing stand is Pre3, matching both the palette and the research, so it is stated rather than left to the
+    # palette alone: "Beta 1.9 Prerelease 3 | brewing stand".
+    (['minecraft:brewing_stand'], 'historical_experience:beta_1_9_pre_3',
+     'feature-timeline blocks: brewing stand introduced Beta 1.9 Prerelease 3 (brewing listed at 30 seconds; a '
+     'reduced set of 25 potions and 31 combinations)'),
     # The Nether, and the pumpkin that shipped with it, are Alpha v1.2.0 - later than the Alpha profile.
     (['minecraft:netherrack', 'minecraft:glowstone', 'minecraft:nether_portal', 'minecraft:pumpkin',
       'minecraft:jack_o_lantern'], 'historical_experience:beta_1_7_3',
@@ -323,8 +352,11 @@ def main():
     add('     * condemn a block in a version that has no palette of its own.')
     add('     */')
     add('    private static final Set<String> VERSIONS_WITH_EXTRACTED_PALETTE = Set.of(')
-    for index, version in enumerate(PALETTE_FILES):
-        add('        "%s"%s' % (version, ',' if index < len(PALETTE_FILES) - 1 else ''))
+    # Dating versions plus the ones that only SHARE a palette for the membership question. Pre1 and Pre2 are here
+    # so their blocks are judgeable at all; they are absent from PALETTE_FILES so nothing is dated by them.
+    palette_versions = list(PALETTE_FILES) + list(SHARED_PALETTE_VERSIONS)
+    for index, version in enumerate(palette_versions):
+        add('        "%s"%s' % (version, ',' if index < len(palette_versions) - 1 else ''))
     add('    );')
     add('')
     add('    private static void introduce(String versionId, boolean timeline, String evidence,')
