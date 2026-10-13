@@ -6,6 +6,25 @@ Requires an already authorised run/probe/eula.txt and a successfully established
 metadata document. Never accepts the EULA, resets worlds, or touches personal Minecraft data.
 Run only when no other Gradle build or probe uses this workspace. Retains worlds/logs for review.
 The probe deliberately rejects ordinary worlds; expected nonzero exits alone are NOT success.
+
+.NOTES
+*** NOT RUNNABLE AS WRITTEN - REPAIR REQUIRED BEFORE TRUSTING IT. ***
+
+The three SCENARIOS below are the project's fail-closed safety controls and are worth keeping: an ordinary world
+must be left alone (LEAVE_ORDINARY), unreadable historical metadata must fail closed, and valid metadata with no
+overworld marker must fail closed. What is dead is the MECHANISM, inherited from the deleted 26.3 tree:
+
+  * line ~73 runs `runRuntimeProbe`, a Gradle task that no longer exists. The working equivalent is
+    `runServer -PgenerationRunDir=run/probe -PgenerationProbe=true`.
+  * it reads `historical_experience_probe_verdict.txt`, which the current probe does not write. The current
+    artifact is `run/probe/<world>/generation-probe.json`, and the marker decision it should assert on is the
+    `Historical marker decision for ...: action=... reason=...` log line, which every run prints.
+  * its exit-code expectation (`$commandExit -eq 1`) is a 26.3 assumption. With `runServer`, a LEAVE_ORDINARY
+    case exits 0 because the probe halts the server normally, while only the FAIL_CLOSED cases exit nonzero - so
+    the expectation has to become per-case before this can pass.
+
+This marker exists because an unrunnable verification script is worse than no script: it looks like coverage.
+`scripts/verify-matrix-runtime.ps1` is the working sweep and does run.
 #>
 [CmdletBinding()]
 param()

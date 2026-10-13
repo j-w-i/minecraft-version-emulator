@@ -86,9 +86,14 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
 # Resolve the project root from this script's location. No absolute personal path is embedded.
+#
+# The build file is asserted as `build.gradle`, NOT `build.gradle.kts`. This check used to name the .kts form,
+# which the repository stopped having when the mod moved to the repository root - so EVERY caller died at this
+# line with "project root not found", including the matrix sweep. That is why the matrix had never actually been
+# runtime-verified despite a script existing to do it: the failure was at step one and looked like a path problem.
 $projectRoot = Split-Path -Parent $PSScriptRoot
-if (-not (Test-Path (Join-Path $projectRoot 'build.gradle.kts'))) {
-    throw "project root not found from '$PSScriptRoot' (expected build.gradle.kts)"
+if (-not (Test-Path (Join-Path $projectRoot 'build.gradle'))) {
+    throw "project root not found from '$PSScriptRoot' (expected build.gradle)"
 }
 
 $runDir = Join-Path $projectRoot 'run\probe'
@@ -223,8 +228,12 @@ $propertiesPath = Join-Path $runDir 'server.properties'
 Set-Content -Path $propertiesPath -Value ($properties + "`n") -Encoding UTF8
 
 # --- run context ------------------------------------------------------------------------------
-# The validation harness compares this with the verdict the probe writes, so a verdict left over
-# from an earlier run, or produced for the other mode, cannot be mistaken for a fresh pass.
+# The harness compares this with the report the probe writes, so a report left over from an earlier
+# run, or produced for the other mode, cannot be mistaken for a fresh pass.
+#
+# `reportFile` used to be `historical_experience_probe_verdict.txt`, which the deleted 26.3 probe wrote and the
+# current one never does. The current probe writes `generation-probe.json` into the world directory, and that is
+# what a caller should read.
 $context = [ordered]@{
     runId       = $RunId
     mode        = $Mode
@@ -235,7 +244,7 @@ $context = [ordered]@{
     scope       = $(if ($UpstreamPreset) { 'upstream-preset' } elseif ($ContentPreview) { 'content-preview' } else { 'historical' })
     contentPreviewPreset = $(if ($ContentPreview) { $contentPreviewPreset } else { $null })
     worldDir    = "run/probe/$WorldName"
-    verdictFile = "run/probe/$WorldName/historical_experience_probe_verdict.txt"
+    reportFile  = "run/probe/$WorldName/generation-probe.json"
     preparedAt  = (Get-Date).ToUniversalTime().ToString('o')
     resetWorld  = [bool] $ResetWorld
     eulaWritten = [bool] $AcceptEula
@@ -243,11 +252,11 @@ $context = [ordered]@{
 $contextPath = Join-Path $runDir 'probe-run.json'
 Set-Content -Path $contextPath -Value ($context | ConvertTo-Json) -Encoding UTF8
 
-# A verdict from a previous run must never survive into this one.
-$staleVerdict = Join-Path $worldDir 'historical_experience_probe_verdict.txt'
-if (Test-Path $staleVerdict) {
-    Remove-Item -Force $staleVerdict
-    Write-Host "removed stale verdict $staleVerdict"
+# A report from a previous run must never survive into this one, or a stale pass could be read as a fresh one.
+$staleReport = Join-Path $worldDir 'generation-probe.json'
+if (Test-Path $staleReport) {
+    Remove-Item -Force $staleReport
+    Write-Host "removed stale probe report $staleReport"
 }
 
 Write-Host ""
@@ -258,5 +267,6 @@ Write-Host "  seed     : $Seed"
 Write-Host "  run dir  : $runDir"
 Write-Host "  context  : $contextPath"
 Write-Host ""
-Write-Host "next: .\gradlew.bat --console=plain -PprobeWorldName=$WorldName -PprobeUpstreamPreset=$($UpstreamPreset.IsPresent.ToString().ToLowerInvariant()) -PprobeContentPreview=$($ContentPreview.IsPresent.ToString().ToLowerInvariant()) $(if ($reload) { 'runRuntimeProbeReload' } else { 'runRuntimeProbe' })"
+Write-Host "next: .\gradlew.bat --console=plain runServer -PgenerationRunDir=run/probe -PgenerationProbe=true -PprobeToken=<unique-token> -PprobeRadius=2"
+Write-Host "      then read the report at run/probe/$WorldName/generation-probe.json"
 

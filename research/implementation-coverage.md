@@ -387,13 +387,67 @@ turned out to be "no approximation needed" rather than the decision I expected t
    wooden 33/59, stone 65/131, iron pickaxe and sword 129/250, diamond shovel 1025/1561, with golden pickaxe 32,
    shears 238 and flint-and-steel 64 unchanged in BOTH — which is the "no claim" behaviour working. 348 tests
    green.
+10. **The matrix-wide runtime verification did not exist, and the reason was one broken guard.** The objective asks
+   for runtime verification per version, and only a handful had ever been probed. A script named
+   `verify-all-declared-versions.ps1` existed, which is why this looked covered — but it could not run, for three
+   compounding reasons found by following it rather than trusting its name:
+   * `scripts/prepare-probe-run.ps1` **always threw**. It asserted the project root by looking for
+     `build.gradle.kts`, and the repository has had `build.gradle` since the mod moved to the root — so the very
+     first step of every caller died with "project root not found", which reads like a path problem rather than a
+     stale guard. Nothing downstream ever ran.
+   * the 26.3 mechanism it drove is gone: a `runRuntimeProbe` Gradle task that does not exist, and a
+     `historical_experience_probe_verdict.txt` that the current probe never writes (it writes
+     `generation-probe.json`). Two more scripts were wired the same way.
+   * the version list was typed by hand and named `infdev_227` and `infdev_325`, profiles that no longer exist,
+     so even a working mechanism would have swept versions that are not declared.
+   **Fixed.** The guard now names `build.gradle`; `prepare-probe-run.ps1` also had its stale report path and its
+   "next: run this dead task" hint repaired, since unblocking a script that then points at a task that does not
+   exist is only half a fix. `verify-all-declared-versions.ps1` and `verify-version-bounded.ps1` are deleted —
+   both were unrunnable and superseded, and the one genuinely good idea in the second (killing a run that hangs,
+   because a world that never loads hangs the server before any in-process watchdog arms, which has happened here)
+   now lives in the replacement.
+   **The replacement is [verify-matrix-runtime.ps1](<../scripts/verify-matrix-runtime.ps1>)**: it **derives** the
+   version list from the same world-preset tag the menu is built from, so a newly declared version is swept
+   automatically and a typo cannot silently drop one; it runs one fresh world per version with a per-version
+   timeout and kills a hang; and it records `success`, the applied preset, whether the preset actually matched,
+   the count of anachronistic blocks and the mixin-failure count into `logs/matrix-sweep.json`.
+   **Still open:** `verify-lifecycle-controls.ps1` is marked at the top of the file as **not runnable as written**,
+   naming its two dead lines and the per-case exit expectation that has to change before it can pass — its three
+   scenarios (ordinary world left alone, corrupt metadata fails closed, missing marker fails closed) are the
+   project's safety controls and are worth repairing rather than deleting.
+   `migrate-to-root.ps1` is an obsolete one-time migration, and `audit-generation-backport.py` plus
+   `verify-generation-1211-matrix.py` compare against the deleted 26.3 tree, so they cannot verify anything now.
+11. **Beta 1.0 generates two blocks it never had, found by the new matrix sweep.** In a **fresh** world,
+   `historical_experience:beta_1_0` reports `sampledPaletteFailures = {lapis_ore: 132, sandstone: 2993}` — both are
+   Beta 1.2 content, so neither belongs in a Beta 1.0 world. Nothing else in the 32-version sweep leaked: every
+   other version reported zero anachronistic blocks.
+   **What the evidence already narrows.** The block veto is not simply broken: the same world's
+   `suppressedDecorationIds` lists `short_grass`, `vine`, `seagrass`, `tall_seagrass`, `kelp`, `kelp_plant` and
+   `bee_nest`, so it *is* refusing anachronistic blocks written during decoration. And the probe judges
+   `minecraft:lapis_ore` ANACHRONISTIC for this exact version, so the decision helper agrees with itself. What
+   differs is the **path**: lapis and sandstone evidently reach the chunk through something other than the
+   `WorldGenRegion.setBlock` overload the veto hooks.
+   Ruled out already, by disassembly rather than by guessing: the three-argument overload is an interface default
+   that dispatches to the four-argument one (`WorldGenRegion` declares only
+   `setBlock(BlockPos, BlockState, int, int)`), so the veto is not being bypassed by an overload it failed to
+   cover. That leaves two candidates to test next, and they need different fixes:
+   * Moderner Beta placing ores inside its own chunk provider, in the proto-chunk stage before a `WorldGenRegion`
+     exists — which would explain ores specifically and would need a settings-level answer rather than a veto;
+   * the sandstone coming from the preset's surface rules, which is a Beta 1.3 behaviour the shared
+     `moderner_beta:beta` preset applies to every Beta version, and which no write-time veto can see if it happens
+     in the noise/surface stage.
+   Both are recorded rather than guessed at, and the sweep makes re-testing cheap:
+   `pwsh -NoProfile -File scripts/verify-matrix-runtime.ps1 -OnlyVersions historical_experience:beta_1_0`.
+   **This is exactly what the sweep was for.** It had never been run over the matrix, and it found a real leak in
+   one of the oldest declared versions on its first pass — after 348 unit tests and dozens of hand-run probes had
+   not, because none of them covered Beta 1.0 specifically.
 
-3. **The Nether's terrain SHAPE is still the modern 1.16+ one.** Its biomes are fixed (one biome,
+12. **The Nether's terrain SHAPE is still the modern 1.16+ one.** Its biomes are fixed (one biome,
    `minecraft:nether_wastes`, via vanilla's `minecraft:fixed` biome source), but the shape comes from
    `minecraft:nether` noise settings and Moderner Beta ships no historical Nether to point at. Recorded as a gap.
-4. **Alpha 1.2.0's own terrain is approximated** by `moderner_beta:alpha`, because Moderner Beta ships no Alpha 1.2.0
+13. **Alpha 1.2.0's own terrain is approximated** by `moderner_beta:alpha`, because Moderner Beta ships no Alpha 1.2.0
    preset. Its twelve-biome set and biome-coloured terrain are therefore not reproduced. Same shape as the Nether gap.
-5. **Unimplemented behaviours, each recorded where it was found** rather than in a list nobody reads: leaf decay
+14. **Unimplemented behaviours, each recorded where it was found** rather than in a list nobody reads: leaf decay
    removal and the 10%->5% sapling cut (Alpha 1.0.6), the snow-block economy quirk (1.0.6), the 4->8 dungeon generator
    iterations (1.0.14), the armour model change at Beta 1.9 Pre1, the snowfall-destroys-redstone regression (Pre1,
    fixed by Pre5), slime spawn height (Pre5), Silk Touch changes (Pre5), and breeding and tool repair (Pre2).
