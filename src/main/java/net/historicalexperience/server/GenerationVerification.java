@@ -11,6 +11,7 @@ import net.historicalexperience.generation.BetaOreRules;
 import net.historicalexperience.generation.HistoricalFeatureExclusions;
 import net.historicalexperience.generation.HistoricalStructureRules;
 import net.historicalexperience.gameplay.HistoricalSpawnRules;
+import net.historicalexperience.gameplay.HistoricalToolDurability;
 import net.historicalexperience.integration.modernerbeta.ModernerBetaAdapter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -94,6 +95,39 @@ public final class GenerationVerification {
      * the same number on both sides of the boundary. A probe that prints both numbers turns that into a fact
      * rather than an argument.
      */
+    /**
+     * What real tool stacks report for durability, which is the only thing that settles whether the override
+     * reaches the component the game actually destroys tools through.
+     *
+     * <p>Same reasoning as the damage table beside it: reading the code cannot tell whether a
+     * {@code DataComponentHolder.getOrDefault} hook is on the path that {@code ItemStack.getMaxDamage} takes, and
+     * a unit test on the table proves only that the table is readable. So this builds actual stacks and asks them.
+     */
+    private static Map<String, Object> toolDurabilityProbe(String versionId) {
+        Map<String, Object> out = new LinkedHashMap<>();
+        out.put("versionId", versionId);
+        Map<String, Integer> values = new java.util.TreeMap<>();
+        for (String name : java.util.List.of("wooden_pickaxe", "stone_pickaxe", "iron_pickaxe", "iron_sword",
+                "diamond_shovel", "golden_pickaxe", "shears", "flint_and_steel")) {
+            var item = net.minecraft.core.registries.BuiltInRegistries.ITEM
+                .get(net.minecraft.resources.ResourceLocation.parse("minecraft:" + name));
+            if (item == null || item == net.minecraft.world.item.Items.AIR) {
+                values.put(name, -1);
+                continue;
+            }
+            try {
+                values.put(name, new net.minecraft.world.item.ItemStack(item).getMaxDamage());
+            } catch (Throwable failure) {
+                values.put(name, -2);
+            }
+        }
+        out.put("maxDamageByItem", values);
+        out.put("tableSays", HistoricalToolDurability.namedItems().stream().collect(
+            java.util.stream.Collectors.toMap(id -> id, id -> String.valueOf(
+                HistoricalToolDurability.durabilityFor(versionId, id)), (a, b) -> a, java.util.TreeMap::new)));
+        return out;
+    }
+
     private static Map<String, Object> damageTableProbe() {
         Map<String, Object> out = new LinkedHashMap<>();
         java.util.List<net.minecraft.world.item.Item> items = java.util.List.of(
@@ -510,6 +544,7 @@ public final class GenerationVerification {
             report.put("gameplay", gameplayProbe(level, versionId));
             report.put("oreDrops", oreDropProbe(level));
             report.put("damageTable", damageTableProbe());
+            report.put("toolDurability", toolDurabilityProbe(versionId));
             report.put("combatHooks", net.historicalexperience.gameplay.HistoricalCombatDiagnostics.report());
             report.put("mixinTargets", mixinTargetSmokeTest());
             // AFTER the gameplay probe, deliberately: the probe kills a zombie, and the counters below are

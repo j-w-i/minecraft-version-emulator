@@ -113,6 +113,13 @@ public final class HistoricalGameplayTweaks {
         Map.entry("avoidSun",
             "Monsters BURNING in daylight is Indev 20100213 - in range everywhere - but the goal that makes "
                 + "them run for shade is Release 1.2.1 (12w04a). Upstream tweak: DISABLE_MONSTER_AVOID_SUN."),
+        Map.entry("toolDurability",
+            "Tool durability rose across the board in Beta 1.2: version-transitions.json's changed list reads "
+                + "\"tool durability: wood 33 -> 59, stone 65 -> 131, iron 129 -> 250, diamond 1025 -> 1561\", and "
+                + "research/minecraft-version-history.md records the same. So every declared version older than "
+                + "Beta 1.2 breaks tools sooner. Gold is deliberately not covered: the same sentence says gold "
+                + "tools gained faster mining \"while retaining old durability\", so there is no old value to apply "
+                + "and inventing one is exactly what this project refuses to do."),
         Map.entry("punchShear",
             "Before shears existed, PUNCHING a sheep shorn it and dropped its wool; the Alpha v1.1.2_01 client's "
                 + "sheep class overrides attackEntityFrom with `if (!this.sheared && attacker instanceof "
@@ -195,6 +202,10 @@ public final class HistoricalGameplayTweaks {
             // Shears are Beta 1.7, so every declared version BEFORE Beta 1.7.3 shears a sheep by punching it.
             case "punchShear" ->
                 isDeclaredVersion(versionId) && olderThan(versionId, BETA_1_7_3);
+            // Tool durability rose across the board IN Beta 1.2, so every declared version older than that build
+            // has the shorter values. The numbers are in HistoricalToolDurability with their source.
+            case "toolDurability" ->
+                isDeclaredVersion(versionId) && olderThan(versionId, BETA_1_2);
             // True for every declared version for its OWN reason, not because it shares an era with the
             // line above: zombie arm swinging was removed in Indev 20100202, earlier than every profile.
             case "mobArms" -> isDeclaredVersion(versionId);
@@ -224,6 +235,16 @@ public final class HistoricalGameplayTweaks {
      * is the first version that must NOT shear on a punch.
      */
     private static final String BETA_1_7_3 = "historical_experience:beta_1_7_3";
+
+    /**
+     * Beta 1.2, the build that raised tool durability across the board.
+     *
+     * <p>Declared as the profile id itself rather than as a chronology literal, so the boundary moves with the
+     * registry: version-transitions.json records the change under Beta 1.2, and every declared version older than
+     * that profile keeps the shorter values.
+     */
+    private static final String BETA_1_2 = "historical_experience:beta_1_2";
+
 
     /** Skeletons that shoot also strafe sideways: the goal-based mob AI, so the Beta 1.8 boundary. */
     public static boolean skeletonStrafingDisabled(Level level) {

@@ -37,6 +37,7 @@
     "PlayerHistoricalCriticalHitMixin",
     "FoodDataHistoricalRegenerationMixin",
     "DataComponentHolderHistoricalFoodMixin",
+    "DataComponentHolderHistoricalToolDurabilityMixin",
     "BlockBehaviourHistoricalDropMixin",
     "PlayerHistoricalExhaustionMixin",
     "EnchantmentMenuHistoricalEnchantingMixin",
