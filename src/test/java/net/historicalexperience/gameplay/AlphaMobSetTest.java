@@ -62,6 +62,40 @@ class AlphaMobSetTest {
     }
 
     @Test
+    void chickensArriveAndSlimesAreDisabledInTheSameBuild() {
+        // Alpha 1.0.14 changes the set in two directions at once, which is why one "Alpha mobs" set cannot express
+        // it: chickens arrive here ("chickens and eggs"), and slime natural spawning is disabled here by a bug.
+        Set<String> mobs = mobsOf("historical_experience:alpha_1_0_14");
+
+        assertTrue(mobs.contains("minecraft:chicken"),
+            "Alpha 1.0.14 is where chickens and eggs arrive");
+        assertFalse(mobs.contains("minecraft:slime"),
+            "this build disabled slime natural spawning due to a reported spawn-limit miscalculation");
+
+        // The disabling is a BUG, not a design, and the research says so twice: "not a permanent removal" and "do
+        // not infer permanent removal". So the build after it must have slimes back, or this one-build removal has
+        // leaked forward - which is exactly what the two separate constants exist to prevent.
+        assertTrue(mobsOf(ALPHA_1_1_2).contains("minecraft:slime"),
+            "slime spawning was disabled only in 1.0.14; v1.1.2_01 must have slimes back, or a bug has become a "
+                + "permanent removal");
+
+        // The neighbour relationship, stated as a relationship rather than a count.
+        assertEquals(Set.of("minecraft:slime", "minecraft:chicken"),
+            symmetricDifference(mobs, mobsOf("historical_experience:alpha_1_0_11")),
+            "1.0.14 adds the chicken and removes the slime relative to 1.0.11, and changes nothing else");
+    }
+
+    /** Everything in either set but not both, so one assertion can state a two-way difference. */
+    private static Set<String> symmetricDifference(Set<String> left, Set<String> right) {
+        Set<String> out = new java.util.HashSet<>(left);
+        Set<String> rightOnly = new java.util.HashSet<>(right);
+        out.removeAll(right);
+        rightOnly.removeAll(left);
+        out.addAll(rightOnly);
+        return out;
+    }
+
+    @Test
     void theBuildThatIntroducesClayAlsoHasCowsAndSlimesButStillNoChickens() {
         // Alpha 1.0.11 sits between two boundaries, which makes it the most informative declared Alpha build:
         // cows arrived at 1.0.8 (so it HAS them), slimes are inferred to have arrived here, and chickens do not

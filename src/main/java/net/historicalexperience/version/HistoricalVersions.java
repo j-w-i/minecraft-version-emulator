@@ -587,6 +587,37 @@ public final class HistoricalVersions {
                     + "is added between them."),
             HistoricalFeatureExclusions.BEFORE_GRASS_EXISTED_WITHOUT_DESERT_WELL));
 
+        // Alpha 1.0.14. Two of its facts interact, and that is why it is declared separately from 1.0.11:
+        // chickens ARRIVE here, and slime natural spawning is DISABLED here by a bug. A single "Alpha mobs" set
+        // could express neither.
+        //
+        // Its evidence also records what this build changed in world generation itself: dungeon generator
+        // iterations went 4 -> 8, "increasing dungeon generation and shifting subsequent decorator RNG outcomes such
+        // as trees/flowers". That is a real generation change this project does not reproduce - the terrafirm
+        // authority is Moderner Beta's preset, which does not expose it - so it is recorded rather than faked,
+        // exactly as the snowfall regression was recorded against Pre1.
+        versions.add(terrainOnlyWithRules(
+            "historical_experience:alpha_1_0_14", "Alpha v1.0.14", "alpha",
+            chronology(ERA_ALPHA, 1, 0, 14), "moderner_beta:alpha",
+            new VersionRules(
+                true,
+                HistoricalSpawnRules.ALPHA_1_0_14_MOBS,
+                java.util.Map.of(),
+                HistoricalFoodRules.ALPHA_1_1_2_HEAL_POINTS,
+                false,
+                false,
+                false,
+                false,
+                "Chickens and eggs, jukeboxes and music discs (from dungeon chests, or when a skeleton kills a "
+                    + "creeper), furnace and chest minecarts, three non-ambient music tracks, and a revised title "
+                    + "logo. Obsidian blast resistance rises to 1,200 and music plays throughout the world rather "
+                    + "than only as ambience. SLIME NATURAL SPAWNING IS DISABLED in this build due to a reported "
+                    + "spawn-limit miscalculation - a bug, not a design, and NOT a permanent removal. Dungeon "
+                    + "generator iterations increase from 4 to 8, shifting decorator RNG; recorded as not "
+                    + "implemented because the terrain authority does not expose it. Food table shared with Alpha "
+                    + "1.0.1: no edible item is added between them."),
+            HistoricalFeatureExclusions.BEFORE_GRASS_EXISTED_WITHOUT_DESERT_WELL));
+
         // WINTER MODE IS NOT DECLARED YET, and the reason is a conflict in the model rather than missing research.
         // Moderner Beta ships `moderner_beta:alpha_winter`, and this project's own settings preset
         // `alpha_1_0_4_winter` inherits it, so the terrain is available. What is missing is a place to put it:

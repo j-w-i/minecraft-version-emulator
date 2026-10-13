@@ -210,6 +210,23 @@ public final class HistoricalSpawnRules {
         .filter(mob -> !mob.equals("minecraft:chicken"))
         .collect(java.util.stream.Collectors.toUnmodifiableSet());
 
+    /**
+     * Alpha 1.0.14: the 1.1.2 set WITHOUT slimes, because this build disabled their natural spawning.
+     *
+     * <p>Derived by subtraction for the same reason as its neighbour: the relationship is the fact. Chickens arrive
+     * here - {@code research/version-transitions.json}, Alpha v1.0.14, "chickens and eggs" - so this build is the
+     * first declared Alpha with them, and the 1.0.11 set is this one minus the chicken.
+     *
+     * <p><b>Slimes are ABSENT here, and that is a bug rather than a design.</b> The same delta reads "slime natural
+     * spawning (reduced and then disabled in this build due to a reported spawn-limit miscalculation; not a
+     * permanent removal)" and its own incomplete list adds "slime spawns disabled due to a bug; do not infer
+     * permanent removal". So this set removes them, and the NEXT declared Alpha build must not inherit that
+     * removal - which is why the two sets are separate constants rather than one filtered at runtime.
+     */
+    public static final Set<String> ALPHA_1_0_14_MOBS = ALPHA_1_1_2_MOBS.stream()
+        .filter(mob -> !mob.equals("minecraft:slime"))
+        .collect(java.util.stream.Collectors.toUnmodifiableSet());
+
     public static final Set<String> INFDEV_20100325_MOBS = Set.of(
         "minecraft:zombie",
         "minecraft:creeper",
