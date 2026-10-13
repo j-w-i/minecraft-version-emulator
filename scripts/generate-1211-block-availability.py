@@ -257,9 +257,15 @@ TIMELINE = [
      'feature-timeline blocks: nether wart introduced Beta 1.9 Prerelease (Release 1.0.0)'),
     (['minecraft:end_stone'], 'historical_experience:release_1_0_0',
      'feature-timeline blocks: end stone introduced Beta 1.9 Prerelease (Release 1.0.0)'),
-    (['minecraft:emerald_ore', 'minecraft:emerald_block'], 'historical_experience:release_1_6_4',
-     'feature-timeline blocks: emerald ore introduced Release 1.3.1 (12w21a), so it is in Release 1.6.4 '
-     'and in none of the earlier profiles'),
+    # Emerald is Release 1.3.1 (12w21a), and this project's Release 1.3 profile IS that build: the research
+    # labels it "Release 1.3 (stable baseline 1.3.1)" in version-transitions.json. So the earliest declared
+    # version that had emerald is release_1_3 - NOT release_1_4, and NOT the release_1_6_4 this used to say, which
+    # was only the earliest extracted PALETTE containing it. Corrected after the owner pointed out that 1.4 was
+    # wrong: emerald belongs from 1.3.1, and the 1.3 profile is 1.3.1.
+    (['minecraft:emerald_ore', 'minecraft:emerald_block'], 'historical_experience:release_1_3',
+     "feature-timeline blocks: emerald ore introduced Release 1.3.1 (12w21a), and this project's Release 1.3 "
+     'profile is the 1.3.1 stable baseline as version-transitions.json labels it, so emerald belongs there; '
+     'Release 1.0, 1.1 and 1.2.5 predate it'),
     (['minecraft:ender_chest', 'minecraft:anvil', 'minecraft:beacon', 'minecraft:hopper',
       'minecraft:dropper', 'minecraft:comparator', 'minecraft:daylight_detector', 'minecraft:quartz_block',
       'minecraft:hay_block', 'minecraft:activator_rail', 'minecraft:command_block', 'minecraft:cocoa',

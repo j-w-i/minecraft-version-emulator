@@ -465,7 +465,7 @@ public final class HistoricalVersions {
                     + "is bred rather than spawned. Releases 1.3 and 1.5 add no mob, and 1.4 adds witch, bat, wither "
                     + "skeleton and zombie villager, which this set inherits through RELEASE_1_4_MOBS. It uses the "
                     + "1.5 exclusion list because quartz, added in 1.5, is content this build had."),
-            HistoricalFeatureExclusions.RELEASE_1_5_WITHOUT_MODERN_VANILLA_FEATURES_KEEPING_ORES));
+            HistoricalFeatureExclusions.RELEASE_1_5_WITHOUT_MODERN_VANILLA_FEATURES_KEEPING_EMERALD));
 
         // ---- Pre-Beta eras: Infdev and Alpha ------------------------------------------------------
         //
@@ -795,7 +795,7 @@ public final class HistoricalVersions {
                 "Adds no mob: its deltas are tripwire, the ender chest, emeralds and villager trading, cocoa pods, "
                     + "the desert pyramid and jungle temple, Large Biomes, adventure mode and XP from mining ores. So "
                     + "the spawn set is Release 1.2.5's, which already carries the ocelot and iron golem."),
-            HistoricalFeatureExclusions.RELEASE_1_2_5_WITHOUT_MODERN_VANILLA_FEATURES_KEEPING_ORES));
+            HistoricalFeatureExclusions.RELEASE_1_3_WITHOUT_MODERN_VANILLA_FEATURES_KEEPING_EMERALD));
         versions.add(releaseTerrainOnlyWithRules(
             "historical_experience:release_1_4", "Release 1.4", "release",
             chronology(ERA_RELEASE, 1, 4, 0), "moderner_beta:release_1_2_5",
@@ -813,7 +813,7 @@ public final class HistoricalVersions {
                     + "sand and three wither skeleton skulls rather than spawning naturally. Also anvils, item frames, "
                     + "flower pots, walls, carrots and potatoes, the beacon and Nether Star, and infested monster eggs "
                     + "in Extreme Hills."),
-            HistoricalFeatureExclusions.RELEASE_1_2_5_WITHOUT_MODERN_VANILLA_FEATURES_KEEPING_ORES));
+            HistoricalFeatureExclusions.RELEASE_1_3_WITHOUT_MODERN_VANILLA_FEATURES_KEEPING_EMERALD));
         versions.add(releaseTerrainOnlyWithRules(
             "historical_experience:release_1_5", "Release 1.5", "release",
             chronology(ERA_RELEASE, 1, 5, 0), "moderner_beta:release_1_2_5",
@@ -831,7 +831,7 @@ public final class HistoricalVersions {
                     + "rewrite. So the spawn set is Release 1.4's, which carries the witch, bat, wither skeleton and "
                     + "zombie villager. NETHER QUARTZ IS CONTENT THIS BUILD HAD, which is why it uses the 1.5 "
                     + "exclusion list rather than the earlier one."),
-            HistoricalFeatureExclusions.RELEASE_1_5_WITHOUT_MODERN_VANILLA_FEATURES_KEEPING_ORES));
+            HistoricalFeatureExclusions.RELEASE_1_5_WITHOUT_MODERN_VANILLA_FEATURES_KEEPING_EMERALD));
 
         // Beta 1.0, the first Beta. Its terrain foundation is NOT an approximation, and that was verified rather
         // than assumed: the research says for this build "existing climate-era generator (pre-Beta-1.8) persists",

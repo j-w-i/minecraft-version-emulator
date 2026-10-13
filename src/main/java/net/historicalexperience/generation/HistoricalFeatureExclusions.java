@@ -630,6 +630,34 @@ public final class HistoricalFeatureExclusions {
 
     public static final List<Exclusion> RELEASE_1_5_WITHOUT_MODERN_VANILLA_FEATURES_KEEPING_ORES =
         keepingVanillaOres(RELEASE_1_5_WITHOUT_MODERN_VANILLA_FEATURES);
+
+    /**
+     * Release 1.4, 1.5 and 1.6.4: the above with the emerald ban lifted, because those versions had emerald.
+     *
+     * <p>Emerald ore is <b>Release 1.3.1</b> (12w21a), so Release 1.0 through 1.3 correctly have none and Release
+     * 1.4 onwards correctly do. The only feature that places it is {@code moderner_beta:ore_emerald_y95} — there is
+     * no {@code minecraft:ore_emerald} on this runtime — and it was banned for all thirteen, costing Release 1.4
+     * and 1.5 an ore they really had.
+     *
+     * <p>It only became visible by lifting the other bans: while those profiles generated no ores at all, a
+     * missing emerald was indistinguishable from the rest of the loss. The availability table's boundary moved
+     * from Release 1.6.4 to Release 1.4 in the same change, because Release 1.6.4 was the earliest extracted
+     * palette rather than the introduction — the two had to move together or the sweep would have reported a
+     * legitimate emerald as an anachronism.
+     */
+    public static final List<Exclusion> RELEASE_1_3_WITHOUT_MODERN_VANILLA_FEATURES_KEEPING_EMERALD =
+        keepingEmerald(RELEASE_1_2_5_WITHOUT_MODERN_VANILLA_FEATURES_KEEPING_ORES);
+
+    public static final List<Exclusion> RELEASE_1_5_WITHOUT_MODERN_VANILLA_FEATURES_KEEPING_EMERALD =
+        keepingEmerald(RELEASE_1_5_WITHOUT_MODERN_VANILLA_FEATURES_KEEPING_ORES);
+
+    /** The emerald ban removed, for the versions at or after Release 1.3.1. */
+    private static List<Exclusion> keepingEmerald(List<Exclusion> exclusions) {
+        return exclusions.stream()
+            .filter(exclusion -> !exclusion.featureId().equals("moderner_beta:ore_emerald_y95"))
+            .toList();
+    }
+
     private static Exclusion desertWell(String version) {
         return new Exclusion("minecraft:desert_well",
             "Desert wells are Release 1.2.1 (12w04a) content and this is a PLACED FEATURE on 1.21.1, not "

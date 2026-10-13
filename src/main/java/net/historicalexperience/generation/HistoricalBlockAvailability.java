@@ -638,6 +638,16 @@ public final class HistoricalBlockAvailability {
             "feature-timeline: feature-timeline blocks: nether wart introduced Beta 1.9 Prerelease (Release 1.0.0)",
             new String[] {
                 "minecraft:nether_wart"});
+        // feature-timeline: feature-timeline blocks: emerald ore introduced Release 1.3.1 (12w21a), and this project's Release 1.3 profile is the 1.3.1 stable baseline as version-transitions.json labels it, so emerald belongs there; Release 1.0, 1.1 and 1.2.5 predate it
+        introduce("historical_experience:release_1_3", true,
+            "feature-timeline: feature-timeline blocks: emerald ore introduced Release 1.3.1 (12w21a), and this project's Release 1.3 profile is the 1.3.1 stable baseline as version-transitions.json labels it, so emerald belongs there; Release 1.0, 1.1 and 1.2.5 predate it",
+            new String[] {
+                "minecraft:emerald_block"});
+        // feature-timeline blocks: emerald ore introduced Release 1.3.1 (12w21a), and this project's Release 1.3 profile is the 1.3.1 stable baseline as version-transitions.json labels it, so emerald belongs there; Release 1.0, 1.1 and 1.2.5 predate it; the palette-derived boundary was release_1_6_4 and the earlier of the two is used so a block a version did have is not deleted
+        introduce("historical_experience:release_1_3", true,
+            "feature-timeline blocks: emerald ore introduced Release 1.3.1 (12w21a), and this project's Release 1.3 profile is the 1.3.1 stable baseline as version-transitions.json labels it, so emerald belongs there; Release 1.0, 1.1 and 1.2.5 predate it; the palette-derived boundary was release_1_6_4 and the earlier of the two is used so a block a version did have is not deleted",
+            new String[] {
+                "minecraft:emerald_ore"});
         // feature-timeline: the 1.6.4 palette is the first of the extracted sets to register these, matching Release 1.6.1/1.6.2
         introduce("historical_experience:release_1_6_4", true,
             "feature-timeline: the 1.6.4 palette is the first of the extracted sets to register these, matching Release 1.6.1/1.6.2",
@@ -652,17 +662,7 @@ public final class HistoricalBlockAvailability {
                 "minecraft:command_block",
                 "minecraft:comparator",
                 "minecraft:daylight_detector",
-                "minecraft:dropper"});
-        // feature-timeline: feature-timeline blocks: emerald ore introduced Release 1.3.1 (12w21a), so it is in Release 1.6.4 and in none of the earlier profiles
-        introduce("historical_experience:release_1_6_4", true,
-            "feature-timeline: feature-timeline blocks: emerald ore introduced Release 1.3.1 (12w21a), so it is in Release 1.6.4 and in none of the earlier profiles",
-            new String[] {
-                "minecraft:emerald_block",
-                "minecraft:emerald_ore"});
-        // feature-timeline: the 1.6.4 palette is the first of the extracted sets to register these, matching Release 1.6.1/1.6.2
-        introduce("historical_experience:release_1_6_4", true,
-            "feature-timeline: the 1.6.4 palette is the first of the extracted sets to register these, matching Release 1.6.1/1.6.2",
-            new String[] {
+                "minecraft:dropper",
                 "minecraft:ender_chest",
                 "minecraft:flower_pot",
                 "minecraft:hay_block",
