@@ -210,6 +210,21 @@ public final class HistoricalStructureRules {
         Map.entry("historical_experience:release_1_1",
             allowed("Release 1.1", union(BETA_1_8_STRUCTURES, Set.of("minecraft:fortress")),
                 "Release 1.1 added no structure; its set is Release 1.0.0's.")),
+        Map.entry("historical_experience:release_1_3",
+            allowed("Release 1.3", union(BETA_1_8_STRUCTURES, Set.of("minecraft:fortress",
+                "minecraft:desert_pyramid", "minecraft:jungle_pyramid")),
+                "Adds the desert pyramid and the jungle temple, which its worldgen delta states directly. The "
+                    + "generator itself did not change.")),
+        Map.entry("historical_experience:release_1_4",
+            allowed("Release 1.4", union(BETA_1_8_STRUCTURES, Set.of("minecraft:fortress",
+                "minecraft:desert_pyramid", "minecraft:jungle_pyramid", "minecraft:swamp_hut")),
+                "Adds the witch hut, which generates in swamps and brings witches with it. The research also "
+                    + "records that no major terrain generator change happened in this build.")),
+        Map.entry("historical_experience:release_1_5",
+            allowed("Release 1.5", union(BETA_1_8_STRUCTURES, Set.of("minecraft:fortress",
+                "minecraft:desert_pyramid", "minecraft:jungle_pyramid", "minecraft:swamp_hut")),
+                "Adds no structure: its worldgen delta records nether quartz ore and explicitly says that no "
+                    + "new biome, structure or mob was identified.")),
         Map.entry("historical_experience:release_1_2_5",
             allowed("Release 1.2.5", union(BETA_1_8_STRUCTURES, Set.of("minecraft:fortress")),
                 "Release 1.2.5 adds the desert well, which is introduced in Release 1.2.1 (12w04a) and is "

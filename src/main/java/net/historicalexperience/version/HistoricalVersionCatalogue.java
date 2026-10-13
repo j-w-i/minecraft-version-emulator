@@ -250,9 +250,9 @@ public final class HistoricalVersionCatalogue {
         planned(entries, Era.RELEASE, "Release 1.1", 1, 1, 0, "historical_experience:release_1_1", null);
         planned(entries, Era.RELEASE, "Release 1.2", 1, 2, 0, "historical_experience:release_1_2_5",
             "Release 1.2.5");
-        planned(entries, Era.RELEASE, "Release 1.3", 1, 3, 0, null, null);
-        planned(entries, Era.RELEASE, "Release 1.4", 1, 4, 0, null, null);
-        planned(entries, Era.RELEASE, "Release 1.5", 1, 5, 0, null, null);
+        planned(entries, Era.RELEASE, "Release 1.3", 1, 3, 0, "historical_experience:release_1_3", null);
+        planned(entries, Era.RELEASE, "Release 1.4", 1, 4, 0, "historical_experience:release_1_4", null);
+        planned(entries, Era.RELEASE, "Release 1.5", 1, 5, 0, "historical_experience:release_1_5", null);
         planned(entries, Era.RELEASE, "Release 1.6", 1, 6, 0, "historical_experience:release_1_6_4",
             "Release 1.6.4");
 

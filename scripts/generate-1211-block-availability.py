@@ -47,6 +47,9 @@ CHRONOLOGY = [
     'historical_experience:release_1_0_0',
     'historical_experience:release_1_1',
     'historical_experience:release_1_2_5',
+    'historical_experience:release_1_3',
+    'historical_experience:release_1_4',
+    'historical_experience:release_1_5',
     'historical_experience:release_1_6_4',
 ]
 
@@ -63,6 +66,9 @@ PALETTE_FILES = {
     'historical_experience:release_1_0_0': '1_0_0',
     'historical_experience:release_1_1': '1_1',
     'historical_experience:release_1_2_5': '1_2_5',
+    'historical_experience:release_1_3': '1_2_5',
+    'historical_experience:release_1_4': '1_2_5',
+    'historical_experience:release_1_5': '1_2_5',
     'historical_experience:release_1_6_4': '1_6_4',
 }
 

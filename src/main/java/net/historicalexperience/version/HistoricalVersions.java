@@ -702,6 +702,31 @@ public final class HistoricalVersions {
                     + "moderner_beta:alpha. Food table shared with Alpha 1.0.1: no edible item is added between them."),
             HistoricalFeatureExclusions.BEFORE_GRASS_EXISTED_WITHOUT_DESERT_WELL));
 
+        // The Release 1.3 / 1.4 / 1.5 gap, and it needs NO approximation - which is the opposite of what I expected
+        // when I flagged it as needing a decision. The research states it directly: Release 1.4 says "no major
+        // terrain generator change; Nether fortresses inherited", and Release 1.5 says "no new biome, structure or
+        // mob identified". The generator did not change between 1.2.5 and 1.7, so moderner_beta's release_1_2_5
+        // preset IS the right terrain for these builds rather than a stand-in for one.
+        //
+        // What they add is CONTENT, which this project handles by rule rather than by preset: desert pyramids and
+        // jungle temples in 1.3, witch huts and infested monster eggs in 1.4, nether quartz ore in 1.5.
+        //
+        // They use terrainOnly, matching the other Release builds, so they carry NO spawn restriction and therefore
+        // inherit the known Release-line defect: their mob sets are not researched, and SpawnRestrictionSemanticsTest
+        // forbids inventing one. Recorded as U in the coverage matrix rather than papered over.
+        versions.add(terrainOnly(
+            "historical_experience:release_1_3", "Release 1.3", "release",
+            chronology(ERA_RELEASE, 1, 3, 0), "moderner_beta:release_1_2_5",
+            HistoricalFeatureExclusions.RELEASE_1_2_5_WITHOUT_MODERN_VANILLA_FEATURES));
+        versions.add(terrainOnly(
+            "historical_experience:release_1_4", "Release 1.4", "release",
+            chronology(ERA_RELEASE, 1, 4, 0), "moderner_beta:release_1_2_5",
+            HistoricalFeatureExclusions.RELEASE_1_2_5_WITHOUT_MODERN_VANILLA_FEATURES));
+        versions.add(terrainOnly(
+            "historical_experience:release_1_5", "Release 1.5", "release",
+            chronology(ERA_RELEASE, 1, 5, 0), "moderner_beta:release_1_2_5",
+            HistoricalFeatureExclusions.RELEASE_1_2_5_WITHOUT_MODERN_VANILLA_FEATURES));
+
         // WINTER MODE IS NOT DECLARED YET, and the reason is a conflict in the model rather than missing research.
         // Moderner Beta ships `moderner_beta:alpha_winter`, and this project's own settings preset
         // `alpha_1_0_4_winter` inherits it, so the terrain is available. What is missing is a place to put it:

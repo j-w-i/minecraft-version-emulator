@@ -43,7 +43,8 @@ PUBLIC_RECIPES = {
     **{name: name + '_no_modern_content' for name in [
         'beta_1_8_1', 'beta_1_9_pre_1', 'beta_1_9_pre_2', 'beta_1_9_pre_3', 'beta_1_9_pre_4',
         'beta_1_9_pre_5', 'beta_1_9_pre_6', 'release_1_0_0', 'release_1_1',
-        'release_1_2_5', 'release_1_6_4']},
+        'release_1_2_5', 'release_1_6_4',
+        'release_1_3', 'release_1_4', 'release_1_5']},
 }
 
 

@@ -80,6 +80,9 @@ public final class HistoricalBlockAvailability {
         "historical_experience:release_1_0_0",
         "historical_experience:release_1_1",
         "historical_experience:release_1_2_5",
+        "historical_experience:release_1_3",
+        "historical_experience:release_1_4",
+        "historical_experience:release_1_5",
         "historical_experience:release_1_6_4"
     );
 
@@ -102,6 +105,9 @@ public final class HistoricalBlockAvailability {
         "historical_experience:release_1_0_0",
         "historical_experience:release_1_1",
         "historical_experience:release_1_2_5",
+        "historical_experience:release_1_3",
+        "historical_experience:release_1_4",
+        "historical_experience:release_1_5",
         "historical_experience:release_1_6_4",
         "historical_experience:beta_1_9_pre_1",
         "historical_experience:beta_1_9_pre_2",
