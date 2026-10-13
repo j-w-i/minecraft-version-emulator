@@ -152,7 +152,9 @@ public final class GenerationVerification {
             "net.minecraft.world.level.block.entity.BrewingStandBlockEntity",
             "net.minecraft.world.entity.Entity",
             "net.minecraft.world.inventory.InventoryMenu",
-            "net.minecraft.world.inventory.AbstractContainerMenu");
+            "net.minecraft.world.inventory.AbstractContainerMenu",
+            "net.minecraft.world.inventory.Slot",
+            "net.minecraft.server.network.ServerGamePacketListenerImpl");
 
         for (String name : serverTargets) {
             try {

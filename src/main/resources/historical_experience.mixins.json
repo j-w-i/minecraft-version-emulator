@@ -43,7 +43,9 @@
     "EnderEyeHistoricalPortalMixin",
     "WorldGenRegionHistoricalBlockVetoMixin",
     "EntityHistoricalSneakingMixin",
-    "PlayerHistoricalOffhandMixin"
+    "PlayerHistoricalOffhandMixin",
+    "SlotHistoricalOffhandMixin",
+    "ServerGamePacketListenerHistoricalOffhandMixin"
   ],
   "injectors": {
     "defaultRequire": 1
@@ -60,6 +62,8 @@
     "AnimationUtilsHistoricalArmBobMixin",
     "HumanoidArmorLayerHistoricalTintMixin",
     "MinecraftHistoricalInstantEatMixin",
-    "WorldListEntryAccessor"
+    "WorldListEntryAccessor",
+    "AbstractContainerScreenHistoricalOffhandMixin",
+    "LocalPlayerHistoricalSneakingMixin"
   ]
 }
