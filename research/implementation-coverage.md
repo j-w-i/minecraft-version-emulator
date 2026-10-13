@@ -352,9 +352,25 @@ turned out to be "no approximation needed" rather than the decision I expected t
    `creatureAfterHistoricalFilter = [chicken, cow, pig, sheep]` — the filter removes nothing, and
    `passiveSpawnPossible = true`. So the candidates are present and permitted, and the missing half is the
    spawning *cycle* itself: the pre-Beta-1.8 light-driven friendly spawner, which no code here implements.
+5. **The newly declared Beta builds' own content is recorded but NOT implemented**: Beta 1.4's locked chest,
    bed-spawn reset and achievement infrastructure; Beta 1.5's weather, powered/detector rails and cobweb
    obtainability; Beta 1.6's map, trapdoor, Nether bed explosion, fire-spread slowdown and ore-quadrant-bias
    fix. These are the next content work rather than claims.
+6. **Food stacking before Beta 1.8 was enforced in only one of four places (repaired).** The owner reported that
+   food "picks up in a stack" and that "if you double click in inventory it turns into a stack". The rule was on
+   `Slot` alone, and disassembling 1.21.1 shows why that leaks: an item's maximum is read directly by three other
+   paths. `Inventory.addResource` merges through **`Container.getMaxStackSize(ItemStack)`** — an interface
+   *default* method that `Inventory` never overrides — which is what pickup uses;
+   `AbstractContainerMenu` reads the item maximum in **six `doClick` sites and two quick-craft helpers**, which is
+   what double-click and shift/drag use; and `Inventory.placeItemBackInInventory` reads it too, which is how a
+   collected cursor stack is returned. All four are now capped, and `Container`, `Inventory` and
+   `AbstractContainerMenu` were added to the probe's mixin smoke test so a wrong redirect target fails the probe
+   instead of a player opening an inventory. The item's own component is still deliberately **not** lowered: that
+   was tried first and broke recipe data validation (`dried_kelp`, count 9 > maximum 1), which is why the limit
+   belongs on containers and slots rather than on the item.
+   Verified: build green (340 tests), all four targets report `loaded and transformed` at runtime, probe
+   `success=true`. The click behaviour itself still needs an in-game confirmation — a scripted double-click is not
+   something this harness can drive.
 3. **The Nether's terrain SHAPE is still the modern 1.16+ one.** Its biomes are fixed (one biome,
    `minecraft:nether_wastes`, via vanilla's `minecraft:fixed` biome source), but the shape comes from
    `minecraft:nether` noise settings and Moderner Beta ships no historical Nether to point at. Recorded as a gap.
