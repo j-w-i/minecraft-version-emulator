@@ -35,6 +35,7 @@ CHRONOLOGY = [
     'historical_experience:alpha_1_0_17',
     'historical_experience:alpha_1_1_0',
     'historical_experience:alpha',
+    'historical_experience:alpha_1_2_0',
     'historical_experience:beta_1_7_3',
     'historical_experience:beta_1_8_1',
     'historical_experience:beta_1_9_pre_1',
@@ -165,7 +166,7 @@ TIMELINE = [
      'reduced set of 25 potions and 31 combinations)'),
     # The Nether, and the pumpkin that shipped with it, are Alpha v1.2.0 - later than the Alpha profile.
     (['minecraft:netherrack', 'minecraft:glowstone', 'minecraft:nether_portal', 'minecraft:pumpkin',
-      'minecraft:jack_o_lantern'], 'historical_experience:beta_1_7_3',
+      'minecraft:jack_o_lantern'], 'historical_experience:alpha_1_2_0',
      'feature-timeline blocks: netherrack, glowstone and pumpkin introduced Alpha v1.2.0, after the '
      'Alpha v1.1.2_01 profile'),
     (['minecraft:short_grass'], 'historical_experience:beta_1_7_3',

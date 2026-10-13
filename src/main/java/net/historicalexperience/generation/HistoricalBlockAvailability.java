@@ -68,6 +68,7 @@ public final class HistoricalBlockAvailability {
         "historical_experience:alpha_1_0_17",
         "historical_experience:alpha_1_1_0",
         "historical_experience:alpha",
+        "historical_experience:alpha_1_2_0",
         "historical_experience:beta_1_7_3",
         "historical_experience:beta_1_8_1",
         "historical_experience:beta_1_9_pre_1",
@@ -232,30 +233,26 @@ public final class HistoricalBlockAvailability {
             new String[] {
                 "minecraft:clay",
                 "minecraft:sugar_cane"});
+        // feature-timeline blocks: netherrack, glowstone and pumpkin introduced Alpha v1.2.0, after the Alpha v1.1.2_01 profile; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
+        introduce("historical_experience:alpha_1_2_0", true,
+            "feature-timeline blocks: netherrack, glowstone and pumpkin introduced Alpha v1.2.0, after the Alpha v1.1.2_01 profile; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
+            new String[] {
+                "minecraft:glowstone",
+                "minecraft:jack_o_lantern",
+                "minecraft:nether_portal",
+                "minecraft:netherrack",
+                "minecraft:pumpkin"});
         // feature-timeline: feature-timeline blocks: cobweb introduced Beta 1.5
         introduce("historical_experience:beta_1_7_3", true,
             "feature-timeline: feature-timeline blocks: cobweb introduced Beta 1.5",
             new String[] {
                 "minecraft:cobweb"});
-        // feature-timeline: feature-timeline blocks: netherrack, glowstone and pumpkin introduced Alpha v1.2.0, after the Alpha v1.1.2_01 profile
-        introduce("historical_experience:beta_1_7_3", true,
-            "feature-timeline: feature-timeline blocks: netherrack, glowstone and pumpkin introduced Alpha v1.2.0, after the Alpha v1.1.2_01 profile",
-            new String[] {
-                "minecraft:glowstone",
-                "minecraft:jack_o_lantern"});
         // feature-timeline: feature-timeline blocks: lapis lazuli ore introduced Beta 1.2
         introduce("historical_experience:beta_1_7_3", true,
             "feature-timeline: feature-timeline blocks: lapis lazuli ore introduced Beta 1.2",
             new String[] {
                 "minecraft:lapis_block",
                 "minecraft:lapis_ore"});
-        // feature-timeline: feature-timeline blocks: netherrack, glowstone and pumpkin introduced Alpha v1.2.0, after the Alpha v1.1.2_01 profile
-        introduce("historical_experience:beta_1_7_3", true,
-            "feature-timeline: feature-timeline blocks: netherrack, glowstone and pumpkin introduced Alpha v1.2.0, after the Alpha v1.1.2_01 profile",
-            new String[] {
-                "minecraft:nether_portal",
-                "minecraft:netherrack",
-                "minecraft:pumpkin"});
         // feature-timeline: feature-timeline blocks: sandstone introduced Beta 1.2, so Alpha and Infdev have none
         introduce("historical_experience:beta_1_7_3", true,
             "feature-timeline: feature-timeline blocks: sandstone introduced Beta 1.2, so Alpha and Infdev have none",

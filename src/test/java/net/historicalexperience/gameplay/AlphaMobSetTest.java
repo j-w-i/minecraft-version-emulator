@@ -96,6 +96,27 @@ class AlphaMobSetTest {
     }
 
     @Test
+    void theHalloweenUpdateAddsTwoMobsAndRemovesSlimesForReal() {
+        Set<String> mobs = mobsOf("historical_experience:alpha_1_2_0");
+
+        // The Nether's mobs arrive here - the first new mobs since chickens in 1.0.14.
+        assertTrue(mobs.contains("minecraft:ghast"), "ghasts arrive with the Nether in Alpha 1.2.0");
+        assertTrue(mobs.contains("minecraft:zombified_piglin"),
+            "zombie pigmen arrive with the Nether too, neutral until attacked");
+
+        // And slimes LEAVE, this time without the research calling it a bug: "slime natural spawning (removed from
+        // mob spawning code)". So this is taken at face value, unlike the 1.0.14 disabling.
+        assertFalse(mobs.contains("minecraft:slime"),
+            "Alpha 1.2.0 removed slime natural spawning from the code, with no bug mentioned");
+
+        // Which leaves a gap worth naming rather than papering over: slimes are in the BETA 1.7.3 set, so they came
+        // back somewhere between 1.2.0 and 1.7.3 - in a build that is not a declared target. This test states both
+        // ends of that gap so the missing middle is visible instead of assumed.
+        assertTrue(mobsOf("historical_experience:beta_1_7_3").contains("minecraft:slime"),
+            "slimes are back by Beta 1.7.3; the build that restored them is not declared and is recorded as a gap");
+    }
+
+    @Test
     void theSlimeRemovalDoesNotLeakIntoTheBuildsAfterIt() {
         // This is the assertion the two separate constants exist for. 1.0.14 disabled slime spawning as a BUG, and
         // the research says twice not to infer a permanent removal. If that removal leaked forward - by a shared

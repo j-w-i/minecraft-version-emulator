@@ -227,6 +227,24 @@ public final class HistoricalSpawnRules {
         .filter(mob -> !mob.equals("minecraft:slime"))
         .collect(java.util.stream.Collectors.toUnmodifiableSet());
 
+    /**
+     * Alpha 1.2.0: ghasts and zombie pigmen arrive, slimes are removed from the spawning code.
+     *
+     * <p>This is the first Alpha set that differs from its predecessor by an ADDITION and a REMOVAL at once, and
+     * unlike 1.0.14's removal, this one is not described as a bug: the delta reads "slime natural spawning (removed
+     * from mob spawning code)". Its incomplete list does not walk that back, so the removal is taken at face value
+     * here.
+     *
+     * <p>That raises a question this class cannot answer from the deltas: slimes are PRESENT in the Beta 1.7.3 set,
+     * so they returned somewhere between Alpha 1.2.0 and Beta 1.7.3 - in a build that is not a declared target and
+     * has no delta entry here. The absence is asserted for 1.2.0 and the return is left to the Beta profile, with
+     * the gap recorded rather than guessed at.
+     */
+    public static final Set<String> ALPHA_1_2_0_MOBS = java.util.stream.Stream.concat(
+        ALPHA_1_1_2_MOBS.stream().filter(mob -> !mob.equals("minecraft:slime")),
+        java.util.stream.Stream.of("minecraft:ghast", "minecraft:zombified_piglin"))
+        .collect(java.util.stream.Collectors.toUnmodifiableSet());
+
     public static final Set<String> INFDEV_20100325_MOBS = Set.of(
         "minecraft:zombie",
         "minecraft:creeper",

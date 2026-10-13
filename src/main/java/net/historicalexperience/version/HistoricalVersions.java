@@ -664,6 +664,44 @@ public final class HistoricalVersions {
                     + "by the owner, and it lands exactly here. Food table shared with Alpha 1.0.1."),
             HistoricalFeatureExclusions.BEFORE_GRASS_EXISTED_WITHOUT_DESERT_WELL));
 
+        // Alpha 1.2.0, the Halloween Update and the last Alpha build. Three things converge here:
+        //
+        //  * The Nether arrives, so the portal gate that has been coded against ALPHA_1_2_0_CHRONOLOGY since it was
+        //    written finally has a DECLARED BUILD behind its literal. Before this round, "Alpha 1.2.0" was a number
+        //    tied to the registry's scheme by a test; now it is a version.
+        //  * The block dates for netherrack, glowstone, the portal, pumpkins and jack-o'-lanterns were held at
+        //    beta_1_7_3 as a proxy while this build did not exist. They are re-pointed to it, which is the same
+        //    payoff Alpha 1.0.11 gave for clay and sugar cane.
+        //  * The selectable WINTER WORLD MODE is REMOVED, replaced by biome-based weather. That is the design
+        //    decision parked in the coverage matrix: the winter variant is a world-creation CHOICE, not a newer
+        //    revision, and this build ends the window in which it existed - Alpha 1.0.4 through Alpha 1.1.0.
+        versions.add(terrainOnlyWithRules(
+            "historical_experience:alpha_1_2_0", "Alpha v1.2.0", "alpha",
+            chronology(ERA_ALPHA, 1, 2, 0), "moderner_beta:alpha",
+            new VersionRules(
+                true,
+                HistoricalSpawnRules.ALPHA_1_2_0_MOBS,
+                java.util.Map.of(),
+                HistoricalFoodRules.ALPHA_1_1_2_HEAL_POINTS,
+                false,
+                false,
+                false,
+                false,
+                "The Halloween Update: the Nether, reachable through a player-built obsidian portal, with netherrack, "
+                    + "soul sand and glowstone; pumpkins and jack-o'-lanterns; clocks; the fishing rod and raw fish; "
+                    + "ghasts and zombie pigmen, the pigmen neutral until attacked and then retaliating as a group; "
+                    + "twelve listed biomes with biome-coloured terrain, of which Ice Desert is listed but unused; six "
+                    + "music tracks; and an Overworld:Nether distance mapping of 8:1. Monoliths cease and the bottom "
+                    + "layer becomes all bedrock. Nether water evaporates. Slime natural spawning is REMOVED from the "
+                    + "mob spawning code - not described as a bug this time, so it is taken at face value - and the "
+                    + "selectable winter world mode is REMOVED in favour of biome-based weather. NOT implemented: the "
+                    + "biome count and biome-coloured terrain, because Moderner Beta ships NO Alpha 1.2.0 preset and "
+                    + "the closest, moderner_beta:alpha, is the 1.1.2-era terrain; the depth-noise scale change from "
+                    + "100 to 200, which the research itself labels low-confidence and development-preview; and the "
+                    + "fishing rate, whose semantics the research records as unverified. Terrain therefore comes from "
+                    + "moderner_beta:alpha. Food table shared with Alpha 1.0.1: no edible item is added between them."),
+            HistoricalFeatureExclusions.BEFORE_GRASS_EXISTED_WITHOUT_DESERT_WELL));
+
         // WINTER MODE IS NOT DECLARED YET, and the reason is a conflict in the model rather than missing research.
         // Moderner Beta ships `moderner_beta:alpha_winter`, and this project's own settings preset
         // `alpha_1_0_4_winter` inherits it, so the terrain is available. What is missing is a place to put it:
