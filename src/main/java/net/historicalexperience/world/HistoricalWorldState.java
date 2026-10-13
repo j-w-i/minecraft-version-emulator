@@ -108,6 +108,19 @@ public sealed interface HistoricalWorldState {
     }
 
     /**
+     * Loads the historical state of a world directory, for a caller that has no level.
+     *
+     * <p>Exists so the world-selection GUI can classify a world without a second copy of the rules above. The
+     * classification is the same one the lifecycle uses to decide whether a world may start, and a GUI that
+     * re-implemented it would be able to disagree with the server about what a world is - which is the one thing
+     * an interface must never do.
+     */
+    public static HistoricalWorldState loadAt(java.nio.file.Path worldDirectory) {
+        Objects.requireNonNull(worldDirectory, "worldDirectory");
+        return load(HistoricalMetadataStore.forWorldDirectory(worldDirectory));
+    }
+
+    /**
      * Loads the historical state of a world directory.
      *
      * <p>This method never writes. Absence of a document yields {@link Normal}; a document that

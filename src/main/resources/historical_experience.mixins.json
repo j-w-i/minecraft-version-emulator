@@ -53,6 +53,7 @@
     "AbstractZombieModelHistoricalArmsMixin",
     "AnimationUtilsHistoricalArmBobMixin",
     "HumanoidArmorLayerHistoricalTintMixin",
-    "MinecraftHistoricalInstantEatMixin"
+    "MinecraftHistoricalInstantEatMixin",
+    "WorldListEntryAccessor"
   ]
 }

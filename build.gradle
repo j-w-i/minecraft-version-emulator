@@ -81,6 +81,12 @@ loom {
             runDir 'run/client'
             programArgs '--quickPlaySingleplayer',
                 (project.findProperty('quickPlayWorld') ?: 'hexflash')
+            if (project.hasProperty('screenProbe')) {
+                // Opens the version screens, photographs them at several GUI scales, and writes a verdict. Gated
+                // like the server's generation probe: the mod does nothing extra unless this is set.
+                vmArg '-Dhistorical_experience.screenProbe=true'
+                vmArg "-Dhistorical_experience.screenProbe.dir=${project.findProperty('screenProbeDir') ?: 'logs/screen-probe.json'}"
+            }
         }
         server {
             // A dedicated server is the cheapest way to prove generation: no window, and the log shows

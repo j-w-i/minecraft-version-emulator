@@ -38,6 +38,12 @@ public final class HistoricalExperienceClient implements ClientModInitializer {
 
         HistoricalClientDiagnostics.register();
 
+        // The historical version selector, reachable while creating a world and, separately, while managing one.
+        net.historicalexperience.client.version.CreateWorldHistoricalVersion.register();
+        net.historicalexperience.client.version.ManageWorldHistoricalVersion.register();
+        // Gated on a system property; inert unless a verification run asks for it.
+        net.historicalexperience.client.version.ScreenProbe.register();
+
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) ->
             HistoricalClientRules.clearSyncedVersion());
     }
