@@ -71,6 +71,7 @@ public final class HistoricalBlockAvailability {
         "historical_experience:alpha_1_2_0",
         "historical_experience:beta_1_0",
         "historical_experience:beta_1_2",
+        "historical_experience:beta_1_3",
         "historical_experience:beta_1_7_3",
         "historical_experience:beta_1_8_1",
         "historical_experience:beta_1_9_pre_1",
@@ -261,6 +262,51 @@ public final class HistoricalBlockAvailability {
             "feature-timeline blocks: sandstone introduced Beta 1.2, so Alpha and Infdev have none; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:sandstone"});
+        // feature-timeline blocks: beds, redstone repeaters and the cobblestone, wood and sandstone slabs all introduced Beta 1.3; the smooth stone slab is present in that build but explicitly unobtainable; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
+        introduce("historical_experience:beta_1_3", true,
+            "feature-timeline blocks: beds, redstone repeaters and the cobblestone, wood and sandstone slabs all introduced Beta 1.3; the smooth stone slab is present in that build but explicitly unobtainable; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
+            new String[] {
+                "minecraft:black_bed",
+                "minecraft:blue_bed"});
+        // feature-timeline: feature-timeline blocks: beds, redstone repeaters and the cobblestone, wood and sandstone slabs all introduced Beta 1.3; the smooth stone slab is present in that build but explicitly unobtainable
+        introduce("historical_experience:beta_1_3", true,
+            "feature-timeline: feature-timeline blocks: beds, redstone repeaters and the cobblestone, wood and sandstone slabs all introduced Beta 1.3; the smooth stone slab is present in that build but explicitly unobtainable",
+            new String[] {
+                "minecraft:brown_bed",
+                "minecraft:cobblestone_slab",
+                "minecraft:cyan_bed",
+                "minecraft:gray_bed",
+                "minecraft:green_bed",
+                "minecraft:light_blue_bed",
+                "minecraft:light_gray_bed",
+                "minecraft:lime_bed",
+                "minecraft:magenta_bed"});
+        // the 1.6.4 palette is the first of the extracted sets to register these, matching Release 1.6.1/1.6.2; the palette-derived boundary was beta_1_3 and the earlier of the two is used so a block a version did have is not deleted
+        introduce("historical_experience:beta_1_3", true,
+            "the 1.6.4 palette is the first of the extracted sets to register these, matching Release 1.6.1/1.6.2; the palette-derived boundary was beta_1_3 and the earlier of the two is used so a block a version did have is not deleted",
+            new String[] {
+                "minecraft:oak_slab"});
+        // feature-timeline: feature-timeline blocks: beds, redstone repeaters and the cobblestone, wood and sandstone slabs all introduced Beta 1.3; the smooth stone slab is present in that build but explicitly unobtainable
+        introduce("historical_experience:beta_1_3", true,
+            "feature-timeline: feature-timeline blocks: beds, redstone repeaters and the cobblestone, wood and sandstone slabs all introduced Beta 1.3; the smooth stone slab is present in that build but explicitly unobtainable",
+            new String[] {
+                "minecraft:orange_bed",
+                "minecraft:pink_bed",
+                "minecraft:purple_bed"});
+        // feature-timeline blocks: beds, redstone repeaters and the cobblestone, wood and sandstone slabs all introduced Beta 1.3; the smooth stone slab is present in that build but explicitly unobtainable; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
+        introduce("historical_experience:beta_1_3", true,
+            "feature-timeline blocks: beds, redstone repeaters and the cobblestone, wood and sandstone slabs all introduced Beta 1.3; the smooth stone slab is present in that build but explicitly unobtainable; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
+            new String[] {
+                "minecraft:red_bed",
+                "minecraft:repeater",
+                "minecraft:sandstone_slab",
+                "minecraft:smooth_stone_slab",
+                "minecraft:white_bed"});
+        // feature-timeline: feature-timeline blocks: beds, redstone repeaters and the cobblestone, wood and sandstone slabs all introduced Beta 1.3; the smooth stone slab is present in that build but explicitly unobtainable
+        introduce("historical_experience:beta_1_3", true,
+            "feature-timeline: feature-timeline blocks: beds, redstone repeaters and the cobblestone, wood and sandstone slabs all introduced Beta 1.3; the smooth stone slab is present in that build but explicitly unobtainable",
+            new String[] {
+                "minecraft:yellow_bed"});
         // feature-timeline: feature-timeline blocks: cobweb introduced Beta 1.5
         introduce("historical_experience:beta_1_7_3", true,
             "feature-timeline: feature-timeline blocks: cobweb introduced Beta 1.5",
@@ -291,21 +337,11 @@ public final class HistoricalBlockAvailability {
             "first appears in the beta_1_7_3 extracted palette as \"sapling\" (the reviewed mapping name)",
             new String[] {
                 "minecraft:birch_sapling"});
-        // first appears in the beta_1_7_3 extracted palette as "bed" (the reviewed mapping name)
-        introduce("historical_experience:beta_1_7_3", false,
-            "first appears in the beta_1_7_3 extracted palette as \"bed\" (the reviewed mapping name)",
-            new String[] {
-                "minecraft:black_bed"});
         // first appears in the beta_1_7_3 extracted palette as "cloth" (the reviewed mapping name)
         introduce("historical_experience:beta_1_7_3", false,
             "first appears in the beta_1_7_3 extracted palette as \"cloth\" (the reviewed mapping name)",
             new String[] {
                 "minecraft:black_wool"});
-        // first appears in the beta_1_7_3 extracted palette as "bed" (the reviewed mapping name)
-        introduce("historical_experience:beta_1_7_3", false,
-            "first appears in the beta_1_7_3 extracted palette as \"bed\" (the reviewed mapping name)",
-            new String[] {
-                "minecraft:blue_bed"});
         // first appears in the beta_1_7_3 extracted palette as "ice" (the reviewed mapping name)
         introduce("historical_experience:beta_1_7_3", false,
             "first appears in the beta_1_7_3 extracted palette as \"ice\" (the reviewed mapping name)",
@@ -590,11 +626,6 @@ public final class HistoricalBlockAvailability {
             "first appears in the beta_1_7_3 extracted palette as \"rail\" (the reviewed mapping name)",
             new String[] {
                 "minecraft:rail"});
-        // first appears in the beta_1_7_3 extracted palette as "bed" (the reviewed mapping name)
-        introduce("historical_experience:beta_1_7_3", false,
-            "first appears in the beta_1_7_3 extracted palette as \"bed\" (the reviewed mapping name)",
-            new String[] {
-                "minecraft:red_bed"});
         // first appears in the beta_1_7_3 extracted palette as "mushroom" (the reviewed mapping name)
         introduce("historical_experience:beta_1_7_3", false,
             "first appears in the beta_1_7_3 extracted palette as \"mushroom\" (the reviewed mapping name)",
@@ -621,11 +652,6 @@ public final class HistoricalBlockAvailability {
             "first appears in the beta_1_7_3 extracted palette as \"redstoneDust\" (the reviewed mapping name)",
             new String[] {
                 "minecraft:redstone_wire"});
-        // first appears in the beta_1_7_3 extracted palette as "diode" (the reviewed mapping name)
-        introduce("historical_experience:beta_1_7_3", false,
-            "first appears in the beta_1_7_3 extracted palette as \"diode\" (the reviewed mapping name)",
-            new String[] {
-                "minecraft:repeater"});
         // first appears in the beta_1_7_3 extracted palette as "dirt" (the reviewed mapping name)
         introduce("historical_experience:beta_1_7_3", false,
             "first appears in the beta_1_7_3 extracted palette as \"dirt\" (the reviewed mapping name)",
@@ -636,21 +662,11 @@ public final class HistoricalBlockAvailability {
             "first appears in the beta_1_7_3 extracted palette as \"sand\" (the reviewed mapping name)",
             new String[] {
                 "minecraft:sand"});
-        // first appears in the beta_1_7_3 extracted palette as "stoneSlab" (the reviewed mapping name)
-        introduce("historical_experience:beta_1_7_3", false,
-            "first appears in the beta_1_7_3 extracted palette as \"stoneSlab\" (the reviewed mapping name)",
-            new String[] {
-                "minecraft:sandstone_slab"});
         // first appears in the beta_1_7_3 extracted palette as "sandStone" (the reviewed mapping name)
         introduce("historical_experience:beta_1_7_3", false,
             "first appears in the beta_1_7_3 extracted palette as \"sandStone\" (the reviewed mapping name)",
             new String[] {
                 "minecraft:smooth_sandstone"});
-        // first appears in the beta_1_7_3 extracted palette as "stoneSlab" (the reviewed mapping name)
-        introduce("historical_experience:beta_1_7_3", false,
-            "first appears in the beta_1_7_3 extracted palette as \"stoneSlab\" (the reviewed mapping name)",
-            new String[] {
-                "minecraft:smooth_stone_slab"});
         // first appears in the beta_1_7_3 extracted palette as "snow" (the reviewed mapping name)
         introduce("historical_experience:beta_1_7_3", false,
             "first appears in the beta_1_7_3 extracted palette as \"snow\" (the reviewed mapping name)",
@@ -742,11 +758,6 @@ public final class HistoricalBlockAvailability {
             "first appears in the beta_1_7_3 extracted palette as \"sponge\" (the reviewed mapping name)",
             new String[] {
                 "minecraft:wet_sponge"});
-        // first appears in the beta_1_7_3 extracted palette as "bed" (the reviewed mapping name)
-        introduce("historical_experience:beta_1_7_3", false,
-            "first appears in the beta_1_7_3 extracted palette as \"bed\" (the reviewed mapping name)",
-            new String[] {
-                "minecraft:white_bed"});
         // first appears in the beta_1_7_3 extracted palette as "cloth" (the reviewed mapping name)
         introduce("historical_experience:beta_1_7_3", false,
             "first appears in the beta_1_7_3 extracted palette as \"cloth\" (the reviewed mapping name)",
@@ -884,7 +895,6 @@ public final class HistoricalBlockAvailability {
                 "minecraft:flower_pot",
                 "minecraft:hay_block",
                 "minecraft:hopper",
-                "minecraft:oak_slab",
                 "minecraft:potatoes",
                 "minecraft:quartz_block",
                 "minecraft:tripwire"});

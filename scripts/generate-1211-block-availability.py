@@ -38,6 +38,7 @@ CHRONOLOGY = [
     'historical_experience:alpha_1_2_0',
     'historical_experience:beta_1_0',
     'historical_experience:beta_1_2',
+    'historical_experience:beta_1_3',
     'historical_experience:beta_1_7_3',
     'historical_experience:beta_1_8_1',
     'historical_experience:beta_1_9_pre_1',
@@ -188,6 +189,20 @@ TIMELINE = [
     # that gets read.
     (['minecraft:sandstone'], 'historical_experience:beta_1_2',
      'feature-timeline blocks: sandstone introduced Beta 1.2, so Alpha and Infdev have none'),
+    # Beta 1.3's own content, which was NOT dated anywhere before this: beds and redstone repeaters arrive here,
+    # along with the cobblestone, wood and sandstone slabs and the smooth stone slab that is present but
+    # unobtainable. Without these entries a Beta 1.2 world accepts a bed, because an undated block is never vetoed -
+    # no date means no claim - and a bed is one of the most recognisable things a player would notice.
+    (['minecraft:repeater',
+      'minecraft:cobblestone_slab', 'minecraft:oak_slab', 'minecraft:sandstone_slab',
+      'minecraft:smooth_stone_slab',
+      'minecraft:white_bed', 'minecraft:orange_bed', 'minecraft:magenta_bed', 'minecraft:light_blue_bed',
+      'minecraft:yellow_bed', 'minecraft:lime_bed', 'minecraft:pink_bed', 'minecraft:gray_bed',
+      'minecraft:light_gray_bed', 'minecraft:cyan_bed', 'minecraft:purple_bed', 'minecraft:blue_bed',
+      'minecraft:brown_bed', 'minecraft:green_bed', 'minecraft:red_bed', 'minecraft:black_bed'],
+     'historical_experience:beta_1_3',
+     'feature-timeline blocks: beds, redstone repeaters and the cobblestone, wood and sandstone slabs all '
+     'introduced Beta 1.3; the smooth stone slab is present in that build but explicitly unobtainable'),
     (['minecraft:lapis_ore', 'minecraft:lapis_block'], 'historical_experience:beta_1_2',
      'feature-timeline blocks: lapis lazuli ore introduced Beta 1.2 (Beta 1.2_02 later adjusted its frequency and '
      'height and permitted bedrock-level generation, which must NOT be backdated into 1.2)'),

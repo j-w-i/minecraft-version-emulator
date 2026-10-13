@@ -164,6 +164,9 @@ public final class HistoricalStructureRules {
             "It has monster rooms, which are features, but no structure-system structure")),
         Map.entry("historical_experience:alpha", noStructures("Alpha v1.1.2_01",
             "It has monster rooms, which are features, but no structure-system structure")),
+        Map.entry("historical_experience:beta_1_3", noStructures("Beta 1.3",
+            "The research records no structure epoch for this build, and the nether fortress does not arrive " 
+                + "until Beta 1.9 Prerelease 1 while strongholds, villages and mineshafts wait for Beta 1.8")),
         Map.entry("historical_experience:beta_1_2", noStructures("Beta 1.2",
             "It has monster rooms, which are features, but no structure-set structure: the nether fortress does " 
                 + "not arrive until Beta 1.9 Prerelease 1 and strongholds, villages and mineshafts not until Beta 1.8")),

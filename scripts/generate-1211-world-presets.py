@@ -30,6 +30,7 @@ PUBLIC_RECIPES = {
     'beta_1_7_3': 'beta_1_7_3_content_preview_10',
     'beta_1_0': 'beta_1_0_no_modern_content',
     'beta_1_2': 'beta_1_2_no_modern_content',
+    'beta_1_3': 'beta_1_3_no_modern_content',
     'alpha_1_0_1': 'alpha_1_0_1_no_modern_content',
     'alpha_1_0_4': 'alpha_1_0_4_no_modern_content',
     'alpha_1_0_6': 'alpha_1_0_6_no_modern_content',
@@ -54,12 +55,20 @@ def world_preset(preset_id, reduced=True, quartz=False):
     def settings():
         return {'moderner_beta:preset': preset_id}
 
-    # The Nether biome is PORTED from the Legacy-Nether upstream the owner supplied, re-namespaced into this
-    # project so that no ordinary world is affected. Two variants exist because that upstream's feature list
-    # contains ore_quartz_nether, and nether quartz is Release 1.5 content: the plain variant is used before it and
-    # the quartz variant from Release 1.5 onward, which is why this takes a flag rather than hard-coding a name.
-    nether_biome = ('historical_experience:legacy_nether_wastes_quartz' if quartz
-                    else 'historical_experience:legacy_nether_wastes')
+    # VANILLA nether_wastes, unconditionally.
+    #
+    # The Legacy-Nether port is NOT usable as published OR as overlaid. Its biome named placed features from an
+    # older pack - minecraft:patch_nether_wart does not exist in 1.21.1 - so the biome registry failed to load with
+    # "Unbound values in registry placed_feature" and the client CRASHED AT THE TITLE SCREEN, before any world was
+    # opened. That is the second time this port broke the owner's game: first on the biome's shape, then on the
+    # feature ids inside it.
+    #
+    # So it is switched off. Before this line changes again the port script must VALIDATE every id the biome
+    # references against the loaded registry, and fail if any of them is unbound - checking the shape was not
+    # enough, and neither was checking one field at a time.
+    #
+    # The 'quartz' parameter is kept because the signature is used by the caller, but it no longer selects anything.
+    nether_biome = 'minecraft:nether_wastes'
 
     return {
         'dimensions': {

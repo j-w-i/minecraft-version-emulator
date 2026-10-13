@@ -59,9 +59,9 @@ class HistoricalGameplayTweaksTest {
     @Test
     @DisplayName("the profile list is the twelve declared versions, oldest first")
     void profilesAreTheDeclaredVersions() {
-        assertEquals(28, PROFILES.size(), "the project declares twenty-eight profiles: " + PROFILES);
+        assertEquals(29, PROFILES.size(), "the project declares twenty-nine profiles: " + PROFILES);
         assertEquals("historical_experience:infdev_420", PROFILES.get(0));
-        assertEquals("historical_experience:release_1_6_4", PROFILES.get(27));
+        assertEquals("historical_experience:release_1_6_4", PROFILES.get(28));
     }
 
     @Test

@@ -1,0 +1,17 @@
+{
+  "chunkSettings": {
+    "moderner_beta:preset": "moderner_beta:beta"
+  },
+  "biomeSettings": {
+    "moderner_beta:preset": "moderner_beta:beta"
+  },
+  "caveBiomeSettings": {
+    "moderner_beta:preset": "moderner_beta:beta"
+  },
+  "name": {
+    "translate": "historical_experience.world_preset.beta_1_7_3.name"
+  },
+  "description": {
+    "translate": "historical_experience.world_preset.beta_1_7_3.description"
+  }
+}

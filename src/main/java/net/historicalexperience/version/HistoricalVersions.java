@@ -798,6 +798,34 @@ public final class HistoricalVersions {
                     + "needs an item-attribute gate this project does not have."),
             HistoricalFeatureExclusions.BETA_1_7_3_RESTRICTIONS));
 
+        // Beta 1.3. Beds, redstone repeaters and slabs arrive, the grassland/sand biome boundary that Beta 1.0
+        // misaligned is FIXED, and slimes spawn again after being removed in Alpha 1.2.0 - so this build's mob set
+        // differs from Beta 1.2's by exactly the slime, which my Beta 1.2 entry got wrong until these deltas were
+        // read.
+        versions.add(terrainOnlyWithRules(
+            "historical_experience:beta_1_3", "Beta 1.3", "beta",
+            chronology(ERA_BETA, 1, 3, 0), "moderner_beta:beta",
+            new VersionRules(
+                true,
+                HistoricalSpawnRules.BETA_1_3_MOBS,
+                java.util.Map.of(),
+                java.util.Map.of(),
+                false,
+                false,
+                false,
+                false,
+                "Beds with sleeping and time skip, redstone repeaters, cobblestone, wood and sandstone slabs, a "
+                    + "smooth stone slab that is present but unobtainable, the 'Skull on Fire' painting, world seed "
+                    + "and name selection with multiple world slots, and a smooth-lighting engine. Sandstone now "
+                    + "generates under naturally generated sand; the grassland/sand biome boundary Beta 1.0 left "
+                    + "misaligned is FIXED here; stone slabs move to the stone recipe and double slabs drop two; the "
+                    + "stone pressure plate recipe drops from three materials to two; gunpowder is renamed from "
+                    + "sulphur; powered redstone dust darkens with distance from its source; and squid swim in 3D "
+                    + "instead of sitting on the bottom, and can no longer be milked - a Beta 1.2 quirk this build "
+                    + "REMOVES. SLIMES SPAWN AGAIN, having been removed from the spawning code in Alpha 1.2.0. Bed "
+                    + "respawn-point reset is explicitly NOT in this build; it arrives bugged in Beta 1.4."),
+            HistoricalFeatureExclusions.BETA_1_7_3_RESTRICTIONS));
+
         // WINTER MODE IS NOT DECLARED YET, and the reason is a conflict in the model rather than missing research.
         // Moderner Beta ships `moderner_beta:alpha_winter`, and this project's own settings preset
         // `alpha_1_0_4_winter` inherits it, so the terrain is available. What is missing is a place to put it:

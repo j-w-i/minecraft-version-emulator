@@ -65,7 +65,7 @@ class GenerationBackport1211Test {
                 dimensions.getAsJsonObject("minecraft:the_end").get("type").getAsString(), id);
             checked++;
         }
-        assertEquals(28, checked, "the menu must expose exactly the twenty-eight declared profiles");
+        assertEquals(29, checked, "the menu must expose exactly the twenty-nine declared profiles");
     }
 
     @Test void newerRevisionsExistForEveryVersionWhoseModernContentWasMissing() {
@@ -161,7 +161,7 @@ class GenerationBackport1211Test {
         assertEquals(json(Path.of("src/main/resources/data").resolve(resource)), json(DATA.resolve(resource)));
         var tag = json(DATA.resolve("minecraft/tags/worldgen/world_preset/normal.json"));
         assertFalse(tag.get("replace").getAsBoolean());
-        assertEquals(28, tag.getAsJsonArray("values").size());
+        assertEquals(29, tag.getAsJsonArray("values").size());
         assertFalse(tag.getAsJsonArray("values").toString().contains("preview"));
     }
 }

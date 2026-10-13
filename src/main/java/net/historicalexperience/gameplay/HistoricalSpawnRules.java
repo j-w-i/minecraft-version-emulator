@@ -315,12 +315,19 @@ public final class HistoricalSpawnRules {
     }
 
     /**
-     * Beta 1.2: the Beta 1.7.3 set without wolves, because the squid have arrived and the wolves have not.
+     * Beta 1.2: the Beta 1.7.3 set without wolves AND without slimes.
      *
-     * <p>Derived by subtraction so the relationship stays visible: this is Beta 1.0 PLUS the squid, and Beta 1.4 is
-     * this plus the wolf.
+     * <p>Slimes were removed from the spawning code in Alpha 1.2.0 and do not return until Beta 1.3, where the
+     * delta reads "slimes spawn again". My first version of this set derived it from Beta 1.7.3 by removing only
+     * the wolf, which left slimes in - and reading Beta 1.3's deltas is what caught it. So this is Beta 1.0's set
+     * PLUS the squid, and Beta 1.3 is this plus the slime.
      */
     public static final Set<String> BETA_1_2_MOBS = BETA_1_7_3_MOBS.stream()
+        .filter(mob -> !mob.equals("minecraft:wolf") && !mob.equals("minecraft:slime"))
+        .collect(java.util.stream.Collectors.toUnmodifiableSet());
+
+    /** Beta 1.3: the same set with slimes back, because "slimes spawn again" is this build's own delta. */
+    public static final Set<String> BETA_1_3_MOBS = BETA_1_7_3_MOBS.stream()
         .filter(mob -> !mob.equals("minecraft:wolf"))
         .collect(java.util.stream.Collectors.toUnmodifiableSet());
 
