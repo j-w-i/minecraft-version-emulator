@@ -511,6 +511,35 @@ public final class HistoricalGameplayTweaks {
     }
 
     /**
+     * Alpha 1.2.0's chronology: the Halloween Update, which added the Nether.
+     *
+     * <p>A literal because Alpha 1.2.0 is a target that is not declared yet, tied to the registry's scheme by a test
+     * so it cannot drift into gating the wrong build.
+     */
+    private static final int ALPHA_1_2_0_CHRONOLOGY = 401_200;
+
+    /** The Nether boundary, exposed so a test can tie the literal to the registry's numbering. */
+    public static int netherBoundaryChronology() {
+        return ALPHA_1_2_0_CHRONOLOGY;
+    }
+
+    /**
+     * Whether the Nether exists in this version. It arrives with the Halloween Update, <b>Alpha 1.2.0</b>.
+     *
+     * <p>The owner asked for this directly: "I assume you've already blocked nether portals until alpha 1.2". The
+     * block veto did not cover it and could not - that veto runs on the GENERATION path, so it stops netherrack,
+     * glowstone and portal blocks from being generated, and does nothing about a player placing obsidian and
+     * lighting it. In an Alpha 1.0.1 world that produced a working portal into a dimension the version never had.
+     *
+     * <p>Named for the dimension rather than the portal, because the portal is one symptom: the Nether's blocks,
+     * its mobs and its travel all arrive together.
+     */
+    public static boolean netherAvailable(String versionId) {
+        var version = HistoricalVersions.byId(versionId).orElse(null);
+        return version != null && version.chronology() >= ALPHA_1_2_0_CHRONOLOGY;
+    }
+
+    /**
      * Whether food stacks in this version. It does not before <b>Beta 1.8</b>, which is when food became stackable.
      *
      * <p>Reported by the owner: "food also didnt stack until beta 1.8". Every pre-hunger build therefore has food at

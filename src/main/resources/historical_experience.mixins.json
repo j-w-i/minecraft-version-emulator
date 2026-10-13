@@ -45,7 +45,9 @@
     "EntityHistoricalSneakingMixin",
     "PlayerHistoricalOffhandMixin",
     "ServerGamePacketListenerHistoricalOffhandMixin",
-    "SlotHistoricalFoodStackMixin"
+    "SlotHistoricalFoodStackMixin",
+    "PortalShapeHistoricalNetherMixin",
+    "NetherPortalBlockHistoricalNetherMixin"
   ],
   "injectors": {
     "defaultRequire": 1

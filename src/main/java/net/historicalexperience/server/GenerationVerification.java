@@ -145,6 +145,8 @@ public final class GenerationVerification {
             "net.minecraft.world.entity.ExperienceOrb",
             "net.minecraft.server.level.ServerLevel",
             "net.minecraft.world.item.ItemStack",
+            "net.minecraft.world.level.portal.PortalShape",
+            "net.minecraft.world.level.block.NetherPortalBlock",
             // The prerelease gates. Each of these carries an injection whose target has to resolve, and a wrong
             // target is fatal when the class is transformed - which is a player opening a table, using an eye of
             // ender, or letting a stand finish brewing. Loading them here turns that into a probe failure.
