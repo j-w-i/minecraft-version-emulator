@@ -1,0 +1,1645 @@
+{
+  "source": "research/minecraft-version-history.md",
+  "note": "Machine-readable transition spec for the 29 requested builds, extracted verbatim-in-substance from research/minecraft-version-history.md by one worker; it inherits that document's self-declared 'in progress; not yet exhaustive' status, quotes only the numbers the document actually states, and marks every gap it inherited as uncertain instead of filling it, so absence from a list is never evidence that a feature was absent in a build.",
+  "versions": [
+    {
+      "id": "alpha_1_0_1",
+      "displayName": "Alpha 1.0.1",
+      "era": "alpha",
+      "order": 1,
+      "summary": "Seecret Friday 3, released 2 July 2010; commonly treated as the first public Alpha-labelled release even though the wiki's Alpha development period begins 30 June. The client is lost with no matching server listed, so no claim about this build can be tested against the original artifact. First researched target; the chronological predecessor (Infdev) is outside the requested list.",
+      "introduced": [
+        "redstone ore and redstone dust",
+        "redstone torches, levers, buttons, pressure plates",
+        "iron doors (require redstone, unlike later broad interaction options)",
+        "first reported redstone circuitry",
+        "signs can now be wall-mounted (existing signs)"
+      ],
+      "changed": [
+        "gold ore generates twice as often",
+        "diamond ore generates twice as often in slightly smaller blobs",
+        "mushrooms could generate in more places but popped off in sunlight",
+        "monster spawners stopped dropping as items (no longer obtainable by ordinary block drops)",
+        "redstone dust had only on/off visual states",
+        "wiki history reports improved mob AI, but gives no exact pathing/targeting detail"
+      ],
+      "removed": [
+        "monster spawners as an obtainable block drop"
+      ],
+      "incomplete": [],
+      "worldgen": [
+        "pre-biome Halloween generator: no biome system yet (biomes arrive in Alpha v1.2.0)",
+        "worlds 128 blocks tall with sea level Y=64 (historical summary, Part IV)",
+        "redstone ore blobs reported at this boundary; a coal-blob size change is flagged as needing verification",
+        "caves, ore blobs, springs and dungeons predate this target range",
+        "dungeons predate this build (their generator attempts double in Alpha v1.0.14)",
+        "Nether not yet present"
+      ],
+      "uncertain": [
+        "exact noise and ore-height/attempt parameters unknown; the client artifact is lost",
+        "the coal blob-size datapoint remains specifically marked verification-required by the world-generation history",
+        "'improved mob AI' has no exact implementation detail",
+        "exact redstone signal strengths, tick delay and repeater-free wiring rules require further investigation",
+        "exact damage/armor rules not yet researched; dungeon loot/spawner behavior not audited",
+        "no source evidence yet for internal unused entries; state beyond the Wiki record is unknown"
+      ],
+      "researchRefs": [
+        "Part III > Alpha v1.0.1",
+        "Part II > Master historical feature timeline (Alpha-named public builds; Redstone ore generation)",
+        "Part IV > Terrain generation; Ores; Redstone",
+        "Part V > matrix row 'Dungeons (monster rooms)' = F"
+      ]
+    },
+    {
+      "id": "alpha_1_0_4",
+      "displayName": "Alpha 1.0.4",
+      "era": "alpha",
+      "order": 2,
+      "summary": "Seecret Friday 4, released 9 July 2010; a client artifact is listed. Its distinguishing feature is the selectable winter-mode world: an alternate creation-time generator rather than a climate-driven snow biome. Watch the artifact availability, since behavior claims still rest on the version history rather than a test run.",
+      "introduced": [
+        "snow and ice blocks",
+        "selectable winter-mode worlds (alternate world creation mode)",
+        "sitting pose (mechanism not established)"
+      ],
+      "changed": [
+        "mob physics changed; jumps became shorter",
+        "in winter worlds exposed water froze and exposed surfaces accumulated snow"
+      ],
+      "removed": [],
+      "incomplete": [
+        "snow layers existed in terrain but were not obtainable as an item according to the version history; generated snow should not be treated as normally harvestable"
+      ],
+      "worldgen": [
+        "winter-mode worlds: 25% chance at world creation; exposed water froze, exposed surfaces accumulated snow, gravel-beach water was not fully frozen",
+        "normal world generation appears unaffected by the winter mode",
+        "this is a generator/world-type mode, not a later climate-driven snow biome"
+      ],
+      "uncertain": [
+        "whether the sitting pose is an emote/keybinding or another state must be confirmed before reproducing exact controls",
+        "exact entity-specific effects of the mob-physics change are not fully documented",
+        "other render/audio changes not verified",
+        "a direct artifact test is needed for freezing edge conditions",
+        "winter mode's 25% creation selection must not be mapped to biome probabilities"
+      ],
+      "researchRefs": [
+        "Part III > Alpha v1.0.4",
+        "Part II > Master historical feature timeline (Winter-mode worlds)",
+        "Part IV > Rendering, weather, and audio"
+      ]
+    },
+    {
+      "id": "alpha_1_0_6",
+      "displayName": "Alpha 1.0.6",
+      "era": "alpha",
+      "order": 3,
+      "summary": "Seecret Friday 5, released 16 July 2010. Adds cacti, boats and mixed tree sizes, and removes leaf decay for this build while cutting the sapling drop chance. Its snow-block recipe/yield mismatch makes snowballs renewable, an economy quirk that must be reproduced rather than 'fixed'.",
+      "introduced": [
+        "cactus",
+        "boats (early, fragile: version history records breakage on land placement/impact)",
+        "snowballs stack to 16 and can be thrown without disappearing",
+        "fancy (large) trees generate alongside small trees"
+      ],
+      "changed": [
+        "leaves no longer decay",
+        "sapling drop chance reduced 10% -> 5%",
+        "snow blocks became water-resistant",
+        "snow-block recipe uses four snowballs while breaking yields six (repeatable snowball supply)",
+        "boats have low early durability; can fit through one-block water openings per historical notes"
+      ],
+      "removed": [
+        "leaf decay (leaves no longer decay in this build; reintroduced in Beta 1.0 with changed behavior)"
+      ],
+      "incomplete": [],
+      "worldgen": [
+        "cacti naturally generate on sand",
+        "fancy trees now generate alongside small trees; precise frequencies unverified",
+        "no biome system yet"
+      ],
+      "uncertain": [
+        "precise fancy-tree generation frequencies unverified",
+        "detailed boat collision/health needs experiment",
+        "cactus behavior not yet exact",
+        "no corresponding server is identified for the listed client download",
+        "pigs/sheep spawn only above grass per the version record, but exact rates/AI/drops otherwise not audited"
+      ],
+      "researchRefs": [
+        "Part III > Alpha v1.0.6"
+      ]
+    },
+    {
+      "id": "alpha_1_0_11",
+      "displayName": "Alpha 1.0.11",
+      "era": "alpha",
+      "order": 4,
+      "summary": "Seecret Friday 6, released 23 July 2010. Adds the early paper/book/brick/clay and slime systems plus bucket milking, and tightens cactus placement rules. Slimeballs are an explicit obtainable-but-useless item here, and bookshelves dropped nothing when mined.",
+      "introduced": [
+        "clay, clay balls",
+        "reeds (later named sugar cane)",
+        "paper, books, brick items/blocks",
+        "slimes",
+        "bucket milking of cows",
+        "cactus harms mobs only when contacted (contact rule)"
+      ],
+      "changed": [
+        "bookshelf and brick block crafting recipes restored",
+        "cactus now only on sand and cannot be placed adjacent to another block",
+        "slimes split into smaller forms on death (historical notes: only when killed by fist, spawn below Y=32, only the smallest form drops slimeballs)"
+      ],
+      "removed": [
+        "bookshelf drops (bookshelves dropped nothing when mined)"
+      ],
+      "incomplete": [
+        "slimeballs are obtainable but had no functional use in this build"
+      ],
+      "worldgen": [
+        "clay generates near water",
+        "reeds appear near beaches and can grow up to three blocks",
+        "tree/flower patch generation changed; exact placement attempts and heights not documented",
+        "no biome system yet"
+      ],
+      "uncertain": [
+        "exact slime health/size/split rolls and drop probabilities require code or build tests",
+        "the fist-dependent split rule and the sub-Y=32 spawn claim come from the version page's historical notes, not a test",
+        "item/block IDs and save details not yet established"
+      ],
+      "researchRefs": [
+        "Part III > Alpha v1.0.11"
+      ]
+    },
+    {
+      "id": "alpha_1_0_14",
+      "displayName": "Alpha v1.0.14",
+      "era": "alpha",
+      "order": 5,
+      "summary": "Seecret Friday 7, released 30 July 2010. Two distinct clients are documented: the original has a jukebox recipe that wrongly yields a bookshelf and the same-day reupload fixes it and changes the splash text. Doubling the dungeon generator attempts to 4 -> 8 shifts all downstream decorator RNG, so population changes cascade even where feature parameters did not.",
+      "introduced": [
+        "chickens and eggs",
+        "jukeboxes and music discs",
+        "furnace minecart",
+        "chest minecart",
+        "music discs obtained in dungeon chests or when a skeleton kills a creeper",
+        "three non-ambient music tracks: piano1, piano2, piano3 (Dry Hands, Wet Hands, Mice on Venus)",
+        "chicken sound events, jukebox/disc playback, revised title logo, new splashes"
+      ],
+      "changed": [
+        "obsidian blast resistance increased to 1,200",
+        "dungeon generator iterations increased 4 -> 8, increasing dungeon generation and shifting subsequent decorator RNG outcomes such as trees/flowers",
+        "music re-enabled and now plays throughout the world rather than only as ambient music",
+        "original client's jukebox recipe incorrectly yielded a bookshelf; same-day reupload corrected it"
+      ],
+      "removed": [
+        "slime natural spawning (reduced and then disabled in this build due to a reported spawn-limit miscalculation; not a permanent removal)"
+      ],
+      "incomplete": [
+        "slime spawns disabled due to a bug; do not infer permanent removal"
+      ],
+      "worldgen": [
+        "dungeon generator iterations 4 -> 8, changing population order and other generated content",
+        "no base terrain generator change identified"
+      ],
+      "uncertain": [
+        "the exact slime-disable sub-build and the generator attempt parameters need artifact comparison",
+        "same-day original/reupload is a separate artifact boundary; use manifest/hash if reproducing the jukebox recipe",
+        "exact minecart/rail interaction and timing not researched"
+      ],
+      "researchRefs": [
+        "Part III > Alpha v1.0.14",
+        "Part IV > Structures and caves",
+        "Part IV > Rendering, weather, and audio"
+      ]
+    },
+    {
+      "id": "alpha_1_0_17",
+      "displayName": "Alpha v1.0.17",
+      "era": "alpha",
+      "order": 6,
+      "summary": "Seecret Friday 8, released 20 August 2010. The page identifies server 0.1.4 and says the client was replaced after eight minutes, and the client itself is lost. It adds fences and the spider jockey and brings animals/slimes and a working day/night cycle to multiplayer.",
+      "introduced": [
+        "oak fences (players reportedly began with 64 in inventory)",
+        "spider jockey",
+        "working multiplayer day/night cycle",
+        "pigs, chickens and slimes added to multiplayer"
+      ],
+      "changed": [
+        "milk buckets can be emptied",
+        "chickens no longer take fall damage and glide downward"
+      ],
+      "removed": [],
+      "incomplete": [
+        "contemporary IRC reports broke/invisible inventory icons during the short-lived client: a transient build defect, not a stable mechanic"
+      ],
+      "worldgen": [
+        "no identified generator change"
+      ],
+      "uncertain": [
+        "client is lost, so client-side exactness is unresolvable absent an artifact",
+        "the 64-fence starting inventory is a report, not a verified fact",
+        "detailed player-data synchronization not yet established",
+        "fence behavior not fully audited",
+        "broken inventory icons rest on contemporary reports, not a test"
+      ],
+      "researchRefs": [
+        "Part III > Alpha v1.0.17"
+      ]
+    },
+    {
+      "id": "alpha_1_1_0",
+      "displayName": "Alpha v1.1.0",
+      "era": "alpha",
+      "order": 7,
+      "summary": "Seecret Friday 9, released 10 September 2010; the original is lost, with reuploads on 10 September and again on 13 September, and the launcher entry resolves to the first reupload. It marks a networking architecture step: shared/persisted inventories and working chests, signs and furnaces in multiplayer, with monsters still behind an experimental switch.",
+      "introduced": [
+        "compass, pointing toward world spawn",
+        "shared client/server inventory",
+        "player inventory persisted on a multiplayer server",
+        "player location persisted on disconnect",
+        "chests, signs and furnaces working in multiplayer",
+        "experimental switch enabling monsters in multiplayer"
+      ],
+      "changed": [
+        "monster spawners stopped rendering their contained mob (visual/internal change)",
+        "camera-through-walls exploit fixed only by the second reupload"
+      ],
+      "removed": [],
+      "incomplete": [
+        "monster enablement in multiplayer is experimental; not evidence of parity with singleplayer AI"
+      ],
+      "worldgen": [
+        "no identified terrain change"
+      ],
+      "uncertain": [
+        "exact multiplayer synchronization and protocol packet structure not verified",
+        "exact multiplayer spawn logic not detailed",
+        "camera wall exploit is only fixed in the second reupload"
+      ],
+      "researchRefs": [
+        "Part III > Alpha v1.1.0"
+      ]
+    },
+    {
+      "id": "alpha_1_2_0",
+      "displayName": "Alpha v1.2.0",
+      "era": "alpha",
+      "order": 8,
+      "summary": "The Halloween Update, 30 October 2010; the original client is unavailable and a reupload is documented, with the launcher's '1.2.0' actually launching v1.2.0_02. It is the single largest Alpha discontinuity in this list: biomes, the Nether, fishing, ghasts and zombie pigmen arrive, while winter-mode worlds and slime spawning leave. Same seed does not preserve terrain across this boundary.",
+      "introduced": [
+        "the Nether dimension, reachable through a player-built obsidian portal",
+        "netherrack, soul sand, glowstone",
+        "pumpkins and jack-o'-lanterns",
+        "clocks",
+        "fishing rod and raw fish (documented catch is raw fish only)",
+        "12 listed biomes and biome-colored terrain; Ice Desert is listed but unused",
+        "ghasts and zombie pigmen (zombie pigmen neutral until attacked, then nearby group retaliation)",
+        "six music tracks: hal1-hal4, nuance1-nuance2",
+        "Overworld:Nether distance mapping of 8:1"
+      ],
+      "changed": [
+        "fishing source history gives 1 in 500 chance per tick while the bobber is in water for raw fish (rate semantics unverified)",
+        "depth-noise-like scale reported changing 100 -> 200 (low-medium confidence; labelled a development preview with conjectural causal attribution)",
+        "monoliths cease",
+        "bottom layer becomes all bedrock",
+        "Wet Hands mix changed and Mice on Venus extended",
+        "ghast fireballs use the snowball texture (asset only) and explode on impact",
+        "Nether water evaporates"
+      ],
+      "removed": [
+        "slime natural spawning (removed from mob spawning code)",
+        "selectable winter world mode from Alpha v1.0.4 (replaced by biome-based weather)",
+        "player 'ough' damage sound"
+      ],
+      "incomplete": [
+        "Ice Desert biome listed but unused",
+        "near 32 million blocks fake non-solid chunks appear; lighting and listed decoration/dungeon generation stop past that boundary"
+      ],
+      "worldgen": [
+        "major generator discontinuity: 12 listed biomes introduced (Ice Desert unused); replaces the pre-Halloween terrain algorithm rather than toggling biome IDs",
+        "depth-noise-like scale 100 -> 200 and monoliths cease (low-medium confidence, WIP history, causal attribution conjectural)",
+        "all-bedrock bottom layer; world-height/bedrock floor changed",
+        "monoliths cease; sea-level/height noise changed",
+        "near 32M blocks fake non-solid chunks appear and lighting/decoration generation stops",
+        "same seed does not preserve terrain across this boundary"
+      ],
+      "uncertain": [
+        "exact generator parameters, biome placement, fishing RNG and boundary chunk behavior remain to verify",
+        "music-asset timing across the original and _01/_02 artifacts is uncertain",
+        "the reported depth-noise scale change and monolith cessation are labelled a development preview and conjectural, i.e. low-medium confidence rather than binary-confirmed Alpha 1.2.0",
+        "soul-sand distribution is adjusted by Alpha 1.2.0_01/_02, so launcher patches must not be mistaken for exact original",
+        "the launcher's '1.2.0' entry is actually _02; do not validate exact .0 against it"
+      ],
+      "researchRefs": [
+        "Part III > Alpha v1.2.0",
+        "Part II > Master historical feature timeline (Nether; Biomes and biome-colored terrain)",
+        "Part IV > Terrain generation; Biomes and surface blocks; Dimensions; Rendering, weather, and audio"
+      ]
+    },
+    {
+      "id": "beta_1_0",
+      "displayName": "Beta 1.0",
+      "era": "beta",
+      "order": 9,
+      "summary": "First Java Edition Beta release, 20 December 2010; protocol 7, Java 5. It is emphatically not Release 1.0.0. It is a platform/interface step rather than a content step: server-side inventory, item tooltips, a 30-second chunk-save throttle, eggs nerfed to 16 and thrown, and leaf decay returning with changed behavior.",
+      "introduced": [
+        "item-name tooltip on hover",
+        "cape support (only the Mojang cape existed then)",
+        "deadmau5 ears cosmetic support",
+        "leaf decay (reintroduced, with changed behavior)",
+        "eggs stack to 16, can be thrown, 1/8 (12.5%) chicken spawn chance",
+        "inventory becomes server-side functional"
+      ],
+      "changed": [
+        "eggs stack size 64 -> 16",
+        "leaf decay behavior differs from its earlier form",
+        "armor-slot outlines removed",
+        "crafting-grid slots no longer hold items; attempted placement drops them",
+        "tools on ground no longer repair themselves (durability behavior)",
+        "lava lakes replace neighboring blocks with stone",
+        "chest UI closes if the player moves too far or the chest explodes",
+        "servers save chunks less often: chunks are not resaved if saved during the preceding 30 seconds",
+        "/kill fixed"
+      ],
+      "removed": [
+        "armor-slot outlines",
+        "crafting-grid slots holding items",
+        "tool self-repair when tools lie on the ground"
+      ],
+      "incomplete": [
+        "cape pipeline supported although only the Mojang cape existed then"
+      ],
+      "worldgen": [
+        "existing climate-era generator (pre-Beta-1.8) persists",
+        "lava lakes replace neighboring blocks with stone",
+        "Beta 1.0 grassland/sand boundary is misaligned until Beta 1.3",
+        "Nether inherited; no Beta 1.8 strongholds/villages/mineshafts",
+        "exact generator parameters unknown"
+      ],
+      "uncertain": [
+        "save-throttle behavior and the boundary bug were not independently tested",
+        "no other new mob established for this build",
+        "sound/lighting not researched",
+        "no hunger/sprint/XP/enchanting in this build"
+      ],
+      "researchRefs": [
+        "Part III > Beta 1.0",
+        "Part IV > Terrain generation",
+        "Part V > matrix rows (Hunger/Sprint/XP = A; Legacy direct food healing = F)"
+      ]
+    },
+    {
+      "id": "beta_1_2",
+      "displayName": "Beta 1.2",
+      "era": "beta",
+      "order": 10,
+      "summary": "Released 13 January 2011; protocol 8, Java 5. The big crafting/resource suite lands here (dyes, note blocks, dispensers, lapis, sandstone, birch/spruce, cake, squid, bones) with a large tool-durability rebalance. Brown wool and cocoa beans exist only as editor content, and the base build carries a dangerous Nether-portal-while-mounted data-loss crash.",
+      "introduced": [
+        "charcoal, note blocks, dyes and colored wool, sugar, dispensers",
+        "squid (10 health, drops ink sac, no sounds, could be milked in this build)",
+        "lapis lazuli, lapis block and lapis ore",
+        "bone and bone meal",
+        "sandstone",
+        "birch and spruce logs/leaves; birch trees in forests, spruce replaces oak in taiga",
+        "cake, cocoa beans (Creative/editor-only at this point), brown wool (external-tool-only)",
+        "monster spawners show a rotating mob model again in singleplayer"
+      ],
+      "changed": [
+        "sugar cane renamed from reeds; crafting table renamed from workbench",
+        "tool durability: wood 33 -> 59, stone 65 -> 131, iron 129 -> 250, diamond 1025 -> 1561",
+        "gold tools gained much faster mining in some categories while retaining old durability/restrictions",
+        "wool dyeing restored",
+        "stone slab crafting and several dye recipes altered",
+        "skeletons now drop bones",
+        "spiders can climb walls",
+        "sheep can be dyed and some gray/black colors spawn naturally",
+        "cake restores 3 health per slice",
+        "bone meal fertilizes saplings/wheat",
+        "note blocks play an instrument determined by the block underneath and emit on click/use/power",
+        "dispenser drops contents"
+      ],
+      "removed": [],
+      "incomplete": [
+        "brown wool and cocoa beans are registry/content but only external-editor obtainable; no player survival route",
+        "squid had no sounds in this build"
+      ],
+      "worldgen": [
+        "birch trees added to forests, spruce trees replace oak in taiga",
+        "lapis ore appears (Beta 1.2_02 later adjusts lapis frequency/height and permits bedrock-level generation; do not backdate)",
+        "wiki history reports more coal/iron/diamond in caves but does not settle whether frequency or blob size changed"
+      ],
+      "uncertain": [
+        "exact initial-vs-_01/_02 item deltas and numeric ore parameters unresolved",
+        "the 'more coal/iron/diamond in caves' statement is explicitly ambiguous (blob size or frequency)",
+        "whether gold tools' faster mining applies per category is only documented qualitatively"
+      ],
+      "researchRefs": [
+        "Part III > Beta 1.2",
+        "Part III > Patch/build boundary register (Beta 1.2_01, Beta 1.2_02)",
+        "Part IV > Ores"
+      ]
+    },
+    {
+      "id": "beta_1_3",
+      "displayName": "Beta 1.3",
+      "era": "beta",
+      "order": 11,
+      "summary": "Released 22 February 2011; protocol 9. Three behaviorally distinct artifacts exist that day (17:13 debug item spawn, 17:33 reupload without it, 17:50 crash-fix reupload launcher-listed as b1.3b), and the original has a Java 6 dependency that Beta 1.3_01 removes. Beds, repeaters, slabs, smooth lighting and player-entered seeds arrive; bed spawn-point reset does not.",
+      "introduced": [
+        "beds (sleeping/time skip)",
+        "redstone repeaters (delayed/further redstone transmission)",
+        "cobblestone/wood/sandstone slabs",
+        "smooth stone slab (present but unobtainable)",
+        "'Skull on Fire' painting content",
+        "world seed/name selection, multiple world slots, /time and whitelist commands",
+        "smooth-lighting engine and graphics option"
+      ],
+      "changed": [
+        "sandstone generates under natural sand and has faster mining",
+        "stone slabs switch to the stone recipe; double slabs drop 2 slabs",
+        "stone pressure plate recipe decreases from three material to two",
+        "gunpowder renamed from sulphur",
+        "lapis multiplayer ore drops 4-8",
+        "Beta 1.0 grassland/sand biome boundary fixed (no longer visibly misaligned at chunk borders)",
+        "squid can no longer be milked",
+        "slimes spawn again",
+        "squid now swims in 3D instead of remaining at water bottom",
+        "multiplayer hostile mobs can be attacked properly",
+        "powered dust gets darker farther from source, unpowered dust is black"
+      ],
+      "removed": [
+        "squid milking (possible in Beta 1.2, removed here)"
+      ],
+      "incomplete": [
+        "smooth stone slab present in assets/recipe context but explicitly unobtainable",
+        "painting texture placeholder used because painting code predated its texture",
+        "bed respawn-point reset is NOT in this build (it appears in Beta 1.4 and is bugged there)"
+      ],
+      "worldgen": [
+        "sandstone generates under naturally generated sand",
+        "Beta 1.0 grassland/sand biome boundary fixed",
+        "no structure epoch",
+        "Bedrock wall/floor behavior unchanged in the sources consulted"
+      ],
+      "uncertain": [
+        "exact repeater/dust tick and render details require implementation study",
+        "exact region file internals and upgrade error cases need a technical source",
+        "seed parse width and algorithm/RNG changes per generator epoch still need direct artifact evidence"
+      ],
+      "researchRefs": [
+        "Part III > Beta 1.3",
+        "Part III > Patch/build boundary register (Beta 1.3 original/reuploads, Beta 1.3_01)",
+        "Part IV > Terrain generation; Redstone; Protocols and multiplayer architecture"
+      ]
+    },
+    {
+      "id": "beta_1_4",
+      "displayName": "Beta 1.4",
+      "era": "beta",
+      "order": 12,
+      "summary": "Released 31 March 2011, with a reupload about 90 minutes later that removed debug code (an in-memory walking-distance stat that looks like the future Beta 1.5 statistic). Wolves, cookies and the April Fools locked chest arrive, plus achievement infrastructure -- but the bed spawn-point reset added here is buggy and achievements are only partly implemented.",
+      "introduced": [
+        "wolves (neutral, common in taiga, 10 health, tame via bones at 1/3 chance per bone)",
+        "cookies (heal 1 health, stack to 8, crafted from wheat + cocoa beans)",
+        "April Fools locked chest (breaks only via explosions; adjacent ones form a double chest)",
+        "bed spawn position reset (added but bugged)",
+        "achievement infrastructure: inventory/wood/workbench triggers",
+        "changed Minecraft logo and missing-texture fallback",
+        "GUI scale changeable in options.txt"
+      ],
+      "changed": [
+        "bed spawn position reset only changes when clicking 'Leave bed' and works only for multiplayer; 'does not work for most users'",
+        "ladders: sneaking while climbing holds position",
+        "wheat grows faster",
+        "inventory default key becomes E",
+        "zombies/spiders previously only hurt when one block above the player; fixed to hurt in all instances",
+        "multiplayer client slime spawn fixed",
+        "spider sounds removed; spiders stop trampling crops",
+        "tamed wolves defend owners, assist combat, become angry if the player or the owner's wolves are hit; tails indicate health; raw pork can be fed; they drop nothing when killed"
+      ],
+      "removed": [
+        "spider sounds",
+        "spiders trampling crops",
+        "wolf drops (wolves drop nothing when killed)",
+        "original artifact's in-memory walking-distance debug code (removed in the reupload)"
+      ],
+      "incomplete": [
+        "achievement system infrastructure is partly implemented rather than the complete final achievements UI",
+        "locked chest is a prank/demo/store placeholder, not ordinary loot content"
+      ],
+      "worldgen": [
+        "locked chest can randomly generate only when the system date is April 1 (prank content, not an ordinary structure)",
+        "dungeon chests gain cocoa beans",
+        "no terrain generator change"
+      ],
+      "uncertain": [
+        "patch 1.4_01 detail remains separate and stops April Fool's locked chest generation",
+        "exact achievement trigger definitions are not enumerated here",
+        "the date-gated locked chest depends on the system clock, which a recreation must pin deliberately"
+      ],
+      "researchRefs": [
+        "Part III > Beta 1.4",
+        "Part III > Patch/build boundary register (Beta 1.4_01)",
+        "Part V > matrix rows (Wolves = F from B1.4; Bed respawn-point setting = P at B1.4; Achievements = P at B1.4)"
+      ]
+    },
+    {
+      "id": "beta_1_5",
+      "displayName": "Beta 1.5",
+      "era": "beta",
+      "order": 13,
+      "summary": "Released 19 April 2011; protocol 11, Java 5, with original/reupload and later _01/_02 artifacts. Weather (rain, snow, thunder), 16 achievements/statistics, powered and detector rails, saplings and cobweb arrive. Cobweb is deliberately unobtainable without inventory editing, and unarmed damage rises 1 -> 2 health points.",
+      "introduced": [
+        "weather: natural rain, snowfall and thunderstorms with unique rain sounds",
+        "birch and spruce saplings",
+        "detector rails",
+        "powered rails (need redstone; transmit across up to 8 powered rails and accelerate minecarts)",
+        "cobweb (unobtainable without inventory editing; slows players/mobs; drops string when sword-broken)",
+        "16 achievements and statistics"
+      ],
+      "changed": [
+        "saplings smelt 0.5 items each",
+        "birch/spruce leaves drop their respective saplings",
+        "redstone wire can be placed on snow and render states change",
+        "ladder recipe now makes 2 to offset the staggered-ladder exploit",
+        "players can shift-click between chest/inventory",
+        "dropped items in flowing water move faster",
+        "unarmed damage increases 1 -> 2 health points",
+        "beds can be used during daytime thunderstorms",
+        "lightning strikes create fire and deal nearby damage; creepers become charged and explode with greater force; pigs struck by lightning turn into zombie pigmen",
+        "wolves become more common outside taiga/forest and pathfinding through doors improves",
+        "in multiplayer, weather transitions start/stop instantly"
+      ],
+      "removed": [],
+      "incomplete": [
+        "cobweb is not normally obtainable (editor/inventory only)",
+        "achievement implementation has 16 at this point"
+      ],
+      "worldgen": [
+        "natural rain, snowfall and thunderstorms added; no new base generator",
+        "weather operates with biome snow/rain rules; probabilities not quantified here"
+      ],
+      "uncertain": [
+        "exact weather RNG and _01/_02 deltas need review",
+        "exact rail ticks/speeds beyond source-listed behavior need a code check",
+        "the reupload's exact contents need comparison",
+        "do not import the teaser's flowing-water rain audio"
+      ],
+      "researchRefs": [
+        "Part III > Beta 1.5",
+        "Part III > Patch/build boundary register (Beta 1.5_01/_02)",
+        "Part IV > Rendering, weather, and audio; Redstone; Hunger, health, and food"
+      ]
+    },
+    {
+      "id": "beta_1_6",
+      "displayName": "Beta 1.6",
+      "era": "beta",
+      "order": 14,
+      "summary": "Released 26 May 2011; protocol 13. The only Beta release with public test builds. Maps, trapdoors and biome vegetation arrive; Nether multiplayer, an explosive Nether bed, a fire-spread slowdown and removal of the 10-tick missed-swing cooldown are the headline behavior changes. Public 1.6 fixes a coordinate-dependent ore bias, while the unreleased Test Build 3 carries a separate clay x=z defect fixed in 1.7.",
+      "introduced": [
+        "map item (displays an overhead section)",
+        "wooden trapdoor",
+        "dead bush (deserts only, placeable only on sand)",
+        "short grass and fern (grass patches in most grassy-soil biomes; fern naturally only in swamps/rainforests)",
+        "Nether support in multiplayer; server properties view-distance and allow-nether",
+        "texture packs gain grass/foliage color-map files (capability; maps initially were not read)"
+      ],
+      "changed": [
+        "bed in the Nether explodes",
+        "fire spread severely slowed and no longer spreads infinitely",
+        "ice regenerates even when not snowing",
+        "mushrooms spread slowly",
+        "leaves on Fast no longer opaque solid blocks for placement/spawning",
+        "powered rail speed rises 0.04 -> 0.06 to offset removal of glitch boosters",
+        "below a layer of source blocks, water no longer behaves as source",
+        "player dismounts from boat/minecart entering a Nether portal; earlier portal-ride crash fixed",
+        "combat missed-hit 10 tick cooldown removed",
+        "shift-click crafting/inventory behavior expanded: crafts max and routes output to inventory; moves inventory stacks to hotbar",
+        "network compression strengthened"
+      ],
+      "removed": [
+        "combat missed-hit 10-tick cooldown",
+        "ore-generation quadrant bias: before this version some ores were reported at least 50% more common in southeast (+X,+Z) than northwest (-X,-Z)",
+        "glitch boosters (compensated by the powered-rail speed change)"
+      ],
+      "incomplete": [
+        "shrub block does not generate and is only editor-obtainable; keep it out of naturally generated palettes",
+        "grass/foliage color-map capability exists but maps initially were not read",
+        "Advanced OpenGL temporarily disabled"
+      ],
+      "worldgen": [
+        "public Beta 1.6 fixes the ore-generation quadrant bias (prior builds: some ores at least 50% more common southeast than northwest)",
+        "adds grass patches on grass blocks, ferns in swamp/rainforest, dead bushes only in deserts/on sand",
+        "unreleased Beta 1.6 Test Build 3 adds randomized vegetation details and has a clay-coordinate defect (x=z) later fixed in public Beta 1.7",
+        "no new base generator"
+      ],
+      "uncertain": [
+        "exact Test Build 3 artifact mapping and the 1.6.1-1.6.6 differences still need review",
+        "97 bugs are listed as fixed, but that list is a wiki summary rather than a test result",
+        "surviving issue: shift-clicking a container with a full inventory crashes"
+      ],
+      "researchRefs": [
+        "Part III > Beta 1.6",
+        "Part III > Patch/build boundary register (Beta 1.6.1-1.6.6)",
+        "Part IV > Terrain generation; Ores; Combat and movement"
+      ]
+    },
+    {
+      "id": "beta_1_7",
+      "displayName": "Beta 1.7",
+      "era": "beta",
+      "order": 15,
+      "summary": "Released 30 June 2011; protocol 14. Initial 1.7 differs from _01 and later 1.7.3. Pistons, sticky pistons and shears arrive with real limitations: piston mishandling can create invalid block 36 and crash rendering, and _01/1.7.2/1.7.3 each repair a different class of damage. Stone bricks and silverfish exist only as tooltip text / texture with no block or mob.",
+      "introduced": [
+        "piston and sticky piston",
+        "shears (238 uses, crafted from two diagonally placed iron ingots; collect leaves and wool without harming sheep)",
+        "TNT redstone activation",
+        "F3 direction value display"
+      ],
+      "changed": [
+        "sheared sheep drop 2-4 wool; unsheared sheep killed drop one; punching sheep no longer yields wool",
+        "cobweb now properly broken with shears or sword and drops string",
+        "TNT no longer primes by empty-hand/item hit; use flint-and-steel or redstone (old behavior remains hidden in metadata value 1, editor-accessible)",
+        "bedrock hardness now defined unbreakable rather than -1",
+        "fixes the Beta 1.6 clay generation bug",
+        "sticky piston pushes and pulls; piston pushes blocks when powered"
+      ],
+      "removed": [
+        "punching sheep yielding wool",
+        "TNT priming by empty-hand/item hit",
+        "bedrock hardness value -1"
+      ],
+      "incomplete": [
+        "stone-brick tooltip text exists but the block is not yet in game",
+        "silverfish texture exists but the mob entity is not present",
+        "no natural stone-brick generation"
+      ],
+      "worldgen": [
+        "fixes the Beta 1.6 clay generation bug",
+        "no new terrain generator",
+        "no natural stone-brick generation"
+      ],
+      "uncertain": [
+        "exact 12-block movement limit/whitelist/update ordering need code/test evidence",
+        "which block push/pull combinations crash or soft-lock is not enumerated",
+        "distinguish 1.7_01-1.7.3 fixes from initial 1.7; 1.7.1 was not a release"
+      ],
+      "researchRefs": [
+        "Part III > Beta 1.7",
+        "Part III > Patch/build boundary register (Beta 1.7_01/1.7.2/1.7.3)",
+        "Part IV > Redstone; Structures and caves"
+      ]
+    },
+    {
+      "id": "beta_1_8",
+      "displayName": "Beta 1.8",
+      "era": "beta",
+      "order": 16,
+      "summary": "Adventure Update Part I, released 14 September 2011; protocol 17, preceded by three prereleases and two previews, and the final named public Beta update. It is a hard epoch break: fractal biome placement, biome-controlled elevation, sea level 64 -> 63, ravines/strongholds/villages/mineshafts, and a 20-point hunger meter with sprinting, critical hits, sword blocking, charged bows and collectible-but-unspendable XP. Villages generate empty of villagers and strongholds grant no End access.",
+      "introduced": [
+        "hunger: 20-point food meter; food feeds hunger instead of healing",
+        "sprinting (double-tap W)",
+        "XP orbs and an XP bar (collect/display only)",
+        "melee critical hits",
+        "sword blocking (reported 50% damage reduction)",
+        "hold-to-charge bows",
+        "endermen, silverfish, cave spiders (cave-spider spawners in mineshafts)",
+        "melons/seeds, vines, stone bricks and variants, infested stone/cobblestone/stone bricks, iron bars, glass panes, fence gates, huge mushroom blocks/stems, brick and stone-brick stairs/slabs, ender pearls, raw/cooked meat variants, rotten flesh",
+        "Creative mode returns",
+        "strongholds, villages, mineshafts, ravines",
+        "ocean, river and extreme-hills biomes; sand/gravel/clay disks",
+        "title-menu panorama; FOV 70-110 and brightness options; new lighting engine"
+      ],
+      "changed": [
+        "food ceases direct healing and instead feeds hunger",
+        "natural regeneration gated at above 90% hunger: 1 health every four seconds; at zero hunger starvation removes 1 health every four seconds (reported difficulty thresholds: Easy 10 HP, Normal 1 HP, Hard can kill)",
+        "sprint unavailable at <=6 hunger, consumes the hunger/exhaustion resource, permits about 4-block horizontal sprint jumps without increasing jump height",
+        "bows switch from rapid-fire to hold-to-charge",
+        "critical hit reportedly adds a random 0-100% of weapon damage plus 2 health points, applied after enchantments (none available in this build)",
+        "sword blocking reduces incoming damage by 50%; it also historically reduced fall damage and let players rise faster underwater until those sub-behaviors were removed in a Beta 1.9 prerelease",
+        "fractal biome placement replaces the earlier climate system; elevation linked to biome; sea level 64 -> 63",
+        "old biomes (rainforest/seasonal forest/savanna/shrubland/tundra) and shore beaches removed; sand/gravel/clay disks replace some old surface behavior",
+        "when pre-1.8 chunks are opened under the new generator their biome assignments are regenerated (this does not by itself mean terrain blocks are regenerated)",
+        "world boundary changes from +/-32 million to +/-30 million; Far Lands move beyond normal reach (about 5.39x10^16 blocks)",
+        "initial strongholds: one per world, initially only the central staircase generated; initial villages broken/partial (wells, paths, lamp posts) and fixed in a reupload"
+      ],
+      "removed": [
+        "legacy direct food healing",
+        "old biomes: rainforest, seasonal forest, savanna, shrubland, tundra",
+        "pre-1.8 shore beaches as a per-column surface feature"
+      ],
+      "incomplete": [
+        "XP meter exists without any spending system; no enchanting, brewing or End progression",
+        "generated villages are empty of villagers",
+        "initial strongholds generated only the central staircase before the prerelease reupload",
+        "sprint's public-build timeout behavior is unresolved"
+      ],
+      "worldgen": [
+        "fractal biome placement vs the earlier climate system; elevation linked to biome; continent-scale land in open ocean",
+        "sea level 64 -> 63; base world height remains 128 in the Beta 1.8 range",
+        "ocean/river/extreme-hills biomes added; ravines, strongholds, villages, mineshafts, sand/gravel/clay disks added",
+        "world boundary becomes +/-30 million; Far Lands pushed beyond about 5.39x10^16 blocks",
+        "Beta 1.8 prerelease 2 lowers mineshaft density but raises structure frequency about 2.5x and sets three strongholds per world",
+        "Beta 1.8.1 changes mineshaft support beams from planks to fences",
+        "exact algorithms/noise/structure spacing unavailable (generation history is WIP)"
+      ],
+      "uncertain": [
+        "exact hunger/exhaustion rates remain unverified; exact per-action costs and tick constants unresolved",
+        "the PAX preview's five-second sprint cap/special FOV does NOT describe public Beta 1.8; whether public builds auto-stopped after 30 seconds is not resolved",
+        "exact item list/obtainability, XP curve, regen timing, combat and AI, redstone, visuals and 1.8.1 differences remain open",
+        "exact spawn frequencies and AI for endermen/silverfish/cave spiders unknown",
+        "cake's Beta 1.8 slice value conflicts across secondary summaries: the version page reports 3 hunger per slice, the Food history reports 2",
+        "exact critical-hit math and legacy armor equations need build-specific evidence",
+        "the GenLayer sequence reconstruction is medium-confidence community evidence, not Mojang-source proof"
+      ],
+      "researchRefs": [
+        "Part III > Beta 1.8",
+        "Part III > Patch/build boundary register (Beta 1.8 prerelease/reupload/Pre2/1.8.1)",
+        "Part IV > Terrain generation; Biomes and surface blocks; Structures and caves; Combat and movement; Hunger, health, and food; Experience; Dimensions; Rendering, weather, and audio",
+        "Part V > matrix rows (Hunger/Sprint/Critical hits/Bow charge = start at B1.8; XP = P at B1.8)"
+      ]
+    },
+    {
+      "id": "beta_1_9_pre_1",
+      "displayName": "Beta 1.9 Prerelease 1",
+      "era": "beta",
+      "order": 17,
+      "summary": "First Beta 1.9 prerelease, published 22 September 2011; its version page title deliberately carries no numeral ('Beta 1.9 Prerelease'). Nether fortress progression pieces (blaze rods, ghast tears, Nether wart, nether bricks), mushroom islands and the cold biomes arrive with new mobs, but the key drops are present-but-inert. It is not Release 1.0 and shares none of the later prereleases' brewing/enchanting/End function.",
+      "introduced": [
+        "nether bricks, nether brick stairs and fences",
+        "mycelium (generates but is not ordinarily obtainable)",
+        "lily pads (visually unnamed/grayscale and non-solid)",
+        "blaze rods, ghast tears, gold nuggets, Nether wart (no use yet in this build)",
+        "Nether fortresses in world generation, with two blaze spawners",
+        "mushroom-island biome",
+        "Ice Plains, Ice Mountains, Frozen Ocean and Frozen River biomes",
+        "blaze, magma cube, mooshroom, snow golem and villagers",
+        "reduced landmass scale (about half) and ocean height variation 0.5 -> 0.4"
+      ],
+      "changed": [
+        "armor effectiveness/durability behavior changed: reported armor no longer reduces fire/explosion/projectile damage, durability increased, and armor no longer loses effectiveness as durability falls",
+        "auto-repeat jump was removed",
+        "XP dropped on player death is capped in this build (cap not established)",
+        "snowfall temporarily destroys redstone, torches, saplings and rails (a regression fixed in Pre5; do not carry it into Release 1.0)",
+        "swamp tint changes"
+      ],
+      "removed": [
+        "armor's reduction of fire/explosion/projectile damage",
+        "armor effectiveness decay as durability falls",
+        "held-jump auto-repeat (restored in Pre2)"
+      ],
+      "incomplete": [
+        "Nether wart, blaze rod and ghast tear have no functionality yet",
+        "generated mycelium is not ordinarily obtainable",
+        "lily pads are non-solid and visually unnamed/grayscale",
+        "Ice Mountains biome is inaccessible in this build",
+        "XP has no gameplay spending; no End/enchanting/brewing progression"
+      ],
+      "worldgen": [
+        "Nether fortresses enter world generation with two blaze spawners",
+        "mushroom-island biomes appear; mushroom islands are hostile-mob-free according to build notes",
+        "Ice Plains, Ice Mountains, Frozen Ocean and Frozen River added; Ice Mountains is inaccessible in this build",
+        "landmass scale reduced by about half; ocean height variation 0.5 -> 0.4",
+        "swamp tint changes"
+      ],
+      "uncertain": [
+        "exact spawn rates and AI unresolved",
+        "exact armor formula needs artifact test",
+        "the death-XP cap is not established here",
+        "lily-pad collision/placement specifics need testing",
+        "biome/generation RNG and noise implementation not established; exact combat formula and generator code need original-build validation",
+        "an erroneous jump event grants 1-100 XP and must be treated as a bug, not intended XP earning"
+      ],
+      "researchRefs": [
+        "Part III > Beta 1.9 Prerelease 1",
+        "Part IV > Mob spawning and AI; Combat and movement; Experience; Dimensions; Rendering, weather, and audio",
+        "Part V > matrix (Nether fortresses = F from pre1; Villager entities = F from pre1)"
+      ]
+    },
+    {
+      "id": "beta_1_9_pre_2",
+      "displayName": "Beta 1.9 Prerelease 2",
+      "era": "beta",
+      "order": 18,
+      "summary": "Second prerelease, 29 September 2011. It contains the earliest potion work, but brewing here is a cauldron prototype whose code has no ordinary block ID, so it is internal/unobtainable rather than a feature players can use. Animal breeding, Hardcore mode, hunger/effect UI icons, nine music discs and damaged-tool combining also arrive, and offspring are born fully grown.",
+      "introduced": [
+        "cauldron (code exists without an assigned block ID; experimental, not ordinarily placeable/obtainable)",
+        "glass bottles, spider eyes, blaze powder, fermented spider eye, magma cream",
+        "potion/status-effect system (invisibility is a no-op)",
+        "nine new disc tracks/items: 11, blocks, chirp, far, mall, mellohi, stal, strad, ward (Ward Creative-only)",
+        "Hardcore mode (locks difficulty to Hard, permadeath)",
+        "hunger/effect UI icons; tooltip borders; third-person front view",
+        "animal breeding using wheat for cows, mooshrooms, sheep, pigs and chickens",
+        "combining same damaged tools/weapons in crafting to repair"
+      ],
+      "changed": [
+        "experimental cauldron could hold three bottles, fill from a water bucket and mix ingredients; many combinations had negative/no-op effects",
+        "milk clears status effects",
+        "spider eye is food/ingredient and can poison when eaten",
+        "fermented spider eye and magma cream recipes became available",
+        "offspring are born fully grown in this build (Pre3 later changes newborns to baby variants)",
+        "XP-on-jump debug bug removed; held-jump auto-repeat restored"
+      ],
+      "removed": [
+        "the Beta 1.9 Pre1 erroneous 1-100 XP-on-jump bug",
+        "the auto-repeat jump regression of Pre1"
+      ],
+      "incomplete": [
+        "cauldron has no assigned block ID, so it is not ordinarily placeable or obtainable",
+        "invisibility effect is a no-op",
+        "many brew combinations have negative/no-op effects",
+        "Ward disc is inaccessible in survival"
+      ],
+      "worldgen": [
+        "no new terrain/structure milestone identified in build notes",
+        "Nether progression content exists but does not imply these items were usable there"
+      ],
+      "uncertain": [
+        "exact potion effect table and bug sub-builds should be verified",
+        "some potion formulas produce unintended negative/no-op effects",
+        "cauldron's internal implementation is not reflected in registry/obtainability",
+        "exact offspring traits require additional verification"
+      ],
+      "researchRefs": [
+        "Part III > Beta 1.9 Prerelease 2",
+        "Part II > Master historical feature timeline (Brewing; Enchantment effects)",
+        "Part IV > Enchanting and brewing; Mob spawning and AI; Experience"
+      ]
+    },
+    {
+      "id": "beta_1_9_pre_3",
+      "displayName": "Beta 1.9 Prerelease 3",
+      "era": "beta",
+      "order": 19,
+      "summary": "Released 6 October 2011; protocol 19, with two client artifacts the same day. Functional brewing arrives as a 30-second brewing stand with a reduced 25-potion/31-combination set, the cauldron gains an ID as a plain water container, baby animals appear and the stronghold portal room generates -- but the enchantment table is UI/glint only with no enchantments and the End portal block does nothing. Sword damage is reduced here (stone 6->5 HP, iron 8->6, diamond 10->7).",
+      "introduced": [
+        "brewing stand (brewing listed at 30 seconds; a reduced set of 25 potions/31 combinations)",
+        "enchantment table with UI, three Standard Galactic Alphabet choices, item glint and 'Enchanted!!' presentation (no enchantments)",
+        "End portal frame and End portal block, plus eye of ender",
+        "cauldron with an assigned block ID, as a water-holding block",
+        "baby animal variants",
+        "stronghold End portal rooms in world generation; glass locator pillars",
+        "spiders/cave spiders are poison-immune and categorized as arthropods"
+      ],
+      "changed": [
+        "cauldrons replaced as potion machinery by brewing stands and become water-holding blocks",
+        "duplicate potion combinations removed",
+        "enchantment table has three SGA choices and a documented 15-level cap but no enchantment effects",
+        "sword damage reduced: stone 6 -> 5 HP, iron 8 -> 6, diamond 10 -> 7 (per the 1.0.0 comparison table)",
+        "enderman health doubled 20 -> 40",
+        "numeric XP level is still not displayed (arrives Pre4)"
+      ],
+      "removed": [
+        "duplicate potion combinations",
+        "cauldron-as-potion-machinery behavior from Pre2"
+      ],
+      "incomplete": [
+        "no enchantments exist yet: the table is a visual/UI feature only with no functional XP spending",
+        "End portal block is nonfunctional and the End remains inaccessible; portal frames can be repaired with eyes but the page says there is no further effect",
+        "glass stronghold locator pillars remain",
+        "XP bar is visible but the numeric level is not displayed"
+      ],
+      "worldgen": [
+        "stronghold End portal rooms added; glass locator pillars remain",
+        "a multiplayer world-generation bug creates Sky-dimension chunks and causes biome results to differ from singleplayer (fixed in Pre4)"
+      ],
+      "uncertain": [
+        "exact recipes/IDs, survival routes, all mob changes and the full worldgen delta need research",
+        "exact enchanting/brewing numeric behavior remains unverified beyond the documented 15-level cap and 30-second brew",
+        "same-day original/reupload: the original briefly places debug hotbar stacks (enchantment tables, bookshelves, End frames, End portal blocks) that the reupload removes, so the two clients are not equivalent"
+      ],
+      "researchRefs": [
+        "Part III > Beta 1.9 Prerelease 3",
+        "Part II > Master historical feature timeline (Enchanting; Brewing; End dimension)",
+        "Part IV > Enchanting and brewing; Combat and movement; Mob spawning and AI; Dimensions",
+        "Part V > matrix (End portal room = P at pre3; Brewing = F from pre3; Enchanting = P at pre3)"
+      ]
+    },
+    {
+      "id": "beta_1_9_pre_4",
+      "displayName": "Beta 1.9 Prerelease 4",
+      "era": "beta",
+      "order": 20,
+      "summary": "Published 13 October 2011 with same-day version-string corrections and reuploads. This is the first build with working enchantments (17 of them, max displayed level 50, up to 30 bookshelves) and the first with an active End portal and generated End dimension with obsidian pillars -- but the dragon entity exists only as code that does not spawn. Splash potions, regeneration potions and End stone arrive.",
+      "introduced": [
+        "End stone",
+        "potion of regeneration; splash potions (gunpowder makes potions throwable)",
+        "Ender crystals/entity infrastructure",
+        "operational enchanting: 17 enchantments; table max level raised to 50 and bookshelf arrangement/power required (up to 30 bookshelves for maximum)",
+        "the End dimension, generated and reachable through an active portal; obsidian pillars",
+        "numeric XP levels displayed; functional spending of XP levels on enchantments with rising costs per level",
+        "moon phases; sun/moon cardinal direction and round textures"
+      ],
+      "changed": [
+        "enchantments actually apply; enchanting becomes server-side (previously client-only)",
+        "hoes, flint-and-steel and shears removed from table-eligible items",
+        "healing potion recipe changed to glistering melon; fermented spider eye can convert healing to harming",
+        "eye of ender right-click tracks strongholds",
+        "endermen can spawn in the End, stop burning in daylight and teleport to shade",
+        "spiders/cave spiders immune to poison and categorized as arthropods",
+        "the End replaces/removes the Sky dimension; the Pre3 multiplayer sky-dimension chunk bug is fixed",
+        "multiplayer critical-hit particles and furnace minecart bugs fixed"
+      ],
+      "removed": [
+        "stronghold glass locator pillars",
+        "the Sky dimension (replaced/removed by the End)",
+        "hoes, flint-and-steel and shears as table-eligible enchantment items"
+      ],
+      "incomplete": [
+        "dragon entity code exists but does not spawn / is not yet available; do not call the boss fight implemented",
+        "no boss encounter; the End is reachable but has no dragon"
+      ],
+      "worldgen": [
+        "the End dimension is generated/accessed with a central obsidian platform and pillars",
+        "stronghold glass locator pillars removed",
+        "Pre3 multiplayer sky-dimension chunk bug fixed",
+        "no claim of a new Overworld generator"
+      ],
+      "uncertain": [
+        "exact enchantment calculations and artifact-specific deltas need verification",
+        "two or more reuploads mean 'Pre4' can name different executable artifacts; pin the exact reupload"
+      ],
+      "researchRefs": [
+        "Part III > Beta 1.9 Prerelease 4",
+        "Part II > Master historical feature timeline (Enchantment effects; End dimension; Ender Dragon)",
+        "Part IV > Enchanting and brewing; Combat and movement; Dimensions; Experience",
+        "Part V > matrix (Enchanting = F from pre4; End portal/End access = F from pre4)"
+      ]
+    },
+    {
+      "id": "beta_1_9_pre_5",
+      "displayName": "Beta 1.9 Prerelease 5",
+      "era": "beta",
+      "order": 21,
+      "summary": "Published 27 October 2011. Ten achievements (including kill-the-dragon), /toggledownfall and /xp, a slime spawn-height increase, Creative neutrality for hostile mobs and a temporary downward-water-source experiment land here. The dragon has a death animation and test health 1 but still does not spawn, so the kill-Dragon achievement references content that is unavailable.",
+      "introduced": [
+        "ten achievements, including brewing, Nether, locate End and kill Dragon",
+        "/toggledownfall and /xp commands",
+        "clouds toggle",
+        "Ender Dragon death animation and test health 1 (implemented but it still does not spawn)",
+        "multiplayer breeding now produces babies rather than adults"
+      ],
+      "changed": [
+        "hostile mobs become neutral toward players in Creative (attack range reduced)",
+        "slime spawn height increases from Y=0-16 to Y=0-40",
+        "Silk Touch no longer obtains spawners/lit furnaces and becomes incompatible with Fortune",
+        "water downward flow begins creating source blocks (temporary, reversed in Pre6)",
+        "many block textures/names/selection boxes changed; stair lighting and selection boxes fixed/adjusted",
+        "snowfall no longer destroys redstone, torches, saplings and rails (fixes the prerelease weather regression)",
+        "mycelium and End stone become visible in the Creative inventory",
+        "enchanted swords can block (per build notes; exact damage unverified)"
+      ],
+      "removed": [
+        "Silk Touch obtaining spawners and lit furnaces",
+        "Silk Touch compatibility with Fortune",
+        "snowfall destruction of redstone, torches, saplings and rails (regression fixed here)"
+      ],
+      "incomplete": [
+        "the dragon achievement and death animation exist but there is no natural boss",
+        "the downward-water source-creation experiment does not persist to the next prerelease"
+      ],
+      "worldgen": [
+        "no significant new terrain/structure reported; Nether, strongholds and End persist from earlier builds"
+      ],
+      "uncertain": [
+        "full achievement list and block texture/selection details need per-page audit",
+        "exact enchanted-sword blocking damage remains unverified",
+        "an entity with test health and a death animation can exist internally without a normal spawn"
+      ],
+      "researchRefs": [
+        "Part III > Beta 1.9 Prerelease 5",
+        "Part II > Master historical feature timeline (Ender Dragon)",
+        "Part IV > Dimensions; Rendering, weather, and audio; Mob spawning and AI"
+      ]
+    },
+    {
+      "id": "beta_1_9_pre_6",
+      "displayName": "Beta 1.9 Prerelease 6",
+      "era": "beta",
+      "order": 22,
+      "summary": "Published 11 November 2011, the final prerelease before Release 1.0 and still not Release 1.0. It is the earliest listed build where the End boss progression actually works: the dragon spawns, crystals heal it, a boss bar appears, and killing it opens the exit portal, drops the egg and makes the credits/End poem reachable. The Pre5 downward-water-source behavior is reverted, and wooden doors open only with redstone in this build.",
+      "introduced": [
+        "End crystals (on obsidian pillars, healing the dragon)",
+        "dragon egg",
+        "boss bar",
+        "the Ender Dragon actually spawning -- first build in the prerelease sequence with a spawning/killable dragon",
+        "working exit portal and reachable credits/End poem",
+        "baby sheep inherit dye",
+        "lit bedrock fire persists indefinitely in the End"
+      ],
+      "changed": [
+        "End crystals on obsidian pillars heal the dragon; killing the dragon opens the exit portal, the dragon egg appears and credits become reachable",
+        "dragon egg teleports when clicked/mined; a torch/non-full-block trick can collect it",
+        "water downward flow reverted to flowing behavior rather than Pre5 source creation",
+        "tool/block drops and mining strengths change; efficiency works on all blocks; stairs self-drop; End-related and ore smelting/Silk Touch rules adjusted",
+        "mining/tool strengths and durability behavior adjusted; Creative mode durability use fixed; armor durability and item/block interaction fixes",
+        "repeater chunk-unload behavior fixed; furnace-cart push behavior fixed"
+      ],
+      "removed": [
+        "Pre5's downward-water source-creation behavior (temporary experiment reverted)"
+      ],
+      "incomplete": [
+        "still a prerelease; no claim of Release 1.0 polish",
+        "known issue: wooden doors open only with redstone in this build"
+      ],
+      "worldgen": [
+        "no major new terrain boundary; the End pillar/crystal boss arena functions",
+        "pre-existing End structures are now tied into boss progression"
+      ],
+      "uncertain": [
+        "exact dragon AI/damage/targeting and patch carry-forward should be verified against an artifact",
+        "boss behavior details beyond healing and completion require separate testing"
+      ],
+      "researchRefs": [
+        "Part III > Beta 1.9 Prerelease 6",
+        "Part II > Master historical feature timeline (Ender Dragon; End dimension)",
+        "Part IV > Dimensions; Survival progression; Combat and movement"
+      ]
+    },
+    {
+      "id": "release_1_0_0",
+      "displayName": "Release 1.0 (1.0.0)",
+      "era": "release",
+      "order": 23,
+      "summary": "First full release, 18 November 2011 (compiled 14 November), MINECON, Adventure Update Part II; final client artifact hash b679fea27f2284836202e9365e13a82552092e5d, protocol 22. Development was initially called 'Beta 1.9', but this is a distinct official artifact: much of the End/brewing/enchanting/Hardcore/breeding content already worked in Pre6, so this is a stabilization and sound-update release rather than the first implementation of those systems. Release 1.0.1 (24 November) is a server-only patch, not a replacement client.",
+      "introduced": [
+        "the 1.0 sound update: chest open/close, XP-orb pickup, bone-crack damage, eating/drinking, blaze breathing, Enderman-specific sounds (replacing zombie sounds), a short portal-like teleport, magma-cube/silverfish sounds, arrow-landing twang, tool/armor-break animation and sounds",
+        "End/credits music; nine discs as stable content"
+      ],
+      "changed": [
+        "replaces firing sounds for bows/thrown items, door/trapdoor/fence-gate sounds and explosion variants via the shared asset server (asset replacements could reach older clients, so separate them from client-binary changes)",
+        "documents the final forms of brewing, enchanting and End progression; compare against Pre6 before labelling anything 'new'",
+        "MINECON showcase build differs from final by one authentication/server-ID parsing line"
+      ],
+      "removed": [],
+      "incomplete": [
+        "specific 1.0 artifacts can still contain unused entries; not yet exhaustively inspected",
+        "Pre3 debug items and the inert portal/table are not the release state"
+      ],
+      "worldgen": [
+        "inherits the Beta 1.8 Adventure generator plus Nether fortresses and strongholds; the End is generated/accessed with dragon progression",
+        "exact worldgen changes between Pre6 and the final jar are not yet exhaustively diffed"
+      ],
+      "uncertain": [
+        "the exact final-build diff, sound update list, feature histories and mob technical parameters are unresolved",
+        "XP, hunger, sprinting, Hardcore, breeding, status effects and sleep are described as operational but not characterized numerically",
+        "exact eye/frame counts and recipe/effect tables still need feature-level citations",
+        "a TCRF exact-version page was inaccessible (403) and no accessible original Mojang launch changelog was located, so change-only details must not be overclaimed",
+        "Part V's matrix marks '256-block world height' as functional from R1.0, contradicting Part III/IV, which place the 128 -> 256 increase at Release 1.2.1; the prose is the more specific claim"
+      ],
+      "researchRefs": [
+        "Part III > Release 1.0 (1.0.0)",
+        "Part III > Patch/build boundary register (Release 1.0.1)",
+        "Part IV > Survival progression; Dimensions; Combat and movement; Enchanting and brewing; Rendering, weather, and audio; Protocols and multiplayer architecture",
+        "Part V > matrix"
+      ]
+    },
+    {
+      "id": "release_1_1",
+      "displayName": "Release 1.1",
+      "era": "release",
+      "order": 24,
+      "summary": "Stable release 12 January 2012; protocol 23. It restores beaches as a distinct biome, adds hill/edge biome variants and the separate Superflat world type, makes apples and most music discs survival-obtainable, gives sheep wool regrowth, and adds four bow enchantments. Spawn eggs are Creative-only and the '11' disc stays unobtainable by the skeleton-killed-creeper route.",
+      "introduced": [
+        "twenty spawn eggs (Creative-only, not survival-available)",
+        "bow enchantments Power, Punch, Flame and Infinity",
+        "beaches return as a distinct beach biome (with old-style sand/sandstone shore characteristics)",
+        "new hills/edge biome variants: frozen ocean, desert hills, forest hills, taiga hills, extreme-hills edge",
+        "Superflat as a separate selectable world type (bedrock + three dirt + grass) where villages may generate"
+      ],
+      "changed": [
+        "apples now drop from oak leaves (reported 1/200)",
+        "skeleton-killed creepers drop music discs, making most prior discs except '11' survival-obtainable",
+        "sheep regrow wool by eating grass",
+        "magma cubes can drop magma cream",
+        "ladders lose collision",
+        "fence gates can be activated by redstone",
+        "pumpkin/melon stems can grow onto dirt, not only farmland",
+        "golden apples change from the Beta 1.8 10-hunger/30-second regeneration form and gold-block recipe to a 4-hunger/4-second regeneration form with gold nuggets"
+      ],
+      "removed": [
+        "ladder collision"
+      ],
+      "incomplete": [
+        "spawn eggs are present but Creative-restricted",
+        "the '11' disc remains unobtainable through the skeleton-killed-creeper route"
+      ],
+      "worldgen": [
+        "beaches return as a distinct biome rather than the pre-Beta-1.8 per-column beach surface feature",
+        "new hills/edge variants added (frozen ocean, desert hills, forest hills, taiga hills, extreme-hills edge)",
+        "Superflat is a separate selectable world type, not a default terrain replacement; villages may generate there"
+      ],
+      "uncertain": [
+        "exact level weights for the bow enchantments are not audited",
+        "exact generator code, disc probabilities and enchantment values remain open",
+        "no subsequent minor 1.1.x patch exists; do not confuse this with the rare Alpha v1.1.1"
+      ],
+      "researchRefs": [
+        "Part III > Release 1.1",
+        "Part III > Patch/build boundary register (Release 1.1)",
+        "Part IV > Biomes and surface blocks; Hunger, health, and food"
+      ]
+    },
+    {
+      "id": "release_1_2",
+      "displayName": "Release 1.2 (stable baseline 1.2.1)",
+      "era": "release",
+      "order": 25,
+      "summary": "The '1.2' page labels a prerelease dated 29 February 2012; the first stable release is 1.2.1 on 1 March (protocol 28), and no stable 1.2.0 should be implied. Jungles and jungle wood, redstone lamps, ocelots/cats and iron golems arrive, and the world-height limit rises 128 -> 256 without vertically rescaling existing terrain. Emerald ore and villager trading are absent at this boundary -- they belong to Release 1.3, and the bottle o' enchanting is Creative-only.",
+      "introduced": [
+        "jungle wood/log/leaves and associated jungle content; jungle and Jungle Hills biomes",
+        "redstone lamp",
+        "bottle o' enchanting (Creative-only/unavailable in ordinary survival at 1.2.1)",
+        "fire charge",
+        "chiseled stone bricks",
+        "ocelots/cats and iron golems",
+        "desert wells (12w04a) and mineshaft wooden bridges (12w05a)",
+        "zombie sieges and villager breeding/transformation behavior",
+        "world-height limit 128 -> 256 in stable 1.2.1"
+      ],
+      "changed": [
+        "jungle and Jungle Hills enter in 12w03a, shifting the placement of major land biomes",
+        "caves/ravines are temporarily disabled in 12w07a and restored in 12w08a, so that regression does not describe stable 1.2.1",
+        "in 12w04a zombies and skeletons gain sun-avoidance pathing: if burning, seek water or shelter unless pursuing a player",
+        "lava gains a faint rumble and large popping particles; Nether fog moves closer",
+        "third-person view delays head movement enough to reveal the side of the head",
+        "ambience begins working in multiplayer",
+        "debug screen gains block/sky/raw brightness and biome fields"
+      ],
+      "removed": [],
+      "incomplete": [
+        "bottle o' enchanting exists but is Creative-only at 1.2.1; villager trading becomes its survival source in 1.3.1",
+        "spawn eggs remain Creative-only",
+        "the '11' disc remains unavailable by the normal skeleton-creeper route"
+      ],
+      "worldgen": [
+        "jungle biome and jungle wood; desert wells; mineshaft wooden bridges",
+        "stable 1.2.1 raises the world-height limit 128 -> 256; this does not imply pre-existing terrain is vertically rescaled",
+        "emerald ore is ABSENT at this version boundary; it arrives with 1.3 development",
+        "major biome placement shifts with the jungle biomes (12w03a)"
+      ],
+      "uncertain": [
+        "exact siege spawn conditions and AI need verification",
+        "exact ocelot/cat taming mechanics need feature-history confirmation",
+        "the 1.2.2-1.2.5 patch family and trade/siege details still need audit; 1.2.4 adds birch/spruce/jungle planks, sandstone variants and Silk Touch glass, which are NOT part of initial 1.2.1",
+        "Part V's matrix places the 256-block world height at R1.0, contradicting this section's 1.2.1 boundary"
+      ],
+      "researchRefs": [
+        "Part III > Release 1.2 (stable baseline 1.2.1)",
+        "Part III > Patch/build boundary register (Release 1.2.2-1.2.5)",
+        "Part IV > Terrain generation; Biomes and surface blocks; Mob spawning and AI; Hunger, health, and food",
+        "Part V > matrix"
+      ]
+    },
+    {
+      "id": "release_1_3",
+      "displayName": "Release 1.3 (stable baseline 1.3.1)",
+      "era": "release",
+      "order": 26,
+      "summary": "The '1.3' prerelease is dated 26 July 2012; the first stable is 1.3.1 on 1 August 2012 (protocol 39, Java 5). It is the major client/server architecture boundary (integrated singleplayer server, Open to LAN) and the emerald/trading economy, templing and Ender chest arrive. Emerald ore is constrained to Extreme Hills at Y=4-31 with up to 8 placements per chunk in single-block veins, and ore mining starts granting XP in 12w22a.",
+      "introduced": [
+        "tripwire hook and wire (functional redstone input)",
+        "Ender chest (shares player inventory across chests; Silk Touch required to harvest it as a block, otherwise obsidian drops)",
+        "book and quill / written books",
+        "emeralds, emerald ore, emerald block and villager trading",
+        "cocoa pods/beans become naturally available",
+        "sandstone stairs and wood species stairs/slabs; chiseled stone bricks already present",
+        "enchanted golden apple",
+        "desert pyramids and jungle temples with loot",
+        "optional bonus chest",
+        "Large Biomes world type (about 16x biome scale)",
+        "Adventure mode; Open to LAN; integrated singleplayer server",
+        "XP from mining ores (arrives in 12w22a development, before stable 1.3.1)"
+      ],
+      "changed": [
+        "villager trading introduced/expanded; pig drops change",
+        "boats become faster/more responsive and break through lily pads, dropping the pad instead of destroying the boat",
+        "desert-village palette changes",
+        "emerald ore generates only in Extreme Hills, at Y=4-31 inclusive, up to 8 placements per chunk in single-block veins in stable 1.3.1 (earlier 12w21a veins could reach ten blocks; 12w22a reduces to one block before stable)",
+        "mobs can spawn atop upside-down slabs/stairs"
+      ],
+      "removed": [
+        "the old boat-vs-lily-pad behavior (boats break the pad instead of being destroyed)"
+      ],
+      "incomplete": [
+        "bonus chest is optional",
+        "Adventure mode is not the later polished map-maker feature set"
+      ],
+      "worldgen": [
+        "desert pyramids and jungle temples added",
+        "Large Biomes world type (about 16x biome scale) added",
+        "emerald ore: Extreme Hills only, Y=4-31, up to 8 placements per chunk, single-block veins in stable 1.3.1",
+        "mobs can spawn atop upside-down slabs/stairs"
+      ],
+      "uncertain": [
+        "full 1.3.2 fixes and tripwire tick semantics remain unresolved",
+        "1.3.2 is a bug/compatibility follow-up, not the same artifact; it fixes Nether re-entry falling below the world, corner-water damage, uncommon crashes and missing fall damage, and changes large-oak generation and F1 server-IP display",
+        "exact trade/villager details are not enumerated"
+      ],
+      "researchRefs": [
+        "Part III > Release 1.3 (stable baseline 1.3.1)",
+        "Part II > Master historical feature timeline (Emeralds and villager trading)",
+        "Part IV > Ores; Mob spawning and AI; Dimensions; Protocols and multiplayer architecture; Survival progression",
+        "Part III > Patch/build boundary register (Release 1.3.2)"
+      ]
+    },
+    {
+      "id": "release_1_4",
+      "displayName": "Release 1.4 (stable baseline 1.4.2)",
+      "era": "release",
+      "order": 27,
+      "summary": "1.4 prerelease 19 October 2012; stable 1.4.2 on 25 October, the Pretty Scary Update, protocol 47. The Wither/Beacon boss progression, anvils, item frames, flower pots, carrots/potatoes, witches, bats, wither skeletons, zombie villagers and (from 12w40a) swamp witch huts arrive. The command block exists without any ordinary Survival acquisition route, and the jukebox chunk-corruption bug belongs to the 1.4.3 prerelease, not base 1.4.2.",
+      "introduced": [
+        "anvil (repairs/combines/enchants items)",
+        "item frame; flower pot; cobblestone and mossy cobblestone walls",
+        "carrots, potatoes, carrot-on-a-stick, pumpkin pie; golden carrot",
+        "Nether wart block",
+        "command block (not craftable or normally Survival-obtainable)",
+        "beacon and Nether Star",
+        "Wither (summoned using soul sand and three wither skeleton skulls)",
+        "witch, bat, wither skeleton, zombie villager",
+        "witch huts generating in swamps by 12w40a, with witches associated to the hut",
+        "silverfish-infested monster-egg blocks generating rarely in Extreme Hills and variants from 12w38a",
+        "new night-vision/invisibility potion paths"
+      ],
+      "changed": [
+        "anvils repair/combine/enchant items",
+        "zombies can pick up items",
+        "difficulty can be changed in-game",
+        "the Nether Star enables the beacon, which requires a mineral pyramid"
+      ],
+      "removed": [],
+      "incomplete": [
+        "command block exists without an ordinary Survival acquisition route (operator/Creative only)"
+      ],
+      "worldgen": [
+        "silverfish-infested monster-egg blocks generate rarely in Extreme Hills and variants from 12w38a",
+        "witch huts generate in swamps by 12w40a, with witches associated to the hut",
+        "no major terrain generator change; Nether fortresses inherited",
+        "carrot/potato village/loot routes require an exact subversion check"
+      ],
+      "uncertain": [
+        "exact Wither values/attacks are not checked",
+        "anvil XP formulas are not audited",
+        "later 1.4.x pages warn that mining an empty jukebox can yield invisible Air and interaction can crash/delete a chunk: associate this with the exact affected patch (the 1.4.3 prerelease) and do not assume it for base 1.4.2",
+        "1.4.3 is a prerelease, not a stable patch; 1.4.4 adds baby mobs via spawn eggs, 1.4.5 enables wither skeletons in existing fortresses and multiplayer map markers, 1.4.6 adds fireworks/enchanted books/Thorns, 1.4.7 is fixes only"
+      ],
+      "researchRefs": [
+        "Part III > Release 1.4 (stable baseline 1.4.2)",
+        "Part III > Patch/build boundary register (Release 1.4.3 prerelease / 1.4.4-1.4.7)",
+        "Part IV > Mob spawning and AI; Enchanting and brewing; Dimensions"
+      ]
+    },
+    {
+      "id": "release_1_5",
+      "displayName": "Release 1.5",
+      "era": "release",
+      "order": 28,
+      "summary": "The Redstone Update, released 13 March 2013; protocol 60. Comparators, hoppers, droppers, trapped chests, weighted pressure plates, daylight sensors, redstone blocks and activator rails arrive, and Nether quartz ore generates in the Nether (estimate about 70 ore blocks per Nether chunk on average). Texture packs move to individual stitched files. Its documented semantics are the specification: hoppers transfer and are disabled by power, comparators read container fullness and can compare/subtract, and quasi-connectivity must not be presumed.",
+      "introduced": [
+        "comparator (analog output reads container fullness; can compare/subtract side input)",
+        "hopper (transfers items; disabled by redstone power)",
+        "dropper (ejects)",
+        "trapped chest",
+        "light and heavy weighted pressure plates (respond to item/entity weight)",
+        "daylight sensor (responds to sky light and rain)",
+        "redstone block (pushable constant power source)",
+        "Nether quartz ore, quartz blocks/stairs/slabs",
+        "activator rail",
+        "texture packs using individual block/item files stitched at runtime, with independent resolutions, animation metadata, special water/lava rules, vanilla fallback for missing textures and font changes",
+        "optimized lighting with more realistic slab/stair lighting"
+      ],
+      "changed": [
+        "Nether quartz ore is generated in the Nether; the version history estimates about 70 ore blocks per Nether chunk on average (secondary summary, not a deterministic placement rule)",
+        "remaining lighting defects remain: active furnace emits light only from the front, black spots persist"
+      ],
+      "removed": [],
+      "incomplete": [
+        "none established for the headline components; edge behavior remains under review"
+      ],
+      "worldgen": [
+        "Nether quartz ore generated in the Nether (about 70 ore blocks per Nether chunk on average per a secondary summary)",
+        "no new biome, structure or mob identified"
+      ],
+      "uncertain": [
+        "exact delays, analog formula, update ordering and edge cases need technical sources; do not assume later behavior",
+        "quasi-connectivity is not to be presumed; demonstrate its existence per historical build before emulation",
+        "patch versions change performance: do not attribute 1.5.1/1.5.2 changes to the 1.5 base (1.5.1 restores performance toward 1.4 and lets hoppers pull empty buckets from furnace fuel slots; 1.5.2 adds performance/compatibility fixes, changes Enderman aggro behavior under environmental damage and fixes beds/spawn/rendering; Java 5 and PowerPC are supported through 1.5.2)"
+      ],
+      "researchRefs": [
+        "Part III > Release 1.5",
+        "Part III > Patch/build boundary register (Release 1.5.1/1.5.2)",
+        "Part IV > Redstone; Ores; Rendering, weather, and audio; Protocols and multiplayer architecture"
+      ]
+    },
+    {
+      "id": "release_1_6",
+      "displayName": "Release 1.6 (stable baseline 1.6.1)",
+      "era": "release",
+      "order": 29,
+      "summary": "Horse Update prerelease 25 June 2013; the first stable is 1.6.1 (1 July 2013), protocol 73, Java 6 minimum. Horses/donkeys/mules with chest storage, leads, name tags, carpet, hay bales, hardened/stained clay and coal blocks arrive, and resource packs replace texture packs. Horse armor and name tags are uncraftable loot-only, skeleton/zombie horses are not normal vanilla spawns, deserts lose their water lakes (13w17a) and Nether fortress chests appear (13w18a).",
+      "introduced": [
+        "horses and variants, donkeys and mules (tameable/rideable, specialized breeding/stat inheritance)",
+        "donkey/mule chest storage",
+        "horse armor (uncraftable, loot-only)",
+        "leads (leash entities)",
+        "name tags (uncraftable, loot-only)",
+        "carpet, hay bales, hardened/stained clay, coal block",
+        "resource packs replacing texture packs (format 1); new launcher/resource-pack system; entity/item attribute system; missing-texture texture",
+        "the playsound command (arrives in the 1.6.1 release boundary, not the prerelease)",
+        "Nether fortress chests by 13w18a (fortresses previously existed without generated chests)"
+      ],
+      "changed": [
+        "resource packs replace texture packs and can include textures, sounds, partial fonts, language files, credits, the End poem and splash texts",
+        "horses spawn naturally in plains/savanna",
+        "deserts no longer contain water lakes (begins in 13w17a)",
+        "minimum Java version rises to Java 6 (Release 1.5.2 is the last release retaining Java 5 and PowerPC support)"
+      ],
+      "removed": [
+        "water lakes in deserts (from 13w17a)",
+        "texture packs (replaced by resource packs)"
+      ],
+      "incomplete": [
+        "skeleton/zombie horse variants are not normal vanilla spawns despite their association with the horse update (they require third-party modifications per the version guide)",
+        "acquisition varies for armor, saddles and name tags",
+        "1.6.3 is a prerelease, not a stable target"
+      ],
+      "worldgen": [
+        "horses spawn naturally in plains/savanna",
+        "deserts no longer contain water lakes, beginning in 13w17a",
+        "Nether fortress chests are introduced by 13w18a; these add loot to existing structures, not new structures/biomes"
+      ],
+      "uncertain": [
+        "exact horse RNG, health, speed and jump ranges need verification",
+        "notable exact patch bug behavior requires further review",
+        "1.6.2 has an original/reupload client and adds natural baby zombie/zombie pigman spawns while fixing horse/lead/rendering bugs; 1.6.4 adds player-idle-timeout to server.properties and changes desert-village wells from sandstone to cobblestone/gravel",
+        "no seed or 32-bit chunk-coordinate change is established"
+      ],
+      "researchRefs": [
+        "Part III > Release 1.6 (stable baseline 1.6.1)",
+        "Part II > Master historical feature timeline (Horses)",
+        "Part IV > Combat and movement; Terrain generation; Protocols and multiplayer architecture",
+        "Part III > Patch/build boundary register (Release 1.6.2-1.6.4)"
+      ]
+    }
+  ],
+  "transitions": [
+    {
+      "mechanic": "hunger",
+      "states": [
+        {"fromBuild": "alpha_1_0_1", "state": "No hunger meter and no food bar; no later hunger/XP/enchanting assumptions apply.", "evidence": "Part III > Alpha v1.0.1; Part IV > Hunger, health, and food"},
+        {"fromBuild": "beta_1_2", "state": "Still no hunger meter: cake restores 3 health per slice directly (18 for the whole cake).", "evidence": "Part III > Beta 1.2"},
+        {"fromBuild": "beta_1_8", "state": "20-point food meter replaces direct food healing; foods restore it; natural regeneration is gated at above 90% hunger; zero hunger causes starvation; exact per-action costs and tick constants remain unverified.", "evidence": "Part III > Beta 1.8; Part IV > Hunger, health, and food"},
+        {"fromBuild": "beta_1_9_pre_2", "state": "Hunger/effect UI icons added; Hardcore mode locks difficulty to Hard and uses permadeath.", "evidence": "Part III > Beta 1.9 Prerelease 2"},
+        {"fromBuild": "release_1_1", "state": "Sprinting remains hunger-gated; golden apples change from the Beta 1.8 10-hunger/30-second form to a 4-hunger/4-second form with gold nuggets.", "evidence": "Part IV > Hunger, health, and food; Part III > Release 1.1"}
+      ],
+      "notes": "Sprint is unavailable at <=6 food from Beta 1.8 onward, and cake's Beta 1.8 slice value is disputed (version page: 3 hunger per slice; Food history: 2), so hunger values must be per-build constants rather than one formula. The document gives no complete hunger/saturation/exhaustion formula for any build."
+    },
+    {
+      "mechanic": "health regeneration",
+      "states": [
+        {"fromBuild": "alpha_1_0_1", "state": "Legacy direct food healing: food restores health directly, with no hunger bar and no hunger-gated natural regeneration (matrix row 'Legacy direct food healing' = F through Beta 1.7).", "evidence": "Part V > matrix row 'Legacy direct food healing'; Part IV > Hunger, health, and food"},
+        {"fromBuild": "beta_1_8", "state": "Natural regeneration: 1 health every four seconds above 90% food; at zero food starvation removes 1 health every four seconds; reported difficulty thresholds are Easy 10 HP, Normal 1 HP, Hard can kill.", "evidence": "Part III > Beta 1.8; Part IV > Hunger, health, and food"},
+        {"fromBuild": "release_1_1", "state": "Golden apple regeneration becomes 4 hunger / 4 seconds (was 10 hunger / 30 seconds) with the gold-nugget recipe.", "evidence": "Part IV > Hunger, health, and food"}
+      ],
+      "notes": "The document supplies no numeric regeneration formula for any build other than Beta 1.8's gated 1 HP per 4 s; exact regen timing, per-action exhaustion and death retention are explicitly still open."
+    },
+    {
+      "mechanic": "sprinting",
+      "states": [
+        {"fromBuild": "alpha_1_0_1", "state": "Absent; no sprint input exists anywhere before Beta 1.8 (matrix Sprint = A through Beta 1.7).", "evidence": "Part V > matrix row 'Sprint'"},
+        {"fromBuild": "beta_1_8", "state": "Sprint introduced: double-tap W, unavailable at <=6 hunger, consumes the hunger/exhaustion resource, allows about 4-block horizontal sprint jumps without increasing jump height; the PAX preview's five-second cap/special FOV does NOT describe public Beta 1.8.", "evidence": "Part III > Beta 1.8; Part II > Master historical feature timeline (Sprinting); Part IV > Combat and movement"},
+        {"fromBuild": "beta_1_9_pre_1", "state": "Pre1 removes held-jump auto-repeat (a movement-input regression, not the sprint mechanic itself); Pre2 restores it.", "evidence": "Part III > Beta 1.9 Prerelease 1; Part III > Beta 1.9 Prerelease 2"}
+      ],
+      "notes": "The public-Beta-1.8 sprint timeout is unresolved: whether public builds auto-stopped after 30 seconds is not settled, and the 30-second auto-stop removal happens in 1.9 snapshots outside this scope. The matrix marks Sprint as changed-constant (C) for every build from Beta 1.8 through Release 1.6."
+    },
+    {
+      "mechanic": "experience/orbs",
+      "states": [
+        {"fromBuild": "alpha_1_0_1", "state": "Absent: no XP orbs or levels (matrix 'XP orbs / levels' = A through Beta 1.7).", "evidence": "Part V > matrix row 'XP orbs / levels'"},
+        {"fromBuild": "beta_1_8", "state": "XP orbs and a level bar exist, are collected and displayed, but XP has no gameplay spending/use; death can create a very large orb pile and a performance hazard.", "evidence": "Part III > Beta 1.8; Part IV > Experience"},
+        {"fromBuild": "beta_1_9_pre_1", "state": "An erroneous jump event grants 1-100 XP (a bug, not intended earning); XP dropped on player death is capped in this build (cap not established).", "evidence": "Part III > Beta 1.9 Prerelease 1"},
+        {"fromBuild": "beta_1_9_pre_2", "state": "Jump-XP bug removed; the death-screen score's literal '&e0' rendering is fixed.", "evidence": "Part III > Beta 1.9 Prerelease 2; Part IV > Experience"},
+        {"fromBuild": "beta_1_9_pre_3", "state": "Enchanting UI/glint exists but there are no actual enchantments and no functional XP spending; the numeric level is not displayed yet.", "evidence": "Part III > Beta 1.9 Prerelease 3; Part II > Master historical feature timeline (XP orbs and levels)"},
+        {"fromBuild": "beta_1_9_pre_4", "state": "Numeric XP levels displayed and levels are spent on enchanting with rising costs per level; table max displayed level 50.", "evidence": "Part III > Beta 1.9 Prerelease 4; Part IV > Experience"},
+        {"fromBuild": "release_1_3", "state": "Mining ores starts granting XP in 12w22a development, before stable 1.3.1.", "evidence": "Part III > Release 1.3; Part V > matrix row 'XP from mining ores'"}
+      ],
+      "notes": "XP curves and death retention are version-dependent and must not be substituted from modern values; orb collection/display in Beta 1.8 is not equivalent to XP spending, which only begins at Pre4."
+    },
+    {
+      "mechanic": "enchanting",
+      "states": [
+        {"fromBuild": "alpha_1_0_1", "state": "Absent across the Alpha and Beta range before Beta 1.9 (matrix Enchanting = A through Beta 1.8); Beta 1.8's XP meter has no enchanting consumer.", "evidence": "Part V > matrix row 'Enchanting'; Part II > Master historical feature timeline (XP orbs and levels)"},
+        {"fromBuild": "beta_1_9_pre_2", "state": "Still absent; XP exists but has no consumer, and the only progression prototype is cauldron brewing code without a block ID.", "evidence": "Part II > Master historical feature timeline (Enchanting); Part III > Beta 1.9 Prerelease 2"},
+        {"fromBuild": "beta_1_9_pre_3", "state": "Enchantment table + UI + item glint + three Standard Galactic Alphabet choices + a documented 15-level cap, but NO enchantments exist yet and there is no functional XP spending; the original same-day client briefly debug-spawns enchantment tables and bookshelves in the hotbar.", "evidence": "Part III > Beta 1.9 Prerelease 3; Part II > Master historical feature timeline (Enchantment effects)"},
+        {"fromBuild": "beta_1_9_pre_4", "state": "Functional enchanting: 17 enchantments; table max level raised to 50; bookshelf arrangement/power required with up to 30 bookshelves for maximum; hoes, flint-and-steel and shears removed from table-eligible items; enchanting becomes server-side (previously client-only).", "evidence": "Part III > Beta 1.9 Prerelease 4; Part IV > Enchanting and brewing"},
+        {"fromBuild": "release_1_1", "state": "Bow enchantments Power, Punch, Flame and Infinity added; exact level weights not audited.", "evidence": "Part III > Release 1.1"},
+        {"fromBuild": "release_1_4", "state": "Anvil repairs/combines/enchants items; 1.4.6 adds enchanted books and Thorns.", "evidence": "Part III > Release 1.4; Part III > Patch/build boundary register (Release 1.4.3 prerelease / 1.4.4-1.4.7)"}
+      ],
+      "notes": "Do not backdate complete enchanting to Beta 1.8, and do not treat the Pre3 table/UI as functional. The exact Pre4/Pre5/Pre6 boundary, book power math and per-enchantment values are all listed as still under review."
+    },
+    {
+      "mechanic": "brewing/potions",
+      "states": [
+        {"fromBuild": "alpha_1_0_1", "state": "Absent (matrix Brewing = A through Beta 1.8, I at Beta 1.9 Pre2).", "evidence": "Part V > matrix row 'Brewing'"},
+        {"fromBuild": "beta_1_9_pre_2", "state": "Cauldron-based potion prototype: the code exists but the cauldron has no assigned block ID, so it is not ordinarily placeable/obtainable; it could hold three bottles, fill from a water bucket and mix ingredients, and many combinations had negative/no-op effects; milk clears status effects.", "evidence": "Part III > Beta 1.9 Prerelease 2; Part II > Master historical feature timeline (Brewing)"},
+        {"fromBuild": "beta_1_9_pre_3", "state": "Brewing stands replace the cauldron as potion machinery and the cauldron gains an ID as a plain water container; brewing is listed at 30 seconds; a reduced set of 25 potions/31 combinations; duplicate potion combinations removed.", "evidence": "Part III > Beta 1.9 Prerelease 3; Part IV > Enchanting and brewing"},
+        {"fromBuild": "beta_1_9_pre_4", "state": "Potion of regeneration and splash potions (gunpowder makes potions throwable); healing potion recipe changed to glistering melon; fermented spider eye can convert healing to harming.", "evidence": "Part III > Beta 1.9 Prerelease 4"},
+        {"fromBuild": "release_1_2", "state": "Bottle o' enchanting exists but is Creative-only/unavailable in ordinary survival; villager trading becomes its survival source in 1.3.1.", "evidence": "Part III > Release 1.2 (stable baseline 1.2.1)"},
+        {"fromBuild": "release_1_4", "state": "New night-vision/invisibility potion paths and golden carrot added.", "evidence": "Part III > Release 1.4 (stable baseline 1.4.2)"}
+      ],
+      "notes": "Do not claim functional brewing before Pre3: Pre2's cauldron implementation is not reflected in the registry or obtainability model. Potion durations, recipe tables and every prerelease exception remain under review."
+    },
+    {
+      "mechanic": "status effects",
+      "states": [
+        {"fromBuild": "alpha_1_0_1", "state": "Absent (matrix 'Potion status effects' = A through Beta 1.9 Pre1, I at Pre2).", "evidence": "Part V > matrix row 'Potion status effects'"},
+        {"fromBuild": "beta_1_9_pre_2", "state": "Potion/effect system present; invisibility is a no-op; some formulas produce unintended negative/no-op effects; milk clears effects; spider eyes can poison when eaten.", "evidence": "Part III > Beta 1.9 Prerelease 2"},
+        {"fromBuild": "beta_1_9_pre_3", "state": "Spiders/cave spiders are poison-immune and categorized as arthropods.", "evidence": "Part III > Beta 1.9 Prerelease 3"},
+        {"fromBuild": "beta_1_9_pre_4", "state": "Regeneration and splash effects function; endermen stop burning in daylight and teleport to shade; spiders/cave spiders remain poison-immune arthropods.", "evidence": "Part III > Beta 1.9 Prerelease 4"},
+        {"fromBuild": "release_1_4", "state": "Night-vision and invisibility potion paths added (with golden carrot).", "evidence": "Part III > Release 1.4 (stable baseline 1.4.2)"}
+      ],
+      "notes": "Effects that exist as no-ops (Pre2 invisibility) must be modelled as present-but-inert, not as working effects; the document gives no per-build effect duration or amplifier table."
+    },
+    {
+      "mechanic": "combat damage and critical hits",
+      "states": [
+        {"fromBuild": "alpha_1_0_1", "state": "Base melee/tool damage values are not documented for the Alpha range, and there is no attack-strength cooldown anywhere in the target range; exact damage/armor rules were not researched for this build.", "evidence": "Part III > Alpha v1.0.1; Part IV > Combat and movement"},
+        {"fromBuild": "beta_1_5", "state": "Unarmed damage increases 1 -> 2 health points.", "evidence": "Part III > Beta 1.5"},
+        {"fromBuild": "beta_1_6", "state": "The separate 10-tick missed-swing cooldown is removed; this is not the modern attack-strength cooldown, which does not exist anywhere in this range.", "evidence": "Part III > Beta 1.6; Part IV > Combat and movement"},
+        {"fromBuild": "beta_1_8", "state": "Melee critical hits (falling criticals) introduced: reportedly a random 0-100% of weapon damage plus 2 health points, applied after enchantments (no enchantments available in this build); sprint knockback also added.", "evidence": "Part III > Beta 1.8; Part IV > Combat and movement"},
+        {"fromBuild": "beta_1_9_pre_3", "state": "Sword damage reduced: stone 6 -> 5 HP, iron 8 -> 6, diamond 10 -> 7 (per the 1.0.0 comparison table).", "evidence": "Part III > Beta 1.9 Prerelease 3; Part IV > Combat and movement"},
+        {"fromBuild": "beta_1_9_pre_4", "state": "Multiplayer critical-hit particles fixed (presentation), with no documented damage change.", "evidence": "Part III > Beta 1.9 Prerelease 4"}
+      ],
+      "notes": "There is no modern attack-strength cooldown in the whole target range, and the removed Beta 1.6 10-tick missed-swing cooldown is a different mechanic. Exact critical/armor/knockback formulas, tool damage and several per-build constants remain open."
+    },
+    {
+      "mechanic": "sword blocking",
+      "states": [
+        {"fromBuild": "alpha_1_0_1", "state": "Absent; blocking does not exist before Beta 1.8.", "evidence": "Part III > Beta 1.8; Part IV > Combat and movement"},
+        {"fromBuild": "beta_1_8", "state": "Sword blocking introduced: reduces incoming damage by 50%; it also historically reduced fall damage and let players rise faster underwater until those sub-behaviors were removed in a Beta 1.9 prerelease.", "evidence": "Part III > Beta 1.8; Part IV > Combat and movement"},
+        {"fromBuild": "beta_1_9_pre_5", "state": "Enchanted swords can block (per build notes); exact damage remains unverified.", "evidence": "Part III > Beta 1.9 Prerelease 5"}
+      ],
+      "notes": "The document never says WHICH Beta 1.9 prerelease removed the fall-damage-reduction and faster-underwater-rise sub-behaviors, so that boundary is unresolved and must not be guessed. Blocking is reported as a flat 50% reduction; no other blocking values are given."
+    },
+    {
+      "mechanic": "armour protection model",
+      "states": [
+        {"fromBuild": "alpha_1_0_1", "state": "Armor rules not researched; the Alpha v1.0.1 entry states that exact damage/armor rules were not yet researched.", "evidence": "Part III > Alpha v1.0.1"},
+        {"fromBuild": "beta_1_0", "state": "Armor-slot outlines removed from the interface (a GUI change, not a protection change).", "evidence": "Part III > Beta 1.0"},
+        {"fromBuild": "beta_1_9_pre_1", "state": "Armor no longer reduces fire/explosion/projectile damage; armor durability increased; armor no longer loses effectiveness as durability falls; exact formula needs an artifact test.", "evidence": "Part III > Beta 1.9 Prerelease 1; Part IV > Combat and movement"},
+        {"fromBuild": "beta_1_9_pre_4", "state": "Protection-type enchantments become available through the 17 functional enchantments.", "evidence": "Part IV > Combat and movement; Part III > Beta 1.9 Prerelease 4"},
+        {"fromBuild": "beta_1_9_pre_6", "state": "Armor durability and Creative durability-use fixes applied.", "evidence": "Part III > Beta 1.9 Prerelease 6"}
+      ],
+      "notes": "The pre-Pre1 model is described only as 'reported armor reduces damage'; the document gives no numeric armor formula, damage-reduction table or durability curve for any build in the range, so those must come from another source."
+    },
+    {
+      "mechanic": "fall damage",
+      "states": [
+        {"fromBuild": "alpha_1_0_17", "state": "Mob-specific: chickens no longer take fall damage and glide downward.", "evidence": "Part III > Alpha v1.0.17"},
+        {"fromBuild": "beta_1_6", "state": "Patch-level (Beta 1.6.3, not base Beta 1.6): safe water-fall depth changes to >=3 blocks.", "evidence": "Part III > Patch/build boundary register (Beta 1.6.1-1.6.6)"},
+        {"fromBuild": "beta_1_8", "state": "Player fall damage is reduced by 50% while sword-blocking (a blocking sub-behavior removed in a Beta 1.9 prerelease, which one is not stated).", "evidence": "Part III > Beta 1.8; Part IV > Combat and movement"},
+        {"fromBuild": "release_1_3", "state": "Patch-level (Release 1.3.2, not base 1.3.1) fixes missing fall damage.", "evidence": "Part III > Patch/build boundary register (Release 1.3.2)"}
+      ],
+      "notes": "No fall-damage formula, threshold height or per-block damage is documented for any build; the only numbers are the blocking 50% reduction and the >=3-block safe water depth introduced in Beta 1.6.3."
+    },
+    {
+      "mechanic": "bow damage",
+      "states": [
+        {"fromBuild": "alpha_1_0_1", "state": "Bows predate the target range and fire rapidly; no numeric bow damage is documented for the Alpha or pre-1.8 Beta builds.", "evidence": "Part IV > Combat and movement"},
+        {"fromBuild": "beta_1_8", "state": "Bows switch from rapid-fire to hold-to-charge; this is the delivery-model change, and no damage number is documented for it.", "evidence": "Part III > Beta 1.8; Part V > matrix row 'Bow charge'"},
+        {"fromBuild": "release_1_0_0", "state": "Fully charged bows deal 9 HP, rarely 10, and have 385 durability; in Creative arrows are not required.", "evidence": "Part IV > Combat and movement"},
+        {"fromBuild": "release_1_1", "state": "Power, Punch, Flame and Infinity bow enchantments added; exact level weights not audited.", "evidence": "Part III > Release 1.1"}
+      ],
+      "notes": "The document gives bow damage numbers only for Release 1.0 (9 HP, rarely 10, 385 durability); charge time and damage for Beta 1.8 through Beta 1.9 Pre6 are not documented."
+    },
+    {
+      "mechanic": "mob spawning rules",
+      "states": [
+        {"fromBuild": "alpha_1_0_1", "state": "Wiki history reports improved mob AI with no exact pathing/targeting detail; monster spawners still exist but are no longer obtainable as block drops.", "evidence": "Part III > Alpha v1.0.1"},
+        {"fromBuild": "alpha_1_0_6", "state": "Pigs/sheep spawn only above grass per the version record; exact rates/AI/drops otherwise not audited.", "evidence": "Part III > Alpha v1.0.6"},
+        {"fromBuild": "alpha_1_0_11", "state": "Slimes spawn below Y=32 and split only when killed by fist (historical notes); only the smallest form drops slimeballs.", "evidence": "Part III > Alpha v1.0.11"},
+        {"fromBuild": "alpha_1_0_14", "state": "Slime spawning is reduced and then disabled due to a reported spawn-limit miscalculation (not a permanent removal).", "evidence": "Part III > Alpha v1.0.14"},
+        {"fromBuild": "alpha_1_1_0", "state": "Monsters in multiplayer are behind an experimental switch; exact spawn logic not detailed and not evidence of parity with singleplayer AI.", "evidence": "Part III > Alpha v1.1.0"},
+        {"fromBuild": "alpha_1_2_0", "state": "Slimes are removed from the mob spawning code; ghasts and zombie pigmen are added (pigmen neutral until attacked, then nearby group retaliation).", "evidence": "Part III > Alpha v1.2.0"},
+        {"fromBuild": "beta_1_2", "state": "Patch-level (Beta 1.2_01): mob spawn rates are lowered.", "evidence": "Part III > Patch/build boundary register (Beta 1.2_01)"},
+        {"fromBuild": "beta_1_3", "state": "Slimes spawn again.", "evidence": "Part III > Beta 1.3"},
+        {"fromBuild": "beta_1_4", "state": "Multiplayer client slime spawn fixed; wolves are common in taiga.", "evidence": "Part III > Beta 1.4"},
+        {"fromBuild": "beta_1_5", "state": "Wolves become more common outside taiga/forest; lightning creates charged creepers and turns struck pigs into zombie pigmen.", "evidence": "Part III > Beta 1.5"},
+        {"fromBuild": "beta_1_8", "state": "Cave-spider spawners occur in mineshafts; villages generate empty of villagers; Beta 1.8 prerelease 2 lowers mineshaft density while raising structure frequency about 2.5x.", "evidence": "Part III > Beta 1.8"},
+        {"fromBuild": "beta_1_9_pre_1", "state": "Blazes have fortress spawners (two per fortress); mushroom islands are hostile-mob-free according to build notes.", "evidence": "Part III > Beta 1.9 Prerelease 1"},
+        {"fromBuild": "beta_1_9_pre_5", "state": "Slime spawn height increases from Y=0-16 to Y=0-40; hostile mobs become neutral toward players in Creative with reduced attack range.", "evidence": "Part III > Beta 1.9 Prerelease 5"},
+        {"fromBuild": "release_1_3", "state": "Mobs can spawn atop upside-down slabs/stairs.", "evidence": "Part III > Release 1.3 (stable baseline 1.3.1)"},
+        {"fromBuild": "release_1_4", "state": "Witches are associated with swamp witch huts; wither skeletons are fortress mobs, and 1.4.5 enables them in already-generated fortresses.", "evidence": "Part III > Release 1.4; Part III > Patch/build boundary register (Release 1.4.3 prerelease / 1.4.4-1.4.7)"},
+        {"fromBuild": "release_1_6", "state": "Horses spawn naturally in plains/savanna; patch 1.6.2 adds natural baby zombie/zombie pigman spawns.", "evidence": "Part III > Release 1.6; Part III > Patch/build boundary register (Release 1.6.2-1.6.4)"}
+      ],
+      "notes": "Exact spawn caps, light thresholds, despawn rules and many drop tables remain unverified; several entries are wiki historical notes rather than tested facts, and modern AI/spawn conditions must not be substituted."
+    },
+    {
+      "mechanic": "mob drops",
+      "states": [
+        {"fromBuild": "alpha_1_0_1", "state": "Monster spawners stop dropping as items (no longer obtainable by ordinary block drops).", "evidence": "Part III > Alpha v1.0.1"},
+        {"fromBuild": "alpha_1_0_11", "state": "Only the smallest slime form drops slimeballs, and slimeballs have no functional use yet.", "evidence": "Part III > Alpha v1.0.11"},
+        {"fromBuild": "alpha_1_0_14", "state": "Music discs are obtained in dungeon chests or when a skeleton kills a creeper (a gameplay-specific loot trigger).", "evidence": "Part III > Alpha v1.0.14"},
+        {"fromBuild": "beta_1_2", "state": "Squid (10 health) drop ink sacs; skeletons now drop bones; sheep can be dyed and some gray/black colors spawn naturally.", "evidence": "Part III > Beta 1.2"},
+        {"fromBuild": "beta_1_3", "state": "Lapis multiplayer ore drops 4-8; squid can no longer be milked.", "evidence": "Part III > Beta 1.3"},
+        {"fromBuild": "beta_1_4", "state": "Wolves drop nothing when killed; dungeon chests gain cocoa beans.", "evidence": "Part III > Beta 1.4"},
+        {"fromBuild": "beta_1_7", "state": "Sheared sheep drop 2-4 wool, unsheared killed sheep drop one, punching sheep no longer yields wool; cobweb drops string when broken with shears or sword.", "evidence": "Part III > Beta 1.7"},
+        {"fromBuild": "beta_1_9_pre_1", "state": "Blaze rods, ghast tears and Nether wart are obtainable but have no use yet.", "evidence": "Part III > Beta 1.9 Prerelease 1"},
+        {"fromBuild": "beta_1_9_pre_6", "state": "Tool/block drops and mining strengths change; stairs self-drop; End-related and ore smelting/Silk Touch rules adjusted.", "evidence": "Part III > Beta 1.9 Prerelease 6"},
+        {"fromBuild": "release_1_1", "state": "Apples drop from oak leaves (reported 1/200); skeleton-killed creepers drop discs, making most prior discs except '11' survival-obtainable; sheep regrow wool by eating grass; magma cubes can drop magma cream.", "evidence": "Part III > Release 1.1"},
+        {"fromBuild": "release_1_3", "state": "Pig drops change; boats break lily pads and drop the pad instead of being destroyed.", "evidence": "Part III > Release 1.3 (stable baseline 1.3.1)"},
+        {"fromBuild": "release_1_6", "state": "Horse armor and name tags are uncraftable and loot-only, obtained from generated structures.", "evidence": "Part III > Release 1.6 (stable baseline 1.6.1)"}
+      ],
+      "notes": "Most drop probabilities in the range are not stated. The numbers the document does give are the sheep 2-4/1 wool split, lapis 4-8 in multiplayer, the reported 1/200 apple chance, and the reported 1/8 egg chicken chance; Pre1's Nether drops are obtainable but inert."
+    },
+    {
+      "mechanic": "mob AI differences",
+      "states": [
+        {"fromBuild": "alpha_1_0_1", "state": "Wiki history reports improved mob AI but gives no exact pathing/targeting implementation detail.", "evidence": "Part III > Alpha v1.0.1"},
+        {"fromBuild": "alpha_1_0_4", "state": "Mob physics changed; jumps became shorter (exact entity-specific effects are not fully documented).", "evidence": "Part III > Alpha v1.0.4"},
+        {"fromBuild": "alpha_1_0_17", "state": "Spider jockey introduced; chickens no longer take fall damage and glide downward.", "evidence": "Part III > Alpha v1.0.17"},
+        {"fromBuild": "alpha_1_2_0", "state": "Zombie pigmen are neutral until attacked, then nearby group retaliation; ghast fireballs explode on impact.", "evidence": "Part III > Alpha v1.2.0"},
+        {"fromBuild": "beta_1_2", "state": "Spiders can climb walls.", "evidence": "Part III > Beta 1.2"},
+        {"fromBuild": "beta_1_3", "state": "Squid swims in 3D instead of remaining at the water bottom; multiplayer hostile mobs can be attacked properly.", "evidence": "Part III > Beta 1.3"},
+        {"fromBuild": "beta_1_4", "state": "Wolf AI: neutral, 1/3 chance per bone to tame, tamed wolves defend owners, assist combat, become angry if the player or the owner's wolves are hit, tails indicate health, can be fed raw pork; spiders stop trampling crops; the zombie/spider one-block-above damage bug is fixed.", "evidence": "Part III > Beta 1.4"},
+        {"fromBuild": "beta_1_5", "state": "Wolf pathfinding through doors improves.", "evidence": "Part III > Beta 1.5"},
+        {"fromBuild": "beta_1_9_pre_3", "state": "Enderman health doubles 20 -> 40.", "evidence": "Part IV > Mob spawning and AI"},
+        {"fromBuild": "beta_1_9_pre_4", "state": "Endermen stop burning in daylight and teleport to shade; endermen can spawn in the End; spiders/cave spiders are poison-immune and categorized as arthropods.", "evidence": "Part III > Beta 1.9 Prerelease 4; Part IV > Mob spawning and AI"},
+        {"fromBuild": "beta_1_9_pre_5", "state": "Hostile mobs become neutral toward players in Creative (attack range reduced).", "evidence": "Part III > Beta 1.9 Prerelease 5"},
+        {"fromBuild": "release_1_2", "state": "Iron golems and ocelots/cats added; zombie sieges and villager breeding/transformation; in 12w04a zombies and skeletons gain sun-avoidance pathing (if burning, seek water or shelter unless pursuing a player).", "evidence": "Part III > Release 1.2 (stable baseline 1.2.1)"},
+        {"fromBuild": "release_1_4", "state": "Witches are hostile, bats ambient, wither skeletons fortress mobs, and zombie villagers added.", "evidence": "Part III > Release 1.4 (stable baseline 1.4.2)"},
+        {"fromBuild": "release_1_5", "state": "Patch-level (1.5.2): Enderman aggro behavior changes under environmental damage.", "evidence": "Part III > Patch/build boundary register (Release 1.5.1/1.5.2)"}
+      ],
+      "notes": "Historical entities must be modelled as build-specific behaviors, not modern registry entries. Exact spawn caps, light thresholds, AI state machines, pathfinding, despawn rules and many drop tables remain unverified across the whole range."
+    },
+    {
+      "mechanic": "food values",
+      "states": [
+        {"fromBuild": "alpha_1_2_0", "state": "Fishing introduced; the documented catch is raw fish only, with a 1 in 500 chance per tick while the bobber is in water (rate interpretation/test semantics unverified).", "evidence": "Part III > Alpha v1.2.0"},
+        {"fromBuild": "beta_1_2", "state": "Cake restores 3 health per slice (18 for the whole cake); no hunger meter; bone meal fertilizes saplings/wheat.", "evidence": "Part III > Beta 1.2; Part IV > Hunger, health, and food"},
+        {"fromBuild": "beta_1_4", "state": "Cookies heal 1 health and stack to 8 (the first stackable food), crafted from wheat + cocoa beans.", "evidence": "Part III > Beta 1.4"},
+        {"fromBuild": "beta_1_5", "state": "Cooked pork drops when a pig burns (a new food source).", "evidence": "Part IV > Hunger, health, and food"},
+        {"fromBuild": "beta_1_8", "state": "Food feeds a 20-point hunger bar instead of healing directly; cake's slice value is disputed (version page 3 hunger per slice vs Food history 2); raw/cooked meat variants and rotten flesh added.", "evidence": "Part III > Beta 1.8; Part IV > Hunger, health, and food"},
+        {"fromBuild": "release_1_1", "state": "Golden apples change from the Beta 1.8 10-hunger/30-second regeneration form and gold-block recipe to a 4-hunger/4-second form with gold nuggets.", "evidence": "Part IV > Hunger, health, and food"},
+        {"fromBuild": "release_1_4", "state": "Carrots, potatoes, carrot-on-a-stick, pumpkin pie and golden carrot added; the document gives no numeric values for them.", "evidence": "Part III > Release 1.4 (stable baseline 1.4.2)"}
+      ],
+      "notes": "The only numeric food facts in the document are cake 3/slice (direct, then disputed as hunger in 1.8), cookie 1 health, and the golden apple 10 hunger/30 s -> 4 hunger/4 s change; every other food value must come from another source."
+    },
+    {
+      "mechanic": "block and item availability (registered vs obtainable)",
+      "states": [
+        {"fromBuild": "alpha_1_0_1", "state": "Monster spawners exist but are no longer obtainable as block drops.", "evidence": "Part III > Alpha v1.0.1"},
+        {"fromBuild": "alpha_1_0_4", "state": "Snow layers existed in terrain but were not obtainable as an item; generated snow is not normally harvestable.", "evidence": "Part III > Alpha v1.0.4"},
+        {"fromBuild": "alpha_1_0_6", "state": "Snow-block recipe uses four snowballs while breaking yields six, making snowballs renewable.", "evidence": "Part III > Alpha v1.0.6"},
+        {"fromBuild": "alpha_1_0_11", "state": "Slimeballs are obtainable but useless; bookshelves drop nothing when mined.", "evidence": "Part III > Alpha v1.0.11"},
+        {"fromBuild": "beta_1_2", "state": "Brown wool and cocoa beans are registry/content but only external-editor obtainable with no survival route; lapis is a dye, not an enchantment currency; patch Beta 1.2_02's hidden unfinished Shift+F2 panorama feature is test code.", "evidence": "Part III > Beta 1.2; Part III > Patch/build boundary register (Beta 1.2_02)"},
+        {"fromBuild": "beta_1_3", "state": "Smooth stone slab present in assets/recipe context but explicitly unobtainable; the painting texture is a placeholder because painting code predated its texture.", "evidence": "Part III > Beta 1.3"},
+        {"fromBuild": "beta_1_5", "state": "Cobweb exists but cannot be obtained without inventory editing.", "evidence": "Part III > Beta 1.5"},
+        {"fromBuild": "beta_1_6", "state": "Shrub is an internal/Creative-editor entry that generates nowhere; grass/foliage color-map capability exists but maps initially were not read.", "evidence": "Part III > Beta 1.6"},
+        {"fromBuild": "beta_1_7", "state": "Stone-brick tooltip text and a silverfish texture exist with no corresponding block or mob; the old TNT punch behavior remains only in metadata value 1 (editor-accessible).", "evidence": "Part III > Beta 1.7"},
+        {"fromBuild": "beta_1_9_pre_2", "state": "Cauldron code exists with no assigned block ID, so it is not ordinarily placeable/obtainable; the Ward disc is Creative-only.", "evidence": "Part III > Beta 1.9 Prerelease 2"},
+        {"fromBuild": "beta_1_9_pre_3", "state": "The original same-day client briefly places debug stacks of enchantment tables, bookshelves, End frames and End portal blocks in the hotbar; the same-day reupload removes them.", "evidence": "Part III > Beta 1.9 Prerelease 3"},
+        {"fromBuild": "beta_1_9_pre_5", "state": "Mycelium and End stone become visible in the Creative inventory; Silk Touch no longer obtains spawners/lit furnaces and is incompatible with Fortune.", "evidence": "Part III > Beta 1.9 Prerelease 5"},
+        {"fromBuild": "release_1_1", "state": "Twenty spawn eggs are Creative-only; the '11' disc remains unobtainable by the skeleton-killed-creeper route.", "evidence": "Part III > Release 1.1"},
+        {"fromBuild": "release_1_2", "state": "Bottle o' enchanting and spawn eggs are Creative-only at 1.2.1; emerald ore and villager trading are absent.", "evidence": "Part III > Release 1.2 (stable baseline 1.2.1)"},
+        {"fromBuild": "release_1_3", "state": "Cocoa beans become naturally available; emeralds/emerald ore/block and trading are introduced; the bonus chest is optional.", "evidence": "Part III > Release 1.3 (stable baseline 1.3.1)"},
+        {"fromBuild": "release_1_4", "state": "Command block is not craftable or normally Survival-obtainable; carrot/potato village/loot routes need an exact subversion check.", "evidence": "Part III > Release 1.4 (stable baseline 1.4.2)"},
+        {"fromBuild": "release_1_6", "state": "Horse armor and name tags are uncraftable and loot-only; skeleton/zombie horse variants are not ordinary vanilla spawnable entities.", "evidence": "Part III > Release 1.6 (stable baseline 1.6.1)"}
+      ],
+      "notes": "Matrix note: treat registered/debug/Creative-only and naturally generated/Survival-obtainable as separate states (Part V > Matrix notes for recreation). Do not confuse the presence of IDs with natural or craftable access."
+    },
+    {
+      "mechanic": "structures",
+      "states": [
+        {"fromBuild": "alpha_1_0_1", "state": "Dungeons predate this target build; exact dungeon loot/spawner behavior not audited.", "evidence": "Part III > Alpha v1.0.1; Part IV > Structures and caves"},
+        {"fromBuild": "alpha_1_0_14", "state": "Dungeon generator iterations increase 4 -> 8, changing population order and other generated content via the decorator RNG cascade.", "evidence": "Part III > Alpha v1.0.14"},
+        {"fromBuild": "beta_1_8", "state": "Strongholds, villages, mineshafts and ravines added; initial villages were broken/partial (wells, paths, lamp posts) and fixed in a reupload; initial strongholds were one per world with only the central staircase; prerelease 2 lowers mineshaft density while raising structure frequency about 2.5x and setting three strongholds per world; Beta 1.8.1 changes mineshaft support beams from planks to fences.", "evidence": "Part III > Beta 1.8; Part III > Patch/build boundary register (Beta 1.8 prerelease/reupload/Pre2/1.8.1)"},
+        {"fromBuild": "beta_1_9_pre_1", "state": "Nether fortresses enter world generation with two blaze spawners.", "evidence": "Part III > Beta 1.9 Prerelease 1"},
+        {"fromBuild": "beta_1_9_pre_3", "state": "Stronghold End portal rooms added; glass locator pillars remain.", "evidence": "Part III > Beta 1.9 Prerelease 3"},
+        {"fromBuild": "beta_1_9_pre_4", "state": "Glass locator pillars removed; the End generates with obsidian pillars and replaces the Sky dimension.", "evidence": "Part III > Beta 1.9 Prerelease 4"},
+        {"fromBuild": "beta_1_9_pre_6", "state": "The End pillar/crystal boss arena functions and the exit portal becomes reachable.", "evidence": "Part III > Beta 1.9 Prerelease 6"},
+        {"fromBuild": "release_1_2", "state": "Desert wells (12w04a) and mineshaft wooden bridges (12w05a) added within the 1.2 development/release boundary.", "evidence": "Part III > Release 1.2 (stable baseline 1.2.1)"},
+        {"fromBuild": "release_1_3", "state": "Desert pyramids and jungle temples with loot; optional bonus chest; Large Biomes world type (about 16x biome scale).", "evidence": "Part III > Release 1.3 (stable baseline 1.3.1)"},
+        {"fromBuild": "release_1_4", "state": "Witch huts generate in swamps by 12w40a with witches associated to the hut; silverfish-infested monster-egg blocks generate rarely in Extreme Hills and variants from 12w38a.", "evidence": "Part III > Release 1.4 (stable baseline 1.4.2)"},
+        {"fromBuild": "release_1_6", "state": "Nether fortress chests are introduced by 13w18a (fortresses previously existed without generated chests); patch 1.6.4 changes desert-village wells from sandstone to cobblestone/gravel.", "evidence": "Part III > Release 1.6; Part III > Patch/build boundary register (Release 1.6.2-1.6.4)"}
+      ],
+      "notes": "Structures can include blocks unavailable as player-crafted items, and a registered block may be survival-unobtainable. Exact placement criteria and generation order remain to be verified."
+    },
+    {
+      "mechanic": "world generation",
+      "states": [
+        {"fromBuild": "alpha_1_0_1", "state": "Pre-biome/Halloween generator, 128 blocks tall with sea level Y=64; caves, ore blobs, springs and dungeons predate the target range; no biome system.", "evidence": "Part IV > Terrain generation; Part III > Alpha v1.0.1"},
+        {"fromBuild": "alpha_1_2_0", "state": "Major discontinuity: biomes introduced (12 listed, Ice Desert unused); depth-noise-like scale 100 -> 200 and monoliths cease (low-medium confidence); bottom layer all bedrock; same seed does not preserve terrain across the boundary.", "evidence": "Part III > Alpha v1.2.0; Part IV > Terrain generation"},
+        {"fromBuild": "beta_1_0", "state": "Climate-era generator persists (Alpha 1.2.0 through Beta 1.7.3 are broadly seed-compatible with population changes); lava lakes replace neighboring blocks with stone; the grassland/sand boundary is misaligned until Beta 1.3.", "evidence": "Part III > Beta 1.0; Part IV > Terrain generation"},
+        {"fromBuild": "beta_1_6", "state": "Public Beta 1.6 fixes an ore quadrant bias (prior builds reported some ores at least 50% more common in southeast than northwest) and adds grass patches, ferns and desert-only dead bushes; the unreleased Test Build 3 has randomized vegetation and a clay x=z defect fixed in Beta 1.7.", "evidence": "Part III > Beta 1.6; Part IV > Terrain generation; Ores"},
+        {"fromBuild": "beta_1_7", "state": "Fixes the Beta 1.6 clay generation bug; no new terrain generator; no natural stone-brick generation.", "evidence": "Part III > Beta 1.7"},
+        {"fromBuild": "beta_1_8", "state": "Major overhaul: fractal biome placement replaces the climate system, elevation is linked to biome, continent-scale land in open ocean, sea level 64 -> 63, ocean/river/extreme-hills biomes and ravines/strongholds/villages/mineshafts added, world boundary becomes +/-30 million and the Far Lands move beyond about 5.39x10^16; base height stays 128.", "evidence": "Part III > Beta 1.8; Part IV > Terrain generation; Biomes and surface blocks"},
+        {"fromBuild": "beta_1_9_pre_1", "state": "Landmass scale reduced by about half; ocean height variation 0.5 -> 0.4; Ice Plains, Ice Mountains, Frozen Ocean and Frozen River added (Ice Mountains inaccessible); swamp tint changes.", "evidence": "Part III > Beta 1.9 Prerelease 1"},
+        {"fromBuild": "release_1_1", "state": "Beaches return as a distinct biome with old-style sand/sandstone shore characteristics rather than the pre-Beta-1.8 per-column surface feature; new hills/edge variants; Superflat becomes a separate selectable world type.", "evidence": "Part III > Release 1.1; Part IV > Biomes and surface blocks"},
+        {"fromBuild": "release_1_2", "state": "Jungle and Jungle Hills enter in 12w03a, shifting the placement of major land biomes; stable 1.2.1 raises the world-height limit 128 -> 256 without vertically rescaling existing terrain; emerald ore is absent.", "evidence": "Part III > Release 1.2 (stable baseline 1.2.1); Part IV > Terrain generation"},
+        {"fromBuild": "release_1_3", "state": "Large Biomes world type (about 16x biome scale); emerald ore generates only in Extreme Hills at Y=4-31 inclusive, up to 8 placements per chunk in single-block veins in stable 1.3.1.", "evidence": "Part III > Release 1.3 (stable baseline 1.3.1); Part IV > Ores"},
+        {"fromBuild": "release_1_6", "state": "Deserts no longer contain water lakes, beginning in 13w17a; Nether fortress chests from 13w18a; no new biomes/structures.", "evidence": "Part III > Release 1.6 (stable baseline 1.6.1)"}
+      ],
+      "notes": "Worldgen version changes are seed-discontinuous: block palette filtering alone cannot reconstruct historical terrain (Part V > Matrix notes for recreation). Exact noise classes/constants, seed mixing, RNG call ordering, ore tries/heights/vein sizes, structure spacing and population order all remain unresolved."
+    },
+    {"mechanic": "__PLACEHOLDER__"}
+  ]
+}

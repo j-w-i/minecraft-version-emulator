@@ -42,11 +42,22 @@ public interface DataComponentHolderHistoricalFoodMixin {
 
         String versionId = HistoricalActiveSession.current();
 
-        // The golden apple changes in two ways, so it is handled first: 10 hunger, and no effect list at all.
+        // The golden apple changes in two ways, so it is handled first: 10 hunger instead of 4, and its effect
+        // list is the Beta 1.8 one rather than the modern one.
         if (itemStack.is(net.minecraft.world.item.Items.GOLDEN_APPLE)
             && HistoricalGameplayTweaks.betaGoldenApple(versionId)) {
+            // Regeneration for 30 seconds at amplifier 0, taken from the Beta 1.8 client artifact's item registry
+            // line for appleGold. The first version of this returned an empty effect list, which was wrong: the
+            // artifact applies the effect with probability 1.0.
+            net.minecraft.world.effect.MobEffectInstance regeneration =
+                new net.minecraft.world.effect.MobEffectInstance(
+                    net.minecraft.world.effect.MobEffects.REGENERATION,
+                    HistoricalFoodHelper.goldenAppleBetaRegenerationTicks(),
+                    HistoricalFoodHelper.goldenAppleBetaRegenerationAmplifier());
+
             return (T) new FoodProperties(HistoricalFoodHelper.goldenAppleBetaHunger(), food.saturation(),
-                food.canAlwaysEat(), food.eatSeconds(), food.usingConvertsTo(), java.util.List.of());
+                food.canAlwaysEat(), food.eatSeconds(), food.usingConvertsTo(),
+                java.util.List.of(new FoodProperties.PossibleEffect(regeneration, 1.0F)));
         }
 
         if (!HistoricalGameplayTweaks.betaFoodHungerValues(versionId)) {

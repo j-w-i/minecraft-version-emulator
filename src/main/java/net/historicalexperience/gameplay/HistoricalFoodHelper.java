@@ -53,16 +53,47 @@ public final class HistoricalFoodHelper {
         "minecraft:mushroom_stew", 8);
 
     /**
-     * The golden apple's pre-Release-1.1 values: 10 hunger, and no Regeneration effect.
+     * The golden apple's pre-Release-1.1 values: 10 hunger, and Regeneration for 30 seconds at amplifier 0.
      *
      * <p>Its nutrition and its effect list both change, which is why it is handled apart from the cookie-and-stew
      * table - those are nutrition alone.
+     *
+     * <p>CORRECTED after two research artefacts in this repository disagreed and the conflict was settled against
+     * the primary source. The first implementation gave 10 hunger and NO Regeneration, because only the hunger and
+     * saturation were read out of {@code research/historical-features.json}; the effect clause sat in the same
+     * evidence string and was missed. That evidence is an official client artifact - the Beta 1.8 client jar,
+     * class {@code sv} item registry:
+     *
+     * <pre>(66,10,1.2F,false).o().a(Regeneration,30,0,1.0F).a("appleGold")</pre>
+     *
+     * <p>which reads as hunger 10, saturation 1.2, always edible ({@code o()}), and Regeneration applied for 30
+     * seconds at amplifier 0 with probability 1.0. {@code research/minecraft-version-history.md} Part IV records
+     * the same form, so the two now agree.
+     *
+     * <p>The numbers are plain values rather than constructed game objects because a unit test cannot build an
+     * effect instance without a registry; the mixin assembles the instance from these.
      */
     private static final int GOLDEN_APPLE_BETA_HUNGER = 10;
+
+    /** 30 seconds: the duration the client artifact passes to the effect. */
+    private static final int GOLDEN_APPLE_BETA_REGENERATION_TICKS = 600;
+
+    /** Amplifier 0, i.e. Regeneration I. The artifact passes 0, not 1. */
+    private static final int GOLDEN_APPLE_BETA_REGENERATION_AMPLIFIER = 0;
 
     /** Upstream has no equivalent. The pre-Release-1.1 golden apple hunger value. */
     public static int goldenAppleBetaHunger() {
         return GOLDEN_APPLE_BETA_HUNGER;
+    }
+
+    /** How long the pre-Release-1.1 golden apple applies Regeneration for. */
+    public static int goldenAppleBetaRegenerationTicks() {
+        return GOLDEN_APPLE_BETA_REGENERATION_TICKS;
+    }
+
+    /** At which amplifier the pre-Release-1.1 golden apple applies Regeneration. */
+    public static int goldenAppleBetaRegenerationAmplifier() {
+        return GOLDEN_APPLE_BETA_REGENERATION_AMPLIFIER;
     }
 
     /** The pre-change hunger value for an item id, or null when there is none. */

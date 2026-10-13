@@ -170,6 +170,7 @@ public final class HistoricalGameplayTweaks {
             "tempting");
     }
 
+    private static final String RELEASE_1_1 = "historical_experience:release_1_1";
     private static final String RELEASE_1_2_5 = "historical_experience:release_1_2_5";
     private static final String RELEASE_1_6_4 = "historical_experience:release_1_6_4";
     private static final String BETA_1_9_PRE_3 = "historical_experience:beta_1_9_pre_3";
@@ -415,10 +416,77 @@ public final class HistoricalGameplayTweaks {
         return betaExhaustionCosts(versionId) && olderThan(versionId, RELEASE_1_6_4);
     }
 
+    /**
+     * Beta 1.9 Prerelease 4's chronology, derived from the registry's own numbering scheme rather than looked up.
+     *
+     * <p>The scheme is {@code eraOffset + major*1000 + minor*100 + patch} with Beta at 500_000, so Beta 1.9
+     * Prerelease 4 is 500_000 + 1000 + 900 + 4. It is written as a number rather than as a registry lookup because
+     * the boundary is a build the registry does not declare YET: a gate that referred to it by id would silently
+     * evaluate false until the version was registered, and would then change behaviour without anyone editing the
+     * gate. A test ties this number to the registry by asserting it is exactly one more than the declared Beta 1.9
+     * Prerelease 3.
+     */
+    private static final int BETA_1_9_PRE_4_CHRONOLOGY = 501_904;
+
+    /** Beta 1.9 Prerelease 3's chronology, on the same scheme. */
+    private static final int BETA_1_9_PRE_3_CHRONOLOGY = 501_903;
+
+    /**
+     * Whether enchanting actually works in this version: enchantments applied, levels spent.
+     *
+     * <p>Three distinct historical states, from {@code research/minecraft-version-history.md} Part IV:
+     *
+     * <ul>
+     *   <li><b>Before Beta 1.9 Prerelease 3</b> - there is no enchanting table at all. Beta 1.8 has a collectible,
+     *       displayed and entirely unspendable experience bar.</li>
+     *   <li><b>Prerelease 3</b> - the table exists, with its interface and glint, but applies no enchantments and
+     *       spends nothing. The research is explicit: "no actual enchantments or functional XP spending".</li>
+     *   <li><b>Prerelease 4 onward</b> - 17 enchantments, numeric levels, and levels spent on enchanting. This is
+     *       the first build where enchanting is real.</li>
+     * </ul>
+     *
+     * <p>So an experience bar being present is NOT evidence that enchanting works, and the two are gated apart.
+     */
+    public static boolean functionalEnchanting(String versionId) {
+        var version = HistoricalVersions.byId(versionId).orElse(null);
+        return version != null && version.chronology() >= BETA_1_9_PRE_4_CHRONOLOGY;
+    }
+
+    /**
+     * The chronology at which enchanting becomes functional, exposed so a test can tie it to the registry.
+     *
+     * <p>The constant it returns is a literal because the build it names is not declared yet. A literal can drift
+     * away from the registry's numbering without anything failing, so this accessor exists purely to let a test
+     * assert that the boundary sits exactly one build after the last declared prerelease.
+     */
+    public static int functionalEnchantingBoundaryChronology() {
+        return BETA_1_9_PRE_4_CHRONOLOGY;
+    }
+
+    /**
+     * Whether the enchanting table exists as a block in this version.
+     *
+     * <p>From Beta 1.9 Prerelease 3, where the research records its interface arriving. Before that the block is
+     * not part of the game, so a Beta 1.8 save must not be able to craft one.
+     */
+    public static boolean enchantingTableExists(String versionId) {
+        var version = HistoricalVersions.byId(versionId).orElse(null);
+        return version != null && version.chronology() >= BETA_1_9_PRE_3_CHRONOLOGY;
+    }
+
+    /**
+     * Whether the golden apple is the pre-Release-1.1 item: 10 hunger, always edible, and Regeneration for 30
+     * seconds at amplifier 0.
+     *
+     * <p>The boundary is Release 1.1 itself, not a later proxy. The change is dated to Release 1.1, and Release 1.1
+     * is a DECLARED profile here, so treating a later profile as the boundary would have left Release 1.1 carrying
+     * the old item. The evidence for the earlier form is the Beta 1.8 client artifact's item registry line
+     * {@code (66,10,1.2F,false).o().a(Regeneration,30,0,1.0F).a("appleGold")}.
+     */
     public static boolean betaGoldenApple(String versionId) {
         return isDeclaredVersion(versionId)
             && !BEFORE_BETA_1_8.contains(versionId)
-            && olderThan(versionId, RELEASE_1_2_5);
+            && olderThan(versionId, RELEASE_1_1);
     }
 
     public static boolean betaFoodHungerValues(String versionId) {

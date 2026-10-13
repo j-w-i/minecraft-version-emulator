@@ -37,7 +37,8 @@
     "FoodDataHistoricalRegenerationMixin",
     "DataComponentHolderHistoricalFoodMixin",
     "BlockBehaviourHistoricalDropMixin",
-    "PlayerHistoricalExhaustionMixin"
+    "PlayerHistoricalExhaustionMixin",
+    "EnchantmentMenuHistoricalEnchantingMixin"
   ],
   "injectors": {
     "defaultRequire": 1
