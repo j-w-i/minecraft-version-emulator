@@ -56,7 +56,14 @@ public final class HistoricalBlockAvailability {
     public record Boundary(String versionId, String evidence, boolean timeline) {
     }
 
-    /** The declared versions oldest first; a unit test asserts this equals the version registry. */
+    /**
+     * The declared versions oldest first.
+     *
+     * <p>Order is behaviour here, not presentation: comparison is {@code indexOf}, so a version in the wrong slot
+     * silently reverses every availability answer that involves it. {@code VersionTableConsistencyTest} asserts
+     * that this list, restricted to the versions the registry declares, is in the registry's CHRONOLOGY order -
+     * which is not the same as the registry's declaration order, so the two are compared by chronology.
+     */
     public static final List<String> CHRONOLOGY = List.of(
         "historical_experience:infdev_420",
         "historical_experience:infdev_611",
