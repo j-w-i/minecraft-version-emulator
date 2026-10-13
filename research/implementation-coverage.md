@@ -285,7 +285,21 @@ turned out to be "no approximation needed" rather than the decision I expected t
    `_historical_envelope` revisions so existing worlds keep their terrain. Every public menu recipe is now
    asserted to declare the envelope. See the evidence table in
    [completion and envelope evidence](<matrix-completion-verification.md>).
-4. **The beta-era passive spawner is NOT implemented, and this is a real behavioural gap.**
+4. **The beta-era passive spawner is IMPLEMENTED (was the owner's "world never repopulates" report).**
+   `HistoricalAnimalSpawner` reproduces the pre-Beta-1.8 cycle from the jars, parameterised by era:
+   Alpha (flat cap 15, radius 4, 3 × 2 attempts, `rand(128)` start height) below the Alpha v1.2.0 rework, and
+   Beta (scaled cap `15 × eligibleChunks / 256`, radius 8, 3 × 4) from it onward, both with the `±(rand(6) −
+   rand(6))` walk, the 24-block player exclusion, the 576-block spawn exclusion and the entity's own placement
+   rule as the `getCanSpawnHere()` equivalent. Driven from `ServerTickEvents.END_WORLD_TICK`, so it costs nothing
+   with no player online — which is also faithful, since both jars iterated players.
+   **Verified end-to-end, headlessly**: the probe's new `passiveSpawner` section calls the same
+   `tick(level, versionId, observers)` the live hook calls, with the world spawn standing in as the observer, and
+   an Alpha v1.1.0 world went from **0 to 16 passive mobs in 200 driven cycles** (`chicken 2, cow 8, pig 2,
+   sheep 4`, 1,458 placement attempts). 348 tests green, including the era-boundary test.
+   **Still open, recorded rather than approximated:** the hostile half is untouched (modern hostile spawning
+   works, and the two eras' hostile caps differ — 200 flat against 70 scaled); Beta's per-mob
+   `getMaxSpawnedInChunk` ceiling and pack grouping are not reproduced; and Infdev is deliberately excluded
+   because its own jar was not read for this, even though it demonstrably had natural spawning.
    The owner reported it directly, and corrected my first account of it: in an Alpha world they killed every
    entity, set tick speed to 10000 and waited hours — no passive mobs returned. **They are right that Alpha
    spawned passive mobs over time**, and my initial note here claimed the opposite, which was an inference
