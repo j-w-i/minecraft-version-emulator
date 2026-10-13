@@ -463,8 +463,9 @@ public final class HistoricalVersions {
                 "Adds horses and variants, donkeys and mules, and the research states that horses spawn naturally in "
                     + "plains and savanna. Horse and donkey are added to the spawn set; the MULE is not, because it "
                     + "is bred rather than spawned. Releases 1.3 and 1.5 add no mob, and 1.4 adds witch, bat, wither "
-                    + "skeleton and zombie villager, which this set inherits through RELEASE_1_4_MOBS."),
-            HistoricalFeatureExclusions.RELEASE_1_2_5_WITHOUT_MODERN_VANILLA_FEATURES));
+                    + "skeleton and zombie villager, which this set inherits through RELEASE_1_4_MOBS. It uses the "
+                    + "1.5 exclusion list because quartz, added in 1.5, is content this build had."),
+            HistoricalFeatureExclusions.RELEASE_1_5_WITHOUT_MODERN_VANILLA_FEATURES));
 
         // ---- Pre-Beta eras: Infdev and Alpha ------------------------------------------------------
         //
@@ -828,8 +829,9 @@ public final class HistoricalVersions {
                 "Adds no mob: its deltas are the comparator, hopper, dropper, trapped chest, weighted pressure "
                     + "plates, daylight sensor, redstone block, activator rail and nether quartz ore, plus a lighting "
                     + "rewrite. So the spawn set is Release 1.4's, which carries the witch, bat, wither skeleton and "
-                    + "zombie villager."),
-            HistoricalFeatureExclusions.RELEASE_1_2_5_WITHOUT_MODERN_VANILLA_FEATURES));
+                    + "zombie villager. NETHER QUARTZ IS CONTENT THIS BUILD HAD, which is why it uses the 1.5 "
+                    + "exclusion list rather than the earlier one."),
+            HistoricalFeatureExclusions.RELEASE_1_5_WITHOUT_MODERN_VANILLA_FEATURES));
 
         // Beta 1.0, the first Beta. Its terrain foundation is NOT an approximation, and that was verified rather
         // than assumed: the research says for this build "existing climate-era generator (pre-Beta-1.8) persists",
