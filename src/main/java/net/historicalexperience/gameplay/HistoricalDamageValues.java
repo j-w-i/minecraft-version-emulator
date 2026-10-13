@@ -19,6 +19,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 
 /**
@@ -90,6 +91,9 @@ public final class HistoricalDamageValues {
      * on a class that no longer exists.
      */
     public static Kind kindOf(ItemStack stack) {
+        if (stack == null) {
+            return null;
+        }
         if (stack.is(ItemTags.SWORDS)) {
             return Kind.SWORD;
         }
@@ -114,33 +118,106 @@ public final class HistoricalDamageValues {
     }
 
     /**
-     * Upstream's formula, from {@code helper/gameplay/combat/DamageHelper.getAttackDamage}.
+     * The pre-1.9 attack damage modifier for this item, which IS the era's total damage.
      *
-     * <p>Correction: an earlier version of this file documented upstream as {@code +4} for a sword, {@code +3}
-     * for an axe, {@code +2} for a pickaxe and {@code +1} for a shovel, and then used values one lower again.
-     * Those numbers did not come from upstream. Upstream's are below, and only weapons and diggers are rewritten:
-     * <b>hoes keep their vanilla modifier</b>, which the earlier version changed.
+     * <h2>Why this is a table and not the inherited formula, and what the owner's verification found</h2>
+     *
+     * <p>The owner asked for these values to be checked against the wiki per version. Doing so found two real
+     * defects, both in the arithmetic rather than in the era constants:
+     *
+     * <ul>
+     *   <li><b>Sword.</b> The inherited constant was {@code +6}, but 1.21.1's own raw modifier is {@code +3} - read
+     *       out of the jar with a probe, not inferred. The old value happened to give the right total for exactly
+     *       one item (the diamond sword, because {@code +6 + 3 = +9} matched the pre-Pre3 figure) while making
+     *       <b>every other sword three points too strong</b> - a wooden sword dealt 7 where the wiki says 4, and a
+     *       stone sword 8 where it says 5.</li>
+     *   <li><b>Shovel.</b> The constant was {@code +0.5}; 1.21.1's raw modifier is {@code +1.5}.</li>
+     * </ul>
+     *
+     * <p>Both were visible only by reading the RAW modifier. {@code ItemAttributeModifiers.compute()} also folds in
+     * attack speed, so its output looks like a damage figure and is not one - a trap that caught this verification
+     * before it caught the code.
+     *
+     * <h2>The era rule that makes these totals rather than bonuses</h2>
+     *
+     * <p>Before the 1.9 combat update an item's damage <b>replaced</b> the bare hand's; 13w21a changed the sword,
+     * axe and pickaxe to <b>add</b> to it (wiki, per item: "Instead of replacing the barehanded damage (1),
+     * <i>X</i> now add their damage onto the barehanded damage"). Every declared version is older than 1.9, so for
+     * all of them this modifier is the figure a player used to see: sword 4, axe 3, pickaxe 2, shovel 1, each plus
+     * the tier's bonus. Post-Pre3 the sword modifier coincides with 1.21.1's own, which is a useful cross-check
+     * rather than a coincidence - the modern value descends from this one.
+     *
+     * <h2>Per-version detail, and the one approximation</h2>
+     *
+     * <p>Swords are the only kind that moved inside the declared range, and the wiki gives exact figures for two
+     * tiers: the diamond sword went from 10 to 7 at Beta 1.9 Prerelease 3 and the iron sword from 8 to 6, so the
+     * reduction was <b>not uniform</b> - 3 and 2 respectively, scaling with the tier. Wooden and golden swords are
+     * <b>exempt</b>: "Reduced the damage of all swords except for wooden and golden ones to keep enchanting
+     * balanced." The <b>stone sword</b> is the one inference here: it carries the same {@code bonus + 4} in both
+     * eras, derived from the shape of the iron and diamond figures, because the wiki gives exact pre-Pre3 values
+     * only for those two. It is recorded as an inference rather than presented as sourced.
      */
     private static float eraAttackDamage(TieredItem tieredItem) {
-        float damage = switch (tieredItem) {
-            case SwordItem sword -> sword.getTier().getAttackDamageBonus() + 6.0F;
-            case AxeItem axe -> axe.getTier().getAttackDamageBonus() + 2.0F;
-            case PickaxeItem pickaxe -> pickaxe.getTier().getAttackDamageBonus() + 1.0F;
-            case ShovelItem shovel -> shovel.getTier().getAttackDamageBonus() + 0.5F;
-            default -> tieredItem.getTier().getAttackDamageBonus();
-        };
+        float tierBonus = tieredItem.getTier().getAttackDamageBonus();
+        boolean beforeSwordNerf = HistoricalGameplayTweaks.swordDamageBeforeReleaseOnePointZero(
+            HistoricalActiveSession.current());
+        LAST_TIER_BONUS = tierBonus;
+        LAST_SWORD_PRE_NERF = beforeSwordNerf;
+        LAST_TIER_NAME = String.valueOf(tieredItem.getTier());
 
-        // Beta 1.9 Prerelease 3 reduced sword damage "to keep enchanting balanced", so every sword is one point
-        // higher before it. This file said so for twenty rounds while applying the later value to all ten profiles.
-        if (tieredItem instanceof SwordItem
-            && HistoricalGameplayTweaks.swordDamageBeforeReleaseOnePointZero(
-                HistoricalActiveSession.current())) {
-            // Three points, from ten damage to seven: "diamond sword from 5 hearts to 3.5 hearts" at Release 1.0.0.
-            damage += 3.0F;
+        if (tieredItem instanceof SwordItem) {
+            if (beforeSwordNerf) {
+                LAST_BRANCH = "pre-nerf sword";
+                // Pre-Pre3. The wiki gives exact figures for two tiers and states an exemption for two more:
+                //   Diamond Sword: "Reduced the damage from 10 to 7"   -> total 10 before, so modifier 9
+                //   Iron Sword:    "Reduced the iron sword's damage from 8 to 6" -> total 8 before, modifier 6
+                //   Sword page:    "except for wooden and golden ones"   -> exempt, so unchanged at total 4
+                //   Stone is INFERRED as total 5 from the shape of iron and diamond; the wiki gives no pre-Pre3
+                //   figure for it, and it is recorded as an inference rather than presented as sourced.
+                int tierOrdinal = Math.round(tierBonus);
+                return switch (tierOrdinal) {
+                    case 0 -> 3.0F;   // wood, gold - exempt
+                    case 1 -> 4.0F;   // stone - inferred
+                    case 2 -> 6.0F;   // iron - wiki
+                    default -> 9.0F;  // diamond and above - wiki
+                };
+            }
+            LAST_BRANCH = "post-nerf sword";
+            // From Beta 1.9 Prerelease 3 onward, and the measured 1.21.1 modifier for every sword: total 4 + bonus.
+            return tierBonus + 3.0F;
         }
-
-        return damage;
+        if (tieredItem instanceof AxeItem) {
+            LAST_BRANCH = "axe";
+            // Classic total 4 plus the tier bonus. 1.21.1's own axe modifier is one lower (b+2) because 1.9 moved
+            // axes onto the cooldown system; the pre-1.9 axe was the stronger weapon, which is the whole reason the
+            // 1.9 rebalance is famous.
+            return tierBonus + 3.0F;
+        }
+        if (tieredItem instanceof PickaxeItem) {
+            LAST_BRANCH = "pickaxe";
+            // Classic total 3 plus the tier bonus; 1.21.1 gives b+1.
+            return tierBonus + 2.0F;
+        }
+        if (tieredItem instanceof ShovelItem) {
+            LAST_BRANCH = "shovel";
+            // Classic total 1.5 plus the tier bonus - the one non-integer figure in the table. 1.21.1 gives b+1.5
+            // as well, so a shovel's era and modern modifiers coincide; the earlier constant of b+0.5 was a point
+            // and a half low and was the defect the owner's verification caught here.
+            return tierBonus + 1.5F;
+        }
+        LAST_BRANCH = "other";
+        // A hoe was not a weapon before 15w34c ("Stone, iron and diamond hoes now do slightly more damage than an
+        // unarmed attack"), so every declared version had all hoes at 1 damage - which is also what 1.21.1 gives
+        // them. The caller leaves a hoe alone rather than routing it here.
+        return tierBonus;
     }
+
+    // Diagnostics only: what the last computation saw. Written because a failing expectation and a failing
+    // computation look identical from outside, and this project has now confused the two more than once.
+    public static volatile float LAST_TIER_BONUS;
+    public static volatile boolean LAST_SWORD_PRE_NERF;
+    public static volatile String LAST_BRANCH = "<never asked>";
+    public static volatile String LAST_TIER_NAME = "<none>";
 
     /** Upstream rewrites the attack damage entry only for these; a hoe is left alone. */
     private static boolean rewritesAttackDamage(TieredItem tieredItem) {

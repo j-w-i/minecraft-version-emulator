@@ -828,6 +828,17 @@ public final class HistoricalGameplayTweaks {
         return isDeclaredVersion(versionId) && olderThan(versionId, BETA_1_9_PRE_3);
     }
 
+    /**
+     * The sword-damage boundary itself, exposed so a test can prove no declared build sits on the wrong side of it.
+     *
+     * <p>Written as a literal because Beta 1.9 Prerelease 3 is declared, so the boundary could equally have been a
+     * lookup; the literal is used to keep this method free of registry access, which is what lets the test run
+     * offline. A test ties it back to the registry.
+     */
+    public static int swordDamageBeforeReleaseBoundaryChronology() {
+        return BETA_1_9_PRE_3_CHRONOLOGY;
+    }
+
     public static boolean blockFallDamageReductionEnabled(String versionId) {
         return swordBlockingEnabled(versionId) && olderThan(versionId, BETA_1_9_PRE_3);
     }

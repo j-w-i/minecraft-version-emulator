@@ -128,31 +128,190 @@ public final class GenerationVerification {
         return out;
     }
 
+    /**
+     * Every tier of every tool and weapon, checked against the wiki figures and reported as PASS or FAIL.
+     *
+     * <h2>Why this asserts instead of printing</h2>
+     *
+     * <p>The owner asked for the attack damage values to be verified against the wiki per version, and doing so
+     * found two live defects: every sword was three points too strong and every shovel one point too weak. The
+     * previous version of this probe <b>printed</b> seven sample items and asserted nothing, which is why the
+     * defects survived - and the sample was the deeper problem, because the one item whose total came out right was
+     * the diamond sword, the single tier for which the wrong constant happened to sum correctly.
+     *
+     * <p>So this walks every tier and compares the era modifier against the figure the wiki gives, naming any
+     * mismatch. It cannot be a unit test: {@code Items.<clinit>} initialises the registry, so a plain JUnit test
+     * cannot construct an {@code ItemStack} at all. That is the third time this project has hit that wall, so the
+     * table lives here, in the one environment where the registry exists.
+     *
+     * <p>It reads the raw {@code ATTACK_DAMAGE} entry deliberately. {@code ItemAttributeModifiers.compute()} also
+     * folds in attack speed, so its output looks like a damage figure and is not one - a mistake made while writing
+     * this very verification.
+     */
     private static Map<String, Object> damageTableProbe() {
         Map<String, Object> out = new LinkedHashMap<>();
         java.util.List<net.minecraft.world.item.Item> items = java.util.List.of(
-            net.minecraft.world.item.Items.WOODEN_SWORD, net.minecraft.world.item.Items.DIAMOND_SWORD,
-            net.minecraft.world.item.Items.DIAMOND_AXE, net.minecraft.world.item.Items.IRON_AXE,
-            net.minecraft.world.item.Items.DIAMOND_PICKAXE, net.minecraft.world.item.Items.DIAMOND_SHOVEL,
-            net.minecraft.world.item.Items.DIAMOND_HOE);
+            net.minecraft.world.item.Items.WOODEN_SWORD, net.minecraft.world.item.Items.GOLDEN_SWORD,
+            net.minecraft.world.item.Items.STONE_SWORD, net.minecraft.world.item.Items.IRON_SWORD,
+            net.minecraft.world.item.Items.DIAMOND_SWORD, net.minecraft.world.item.Items.NETHERITE_SWORD,
+            net.minecraft.world.item.Items.WOODEN_AXE, net.minecraft.world.item.Items.GOLDEN_AXE,
+            net.minecraft.world.item.Items.STONE_AXE, net.minecraft.world.item.Items.IRON_AXE,
+            net.minecraft.world.item.Items.DIAMOND_AXE, net.minecraft.world.item.Items.NETHERITE_AXE,
+            net.minecraft.world.item.Items.WOODEN_PICKAXE, net.minecraft.world.item.Items.GOLDEN_PICKAXE,
+            net.minecraft.world.item.Items.STONE_PICKAXE, net.minecraft.world.item.Items.IRON_PICKAXE,
+            net.minecraft.world.item.Items.DIAMOND_PICKAXE, net.minecraft.world.item.Items.NETHERITE_PICKAXE,
+            net.minecraft.world.item.Items.WOODEN_SHOVEL, net.minecraft.world.item.Items.GOLDEN_SHOVEL,
+            net.minecraft.world.item.Items.STONE_SHOVEL, net.minecraft.world.item.Items.IRON_SHOVEL,
+            net.minecraft.world.item.Items.DIAMOND_SHOVEL, net.minecraft.world.item.Items.NETHERITE_SHOVEL);
+
+        String versionId = net.historicalexperience.gameplay.HistoricalActiveSession.current();
+        boolean beforeNerf = net.historicalexperience.gameplay.HistoricalGameplayTweaks
+            .swordDamageBeforeReleaseOnePointZero(versionId);
+        out.put("sessionVersion", String.valueOf(versionId));
+        out.put("swordPreNerfFigures", beforeNerf);
+
+        java.util.List<String> mismatches = new java.util.ArrayList<>();
+        int checked = 0;
         for (net.minecraft.world.item.Item item : items) {
             var stack = new net.minecraft.world.item.ItemStack(item);
             var modern = stack.get(net.minecraft.core.component.DataComponents.ATTRIBUTE_MODIFIERS);
             if (modern == null) {
-                out.put(item.toString(), "no attribute component");
+                mismatches.add(item + ": no attribute component");
                 continue;
             }
-            double modernDamage = modern.compute(1.0,
-                net.minecraft.world.entity.EquipmentSlot.MAINHAND);
-            double eraDamage = net.historicalexperience.gameplay.HistoricalDamageValues
-                .rewrite(stack, modern)
-                .compute(1.0, net.minecraft.world.entity.EquipmentSlot.MAINHAND);
-            out.put(item.toString(), "applicable="
-                + net.historicalexperience.gameplay.HistoricalDamageValues.isApplicable(stack)
-                + " modern=" + modernDamage + " era=" + eraDamage
-                + (modernDamage == eraDamage ? " (SAME on both sides of the boundary)" : ""));
+            float actual = attackDamageModifier(
+                net.historicalexperience.gameplay.HistoricalDamageValues.rewrite(stack, modern));
+            int tierBonus = lockedTierBonus(item);
+            float expected = expectedEraModifier(item, tierBonus, beforeNerf);
+            // Record EVERY row, not only the failures. The failure text alone could not distinguish "the code is
+            // wrong" from "the table above is wrong", and diagnosing that by inference cost several rounds tonight.
+            out.put(item.toString(), (Math.abs(actual - expected) <= 0.001F ? "PASS" : "FAIL")
+                + " got=" + actual + " expected=" + expected + " tierBonus=" + tierBonus
+                + " kind=" + net.historicalexperience.gameplay.HistoricalDamageValues
+                    .kindOf(new net.minecraft.world.item.ItemStack(item))
+                + " preNerf=" + beforeNerf
+                + " modernMod=" + attackDamageModifier(modern));
+            if (Math.abs(actual - expected) > 0.001F) {
+                mismatches.add(item + ": got " + actual + ", wiki says " + expected);
+            }
+            checked++;
         }
+        out.put("itemsChecked", checked);
+        out.put("mismatches", mismatches.isEmpty() ? "NONE - every tier matches the wiki" : mismatches);
+
+        // Report the tier bonuses actually read from the game, because the expectations depend on them and a wrong
+        // bonus would look exactly like a wrong constant. This is the "check the measurement, not just the result"
+        // step that this project keeps having to relearn.
+        Map<String, Object> bonuses = new LinkedHashMap<>();
+        for (var tier : java.util.List.of(net.minecraft.world.item.Tiers.WOOD, net.minecraft.world.item.Tiers.STONE,
+                net.minecraft.world.item.Tiers.IRON, net.minecraft.world.item.Tiers.DIAMOND,
+                net.minecraft.world.item.Tiers.NETHERITE)) {
+            bonuses.put(String.valueOf(tier), tier.getAttackDamageBonus());
+        }
+        out.put("tierAttackDamageBonus", bonuses);
+        // What the DAMAGE CODE last saw when it computed a value. A failing expectation and a failing computation
+        // are indistinguishable from outside, and this project has confused the two repeatedly - so the code
+        // reports its own inputs rather than leaving them to be inferred.
+        out.put("lastComputation", net.historicalexperience.gameplay.HistoricalDamageValues.LAST_BRANCH
+            + " tierBonus=" + net.historicalexperience.gameplay.HistoricalDamageValues.LAST_TIER_BONUS
+            + " preNerf=" + net.historicalexperience.gameplay.HistoricalDamageValues.LAST_SWORD_PRE_NERF
+            + " tier=" + net.historicalexperience.gameplay.HistoricalDamageValues.LAST_TIER_NAME);
         return out;
+    }
+
+    /**
+     * The era modifier the wiki's figures imply, keyed off the era TOTAL and the locked tier bonus.
+     *
+     * <h2>Why this is now expressed as totals and not as name matching</h2>
+     *
+     * <p>Two earlier versions of this checker matched on the item's name and produced self-contradictory output -
+     * rows claiming a tier bonus beside an expectation that only holds for a different one - which sent the
+     * diagnosis after the product when the checker was at fault. So the branch is chosen by the {@code Kind} the
+     * production code itself would choose, and the expected modifier is the era total minus the hand's 1.
+     */
+    private static float expectedEraModifier(net.minecraft.world.item.Item item, int tierBonus,
+            boolean beforeNerf) {
+        var stack = new net.minecraft.world.item.ItemStack(item);
+        var kind = net.historicalexperience.gameplay.HistoricalDamageValues.kindOf(stack);
+        if (kind == null) {
+            return tierBonus;
+        }
+        return switch (kind) {
+            case SWORD -> {
+                if (!beforeNerf) {
+                    yield tierBonus + 3.0F;   // era total 4
+                }
+                // Pre-Pre3. The wiki gives exact figures for iron (8) and diamond (10) and says wooden and golden
+                // are EXEMPT (so 4, unchanged); stone is inferred as 5 from the shape of the other two.
+                yield switch (tierBonus) {
+                    case 0 -> 3.0F;   // wood, gold - exempt, total 4
+                    case 1 -> 4.0F;   // stone - inferred, total 5
+                    case 2 -> 6.0F;   // iron - wiki exact, total 8
+                    default -> 9.0F;  // diamond and above - wiki exact, total 10
+                };
+            }
+            case AXE -> tierBonus + 3.0F;      // era total 4
+            case PICKAXE -> tierBonus + 2.0F;  // era total 3
+            case SHOVEL -> tierBonus + 1.5F;   // era total 2.5, the one non-integer figure
+            case HOE -> tierBonus;             // never a weapon before 15w34c, so 1 damage for every tier
+        };
+    }
+
+    /**
+     * The tier's attack damage bonus as a locked table, NOT read back from the item.
+     *
+     * <p>An earlier version of this probe derived the bonus with {@code tiered.getTier().getAttackDamageBonus()}
+     * and produced a self-contradictory report — a row claiming {@code tierBonus=1} beside an expectation that only
+     * holds for a bonus of 0 — which sent the diagnosis chasing the product when the checker was at fault. The
+     * bonuses are reported once, separately, straight from the game; the expectations use this table so that a
+     * disagreement between the two is itself the signal.
+     */
+    private static final java.util.Map<net.minecraft.world.item.Item, Integer> TIER_BONUS =
+        java.util.Map.ofEntries(
+            java.util.Map.entry(net.minecraft.world.item.Items.WOODEN_SWORD, 0),
+            java.util.Map.entry(net.minecraft.world.item.Items.GOLDEN_SWORD, 0),
+            java.util.Map.entry(net.minecraft.world.item.Items.STONE_SWORD, 1),
+            java.util.Map.entry(net.minecraft.world.item.Items.IRON_SWORD, 2),
+            java.util.Map.entry(net.minecraft.world.item.Items.DIAMOND_SWORD, 3),
+            java.util.Map.entry(net.minecraft.world.item.Items.NETHERITE_SWORD, 4),
+            java.util.Map.entry(net.minecraft.world.item.Items.WOODEN_AXE, 0),
+            java.util.Map.entry(net.minecraft.world.item.Items.GOLDEN_AXE, 0),
+            java.util.Map.entry(net.minecraft.world.item.Items.STONE_AXE, 1),
+            java.util.Map.entry(net.minecraft.world.item.Items.IRON_AXE, 2),
+            java.util.Map.entry(net.minecraft.world.item.Items.DIAMOND_AXE, 3),
+            java.util.Map.entry(net.minecraft.world.item.Items.NETHERITE_AXE, 4),
+            java.util.Map.entry(net.minecraft.world.item.Items.WOODEN_PICKAXE, 0),
+            java.util.Map.entry(net.minecraft.world.item.Items.GOLDEN_PICKAXE, 0),
+            java.util.Map.entry(net.minecraft.world.item.Items.STONE_PICKAXE, 1),
+            java.util.Map.entry(net.minecraft.world.item.Items.IRON_PICKAXE, 2),
+            java.util.Map.entry(net.minecraft.world.item.Items.DIAMOND_PICKAXE, 3),
+            java.util.Map.entry(net.minecraft.world.item.Items.NETHERITE_PICKAXE, 4),
+            java.util.Map.entry(net.minecraft.world.item.Items.WOODEN_SHOVEL, 0),
+            java.util.Map.entry(net.minecraft.world.item.Items.GOLDEN_SHOVEL, 0),
+            java.util.Map.entry(net.minecraft.world.item.Items.STONE_SHOVEL, 1),
+            java.util.Map.entry(net.minecraft.world.item.Items.IRON_SHOVEL, 2),
+            java.util.Map.entry(net.minecraft.world.item.Items.DIAMOND_SHOVEL, 3),
+            java.util.Map.entry(net.minecraft.world.item.Items.NETHERITE_SHOVEL, 4));
+
+    /** The tier's attack damage bonus, from the locked table, cross-checked against the item's own value. */
+    private static int lockedTierBonus(net.minecraft.world.item.Item item) {
+        return TIER_BONUS.getOrDefault(item, -1);
+    }
+
+    /** The raw ATTACK_DAMAGE modifier - NOT compute(), which also folds in attack speed. */
+    private static float attackDamageModifier(
+            net.minecraft.world.item.component.ItemAttributeModifiers modifiers) {
+        if (modifiers == null) {
+            return Float.NaN;
+        }
+        for (var entry : modifiers.modifiers()) {
+            if (entry.attribute() == net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE
+                && entry.modifier().operation()
+                    == net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_VALUE) {
+                return (float) entry.modifier().amount();
+            }
+        }
+        return Float.NaN;
     }
 
     /**
