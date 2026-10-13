@@ -61,7 +61,6 @@
     "defaultRequire": 1
   },
   "client": [
-    "LightEngineHistoricalClassicMixin",
     "GuiHistoricalHudMixin",
     "HumanoidModelHistoricalBlockingMixin",
     "ItemInHandRendererHistoricalBlockingMixin",

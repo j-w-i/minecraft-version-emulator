@@ -487,40 +487,20 @@ turned out to be "no approximation needed" rather than the decision I expected t
    **zero anachronisms**, so restoring the vanilla features leaked nothing. The controls `beta_1_8_1` and
    `beta_1_7_3` are unchanged, proving the bans were lifted only where they were wrong. 352 tests green; the
    defect pin was replaced by `oreLossIsFixedForEveryAffectedProfile` and `ownOreRevisionsKeepTheBans`.
-16. **NT's classic lighting engine: IMPLEMENTED, toggleable, and removed from Beta 1.3 onward.** Owner
-   instruction: port NT's lighting engine, make it toggleable, and offer the toggle only up to Beta 1.3, where it
-   is removed.
-   **The ported rule** is NT's `NostalgicDataLayer.getLightValue` plus `LightingHelper.getClassicLight`, in
-   `HistoricalLightingEngine` and `LightEngineHistoricalClassicMixin`, which name their upstream files:
-   under the classic engine **block light is the constant 13** — torches and lamps made no difference, which is
-   what Classic did — and **sky light is binary**: full brightness if the sky is visible, nothing if water or a
-   full light-blocker stands above, with a value already at either extreme passed through untouched before the
-   upward scan. That pass-through order is upstream's and is asserted, because inverting it would give full
-   brightness underground.
-   **The boundary is Beta 1.3 exclusive**, matching the instruction and corroborated by our own research rather
-   than merely accepted: `minecraft-version-history.md` records Beta 1.3 as *"Smooth-lighting engine and graphics
-   option added"*. `availableFor` therefore answers false at Beta 1.3 and later, so the option is **not offered**
-   there rather than offered-and-ignored, and the toggle cannot be switched on from a stale config either.
-   **An unknown version leaves lighting alone**: `HistoricalClientRules.activeVersion()` returns null before a
-   multiplayer server's push arrives, and a client that guessed would render one thing while the server believed
-   another.
-   **Two real defects were caught before this shipped, both by insisting on runtime evidence rather than a green
-   compile:**
-   * The mixin was registered in the **common** mixin list while referencing `ClientLevel` and `ClientChunkCache`.
-     A dedicated server then failed to attach it — `RuntimeException: Mixin transformation of
-     net.minecraft.world.level.light.LightEngine failed … ClassNotFoundException:
-     net.minecraft.client.multiplayer.ClientLevel` — so every server launch died. Moved to the `client` list,
-     which is what that list is for; the matrix sweep confirms both Beta 1.2 and Beta 1.3 now load, match their
-     presets and report no mixin failure.
-   * The injection had no `require`, so a failed apply would have been **silent**: the mod loads, lighting stays
-     modern, nothing reports it. It now carries `require = 1`, which is what turned the attach failure into a loud
-     crash on the first run instead of a feature that quietly did nothing.
-   **Verification, and its limit, stated plainly.** 359 unit tests cover the boundary in both directions across
-   the whole registry, the toggle, the ported rule as a table, and — because the mixin is client-scoped and a
-   server probe cannot load it — a reflection test that the named target `LightEngine.getLightValue(BlockPos)`
-   still exists returning `int` and that the handler still names exactly that method. What is **not** verified is
-   the physical client rendering with the classic engine on; that needs a client launch, and the honest claim is
-   that the rule, the gating and the toggle are tested while the on-screen result is not.
+16. **NT's classic lighting engine: WITHDRAWN by the owner, and removed from the tree.** The owner asked for
+   NT's lighting engine to be ported, toggleable and available only before Beta 1.3; it was implemented, verified
+   and committed (`06a9bb9`), and the owner then withdrew the request — it is not wanted. Every part of it has been
+   deleted: `HistoricalLightingEngine`, `LightEngineHistoricalClassicMixin`, its test, and its mixin-config entry.
+   A grep of `src/` for any of those names returns nothing, so nothing is left half-removed.
+   Two findings from that work are kept because they generalise beyond it, and both were caught only by demanding
+   runtime evidence after a green compile:
+   * A mixin that references client-only classes must be listed in the **`client`** section of the mixin config. In
+     the common list it makes every dedicated-server launch fail with `ClassNotFoundException:
+     net.minecraft.client.multiplayer.ClientLevel`, which is how it behaved before it was moved.
+   * A mixin without `require` fails **silently**. The `require = 1` added here is what turned an invalid injection
+     into a loud crash on the first run rather than a feature that quietly did nothing.
+   Recorded rather than erased so a future round does not re-implement this by accident and so the withdrawal is
+   visible in the traceability matrix instead of only in git history.
 12. **The Nether's terrain SHAPE is still the modern 1.16+ one.** Its biomes are fixed (one biome,
    `minecraft:nether_wastes`, via vanilla's `minecraft:fixed` biome source), but the shape comes from
    `minecraft:nether` noise settings and Moderner Beta ships no historical Nether to point at. Recorded as a gap.
