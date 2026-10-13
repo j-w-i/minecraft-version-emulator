@@ -371,6 +371,32 @@ turned out to be "no approximation needed" rather than the decision I expected t
    Verified: build green (340 tests), all four targets report `loaded and transformed` at runtime, probe
    `success=true`. The click behaviour itself still needs an in-game confirmation — a scripted double-click is not
    something this harness can drive.
+7. **Sheep wool and mutton (repaired, both pinned from jars).** The owner reported that wool should be given when a
+   sheep is *punched* before a certain version, and that sheep should not drop mutton until Release 1.8.
+   * **Punch-shear, boundary Beta 1.7.** From `alpha-1.1.2_01-client.jar` (sha1 `daa4b9f1…`, the exact jar for the
+     `alpha` profile): the sheep class `bo extends ag` overrides `attackEntityFrom(Entity, int)` — not any
+     death-drop method — as `if (!shorn && attacker instanceof EntityLiving) { shorn = true; drop 1 +
+     random.nextInt(3) of Item.cloth }`. So punching shorns it for **1–3 wool, once**, and the class has **no**
+     death-drop override, so killing an Alpha sheep yielded nothing. Shears are **Beta 1.7**, confirmed by the
+     string "shears" being absent from the Alpha jar and present in `beta173-client.jar`, and confirmed
+     independently by the owner. The gate therefore covers every declared version older than Beta 1.7.3.
+   * **Mutton, boundary Release 1.8.** The string "mutton" occurs **0** times in the language data of
+     `alpha-1.1.2_01`, `b1.7.3`, `b1.8.1`, `1.0.0`, `1.1`, `1.2.5` and `1.6.4`, and **6** times in `1.8.9` — so no
+     declared version may drop it. The defect was ordering, not a missing rule: the sheep case in
+     `HistoricalMobLootHelper.getTable` sat *below* the `hasOldDrops` gate, which is true for only two of the 32
+     profiles, so every other version fell through to the **modern** table that contains raw mutton. Hoisting the
+     sheep branch above the gate fixes all of them, and both of its branches are mutton-free.
+8. **Crafting checkpoints (new, with a stated limit).** The owner asked for these after finding beds craftable in
+   an Alpha world. `HistoricalRecipeGate` refuses a crafting result whose block the active version could not have,
+   answered by the **same dated availability table the generation veto uses** rather than by a recipe list — so it
+   covers beds (Beta 1.3), stone bricks, quartz, hay, anvils, beacons and anything else in that table at once,
+   and gains a boundary whenever the table does. Enforced at the two places a result is filled
+   (`CraftingMenu.slotChangedCraftingGrid` and `InventoryMenu.slotsChanged`); the recipe registry is deliberately
+   **not** filtered, which the project forbids.
+   **Limit, recorded rather than hidden: the availability table is a BLOCK table**, so an anachronistic non-block
+   *item* is not yet gated — mutton, for one. Closing that needs an item-availability table that does not exist.
+   Verified: 4 new unit tests (344 total, green) plus runtime `loaded and transformed` for `CraftingMenu`,
+   `InventoryMenu`, `Sheep` and `Container`.
 3. **The Nether's terrain SHAPE is still the modern 1.16+ one.** Its biomes are fixed (one biome,
    `minecraft:nether_wastes`, via vanilla's `minecraft:fixed` biome source), but the shape comes from
    `minecraft:nether` noise settings and Moderner Beta ships no historical Nether to point at. Recorded as a gap.
