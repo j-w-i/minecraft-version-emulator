@@ -339,7 +339,7 @@ public final class HistoricalVersions {
                     + "1.0.14), per research/version-transitions.json. Food table shared with Alpha v1.1.2_01 "
                     + "because no edible item was added between them. Gold and diamond ore frequency per this "
                     + "build is NOT implemented: see research/implementation-coverage.md."),
-                HistoricalFeatureExclusions.ALPHA_BEFORE_CLAY_ARRIVED));
+                HistoricalFeatureExclusions.ALPHA_BEFORE_1_0_11_CONTENT));
 
         // Alpha 1.0.4, whose distinguishing feature is winter mode: an alternate CREATION-TIME generator, which the
         // research describes as a separate world-creation choice rather than a climate-driven snow biome.
@@ -390,7 +390,7 @@ public final class HistoricalVersions {
                     "moderner_beta:alpha",
                     true,
                     "modern content: the Release 1.2.1 desert well, and clay, which arrives in Alpha 1.0.11",
-                    HistoricalFeatureExclusions.ALPHA_BEFORE_CLAY_ARRIVED,
+                    HistoricalFeatureExclusions.ALPHA_BEFORE_1_0_11_CONTENT,
                     List.of()))));
 
         // WINTER MODE IS NOT DECLARED YET, and the reason is a conflict in the model rather than missing research.

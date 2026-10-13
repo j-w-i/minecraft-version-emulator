@@ -310,24 +310,25 @@ public final class HistoricalFeatureExclusions {
     );
 
     /**
-     * The above, plus clay, for every Alpha build that predates it.
+     * The above, plus every block the research dates to Alpha 1.0.11, for the builds before it.
      *
-     * <p>Clay arrives in <b>Alpha 1.0.11</b>. That was found by a generation probe rather than by reading the
-     * research: Alpha 1.0.1 was generating clay, and the block-availability table cannot report it for a version
-     * with no extracted palette.
+     * <p>Alpha 1.0.11 introduces clay, sugar cane, paper, books, bricks and slimes. This list exists because the
+     * block-level suppression path cannot reach these: that path decides from a version's extracted block palette
+     * and its own documentation says "a version with no extracted palette makes no claim at all" - which is every
+     * Alpha build - and vanilla PLACED FEATURES are not that path either.
      *
-     * <p>Four placed features can place clay, and all four are excluded: Moderner Beta's own
-     * {@code moderner_beta:ore_clay} (backed by {@code BetaOreClayFeature}), and vanilla's
-     * {@code minecraft:ore_clay}, {@code minecraft:disk_clay} and {@code lush_caves_clay}.
+     * <p>Clay and sugar cane were both found by playing a real Alpha 1.0.1 world rather than by reading anything.
+     * The dates were already in the availability table - one entry names them together, "clay block and sugar cane
+     * introduced Alpha v1.0.11" - but a date is a claim, not a filter, and nothing was enforcing it here.
      *
-     * <p>Named for the boundary rather than for one build, because it is not 1.0.1's alone: <b>1.0.4 and 1.0.6
-     * predate clay too</b>. It cannot live in the shared pre-Beta list because <b>Alpha v1.1.2_01 HAS clay</b>,
-     * which is why the registry helper accepts an exclusion override - the fact is about the build, not the era.
+     * <p>Named for the boundary rather than for one block, because it will grow: 1.0.1, 1.0.4 and 1.0.6 all predate
+     * all of it, and Alpha v1.1.2_01 has all of it.
      */
-    public static final List<Exclusion> ALPHA_BEFORE_CLAY_ARRIVED = List.copyOf(
+    public static final List<Exclusion> ALPHA_BEFORE_1_0_11_CONTENT = List.copyOf(
         java.util.stream.Stream.concat(
             BEFORE_GRASS_EXISTED_WITHOUT_DESERT_WELL.stream(),
             java.util.stream.Stream.of(
+                // Clay: four placed features can produce it.
                 new Exclusion("moderner_beta:ore_clay",
                     "Clay arrives in Alpha 1.0.11; observed generating in an Alpha 1.0.1 world"),
                 new Exclusion("minecraft:ore_clay",
@@ -335,7 +336,17 @@ public final class HistoricalFeatureExclusions {
                 new Exclusion("minecraft:disk_clay",
                     "Clay arrives in Alpha 1.0.11, and this build predates it"),
                 new Exclusion("lush_caves_clay",
-                    "Clay arrives in Alpha 1.0.11, and this build predates it"))
+                    "Clay arrives in Alpha 1.0.11, and this build predates it"),
+                // Sugar cane, which the same availability entry dates to the same build. Four vanilla features
+                // place it, and the report was "i can still see sugar cane which wasn't added until later".
+                new Exclusion("minecraft:patch_sugar_cane",
+                    "Sugar cane arrives in Alpha 1.0.11; observed in an Alpha 1.0.1 world"),
+                new Exclusion("minecraft:patch_sugar_cane_desert",
+                    "Sugar cane arrives in Alpha 1.0.11, and this build predates it"),
+                new Exclusion("minecraft:patch_sugar_cane_swamp",
+                    "Sugar cane arrives in Alpha 1.0.11, and this build predates it"),
+                new Exclusion("minecraft:patch_sugar_cane_badlands",
+                    "Sugar cane arrives in Alpha 1.0.11, and this build predates it"))
         ).toList()
     );
 
