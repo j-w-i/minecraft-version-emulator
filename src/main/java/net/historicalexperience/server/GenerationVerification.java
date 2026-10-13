@@ -166,6 +166,51 @@ public final class GenerationVerification {
         return out;
     }
 
+    /**
+     * Breaks ore blocks and reports what actually dropped, through the real mining path.
+     *
+     * <p>Written because the ore self-drop rule was reported WORKING and is disputed. The rule replaces the drops
+     * of iron and gold ore with the ore block itself, and in 1.21.1 those drops come from datapack loot tables,
+     * which is a good reason to doubt that a hook on the block's own drop method is reached. Reading the code
+     * cannot settle it and neither can reading the loot table: only breaking a block can.
+     *
+     * <p>So this places each ore, calls {@code destroyBlock} with drops enabled - the same path a player's pickaxe
+     * takes - and reads the item entities that resulted. It reports what appeared, not what was expected.
+     */
+    private static Map<String, Object> oreDropProbe(net.minecraft.server.level.ServerLevel level) {
+        Map<String, Object> out = new LinkedHashMap<>();
+
+        for (String oreId : java.util.List.of("minecraft:iron_ore", "minecraft:gold_ore")) {
+            try {
+                var block = net.minecraft.core.registries.BuiltInRegistries.BLOCK
+                    .get(net.minecraft.resources.ResourceLocation.parse(oreId));
+                if (block == net.minecraft.world.level.block.Blocks.AIR) {
+                    out.put(oreId, "<no such block in this version's registry>");
+                    continue;
+                }
+
+                var pos = new BlockPos(20, 90, 20);
+                level.setBlockAndUpdate(pos, block.defaultBlockState());
+                // true = let the drops be produced and spawned, which is what mining does.
+                level.destroyBlock(pos, true);
+
+                java.util.List<String> dropped = new java.util.ArrayList<>();
+                for (var item : level.getEntitiesOfClass(net.minecraft.world.entity.item.ItemEntity.class,
+                        new net.minecraft.world.phys.AABB(pos).inflate(3.0))) {
+                    dropped.add(net.minecraft.core.registries.BuiltInRegistries.ITEM
+                        .getKey(item.getItem().getItem()) + " x" + item.getItem().getCount());
+                    item.discard();
+                }
+
+                out.put(oreId, dropped.isEmpty() ? "<nothing dropped>" : dropped);
+            } catch (Throwable failure) {
+                out.put(oreId, "probe failed: " + failure);
+            }
+        }
+
+        return out;
+    }
+
     private static void run(MinecraftServer server) {
         Map<String, Object> report = new LinkedHashMap<>();
         report.put("runToken", System.getProperty("historical_experience.generationProbe.token"));
@@ -281,6 +326,7 @@ public final class GenerationVerification {
             // instead of only a unit test asserting the tables are readable.
             // The live observation of the simulation rules, which the block and structure checks cannot see.
             report.put("gameplay", gameplayProbe(level, versionId));
+            report.put("oreDrops", oreDropProbe(level));
             report.put("damageTable", damageTableProbe());
             report.put("combatHooks", net.historicalexperience.gameplay.HistoricalCombatDiagnostics.report());
             report.put("mixinTargets", mixinTargetSmokeTest());

@@ -1494,9 +1494,9 @@
       "mechanic": "fall damage",
       "states": [
         {"fromBuild": "alpha_1_0_17", "state": "Mob-specific: chickens no longer take fall damage and glide downward.", "evidence": "Part III > Alpha v1.0.17"},
-        {"fromBuild": "beta_1_6", "state": "Patch-level (Beta 1.6.3, not base Beta 1.6): safe water-fall depth changes to >=3 blocks.", "evidence": "Part III > Patch/build boundary register (Beta 1.6.1-1.6.6)"},
+        {"fromBuild": "beta_1_6_3", "state": "Patch-level (Beta 1.6.3, not base Beta 1.6): safe water-fall depth changes to >=3 blocks.", "evidence": "Part III > Patch/build boundary register (Beta 1.6.1-1.6.6)"},
         {"fromBuild": "beta_1_8", "state": "Player fall damage is reduced by 50% while sword-blocking (a blocking sub-behavior removed in a Beta 1.9 prerelease, which one is not stated).", "evidence": "Part III > Beta 1.8; Part IV > Combat and movement"},
-        {"fromBuild": "release_1_3", "state": "Patch-level (Release 1.3.2, not base 1.3.1) fixes missing fall damage.", "evidence": "Part III > Patch/build boundary register (Release 1.3.2)"}
+        {"fromBuild": "release_1_3_2", "state": "Patch-level (Release 1.3.2, not base 1.3.1) fixes missing fall damage.", "evidence": "Part III > Patch/build boundary register (Release 1.3.2)"}
       ],
       "notes": "No fall-damage formula, threshold height or per-block damage is documented for any build; the only numbers are the blocking 50% reduction and the >=3-block safe water depth introduced in Beta 1.6.3."
     },
@@ -1519,7 +1519,7 @@
         {"fromBuild": "alpha_1_0_14", "state": "Slime spawning is reduced and then disabled due to a reported spawn-limit miscalculation (not a permanent removal).", "evidence": "Part III > Alpha v1.0.14"},
         {"fromBuild": "alpha_1_1_0", "state": "Monsters in multiplayer are behind an experimental switch; exact spawn logic not detailed and not evidence of parity with singleplayer AI.", "evidence": "Part III > Alpha v1.1.0"},
         {"fromBuild": "alpha_1_2_0", "state": "Slimes are removed from the mob spawning code; ghasts and zombie pigmen are added (pigmen neutral until attacked, then nearby group retaliation).", "evidence": "Part III > Alpha v1.2.0"},
-        {"fromBuild": "beta_1_2", "state": "Patch-level (Beta 1.2_01): mob spawn rates are lowered.", "evidence": "Part III > Patch/build boundary register (Beta 1.2_01)"},
+        {"fromBuild": "beta_1_2_01", "state": "Patch-level (Beta 1.2_01): mob spawn rates are lowered.", "evidence": "Part III > Patch/build boundary register (Beta 1.2_01)"},
         {"fromBuild": "beta_1_3", "state": "Slimes spawn again.", "evidence": "Part III > Beta 1.3"},
         {"fromBuild": "beta_1_4", "state": "Multiplayer client slime spawn fixed; wolves are common in taiga.", "evidence": "Part III > Beta 1.4"},
         {"fromBuild": "beta_1_5", "state": "Wolves become more common outside taiga/forest; lightning creates charged creepers and turns struck pigs into zombie pigmen.", "evidence": "Part III > Beta 1.5"},
@@ -1527,8 +1527,10 @@
         {"fromBuild": "beta_1_9_pre_1", "state": "Blazes have fortress spawners (two per fortress); mushroom islands are hostile-mob-free according to build notes.", "evidence": "Part III > Beta 1.9 Prerelease 1"},
         {"fromBuild": "beta_1_9_pre_5", "state": "Slime spawn height increases from Y=0-16 to Y=0-40; hostile mobs become neutral toward players in Creative with reduced attack range.", "evidence": "Part III > Beta 1.9 Prerelease 5"},
         {"fromBuild": "release_1_3", "state": "Mobs can spawn atop upside-down slabs/stairs.", "evidence": "Part III > Release 1.3 (stable baseline 1.3.1)"},
-        {"fromBuild": "release_1_4", "state": "Witches are associated with swamp witch huts; wither skeletons are fortress mobs, and 1.4.5 enables them in already-generated fortresses.", "evidence": "Part III > Release 1.4; Part III > Patch/build boundary register (Release 1.4.3 prerelease / 1.4.4-1.4.7)"},
-        {"fromBuild": "release_1_6", "state": "Horses spawn naturally in plains/savanna; patch 1.6.2 adds natural baby zombie/zombie pigman spawns.", "evidence": "Part III > Release 1.6; Part III > Patch/build boundary register (Release 1.6.2-1.6.4)"}
+        {"fromBuild": "release_1_4", "state": "Witches are associated with swamp witch huts; wither skeletons are fortress mobs.", "evidence": "Part III > Release 1.4 (stable baseline 1.4.2)"},
+        {"fromBuild": "release_1_4_5", "state": "Patch-level (Release 1.4.5): wither skeletons enabled in already-generated fortresses.", "evidence": "Part III > Patch/build boundary register (Release 1.4.3 prerelease / 1.4.4-1.4.7)"},
+        {"fromBuild": "release_1_6", "state": "Horses spawn naturally in plains/savanna.", "evidence": "Part III > Release 1.6 (stable baseline 1.6.1)"},
+        {"fromBuild": "release_1_6_2", "state": "Patch-level (Release 1.6.2): natural baby zombie/zombie pigman spawns added.", "evidence": "Part III > Patch/build boundary register (Release 1.6.2-1.6.4)"}
       ],
       "notes": "Exact spawn caps, light thresholds, despawn rules and many drop tables remain unverified; several entries are wiki historical notes rather than tested facts, and modern AI/spawn conditions must not be substituted."
     },
@@ -1590,7 +1592,8 @@
         {"fromBuild": "alpha_1_0_4", "state": "Snow layers existed in terrain but were not obtainable as an item; generated snow is not normally harvestable.", "evidence": "Part III > Alpha v1.0.4"},
         {"fromBuild": "alpha_1_0_6", "state": "Snow-block recipe uses four snowballs while breaking yields six, making snowballs renewable.", "evidence": "Part III > Alpha v1.0.6"},
         {"fromBuild": "alpha_1_0_11", "state": "Slimeballs are obtainable but useless; bookshelves drop nothing when mined.", "evidence": "Part III > Alpha v1.0.11"},
-        {"fromBuild": "beta_1_2", "state": "Brown wool and cocoa beans are registry/content but only external-editor obtainable with no survival route; lapis is a dye, not an enchantment currency; patch Beta 1.2_02's hidden unfinished Shift+F2 panorama feature is test code.", "evidence": "Part III > Beta 1.2; Part III > Patch/build boundary register (Beta 1.2_02)"},
+        {"fromBuild": "beta_1_2", "state": "Brown wool and cocoa beans are registry/content but only external-editor obtainable with no survival route; lapis is a dye, not an enchantment currency.", "evidence": "Part III > Beta 1.2"},
+        {"fromBuild": "beta_1_2_02", "state": "Patch-level (Beta 1.2_02): a hidden unfinished Shift+F2 panorama screenshot feature is test code; a distinct May developer build reuses the label and must not be conflated with the January public patch.", "evidence": "Part III > Patch/build boundary register (Beta 1.2_02)"},
         {"fromBuild": "beta_1_3", "state": "Smooth stone slab present in assets/recipe context but explicitly unobtainable; the painting texture is a placeholder because painting code predated its texture.", "evidence": "Part III > Beta 1.3"},
         {"fromBuild": "beta_1_5", "state": "Cobweb exists but cannot be obtained without inventory editing.", "evidence": "Part III > Beta 1.5"},
         {"fromBuild": "beta_1_6", "state": "Shrub is an internal/Creative-editor entry that generates nowhere; grass/foliage color-map capability exists but maps initially were not read.", "evidence": "Part III > Beta 1.6"},
@@ -1611,7 +1614,9 @@
       "states": [
         {"fromBuild": "alpha_1_0_1", "state": "Dungeons predate this target build; exact dungeon loot/spawner behavior not audited.", "evidence": "Part III > Alpha v1.0.1; Part IV > Structures and caves"},
         {"fromBuild": "alpha_1_0_14", "state": "Dungeon generator iterations increase 4 -> 8, changing population order and other generated content via the decorator RNG cascade.", "evidence": "Part III > Alpha v1.0.14"},
-        {"fromBuild": "beta_1_8", "state": "Strongholds, villages, mineshafts and ravines added; initial villages were broken/partial (wells, paths, lamp posts) and fixed in a reupload; initial strongholds were one per world with only the central staircase; prerelease 2 lowers mineshaft density while raising structure frequency about 2.5x and setting three strongholds per world; Beta 1.8.1 changes mineshaft support beams from planks to fences.", "evidence": "Part III > Beta 1.8; Part III > Patch/build boundary register (Beta 1.8 prerelease/reupload/Pre2/1.8.1)"},
+        {"fromBuild": "beta_1_8", "state": "Strongholds, villages, mineshafts and ravines added; initial villages were broken/partial (wells, paths, lamp posts) and fixed in a reupload; initial strongholds were one per world with only the central staircase generating.", "evidence": "Part III > Beta 1.8"},
+        {"fromBuild": "beta_1_8_prerelease_2", "state": "Patch/preview-level: lowers mineshaft density while raising structure frequency about 2.5x and setting three strongholds per world.", "evidence": "Part III > Patch/build boundary register (Beta 1.8 prerelease/reupload/Pre2/1.8.1)"},
+        {"fromBuild": "beta_1_8_1", "state": "Post-release patch: changes mineshaft support beams from planks to fences.", "evidence": "Part III > Patch/build boundary register (Beta 1.8 prerelease/reupload/Pre2/1.8.1)"},
         {"fromBuild": "beta_1_9_pre_1", "state": "Nether fortresses enter world generation with two blaze spawners.", "evidence": "Part III > Beta 1.9 Prerelease 1"},
         {"fromBuild": "beta_1_9_pre_3", "state": "Stronghold End portal rooms added; glass locator pillars remain.", "evidence": "Part III > Beta 1.9 Prerelease 3"},
         {"fromBuild": "beta_1_9_pre_4", "state": "Glass locator pillars removed; the End generates with obsidian pillars and replaces the Sky dimension.", "evidence": "Part III > Beta 1.9 Prerelease 4"},
@@ -1640,6 +1645,106 @@
       ],
       "notes": "Worldgen version changes are seed-discontinuous: block palette filtering alone cannot reconstruct historical terrain (Part V > Matrix notes for recreation). Exact noise classes/constants, seed mixing, RNG call ordering, ore tries/heights/vein sizes, structure spacing and population order all remain unresolved."
     },
-    {"mechanic": "__PLACEHOLDER__"}
+    {
+      "mechanic": "the Nether",
+      "states": [
+        {"fromBuild": "alpha_1_0_1", "state": "Absent (matrix Nether = A through Alpha v1.1.0).", "evidence": "Part V > matrix row 'Nether'; Part III > Alpha v1.0.1"},
+        {"fromBuild": "alpha_1_2_0", "state": "Introduced and reachable through a player-built obsidian portal: netherrack, soul sand, glowstone, ghasts and zombie pigmen; Nether water evaporates; Overworld distance maps at 8:1; soul-sand distribution is adjusted by Alpha 1.2.0_01/_02.", "evidence": "Part III > Alpha v1.2.0; Part II > Master historical feature timeline (Nether)"},
+        {"fromBuild": "beta_1_2", "state": "Entering a Nether portal while mounted on a boat/minecart/pig can crash and delete player data (a dangerous release).", "evidence": "Part III > Beta 1.2"},
+        {"fromBuild": "beta_1_6", "state": "A bed in the Nether explodes; the Nether is supported in multiplayer from this release (server property allow-nether); the player now dismounts from a boat/minecart entering a portal, fixing the earlier portal-ride crash.", "evidence": "Part III > Beta 1.6; Part V > matrix caveat on the Nether row"},
+        {"fromBuild": "beta_1_9_pre_1", "state": "Nether fortresses (two blaze spawners), nether bricks/stairs/fences, Nether wart, blaze rods and ghast tears arrive; the wart/rod/tear are obtainable but inert.", "evidence": "Part III > Beta 1.9 Prerelease 1"},
+        {"fromBuild": "beta_1_9_pre_2", "state": "Blaze powder, magma cream, fermented spider eye and the experimental cauldron prototype added.", "evidence": "Part III > Beta 1.9 Prerelease 2"},
+        {"fromBuild": "release_1_2", "state": "Nether fog moves closer (a visual change only).", "evidence": "Part III > Release 1.2 (stable baseline 1.2.1)"},
+        {"fromBuild": "release_1_4", "state": "Nether wart block added; wither skeletons are fortress mobs; the Wither is summoned with soul sand and three wither skeleton skulls; 1.4.5 enables wither skeletons in already-generated fortresses.", "evidence": "Part III > Release 1.4; Part III > Patch/build boundary register (Release 1.4.3 prerelease / 1.4.4-1.4.7)"},
+        {"fromBuild": "release_1_5", "state": "Nether quartz ore generates in the Nether, estimated at about 70 ore blocks per Nether chunk on average.", "evidence": "Part III > Release 1.5; Part IV > Ores"},
+        {"fromBuild": "release_1_6", "state": "Nether fortress chests are introduced by 13w18a; fortresses previously existed without generated chests.", "evidence": "Part III > Release 1.6 (stable baseline 1.6.1)"}
+      ],
+      "notes": "The matrix caveat is explicit: Nether access in Beta 1.6 gains multiplayer support, but the Nether itself exists from Alpha v1.2.0, so absence of fortresses before the Beta 1.9 prereleases does not mean an empty Nether."
+    },
+    {
+      "mechanic": "the End/strongholds",
+      "states": [
+        {"fromBuild": "beta_1_8", "state": "Strongholds generate with no usable End progression; initially one per world and only the central staircase generated.", "evidence": "Part III > Beta 1.8; Part IV > Dimensions"},
+        {"fromBuild": "beta_1_9_pre_3", "state": "Portal room, eye of ender and End portal frame/block assets arrive, but the portal block has no function and frame repair has no further effect; the End remains inaccessible; a multiplayer bug creates Sky-dimension chunks.", "evidence": "Part III > Beta 1.9 Prerelease 3; Part IV > Dimensions"},
+        {"fromBuild": "beta_1_9_pre_4", "state": "The portal activates and the End dimension is generated/accessed with obsidian pillars; dragon entity code exists but does not spawn.", "evidence": "Part III > Beta 1.9 Prerelease 4; Part IV > Dimensions"},
+        {"fromBuild": "beta_1_9_pre_5", "state": "A kill-Dragon achievement, a dragon death animation and test health 1 exist while the dragon still does not spawn.", "evidence": "Part III > Beta 1.9 Prerelease 5; Part II > Master historical feature timeline (Ender Dragon)"},
+        {"fromBuild": "beta_1_9_pre_6", "state": "The dragon spawns, End crystals on obsidian pillars heal it, and killing it opens the exit portal, drops the egg and makes credits/End poem reachable.", "evidence": "Part III > Beta 1.9 Prerelease 6"},
+        {"fromBuild": "release_1_0_0", "state": "Stable: stronghold -> Eyes of Ender/portal -> End -> dragon -> exit/credits is the progression endpoint.", "evidence": "Part III > Release 1.0 (1.0.0); Part IV > Survival progression"}
+      ],
+      "notes": "Presence of a block asset, structure room, code/entity, dimension, survival route and functional boss are distinct implementation stages (Part IV > Dimensions); do not treat Pre3 portal assets, the Pre4 End dimension or the Pre5 achievement as boss access."
+    },
+    {
+      "mechanic": "villagers",
+      "states": [
+        {"fromBuild": "alpha_1_0_1", "state": "Absent (matrix 'Villager entities in villages' = A through Beta 1.8; trading is A through Release 1.2).", "evidence": "Part V > matrix rows 'Villager entities in villages' and 'Villager trading'"},
+        {"fromBuild": "beta_1_8", "state": "Villages generate but are empty of villagers; do not add trading to non-interactive villages.", "evidence": "Part III > Beta 1.8"},
+        {"fromBuild": "beta_1_9_pre_1", "state": "The villager entity appears (per the version page).", "evidence": "Part III > Beta 1.9 Prerelease 1; Part V > matrix row 'Villager entities in villages'"},
+        {"fromBuild": "release_1_2", "state": "Villager breeding/transformation behavior and zombie sieges exist, but there is NO emerald-based trade economy yet.", "evidence": "Part III > Release 1.2 (stable baseline 1.2.1); Part II > Master historical feature timeline (Emeralds and villager trading)"},
+        {"fromBuild": "release_1_3", "state": "Villager trading introduced/expanded with emeralds, emerald ore and blocks; cocoa beans become naturally available.", "evidence": "Part III > Release 1.3 (stable baseline 1.3.1)"},
+        {"fromBuild": "release_1_4", "state": "Zombie villagers, witches and swamp witch huts added; 1.4.5 enables wither skeletons in existing fortresses.", "evidence": "Part III > Release 1.4 (stable baseline 1.4.2)"}
+      ],
+      "notes": "Do not backdate the trade economy: the emerald/trading boundary is Release 1.3 (12w21a development, stable 1.3.1), not Release 1.2, and Release 1.2's bottle o' enchanting is Creative-only with trading as its later survival source."
+    },
+    {
+      "mechanic": "achievements",
+      "states": [
+        {"fromBuild": "alpha_1_0_1", "state": "Absent (matrix 'Achievement triggers/UI' = A through Beta 1.3).", "evidence": "Part V > matrix row 'Achievement triggers/UI'"},
+        {"fromBuild": "beta_1_4", "state": "Achievement infrastructure includes inventory/wood/workbench triggers, but the complete achievement set/UI arrives incrementally; infrastructure is only partly implemented.", "evidence": "Part III > Beta 1.4"},
+        {"fromBuild": "beta_1_5", "state": "16 achievements and statistics introduced, with an achievement/statistics UI and new action tracking.", "evidence": "Part III > Beta 1.5"},
+        {"fromBuild": "beta_1_9_pre_5", "state": "Ten achievements including brewing, Nether, locate End and kill Dragon; the kill-Dragon achievement exists before the dragon is available; the full list needs a per-page audit.", "evidence": "Part III > Beta 1.9 Prerelease 5"},
+        {"fromBuild": "beta_1_9_pre_6", "state": "The kill-Dragon achievement's intended target finally exists (the dragon spawns and is killable).", "evidence": "Part III > Beta 1.9 Prerelease 6"}
+      ],
+      "notes": "Achievement triggers must be gated per build; the Pre5 kill-Dragon achievement referencing an unavailable boss is the clearest example, and the document does not enumerate the exact 16 or 10 trigger definitions."
+    },
+    {
+      "mechanic": "GUI/HUD differences",
+      "states": [
+        {"fromBuild": "alpha_1_0_17", "state": "Contemporary IRC reports broken/invisible inventory icons during the short-lived client (transient build bug, not a stable mechanic).", "evidence": "Part III > Alpha v1.0.17"},
+        {"fromBuild": "beta_1_0", "state": "Item-name tooltip on hover; cape support and deadmau5 ears cosmetics; armor-slot outlines removed; crafting-grid slots no longer hold items (attempted placement drops them); chest UI closes if the player moves too far or the chest explodes.", "evidence": "Part III > Beta 1.0"},
+        {"fromBuild": "beta_1_4", "state": "Inventory default key becomes E; GUI scale becomes changeable in options.txt.", "evidence": "Part III > Beta 1.4"},
+        {"fromBuild": "beta_1_5", "state": "GUI scale, statistics menu, Advanced OpenGL/occlusion option, footstep particles (not a footstep sound) and dimmer stars.", "evidence": "Part III > Beta 1.5"},
+        {"fromBuild": "beta_1_6", "state": "Map GUI; inventory block icons brighten; Advanced OpenGL temporarily disabled.", "evidence": "Part III > Beta 1.6"},
+        {"fromBuild": "beta_1_7", "state": "F3 direction value display added.", "evidence": "Part III > Beta 1.7"},
+        {"fromBuild": "beta_1_8", "state": "Debug screen exposes the world seed; title-menu panorama; FOV 70-110 and brightness options; new lighting engine with time-synced clouds.", "evidence": "Part III > Beta 1.8"},
+        {"fromBuild": "beta_1_9_pre_2", "state": "Hunger/effect UI icons; tooltip borders; third-person front view.", "evidence": "Part III > Beta 1.9 Prerelease 2"},
+        {"fromBuild": "beta_1_9_pre_3", "state": "XP bar visible but the numeric level is not displayed; enchantment UI with three SGA choices and glint; the original client's debug hotbar.", "evidence": "Part III > Beta 1.9 Prerelease 3"},
+        {"fromBuild": "beta_1_9_pre_4", "state": "Numeric XP level displayed; moon phases; sun/moon cardinal direction and round textures.", "evidence": "Part III > Beta 1.9 Prerelease 4"},
+        {"fromBuild": "beta_1_9_pre_5", "state": "Clouds toggle added; many block textures/names/selection boxes changed; stair lighting and selection boxes fixed.", "evidence": "Part III > Beta 1.9 Prerelease 5"},
+        {"fromBuild": "beta_1_9_pre_6", "state": "Boss bar added; sun/moon square again; credits/End poem reachable.", "evidence": "Part III > Beta 1.9 Prerelease 6"},
+        {"fromBuild": "release_1_2", "state": "Debug screen gains block/sky/raw brightness and biome fields; third-person view delays head movement enough to reveal the side of the head.", "evidence": "Part III > Release 1.2 (stable baseline 1.2.1)"},
+        {"fromBuild": "release_1_5", "state": "Texture packs switch to individual block/item files stitched at runtime with independent resolutions and animation metadata, plus font changes.", "evidence": "Part III > Release 1.5"},
+        {"fromBuild": "release_1_6", "state": "Resource packs replace texture packs; a missing-texture texture is added.", "evidence": "Part III > Release 1.6 (stable baseline 1.6.1)"}
+      ],
+      "notes": "These are source-page observations, not direct renderer/audio-engine tests; exact shader/tick/audio implementation remains unverified, and Release 1.0's sound changes include shared asset-server replacements that could reach older clients."
+    },
+    {
+      "mechanic": "documented historical bugs",
+      "states": [
+        {"fromBuild": "alpha_1_0_1", "state": "The coal blob-size datapoint is specifically marked verification-required by the world-generation history.", "evidence": "Part III > Alpha v1.0.1"},
+        {"fromBuild": "alpha_1_0_6", "state": "Snowballs are renewable through the snow-block yield/recipe mismatch (four in, six out).", "evidence": "Part III > Alpha v1.0.6"},
+        {"fromBuild": "alpha_1_0_11", "state": "Bookshelf mining yielded no drops; the slime split rule was fist-dependent per the version page.", "evidence": "Part III > Alpha v1.0.11"},
+        {"fromBuild": "alpha_1_0_14", "state": "Original client jukebox recipe incorrectly yielded a bookshelf; slime spawns were disabled by a reported spawn-limit miscalculation; dungeon attempts have RNG cascade effects.", "evidence": "Part III > Alpha v1.0.14"},
+        {"fromBuild": "alpha_1_0_17", "state": "Inventory icons reported broken during the short-lived build (contemporary report, not a test).", "evidence": "Part III > Alpha v1.0.17"},
+        {"fromBuild": "alpha_1_1_0", "state": "Camera-through-walls exploit fixed only in the second reupload.", "evidence": "Part III > Alpha v1.1.0"},
+        {"fromBuild": "alpha_1_2_0", "state": "The launcher's '1.2.0' version is actually _02, so exact .0 cannot be validated against it; fake non-solid chunks appear near 32 million blocks; the player 'ough' damage sound is removed.", "evidence": "Part III > Alpha v1.2.0"},
+        {"fromBuild": "beta_1_0", "state": "Crafting-grid placement drops items; chunks are not resaved if saved during the preceding 30 seconds; biome-border and lava-lake quirks.", "evidence": "Part III > Beta 1.0"},
+        {"fromBuild": "beta_1_2", "state": "Powered redstone fails to update properly when a new source is added; rails may orient north incorrectly; entering a Nether portal while mounted on a boat/minecart/pig can crash and delete player data.", "evidence": "Part III > Beta 1.2"},
+        {"fromBuild": "beta_1_3", "state": "The first client starts players with 64 torches, diamond pickaxe/shovel/axe and 64 beds on creation/respawn due to debug code (removed by the 17:33 reupload); a later reupload fixes a crash when opening the world menu without a saves directory.", "evidence": "Part III > Beta 1.3; Part III > Patch/build boundary register (Beta 1.3 original/reuploads)"},
+        {"fromBuild": "beta_1_4", "state": "Bed spawn reset only changes when clicking 'Leave bed' and works only for multiplayer ('does not work for most users'); zombies/spiders previously hurt only when one block above the player (fixed to hurt in all instances).", "evidence": "Part III > Beta 1.4"},
+        {"fromBuild": "beta_1_5", "state": "Beta 1.5_01 later fixes rain passing through glass/stairs/slabs.", "evidence": "Part III > Beta 1.5; Part III > Patch/build boundary register (Beta 1.5_01/_02)"},
+        {"fromBuild": "beta_1_6", "state": "Surviving issue: shift-clicking a container with a full inventory crashes; 97 bugs are listed as fixed including the portal-ride crash, save-while-sneaking falling through the ground, an unreliable compass, quadrant ore density, client-side fake trees/weather and inventory oversize; the separate Test Build 3 has a clay x=z coordinate defect.", "evidence": "Part III > Beta 1.6"},
+        {"fromBuild": "beta_1_7", "state": "Pushing blocks destroyed by a piston can create invalid block 36 ('air') and crash rendering; pushing powered redstone or the same powering line crashes/soft-locks; right-clicking sheep can crash; 1.7_01 makes affected worlds loadable and fixes the empty-hand sheep crash, 1.7.2 fixes piston disappearance/MP crashes, 1.7.3 addresses piston/redstone-torch duplication and sign/painting/rail bugs.", "evidence": "Part III > Beta 1.7; Part III > Patch/build boundary register (Beta 1.7_01/1.7.2/1.7.3)"},
+        {"fromBuild": "beta_1_8", "state": "Inventory-block lighting defect; the prerelease 2 change lowers mineshaft density while raising structure frequency about 2.5x, and the original leaked prerelease had debug keys, broken village/stronghold generation, corrupted models and save issues.", "evidence": "Part III > Beta 1.8; Part III > Patch/build boundary register (Beta 1.8 prerelease/reupload/Pre2/1.8.1)"},
+        {"fromBuild": "beta_1_9_pre_1", "state": "An erroneous jump event grants 1-100 XP; snowfall temporarily destroys redstone, torches, saplings and rails (fixed in Pre5).", "evidence": "Part III > Beta 1.9 Prerelease 1; Part IV > Rendering, weather, and audio"},
+        {"fromBuild": "beta_1_9_pre_2", "state": "Many potion combinations produce unintended negative/no-op effects; invisibility is a no-op; the cauldron has no block ID.", "evidence": "Part III > Beta 1.9 Prerelease 2"},
+        {"fromBuild": "beta_1_9_pre_3", "state": "A multiplayer world-generation bug creates Sky-dimension chunks and makes biome results differ from singleplayer (fixed in Pre4); the original client debug-spawns hotbar stacks.", "evidence": "Part III > Beta 1.9 Prerelease 3"},
+        {"fromBuild": "beta_1_9_pre_4", "state": "Two or more same-day reuploads mean 'Pre4' can name different executable artifacts.", "evidence": "Part III > Beta 1.9 Prerelease 4"},
+        {"fromBuild": "beta_1_9_pre_5", "state": "Water downward flow begins creating source blocks (a temporary physics change reversed in Pre6); Silk Touch stops providing certain special blocks.", "evidence": "Part III > Beta 1.9 Prerelease 5"},
+        {"fromBuild": "beta_1_9_pre_6", "state": "Wooden doors open only with redstone in this build; the dragon egg teleports when clicked/mined (a torch/non-full-block trick collects it); Pre5's water source behavior is reverted.", "evidence": "Part III > Beta 1.9 Prerelease 6"},
+        {"fromBuild": "release_1_0_0", "state": "The MINECON showcase jar differs from the final jar by one authentication/server-ID parsing line; a TCRF exact-version page was inaccessible (403), so change-only details must not be overclaimed.", "evidence": "Part III > Release 1.0 (1.0.0)"},
+        {"fromBuild": "release_1_4", "state": "Later 1.4.x pages warn that mining an empty jukebox can yield invisible Air and interaction can crash/delete a chunk; associate this with the exact affected patch (the 1.4.3 prerelease), not base 1.4.2.", "evidence": "Part III > Release 1.4; Part III > Patch/build boundary register (Release 1.4.3 prerelease / 1.4.4-1.4.7)"}
+      ],
+      "notes": "Severe build-specific defects (Beta 1.2 mounted-portal player-data loss, Beta 1.3 debug starting inventory, Beta 1.7 invalid block 36 crash, Alpha 1.2.0 fake chunks near 32M) should be reproduced deliberately or excluded deliberately, never silently normalized; several entries rest on wiki history or contemporary reports rather than a test."
+    }
   ]
 }

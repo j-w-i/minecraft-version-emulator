@@ -901,3 +901,30 @@ claim about whether that is intended — it is simply what the code does, and it
 | structure rules | 10 (one per declared version) | `HistoricalStructureRules.RULES` |
 | test classes | 37 | `src/test/java/net/historicalexperience/` |
 | `TODO`/`FIXME` markers in main sources | 0 | repository search |
+
+---
+
+## Correction after runtime verification (round 4 of the 29-version task)
+
+**Finding 1 in this report — "the ore self-drop rule cannot fire" — is WRONG.** It was an inference from the
+existence of `data/minecraft/loot_table/blocks/iron_ore.json` in the pinned jar, and the inference does not hold:
+`BlockBehaviour.getDrops` is the method that rolls that loot table and returns its result, so a hook on its return
+is reached.
+
+Settled by breaking the blocks in a running server rather than by reading code, with the probe added to
+`GenerationVerification.oreDropProbe` so it is checked on every probe run from now on. Profile:
+`historical_experience:beta_1_7_3`. Evidence `logs/sol-1211-sol-hist-ore-fresh.json`:
+
+    oreDrops = {
+      "minecraft:iron_ore": ["minecraft:iron_ore x1"],
+      "minecraft:gold_ore": ["minecraft:gold_ore x1"]
+    }
+
+The probe places each ore, calls `destroyBlock(pos, true)` — the same path a pickaxe takes — and reads the item
+entities that resulted. It reports what appeared, not what was expected.
+
+This is the project's own rule cutting both ways: a static reading cannot establish that a runtime behaviour fails,
+any more than it can establish that one works.
+
+Findings 2 (the direct-food-heal table split) and 3 (gameplay gates inert in the Nether and End) are NOT affected
+by this correction and remain open.
