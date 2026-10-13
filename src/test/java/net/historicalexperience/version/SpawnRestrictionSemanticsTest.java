@@ -117,11 +117,17 @@ class SpawnRestrictionSemanticsTest {
         assertTrue(HistoricalVersions.byId(BETA_1_7_3).orElseThrow().rules().restrictsSpawns());
         assertTrue(HistoricalVersions.byId("historical_experience:alpha").orElseThrow().rules()
             .restrictsSpawns());
-        // The five terrain-only Release-era versions must be left alone: an unresearched mob set is not
+        // The four terrain-only Release-era versions must be left alone: an unresearched mob set is not
         // a licence to invent one. Beta 1.9 Prerelease 3 was in this list and is no longer, because its
         // set is now INHERITED rather than invented: the research records Pre1 adding blaze, magma cube,
         // mooshroom and villagers, and Pre2 and Pre3 adding no mob at all, which is a researched answer.
-        for (String id : Set.of("historical_experience:release_1_0_0",
+        // Release 1.0.0 has left it for the same reason - it is the RELEASED FORM of that prerelease, so
+        // its mob set IS the prerelease set. Declared terrain-only it set no restriction at all, which is
+        // how Release worlds came to spawn modern mobs including piglins.
+        assertTrue(HistoricalVersions.byId("historical_experience:release_1_0_0").orElseThrow().rules()
+            .restrictsSpawns(),
+            "Release 1.0.0 has a researched mob set - the prerelease one - and must restrict");
+        for (String id : Set.of(
                 "historical_experience:release_1_1", "historical_experience:release_1_2_5",
                 RELEASE_1_6_4)) {
             assertFalse(HistoricalVersions.byId(id).orElseThrow().rules().restrictsSpawns(),

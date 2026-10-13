@@ -331,6 +331,46 @@ public final class HistoricalSpawnRules {
         .filter(mob -> !mob.equals("minecraft:wolf"))
         .collect(java.util.stream.Collectors.toUnmodifiableSet());
 
+    /**
+     * The Release-era sets, each derived from the one before it by the mobs the research names for that build.
+     *
+     * <p>Until now every Release profile was declared through {@code terrainOnly}, which sets NO spawn restriction,
+     * so Release worlds spawned modern 1.21.1 mobs - piglins, hoglins, striders and the rest. That was the largest
+     * known content defect in this project, and it is the mob side of the owner's Nether report.
+     *
+     * <p>Each addition is cited, because a set that is not researched must not be invented:
+     * <ul>
+     *   <li>Release 1.0 adds no mob - its deltas are the sound update - so it is the Beta 1.9 Pre set, which is
+     *       correct by construction: Release 1.0.0 IS the released form of the Beta 1.9 prerelease.</li>
+     *   <li>Release 1.1 adds none either.</li>
+     *   <li>Release 1.2 adds {@code ocelots/cats and iron golems}. Only the OCELOT is included: cats are a separate
+     *       entity in 1.21.1 and did not spawn naturally until 1.14.</li>
+     *   <li>Release 1.3 adds none.</li>
+     *   <li>Release 1.4 adds {@code witch, bat, wither skeleton, zombie villager}. The Wither is not included
+     *       because it is SUMMONED rather than a natural spawn.</li>
+     *   <li>Release 1.5 adds none.</li>
+     *   <li>Release 1.6 adds horses and variants, donkeys and mules, and says horses "spawn naturally in
+     *       plains/savanna". Horse and donkey are included; the mule is bred rather than spawned.</li>
+     * </ul>
+     */
+    public static final Set<String> RELEASE_1_0_MOBS = BETA_1_9_PRE_2_MOBS;
+
+    public static final Set<String> RELEASE_1_2_MOBS = java.util.stream.Stream.concat(
+        RELEASE_1_0_MOBS.stream(),
+        java.util.stream.Stream.of("minecraft:ocelot", "minecraft:iron_golem"))
+        .collect(java.util.stream.Collectors.toUnmodifiableSet());
+
+    public static final Set<String> RELEASE_1_4_MOBS = java.util.stream.Stream.concat(
+        RELEASE_1_2_MOBS.stream(),
+        java.util.stream.Stream.of("minecraft:witch", "minecraft:bat",
+            "minecraft:wither_skeleton", "minecraft:zombie_villager"))
+        .collect(java.util.stream.Collectors.toUnmodifiableSet());
+
+    public static final Set<String> RELEASE_1_6_MOBS = java.util.stream.Stream.concat(
+        RELEASE_1_4_MOBS.stream(),
+        java.util.stream.Stream.of("minecraft:horse", "minecraft:donkey"))
+        .collect(java.util.stream.Collectors.toUnmodifiableSet());
+
     public static final Set<String> INFDEV_20100325_MOBS = Set.of(
         "minecraft:zombie",
         "minecraft:creeper",

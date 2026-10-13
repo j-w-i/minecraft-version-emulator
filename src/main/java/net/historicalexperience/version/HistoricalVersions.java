@@ -388,9 +388,32 @@ public final class HistoricalVersions {
                     + "spawns are restricted: it was terrainOnly, which sets no restriction, and therefore spawned "
                     + "modern mobs. Terrain comes from beta_1_9_pre_3 itself."),
             HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES));
-        versions.add(terrainOnly(
+        // Release 1.0.0, and the first of the Release line to carry RULES rather than being declared terrain-only.
+        //
+        // That declaration is the fix for the largest content defect this project had: terrainOnly sets no spawn
+        // restriction, so every Release world spawned modern 1.21.1 mobs including piglins and hoglins. Release 1.0.0
+        // is the released form of the Beta 1.9 prerelease, so its mob set IS the Pre set - which is why the set is
+        // the prerelease's rather than something newly written.
+        //
+        // It uses releaseTerrainOnlyWithRules, not terrainOnlyWithRules: the latter offers a _no_grass revision
+        // because every caller it was written for predates Beta 1.6, and this build is two years past it.
+        versions.add(releaseTerrainOnlyWithRules(
             "historical_experience:release_1_0_0", "Release 1.0", "release",
             chronology(ERA_RELEASE, 1, 0, 0), "moderner_beta:release_1_0_0",
+            new VersionRules(
+                true,
+                HistoricalSpawnRules.RELEASE_1_0_MOBS,
+                java.util.Map.of(),
+                java.util.Map.of(),
+                true,
+                true,
+                true,
+                true,
+                "The released form of the Beta 1.9 prerelease. Its own deltas are the 1.0 sound update - chests, XP "
+                    + "orb pickup, bone-crack damage, eating and drinking, blaze breathing and enderman sounds - and "
+                    + "add no mob, which is why the spawn set is the prerelease set rather than a new one. Experience, "
+                    + "sprinting, hunger and structures all exist by this build. The End, enchanting and brewing are "
+                    + "operational; the dragon exists but this project does not claim the boss fight."),
             HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES));
         versions.add(terrainOnly(
             "historical_experience:release_1_1", "Release 1.1", "release",
@@ -1101,6 +1124,52 @@ public final class HistoricalVersions {
                     "modern content: the Release 1.2.1 desert well is excluded, and the monster room as well "
                         + "for the builds older than Infdev 20100625-1917",
                     revisionTwoExclusions,
+                    List.of())));
+    }
+
+    /**
+     * Generation with rules for a build that already HAD grass, so its revision shape is two rather than three.
+     *
+     * <p>{@link #terrainOnlyWithRules} creates a {@code _no_grass} revision, and its own comment says why: every
+     * caller it was written for - Alpha and both Infdev builds - predates Beta 1.6. The six Beta 1.9 prereleases do
+     * not, and neither do the Release builds, so routing them through it offered a "no grass" world type for
+     * versions that had grass. That is a defect visible in the world-creation list, and this helper exists so the
+     * Release line can carry rules WITHOUT it.
+     *
+     * <p>Same rules, same exclusion handling, one fewer revision.
+     */
+    private static HistoricalVersion releaseTerrainOnlyWithRules(
+        String id,
+        String displayName,
+        String era,
+        int chronology,
+        String upstreamPreset,
+        VersionRules rules,
+        List<HistoricalFeatureExclusions.Exclusion> modernContentExclusions
+    ) {
+        return new HistoricalVersion(
+            id,
+            displayName,
+            era,
+            chronology,
+            rules,
+            List.of(
+                new GenerationRevision(
+                    0,
+                    id,
+                    upstreamPreset,
+                    false,
+                    "frozen original declaration for this version: reduced envelope and no cave-biome "
+                        + "injection, inheriting Moderner Beta's own preset",
+                    HistoricalFeatureExclusions.BETA_1_7_3_RESTRICTIONS,
+                    List.of()),
+                new GenerationRevision(
+                    1,
+                    alias(id.substring(id.indexOf(':') + 1) + "_no_modern_content"),
+                    upstreamPreset,
+                    true,
+                    "modern content only: this build HAD grass, so no _no_grass revision is offered",
+                    modernContentExclusions,
                     List.of())));
     }
 
