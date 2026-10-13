@@ -1,3 +1,69 @@
+# Persistent project status — 2026-10-13 (4) / the "six-minute hang" was my sweep, and two named bugs are in
+
+## Round 69 — the hang explained by measurement, two bugs implemented, all bugs catalogued
+
+**The six-minute hang was a defect in my sweep tool, and the sweep's own output blamed the mod.** The owner
+stopped a three-version sweep having watched two versions finish in ~21s and the third sit. The wait loop trusted
+`$proc.HasExited`, which never fired: the redirected log beside it read `BUILD SUCCESSFUL in 28s` and the probe
+verdict read `success=true` — measured twice, 30s and 32s of real work — while the loop ran to its 180s timeout and
+printed *"no verdict within 180s - killing the run (a hang, not a failure)"*. A handle on the redirected pipe
+outlives the wrapper by minutes and the script read that as a live server. Completion is now judged from the
+artifacts a run writes, never from the process object.
+
+**Measured cost after the fix, because the old number was quoted from a broken instrument:** two versions swept end
+to end in **under a minute**, ~26s per version between consecutive `GENERATION_VERIFICATION` lines, both reporting
+`exit=0 success=True`. The three-version batch the owner stopped is roughly a **90-second** job, not six minutes.
+
+Two further defects fell out of that work, both recorded in coverage items 17-19:
+
+- The timeout cleanup ran `Get-Process java | ... newStart -and > 200MB` and killed **every** match. This
+  workspace's java processes include `C:\Users\jwalr\Flashback`'s own Gradle wrapper — `java -jar
+  gradle-wrapper.jar build` — which matches exactly, so one timeout here could silently kill an unrelated project's
+  build. Cleanup is now scoped to the pid tree the sweep started.
+- The fix's *first* run reported `runExit=-1` for three versions that had all succeeded, because completion was read
+  from a log an earlier run had left saying `BUILD SUCCESSFUL`. The log is deleted per version now, beside the world
+  that was already deleted for the same reason. Stale evidence that looks fresh is this project's recurring failure.
+
+**Both bugs the owner named are implemented, boot-verified, and honestly half-verified.**
+
+| Bug | Build | Implementation | Verified |
+| --- | --- | --- | --- |
+| End portal frames blowable | Beta 1.9 Pre3 only | two mixins: `getExplosionResistance` is on `Block`, `getDrops` on `BlockBehaviour` | gate asserted across all 32 versions; Pre3 server boot clean — **no live TNT test** |
+| Jump grants 1-100 XP | Beta 1.9 Pre1 only | server-side TAIL injection on `Player.jumpFromGround` | range asserted against the method the hook calls; **no live jump test** |
+
+The jump gate existed but **nothing called it** — the third dead rule set this project has shipped. A test-quality
+defect was fixed with it: the old range test re-implemented `1 + nextInt(100)` and compared it with itself, so it
+passed whether or not the real gate was correct. The version-keyed overload exists so the test asserts the method
+the hook actually calls.
+
+**The full bug catalogue is researched and committed**: 12 records in
+[historical-bugs.json](<research/historical-bugs.json>) plus [prose](<research/historical-bugs.md>), validated with
+zero schema problems, every record carrying a source and a verbatim quote.
+
+**The owner's spawner premise is wrong for this matrix, and is corrected rather than implemented.** The block was
+**added in Infdev 20100625-1917** and pickup stopped in **Alpha v1.0.1**, so both declared Infdev profiles
+(`infdev_420` = 20100420, `infdev_611` = 20100611) predate spawners entirely — "mineable before the first Alpha
+version" cannot apply to a build that had none. The repo already excludes monster rooms for both with exactly that
+reasoning, so this is consistent rather than a gap. The real in-range spawner bug is **Pre4's Silk Touch drop,
+removed in Pre5**.
+
+**Final build: 361 tests, 65 suites, 0 failures/errors/skips.** Deployed and hash-verified:
+**C601B0B865129C286053716923E09539C1FB265B9095ED7A5D975719CB47317D**, `IN SYNC` with the built jar.
+
+**For the owner to test — every fix here affects NEW CHUNKS ONLY, and the mod loads at launch:**
+
+1. **Restart Minecraft completely** (a world reload will not pick up a new jar), then **create a new world** in
+   **Beta 1.9 Prerelease 3**. Place an End portal frame and blow it up — it should drop as an item. Repeat in
+   **Pre4**, where it must be indestructible. This is the half no automated run can see.
+2. In a **Beta 1.9 Prerelease 1** world, jump and watch the experience bar: 1-100 XP per jump, and holding the jump
+   key keeps paying. In **Pre2** it must pay nothing.
+
+Still open, unchanged: Pre3's light level 15 and its empty-tooltip item form; `beta_1_7` in the bug catalogue is
+**not a declared build** (the declared id is `beta_1_7_3`, which the wiki says can load the affected worlds again),
+so that one record needs its boundary re-derived before anything is gated on it; the Beta Nether terrain shape;
+spawn weights and group sizes. Full commands and limits:
+[implementation coverage](<research/implementation-coverage.md>).
+
 # Persistent project status — 2026-10-13 (3) / matrix complete, Beta envelope defect repaired
 
 ## Round 54 — the 29-version matrix is complete
