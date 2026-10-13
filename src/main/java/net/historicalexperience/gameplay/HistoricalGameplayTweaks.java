@@ -453,6 +453,35 @@ public final class HistoricalGameplayTweaks {
     }
 
     /**
+     * Whether brewing works in this version.
+     *
+     * <p>From {@code research/version-history-transitions}: Beta 1.9 Prerelease 2 carries a cauldron-based potion
+     * prototype whose code has <b>no ordinary block ID</b> - internal, unobtainable, with many negative and no-op
+     * combinations. Prerelease 3 is the first FUNCTIONAL brewing: stand-based, thirty seconds, a reduced set of 25
+     * potions across 31 combinations, and the cauldron becomes a plain water container.
+     *
+     * <p>So a Beta 1.8 world must not brew at all, and "brewing exists" is not the same as "brewing works" before
+     * Prerelease 3.
+     */
+    public static boolean functionalBrewing(String versionId) {
+        var version = HistoricalVersions.byId(versionId).orElse(null);
+        return version != null && version.chronology() >= BETA_1_9_PRE_3_CHRONOLOGY;
+    }
+
+    /**
+     * Whether the End portal does anything when it is completed.
+     *
+     * <p>Beta 1.9 Prerelease 3 adds the stronghold portal room, the eye of ender and the frame and portal assets,
+     * but the portal block has no function: the frame repairs and nothing follows. Prerelease 4 activates the
+     * portal and generates the End. The dragon is a later boundary again - it does not spawn until Prerelease 6 -
+     * so this gate covers the portal only, and says nothing about the boss.
+     */
+    public static boolean endPortalFunctional(String versionId) {
+        var version = HistoricalVersions.byId(versionId).orElse(null);
+        return version != null && version.chronology() >= BETA_1_9_PRE_4_CHRONOLOGY;
+    }
+
+    /**
      * The chronology at which enchanting becomes functional, exposed so a test can tie it to the registry.
      *
      * <p>The constant it returns is a literal because the build it names is not declared yet. A literal can drift

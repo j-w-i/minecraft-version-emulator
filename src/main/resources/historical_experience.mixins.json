@@ -38,7 +38,9 @@
     "DataComponentHolderHistoricalFoodMixin",
     "BlockBehaviourHistoricalDropMixin",
     "PlayerHistoricalExhaustionMixin",
-    "EnchantmentMenuHistoricalEnchantingMixin"
+    "EnchantmentMenuHistoricalEnchantingMixin",
+    "BrewingStandHistoricalBrewingMixin",
+    "EnderEyeHistoricalPortalMixin"
   ],
   "injectors": {
     "defaultRequire": 1
