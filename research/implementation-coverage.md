@@ -310,12 +310,6 @@ turned out to be "no approximation needed" rather than the decision I expected t
    Infdev caps read later (monsters 100, animals 50 from `inf-20100420.jar`, sha1 `27010a51…`), is recorded in
    [pre-Beta-1.8 spawning evidence](<pre-beta-1.8-spawning-evidence.json>). Reinstating it is a matter of adding
    the class and the hook back, not of redoing the research.
-   `HistoricalAnimalSpawner` reproduces the pre-Beta-1.8 cycle from the jars, parameterised by era:
-   Alpha (flat cap 15, radius 4, 3 × 2 attempts, `rand(128)` start height) below the Alpha v1.2.0 rework, and
-   Beta (scaled cap `15 × eligibleChunks / 256`, radius 8, 3 × 4) from it onward, both with the `±(rand(6) −
-   rand(6))` walk, the 24-block player exclusion, the 576-block spawn exclusion and the entity's own placement
-   rule as the `getCanSpawnHere()` equivalent. Driven from `ServerTickEvents.END_WORLD_TICK`, so it costs nothing
-   with no player online — which is also faithful, since both jars iterated players.
 5. **The newly declared Beta builds' own content is recorded but NOT implemented**: Beta 1.4's locked chest,
    bed-spawn reset and achievement infrastructure; Beta 1.5's weather, powered/detector rails and cobweb
    obtainability; Beta 1.6's map, trapdoor, Nether bed explosion, fire-spread slowdown and ore-quadrant-bias
@@ -376,6 +370,24 @@ turned out to be "no approximation needed" rather than the decision I expected t
    Verified: 345 tests green (a regression test asserts cake is craftable from Beta 1.2 and refused in Alpha, and
    that rails follow Beta 1.5 and pistons Beta 1.7) plus runtime `loaded and transformed` for `CraftingMenu`,
    `InventoryMenu`, `Sheep` and `Container`.
+9. **Tool durability before Beta 1.2 is now implemented** (it had been recorded as missing for several rounds,
+   with the note that it "needs an item-attribute gate this project does not have" — the component hook was
+   already there for the food and damage values, so the numbers could simply be applied).
+   `research/version-transitions.json` gives Beta 1.2's change as **"tool durability: wood 33 → 59, stone 65 →
+   131, iron 129 → 250, diamond 1025 → 1561"**, and `research/minecraft-version-history.md` repeats it, so every
+   declared version older than Beta 1.2 breaks tools sooner and Beta 1.2 itself gets the raised values.
+   Implemented as a `DataComponents.MAX_DAMAGE` override on `DataComponentHolder.getOrDefault` — the component
+   rather than `ItemStack.getMaxDamage()`, because the damage bar, the anvil arithmetic and the destroy check all
+   read the component, and changing only the getter would tell the player one number while the tool died on
+   another. Exactly the mistake the food-stacking gate made in its first version.
+   **Gold is deliberately not covered**, and that is a decision rather than an omission: the same sentence says
+   gold tools gained faster mining "while retaining old durability/restrictions", so there is no old value to
+   apply and naming one would be inventing it.
+   **Measured on real stacks** rather than asserted, in a Beta 1.0 world and a Beta 1.2 world:
+   wooden 33/59, stone 65/131, iron pickaxe and sword 129/250, diamond shovel 1025/1561, with golden pickaxe 32,
+   shears 238 and flint-and-steel 64 unchanged in BOTH — which is the "no claim" behaviour working. 348 tests
+   green.
+
 3. **The Nether's terrain SHAPE is still the modern 1.16+ one.** Its biomes are fixed (one biome,
    `minecraft:nether_wastes`, via vanilla's `minecraft:fixed` biome source), but the shape comes from
    `minecraft:nether` noise settings and Moderner Beta ships no historical Nether to point at. Recorded as a gap.
@@ -385,6 +397,7 @@ turned out to be "no approximation needed" rather than the decision I expected t
    removal and the 10%->5% sapling cut (Alpha 1.0.6), the snow-block economy quirk (1.0.6), the 4->8 dungeon generator
    iterations (1.0.14), the armour model change at Beta 1.9 Pre1, the snowfall-destroys-redstone regression (Pre1,
    fixed by Pre5), slime spawn height (Pre5), Silk Touch changes (Pre5), and breeding and tool repair (Pre2).
+
 
 ### What the last few rounds established, because the pattern matters more than the fixes
 

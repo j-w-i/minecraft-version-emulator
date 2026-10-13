@@ -900,8 +900,10 @@ public final class HistoricalVersions {
                     + "to forests, replaces oak with spruce in taiga, and introduces lapis ore - whose frequency and "
                     + "height were adjusted in Beta 1.2_02, which must NOT be backdated into this build. Cocoa beans "
                     + "and brown wool are registry content obtainable only by external tools here, so they are "
-                    + "recorded rather than given a survival route. NOT implemented: the tool durability table, which "
-                    + "needs an item-attribute gate this project does not have."),
+                    + "recorded rather than given a survival route. IMPLEMENTED: the tool durability table this "
+                    + "entry used to record as missing is applied by HistoricalToolDurability, so wood 33, stone 65, "
+                    + "iron 129 and diamond 1025 hold for every declared version older than this one and this build "
+                    + "itself gets the raised values."),
             HistoricalFeatureExclusions.BETA_1_7_3_RESTRICTIONS));
 
         // Beta 1.3. Beds, redstone repeaters and slabs arrive, the grassland/sand biome boundary that Beta 1.0
