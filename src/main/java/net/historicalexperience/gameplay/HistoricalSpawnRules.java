@@ -55,7 +55,12 @@ public final class HistoricalSpawnRules {
         "minecraft:squid",
         "minecraft:wolf",
         "minecraft:zombie",
-        "minecraft:zombie_pigman"
+        "minecraft:zombified_piglin"
+        // NOT "zombie_pigman": that is the historical NAME, from the wiki and the per-build deltas, and it is not a
+        // valid 1.21.1 entity id - the class is ZombifiedPiglin. It mattered more than a cosmetic mismatch, because
+        // the spawn filter REMOVES any entity type absent from the allowed set. An id that never matches does not
+        // merely fail to allow pigmen; it actively removes them from every Beta world. Found by a test asserting
+        // that zombified_piglin predates Beta 1.0, which failed because the set did not contain it.
     );
 
     /**
