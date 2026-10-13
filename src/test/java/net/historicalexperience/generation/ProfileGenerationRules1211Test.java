@@ -235,8 +235,13 @@ class ProfileGenerationRules1211Test {
         }
         assertTrue(groups > 100, "the generated table looks truncated: only " + groups + " introduce calls");
         assertEquals(HistoricalBlockAvailability.size(), seen.size());
-        assertTrue(paletteDerivedNames > 100, "expected most dates to be palette-derived, got "
-            + paletteDerivedNames);
+        // The threshold was > 100 while the mapping dated EVERY descendant of a legacy name, which inflated this
+        // count with blocks that were never palette-derived at all - blue_ice, coarse_dirt, soul_soil and soul_fire
+        // among them, which is exactly how those four came to be permitted in fifteen versions. Dating only the
+        // first target dropped the count to 56, and 56 is the honest number: the blocks the extracted palettes
+        // actually justify. Lowering a threshold is usually a smell, so the reason is recorded, not just the number.
+        assertTrue(paletteDerivedNames > 40, "expected the extracted palettes to justify a substantial share of "
+            + "the dates, got " + paletteDerivedNames);
     }
 
     @Test void knownAnachronismsAreNowCaughtInEveryProfileThatLacksThem() {

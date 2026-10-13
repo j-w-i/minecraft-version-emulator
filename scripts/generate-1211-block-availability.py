@@ -106,6 +106,16 @@ ALIASES = {
          'feature-timeline mobs row "mob: silverfish" (Beta 1.8 (Pre-release)) and the b1.8 palette '
          'simply does not recover the name, so the alias is recorded rather than inferred'),
     ],
+    # Modern Minecraft splits the single legacy torch block into a floor and a wall variant. The extracted palette
+    # has only "torch", because that is what the era registered - so wall_torch is NOT later content, it is the same
+    # block under a name this project's registry uses. Recording it as an alias is what keeps it out of a red test
+    # that says "beta_1_8_1 must not place a block its own client never registered": that failure appeared the
+    # moment the mapping stopped dating every descendant, and it was right to appear.
+    'minecraft:wall_torch': [
+        ('torch', 'historical_experience:beta_1_7_3',
+         'the b1_7_3 palette registers a single torch block; modern Minecraft splits it into torch and wall_torch, '
+             'so the wall form is the same era content rather than a later addition'),
+    ],
 }
 
 # Boundaries the timeline states directly, which take precedence over a palette-derived guess. Each entry
@@ -234,16 +244,30 @@ TIMELINE = [
 
 
 def parse_mapping():
-    """The reviewed modern-id -> legacy-name table, read out of the Java source so the two cannot drift."""
+    """The reviewed modern-id -> legacy-name table, read out of the Java source so the two cannot drift.
+
+    ONLY THE FIRST TARGET of each map(...) call is returned, because that is the block the legacy name BECAME.
+
+    The later targets are modern DESCENDANTS grouped under the same legacy name so that a legacy world's blocks can
+    still be resolved by name - ice, packed ice, blue ice and frosted ice all descend from the one legacy "ice";
+    dirt, coarse dirt and rooted dirt from "dirt"; fire and soul fire from "fire"; soul sand and soul soil from
+    "hellsand". Reading every target as proof of existence at Beta 1.7.3 minted dates none of them had, which is
+    how soul_soil, soul_fire, coarse_dirt and blue_ice came to be permitted in fifteen versions - the leak the
+    owner reported seeing in game, and the reason PreReleaseNetherGatingTest exists.
+
+    The duplicate check still runs across EVERY target, so a modern id appearing under two legacy names is still
+    caught even though only the first is dated.
+    """
     source = PALETTE_SOURCE.read_text(encoding='utf-8')
     mapping = {}
     for match in re.finditer(r'^\s*map\("([^"]+)",\s*(.*?)\);\s*$', source, re.M | re.S):
         legacy = match.group(1)
-        for modern in re.findall(r'"([^"]+)"', match.group(2)):
+        for index, modern in enumerate(re.findall(r'"([^"]+)"', match.group(2))):
             modern_id = modern if modern.startswith('minecraft:') else 'minecraft:' + modern
             if modern_id in mapping:
                 raise SystemExit('duplicate modern id %s in the mapping table' % modern_id)
-            mapping[modern_id] = legacy
+            if index == 0:
+                mapping[modern_id] = legacy
     return mapping
 
 
@@ -265,9 +289,15 @@ def main():
     palettes = read_palettes()
 
     boundaries = {}   # modern id -> (version, evidence, trust)
-    for modern, legacy in mapping.items():
+    for modern in sorted(set(mapping) | set(ALIASES)):
+        legacy = mapping.get(modern)
         aliases = ALIASES.get(modern, [])
-        candidates = [(legacy, None, 'the reviewed mapping name')] + list(aliases)
+        # A block that appears ONLY in ALIASES has no mapping entry to start from, and the loop has to reach it
+        # anyway or its alias is dead code. That is exactly what happened to wall_torch: the mapping no longer
+        # claims it after the first-target fix, so this loop never saw it, the alias was never consulted, and the
+        # block stayed undated - which the palette then rejected with "beta_1_8_1 must not place a block its own
+        # client never registered". The failure was correct and the loop was wrong.
+        candidates = ([(legacy, None, 'the reviewed mapping name')] if legacy else []) + list(aliases)
         for version in CHRONOLOGY:
             palette = palettes.get(version)
             if palette is None:

@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
 import java.util.Set;
 import net.historicalexperience.version.HistoricalVersions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -98,13 +97,12 @@ class PreReleaseNetherGatingTest {
         // 1.17-1.21
         "minecraft:copper_ore", "minecraft:deepslate", "minecraft:amethyst_block", "minecraft:tuff",
         "minecraft:calcite", "minecraft:moss_block", "minecraft:glow_lichen", "minecraft:raw_iron_block",
-        "minecraft:mud", "minecraft:sculk", "minecraft:cherry_log", "minecraft:crafting_table");
+        "minecraft:mud", "minecraft:sculk", "minecraft:cherry_log");
 
     @Test
-    @Disabled("known leak, cause identified, fix not yet made - see the comment below")
     @DisplayName("no declared version permits post-1.6.4 content - reported as a full leak list")
     void noDeclaredVersionPermitsModernContent() {
-        // DISABLED, NOT DELETED, because it currently FAILS and the failure is the finding.
+        // This was DISABLED while the leak existed and is enabled again now that the cause is fixed: the generator
         //
         // It reports 75 version/block pairs, which is 15 versions times the SAME five blocks. The 15 are exactly the
         // versions with an extracted palette, because judge() can only answer for those - an honest blind spot of
