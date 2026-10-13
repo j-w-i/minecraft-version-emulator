@@ -15,6 +15,15 @@ repositories {
         name = 'Fabric'
         url = 'https://maven.fabricmc.net/'
     }
+    // Mod Menu, for the config screen entrypoint. Terraformers publish it here; the artefact is the same one
+    // Modrinth serves.
+    maven {
+        name = 'Terraformers'
+        url = 'https://maven.terraformersmc.com/releases/'
+        content {
+            includeGroup 'com.terraformersmc'
+        }
+    }
     // Moderner Beta is published on Modrinth; the maven endpoint serves the same artefact as the website.
     maven {
         name = 'Modrinth'
@@ -38,6 +47,15 @@ dependencies {
 
     // The point of this project: does Moderner Beta 5.0.0-alpha.4 generate on 1.21.1?
     modImplementation "maven.modrinth:moderner-beta:${project.moderner_beta_version}"
+
+    // Mod Menu, COMPILE ONLY and OPTIONAL at runtime. The project's config screen is reached through Mod Menu's
+    // entrypoint, but the mod must load whether or not Mod Menu is installed - that is why the dependency is
+    // `modCompileOnly` rather than `modImplementation` and why fabric.mod.json lists it under `suggests` rather
+    // than `depends`. A hard dependency would refuse to start the game for anyone without Mod Menu.
+    modCompileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
+    // The config screen is a real screen and is exercised by a client launch, so the API is needed at runtime in
+    // the development client only.
+    modLocalRuntime "com.terraformersmc:modmenu:${project.modmenu_version}"
 
     testImplementation platform('org.junit:junit-bom:5.11.4')
     testImplementation 'org.junit.jupiter:junit-jupiter'

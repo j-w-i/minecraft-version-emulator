@@ -58,5 +58,11 @@
   "createWorld.customize.modern_beta.preset.name.historical_experience.infdev_611": "Infdev 20100611",
   "createWorld.customize.modern_beta.preset.desc.historical_experience.infdev_611": "Moderner Beta's corresponding historical terrain at Y 0..127, without deepslate, modern cave biomes or grass patches. The implemented content, structure and spawn restrictions are applied before generation. Generation-only backport; other gameplay and exact ore/decoration fidelity for this era are not claimed.",
   "createWorld.customize.modern_beta.preset.name.historical_experience.alpha": "Alpha v1.1.2_01",
-  "createWorld.customize.modern_beta.preset.desc.historical_experience.alpha": "Moderner Beta's corresponding historical terrain at Y 0..127, without deepslate, modern cave biomes or grass patches. The implemented content, structure and spawn restrictions are applied before generation. Generation-only backport; other gameplay and exact ore/decoration fidelity for this era are not claimed."
+  "createWorld.customize.modern_beta.preset.desc.historical_experience.alpha": "Moderner Beta's corresponding historical terrain at Y 0..127, without deepslate, modern cave biomes or grass patches. The implemented content, structure and spawn restrictions are applied before generation. Generation-only backport; other gameplay and exact ore/decoration fidelity for this era are not claimed.",
+  "historical_experience.config.title": "Historical Experience",
+  "historical_experience.config.lighting.on": "Classic lighting: ON (click to disable)",
+  "historical_experience.config.lighting.off": "Classic lighting: OFF (click to enable)",
+  "historical_experience.config.lighting.not_applicable": "Classic lighting: not applicable from Beta 1.3 on",
+  "historical_experience.config.lighting.no_world": "Classic lighting: open a historical world first",
+  "historical_experience.config.lighting.note": "Before Beta 1.3 there was no smooth lighting: block light was a constant and shade was binary."
 }
