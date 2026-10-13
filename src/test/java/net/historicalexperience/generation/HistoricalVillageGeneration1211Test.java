@@ -72,6 +72,9 @@ class HistoricalVillageGeneration1211Test {
         "historical_experience:beta_1_9_pre_1",
         "historical_experience:beta_1_9_pre_2",
         "historical_experience:beta_1_9_pre_3",
+        "historical_experience:beta_1_9_pre_4",
+        "historical_experience:beta_1_9_pre_5",
+        "historical_experience:beta_1_9_pre_6",
         "historical_experience:release_1_0_0",
         "historical_experience:release_1_1",
         "historical_experience:release_1_2_5",
@@ -87,20 +90,26 @@ class HistoricalVillageGeneration1211Test {
      * The extracted palette each village version is judged against.
      *
      * <p>Pre1 maps to the Beta 1.8.1 palette because its village places the Beta 1.8.1 workstation: the brewing
-     * stand arrives with brewing in Pre2, so Pre1's craftsman slot is a crafting table, which the Pre3 extraction
-     * does not contain. Pre2 and Pre3 map to Prerelease 3's palette, which is the honest mapping rather than a
-     * shortcut - Moderner Beta ships ONE Beta 1.9 terrain preset and every prerelease is generated from it, so the
-     * blocks those two can emit are the blocks Pre3's extraction contains.
+     * stand arrives in Prerelease 3, so Pre1's craftsman slot is a crafting table, which the Pre3 extraction does
+     * not contain. Every other prerelease maps to Prerelease 3's palette, which is the honest mapping rather than a
+     * shortcut - Moderner Beta ships ONE Beta 1.9 terrain preset and each prerelease is generated from it, so the
+     * blocks they can emit are the blocks Pre3's extraction contains.
+     *
+     * <p>{@code Map.ofEntries} rather than {@code Map.of}, because there are now twelve entries and
+     * {@code Map.of} accepts at most ten pairs - which the compiler said plainly once the sixth prerelease arrived.
      */
-    private static final Map<String, String> PALETTE_FILE = Map.of(
-        "historical_experience:beta_1_8_1", "b1_8_1",
-        "historical_experience:beta_1_9_pre_1", "b1_8_1",
-        "historical_experience:beta_1_9_pre_2", "b1_9_pre3",
-        "historical_experience:beta_1_9_pre_3", "b1_9_pre3",
-        "historical_experience:release_1_0_0", "1_0_0",
-        "historical_experience:release_1_1", "1_1",
-        "historical_experience:release_1_2_5", "1_2_5",
-        "historical_experience:release_1_6_4", "1_6_4");
+    private static final Map<String, String> PALETTE_FILE = Map.ofEntries(
+        Map.entry("historical_experience:beta_1_8_1", "b1_8_1"),
+        Map.entry("historical_experience:beta_1_9_pre_1", "b1_8_1"),
+        Map.entry("historical_experience:beta_1_9_pre_2", "b1_9_pre3"),
+        Map.entry("historical_experience:beta_1_9_pre_3", "b1_9_pre3"),
+        Map.entry("historical_experience:beta_1_9_pre_4", "b1_9_pre3"),
+        Map.entry("historical_experience:beta_1_9_pre_5", "b1_9_pre3"),
+        Map.entry("historical_experience:beta_1_9_pre_6", "b1_9_pre3"),
+        Map.entry("historical_experience:release_1_0_0", "1_0_0"),
+        Map.entry("historical_experience:release_1_1", "1_1"),
+        Map.entry("historical_experience:release_1_2_5", "1_2_5"),
+        Map.entry("historical_experience:release_1_6_4", "1_6_4"));
 
     /**
      * The repository root, found by walking up from the working directory.

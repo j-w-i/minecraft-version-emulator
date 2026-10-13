@@ -297,6 +297,80 @@ public final class HistoricalVersions {
                     + "Terrain comes from beta_1_9_pre_3, the only Beta 1.9 terrain Moderner Beta ships."),
             HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES));
 
+        // Prerelease 4 is where the Adventure Update's second half lands: enchanting becomes OPERATIONAL and the
+        // End replaces the Sky dimension. Two gates already coded against BETA_1_9_PRE_4_CHRONOLOGY - functional
+        // enchanting and the end portal - become live the moment this profile is declared, which is exactly the
+        // inter-build transition this project is for, and it is why these three are declared one at a time rather
+        // than as one profile with three names.
+        versions.add(terrainOnlyWithRules(
+            "historical_experience:beta_1_9_pre_4", "Beta 1.9 Prerelease 4", "beta",
+            chronology(ERA_BETA, 1, 9, 4), "moderner_beta:beta_1_9_pre_3",
+            new VersionRules(
+                true,
+                HistoricalSpawnRules.BETA_1_9_PRE_2_MOBS,
+                java.util.Map.of(),
+                java.util.Map.of(),
+                true,
+                true,
+                true,
+                true,
+                "End stone; splash potions; operational enchanting with 17 enchantments, table maximum raised to "
+                    + "50 and bookshelf power required; the End dimension generated and reachable through an active "
+                    + "portal, with obsidian pillars; numeric XP levels displayed and spendable; moon phases. "
+                    + "Enchanting becomes server-side and enchantments actually apply; hoes, flint-and-steel and "
+                    + "shears leave the table-eligible items; the eye of ender tracks strongholds; endermen spawn in "
+                    + "the End and stop burning in daylight; spiders and cave spiders become arthropods. The Sky "
+                    + "dimension is REPLACED by the End. NOT implemented: the End's own generation beyond the "
+                    + "reachability gate, and the dragon, whose code exists but does not spawn in this build. Adds "
+                    + "no naturally spawning mob, so the spawn set is inherited. Terrain is beta_1_9_pre_3, the only "
+                    + "Beta 1.9 terrain Moderner Beta ships."),
+            HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES));
+
+        versions.add(terrainOnlyWithRules(
+            "historical_experience:beta_1_9_pre_5", "Beta 1.9 Prerelease 5", "beta",
+            chronology(ERA_BETA, 1, 9, 5), "moderner_beta:beta_1_9_pre_3",
+            new VersionRules(
+                true,
+                HistoricalSpawnRules.BETA_1_9_PRE_2_MOBS,
+                java.util.Map.of(),
+                java.util.Map.of(),
+                true,
+                true,
+                true,
+                true,
+                "Ten achievements including brewing, the Nether, locating the End and killing the Dragon; the "
+                    + "/toggledownfall and /xp commands; a clouds toggle; the dragon death animation with test "
+                    + "health 1, which still does not spawn; multiplayer breeding producing babies rather than "
+                    + "adults. Changes: slime spawn height raised from Y=0-16 to Y=0-40; Silk Touch no longer "
+                    + "obtains spawners or lit furnaces and becomes incompatible with Fortune; downward water flow "
+                    + "begins creating source blocks; and SNOWFALL NO LONGER DESTROYS REDSTONE, TORCHES, SAPLINGS "
+                    + "AND RAILS - the regression Prerelease 1 introduced is fixed here, which is why that "
+                    + "regression was recorded against Pre1 rather than carried forward. Adds no mob. Terrain is "
+                    + "beta_1_9_pre_3."),
+            HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES));
+
+        versions.add(terrainOnlyWithRules(
+            "historical_experience:beta_1_9_pre_6", "Beta 1.9 Prerelease 6", "beta",
+            chronology(ERA_BETA, 1, 9, 6), "moderner_beta:beta_1_9_pre_3",
+            new VersionRules(
+                true,
+                HistoricalSpawnRules.BETA_1_9_PRE_2_MOBS,
+                java.util.Map.of(),
+                java.util.Map.of(),
+                true,
+                true,
+                true,
+                true,
+                "End crystals on the obsidian pillars, healing the dragon; the dragon egg; the boss bar; and the "
+                    + "Ender Dragon ACTUALLY SPAWNING - the first build in the sequence with a spawning, killable "
+                    + "dragon - with a working exit portal and reachable credits. Baby sheep inherit their dye. "
+                    + "Prerelease 5's downward-water source creation is reverted to ordinary flowing water. Known "
+                    + "issue in this build, recorded rather than fixed: wooden doors open only with redstone. No "
+                    + "mob is added to the natural spawn set, because the dragon is a fixed End spawn rather than a "
+                    + "natural one and End crystals are not mobs - which is why the spawn set is still inherited. "
+                    + "Terrain is beta_1_9_pre_3."),
+            HistoricalFeatureExclusions.BETA_1_9_PRE_3_WITHOUT_MODERN_VANILLA_FEATURES));
+
         versions.add(terrainOnlyWithRules(
             "historical_experience:beta_1_9_pre_3", "Beta 1.9 Prerelease 3", "beta",
             chronology(ERA_BETA, 1, 9, 3), "moderner_beta:beta_1_9_pre_3",

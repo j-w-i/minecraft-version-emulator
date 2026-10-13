@@ -36,6 +36,9 @@ CHRONOLOGY = [
     'historical_experience:beta_1_9_pre_1',
     'historical_experience:beta_1_9_pre_2',
     'historical_experience:beta_1_9_pre_3',
+    'historical_experience:beta_1_9_pre_4',
+    'historical_experience:beta_1_9_pre_5',
+    'historical_experience:beta_1_9_pre_6',
     'historical_experience:release_1_0_0',
     'historical_experience:release_1_1',
     'historical_experience:release_1_2_5',
@@ -68,6 +71,9 @@ PALETTE_FILES = {
 SHARED_PALETTE_VERSIONS = {
     'historical_experience:beta_1_9_pre_1': 'b1_9_pre3',
     'historical_experience:beta_1_9_pre_2': 'b1_9_pre3',
+    'historical_experience:beta_1_9_pre_4': 'b1_9_pre3',
+    'historical_experience:beta_1_9_pre_5': 'b1_9_pre3',
+    'historical_experience:beta_1_9_pre_6': 'b1_9_pre3',
 }
 
 # Era spellings of the same block. A block whose registry name changed between two versions is present in

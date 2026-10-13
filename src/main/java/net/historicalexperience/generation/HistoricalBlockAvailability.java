@@ -69,6 +69,9 @@ public final class HistoricalBlockAvailability {
         "historical_experience:beta_1_9_pre_1",
         "historical_experience:beta_1_9_pre_2",
         "historical_experience:beta_1_9_pre_3",
+        "historical_experience:beta_1_9_pre_4",
+        "historical_experience:beta_1_9_pre_5",
+        "historical_experience:beta_1_9_pre_6",
         "historical_experience:release_1_0_0",
         "historical_experience:release_1_1",
         "historical_experience:release_1_2_5",
@@ -96,7 +99,10 @@ public final class HistoricalBlockAvailability {
         "historical_experience:release_1_2_5",
         "historical_experience:release_1_6_4",
         "historical_experience:beta_1_9_pre_1",
-        "historical_experience:beta_1_9_pre_2"
+        "historical_experience:beta_1_9_pre_2",
+        "historical_experience:beta_1_9_pre_4",
+        "historical_experience:beta_1_9_pre_5",
+        "historical_experience:beta_1_9_pre_6"
     );
 
     private static void introduce(String versionId, boolean timeline, String evidence,

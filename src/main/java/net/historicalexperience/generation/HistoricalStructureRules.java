@@ -172,6 +172,22 @@ public final class HistoricalStructureRules {
             allowed("Beta 1.9 Prerelease 2", union(BETA_1_8_STRUCTURES, Set.of("minecraft:fortress")),
                 "Adds no structure: its deltas are potions, hardcore mode, breeding and tool repair. Same set as "
                     + "Prerelease 1.")),
+        // Prereleases 4, 5 and 6 add NO structure: Pre4 adds the End dimension (a dimension, not a structure-set
+        // structure), Pre5 adds achievements and commands, Pre6 makes the dragon spawn. So all three inherit
+        // Prerelease 3's set, and the separate entries exist because every declared version must state its own rule
+        // rather than fall through to "unresearched" - which is what lets later structures generate.
+        Map.entry("historical_experience:beta_1_9_pre_4",
+            allowed("Beta 1.9 Prerelease 4", union(BETA_1_8_STRUCTURES, Set.of("minecraft:fortress")),
+                "Adds no structure: it adds the End dimension, splash potions, operational enchanting and moon "
+                    + "phases. Same set as Prerelease 1, which introduced the nether fortress.")),
+        Map.entry("historical_experience:beta_1_9_pre_5",
+            allowed("Beta 1.9 Prerelease 5", union(BETA_1_8_STRUCTURES, Set.of("minecraft:fortress")),
+                "Adds no structure: achievements, /toggledownfall and /xp, the clouds toggle, slime spawn height, "
+                    + "Silk Touch changes and the fix for snowfall destroying redstone, torches, saplings and rails.")),
+        Map.entry("historical_experience:beta_1_9_pre_6",
+            allowed("Beta 1.9 Prerelease 6", union(BETA_1_8_STRUCTURES, Set.of("minecraft:fortress")),
+                "Adds no structure: End crystals, the dragon egg, the boss bar and the first spawning Ender Dragon, "
+                    + "which is a fixed End spawn rather than a structure. Same set as Prerelease 1.")),
         Map.entry("historical_experience:beta_1_9_pre_3",
             allowed("Beta 1.9 Prerelease 3", union(BETA_1_8_STRUCTURES, Set.of("minecraft:fortress")),
                 "The nether fortress was introduced in Prerelease 1 and is inherited here; this build adds no "
