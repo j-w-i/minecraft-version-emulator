@@ -160,6 +160,10 @@ public final class GenerationVerification {
             // inventory. Container is an interface whose default method is the choke point Inventory.addResource
             // merges through, and Inventory and AbstractContainerMenu are the two classes that read the item's
             // own maximum instead.
+            // The crafting checkpoints and the punch-to-shear rule: a wrong injection target in any of these is
+            // fatal when a player opens a crafting grid or hits a sheep, so they are loaded here instead.
+            "net.minecraft.world.inventory.CraftingMenu",
+            "net.minecraft.world.entity.animal.Sheep",
             "net.minecraft.world.Container",
             "net.minecraft.world.entity.player.Inventory",
             "net.minecraft.world.inventory.InventoryMenu",

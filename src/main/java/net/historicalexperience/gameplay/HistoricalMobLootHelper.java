@@ -150,6 +150,30 @@ public final class HistoricalMobLootHelper {
     public static LootTable getTable(Entity entity, LootTable vanilla) {
         String entityTypeId =
             net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).toString();
+        EntityType<?> entityType = entity.getType();
+
+        // THE SHEEP IS CHECKED BEFORE THE VERSION GATE, and that ordering is the fix for a reported defect.
+        //
+        // The owner reported that sheep still drop MUTTON, which arrived in Release 1.8 and so must not exist in
+        // any of the 32 declared versions. It was reaching them because this branch used to sit BELOW the
+        // hasOldDrops gate: that gate is true only for the versions that carry the four-mob drop table, so for
+        // Alpha, Beta 1.0-1.6 and every Release profile the call fell through to the MODERN table - the one that
+        // contains raw mutton. Measured from the jars rather than assumed: the string "mutton" occurs 0 times in
+        // alpha-1.1.2_01, b1.7.3, b1.8.1, 1.0.0, 1.1, 1.2.5 and 1.6.4 language data, and 6 times in 1.8.9.
+        //
+        // Both branches below are mutton-free, so hoisting the whole branch is the correct fix rather than adding
+        // a mutton filter somewhere downstream: a sheep of this era yields its wool, or nothing if already shorn.
+        if (entityType == EntityType.SHEEP) {
+            RegistryAccess sheepRegistries = entity.level().registryAccess();
+            init(sheepRegistries);
+            Sheep sheep = (Sheep) entityType.tryCast(entity);
+
+            // Upstream: a sheep that has not been sheared drops the wool of its own colour.
+            if (sheep != null && !sheep.isSheared()) {
+                return WOOL_TABLE.apply(sheepRegistries, SheepAccess.itemByDye().get(sheep.getColor()));
+            }
+            return LootTable.EMPTY;
+        }
 
         if (!HistoricalLootRules.hasOldDrops(entity.level(), entityTypeId)) {
             return vanilla;
@@ -158,20 +182,9 @@ public final class HistoricalMobLootHelper {
         RegistryAccess registries = entity.level().registryAccess();
         init(registries);
 
-        EntityType<?> entityType = entity.getType();
         EntityLoot known = LOOT_MAP.get(entityType);
         if (known != null) {
             return known.lootTable();
-        }
-
-        // Upstream: a sheep that has not been sheared drops the wool of its own colour.
-        if (entityType == EntityType.SHEEP) {
-            Sheep sheep = (Sheep) entityType.tryCast(entity);
-
-            if (sheep != null && !sheep.isSheared()) {
-                return WOOL_TABLE.apply(registries, SheepAccess.itemByDye().get(sheep.getColor()));
-            }
-            return LootTable.EMPTY;
         }
 
         return vanilla;

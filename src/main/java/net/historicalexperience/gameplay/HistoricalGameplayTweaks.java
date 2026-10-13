@@ -113,6 +113,14 @@ public final class HistoricalGameplayTweaks {
         Map.entry("avoidSun",
             "Monsters BURNING in daylight is Indev 20100213 - in range everywhere - but the goal that makes "
                 + "them run for shade is Release 1.2.1 (12w04a). Upstream tweak: DISABLE_MONSTER_AVOID_SUN."),
+        Map.entry("punchShear",
+            "Before shears existed, PUNCHING a sheep shorn it and dropped its wool; the Alpha v1.1.2_01 client's "
+                + "sheep class overrides attackEntityFrom with `if (!this.sheared && attacker instanceof "
+                + "EntityLiving) { this.sheared = true; drop 1 + random.nextInt(3) of Item.cloth }` and has NO "
+                + "death-drop override at all, so killing it yielded nothing. Shears are Beta 1.7: the string "
+                + "\"shears\" is absent from alpha-1.1.2_01-client.jar and present in beta173-client.jar, and the "
+                + "owner confirmed the version. So this gate applies to every declared version older than Beta "
+                + "1.7.3, and Beta 1.7.3 itself uses shears."),
         Map.entry("breeding",
             "Animal breeding AND tempting arrive together in Beta 1.9 Prerelease 2, so Beta 1.8.1 had "
                 + "neither. Baby animals are Beta 1.9 Prerelease 3. Upstream tweaks: DISABLE_ANIMAL_BREEDING, "
@@ -184,6 +192,9 @@ public final class HistoricalGameplayTweaks {
             // these apply to all ten. Expressed as a boundary above every version rather than as a separate
             // rule, so the tested table stays the single source of truth.
             case "cooldown", "sweep", "swim" -> isDeclaredVersion(versionId);
+            // Shears are Beta 1.7, so every declared version BEFORE Beta 1.7.3 shears a sheep by punching it.
+            case "punchShear" ->
+                isDeclaredVersion(versionId) && olderThan(versionId, BETA_1_7_3);
             // True for every declared version for its OWN reason, not because it shares an era with the
             // line above: zombie arm swinging was removed in Indev 20100202, earlier than every profile.
             case "mobArms" -> isDeclaredVersion(versionId);
@@ -203,6 +214,16 @@ public final class HistoricalGameplayTweaks {
     private static final String RELEASE_1_2_5 = "historical_experience:release_1_2_5";
     private static final String RELEASE_1_6_4 = "historical_experience:release_1_6_4";
     private static final String BETA_1_9_PRE_3 = "historical_experience:beta_1_9_pre_3";
+
+    /**
+     * Beta 1.7.3, the earliest declared version that HAD shears, and therefore the boundary for the wool rule.
+     *
+     * <p>Shears arrive in <b>Beta 1.7</b>, confirmed two ways rather than assumed: the string "shears" is absent
+     * from {@code alpha-1.1.2_01-client.jar} and present in {@code beta173-client.jar}, and the owner confirmed
+     * the version independently. The declared catalogue maps Beta 1.7 to the Beta 1.7.3 profile, so this profile
+     * is the first version that must NOT shear on a punch.
+     */
+    private static final String BETA_1_7_3 = "historical_experience:beta_1_7_3";
 
     /** Skeletons that shoot also strafe sideways: the goal-based mob AI, so the Beta 1.8 boundary. */
     public static boolean skeletonStrafingDisabled(Level level) {
