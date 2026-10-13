@@ -75,6 +75,15 @@ public final class HistoricalVillageRules {
     /** Beta 1.8.1's chronology key: villages exist at or after this, and nowhere before it. */
     public static final int BETA_1_8_1_CHRONOLOGY = HistoricalVersions.chronology(500_000, 1, 8, 1);
 
+    /**
+     * Beta 1.9 Prerelease 1's chronology: when villages became INHABITED.
+     *
+     * <p>Villages arrive in Beta 1.8.1 and are empty; villagers arrive in Pre1 and make them inhabited. That
+     * boundary is what allows the two builds to differ, and it is why the village generator must spawn its villagers
+     * CONDITIONALLY rather than either never or always.
+     */
+    public static final int BETA_1_9_PRE_1_CHRONOLOGY = HistoricalVersions.chronology(500_000, 1, 9, 1);
+
     /** Beta 1.9 Prerelease 3's chronology key: the first version with villagers, and a brewing stand. */
     public static final int BETA_1_9_PRE_3_CHRONOLOGY = HistoricalVersions.chronology(500_000, 1, 9, 3);
 

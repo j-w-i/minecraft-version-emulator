@@ -142,6 +142,81 @@ public class HistoricalVillageStructure extends Structure {
             generatePieces(builder, context, startPos, biomeId, versionId)));
     }
 
+    /** How many villagers a village may hold. Upstream has no cap; this keeps a large village from flooding a chunk. */
+    private static final int MAX_VILLAGERS = 12;
+
+    @Override
+    public void afterPlace(
+        net.minecraft.world.level.WorldGenLevel level,
+        net.minecraft.world.level.StructureManager structureManager,
+        net.minecraft.world.level.chunk.ChunkGenerator chunkGenerator,
+        RandomSource random,
+        BoundingBox box,
+        ChunkPos chunkPos,
+        net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer pieces
+    ) {
+        // VILLAGERS ARE CONDITIONAL, and this replaces a deliberate shortcut that cost a real feature.
+        //
+        // The port originally placed no entities at all, on the reasoning that upstream spawns villagers in five of
+        // its pieces while this structure also generates from Beta 1.8.1 - where a villager would be an anachronism -
+        // and that making entity spawning conditional was more work than omitting it. The cost was that NO village
+        // anywhere ever had a villager, and the owner found it: "villagers do not spawn in villages past 1.8 when
+        // they are supposed to, or at least they dont spawn in release 1.0". Release 1.0 is three builds past the
+        // boundary, so that village should have been inhabited.
+        //
+        // The boundary is Beta 1.9 Prerelease 1: villages exist from Beta 1.8.1 and are EMPTY, and villagers arrive
+        // in Pre1 and make them inhabited. Both facts are in the research, so both builds are now correct.
+        String alias = net.historicalexperience.generation.HistoricalFeatureExclusions.activeAlias(chunkGenerator);
+
+        if (alias == null) {
+            return;
+        }
+
+        String versionId = net.historicalexperience.version.HistoricalVersions.byRevisionAlias(alias)
+            .map(net.historicalexperience.version.HistoricalVersion::id)
+            .orElse(alias);
+        var version = net.historicalexperience.version.HistoricalVersions.byId(versionId).orElse(null);
+
+        if (version == null || version.chronology() < HistoricalVillageRules.BETA_1_9_PRE_1_CHRONOLOGY) {
+            return;
+        }
+
+        int spawned = 0;
+
+        for (net.minecraft.world.level.levelgen.structure.StructurePiece piece : pieces.pieces()) {
+            if (spawned >= MAX_VILLAGERS) {
+                break;
+            }
+
+            // Roads are for walking along, not for standing on.
+            if (piece instanceof HistoricalVillagePieces.VillagePiece villagePiece
+                    && villagePiece.pieceType() == HistoricalVillagePieces.PIECE_PATH) {
+                continue;
+            }
+
+            BoundingBox pieceBox = piece.getBoundingBox();
+            // The piece has already placed its own floor, so its minimum Y is the surface it sits on. Upstream looks
+            // the height up through the level, which no longer exists on WorldGenLevel in 1.21.1.
+            int x = (pieceBox.minX() + pieceBox.maxX()) / 2;
+            int z = (pieceBox.minZ() + pieceBox.maxZ()) / 2;
+            int y = pieceBox.minY() + 1;
+
+            net.minecraft.world.entity.npc.Villager villager =
+                net.minecraft.world.entity.EntityType.VILLAGER.create(level.getLevel());
+
+            if (villager == null) {
+                continue;
+            }
+
+            villager.moveTo(x + 0.5, y, z + 0.5, random.nextFloat() * 360.0F, 0.0F);
+            // A villager that despawns is worse than no villager, because the village then looks broken rather
+            // than empty.
+            villager.setPersistenceRequired();
+            level.addFreshEntityWithPassengers(villager);
+            spawned++;
+        }
+    }
+
     private void generatePieces(
         StructurePiecesBuilder builder,
         GenerationContext context,
