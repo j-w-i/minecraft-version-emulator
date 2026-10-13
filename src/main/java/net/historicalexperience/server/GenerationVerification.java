@@ -339,6 +339,8 @@ public final class GenerationVerification {
             // village and a world whose biomes are wrong look identical from outside, and this tells them apart.
             report.put("villageDeclinedForBiome",
                 net.historicalexperience.worldgen.HistoricalVillageStructure.declinedForBiomeCount());
+            report.put("villageStyles",
+                net.historicalexperience.worldgen.HistoricalVillagePieces.styleDiagnostics());
             report.put("spawns", HistoricalSpawnRules.diagnostics());
             // The mob-drop replacement and experience suppression, so a real session shows them working
             // instead of only a unit test asserting the tables are readable.

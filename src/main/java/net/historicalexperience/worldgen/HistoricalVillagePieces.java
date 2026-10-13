@@ -171,9 +171,20 @@ public final class HistoricalVillagePieces {
                 slots.putAll(HistoricalVillageBlocks.desertSubstitutions(set));
             }
             for (Map.Entry<String, String> entry : slots.entrySet()) {
-                if (entry.getKey().startsWith("crop:")) {
-                    continue;
-                }
+                // Crop slots are included like any other, and that is a FIX rather than a tidy-up.
+                //
+                // This loop used to `continue` on every key starting with "crop:", while Style.wheat() asked for
+                // "crop:wheat" through the getter that THROWS when a slot is missing. So wheat() could never
+                // succeed: every farm generation crashed with "the village style has no block for slot
+                // 'crop:wheat'". It went unnoticed because villages had never generated at all - the biome was
+                // sampled at sea level rather than at the surface, so every candidate was refused - and the first
+                // village that ever tried to build hit this immediately.
+                //
+                // The same skip silently disabled carrots and potatoes, which read states.get("crop:carrots") and
+                // were therefore always null, so a Release 1.6.4 village grew wheat and nothing else.
+                //
+                // HistoricalVillageStates.state gives each crop its default state, which is age 0 - exactly what a
+                // farm wants, because the piece sets growth afterwards.
                 states.put(entry.getKey(), HistoricalVillageStates.state(entry.getValue()));
             }
         }
@@ -336,8 +347,39 @@ public final class HistoricalVillagePieces {
     }
 
     /** Builds a style for a version and village style, for the structure to hand to its pieces. */
-    static Style styleFor(String versionId, int villageStyle) {
-        return new Style(HistoricalVillageBlocks.forVersion(versionId),
+    /**
+     * Builds a plains style for every version that can generate a village and reports what each one resolves.
+     *
+     * <p>This lives here, and is checked by the generation probe rather than by a unit test, for a concrete reason:
+     * {@code HistoricalVillageStates} resolves block ids through the Minecraft registry, so building a style needs a
+     * bootstrapped game. The project has no test bootstrap and never has - the first attempt at a unit test for this
+     * died with {@code NoClassDefFoundError: Could not initialize class HistoricalVillageStates}. A runtime probe is
+     * the right level for it, and this is the check that would have caught the crash the owner hit:
+     *
+     * <pre>
+     *   IllegalStateException: the village style has no block for slot 'crop:wheat'
+     * </pre>
+     *
+     * <p>Reported as a map of version id to outcome, so a failure names the version and the slot instead of taking
+     * down a server mid-generation.
+     */
+    public static java.util.Map<String, String> styleDiagnostics() {
+        java.util.Map<String, String> report = new java.util.LinkedHashMap<>();
+        for (String versionId : HistoricalVillageRules.villageVersions()) {
+            try {
+                Style style = styleFor(versionId, STYLE_PLAINS);
+                String wheat = style.wheat() == null ? "<null>" : style.wheat().toString();
+                report.put(versionId, "wheat=" + wheat
+                    + " carrots=" + (style.carrots() == null ? "<none>" : "present")
+                    + " potatoes=" + (style.potatoes() == null ? "<none>" : "present"));
+            } catch (RuntimeException | LinkageError failure) {
+                report.put(versionId, "FAILED: " + failure.getClass().getSimpleName() + ": " + failure.getMessage());
+            }
+        }
+        return report;
+    }
+
+    static Style styleFor(String versionId, int villageStyle) {        return new Style(HistoricalVillageBlocks.forVersion(versionId),
             villageStyle == STYLE_DESERT);
     }
 
