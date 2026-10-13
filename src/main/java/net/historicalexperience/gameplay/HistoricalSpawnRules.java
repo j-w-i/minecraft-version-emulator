@@ -107,6 +107,29 @@ public final class HistoricalSpawnRules {
     );
 
     /**
+     * The mobs the Alpha line gained after 1.0.1, which the 1.0.1 set is derived by removing.
+     *
+     * <p>Slimes arrive in Alpha 1.0.11 and chickens in Alpha 1.0.14, per the per-build deltas in
+     * {@code research/version-transitions.json}. Chickens matter twice over: 1.0.6 drops leaf decay and cuts the
+     * sapling chance, and 1.0.14 then adds chickens and eggs - so an Alpha 1.0.6 world has neither leaf decay nor
+     * a chicken.
+     */
+    private static final Set<String> ALPHA_MOBS_ADDED_AFTER_1_0_1 = Set.of(
+        "minecraft:slime",
+        "minecraft:chicken");
+
+    /**
+     * Alpha 1.0.1's natural spawn set: the 1.1.2 set without the two mobs added later.
+     *
+     * <p>DERIVED by subtraction rather than written out, so if the 1.1.2 set is ever corrected for a reason that
+     * also applies here, this set follows. Written out, the two would drift and the earlier build would silently
+     * spawn a mob that did not exist yet - which is the whole reason the Alpha versions cannot share a ruleset.
+     */
+    public static final Set<String> ALPHA_1_0_1_MOBS = ALPHA_1_1_2_MOBS.stream()
+        .filter(mob -> !ALPHA_MOBS_ADDED_AFTER_1_0_1.contains(mob))
+        .collect(java.util.stream.Collectors.toUnmodifiableSet());
+
+    /**
      * Infdev 20100325's mobs, from the only place that build enumerates them.
      *
      * <p>That jar has <b>no entity-name registry at all</b> - a case-sensitive scan for every entity name

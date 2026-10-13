@@ -27,22 +27,22 @@ class HistoricalPlayerRulesWiring1211Test {
         .toList();
 
     /** The versions before the Beta 1.8 Pre-release, which is where hunger and sprinting both arrive. */
-    private static final List<String> BEFORE_BETA_1_8 = List.of(
-        "historical_experience:infdev_420",
-        "historical_experience:infdev_611",
-        "historical_experience:alpha",
-        "historical_experience:beta_1_7_3");
+    private static final List<String> BEFORE_BETA_1_8 = HistoricalVersions.all().stream()
+        .filter(version -> version.chronology()
+            < HistoricalGameplayTweaks.preBeta18BoundaryChronology())
+        .map(net.historicalexperience.version.HistoricalVersion::id)
+        .toList();
 
     private static boolean hasHunger(String versionId) {
         return HistoricalVersions.byId(versionId).orElseThrow().rules().hasHunger();
     }
 
     @Test
-    @DisplayName("the profile list is the ten declared versions, oldest first")
+    @DisplayName("the profile list is the eleven declared versions, oldest first")
     void profilesAreTheDeclaredVersions() {
-        assertEquals(10, PROFILES.size(), "the project declares ten profiles: " + PROFILES);
+        assertEquals(11, PROFILES.size(), "the project declares eleven profiles: " + PROFILES);
         assertEquals("historical_experience:infdev_420", PROFILES.get(0));
-        assertEquals("historical_experience:release_1_6_4", PROFILES.get(9));
+        assertEquals("historical_experience:release_1_6_4", PROFILES.get(10));
     }
 
     @Test

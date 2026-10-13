@@ -28,6 +28,7 @@ NAMESPACE = 'historical_experience'
 # the desert well). A world created before it keeps the alias it recorded, so nothing already generated moves.
 PUBLIC_RECIPES = {
     'beta_1_7_3': 'beta_1_7_3_content_preview_10',
+    'alpha_1_0_1': 'alpha_1_0_1_no_modern_content',
     'alpha': 'alpha_no_modern_content',
     'infdev_420': 'infdev_420_no_modern_content',
     'infdev_611': 'infdev_611_no_modern_content',

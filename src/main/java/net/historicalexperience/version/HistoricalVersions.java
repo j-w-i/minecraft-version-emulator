@@ -309,6 +309,37 @@ public final class HistoricalVersions {
             HistoricalSpawnRules.INFDEV_20100420_AND_20100611_MOBS, true,
             "MOBS: the same seven as 20100420 - registry class net/minecraft/a/c/e with a "
                 + "byte-identical <clinit> instruction sequence and the same 13 registrations."));
+        versions.add(terrainOnlyWithRules(
+            // Alpha 1.0.1, the first of the twenty-nine targets. Declared through this helper rather than through
+            // alphaTerrainOnly, which hard-codes the v1.1.2_01 chronology and so cannot serve a second build.
+            //
+            // Its rules are the Alpha profile's with ONE difference, and that is the point of the owner's
+            // correction: the Alpha versions do not share a gameplay ruleset. Slimes arrive in 1.0.11 and chickens
+            // in 1.0.14, so this build spawns neither. It reuses the Alpha food table deliberately, because no
+            // edible item was added anywhere between 1.0.1 and 1.1.0 - and that is a fact about the deltas, not an
+            // assumption that the versions are alike.
+            //
+            // NOT implemented, and recorded rather than guessed: gold ore generating "twice as often" and diamond
+            // ore twice as often in smaller blobs are relative to the PREVIOUS build, and the research gives no
+            // absolute counts to double. A borrowed number would look like evidence.
+            "historical_experience:alpha_1_0_1", "Alpha v1.0.1", "alpha",
+            chronology(ERA_ALPHA, 1, 0, 1), "moderner_beta:alpha",
+            new VersionRules(
+                true,
+                HistoricalSpawnRules.ALPHA_1_0_1_MOBS,
+                java.util.Map.of(),
+                HistoricalFoodRules.ALPHA_1_1_2_HEAL_POINTS,
+                false,
+                false,
+                false,
+                false,
+                "Seecret Friday 3, 2 July 2010. Redstone ore and dust, redstone torches, levers, buttons, "
+                    + "pressure plates and iron doors; monster spawners stop dropping as items. Mob set derived "
+                    + "from the Alpha v1.1.2_01 client registry minus slimes (Alpha 1.0.11) and chickens (Alpha "
+                    + "1.0.14), per research/version-transitions.json. Food table shared with Alpha v1.1.2_01 "
+                    + "because no edible item was added between them. Gold and diamond ore frequency per this "
+                    + "build is NOT implemented: see research/implementation-coverage.md.")));
+
         versions.add(alphaTerrainOnly(
             "historical_experience:alpha", "Alpha v1.1.2_01", "moderner_beta:alpha"));
 

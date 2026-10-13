@@ -27,6 +27,7 @@ OUTPUT = ROOT / 'src/main/java/net/historicalexperience/generation/HistoricalBlo
 CHRONOLOGY = [
     'historical_experience:infdev_420',
     'historical_experience:infdev_611',
+    'historical_experience:alpha_1_0_1',
     'historical_experience:alpha',
     'historical_experience:beta_1_7_3',
     'historical_experience:beta_1_8_1',
