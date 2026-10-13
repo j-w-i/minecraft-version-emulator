@@ -38,12 +38,41 @@ import net.minecraft.world.level.Level;
  * would be the invisible kind.
  */
 public final class HistoricalGameplayTweaks {
-    /** The versions that predate the goal-based mob AI and the Adventure Update's systems. */
-    private static final Set<String> BEFORE_BETA_1_8 = Set.of(
-        "historical_experience:infdev_420",
-        "historical_experience:infdev_611",
-        "historical_experience:alpha",
-        "historical_experience:beta_1_7_3");
+    /**
+     * Beta 1.8's chronology, written as a literal because Beta 1.8 is not a declared profile - only Beta 1.8.1 is.
+     * A test ties it to the registry so the literal cannot drift.
+     */
+    private static final int BETA_1_8_CHRONOLOGY = 501_800;
+
+    /**
+     * The declared versions that predate the goal-based mob AI and the Adventure Update's systems.
+     *
+     * <p>DERIVED from the registry, not listed. It used to be a hand-written set of four ids - which this class's
+     * own javadoc calls "the invisible kind" of approximation, and it was: a new pre-1.8 version would be left out
+     * of it, and the seven gates that read this set (sword blocking, its fall-damage window, the critical-hit
+     * formula, exhaustion costs, the food hunger values, the regeneration model and the golden apple) would quietly
+     * apply Beta 1.8 behaviour to an earlier build without failing anything.
+     */
+    private static final Set<String> BEFORE_BETA_1_8 = HistoricalVersions.all().stream()
+        .filter(version -> version.chronology() < BETA_1_8_CHRONOLOGY)
+        .map(net.historicalexperience.version.HistoricalVersion::id)
+        .collect(java.util.stream.Collectors.toUnmodifiableSet());
+
+    /** The pre-Beta-1.8 boundary, exposed so a test can tie the literal to the registry. */
+    public static int preBeta18BoundaryChronology() {
+        return BETA_1_8_CHRONOLOGY;
+    }
+
+    /**
+     * Whether a version predates Beta 1.8, which is the question seven gates ask before anything else.
+     *
+     * <p>Exposed because the set behind it is derived and the derivation is the thing worth testing: a test that
+     * went through the gates would be testing each gate's other boundaries at the same time and could not say
+     * which one failed.
+     */
+    public static boolean preBeta18(String versionId) {
+        return BEFORE_BETA_1_8.contains(versionId);
+    }
 
     private static final Map<String, String> EVIDENCE = Map.ofEntries(
         Map.entry("skeletonStrafing",
