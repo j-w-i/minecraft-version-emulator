@@ -44,7 +44,6 @@
     "WorldGenRegionHistoricalBlockVetoMixin",
     "EntityHistoricalSneakingMixin",
     "PlayerHistoricalOffhandMixin",
-    "SlotHistoricalOffhandMixin",
     "ServerGamePacketListenerHistoricalOffhandMixin",
     "SlotHistoricalFoodStackMixin"
   ],
@@ -64,7 +63,8 @@
     "HumanoidArmorLayerHistoricalTintMixin",
     "MinecraftHistoricalInstantEatMixin",
     "WorldListEntryAccessor",
-    "AbstractContainerScreenHistoricalOffhandMixin",
-    "LocalPlayerHistoricalSneakingMixin"
+    "LocalPlayerHistoricalSneakingMixin",
+    "InventoryScreenHistoricalOffhandMixin",
+    "SlotPositionMixin"
   ]
 }
