@@ -35,7 +35,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * <p>{@code HistoricalActiveSession} is set on the client as well as the server, so without the
  * {@link ServerPlayer} test this would also run locally and call {@code giveExperiencePoints} on a client-side
  * player, which fights the server's authoritative value instead of predicting it. The server owns the grant; the
- * client is told. {@code getRandom()} is per-Entity rather than shared, so the draw costs no contention.
+ * client is told.
+ *
+ * <p>The source of the draw is worth stating precisely because the first version of this comment got it wrong:
+ * {@code Entity.getRandom()} is not a per-entity generator, it returns {@code level().getRandom()} - the level's
+ * one shared source. {@code jumpFromGround} runs on the server thread, so that is not a race here, but nothing in
+ * this file should be read later as a claim that the level's random is safe to reach from anywhere.
  *
  * <p>A shared mixin, and it has to be: {@code Player} is a common class.
  */
