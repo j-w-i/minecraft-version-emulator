@@ -66,6 +66,61 @@ class HistoricalBugsTest {
     }
 
     @Test
+    @DisplayName("Silk Touch drops the monster spawner in Beta 1.9 Pre4 and in no other declared build")
+    void silkTouchSpawnerDropsOnlyInPreFour() {
+        int applying = 0;
+        for (var version : HistoricalVersions.all()) {
+            if (HistoricalGameplayTweaks.appliesTo("silkySpawners", version.id())) {
+                assertEquals("historical_experience:beta_1_9_pre_4", version.id(),
+                    "Pre4 is the only declared build that drops the spawner; Pre5 removed it, so " + version.id()
+                        + " must not");
+                applying++;
+            }
+        }
+        assertEquals(1, applying,
+            "exactly one declared build dropped a Silk-Touch-mined spawner. Zero means the bug is unreachable; more "
+                + "than one means an equality has been widened into a range, which is how one prerelease's bug "
+                + "leaks into its neighbours");
+
+        assertTrue(HistoricalGameplayTweaks.appliesTo("silkySpawners", "historical_experience:beta_1_9_pre_4"));
+        assertFalse(HistoricalGameplayTweaks.appliesTo("silkySpawners", "historical_experience:beta_1_9_pre_3"),
+            "Pre3 had no Silk Touch drop");
+        assertFalse(HistoricalGameplayTweaks.appliesTo("silkySpawners", "historical_experience:beta_1_9_pre_5"),
+            "Pre5 removed it");
+    }
+
+    @Test
+    @DisplayName("the spawner drop rule is gated on the version alone, and says so where a reader would misread it")
+    void theSpawnerRuleIsAVersionRuleNotAToolRule() {
+        // NO unit test of the drop predicate itself, for two measured reasons rather than one. Reaching a real
+        // BlockState pulls Blocks.<clinit> -> SoundEvents.<clinit> -> the registry and dies with
+        // ExceptionInInitializerError; and the predicate MUST be private, because making it visible to a test
+        // crashed every dedicated-server launch with "Mixin ... contains non-private static method". Both are
+        // recorded in the mixin's own javadoc. What IS pinned here is the half that decides everything: the rule is
+        // a pure function of the version, so the version-keyed table fully determines when a spawner is dropped.
+        // The runtime block-drop probe observes the rest through the public getDrops entry point.
+        boolean anySpawnerDroppingVersion = HistoricalVersions.all().stream()
+            .anyMatch(version -> HistoricalGameplayTweaks.appliesTo("silkySpawners", version.id()));
+        assertTrue(anySpawnerDroppingVersion,
+            "if no declared build drops a spawner then the hook is dead code and the owner's spawner question has "
+                + "no in-range answer at all");
+    }
+
+    @Test
+    @DisplayName("this gate is INVERTED: it is false for the modern behaviour, unlike every boundary gate")
+    void silkySpawnersIsTheOneGateWhoseFalseIsModern() {
+        // Worth its own test because reading it the way every other gate in the project reads would silently
+        // invert the feature. Pre5 removed the drop and the modern game has never had it, so `false` is the
+        // present-day answer rather than an older one - the hook SUPPRESSES a drop where this is false instead of
+        // adding a behaviour. Asserted against the registry rather than a list so a new build cannot slip in.
+        for (var version : HistoricalVersions.all()) {
+            boolean pre4 = version.id().equals("historical_experience:beta_1_9_pre_4");
+            assertEquals(pre4, HistoricalGameplayTweaks.appliesTo("silkySpawners", version.id()),
+                "silkySpawners must be true for Pre4 alone, not for " + version.id());
+        }
+    }
+
+    @Test
     @DisplayName("the jump bug grants between 1 and 100 inclusive, and 0 where it does not apply")
     void jumpExperienceRange() {
         // The research says 1-100 per jump and that the amount is random per jump, so both ends of the range must

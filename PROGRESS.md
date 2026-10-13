@@ -1,3 +1,65 @@
+# Persistent project status — 2026-10-13 (5) / the owner's frame test found TWO real defects, both fixed
+
+## Round 70 — the End portal frame drop was broken twice over, and both causes are now measured
+
+The owner played the round-69 build and reported: **"the frames blew up but didn't drop the item."** That single
+sentence was worth more than any test in the suite, and it exposed two independent defects in work I had previously
+described as "boot-verified".
+
+### Defect 1 — the injection targeted the wrong RETURN, so it never ran
+
+`BlockBehaviour.getDrops` has two returns: the first hands back `Collections.emptyList()` when the block has **no
+loot table at all**, and the second returns a rolled table. The mixin injected at `ordinal = 1` — the post-roll
+return, which is what an **ore** takes — so for the End portal frame it never executed.
+
+`end_portal_frame` has **no loot table** in 1.21.1. Verified by listing the jar, not by reasoning: its blockstate,
+models, item model and textures are all present, and
+`data/minecraft/loot_table/blocks/end_portal_frame.json` does not exist. The upstream-shaped injection could not
+reach the one block this feature is about.
+
+The fix is a second handler at `ordinal = 0` for the no-loot-table path, with the frame rule claimed there and a
+comment in the ordinal-1 handler saying explicitly why the rule is *not* there — a duplicate would be dead code
+that reads like the live rule.
+
+### Defect 2 — the drop path hands back an IMMUTABLE list, so `clear()` threw
+
+Having reached the right return, `drops.clear()` threw `UnsupportedOperationException`: `Collections.emptyList()`
+cannot be mutated, and the engine swallowed the exception inside the explosion's own drop call. Both mutation sites
+now return a **new** list instead of mutating the one they were given.
+
+This one is worth reading twice, because the runtime probe found it and nothing else did:
+`endPortalFrame: probeFailed: java.lang.UnsupportedOperationException`, on Pre3 alone.
+
+### Runtime evidence, four versions, and it is now the probe's job
+
+A `blockDrops` probe was added; it calls the same `Block.getDrops` entry point the explosion uses and reports what
+comes back rather than what was expected.
+
+| Version | Frame drop | Spawner gate | Expected |
+| --- | --- | --- | --- |
+| **Beta 1.9 Pre3** | **`minecraft:end_portal_frame x1`** | false | drops exactly here |
+| Beta 1.9 Pre4 | nothing | true | none |
+| Beta 1.9 Pre5 | nothing | false | none |
+| Release 1.6.4 | nothing | false | none |
+
+**364 tests, 65 suites, 0 failures.** Deployed:
+**E0D9B92619938A767BAD7F8E476042F542413CB48662F6F62AF984F2F7A2D25C**.
+
+### Two more defects found in the tooling while fixing the above
+
+- **Making a mixin's static helper `public` crashed every server launch.** `InvalidMixinException: Mixin ... contains
+  non-private static method isSpawnerDrop(...)` — Mixin merges such methods onto the target class, so visibility is
+  rejected. A green compile said nothing; only starting the game did. This is the third time this project has
+  learned that lesson, so it is now written into the file.
+- **`BUILD SUCCESSFUL` is printed for a server that died during bootstrap**, because the forked JVM still exits 0
+  after reporting `Failed to start the minecraft server`. `runExit=0` was therefore *faithful* and Gradle is what
+  misleads. The sweep now answers three questions separately — did the run end, did the build pass, did the server
+  actually start — and records `serverStartupFailed`.
+
+**Still not verified by any automated run:** Pre4's Silk Touch spawner drop, because the probe has no player and no
+enchanted tool. The probe proves the *safe* direction only (no other version drops a spawner) and says so in its own
+javadoc rather than implying more.
+
 # Persistent project status — 2026-10-13 (4) / the "six-minute hang" was my sweep, and two named bugs are in
 
 ## Round 69 — the hang explained by measurement, two bugs implemented, all bugs catalogued

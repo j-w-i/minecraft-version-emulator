@@ -25,6 +25,25 @@ function Test-LogSaysBuildFinished([string] $path) {
     return [bool](Select-String -Path $path -Pattern '^BUILD (SUCCESSFUL|FAILED)' -Quiet -ErrorAction SilentlyContinue)
 }
 
+# Separate from the above on purpose. "The build ended" and "the build passed" are different questions, and
+# collapsing them is what let a launch that died with InvalidMixinException be reported as exit=0.
+function Test-LogSaysBuildSucceeded([string] $path) {
+    if (-not (Test-Path $path)) { return $false }
+    return [bool](Select-String -Path $path -Pattern '^BUILD SUCCESSFUL' -Quiet -ErrorAction SilentlyContinue)
+}
+
+# The third question, and the one that actually catches a broken mixin: Gradle prints BUILD SUCCESSFUL for a server
+# that failed during bootstrap, because the forked process exits 0. These are the server's own words.
+function Test-LogShowsServerStartupFailure([string] $path) {
+    if (-not (Test-Path $path)) { return $false }
+    return [bool](Select-String -Path $path -Quiet -ErrorAction SilentlyContinue -Pattern @(
+        'Failed to start the minecraft server',
+        'Mixin apply for mod .* failed',
+        'InvalidMixinException',
+        'Mixin transformation of .* failed'
+    ))
+}
+
 $tagPath = 'src/main/resources/data/minecraft/tags/worldgen/world_preset/normal.json'
 if (-not (Test-Path $tagPath)) { throw "matrix tag not found at $tagPath" }
 $tag = Get-Content $tagPath -Raw | ConvertFrom-Json
@@ -117,11 +136,21 @@ foreach ($version in $versions) {
             ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }
         Stop-Process -Id $gradlePid -Force -ErrorAction SilentlyContinue
     }
-    # No exit code is invented. `BUILD SUCCESSFUL` in the log is positive evidence the build passed; anything else
-    # reports -1 rather than borrowing the wrapper's code, which is exactly the value that was never trustworthy.
-    $exit = if ($timedOut) { -1 } elseif (Test-LogSaysBuildFinished $log) { 0 } else { -1 }
+    # Three questions, kept separate because collapsing them is what hid a dead server behind a green build:
+    #   1. did the run end?            -> BUILD SUCCESSFUL or BUILD FAILED in the log
+    #   2. did the BUILD pass?         -> BUILD SUCCESSFUL
+    #   3. did the SERVER actually run? -> no fatal startup error in the log
+    # Question 3 is not redundant and this is the round that proved it. A launch that died during bootstrap with
+    # `InvalidMixinException: ... contains non-private static method` still printed **BUILD SUCCESSFUL**, because the
+    # forked server process exits 0 after reporting "Failed to start the minecraft server" - so Gradle itself says
+    # success for a server that never started, and runExit=0 was FAITHFUL, not broken. Reading only the Gradle
+    # verdict is therefore not enough to say a version ran, and the probe verdict is what settles it.
+    $serverDied = Test-LogShowsServerStartupFailure $log
+    $buildSucceeded = Test-LogSaysBuildSucceeded $log
+    $exit = if ($timedOut -or $serverDied) { -1 } elseif ($buildSucceeded) { 0 } else { 1 }
 
-    $row = [ordered]@{ version = $version; world = $world; runExit = $exit; timedOut = $timedOut }
+    $row = [ordered]@{ version = $version; world = $world; runExit = $exit; timedOut = $timedOut
+        serverStartupFailed = $serverDied }
 
     if (Test-Path $probePath) {
         $probe = Get-Content $probePath -Raw | ConvertFrom-Json

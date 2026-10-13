@@ -553,18 +553,21 @@ turned out to be "no approximation needed" rather than the decision I expected t
    being deleted for the same reason — stale evidence that looks like a fresh result is this project's recurring
    failure. Re-run after the fix: `exit=0 success=True` for both versions, `timedOut=False`, zero anachronisms, zero
    mixin failures. A green result from a stale artifact is worse than a red one.
-20. **Beta 1.9 Prerelease 3's blast-destroyable End portal frame: IMPLEMENTED, boot-verified, and NOT yet verified
-   in live play.** Two hooks, both gated on the one declared build: `BlockHistoricalEndPortalFrameMixin` answers
+20. **Beta 1.9 Prerelease 3's blast-destroyable End portal frame. SUPERSEDED BY ITEM 23 — read that one first: the
+   claim below that this was "IMPLEMENTED, boot-verified" was true and beside the point, because the drop did not
+   work and the owner found it by playing.** Left in place rather than rewritten, because the gap between "boots
+   clean" and "works" is the thing worth remembering. Two hooks, both gated on the one declared build:
+   `BlockHistoricalEndPortalFrameMixin` answers
    `getExplosionResistance` with 0.0F when the gate applies, and `BlockBehaviourHistoricalDropMixin` makes the same
    block drop itself. Two details that are easy to get wrong: `getExplosionResistance` is declared on `Block` while
    `getDrops` is declared on `BlockBehaviour`, which is why this is two mixins and not one; and the drop rule cannot
    be reached by mining, because the frame's hardness is -1, so an explosion is the only route and `getDrops` is what
    an explosion consults. What IS verified: `HistoricalBugsTest` walks all 32 declared versions and requires the
    gate true for exactly one, and a fresh Beta 1.9 Pre3 dedicated-server run booted with `mixinFailures=0` and
-   `success=true`. What is NOT: nobody has detonated TNT beside a frame in a real world, so the on-screen half is
-   unproven exactly as item 14 says the emerald half is. The magic number is not load-bearing and is documented as
-   such — the wiki records the behaviour and not a value, so any resistance at or below TNT's threshold reproduces
-   it, and the modern value (3,600,000) is deliberately not scaled down by an invented factor.
+   `success=true`. What was NOT, and this is the part that cost a round: **no automated run had ever observed the
+   drop itself.** The probe that now does is described in item 23. The magic number is not load-bearing and is
+   documented as such — the wiki records the behaviour and not a value, so any resistance at or below TNT's
+   threshold reproduces it, and the modern value (3,600,000) is deliberately not scaled down by an invented factor.
    Two further Pre3-only facts from the same history rows remain **unimplemented and recorded**: the block emits
    light level 15 where Pre4 and later emit 1, and the item form is a flat texture of the filled frame with an empty
    tooltip.
@@ -587,6 +590,44 @@ turned out to be "no approximation needed" rather than the decision I expected t
    `beta_1_7_3` would be wrong in the dangerous direction by re-introducing a crash the 1.7.3 profile never had. The
    twelve records were validated against this project's own declared ids; eleven match and this one does not, so it
    needs its boundary re-derived from a source rather than from the name.
+23. **WAS SHIPPED BROKEN: Pre3's End portal frame drop did not work, and the owner found it by playing.** Round 69
+   recorded that bug as "boot-verified", which was true and beside the point: a clean server boot says the mixin
+   *applied*, not that it *runs*. The owner demolished a frame and reported "the frames blew up but didn't drop the
+   item". **Two independent defects, both mine:**
+   * **Wrong RETURN.** `BlockBehaviour.getDrops` has two: the first returns `Collections.emptyList()` when the block
+     has **no loot table**, the second returns a rolled table — and the latter is what an *ore* takes. The injection
+     used `ordinal = 1`, so for the frame it never executed. `end_portal_frame` has **no loot table** in 1.21.1,
+     proved by listing the jar (blockstate, models and textures all present;
+     `data/minecraft/loot_table/blocks/end_portal_frame.json` absent), so the upstream-shaped injection could not
+     reach the one block the feature is about. Fixed with a second handler at `ordinal = 0`; the ordinal-1 handler
+     carries a comment saying why the rule is deliberately *not* there.
+   * **The drop path hands back an IMMUTABLE list.** Even on the right return, `drops.clear()` threw
+     `UnsupportedOperationException`, which the engine swallowed inside the explosion's own drop call. Both
+     mutation sites now return a **new** list. The runtime probe named this precisely, as
+     `endPortalFrame: probeFailed: java.lang.UnsupportedOperationException`, on Pre3 alone.
+   **Now measured in the probe, four versions, through the same `Block.getDrops` entry point the explosion uses:**
+   Pre3 → `minecraft:end_portal_frame x1`; Pre4, Pre5 and Release 1.6.4 → nothing. The lesson generalises and is the
+   project's own: a boot proves a mixin *applies*; only the behaviour's own path proves it *works*, and the
+   owner's play found in one sentence what 364 tests and three clean boots did not.
+24. **The End portal frame's first fix reached the wrong return, and the durable answer is a probe rather than a
+   test.** The frame's two defects could not have been caught by a unit test in either place: reaching a real
+   `BlockState` pulls `Blocks.<clinit>` → `SoundEvents.<clinit>` → the registry and dies with
+   `ExceptionInInitializerError`, and the predicate must stay `private` because making it visible to a test crashed
+   every server launch with `InvalidMixinException: Mixin ... contains non-private static method` (Mixin merges such
+   methods onto the target). Both are written into the mixin's javadoc. The `blockDrops` probe exists because it is
+   the only instrument that could see this class of defect, and it found the second one immediately.
+25. **`BUILD SUCCESSFUL` is printed for a server that died during bootstrap, so the Gradle verdict is not evidence
+   that a version ran.** The broken-mixin launch above exited 0 and printed `BUILD SUCCESSFUL` while the log also
+   contained `Failed to start the minecraft server` and an `InvalidMixinException` — the forked JVM exits 0 either
+   way, so `runExit=0` was *faithful* and Gradle is what misleads. The sweep now answers three questions separately
+   (did the run end, did the build pass, did the server actually start) and records `serverStartupFailed`. Anything
+   inferred from `runExit` alone in an earlier round should be re-read with that in mind.
+26. **Pre4's Silk Touch spawner drop is implemented but NOT verified in either direction by an automated run.** The
+   gate is pinned (`silkySpawners` applies to exactly Pre4 across all 32 declared builds) and the probe confirms the
+   safe direction — no other declared version drops a spawner, and the spawner has not been observed dropping under
+   Silk Touch because the probe has no player and no enchanted tool. This is the honest in-range answer to the
+   owner's "spawners being mineable" request: the premise named the Infdev builds, which predate the block's
+   addition in Infdev 20100625-1917, so Pre4 is where that bug actually lives in this matrix.
 12. **The Nether's terrain SHAPE is still the modern 1.16+ one.** Its biomes are fixed (one biome,
    `minecraft:nether_wastes`, via vanilla's `minecraft:fixed` biome source), but the shape comes from
    `minecraft:nether` noise settings and Moderner Beta ships no historical Nether to point at. Recorded as a gap.

@@ -272,6 +272,68 @@ public final class GenerationVerification {
     }
 
     /**
+     * The two block-drop rules that are not ore rules, measured rather than asserted.
+     *
+     * <h2>Why this probe exists at all — it is the owner's defect, reproduced</h2>
+     *
+     * <p>Beta 1.9 Pre3's End portal frames were reported to blow up without dropping. The cause was that
+     * {@code end_portal_frame} has <b>no loot table</b>, so {@code BlockBehaviour.getDrops} leaves through its first
+     * RETURN — the {@code Collections.emptyList()} one — and the injection, written against the post-roll return,
+     * never ran. Reading the jar proved the missing loot table; this probe proves the fix, because it calls the
+     * same method the explosion path calls and reports what came back.
+     *
+     * <h2>What this can and cannot prove, stated before the result</h2>
+     *
+     * <p>The frame drop is fully observable here: it is a pure function of the block and the version, and the
+     * explosion that triggers it is the engine's business. So Pre3 must report the frame item and Pre4, Pre5 and
+     * every Release must report nothing.
+     *
+     * <p>The spawner half is read with {@code ItemStack.EMPTY} as the tool, because the probe has no player and no
+     * enchanted tool, and inventing one to reach a loot condition would be a different experiment from the one the
+     * owner will run. So the POSITIVE half — Pre4's spawner actually dropping under Silk Touch — cannot be observed
+     * here and is NOT claimed from this run. What it does catch is the direction that costs real content: no other
+     * declared version may report a spawner drop, since the modern game has none and Pre5 removed it. A rule that
+     * leaked into its neighbours would show up here as a spawner item in a build that must not have one.
+     */
+    private static Map<String, Object> blockDropProbe(net.minecraft.server.level.ServerLevel level) {
+        Map<String, Object> out = new LinkedHashMap<>();
+
+        out.put("endPortalFrameExplodesGate",
+            net.historicalexperience.gameplay.HistoricalGameplayTweaks.endPortalFrameExplodes());
+        out.put("silkTouchSpawnerDropGate",
+            net.historicalexperience.gameplay.HistoricalGameplayTweaks.silkySpawnerDrops());
+
+        out.put("endPortalFrame", dropReport(level,
+            net.minecraft.world.level.block.Blocks.END_PORTAL_FRAME.defaultBlockState(), new BlockPos(24, 90, 24)));
+        out.put("monsterSpawner", dropReport(level,
+            net.minecraft.world.level.block.Blocks.SPAWNER.defaultBlockState(), new BlockPos(28, 90, 28)));
+
+        return out;
+    }
+
+    /** What one block's own drop rules produce right now, through the same entry point an explosion uses. */
+    private static Map<String, Object> dropReport(net.minecraft.server.level.ServerLevel level,
+            net.minecraft.world.level.block.state.BlockState state, BlockPos pos) {
+        Map<String, Object> out = new LinkedHashMap<>();
+        try {
+            level.setBlockAndUpdate(pos, state);
+            java.util.List<String> dropped = new java.util.ArrayList<>();
+            // No player and no tool: ItemStack.EMPTY, which is also what an explosion carries.
+            for (var stack : net.minecraft.world.level.block.Block.getDrops(
+                    state, level, pos, null, null, net.minecraft.world.item.ItemStack.EMPTY)) {
+                dropped.add(net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(stack.getItem())
+                    + " x" + stack.getCount());
+            }
+            level.removeBlock(pos, false);
+            out.put("drops", dropped.isEmpty() ? "<nothing>" : dropped);
+            out.put("blockTag", state.getBlock().builtInRegistryHolder().key().location().toString());
+        } catch (Throwable failure) {
+            out.put("probeFailed", String.valueOf(failure));
+        }
+        return out;
+    }
+
+    /**
      * What the passive spawn path is actually offered in this world, before and after the historical filter.
      *
      * <p>Written for the owner's report that an Alpha world stayed empty after every entity was killed, at tick
@@ -547,6 +609,7 @@ public final class GenerationVerification {
             // The live observation of the simulation rules, which the block and structure checks cannot see.
             report.put("gameplay", gameplayProbe(level, versionId));
             report.put("oreDrops", oreDropProbe(level));
+            report.put("blockDrops", blockDropProbe(level));
             report.put("damageTable", damageTableProbe());
             report.put("toolDurability", toolDurabilityProbe(versionId));
             report.put("combatHooks", net.historicalexperience.gameplay.HistoricalCombatDiagnostics.report());

@@ -138,6 +138,15 @@ public final class HistoricalGameplayTweaks {
                 + "jumping as a test'. The range is 1-100, so a single jump can be worth a hundred experience and "
                 + "the amount is random per jump. The disabled auto-repeat half is a client input behaviour and is "
                 + "recorded rather than implemented."),
+        Map.entry("silkySpawners",
+            "Beta 1.9 Prerelease 4 ONLY, and this is the real in-range version of the owner's 'mineable spawners' "
+                + "bug. minecraft.wiki's Monster Spawner history, Java Edition table, says of Beta 1.9 Prerelease 4: "
+                + "'Monster spawners now drop when mined using a tool enchanted with the new Silk Touch "
+                + "enchantment', and of Beta 1.9 Prerelease 5: 'Monster spawners no longer drop when broken using a "
+                + "tool enchanted with Silk Touch.' So exactly one declared build dropped the spawner and the next "
+                + "one took it away. The owner's premise named the Infdev builds, which is wrong for this matrix - "
+                + "the block was ADDED in Infdev 20100625-1917, after both declared Infdev profiles, so there were "
+                + "no spawners to mine. This is the bug that premise was reaching for."),
         Map.entry("punchShear",
             "Before shears existed, PUNCHING a sheep shorn it and dropped its wool; the Alpha v1.1.2_01 client's "
                 + "sheep class overrides attackEntityFrom with `if (!this.sheared && attacker instanceof "
@@ -240,6 +249,12 @@ public final class HistoricalGameplayTweaks {
             // jumping and disabled auto-repeat; Pre2 removes the XP bug", and historical-features.json records
             // "Experience gained from jumping as a test".
             case "jumpExperienceBug" -> isDeclaredVersion(versionId) && versionId.equals(BETA_1_9_PRE_1);
+            // Silk Touch made monster spawners drop themselves in Pre4 only; Pre5 removed the drop, and the modern
+            // game does not drop them either. So the gate is inverted relative to most here - it says YES for the
+            // one build that dropped them, and the hook suppresses the drop everywhere the gate says no.
+            // minecraft.wiki, Monster Spawner history: Pre4 "Monster spawners now drop when mined using a tool
+            // enchanted with the new Silk Touch enchantment", Pre5 "no longer drop when broken using ... Silk Touch".
+            case "silkySpawners" -> isDeclaredVersion(versionId) && versionId.equals(BETA_1_9_PRE_4);
             default -> throw new IllegalArgumentException("unknown gate '" + gate + "'; a gate that never "
                 + "applies is indistinguishable from one that correctly does not, so this refuses to guess");
         };
@@ -257,6 +272,7 @@ public final class HistoricalGameplayTweaks {
     private static final String RELEASE_1_6_4 = "historical_experience:release_1_6_4";
     private static final String BETA_1_9_PRE_3 = "historical_experience:beta_1_9_pre_3";
     private static final String BETA_1_9_PRE_1 = "historical_experience:beta_1_9_pre_1";
+    private static final String BETA_1_9_PRE_4 = "historical_experience:beta_1_9_pre_4";
 
     /**
      * Beta 1.7.3, the earliest declared version that HAD shears, and therefore the boundary for the wool rule.
@@ -780,6 +796,18 @@ public final class HistoricalGameplayTweaks {
      */
     public static boolean endPortalFrameExplodes() {
         return appliesTo("endPortalFrameExplodes", HistoricalActiveSession.current());
+    }
+
+    /**
+     * Whether Silk Touch mining a monster spawner yields the spawner block itself.
+     *
+     * <p>True for exactly Beta 1.9 Prerelease 4. This is the one gate in the class whose {@code false} is the
+     * <b>modern</b> answer rather than an older one: the modern game does not drop spawners, Pre5 removed the drop,
+     * and so the hook that consumes this suppresses a drop that vanilla would otherwise produce. Reading it as
+     * "an old behaviour to add" would invert it.
+     */
+    public static boolean silkySpawnerDrops() {
+        return appliesTo("silkySpawners", HistoricalActiveSession.current());
     }
 
     /**
