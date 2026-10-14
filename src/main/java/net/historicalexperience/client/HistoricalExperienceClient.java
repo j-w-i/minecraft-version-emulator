@@ -44,8 +44,16 @@ public final class HistoricalExperienceClient implements ClientModInitializer {
         // Gated on a system property; inert unless a verification run asks for it.
         net.historicalexperience.client.version.ScreenProbe.register();
 
-        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) ->
-            HistoricalClientRules.clearSyncedVersion());
+        // The old lighting engine follows the sky: it re-lights a few sections a tick as the time of day moves, so it
+        // needs a heartbeat. Cheap when no old mode is active - the mode is cached and the method returns early.
+        net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.START_CLIENT_TICK.register(
+            net.historicalexperience.client.lighting.HistoricalOldLighting::onTick);
+
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
+            HistoricalClientRules.clearSyncedVersion();
+            // The next world's sky light is unrelated to this one's.
+            net.historicalexperience.client.lighting.HistoricalOldLighting.reset();
+        });
     }
 
     /**

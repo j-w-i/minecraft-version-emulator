@@ -2,6 +2,7 @@ package net.historicalexperience.client.config;
 
 import net.historicalexperience.client.HistoricalClientRules;
 import net.historicalexperience.client.lighting.HistoricalLightingEngine;
+import net.historicalexperience.client.lighting.HistoricalOldLighting;
 import net.historicalexperience.client.lighting.HistoricalSmoothLighting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -48,6 +49,7 @@ public final class HistoricalConfigScreen extends Screen {
 
     private Button classicButton;
     private Button smoothButton;
+    private Button oldLightButton;
 
     public HistoricalConfigScreen(Screen parent) {
         super(Component.translatable("historical_experience.config.title"));
@@ -75,6 +77,14 @@ public final class HistoricalConfigScreen extends Screen {
                 .bounds(centre - ROW_WIDTH / 2, y + ROW_HEIGHT + 4, ROW_WIDTH, ROW_HEIGHT)
                 .build());
 
+        this.oldLightButton = this.addRenderableWidget(
+            Button.builder(oldLightLabel(), button -> {
+                HistoricalOldLighting.setToggle(!HistoricalOldLighting.toggle());
+                refresh();
+            })
+                .bounds(centre - ROW_WIDTH / 2, y + (ROW_HEIGHT + 4) * 2, ROW_WIDTH, ROW_HEIGHT)
+                .build());
+
         this.addRenderableWidget(
             Button.builder(CommonComponents.GUI_DONE, button -> this.onClose())
                 .bounds(centre - ROW_WIDTH / 2, this.height - 40, ROW_WIDTH, ROW_HEIGHT)
@@ -92,6 +102,10 @@ public final class HistoricalConfigScreen extends Screen {
         if (this.smoothButton != null) {
             this.smoothButton.setMessage(smoothLabel());
             this.smoothButton.active = HistoricalSmoothLighting.availableFor(activeVersion());
+        }
+        if (this.oldLightButton != null) {
+            this.oldLightButton.setMessage(oldLightLabel());
+            this.oldLightButton.active = HistoricalOldLighting.availableFor(activeVersion());
         }
     }
 
@@ -125,6 +139,23 @@ public final class HistoricalConfigScreen extends Screen {
             : "historical_experience.config.smooth.off");
     }
 
+    /**
+     * The round-robin old lighting's button text: grey light, sky light that follows the time of day, no flicker.
+     * It covers every version before the Beta 1.8 Pre-release - the one that "no longer requires chunk updates" for
+     * day and night - so it overlaps the other two buttons by design: in a Beta 1.3 to 1.7.3 world the old smooth
+     * shading and this are both live, and each can be switched off on its own.
+     */
+    private static Component oldLightLabel() {
+        if (activeVersion() == null) {
+            return Component.translatable("historical_experience.config.oldlight.no_world");
+        }
+        if (!HistoricalOldLighting.availableFor(activeVersion())) {
+            return Component.translatable("historical_experience.config.oldlight.not_applicable");
+        }
+        return Component.translatable(HistoricalOldLighting.toggle()
+            ? "historical_experience.config.oldlight.on"
+            : "historical_experience.config.oldlight.off");
+    }
     /** Puts the reasoning on the screen, so a player does not have to consult a changelog to understand two toggles. */
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
@@ -132,7 +163,7 @@ public final class HistoricalConfigScreen extends Screen {
         graphics.drawCenteredString(this.font, this.title, this.width / 2, this.height / 4 - 34, 0xFFFFFF);
         graphics.drawCenteredString(this.font,
             Component.translatable("historical_experience.config.note"),
-            this.width / 2, this.height / 4 + (ROW_HEIGHT + 4) * 2 + 12, 0xA0A0A0);
+            this.width / 2, this.height / 4 + (ROW_HEIGHT + 4) * 3 + 12, 0xA0A0A0);
     }
 
     @Override
