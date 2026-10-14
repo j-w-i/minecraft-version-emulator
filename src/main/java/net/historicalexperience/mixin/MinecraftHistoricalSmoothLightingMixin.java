@@ -1,7 +1,8 @@
 package net.historicalexperience.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import net.historicalexperience.client.lighting.HistoricalLightingEngine;
+import net.historicalexperience.client.HistoricalClientRules;
+import net.historicalexperience.version.HistoricalVersions;
 import net.minecraft.client.Minecraft;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -25,15 +26,17 @@ import org.spongepowered.asm.mixin.injection.At;
  * asks "is smooth lighting on" - ambient occlusion, the corner blending, the option's own state - gets the same
  * answer, so there is no path that renders smooth lighting because it read the setting instead of this method.
  *
- * <h2>Boundary, and how it relates to the classic engine</h2>
+ * <h2>Boundary</h2>
  *
- * <p>Smooth lighting arrived in <b>Beta 1.3</b> - minecraft.wiki, Light, History: <i>"1.3 — Smooth lighting engine
- * added with the help of MrMessiah and his 'BetterLight' mod."</i> - so before it there is nothing to be smooth, and
- * this answers false for every earlier version. The owner's instruction named the same boundary.
+ * <p>Smooth lighting arrived in <b>Beta 1.3</b> - minecraft.wiki, Light, History: <i>"1.3 - Smooth lighting engine
+ * added with the help of MrMessiah and his 'BetterLight' mod."</i> - so before it there is nothing to be smooth and
+ * this answers false for every earlier version.
  *
- * <p>That is exactly the complement of {@code HistoricalLightingEngine.availableFor}, which is true only
- * <i>before</i> Beta 1.3, and the two are deliberately answered from the same class so they cannot drift into
- * agreeing on a version and giving it both engines or neither.
+ * <p>This is NOT the same question as {@link HistoricalSmoothLighting}, which covers Beta 1.3 up to Beta 1.7.3 and
+ * asks about the shape of the shading. This one is about whether the feature existed at all.
+ *
+ * <p>It also has nothing to do with Classic. The engine once called "Classic lighting" was Minecraft before Infdev,
+ * which no declared version is; it was removed for that reason.
  *
  * <p>This is a CLIENT mixin and is registered under {@code client}: {@code Minecraft} is a client-only class, and a
  * common registration would make every dedicated-server launch fail with {@code ClassNotFoundException} - a defect
@@ -41,11 +44,21 @@ import org.spongepowered.asm.mixin.injection.At;
  */
 @Mixin(Minecraft.class)
 public abstract class MinecraftHistoricalSmoothLightingMixin {
-    @ModifyReturnValue(method = "useAmbientOcclusion", at = @At("RETURN"))
+    /** The first build with smooth lighting, so every earlier one answers false below. */
+    private static final String FIRST_SMOOTH_LIGHTING_BUILD = "historical_experience:beta_1_3";
+
+    @ModifyReturnValue(method = "useAmbientOcclusion", at = @At("RETURN"), require = 1)
     private static boolean historicalExperience$disableSmoothLighting(boolean useAmbientOcclusion) {
-        if (HistoricalLightingEngine.availableFor(
-                net.historicalexperience.client.HistoricalClientRules.activeVersion())) {
-            // Before Beta 1.3: there was no smooth lighting, so the setting is answered false regardless of what the
+        var version = HistoricalClientRules.activeVersion();
+        if (version == null) {
+            // Unknown is not "yes": an unknown version leaves the player's own setting alone.
+            return useAmbientOcclusion;
+        }
+        boolean beforeSmooth = HistoricalVersions.byId(FIRST_SMOOTH_LIGHTING_BUILD)
+            .map(first -> version.chronology() < first.chronology())
+            .orElse(false);
+        if (beforeSmooth) {
+            // Before Beta 1.3 there was no smooth lighting, so the setting is answered false regardless of what the
             // player chose. The option itself is left alone rather than forced, so a player who set it keeps their
             // preference for the next world they open.
             return false;

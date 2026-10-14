@@ -44,7 +44,7 @@ public final class HistoricalDataLayer extends DataLayer {
     @Override
     public int get(int x, int y, int z) {
         int value = this.parent.get(x, y, z);
-        if (HistoricalOldLighting.mode() == HistoricalOldLighting.Mode.NONE) {
+        if (!HistoricalOldLighting.activeNow()) {
             return value;
         }
         ClientLevel level = Minecraft.getInstance().level;

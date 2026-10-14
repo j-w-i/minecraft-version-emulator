@@ -15,12 +15,16 @@ import org.spongepowered.asm.mixin.injection.At;
 /**
  * Old lighting for the vanilla renderer: the value the OLD engine would have stored at a position.
  *
- * <p>Ported from Nostalgic Tweaks {@code LightEngineMixin} (LGPL-3.0; see THIRD_PARTY_NOTICES.md). This used to carry
- * only the Classic engine; it now delegates to {@link HistoricalOldLighting#transform}, which also handles the
- * round-robin engine, so the two cannot disagree about which applies.
+ * <p>Ported from Nostalgic Tweaks {@code LightEngineMixin} (LGPL-3.0; see THIRD_PARTY_NOTICES.md). The rule itself -
+ * sky light following the time of day, grey light and no flicker - lives in {@link HistoricalOldLighting}.
  *
- * <p>Sodium does not call this method - see {@code HistoricalDataLayer} and {@code
- * LayerLightSectionStorageHistoricalMixin} for the path it does read.
+ * <p><b>This class used to carry the Classic engine as well, and no longer does.</b> Classic is Minecraft before
+ * Infdev, and the oldest version this project declares is Infdev 20100420, so a Classic engine could never apply to
+ * any world here. The owner removed it for that reason. What remains is the pre-Beta-1.8 round-robin engine, which
+ * every early declared build really did have.
+ *
+ * <p>Sodium does not call this method - see {@code HistoricalDataLayer} and
+ * {@code LayerLightSectionStorageHistoricalMixin} for the path it does read.
  *
  * <p>A client-only mixin, listed in the {@code client} section of the config: naming a client class in the common
  * section crashes a dedicated server at boot.
@@ -28,13 +32,13 @@ import org.spongepowered.asm.mixin.injection.At;
  * <p>{@code require = 1} on purpose: without it a wrong target is a silent no-op and lighting quietly stays modern.
  */
 @Mixin(LightEngine.class)
-public abstract class LightEngineHistoricalClassicMixin {
+public abstract class LightEngineHistoricalOldLightingMixin {
     @Shadow
     protected net.minecraft.world.level.chunk.LightChunkGetter chunkSource;
 
     @ModifyReturnValue(method = "getLightValue", at = @At("RETURN"), require = 1)
-    private int historicalExperience$classicLightValue(int lightValue, BlockPos blockPos) {
-        if (HistoricalOldLighting.mode() == HistoricalOldLighting.Mode.NONE) {
+    private int historicalExperience$oldLightValue(int lightValue, BlockPos blockPos) {
+        if (!HistoricalOldLighting.activeNow()) {
             return lightValue;
         }
         // The integrated SERVER also owns a light engine over a different chunk source, and its values drive mob

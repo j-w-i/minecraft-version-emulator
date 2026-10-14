@@ -20,8 +20,8 @@ import org.spongepowered.asm.mixin.injection.At;
  *
  * <p>Ported from Nostalgic Tweaks {@code LayerLightSectionStorageMixin} (LGPL-3.0; see THIRD_PARTY_NOTICES.md).
  * Sodium reads whole {@link DataLayer}s rather than calling {@code getLightValue}, so the
- * {@code LightEngineHistoricalClassicMixin} hook alone is invisible to it. Hooking the storage rather than the engine
- * also covers Flywheel, which upstream notes.
+ * {@code LightEngineHistoricalOldLightingMixin} hook alone is invisible to it. Hooking the storage rather than the
+ * engine also covers Flywheel, which upstream notes.
  *
  * <p>The wrapper is returned ONLY on the client's own chunk source. The integrated server's light engine feeds mob
  * spawning and plant growth, and must keep its real values.
@@ -34,7 +34,7 @@ public abstract class LayerLightSectionStorageHistoricalMixin {
 
     @ModifyReturnValue(method = "getDataLayerData", at = @At("RETURN"), require = 1)
     private DataLayer historicalExperience$wrapForOldLighting(DataLayer original, long sectionPos) {
-        if (original == null || HistoricalOldLighting.mode() == HistoricalOldLighting.Mode.NONE) {
+        if (original == null || !HistoricalOldLighting.activeNow()) {
             return original;
         }
         if (!(this.chunkSource instanceof ClientChunkCache) || !(this.chunkSource.getLevel() instanceof ClientLevel)) {

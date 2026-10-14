@@ -36,9 +36,9 @@ import net.historicalexperience.version.HistoricalVersions;
  *
  * <p>So the window is <b>Beta 1.3 inclusive to Beta 1.8 exclusive</b>, and {@link #availableFor} is written as two
  * comparisons rather than one boundary for that reason - a single "older than Beta 1.8" test would also cover every
- * version before Beta 1.3, where there was no smooth lighting at all and {@link HistoricalLightingEngine} is the
- * correct engine instead. The two windows are disjoint by construction, which is the property a single "old
- * lighting" boolean would have got wrong.
+ * version before Beta 1.3, where there was no smooth lighting to shape at all. Before Beta 1.3 the game's own
+ * smooth-lighting setting is answered false instead, by {@code MinecraftHistoricalSmoothLightingMixin}, because
+ * there is no engine to choose between.
  *
  * <h2>Why this class has a toggle as well as a gate</h2>
  *

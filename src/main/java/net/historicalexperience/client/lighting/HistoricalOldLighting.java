@@ -8,10 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LightLayer;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
@@ -23,25 +20,23 @@ import net.minecraft.world.level.chunk.status.ChunkStatus;
  * (LGPL-3.0; see THIRD_PARTY_NOTICES.md). Upstream decides with config flags; here the world's VERSION decides, and
  * a player toggle can only switch the engine OFF inside the window it belongs to.
  *
- * <h2>The three modes, and why they are disjoint</h2>
+ * <h2>The one engine, and the two things that are NOT it</h2>
  *
  * <ul>
- *   <li>{@link Mode#CLASSIC} - before Beta 1.3: binary sky light, constant block light
- *       ({@link HistoricalLightingEngine}).</li>
- *   <li>{@link Mode#ROUND_ROBIN} - every other build before the Beta 1.8 Pre-release: the sky light itself changes
- *       with the time of day, so the game re-lit chunks a few at a time at dusk and dawn, and the light was grey.
- *       minecraft.wiki, Light, History, Beta 1.8 Pre-release: <i>"Implemented a new lighting engine. The lighting on a
- *       block is given a tint based on the most prominent source of light. Day/night cycles no longer require chunk
- *       updates and have a smooth transition. Artificial light now gives a subtle 'flicker'."</i> That one entry ends
- *       the grey lightmap, the chunk updates and the flicker-free light together, which is why one mode and one
- *       boundary carry all of them.</li>
- *   <li>{@link Mode#NONE} - Beta 1.8 onwards, or the player switched it off.</li>
+ *   <li>{@link #activeNow()} is true for every declared build before the Beta 1.8 Pre-release: the sky light itself
+ *       changes with the time of day, so the game re-lit chunks a few at a time at dusk and dawn, and the light was
+ *       grey. minecraft.wiki, Light, History, Beta 1.8 Pre-release: <i>"Implemented a new lighting engine. The
+ *       lighting on a block is given a tint based on the most prominent source of light. Day/night cycles no longer
+ *       require chunk updates and have a smooth transition. Artificial light now gives a subtle 'flicker'."</i> That
+ *       one entry ends the grey lightmap, the chunk updates and the flicker-free light together, which is why one
+ *       boundary carries all of them.</li>
+ *   <li><b>Not a Classic engine.</b> One used to live here. Classic is Minecraft before Infdev, and the oldest
+ *       version declared is Infdev 20100420, so it could never apply; the owner had it removed.</li>
+ *   <li><b>Not the smooth-shading toggle.</b> Whether a version had corner shading at all is
+ *       {@link HistoricalSmoothLighting}'s question, and it is answered for Beta 1.3 to Beta 1.7.3.</li>
  * </ul>
  *
- * <p>Classic wins over round robin where both could apply, as upstream does: a classic world has no time-of-day
- * sky light to relight.
- *
- * <h2>Why the mode is cached rather than computed per light read</h2>
+ * <h2>Why the answer is cached rather than computed per light read</h2>
  *
  * <p>The light hooks run for every light sample taken while meshing a chunk - hundreds of thousands per rebuild. The
  * version lookup behind {@link HistoricalClientRules#activeVersion()} goes through the integrated server, so it is
@@ -59,9 +54,7 @@ public final class HistoricalOldLighting {
     /** Upstream's {@code MAX_BLOCK_LIGHT} default. */
     private static final int MAX_BLOCK_LIGHT = 15;
 
-    public enum Mode { NONE, CLASSIC, ROUND_ROBIN }
-
-    private static volatile Mode mode = Mode.NONE;
+    private static volatile boolean active;
     private static volatile Boolean toggle;
     private static volatile int timeSkyLight = -1;
     private static volatile int weatherSkyLight = -1;
@@ -82,8 +75,9 @@ public final class HistoricalOldLighting {
             .orElse(false);
     }
 
-    public static Mode mode() {
-        return mode;
+    /** Whether the old round-robin engine should be used for the client's current version. */
+    public static boolean activeNow() {
+        return active;
     }
 
     public static boolean toggle() {
@@ -106,41 +100,34 @@ public final class HistoricalOldLighting {
         return true;
     }
 
-    /** Recomputes the cached mode. Called every tick, and immediately when a toggle changes. */
+    /** Recomputes the cached answer. Called every tick, and immediately when a toggle changes. */
     public static void refresh() {
         HistoricalVersion version = HistoricalClientRules.activeVersion();
-        Mode next;
-        if (HistoricalLightingEngine.activeFor(version, HistoricalLightingEngine.toggle())) {
-            next = Mode.CLASSIC;
-        } else if (availableFor(version) && toggle()) {
-            next = Mode.ROUND_ROBIN;
-        } else {
-            next = Mode.NONE;
-        }
-        if (next != mode) {
-            mode = next;
-            // Everything already meshed was lit by the previous mode.
+        boolean next = availableFor(version) && toggle();
+        if (next != active) {
+            active = next;
+            // Everything already meshed was lit by the previous answer.
             relightAll = true;
         }
     }
 
     /** Forget everything, for when a world is left: the next world's sky light is unrelated. */
     public static void reset() {
-        mode = Mode.NONE;
+        active = false;
         timeSkyLight = -1;
         weatherSkyLight = -1;
         relightAll = false;
         RELIGHT_QUEUE.clear();
     }
 
-    /** Once per client tick: refresh the mode, watch the sky light, and feed the relight queue. */
+    /** Once per client tick: refresh the answer, watch the sky light, and feed the relight queue. */
     public static void onTick(Minecraft minecraft) {
         ClientLevel level = minecraft.level;
         if (level == null) {
             return;
         }
         refresh();
-        if (mode != Mode.ROUND_ROBIN) {
+        if (!active) {
             if (relightAll) {
                 enqueueAllSections(minecraft, level);
             }
@@ -227,42 +214,19 @@ public final class HistoricalOldLighting {
      * state and the immutable level.
      */
     public static int transform(ClientLevel level, LightLayer layer, BlockPos pos, int value) {
-        switch (mode) {
-            case CLASSIC -> {
-                if (layer == LightLayer.BLOCK) {
-                    return HistoricalLightingEngine.classicBlockLight();
-                }
-                return HistoricalLightingEngine.classicSkyLight(value, level.getMaxLightLevel(),
-                    level.dimensionType().hasSkyLight(), obstructedAbove(level, pos, level.getMaxLightLevel()));
-            }
-            case ROUND_ROBIN -> {
-                if (layer == LightLayer.BLOCK) {
-                    return value;
-                }
-                return combined(level, value, level.getBrightness(LightLayer.BLOCK, pos));
-            }
-            default -> {
-                return value;
-            }
+        if (!active) {
+            return value;
         }
+        if (layer == LightLayer.BLOCK) {
+            // Block light is untouched by this engine: a torch lit what it lit, at the level it still does.
+            return value;
+        }
+        return combined(level, value, level.getBrightness(LightLayer.BLOCK, pos));
     }
 
     /** Sky and block light combined as the old engine stored them right now. */
     public static int combined(ClientLevel level, int skyLight, int blockLight) {
         return HistoricalOldLightMath.combinedLight(skyLight, blockLight, level.getMaxLightLevel(), timeSkyLight,
             weatherSkyLight < 0 ? 0 : weatherSkyLight, level.dimensionType().hasFixedTime(), MAX_BLOCK_LIGHT);
-    }
-
-    /** The classic upward scan: water or a fully light-blocking block anywhere above darkens the position. */
-    public static boolean obstructedAbove(BlockGetter level, BlockPos blockPos, int maxLightLevel) {
-        BlockPos.MutableBlockPos cursor = blockPos.above().mutable();
-        while (cursor.getY() < level.getMaxBuildHeight()) {
-            BlockState state = level.getBlockState(cursor);
-            if (state.is(Blocks.WATER) || state.getLightBlock(level, cursor) >= maxLightLevel) {
-                return true;
-            }
-            cursor.move(0, 1, 0);
-        }
-        return false;
     }
 }

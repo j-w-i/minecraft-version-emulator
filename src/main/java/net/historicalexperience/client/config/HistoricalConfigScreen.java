@@ -1,7 +1,6 @@
 package net.historicalexperience.client.config;
 
 import net.historicalexperience.client.HistoricalClientRules;
-import net.historicalexperience.client.lighting.HistoricalLightingEngine;
 import net.historicalexperience.client.lighting.HistoricalOldLighting;
 import net.historicalexperience.client.lighting.HistoricalSmoothLighting;
 import net.minecraft.client.gui.GuiGraphics;
@@ -13,20 +12,23 @@ import net.minecraft.network.chat.Component;
 /**
  * The mod's options screen, reachable from Mod Menu's config button.
  *
- * <h2>The two options, and why there are exactly two</h2>
- *
- * <p>Both are lighting engines, and they cover <b>disjoint</b> spans of history:
+ * <h2>The two options</h2>
  *
  * <ul>
- *   <li><b>Classic lighting</b> - before Beta 1.3. There was no smooth lighting yet: block light was a constant 13
- *       and shade was binary.</li>
- *   <li><b>Old smooth lighting</b> - Beta 1.3 to Beta 1.7.3. The MrMessiah engine, which Beta 1.8 replaced. In this
- *       window the difference is the corner shading: the modern engine darkens a corner towards 0.2 and this one did
- *       not darken it at all.</li>
+ *   <li><b>Old smooth shading</b> - Beta 1.3 to Beta 1.7.3. In this window the difference is the corner shading: the
+ *       modern engine darkens a corner towards 0.2 and this one did not darken it at all.</li>
+ *   <li><b>Old lighting</b> - every declared build before the Beta 1.8 Pre-release. Grey light with no tint, sky
+ *       light that follows the time of day (so the game re-lit chunks at dusk and dawn), and no flicker.</li>
  * </ul>
  *
- * <p>So in any given world at most one is live, and the other says why it is not. Every other historical behaviour
- * this project implements is a fact about the build rather than a preference, which is why nothing else appears here.
+ * <p>The two windows overlap between Beta 1.3 and Beta 1.7.3, where both really did apply, so both buttons are live
+ * there and each can be switched off on its own.
+ *
+ * <p>A third option used to sit here called "Classic lighting". It is gone: Classic is Minecraft before Infdev, and
+ * the oldest version this project declares is Infdev 20100420, so that engine could never apply to any world here.
+ * The owner removed it for that reason. Before Beta 1.3 there was no smooth lighting at all, which is a real fact and
+ * is still enforced - but by the game's own setting being answered false in {@code MinecraftHistoricalSmoothLightingMixin},
+ * not by an engine option, because there is nothing to choose between.
  *
  * <h2>Why an unavailable option is greyed with a reason rather than hidden</h2>
  *
@@ -36,10 +38,9 @@ import net.minecraft.network.chat.Component;
  *
  * <h2>Why the widget references are kept</h2>
  *
- * <p>Each button is held in a field and its label and active state are set from that reference. The first version of
- * this screen re-derived which button was which by string-matching its own labels, which is fragile in exactly the
- * way that breaks when a translation changes - and it needed a sentinel character to do it. Holding the widgets is
- * simpler and cannot drift from what is on screen.
+ * <p>Each button is held in a field and its label and active state are set from that reference, rather than
+ * re-deriving which button is which by string-matching its own labels - which is fragile in exactly the way that
+ * breaks when a translation changes.
  */
 public final class HistoricalConfigScreen extends Screen {
     private static final int ROW_HEIGHT = 20;
@@ -47,7 +48,6 @@ public final class HistoricalConfigScreen extends Screen {
 
     private final Screen parent;
 
-    private Button classicButton;
     private Button smoothButton;
     private Button oldLightButton;
 
@@ -61,20 +61,12 @@ public final class HistoricalConfigScreen extends Screen {
         int centre = this.width / 2;
         int y = this.height / 4;
 
-        this.classicButton = this.addRenderableWidget(
-            Button.builder(classicLabel(), button -> {
-                HistoricalLightingEngine.setToggle(!HistoricalLightingEngine.toggle());
-                refresh();
-            })
-                .bounds(centre - ROW_WIDTH / 2, y, ROW_WIDTH, ROW_HEIGHT)
-                .build());
-
         this.smoothButton = this.addRenderableWidget(
             Button.builder(smoothLabel(), button -> {
                 HistoricalSmoothLighting.setToggle(!HistoricalSmoothLighting.toggle());
                 refresh();
             })
-                .bounds(centre - ROW_WIDTH / 2, y + ROW_HEIGHT + 4, ROW_WIDTH, ROW_HEIGHT)
+                .bounds(centre - ROW_WIDTH / 2, y, ROW_WIDTH, ROW_HEIGHT)
                 .build());
 
         this.oldLightButton = this.addRenderableWidget(
@@ -82,7 +74,7 @@ public final class HistoricalConfigScreen extends Screen {
                 HistoricalOldLighting.setToggle(!HistoricalOldLighting.toggle());
                 refresh();
             })
-                .bounds(centre - ROW_WIDTH / 2, y + (ROW_HEIGHT + 4) * 2, ROW_WIDTH, ROW_HEIGHT)
+                .bounds(centre - ROW_WIDTH / 2, y + ROW_HEIGHT + 4, ROW_WIDTH, ROW_HEIGHT)
                 .build());
 
         this.addRenderableWidget(
@@ -95,10 +87,6 @@ public final class HistoricalConfigScreen extends Screen {
 
     /** Re-reads both engines and brings the two buttons in line with them. */
     private void refresh() {
-        if (this.classicButton != null) {
-            this.classicButton.setMessage(classicLabel());
-            this.classicButton.active = HistoricalLightingEngine.availableFor(activeVersion());
-        }
         if (this.smoothButton != null) {
             this.smoothButton.setMessage(smoothLabel());
             this.smoothButton.active = HistoricalSmoothLighting.availableFor(activeVersion());
@@ -113,20 +101,7 @@ public final class HistoricalConfigScreen extends Screen {
         return HistoricalClientRules.activeVersion();
     }
 
-    /** The classic engine's button text. */
-    private static Component classicLabel() {
-        if (activeVersion() == null) {
-            return Component.translatable("historical_experience.config.lighting.no_world");
-        }
-        if (!HistoricalLightingEngine.availableFor(activeVersion())) {
-            return Component.translatable("historical_experience.config.lighting.not_applicable");
-        }
-        return Component.translatable(HistoricalLightingEngine.toggle()
-            ? "historical_experience.config.lighting.on"
-            : "historical_experience.config.lighting.off");
-    }
-
-    /** The old smooth lighting engine's button text, which applies from Beta 1.3 to Beta 1.7.3. */
+    /** The old smooth shading engine's button text, which applies from Beta 1.3 to Beta 1.7.3. */
     private static Component smoothLabel() {
         if (activeVersion() == null) {
             return Component.translatable("historical_experience.config.smooth.no_world");
@@ -139,12 +114,7 @@ public final class HistoricalConfigScreen extends Screen {
             : "historical_experience.config.smooth.off");
     }
 
-    /**
-     * The round-robin old lighting's button text: grey light, sky light that follows the time of day, no flicker.
-     * It covers every version before the Beta 1.8 Pre-release - the one that "no longer requires chunk updates" for
-     * day and night - so it overlaps the other two buttons by design: in a Beta 1.3 to 1.7.3 world the old smooth
-     * shading and this are both live, and each can be switched off on its own.
-     */
+    /** The old lighting's button text: grey light, sky light that follows the time of day, no flicker. */
     private static Component oldLightLabel() {
         if (activeVersion() == null) {
             return Component.translatable("historical_experience.config.oldlight.no_world");
@@ -156,6 +126,7 @@ public final class HistoricalConfigScreen extends Screen {
             ? "historical_experience.config.oldlight.on"
             : "historical_experience.config.oldlight.off");
     }
+
     /** Puts the reasoning on the screen, so a player does not have to consult a changelog to understand two toggles. */
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
@@ -163,7 +134,7 @@ public final class HistoricalConfigScreen extends Screen {
         graphics.drawCenteredString(this.font, this.title, this.width / 2, this.height / 4 - 34, 0xFFFFFF);
         graphics.drawCenteredString(this.font,
             Component.translatable("historical_experience.config.note"),
-            this.width / 2, this.height / 4 + (ROW_HEIGHT + 4) * 3 + 12, 0xA0A0A0);
+            this.width / 2, this.height / 4 + (ROW_HEIGHT + 4) * 2 + 12, 0xA0A0A0);
     }
 
     @Override
