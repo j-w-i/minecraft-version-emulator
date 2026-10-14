@@ -1,45 +1,50 @@
 package net.historicalexperience.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import net.historicalexperience.client.lighting.HistoricalLightingTweaks;
 import net.historicalexperience.client.lighting.HistoricalSmoothLighting;
+import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 /**
- * The Beta 1.3–1.7.3 smooth lighting engine's corner shading, which Beta 1.8 replaced.
+ * Two shading rules the Beta 1.3-1.7.3 lighting engine had and Beta 1.8 replaced.
  *
  * <h2>Source</h2>
  *
  * <p>DIRECT PORT of Nostalgic Tweaks
  * {@code common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/world_lighting/BlockBehaviourMixin.java}
- * (LGPL-3.0; see THIRD_PARTY_NOTICES.md), which answers {@code CandyTweak.OLD_SMOOTH_LIGHTING}. Upstream's
- * injection point and its constant are kept exactly:
+ * (LGPL-3.0; see THIRD_PARTY_NOTICES.md), which answers {@code CandyTweak.OLD_SMOOTH_LIGHTING} for the corner and
+ * {@code CandyTweak.OLD_LEAVES_LIGHTING} for leaves. Upstream's injection points and constants are kept exactly:
  *
  * <pre>
  * &#64;ModifyExpressionValue(method = "getShadeBrightness", at = &#64;At(value = "CONSTANT", args = "floatValue=0.2F"))
  * return OLD_SMOOTH_LIGHTING ? 0.0F : shadeBrightness;
+ *
+ * &#64;ModifyReturnValue(method = "getShadeBrightness", at = &#64;At("RETURN"))
+ * if (blockState.getBlock() instanceof LeavesBlock) return OLD_LEAVES_LIGHTING ? 1.0F : shadeBrightness;
  * </pre>
  *
- * <p>So the difference between the two engines is <b>the darkness of the shade in a corner</b>: the modern value
- * darkens a corner towards 0.2, and the 1.3–1.7.3 engine did not darken it at all. That is a small and specific
- * change, which is worth stating because "old smooth lighting" sounds like a whole lighting model and is not one -
- * the two engines differ here and in the lightmap, not in how light propagates.
+ * <p>So there are two separate differences from the modern engine: <b>the darkness of a corner</b>, where the modern
+ * value darkens towards 0.2 and this engine did not darken at all, and <b>leaves</b>, which this engine drew fully
+ * bright rather than shaded. Both were listed by the owner for implementation.
  *
- * <h2>Boundary, and why it is a separate gate from the classic engine</h2>
+ * <h2>Boundary</h2>
  *
- * <p>The wiki's Light history gives both ends: <i>"1.3: Smooth lighting engine added with the help of MrMessiah and
- * his 'BetterLight' mod"</i> and <i>"1.8 Pre-release: Implemented a new lighting engine. The lighting on a block is
- * given a tint based on the most prominent source of light."</i> So this applies from Beta 1.3 up to but excluding
- * Beta 1.8 — the window where the MrMessiah engine was the game's engine.
+ * <p>The wiki's Light history gives both ends of the window: <i>"1.3: Smooth lighting engine added with the help of
+ * MrMessiah and his 'BetterLight' mod"</i> and <i>"1.8 Pre-release: Implemented a new lighting engine. The lighting on
+ * a block is given a tint based on the most prominent source of light."</i> So this applies from Beta 1.3 up to but
+ * excluding Beta 1.8 — the window where the MrMessiah engine was the game's engine.
  *
- * <p>That window is deliberately <b>not</b> the same as the classic engine's: {@link HistoricalSmoothLighting} is
- * true only inside it, and the classic engine is true only *before* it. The two are disjoint, so a version cannot
- * be given both engines, which is the property a single "old lighting" boolean would have got wrong.
+ * <p>The leaves rule is gated on that same window, which is how upstream pairs it, and that is stated rather than
+ * assumed: the wiki does not date leaves shading separately, so the window of the engine it belonged to is the best
+ * available evidence and is preferred to an invented boundary.
  *
- * <p>A shared mixin. {@code getShadeBrightness} is common code and the classic engine's mixin is client-scoped; this
- * one only changes a number a renderer reads, so leaving it common would be harmless - but the gate makes it inert
- * on a server anyway, since no server sets a client's active version.
+ * <p>A shared mixin. {@code getShadeBrightness} is common code and only changes a number a renderer reads, and the
+ * gate is inert on a server because no server sets a client's active version.
  */
 @Mixin(BlockBehaviour.class)
 public abstract class BlockBehaviourHistoricalShadeBrightnessMixin {
@@ -59,10 +64,12 @@ public abstract class BlockBehaviourHistoricalShadeBrightnessMixin {
         return HistoricalSmoothLighting.activeNow() ? 0.0F : shadeBrightness;
     }
 
-    // Upstream pairs this with a second rule for leaves (OLD_LEAVES_LIGHTING, forcing 1.0F). That one is
-    // deliberately NOT ported: it is a different tweak with a different flag, the owner asked for "old smooth
-    // lighting" and not for leaves lighting, and porting an unasked-for rule would change how leaves render in
-    // versions where nothing was requested. Recorded here so the omission is visible rather than looking like an
-    // oversight - and as a comment rather than an injection, because a handler that returns its argument unchanged
-    // is dead code shaped like a safeguard.
+    /** Upstream: {@code nt_world_lighting$modifyShadeBrightness}. Leaves were not shaded by this engine. */
+    @ModifyReturnValue(method = "getShadeBrightness", at = @At("RETURN"), require = 1)
+    private float historicalExperience$oldLeavesBrightness(float shadeBrightness, BlockState blockState) {
+        if (blockState.getBlock() instanceof LeavesBlock && HistoricalLightingTweaks.oldLeavesLighting()) {
+            return 1.0F;
+        }
+        return shadeBrightness;
+    }
 }

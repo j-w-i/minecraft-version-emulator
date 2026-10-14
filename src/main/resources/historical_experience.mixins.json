@@ -79,6 +79,8 @@
     "LayerLightSectionStorageHistoricalMixin",
     "LightTextureHistoricalMixin",
     "BlockAndTintGetterHistoricalMixin",
+    "DimensionSpecialEffectsHistoricalCloudHeightMixin",
+    "RecipeBookComponentHistoricalMixin",
     "MinecraftHistoricalSmoothLightingMixin",
     "GuiHistoricalHudMixin",
     "HumanoidModelHistoricalBlockingMixin",
