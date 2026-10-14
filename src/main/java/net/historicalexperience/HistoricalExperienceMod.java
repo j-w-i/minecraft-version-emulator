@@ -49,5 +49,8 @@ public final class HistoricalExperienceMod implements ModInitializer {
         // A pre-Beta-1.8 bow fires on use rather than after a charge (INSTANT_BOW / ARROW_SPEED). Separate from the
         // block rule above because it answers a different Fabric callback - using an ITEM, not using a block.
         net.historicalexperience.gameplay.HistoricalToolInteractionEvents.registerInstantBow();
+        // Two things older versions did that the modern game does not: a hoe throwing seeds off grass (gone in
+        // Beta 1.6 Test Build 3) and a punch priming TNT (gone in Beta 1.7).
+        net.historicalexperience.gameplay.HistoricalFarmingInteractionEvents.register();
     }
 }

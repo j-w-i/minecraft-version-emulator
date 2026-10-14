@@ -306,6 +306,30 @@ public final class HistoricalGameplayTweaks {
             // with swimming by Nostalgic Tweaks (tweak group MECHANICS_SWIMMING) and gated on the same pre-Beta-1.8
             // boundary as the rest of the swim group.
             case "instantAir" -> isDeclaredVersion(versionId) && BEFORE_BETA_1_8.contains(versionId);
+            // One bone meal fully grew a plant until Release 1.5. minecraft.wiki, Bone Meal history: "1.5 13w04a:
+            // Bone meal has been significantly nerfed", and 13w05a then settled it at 2-5 uses on average. Bone meal
+            // itself arrives in Beta 1.2, but a version that has no bone meal item needs no rule here - the item
+            // availability gate already refuses it - so this is a single upper boundary. Release 1.5 is the first
+            // DECLARED version at or after 13w04a, so it keeps the modern behaviour.
+            case "instantBonemeal" -> isDeclaredVersion(versionId) && olderThan(versionId, RELEASE_1_5);
+            // Hitting TNT primed it until Beta 1.7. minecraft.wiki, TNT history, Beta 1.7: "TNT can be primed only by
+            // redstone ... as well as by hitting it with flint and steel. If the player hits TNT with an empty hand
+            // or while holding any other item, it no longer ignites." The catalogue maps Beta 1.7 to the Beta 1.7.3
+            // profile (see BETA_1_7_3), so every declared version BEFORE that profile still punches TNT alight.
+            case "punchTnt" -> isDeclaredVersion(versionId) && olderThan(versionId, BETA_1_7_3);
+            // A hoe on a grass block could throw wheat seeds until Beta 1.6 Test Build 3. minecraft.wiki, Wheat
+            // Seeds history: "1.6 Test Build 3: Seeds can no longer be tilled from a grass block", and the Hoe page
+            // gives the reason - tall grass arrived, and "this feature has been removed". Beta 1.6 therefore
+            // already lacks it, so the rule covers declared versions older than the Beta 1.6 profile.
+            case "grassSeeds" -> isDeclaredVersion(versionId) && olderThan(versionId, BETA_1_6);
+            // Fishing yielded only raw fish from its Alpha 1.2.0 introduction until Release 1.7.2 (13w36a), which
+            // "massively changed" rewards. Release 1.6.4 is the newest declared version and predates that, so every
+            // declared version has the old single-item catch.
+            case "oldFishingLoot" -> isDeclaredVersion(versionId);
+            // Fishing gave no experience until 1.4.2 (12w37a). The declared Release 1.4 profile may be any 1.4.x, so
+            // the boundary is placed AT it: older builds are certainly pre-12w37a, and Release 1.4 itself keeps the
+            // XP. A boundary that is too early under-refuses and is safe; one that is too late deletes content.
+            case "noFishingExperience" -> isDeclaredVersion(versionId) && olderThan(versionId, RELEASE_1_4);
             default -> throw new IllegalArgumentException("unknown gate '" + gate + "'; a gate that never "
                 + "applies is indistinguishable from one that correctly does not, so this refuses to guess");
         };
@@ -314,10 +338,14 @@ public final class HistoricalGameplayTweaks {
     /** Every gate name {@link #appliesTo} understands, so a test can walk all of them. */
     public static List<String> gateNames() {
         return List.of("avoidSun", "babyAnimal", "babyZombie", "breeding", "cooldown", "criticalHit",
-            "customDeathLoot", "itemPickup", "mobArms", "monsterEnchant", "monsterGear", "panic", "skeletonStrafing", "sweep", "swim",
-            "tempting");
+            "customDeathLoot", "grassSeeds", "instantBonemeal", "itemPickup", "mobArms", "monsterEnchant",
+            "monsterGear", "noFishingExperience", "oldFishingLoot", "panic", "punchTnt", "skeletonStrafing",
+            "sweep", "swim", "tempting");
     }
 
+    private static final String BETA_1_6 = "historical_experience:beta_1_6";
+    private static final String RELEASE_1_4 = "historical_experience:release_1_4";
+    private static final String RELEASE_1_5 = "historical_experience:release_1_5";
     private static final String RELEASE_1_1 = "historical_experience:release_1_1";
     private static final String RELEASE_1_2_5 = "historical_experience:release_1_2_5";
     private static final String RELEASE_1_6_4 = "historical_experience:release_1_6_4";
@@ -958,6 +986,31 @@ public final class HistoricalGameplayTweaks {
      */
     public static boolean instantAir() {
         return appliesTo("instantAir", HistoricalActiveSession.current());
+    }
+
+    /** Whether one bone meal fully grows a plant (before the Release 1.5 nerf). */
+    public static boolean instantBonemeal() {
+        return appliesTo("instantBonemeal", HistoricalActiveSession.current());
+    }
+
+    /** Whether hitting TNT primes it (before Beta 1.7). */
+    public static boolean punchTnt() {
+        return appliesTo("punchTnt", HistoricalActiveSession.current());
+    }
+
+    /** Whether a hoe on grass can throw wheat seeds (before Beta 1.6 Test Build 3). */
+    public static boolean grassSeeds() {
+        return appliesTo("grassSeeds", HistoricalActiveSession.current());
+    }
+
+    /** Whether fishing yields only raw fish (every declared version; changed in 1.7.2). */
+    public static boolean oldFishingLoot() {
+        return appliesTo("oldFishingLoot", HistoricalActiveSession.current());
+    }
+
+    /** Whether a successful catch grants no experience (before 1.4.2). */
+    public static boolean noFishingExperience() {
+        return appliesTo("noFishingExperience", HistoricalActiveSession.current());
     }
 
     /** Whether a bow fires the moment it is used rather than after being charged - pre-Beta-1.8 only. */

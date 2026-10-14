@@ -357,6 +357,12 @@ public final class GenerationVerification {
             // fatal when a player opens a crafting grid or hits a sheep, so they are loaded here instead.
             "net.minecraft.world.inventory.CraftingMenu",
             "net.minecraft.world.entity.animal.Sheep",
+            // Bone meal and fishing: each carries a descriptor-targeted injection, fatal at class load if wrong.
+            "net.minecraft.world.level.block.CropBlock",
+            "net.minecraft.world.level.block.StemBlock",
+            "net.minecraft.world.level.block.CocoaBlock",
+            "net.minecraft.world.level.block.SaplingBlock",
+            "net.minecraft.world.entity.projectile.FishingHook",
             "net.minecraft.world.Container",
             "net.minecraft.world.entity.player.Inventory",
             "net.minecraft.world.inventory.InventoryMenu",

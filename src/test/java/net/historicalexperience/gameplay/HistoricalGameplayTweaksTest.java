@@ -50,7 +50,20 @@ class HistoricalGameplayTweaksTest {
      * 1.9 combat, which no declared profile has: the newest is Release 1.6.4, so the boundary sits above
      * every version rather than between two of them.
      */
-    private static final List<String> ABSENT_FROM_EVERY_DECLARED_VERSION = List.of("cooldown", "sweep", "swim", "mobArms");
+    private static final List<String> ABSENT_FROM_EVERY_DECLARED_VERSION =
+        List.of("cooldown", "sweep", "swim", "mobArms", "oldFishingLoot");
+
+    /** One bone meal fully grew a plant until 13w04a; Release 1.5 is the first declared version at or after it. */
+    private static final List<String> BEFORE_RELEASE_1_5 = List.of("instantBonemeal");
+
+    /** Fishing XP is 1.4.2 (12w37a), proxied by the Release 1.4 profile, which therefore KEEPS the experience. */
+    private static final List<String> BEFORE_RELEASE_1_4 = List.of("noFishingExperience");
+
+    /** Seed tilling ended at Beta 1.6 Test Build 3, so the Beta 1.6 profile already lacks it. */
+    private static final List<String> BEFORE_BETA_1_6 = List.of("grassSeeds");
+
+    /** Empty-hand TNT priming ended at Beta 1.7, whose catalogue profile is Beta 1.7.3. */
+    private static final List<String> BEFORE_BETA_1_7_3 = List.of("punchTnt");
 
     private static int chronology(String versionId) {
         return HistoricalVersions.byId(versionId).orElseThrow().chronology();
@@ -79,6 +92,10 @@ class HistoricalGameplayTweaksTest {
         BEFORE_BETA_1_9_PRE_3.forEach(gate -> boundary.put(gate, beta19pre3));
         BEFORE_RELEASE_1_6_4.forEach(gate -> boundary.put(gate, release164));
         BEFORE_RELEASE_1_2_5.forEach(gate -> boundary.put(gate, release125));
+        BEFORE_RELEASE_1_5.forEach(gate -> boundary.put(gate, chronology("historical_experience:release_1_5")));
+        BEFORE_RELEASE_1_4.forEach(gate -> boundary.put(gate, chronology("historical_experience:release_1_4")));
+        BEFORE_BETA_1_6.forEach(gate -> boundary.put(gate, chronology("historical_experience:beta_1_6")));
+        BEFORE_BETA_1_7_3.forEach(gate -> boundary.put(gate, chronology("historical_experience:beta_1_7_3")));
         ABSENT_FROM_EVERY_DECLARED_VERSION.forEach(gate -> boundary.put(gate, Integer.MAX_VALUE));
 
         // Every gate the code knows must be in the table, and vice versa: an unlisted gate would be
@@ -118,6 +135,15 @@ class HistoricalGameplayTweaksTest {
             assertFalse(HistoricalGameplayTweaks.appliesTo(gate, "historical_experience:beta_1_8_1"),
                 gate + " must not apply to Beta 1.8.1, which introduced it");
         }
+        // The four boundaries added in the audit, each pinned on both sides so a drift in either direction fails.
+        assertTrue(HistoricalGameplayTweaks.appliesTo("instantBonemeal", "historical_experience:release_1_4"));
+        assertFalse(HistoricalGameplayTweaks.appliesTo("instantBonemeal", "historical_experience:release_1_5"));
+        assertTrue(HistoricalGameplayTweaks.appliesTo("punchTnt", "historical_experience:beta_1_6"));
+        assertFalse(HistoricalGameplayTweaks.appliesTo("punchTnt", "historical_experience:beta_1_7_3"));
+        assertTrue(HistoricalGameplayTweaks.appliesTo("grassSeeds", "historical_experience:beta_1_5"));
+        assertFalse(HistoricalGameplayTweaks.appliesTo("grassSeeds", "historical_experience:beta_1_6"));
+        assertTrue(HistoricalGameplayTweaks.appliesTo("noFishingExperience", "historical_experience:release_1_3"));
+        assertFalse(HistoricalGameplayTweaks.appliesTo("noFishingExperience", "historical_experience:release_1_4"));
     }
 
     @Test
