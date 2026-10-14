@@ -29,6 +29,21 @@
 # same volume: readers see either the whole old file or the whole new one, never a hybrid.
 # The temporary file is written beside the target so the rename cannot cross a volume.
 #
+# ---------------------------------------------------------------------------------------
+# WHY THERE IS NO "IS MINECRAFT RUNNING" CHECK
+# ---------------------------------------------------------------------------------------
+#
+# An earlier revision of this script refused to deploy while ANY java process existed. That
+# was wrong twice over: this project always has Gradle daemons alive, which never touch the
+# mods folder, so the check would cry wolf on almost every deploy; and a process NAME is not
+# evidence about a FILE.
+#
+# The atomic rename makes the check unnecessary, and better. If a running game genuinely has
+# the jar open, Windows refuses the rename with a sharing violation and nothing is written -
+# the failure is by construction, and reported. If nothing has it open, the rename succeeds
+# and the deploy is safe whatever else is running. The operation itself is the test, so the
+# guard cannot disagree with reality the way a name-based one can.
+#
 # Usage:  pwsh -NoProfile -File scripts/deploy-to-prism.ps1
 
 $ErrorActionPreference = 'Stop'
@@ -41,28 +56,17 @@ $staging = Join-Path $targetDir 'historical-experience-1211-0.1.0.jar.incoming'
 if (-not (Test-Path $source)) { throw "built jar not found at $source - run the Gradle build first" }
 if (-not (Test-Path $targetDir)) { throw "mods folder not found at $targetDir" }
 
+Add-Type -AssemblyName System.IO.Compression.FileSystem
+
 # Verify the build output is itself a readable archive BEFORE it goes anywhere near the live
 # path. A truncated build would otherwise be deployed as faithfully as a good one.
-$built = Get-Item $source
 $sourceHash = (Get-FileHash $source -Algorithm SHA256).Hash
 try {
-    Add-Type -AssemblyName System.IO.Compression.FileSystem
     $zip = [System.IO.Compression.ZipFile]::OpenRead($source)
     $entryCount = $zip.Entries.Count
     $zip.Dispose()
 } catch {
     throw "the built jar is not a readable zip archive, refusing to deploy: $($_.Exception.Message)"
-}
-
-# A game holding the old jar open is not a reason to write a new one beside it - that is how
-# this went wrong. Refuse instead, and say which process, so the deploy is never a guess.
-$running = @(Get-Process -Name java, javaw -ErrorAction SilentlyContinue)
-if ($running.Count -gt 0) {
-    Write-Host ("Refusing to deploy: {0} java process(es) are running, and replacing the jar under a live" -f $running.Count)
-    Write-Host 'game is what produced a half-written jar that failed with "invalid LOC header" mid-session.'
-    Write-Host 'Close Minecraft fully, then run this again.'
-    $running | Select-Object -First 5 | ForEach-Object { Write-Host ("  pid {0}  {1}" -f $_.Id, $_.ProcessName) }
-    exit 1
 }
 
 if (Test-Path $staging) { Remove-Item $staging -Force }
@@ -75,9 +79,16 @@ if ($stagedHash -ne $sourceHash) {
     throw "staged copy did not take: hashes differ ($sourceHash vs $stagedHash)"
 }
 
-# The atomic step. On the same volume a rename replaces the destination in one operation, so
-# there is no instant at which a partial file is visible at the live path.
-Move-Item $staging $target -Force
+# The atomic step, and the only one that touches the live path. On the same volume a rename
+# replaces the destination in a single operation, so no partial file is ever visible there.
+try {
+    Move-Item $staging $target -Force
+} catch {
+    Remove-Item $staging -Force -ErrorAction SilentlyContinue
+    throw ("could not replace the jar - it is likely open in a running game. Nothing was " +
+        "written to the live path, so the existing jar is untouched. Close Minecraft fully " +
+        "and run this again. Underlying error: $($_.Exception.Message)")
+}
 
 $targetHash = (Get-FileHash $target -Algorithm SHA256).Hash
 if ($targetHash -ne $sourceHash) {
