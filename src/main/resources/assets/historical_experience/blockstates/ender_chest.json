@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "historical_experience:block/ender_chest"
+    },
+
+    "facing=south": {
+      "model": "historical_experience:block/ender_chest",
+      "y": 180
+    },
+
+    "facing=east": {
+      "model": "historical_experience:block/ender_chest",
+      "y": 90
+    },
+
+    "facing=west": {
+      "model": "historical_experience:block/ender_chest",
+      "y": 270
+    }
+  }
+}

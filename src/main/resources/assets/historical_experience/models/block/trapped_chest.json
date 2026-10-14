@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "#top",
+    "down": "#top",
+    "up": "#top",
+    "north": "historical_experience:block/trapped_chest_front_single",
+    "south": "#side",
+    "east": "#side",
+    "west": "#side",
+    "top": "historical_experience:block/trapped_chest_top_bottom",
+    "side": "historical_experience:block/trapped_chest_side"
+  }
+}

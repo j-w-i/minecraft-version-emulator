@@ -1,0 +1,7 @@
+{
+  "parent": "historical_experience:block/chest",
+  "textures": {
+    "north": "historical_experience:block/chest_front_left",
+    "south": "historical_experience:block/chest_back_left"
+  }
+}

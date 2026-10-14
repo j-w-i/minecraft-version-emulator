@@ -81,6 +81,7 @@
     "BlockAndTintGetterHistoricalMixin",
     "DimensionSpecialEffectsHistoricalCloudHeightMixin",
     "RecipeBookComponentHistoricalMixin",
+    "ClientLevelHistoricalSkyColourMixin",
     "MinecraftHistoricalSmoothLightingMixin",
     "GuiHistoricalHudMixin",
     "HumanoidModelHistoricalBlockingMixin",

@@ -1,0 +1,7 @@
+{
+  "parent": "historical_experience:block/trapped_chest",
+  "textures": {
+    "north": "historical_experience:block/trapped_chest_front_right",
+    "south": "historical_experience:block/trapped_chest_back_right"
+  }
+}

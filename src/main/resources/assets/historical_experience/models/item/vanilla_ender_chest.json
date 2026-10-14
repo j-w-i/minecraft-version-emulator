@@ -1,0 +1,6 @@
+{
+  "parent": "historical_experience:item/vanilla_chest",
+  "textures": {
+    "particle": "block/obsidian"
+  }
+}

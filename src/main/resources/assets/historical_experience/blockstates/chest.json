@@ -1,0 +1,60 @@
+{
+  "variants": {
+    "facing=north,type=single": {
+      "model": "historical_experience:block/chest"
+    },
+
+    "facing=south,type=single": {
+      "model": "historical_experience:block/chest",
+      "y": 180
+    },
+
+    "facing=east,type=single": {
+      "model": "historical_experience:block/chest",
+      "y": 90
+    },
+
+    "facing=west,type=single": {
+      "model": "historical_experience:block/chest",
+      "y": 270
+    },
+
+    "facing=north,type=left": {
+      "model": "historical_experience:block/chest_left"
+    },
+
+    "facing=south,type=left": {
+      "model": "historical_experience:block/chest_left",
+      "y": 180
+    },
+
+    "facing=east,type=left": {
+      "model": "historical_experience:block/chest_left",
+      "y": 90
+    },
+
+    "facing=west,type=left": {
+      "model": "historical_experience:block/chest_left",
+      "y": 270
+    },
+
+    "facing=north,type=right": {
+      "model": "historical_experience:block/chest_right"
+    },
+
+    "facing=south,type=right": {
+      "model": "historical_experience:block/chest_right",
+      "y": 180
+    },
+
+    "facing=east,type=right": {
+      "model": "historical_experience:block/chest_right",
+      "y": 90
+    },
+
+    "facing=west,type=right": {
+      "model": "historical_experience:block/chest_right",
+      "y": 270
+    }
+  }
+}

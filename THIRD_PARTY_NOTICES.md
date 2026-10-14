@@ -121,3 +121,26 @@ version-aware and already covers them.
 
 Share-alike: modifications to the ported biome - the single quartz removal - are documented above and in the port
 script, and the ports remain under CC BY-SA 4.0.
+
+## Old chest and ender chest assets (added 2026-10-14, owner-authorised)
+
+`src/main/resources/assets/historical_experience/blockstates/`, `models/block/`, `models/item/` and
+`textures/block/*chest*.png` (52 files) are copied from Nostalgic Tweaks
+`common/src/main/resources/assets/nostalgic_tweaks/` — the same source this project already ports code from
+(LGPL-3.0; see the section above) — at the owner's direction: *"old chest and ender chest SHOULD be somewhere in
+the NT mod"*. Every reference was rewritten from the `nostalgic_tweaks:` namespace to `historical_experience:`; no
+other edit was made to them.
+
+**What these files actually are, stated plainly.** They are **Minecraft's own chest and ender chest block art**,
+from the era when a chest was a plain cube rather than an animated entity model (the model was redone in the Beta 1.8
+Pre-release). Nostalgic Tweaks ships them so that a modern client can draw the old appearance. They are therefore
+**Mojang-derived art, not Nostalgic Tweaks' own work**, and the LGPL grant NT offers over its source is not NT's to
+give for them.
+
+This is recorded rather than quietly done, because the paragraph above previously said no Minecraft texture was
+included in this checkout and that is no longer true. The owner authorised their use for this personal backport; if
+this project is ever distributed, these files are the ones to re-examine first, and the safe alternative is to draw
+the old chest with our own art or to reference the textures the client already ships.
+
+The model JSON was also corrected here for a modern client: NT's `models/block/chest.json` uses
+`minecraft:block/cube` as its parent, which still resolves, so no structural change was needed beyond the namespace.

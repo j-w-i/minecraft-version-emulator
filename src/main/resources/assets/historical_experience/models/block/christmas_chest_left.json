@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "#top",
+    "up": "#top",
+    "down": "historical_experience:block/christmas_chest_bottom_left",
+    "north": "historical_experience:block/christmas_chest_front_left",
+    "south": "historical_experience:block/christmas_chest_back_left",
+    "east": "#side",
+    "west": "#side",
+    "top": "historical_experience:block/christmas_chest_top_left",
+    "side": "historical_experience:block/christmas_chest_green_side"
+  }
+}
