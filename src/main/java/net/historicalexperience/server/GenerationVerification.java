@@ -148,6 +148,89 @@ public final class GenerationVerification {
      * folds in attack speed, so its output looks like a damage figure and is not one - a mistake made while writing
      * this very verification.
      */
+    /**
+     * Runs EVERY real crafting recipe through the real {@code RecipeManager} and reports which the active version can
+     * still craft.
+     *
+     * <p>The unit test proves the era list against the recipe data; this proves the MIXIN, which is the part a unit
+     * test cannot reach. It feeds each shaped and shapeless recipe's own ingredients back into
+     * {@code getRecipeFor(...)} and counts the ones that still resolve, then names a fixed set of items that must NOT
+     * resolve in this version. A refusal that only existed in the allow-list but never reached the recipe manager
+     * would show here as a modern item that still crafts.
+     */
+    private static Map<String, Object> craftingProbe(MinecraftServer server) {
+        Map<String, Object> out = new LinkedHashMap<>();
+        String versionId = net.historicalexperience.gameplay.HistoricalActiveSession.current();
+        out.put("version", versionId);
+        net.minecraft.world.level.Level level = server.overworld();
+        var manager = server.getRecipeManager();
+        int total = 0;
+        int craftable = 0;
+        java.util.TreeSet<String> stillCraftable = new java.util.TreeSet<>();
+        for (var holder : manager.getAllRecipesFor(net.minecraft.world.item.crafting.RecipeType.CRAFTING)) {
+            var recipe = holder.value();
+            net.minecraft.world.item.ItemStack result = recipe.getResultItem(level.registryAccess());
+            if (result.isEmpty()) {
+                continue;
+            }
+            // Build an input that satisfies the recipe from its own ingredients.
+            var ingredients = recipe.getIngredients();
+            int width = 3;
+            int height = 3;
+            if (recipe instanceof net.minecraft.world.item.crafting.ShapedRecipe shaped) {
+                width = shaped.getWidth();
+                height = shaped.getHeight();
+            } else if (recipe instanceof net.minecraft.world.item.crafting.ShapelessRecipe) {
+                width = Math.max(1, Math.min(3, ingredients.size()));
+                height = (ingredients.size() + width - 1) / width;
+            } else {
+                continue;
+            }
+            java.util.List<net.minecraft.world.item.ItemStack> stacks = new java.util.ArrayList<>();
+            boolean buildable = true;
+            for (var ingredient : ingredients) {
+                var items = ingredient.getItems();
+                if (items.length == 0) {
+                    stacks.add(net.minecraft.world.item.ItemStack.EMPTY);
+                } else {
+                    stacks.add(items[0].copy());
+                }
+            }
+            while (stacks.size() < width * height) {
+                stacks.add(net.minecraft.world.item.ItemStack.EMPTY);
+            }
+            if (!buildable) {
+                continue;
+            }
+            var input = net.minecraft.world.item.crafting.CraftingInput.of(width, height, stacks);
+            total++;
+            var found = manager.getRecipeFor(net.minecraft.world.item.crafting.RecipeType.CRAFTING, input, level, holder);
+            if (found.isPresent() && found.get().id().equals(holder.id())) {
+                craftable++;
+                stillCraftable.add(net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(result.getItem())
+                    .toString().replace("minecraft:", ""));
+            }
+        }
+        out.put("recipesTried", total);
+        out.put("recipesStillCraftable", craftable);
+        out.put("recipesRefused", total - craftable);
+        out.put("refusalLog", net.historicalexperience.gameplay.HistoricalRecipeGate.refusalCount());
+
+        // Items that must be uncraftable in EVERY declared version, because 1.6.4 lacks them.
+        java.util.List<String> mustNeverCraft = java.util.List.of("crossbow", "shield", "spyglass", "netherite_ingot",
+            "copper_ingot", "cherry_planks", "bamboo_planks", "mangrove_planks", "crimson_planks", "warped_planks",
+            "white_concrete_powder", "red_banner", "white_stained_glass", "cut_copper", "smithing_table", "loom",
+            "barrel", "lantern", "campfire", "observer", "honey_block", "end_rod", "chain", "brush", "mace");
+        java.util.List<String> leaked = new java.util.ArrayList<>();
+        for (String id : mustNeverCraft) {
+            if (stillCraftable.contains(id)) {
+                leaked.add(id);
+            }
+        }
+        out.put("modernItemsStillCraftable", leaked);
+        out.put("passed", leaked.isEmpty() && (versionId == null || total > 0));
+        return out;
+    }
     private static Map<String, Object> damageTableProbe() {
         Map<String, Object> out = new LinkedHashMap<>();
         java.util.List<net.minecraft.world.item.Item> items = java.util.List.of(
@@ -356,6 +439,7 @@ public final class GenerationVerification {
             // The crafting checkpoints and the punch-to-shear rule: a wrong injection target in any of these is
             // fatal when a player opens a crafting grid or hits a sheep, so they are loaded here instead.
             "net.minecraft.world.inventory.CraftingMenu",
+            "net.minecraft.world.item.crafting.RecipeManager",
             "net.minecraft.world.entity.animal.Sheep",
             // Bone meal and fishing: each carries a descriptor-targeted injection, fatal at class load if wrong.
             "net.minecraft.world.level.block.CropBlock",
@@ -841,6 +925,7 @@ public final class GenerationVerification {
             report.put("oreDrops", oreDropProbe(level));
             report.put("blockDrops", blockDropProbe(level));
             report.put("damageTable", damageTableProbe());
+            report.put("crafting", craftingProbe(server));
             report.put("toolDurability", toolDurabilityProbe(versionId));
             report.put("combatHooks", net.historicalexperience.gameplay.HistoricalCombatDiagnostics.report());
             report.put("mixinTargets", mixinTargetSmokeTest());

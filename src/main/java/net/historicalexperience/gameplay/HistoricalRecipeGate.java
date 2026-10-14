@@ -3,10 +3,7 @@ package net.historicalexperience.gameplay;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import net.historicalexperience.generation.HistoricalBlockAvailability;
-import net.historicalexperience.generation.HistoricalBlockContent;import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.ItemStack;
-
+import net.historicalexperience.generation.HistoricalBlockContent;
 /**
  * Refuses to craft something the active version never had, which is the crafting half of "every version has only
  * the content its own build had".
@@ -50,27 +47,9 @@ public final class HistoricalRecipeGate {
     }
 
     /**
-     * Whether this crafting result must be refused for this version, without recording anything.
-     *
-     * <p>Pure so the decision can be unit-tested against the real table, and so the probe can ask it without
-     * polluting the counters.
-     */
-    public static boolean isUnavailable(String versionId, ItemStack result) {
-        if (versionId == null || result == null || result.isEmpty()) {
-            return false;
-        }
-        if (!(result.getItem() instanceof BlockItem blockItem)) {
-            return false;
-        }
-        return isBlockUnavailable(versionId,
-            BuiltInRegistries.BLOCK.getKey(blockItem.getBlock()).toString());
-    }
-
-    /**
      * The same question asked of a block id, which is the form a unit test can reach.
      *
-     * <p>Split out because {@link #isUnavailable} needs the block registry to turn an {@link ItemStack} into an
-     * id, and this project has no test bootstrap - a unit test that touched {@code BuiltInRegistries} died with
+     * <p>Pure so a unit test can reach it: this project has no test bootstrap - a unit test that touched {@code BuiltInRegistries} died with
      * {@code NoClassDefFoundError} when the village style check tried it. The decision itself is a pure table
      * lookup, so it is kept where it can be tested directly and the registry lookup stays a thin wrapper.
      *
@@ -103,25 +82,19 @@ public final class HistoricalRecipeGate {
         return boundary == null || boundary.timeline();
     }
 
-    /** The same decision, recording the refusal and the evidence for the probe to report. */
-    public static boolean refuses(String versionId, ItemStack result) {
-        if (!isUnavailable(versionId, result)) {
-            return false;
-        }
+    /**
+     * Records that a recipe was refused, for the log and the probe. Called from the recipe-choice hook, which is the
+     * single place a craft is refused; this class no longer decides anything about stacks.
+     */
+    public static void recordRefusal(String versionId, String recipeId) {
         refusals++;
-        String blockId = BuiltInRegistries.BLOCK.getKey(((BlockItem) result.getItem()).getBlock()).toString();
-        if (REFUSED.add(versionId + " -> " + blockId)) {
-            var boundary = HistoricalBlockAvailability.boundaryFor(blockId);
+        if (REFUSED.add(versionId + " -> " + recipeId)) {
             net.historicalexperience.HistoricalExperienceMod.LOGGER.info(
-                "refusing to craft {} in {}: {}",
-                blockId, versionId,
-                boundary == null
-                    ? "later than every declared version"
-                    : "the earliest declared version that had it is " + boundary.versionId());
+                "refusing to craft via {} in {}: the 1.6.4 client, the newest declared build, has no such recipe, "
+                    + "or this version predates it",
+                recipeId, versionId);
         }
-        return true;
     }
-
     /** How many crafts this gate has refused since process start. */
     public static long refusalCount() {
         return refusals;

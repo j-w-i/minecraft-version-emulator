@@ -1,0 +1,14 @@
+armor_dye
+banner_duplicate
+book_cloning
+decorated_pot
+firework_rocket
+firework_star
+firework_star_fade
+map_cloning
+map_extending
+repair_item
+shield_decoration
+shulker_box_coloring
+suspicious_stew
+tipped_arrow

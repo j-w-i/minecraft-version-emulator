@@ -924,3 +924,31 @@ unconditional); fishing XP is suppressed by entity class, which upstream does no
   the 'apply Feather Falling 1 when loaded in Pre4' half of the enchanting placeholder.
 - ~470 untouched NT tweaks have `verification: not_started`; most are client eye-candy with no sourced version boundary, so they were left
   alone rather than invented.
+
+### Crafting gating, rebuilt as an allow-list (2026-10-14)
+
+The owner could still craft things a version should not have had. Measured against the game's own 887 crafting recipes,
+the old gate (a deny-list over block dating tables, run after the result was already built) let through **421 of 608
+craftable blocks** with no record in either table - cherry, bamboo, mangrove, crimson and warped wood, concrete powder,
+banners, stained glass, copper, every wall - plus **every non-block item**, because it only looked at `BlockItem`s.
+
+`HistoricalCraftingEra` inverts the polarity: the newest declared build is Release 1.6.4, so anything absent from the
+1.6.4 client exists in *no* declared version. It lists what DID exist, with a first-version date, and refuses the rest.
+`RecipeManagerHistoricalCraftingMixin` applies it at the one place a recipe is chosen
+(`RecipeManager.getRecipeFor(type, input, level, previous)`), so a refused recipe never produces a result, is never
+recorded as used, and is never sent to the client - the old tail-clearing mixins did none of that. The 2x2 grid
+reaches the same method (`InventoryMenu.slotsChanged` delegates to `CraftingMenu.slotChangedCraftingGrid`).
+
+**Evidence:** the unit test checks the list against the real recipe data extracted from the 1.21.1 jar, and the runtime
+probe (`crafting` in the generation report) pushes all 888 recipes through the live recipe manager. Still craftable
+after the change: Alpha 1.0.1 **84**, Beta 1.3 **172**, Beta 1.7.3 **180**, Release 1.6.4 **302**; modern items that
+leaked: **none** in any of the four.
+
+**Dates are graded, and the weak ones are named in the source:** palette-derived (strong for blocks), stated by the
+research, and *bounded only* (absent from the 1.2.5 palette, present in 1.6.4 - the earliest declared version after is
+used, because too early is the safe direction). Not yet independently dated and worth a check against a primary
+source: the golden apple's craftable boundary, and the Release 1.3/1.4 grouping of the 1.4.2/1.5 items.
+
+**Limits, stated so they are not discovered:** only crafting recipes are gated - smelting, stonecutting, smithing,
+brewing and trading are separate decisions; the recipe BOOK still lists modern recipes (placing their ingredients
+produces no result); and ordinary worlds are untouched.
