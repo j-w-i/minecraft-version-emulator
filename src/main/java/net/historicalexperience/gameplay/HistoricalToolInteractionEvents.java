@@ -46,12 +46,27 @@ import net.minecraft.world.level.block.state.BlockState;
  * <p>Recorded because NT's own catalogue lists both as {@code unknown} and its {@code historicalClaim} field says
  * the name alone is not evidence — so the boundaries above come from the wiki, not from upstream.
  *
- * <h2>Why FAIL rather than SUCCESS</h2>
+ * <h2>Why FAIL rather than SUCCESS, and why it must be FAIL on the CLIENT too</h2>
  *
  * <p>Fabric documents the three answers: SUCCESS cancels processing and tells the client to inform the server, PASS
- * falls through, and <b>FAIL cancels processing and sends nothing</b>. Refusing a strip must not send anything -
- * the point is that the interaction does not happen - so FAIL is the exact fit, and it is what upstream's
- * {@code EventResult.interruptTrue} compiles to in this API version.
+ * falls through, and <b>FAIL cancels processing and sends nothing</b>. Refusing a strip must not send anything, so
+ * FAIL is the exact fit.
+ *
+ * <p><b>This handler was server-only and that was the defect the owner found.</b> It returned PASS when
+ * {@code level.isClientSide()}, reasoning that the server should be the authority. But Fabric injects this callback
+ * into the <b>client's own interaction path</b> -
+ * {@code ClientPlayerInteractionManager.interactBlock}, with the framework's own comment that it sits there
+ * <i>"to avoid sending a packet in line with the event javadoc"</i>. Returning PASS there let vanilla run its local
+ * {@code useOn}, so the client <b>predicted the strip and changed the log on screen</b>, sent the packet, and the
+ * server - which ran the same handler and correctly answered FAIL - refused it. The log then snapped back.
+ *
+ * <p>That is the owner's "it strips and reverts", and Nostalgic Tweaks does not have it because upstream refuses on
+ * <b>both</b> sides: its listener is a common one that returns {@code interruptFalse} wherever it runs. A refusal is
+ * not a server-authoritative decision to be replicated; it is a decision the client must also make, or it predicts a
+ * change that will not survive.
+ *
+ * <p>So there is no side test. The tables read are vanilla's own static strip and flatten maps, present on both
+ * sides, and the version gate reads the session, which the server pushes to the client for exactly this reason.
  */
 public final class HistoricalToolInteractionEvents {
     private HistoricalToolInteractionEvents() {
@@ -63,13 +78,9 @@ public final class HistoricalToolInteractionEvents {
             if (!HistoricalGameplayTweaks.noToolShaping()) {
                 return InteractionResult.PASS;
             }
-            // Server side only. The server decides whether the block changes; a client that refused locally would
-            // predict a strip that the server then performed, which is the desync this project keeps being careful
-            // about. Returning PASS on the client lets the server's refusal arrive as the authoritative answer.
-            if (level.isClientSide()) {
-                return InteractionResult.PASS;
-            }
 
+            // NO isClientSide() TEST HERE, deliberately - see the class comment. Both sides must refuse, because
+            // the client predicts the interaction locally before the server ever sees it.
             BlockState state = level.getBlockState(hitResult.getBlockPos());
             var item = player.getItemInHand(hand).getItem();
 
