@@ -49,27 +49,8 @@ public interface ContainerHistoricalFoodStackMixin {
     @Inject(method = "getMaxStackSize(Lnet/minecraft/world/item/ItemStack;)I", at = @At("HEAD"),
         cancellable = true)
     default void historicalExperience$limitFoodStack(ItemStack stack, CallbackInfoReturnable<Integer> callback) {
-        if (HistoricalFoodStackLimit.foodDoesNotStack(stack)) {
+        if (net.historicalexperience.gameplay.HistoricalFoodStackLimit.foodDoesNotStack(stack)) {
             callback.setReturnValue(1);
-        }
-    }
-
-    /**
-     * The shared test, kept in one place so the container, the slot and the menu cannot drift apart.
-     *
-     * <p>Nested rather than a separate top-level class because it belongs to this rule and is small enough that
-     * a file of its own would hide it.
-     */
-    final class HistoricalFoodStackLimit {
-        private HistoricalFoodStackLimit() {
-        }
-
-        /** True when this stack is food and the active version predates Beta 1.8. */
-        public static boolean foodDoesNotStack(ItemStack stack) {
-            return !HistoricalGameplayTweaks.foodStacks(HistoricalActiveSession.current())
-                && stack != null
-                && !stack.isEmpty()
-                && stack.has(DataComponents.FOOD);
         }
     }
 }

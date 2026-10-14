@@ -26,7 +26,7 @@ public abstract class InventoryHistoricalFoodStackMixin {
     @Redirect(method = "placeItemBackInInventory(Lnet/minecraft/world/item/ItemStack;Z)V",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getMaxStackSize()I"))
     private int historicalExperience$capReturnedFoodMerge(ItemStack stack) {
-        return ContainerHistoricalFoodStackMixin.HistoricalFoodStackLimit.foodDoesNotStack(stack)
+        return net.historicalexperience.gameplay.HistoricalFoodStackLimit.foodDoesNotStack(stack)
             ? 1
             : stack.getMaxStackSize();
     }

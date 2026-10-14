@@ -64,5 +64,10 @@
   "historical_experience.config.lighting.off": "Classic lighting: OFF (click to enable)",
   "historical_experience.config.lighting.not_applicable": "Classic lighting: not applicable from Beta 1.3 on",
   "historical_experience.config.lighting.no_world": "Classic lighting: open a historical world first",
-  "historical_experience.config.lighting.note": "Before Beta 1.3 there was no smooth lighting: block light was a constant and shade was binary."
+  "historical_experience.config.lighting.note": "Before Beta 1.3 there was no smooth lighting: block light was a constant and shade was binary.",
+  "historical_experience.config.note": "Two lighting engines, each for the versions that had it: classic before Beta 1.3, old smooth from Beta 1.3 to Beta 1.7.3.",
+  "historical_experience.config.smooth.on": "Old smooth lighting: ON (click to disable)",
+  "historical_experience.config.smooth.off": "Old smooth lighting: OFF (click to enable)",
+  "historical_experience.config.smooth.not_applicable": "Old smooth lighting: Beta 1.3 to Beta 1.7.3 only",
+  "historical_experience.config.smooth.no_world": "Old smooth lighting: open a historical world first"
 }

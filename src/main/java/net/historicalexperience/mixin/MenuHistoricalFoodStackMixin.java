@@ -35,7 +35,7 @@ public abstract class MenuHistoricalFoodStackMixin {
     @Redirect(method = "doClick", at = @At(value = "INVOKE",
         target = "Lnet/minecraft/world/item/ItemStack;getMaxStackSize()I"))
     private int historicalExperience$capFoodMerge(ItemStack stack) {
-        return ContainerHistoricalFoodStackMixin.HistoricalFoodStackLimit.foodDoesNotStack(stack)
+        return net.historicalexperience.gameplay.HistoricalFoodStackLimit.foodDoesNotStack(stack)
             ? 1
             : stack.getMaxStackSize();
     }
@@ -52,7 +52,7 @@ public abstract class MenuHistoricalFoodStackMixin {
     @Redirect(method = "canItemQuickReplace", at = @At(value = "INVOKE",
         target = "Lnet/minecraft/world/item/ItemStack;getMaxStackSize()I"))
     private static int historicalExperience$capQuickReplace(ItemStack stack) {
-        return ContainerHistoricalFoodStackMixin.HistoricalFoodStackLimit.foodDoesNotStack(stack)
+        return net.historicalexperience.gameplay.HistoricalFoodStackLimit.foodDoesNotStack(stack)
             ? 1
             : stack.getMaxStackSize();
     }
@@ -60,7 +60,7 @@ public abstract class MenuHistoricalFoodStackMixin {
     @Redirect(method = "getQuickCraftPlaceCount", at = @At(value = "INVOKE",
         target = "Lnet/minecraft/world/item/ItemStack;getMaxStackSize()I"))
     private static int historicalExperience$capQuickCraftPlaceCount(ItemStack stack) {
-        return ContainerHistoricalFoodStackMixin.HistoricalFoodStackLimit.foodDoesNotStack(stack)
+        return net.historicalexperience.gameplay.HistoricalFoodStackLimit.foodDoesNotStack(stack)
             ? 1
             : stack.getMaxStackSize();
     }

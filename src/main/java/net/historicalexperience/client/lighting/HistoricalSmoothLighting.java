@@ -1,23 +1,27 @@
 package net.historicalexperience.client.lighting;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Properties;
+import net.fabricmc.loader.api.FabricLoader;
 import net.historicalexperience.client.HistoricalClientRules;
 import net.historicalexperience.version.HistoricalVersion;
 import net.historicalexperience.version.HistoricalVersions;
 
 /**
- * The Beta 1.3–1.7.3 smooth lighting engine, which Beta 1.8 replaced.
+ * The Beta 1.3–1.7.3 smooth lighting engine, which Beta 1.8 replaced, and its toggle.
  *
  * <h2>What "old smooth lighting" actually is</h2>
  *
- * <p>Not a different lighting model - the two engines differ in two specific places, and this class gates both:
+ * <p>Not a different lighting model - the two engines differ in two specific places:
  *
  * <ol>
  *   <li><b>Corner shading.</b> The modern engine darkens a corner towards 0.2 in {@code getShadeBrightness}; from
- *       Beta 1.3 to Beta 1.7.3 it did not darken the corner at all. That is the whole of the block-geometry side,
- *       and it is the rule ported from Nostalgic Tweaks' {@code BlockBehaviourMixin}.</li>
- *   <li><b>The lightmap.</b> The brightness curve per light level is the other half. It is recorded here as a known
- *       gap rather than claimed: this class does not yet carry the lightmap table, so the corner shading applies
- *       and the curve does not.</li>
+ *       Beta 1.3 to Beta 1.7.3 it did not darken the corner at all. That is the rule ported from Nostalgic Tweaks'
+ *       {@code BlockBehaviourMixin}, and it is the half this class gates.</li>
+ *   <li><b>The lightmap.</b> The brightness curve per light level is the other half. It is recorded as a known gap
+ *       rather than claimed: the corner shading applies and the curve does not.</li>
  * </ol>
  *
  * <h2>Sources for the boundary</h2>
@@ -32,12 +36,16 @@ import net.historicalexperience.version.HistoricalVersions;
  *
  * <p>So the window is <b>Beta 1.3 inclusive to Beta 1.8 exclusive</b>, and {@link #availableFor} is written as two
  * comparisons rather than one boundary for that reason - a single "older than Beta 1.8" test would also cover every
- * version before Beta 1.3, where there was no smooth lighting at all and the correct behaviour is
- * {@link HistoricalLightingEngine}'s classic engine instead. The two windows are disjoint by construction, which is
- * the property a single "old lighting" boolean would have got wrong.
+ * version before Beta 1.3, where there was no smooth lighting at all and {@link HistoricalLightingEngine} is the
+ * correct engine instead. The two windows are disjoint by construction, which is the property a single "old
+ * lighting" boolean would have got wrong.
  *
- * <p>An unknown version answers false. A client that guessed would render one thing while the server believed
- * another, which is the failure mode {@link HistoricalLightingEngine} documents at greater length.
+ * <h2>Why this class has a toggle as well as a gate</h2>
+ *
+ * <p>Until the owner asked whether it could be switched, this was gated by <b>version alone</b>: a Beta 1.7.3 world
+ * always rendered with the old corner shading and there was no way to turn it off, where upstream offers
+ * {@code OLD_SMOOTH_LIGHTING} as a setting defaulting to true. The version still decides whether the engine is
+ * <i>offered</i>; the toggle decides whether it is <i>used</i>.
  */
 public final class HistoricalSmoothLighting {
     /** The build that introduced the smooth lighting engine, so the window opens here. */
@@ -46,10 +54,21 @@ public final class HistoricalSmoothLighting {
     /** The build that replaced it, so the window closes before this one. */
     private static final String FIRST_NEW_LIGHTING_BUILD = "historical_experience:beta_1_8_1";
 
+    /** Shares the client options file with the classic engine's toggle; a different key. */
+    private static final String TOGGLE_FILE = "historical_experience-client.properties";
+    private static final String TOGGLE_KEY = "oldSmoothLighting";
+
+    private static volatile Boolean toggle;
+
     private HistoricalSmoothLighting() {
     }
 
-    /** Whether the 1.3-1.7.3 engine is the one this version should render with. */
+    /**
+     * Whether the 1.3-1.7.3 engine is on offer for this version.
+     *
+     * <p>A null version is unknown, and unknown is not "yes": a client that guessed would render one thing while the
+     * server believed another.
+     */
     public static boolean availableFor(HistoricalVersion version) {
         if (version == null) {
             return false;
@@ -63,8 +82,92 @@ public final class HistoricalSmoothLighting {
         return version.chronology() >= first.chronology() && version.chronology() < replaced.chronology();
     }
 
-    /** Whether the old engine should actually be used for the client's current version. */
+    /**
+     * Whether the old engine should actually render: offered for this version AND switched on.
+     *
+     * <p>This is what the mixin asks. The two questions are kept apart on purpose - folding them together would make
+     * "this version never had this engine" and "the player turned it off" the same answer, and the config screen has
+     * to tell those apart to explain itself.
+     */
     public static boolean activeNow() {
-        return availableFor(HistoricalClientRules.activeVersion());
+        return availableFor(HistoricalClientRules.activeVersion()) && toggle();
+    }
+
+    /**
+     * The toggle, loaded once and defaulted to ON.
+     *
+     * <p>Default on because inside this window the old engine is not a preference, it is what the build did - the
+     * same reason upstream defaults its flag to true. The toggle exists so a player can opt OUT, not so they must opt
+     * in.
+     */
+    public static boolean toggle() {
+        Boolean current = toggle;
+        if (current == null) {
+            current = load();
+            toggle = current;
+        }
+        return current;
+    }
+
+    /**
+     * Sets the toggle and persists it.
+     *
+     * <p>Refused when the current version does not offer the engine, so a value stored in one world cannot silently
+     * start applying in another: the caller is told no rather than being obeyed into a wrong render.
+     *
+     * @return whether the change was applied
+     */
+    public static boolean setToggle(boolean enabled) {
+        if (enabled && !availableFor(HistoricalClientRules.activeVersion())) {
+            return false;
+        }
+        toggle = enabled;
+        save(enabled);
+        return true;
+    }
+
+    /** Forgets the cached value, so the next world re-reads the config. */
+    public static void resetCache() {
+        toggle = null;
+    }
+
+    private static Path configPath() {
+        return FabricLoader.getInstance().getConfigDir().resolve(TOGGLE_FILE);
+    }
+
+    private static boolean load() {
+        try {
+            Path path = configPath();
+            if (!Files.isRegularFile(path)) {
+                return true;
+            }
+            Properties properties = new Properties();
+            try (var in = Files.newInputStream(path)) {
+                properties.load(in);
+            }
+            return !"false".equalsIgnoreCase(properties.getProperty(TOGGLE_KEY, "true"));
+        } catch (IOException | RuntimeException failure) {
+            // A config that cannot be read must not break lighting; fall back to the historical value.
+            return true;
+        }
+    }
+
+    private static void save(boolean enabled) {
+        try {
+            Path path = configPath();
+            Files.createDirectories(path.getParent());
+            Properties properties = new Properties();
+            if (Files.isRegularFile(path)) {
+                try (var in = Files.newInputStream(path)) {
+                    properties.load(in);
+                }
+            }
+            properties.setProperty(TOGGLE_KEY, Boolean.toString(enabled));
+            try (var out = Files.newOutputStream(path)) {
+                properties.store(out, "Historical Experience client options");
+            }
+        } catch (IOException | RuntimeException failure) {
+            // Best effort: the in-memory value is already set and this run renders correctly.
+        }
     }
 }
