@@ -894,3 +894,33 @@ crash that proved villages had never generated at all. Two structural lessons ca
 
 The probe now reports, every round: mixin transform results, suppressed blocks and structures, spawn-filter removals,
 ore drops, village biome declines, and village style resolution per version.
+
+---
+
+## Audit round (2026-10-14): what was checked, what was added, what was found sound
+
+A full pass of the mod against `research/feature-timeline.json` (62 mechanics, 37 blocks, 12 structures), `historical-bugs.json`
+(12 entries) and `nt-port-worklist.json`. There is no `timeline.md`; `feature-timeline.json` is the timeline.
+
+**Added (sourced boundary, previously no code):** one-use bone meal (before Release 1.5, `CropBlock`/`StemBlock`/`CocoaBlock`/
+`SaplingBlock`), hoe-on-grass seeds (before Beta 1.6), punching TNT primes it (before Beta 1.7), raw-fish-only fishing (every declared
+build) and no fishing experience (before Release 1.4). Each is a named gate in `HistoricalGameplayTweaks` with its wiki quotation, both
+sides of every boundary are pinned in `HistoricalGameplayTweaksTest`, and the five injection targets are loaded by the runtime smoke
+test. **Not verified by play:** a server probe cannot right-click a hoe, punch TNT or reel in a fish, so the *behaviour* wants a play test.
+
+**Deliberate differences from Nostalgic Tweaks:** the sapling 45% roll is removed as well as the stage skip (the wiki's older behaviour is
+unconditional); fishing XP is suppressed by entity class, which upstream does not do at all.
+
+**Checked and found sound (no change):** block availability dating covers every block in the timeline; the mixin config lists exactly the
+86 mixin files, with no dead file, no missing file and no duplicate, and `defaultRequire` is 1.
+
+**Found and NOT fixed, so it is not lost:**
+- `OLD_BOAT_DROPS`: NT drops 2 planks + 1 stick; the timeline's 12w27a quote says the old drop was **3 oak planks and 2 sticks**. NT
+  disagrees with the wiki, so this must be resolved against a primary source before porting. Not implemented.
+- Bug-catalogue entries with no code: mounted Nether portal crash (Beta 1.2), debug respawn loadout (Beta 1.3 first upload only; needs an
+  artifact sub-profile), zombie/spider hit height (Beta 1.3, introduction build unknown), piston block-36 crash (Beta 1.7). The latter three
+  are marked unsafe as refusal boundaries by the catalogue itself.
+- Still open from earlier rounds: the brighter old Nether lightmap, the Pre3 lightmap curve for old smooth lighting, a pig drop rule, and
+  the 'apply Feather Falling 1 when loaded in Pre4' half of the enchanting placeholder.
+- ~470 untouched NT tweaks have `verification: not_started`; most are client eye-candy with no sourced version boundary, so they were left
+  alone rather than invented.
