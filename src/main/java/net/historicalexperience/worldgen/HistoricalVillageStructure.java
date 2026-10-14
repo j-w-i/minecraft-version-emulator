@@ -1,7 +1,24 @@
 /*
+ * Minecraft Historical Experience
+ * Copyright (C) 2026 Minecraft Historical Experience contributors
+ *
+ * This program is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License along with
+ * this program. If not, see <https://www.gnu.org/licenses/>.
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+/*
  * Ported from the NeoForge mod "OldVillages" (upstream file
  * src/main/java/cz/maxtechnik/old_villages/worldgen/OldVillageStructure.java).
- * Upstream repository: https://github.com/MaxTechnik/OldVillages (pinned revision
+ * Upstream repository: https://github.com/MaxTechnik3796/old_villages (pinned revision
  * 7578013ec061303982539fac7606df67577ffb26).
  * Upstream declares "mod_license=MIT" in its gradle.properties. The reference checkout
  * ships no LICENSE file, so that gradle.properties declaration is the whole licence

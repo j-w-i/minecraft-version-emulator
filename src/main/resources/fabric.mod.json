@@ -3,7 +3,14 @@
   "id": "hex1211",
   "version": "0.1.0",
   "name": "Historical Experience 1.21.1 backport",
-  "description": "Minecraft Historical Experience, targeted at Minecraft 1.21.1.",
+  "description": "Minecraft Historical Experience, targeted at Minecraft 1.21.1. Includes code and assets ported from Nostalgic Tweaks (LGPL-3.0); see META-INF/THIRD_PARTY_NOTICES.md.",
+  "authors": [
+    "Minecraft Historical Experience contributors"
+  ],
+  "contact": {
+    "sources": "https://github.com/j-w-i/minecraft-version-emulator"
+  },
+  "license": "LGPL-3.0-or-later",
   "environment": "*",
   "icon": "assets/historical_experience/icon.png",
   "entrypoints": {

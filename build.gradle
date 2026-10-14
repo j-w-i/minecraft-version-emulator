@@ -55,7 +55,10 @@ dependencies {
     modCompileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
     // The config screen is a real screen and is exercised by a client launch, so the API is needed at runtime in
     // the development client only.
-    modLocalRuntime "com.terraformersmc:modmenu:${project.modmenu_version}"
+    // Left off with -PwithoutModMenu so a client run can prove the mod launches when Mod Menu is absent.
+    if (!project.hasProperty('withoutModMenu')) {
+        modLocalRuntime "com.terraformersmc:modmenu:${project.modmenu_version}"
+    }
 
     testImplementation platform('org.junit:junit-bom:5.11.4')
     testImplementation 'org.junit.jupiter:junit-jupiter'
@@ -79,7 +82,129 @@ java {
 }
 
 tasks.named('jar') {
-    from('THIRD_PARTY_NOTICES.md')
+    // LGPL-3.0 section 4(b): a Combined Work must be accompanied by a copy of the GNU GPL and the GNU
+    // LGPL. COPYING is the GPL-3.0 text; COPYING.LESSER and LICENSE are the LGPL-3.0 text. The
+    // third-party notice gives the attribution and the source location the licence requires.
+    from('LICENSE') { into 'META-INF' }
+    from('COPYING') { into 'META-INF' }
+    from('COPYING.LESSER') { into 'META-INF' }
+    from('THIRD_PARTY_NOTICES.md') { into 'META-INF' }
+    manifest {
+        attributes(
+            'Implementation-Title': 'Historical Experience',
+            'Implementation-Version': project.mod_version,
+            // Standard manifest key for the licence of the distributed artefact.
+            'Bundle-License': project.mod_license
+        )
+    }
+}
+
+// The sources jar is the Corresponding Source for the LGPL-covered material, so it must carry the
+// licence texts and the third-party notices too.
+tasks.named('sourcesJar') {
+    from('LICENSE') { into 'META-INF' }
+    from('COPYING') { into 'META-INF' }
+    from('COPYING.LESSER') { into 'META-INF' }
+    from('THIRD_PARTY_NOTICES.md') { into 'META-INF' }
+}
+
+// LGPL-3.0 compliance is a property of the artefacts, not of the source tree, so check the artefacts.
+// `LicenceComplianceTest` checks the files; this checks what actually gets shipped, by opening the built
+// JARs. A missing licence text in a release is the failure mode that matters, and it would otherwise be
+// invisible until someone downloaded the mod.
+tasks.register('verifyLicenceArtifacts') {
+    group = 'verification'
+    description = 'Fails if the built JARs do not contain the licence texts and the third-party notices.'
+    dependsOn tasks.named('jar'), tasks.named('sourcesJar')
+
+    doLast {
+        def required = ['META-INF/LICENSE', 'META-INF/COPYING', 'META-INF/COPYING.LESSER',
+                        'META-INF/THIRD_PARTY_NOTICES.md']
+        [tasks.jar, tasks.sourcesJar].each { producer ->
+            def archive = producer.archiveFile.get().asFile
+            if (!archive.isFile()) {
+                throw new GradleException("Expected artefact ${archive} was not built")
+            }
+            def present = []
+            new java.util.zip.ZipFile(archive).withCloseable { zip ->
+                zip.entries().each { entry -> present << entry.name }
+            }
+            def absent = required.findAll { !present.contains(it) }
+            if (!absent) {
+                logger.lifecycle("Licence artefacts present in ${archive.name}: ${required.join(', ')}")
+            }
+            if (absent) {
+                throw new GradleException(
+                    "${archive.name} is missing required licence files: ${absent.join(', ')}")
+            }
+        }
+
+        // The manifest must state the licence the artefacts are actually under.
+        def manifest = new java.util.jar.JarFile(tasks.jar.archiveFile.get().asFile).manifest
+        def declared = manifest?.mainAttributes?.getValue('Bundle-License')
+        if (declared != project.mod_license) {
+            throw new GradleException(
+                "JAR manifest Bundle-License is '${declared}', expected '${project.mod_license}'")
+        }
+        logger.lifecycle("JAR manifest Bundle-License: ${declared}")
+    }
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('verifyLicenceArtifacts')
+}
+
+// LGPL-3.0 sections 4/6 require a binary recipient to be able to reach the Corresponding Source. That is a
+// property of the *remote*, so it cannot be checked offline and must not fail the normal build when the
+// network is unavailable. Run it explicitly before publishing a release:
+//
+//     ./gradlew verifyPublishedSource
+tasks.register('verifyPublishedSource') {
+    group = 'verification'
+    description = 'Checks that the published repository actually serves the licence and notices (needs network).'
+    doLast {
+        // Derived from the git remote rather than hard-coded, so a rename cannot silently check the wrong repo.
+        def remote = providers.exec {
+            commandLine 'git', 'remote', 'get-url', 'origin'
+        }.standardOutput.asText.get().trim()
+        def slug = (remote =~ /github\.com[:\\/]([^\/]+\/[^\/]+?)(\.git)?$/).with { it.find() ? it.group(1) : null }
+        if (!slug) {
+            throw new GradleException("Cannot derive a GitHub slug from the origin remote: ${remote}")
+        }
+        // Unauthenticated on purpose: an authenticated request would pass on a private repository, which is
+        // exactly the case this task exists to catch.
+        def branch = providers.exec {
+            commandLine 'git', 'rev-parse', '--abbrev-ref', 'HEAD'
+        }.standardOutput.asText.get().trim()
+        def required = ['LICENSE', 'COPYING', 'COPYING.LESSER', 'THIRD_PARTY_NOTICES.md']
+        def base = "https://raw.githubusercontent.com/${slug}/${branch}"
+        def failures = []
+        required.each { name ->
+            def url = new URL("${base}/${name}")
+            try {
+                def connection = (java.net.HttpURLConnection) url.openConnection()
+                connection.requestMethod = 'GET'
+                connection.connectTimeout = 15000
+                connection.readTimeout = 15000
+                def code = connection.responseCode
+                if (code == 200) {
+                    logger.lifecycle("Published source serves ${name} (${connection.contentLengthLong} bytes)")
+                } else {
+                    failures << "${name}: HTTP ${code}"
+                }
+            } catch (Exception e) {
+                failures << "${name}: ${e.class.simpleName} ${e.message}"
+            }
+        }
+        if (failures) {
+            throw new GradleException(
+                "The published repository does not serve the required licence files, so a published binary "
+                    + "would not satisfy LGPL-3.0 section 4/6 source availability.\n  "
+                    + failures.join("\n  ")
+                    + "\nPush the licensing commit to ${slug}@${branch} (and set it as the default branch) "
+                    + "before publishing a release.")
+        }
+    }
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -97,12 +222,59 @@ loom {
             client()
             configName = 'Client Quick Play'
             runDir 'run/client'
-            if (!project.hasProperty('screenLayoutProbe')) {
+            if (project.hasProperty('titleStart')) {
+                // Stay on the title screen: the first-run flow is only reachable from there, quick-play skips it.
+                programArgs '--width', '1280', '--height', '720'
+            } else if (!project.hasProperty('screenLayoutProbe')) {
                 programArgs '--quickPlaySingleplayer',
                     (project.findProperty('quickPlayWorld') ?: 'hexflash')
             } else {
                 programArgs '--width', '960', '--height', '720'
                 vmArg '-Dhistorical_experience.screenProbe.layoutOnly=true'
+            }
+            if (project.hasProperty('ntStarsProbe')) {
+                vmArg '-Dhistorical_experience.ntStarsProbe=true'
+            }
+            if (project.hasProperty('ntVisualProbe')) {
+                vmArg '-Dhistorical_experience.ntVisualProbe=true'
+            }
+            if (project.hasProperty('texturesProbe')) {
+                vmArg '-Dhistorical_experience.texturesProbe=true'
+            }
+            if (project.hasProperty('texturesUserPack')) {
+                // Selects a synthetic user pack IN MEMORY (options.txt is never written) to prove it cannot override
+                // the enforced textures.
+                vmArg "-Dhistorical_experience.texturesProbe.userPack=${project.findProperty('texturesUserPack')}"
+            }
+            if (project.hasProperty('texturesModMenu')) {
+                vmArg '-Dhistorical_experience.texturesProbe.modMenu=true'
+            }
+            if (project.hasProperty('texturesConfigShots')) {
+                vmArg '-Dhistorical_experience.texturesProbe.configShots=true'
+            }
+            if (project.hasProperty('texturesCycle')) {
+                vmArg "-Dhistorical_experience.texturesProbe.cycle=${project.findProperty('texturesCycle')}"
+            }
+            if (project.hasProperty('texturesOrdinaryWorld')) {
+                vmArg '-Dhistorical_experience.texturesProbe.ordinaryWorld=true'
+            }
+            if (project.hasProperty('texturesSkipToggle')) {
+                vmArg '-Dhistorical_experience.texturesProbe.skipToggle=true'
+            }
+            if (project.hasProperty('texturesOut')) {
+                vmArg "-Dhistorical_experience.texturesProbe.out=${project.findProperty('texturesOut')}"
+            }
+            if (project.hasProperty('texturesTitleProbe')) {
+                vmArg '-Dhistorical_experience.texturesProbe=true'
+                vmArg '-Dhistorical_experience.texturesProbe.titleOnly=true'
+                if (project.hasProperty('texturesDownload')) {
+                    vmArg '-Dhistorical_experience.texturesProbe.download=true'
+                }
+            }
+            if (project.hasProperty('texturePackDirectory')) {
+                // Read the packs where they are installed instead of copying them into run/ (they are third-party
+                // works and are never duplicated or redistributed by this project).
+                vmArg "-Dhistorical_experience.packDirectory=${project.findProperty('texturePackDirectory')}"
             }
             if (project.hasProperty('screenProbe') || project.hasProperty('screenLayoutProbe')) {
                 // Opens the version screens, photographs them at several GUI scales, and writes a verdict. Gated

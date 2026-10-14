@@ -1,5 +1,13 @@
 # Nostalgic Tweaks — adaptation audit for Minecraft Historical Experience
 
+> **Licensing superseded, 2026-10-14.** The licence section of this audit concluded that copying was not
+> permitted on the evidence then available, and set an interim posture of "copy nothing". The owner subsequently
+> directed that the implementations be ported, and the licence position the resulting code is distributed under is
+> now established and enforced: see [LICENSING.md](LICENSING.md), [PROVENANCE.md](PROVENANCE.md) and
+> [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md). The audit's factual provenance findings — branch, commit,
+> absence of an in-tree licence file on the source branch, licence history — remain the evidence this project
+> relies on, and the points that could not be settled are carried forward as unresolved in LICENSING.md §3.
+
 **Status:** `WORKER_GENERATED_PENDING_PARENT_VERIFICATION`
 **Audit date:** 2026-10-13
 **Machine-readable companion:** [`research/nostalgic-tweaks-audit.json`](../research/nostalgic-tweaks-audit.json)

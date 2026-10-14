@@ -1,3 +1,17 @@
+/*
+ * Minecraft Historical Experience
+ * Copyright (C) 2026 Minecraft Historical Experience contributors
+ *
+ * Contains material copied or adapted from Nostalgic Tweaks
+ * (https://github.com/Nostalgica-Reverie/Nostalgic-Tweaks), Copyright (C) Adrenix and
+ * Nostalgic Tweaks contributors, licensed LGPL-3.0-only, and MODIFIED for this project.
+ * The upstream file or tweak this class came from is named in its documentation comment.
+ *
+ * This file is part of a work distributed under the GNU Lesser General Public License,
+ * version 3. See LICENSE and THIRD_PARTY_NOTICES.md.
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later AND LGPL-3.0-only
+ */
 package net.historicalexperience.client.lighting;
 
 import com.mojang.blaze3d.platform.NativeImage;
@@ -10,9 +24,9 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.Level;
 
 /**
- * The two old lightmaps: Classic's two-level one and the grey one used from Alpha to the Beta 1.8 Pre-release.
+ * The grey lightmap used before the Beta 1.8 Pre-release.
  *
- * <p>Ported from Nostalgic Tweaks {@code LightTextureHelper.setClassicTexture} and {@code setGrayscaleTexture}
+ * <p>Ported from Nostalgic Tweaks {@code LightTextureHelper.setGrayscaleTexture}
  * (LGPL-3.0; see THIRD_PARTY_NOTICES.md). The grey one is the "no tint" half of the Beta 1.8 Pre-release entry: before
  * it a block's light was a single brightness, afterwards it carried a colour from the dominant source.
  *
@@ -23,15 +37,6 @@ import net.minecraft.world.level.Level;
  */
 public final class HistoricalLightmap {
     private HistoricalLightmap() {
-    }
-
-    /** Classic: bright at sky or block light 14 and up, a flat 60% grey otherwise. */
-    public static void applyClassic(NativeImage lightPixels) {
-        for (int sky = 0; sky < 16; sky++) {
-            for (int block = 0; block < 16; block++) {
-                lightPixels.setPixelRGBA(block, sky, sky >= 14 || block >= 14 ? 0xFFFFFFFF : 0xFF999999);
-            }
-        }
     }
 
     /**

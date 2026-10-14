@@ -1,3 +1,17 @@
+/*
+ * Minecraft Historical Experience
+ * Copyright (C) 2026 Minecraft Historical Experience contributors
+ *
+ * Contains material copied or adapted from Nostalgic Tweaks
+ * (https://github.com/Nostalgica-Reverie/Nostalgic-Tweaks), Copyright (C) Adrenix and
+ * Nostalgic Tweaks contributors, licensed LGPL-3.0-only, and MODIFIED for this project.
+ * The upstream file or tweak this class came from is named in its documentation comment.
+ *
+ * This file is part of a work distributed under the GNU Lesser General Public License,
+ * version 3. See LICENSE and THIRD_PARTY_NOTICES.md.
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later AND LGPL-3.0-only
+ */
 package net.historicalexperience.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
@@ -7,20 +21,12 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 /**
- * Hides the recipe book, which no declared version had.
+ * Hides the recipe-book panel in historical worlds; screen mixins separately hide its independent modern button.
  *
- * <p>minecraft.wiki, Recipe book history: <i>"Added the recipe book."</i> at 17w13a, released in <b>1.12</b>. The
- * newest version this project declares is Release 1.6.4, so the book is later than every one of them and there is no
- * boundary to search for - the answer is "none of them", which is why
- * {@code HistoricalWorldTweaks.availableForRecipeBook} answers false for every version and the option is offered for
- * no world.
- *
- * <h2>Why the component rather than the screen</h2>
- *
- * <p>{@code RecipeBookComponent.isVisible()} is what both the crafting table and the inventory ask before drawing or
- * accepting input for the book, so one return-value hook hides it everywhere and leaves nothing that can still be
- * clicked. Emptying it rather than removing the widget keeps the surrounding screen's layout arithmetic intact - the
- * component still reports its own position - so the crafting grid does not shift when the book disappears.
+ * <p>The original hook alone was insufficient: {@code RecipeBookComponent.isVisible()} controls the panel but does
+ * not govern the ImageButton hosted by each screen. {@code HistoricalRecipeBookButton}, called from the inventory,
+ * crafting and furnace init tails, ports Nostalgic Tweaks' {@code InventoryScreenHelper.setRecipeButton} disabled
+ * branch to suppress that button as well. Keeping this hook preserves the panel's own visibility and layout behavior.
  */
 @Mixin(RecipeBookComponent.class)
 public abstract class RecipeBookComponentHistoricalMixin {

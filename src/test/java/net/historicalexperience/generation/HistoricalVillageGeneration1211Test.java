@@ -1,8 +1,25 @@
 /*
+ * Minecraft Historical Experience
+ * Copyright (C) 2026 Minecraft Historical Experience contributors
+ *
+ * This program is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License along with
+ * this program. If not, see <https://www.gnu.org/licenses/>.
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+/*
  * Unit test for the ported pre-1.14 village, in the style of mc1211's GenerationBackport1211Test.
  *
  * The village is ported from the NeoForge mod "OldVillages"
- * (https://github.com/MaxTechnik/OldVillages, pinned revision 7578013ec061303982539fac7606df67577ffb26,
+ * (https://github.com/MaxTechnik3796/old_villages, pinned revision 7578013ec061303982539fac7606df67577ffb26,
  * MIT as declared in its gradle.properties; that checkout ships no LICENSE file).
  */
 package net.historicalexperience.generation;

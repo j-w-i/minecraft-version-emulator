@@ -1,3 +1,20 @@
+/*
+ * Minecraft Historical Experience
+ * Copyright (C) 2026 Minecraft Historical Experience contributors
+ *
+ * This program is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License along with
+ * this program. If not, see <https://www.gnu.org/licenses/>.
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
 package net.historicalexperience.client.config;
 
 import net.historicalexperience.client.HistoricalClientRules;
@@ -77,6 +94,18 @@ public final class HistoricalConfigScreen extends Screen {
                 .bounds(centre - ROW_WIDTH / 2, y + ROW_HEIGHT + 4, ROW_WIDTH, ROW_HEIGHT)
                 .build());
 
+        // The historical texture system has its own section; this button is how Mod Menu's config button reaches it.
+        this.addRenderableWidget(
+            Button.builder(Component.translatable("historical_experience.textures.config.open"),
+                    button -> {
+                        if (this.minecraft != null) {
+                            this.minecraft.setScreen(
+                                new net.historicalexperience.client.textures.TexturesConfigScreen(this));
+                        }
+                    })
+                .bounds(centre - ROW_WIDTH / 2, y + (ROW_HEIGHT + 4) * 2, ROW_WIDTH, ROW_HEIGHT)
+                .build());
+
         this.addRenderableWidget(
             Button.builder(CommonComponents.GUI_DONE, button -> this.onClose())
                 .bounds(centre - ROW_WIDTH / 2, this.height - 40, ROW_WIDTH, ROW_HEIGHT)
@@ -132,9 +161,13 @@ public final class HistoricalConfigScreen extends Screen {
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         super.render(graphics, mouseX, mouseY, partialTick);
         graphics.drawCenteredString(this.font, this.title, this.width / 2, this.height / 4 - 34, 0xFFFFFF);
-        graphics.drawCenteredString(this.font,
-            Component.translatable("historical_experience.config.note"),
-            this.width / 2, this.height / 4 + (ROW_HEIGHT + 4) * 2 + 12, 0xA0A0A0);
+        // Wrapped to the row width: the note is long, and a single centred line ran off both edges of the screen.
+        int noteY = this.height / 4 + (ROW_HEIGHT + 4) * 3 + 12;
+        for (net.minecraft.util.FormattedCharSequence line : this.font.split(
+                Component.translatable("historical_experience.config.note"), ROW_WIDTH)) {
+            graphics.drawString(this.font, line, this.width / 2 - ROW_WIDTH / 2, noteY, 0xA0A0A0);
+            noteY += 10;
+        }
     }
 
     @Override

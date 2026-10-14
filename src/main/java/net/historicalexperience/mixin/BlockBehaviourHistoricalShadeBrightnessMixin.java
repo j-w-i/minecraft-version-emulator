@@ -1,3 +1,17 @@
+/*
+ * Minecraft Historical Experience
+ * Copyright (C) 2026 Minecraft Historical Experience contributors
+ *
+ * Contains material copied or adapted from Nostalgic Tweaks
+ * (https://github.com/Nostalgica-Reverie/Nostalgic-Tweaks), Copyright (C) Adrenix and
+ * Nostalgic Tweaks contributors, licensed LGPL-3.0-only, and MODIFIED for this project.
+ * The upstream file or tweak this class came from is named in its documentation comment.
+ *
+ * This file is part of a work distributed under the GNU Lesser General Public License,
+ * version 3. See LICENSE and THIRD_PARTY_NOTICES.md.
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later AND LGPL-3.0-only
+ */
 package net.historicalexperience.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
@@ -28,9 +42,8 @@ import org.spongepowered.asm.mixin.injection.At;
  * if (blockState.getBlock() instanceof LeavesBlock) return OLD_LEAVES_LIGHTING ? 1.0F : shadeBrightness;
  * </pre>
  *
- * <p>So there are two separate differences from the modern engine: <b>the darkness of a corner</b>, where the modern
- * value darkens towards 0.2 and this engine did not darken at all, and <b>leaves</b>, which this engine drew fully
- * bright rather than shaded. Both were listed by the owner for implementation.
+ * <p>The 0.0 corner sample is NT's old ambient-occlusion input, not "no darkness";
+ * leaves use 1.0 as their AO sample, not emissive/full-bright lighting.
  *
  * <h2>Boundary</h2>
  *
@@ -39,12 +52,9 @@ import org.spongepowered.asm.mixin.injection.At;
  * a block is given a tint based on the most prominent source of light."</i> So this applies from Beta 1.3 up to but
  * excluding Beta 1.8 — the window where the MrMessiah engine was the game's engine.
  *
- * <p>The leaves rule is gated on that same window, which is how upstream pairs it, and that is stated rather than
- * assumed: the wiki does not date leaves shading separately, so the window of the engine it belonged to is the best
- * available evidence and is preferred to an invented boundary.
- *
- * <p>A shared mixin. {@code getShadeBrightness} is common code and only changes a number a renderer reads, and the
- * gate is inert on a server because no server sets a client's active version.
+ * <p>The leaves gate currently uses the pre-Beta-1.8 window; its independent historical
+ * boundary is not established by upstream's configurable toggle.
+ * This mixin targets common code but is registered CLIENT ONLY, since its gates use client classes.
  */
 @Mixin(BlockBehaviour.class)
 public abstract class BlockBehaviourHistoricalShadeBrightnessMixin {

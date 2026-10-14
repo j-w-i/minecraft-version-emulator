@@ -1,146 +1,292 @@
 # Third-party notices
 
-The project consumes Moderner Beta as an external dependency. Research evidence includes excerpts of its published preset JSON. Source: https://github.com/BlueStaggo/moderner-beta, tag `5.0.0-alpha.4`, revision `95f3da6c3f23e7e128b319e5c721201ed4c17243`.
+This file records every third-party work this project incorporates, links against, fetches at runtime or
+distributes, with the licence that governs it and the obligations that follow. It is the companion to
+[`LICENSE`](LICENSE) and [`docs/LICENSING.md`](docs/LICENSING.md). The full file-by-file record of what came
+from where is in [`docs/PROVENANCE.md`](docs/PROVENANCE.md).
 
-## Moderner Beta — MIT
+**A notice is not a licence.** Listing a component here does not relicense it, and does not by itself satisfy
+the source-availability obligations of a copyleft licence. Those are addressed in
+[`docs/LICENSING.md`](docs/LICENSING.md), section "Distribution obligations".
 
-Copyright (c) 2024-2025 BlueStaggo, 2021 B3spectacled
+---
 
-Two data files are carried verbatim, with attribution, from Moderner Beta's published
-`resourcepacks/reduced_height` bundled pack (same pinned artifact as above, SHA256
-`2da0b0ded6053dbc18b630d73c3252e30f961ad920589edf75a6dbe243220727`), re-homed under this project's
-namespace so the reduced level envelope applies per historical world instead of globally:
+## Nostalgic Tweaks — LGPL-3.0-only — source code and assets copied and adapted
 
-- `resourcepacks/reduced_height/data/minecraft/dimension_type/overworld.json` → `src/main/resources/data/historical_experience/dimension_type/beta_1_7_3_overworld.json` (upstream SHA256 `a0c92a6ed66d831579de34740a58c1e755b9b7fda2f25ecc4fbad6fa461c028c`)
-- `resourcepacks/reduced_height/data/moderner_beta/worldgen/noise_settings/overworld_128.json` → `src/main/resources/data/historical_experience/worldgen/noise_settings/beta_1_7_3_overworld_128.json` (upstream SHA256 `1633facf867837d9db45bd1ff419cac57849a6980c6ad8022bd57a7dae242c82`)
+| | |
+| --- | --- |
+| Full project name | **Nostalgic Tweaks** |
+| Copyright holder | Copyright (C) Adrenix and the Nostalgic Tweaks contributors |
+| Authoritative upstream repository | https://github.com/Nostalgica-Reverie/Nostalgic-Tweaks |
+| Repository the upstream metadata names | https://github.com/Adrenix/Nostalgic-Tweaks (GitHub redirects this to the URL above; it is the same repository, id 466280964) |
+| Licence | **GNU Lesser General Public License, version 3 — LGPL-3.0-only** |
+| Upstream licence file | `LICENSE.txt`, blob `0a041280bd00a9d068f503b8ee7ce35214bd24a1` |
+| Declared by the distributor | Modrinth project `nostalgic-tweaks` reports `{"id": "LGPL-3.0-only"}` |
+| Revision this project ports from | Branch `1.21`, commit `51d6d3dc1fa33223f8548e1625ed7595183c2b9e` (2026-08-14), mod version `2.0.0-beta.923-indev.2`, for **94** of the 98 Java files. Four files state branch `1.21.4` instead — see below. |
+| Local reference checkout | `.upstream/nostalgic-tweaks` (git-ignored; never distributed) |
 
-The 1.21.1 backport additionally adapts the dimension envelope from the pinned
-`5.0.0-alpha.4+1.21.1-fabric` artifact's reduced-height pack and uses its four noise envelope fields
-(`min_y`, `height`, `size_horizontal`, `size_vertical`) via the supported settings component.
-It does not carry a copied noise router, density function database or terrain implementation.
+### What has been incorporated, and how
 
-No Moderner Beta source code, texture or audio is included. The MIT permission notice below covers the
-whole of Moderner Beta, including the above data and envelope adaptations.
+**This is not a dependency.** Nostalgic Tweaks source is **copied into this repository and modified here**.
+Stacking a notice on top of a jar dependency is not what has happened, so LGPL-3.0's obligations to provide
+Corresponding Source for the incorporated portions apply to this project's own repository and artefacts.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+- **98 Java source files** under `src/main/java/net/historicalexperience/` contain code copied or adapted from
+  Nostalgic Tweaks. Each of those files carries a copyright and licence header naming Nostalgic Tweaks, and each
+  names the upstream file or tweak constant it came from in its own documentation comment. The
+  `SPDX-License-Identifier` expression on those files is `LGPL-3.0-or-later AND LGPL-3.0-only`: the project's own
+  contributions in the file are `-or-later`, the adapted Nostalgic Tweaks material remains `LGPL-3.0-only`. The
+  authoritative list is the `NT_FILES` array in `scripts/apply-licence-headers.py`, which the header tool and the
+  compliance test both use, so the count cannot drift from the files.
+- **Four of those files come from branch `1.21.4`, not `1.21`.** `gameplay/HistoricalDamageValues.java`,
+  `gameplay/HistoricalSwordBlocking.java` and `gameplay/HistoricalSwordBlockingEvents.java` state revision
+  `010526deaf3aa5e562b45b60a286a667e8eeac12`, and
+  `mixin/HumanoidArmorLayerHistoricalTintMixin.java` names
+  `fabric/.../candy/armor_damage/HumanoidArmorLayerMixin.java`, which exists only on that branch. Both branch
+  heads are therefore part of the provenance, and the licence is the same on both: the LGPL text is on the
+  repository's default branch and governs the project as distributed. See [docs/PROVENANCE.md](docs/PROVENANCE.md).
+- The ports range from verbatim copies (for example `client/hud/HudElement.java`, `client/render/MobArmHelper.java`)
+  through adapted mixins (for example `mixin/LightEngineHistoricalOldLightingMixin.java`, ported from
+  `mixin/tweak/candy/world_lighting/LightEngineMixin.java`) to constants and arithmetic taken from upstream
+  helpers (`client/lighting/HistoricalOldLightMath.java`, from `helper/candy/light/LightingHelper.java` and
+  `LightTextureHelper.java`), and to `client/lighting/HistoricalFogTweaks.java`, whose distance and fog-plane
+  constants are upstream's `helper/candy/level/fog/OverworldFogRenderer.java` verbatim.
+- **The incorporated implementations have been modified.** The typical modifications are: upstream's process-global
+  configuration flags are replaced by this project's per-world historical version gate; upstream's NeoForge and
+  Architectury plumbing is replaced by Fabric's; class, package and identifier names are renamed to this project's
+  conventions; and the set of historical versions each behaviour applies to is decided by this project's research
+  data rather than by upstream's era presets. Per-file documentation comments state the modification where it is
+  material. Where a project file merely *names* Nostalgic Tweaks as research, a checklist or a citation of a
+  measured constant, it is not listed as incorporated material; those files are named in
+  [docs/PROVENANCE.md](docs/PROVENANCE.md) together with the reason.
+- **52 asset files** are copied from upstream's `common/src/main/resources/assets/nostalgic_tweaks/` into this
+  project's own namespace: 4 blockstates, 18 block/item model JSON files, and 30 block textures for the old chest,
+  ender chest, trapped chest and Christmas chest. The JSON files differ from upstream only by the
+  `nostalgic_tweaks` → `historical_experience` namespace rewrite and, in three blockstates, by whitespace; the 30
+  PNGs are byte-identical to upstream's. `assets/historical_experience/icon.png` and `lang/en_us.json` are this
+  project's own. The comparison is reproducible with `scripts/compare-nt-assets.py`.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+See [`docs/PROVENANCE.md`](docs/PROVENANCE.md) for the file-by-file table.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+### Where the Corresponding Source is
 
-## j-w-i Flashback fork
+The Corresponding Source for the incorporated Nostalgic Tweaks material, including the modifications made here,
+is this repository itself:
 
-Required compatibility target: https://github.com/j-w-i/Flashback, revision `076b96b9fa400212d3d75fa2239d0f3836cf085b`, version `0.43.6.1`. Its inspected license prohibits redistribution. Local clone/build/test use is separate from redistribution. No fork jar, class, asset or implementation is included in this source checkpoint. The verification harness references a separately obtained local checkout.
+**https://github.com/j-w-i/minecraft-version-emulator**
 
-## Nostalgic Tweaks — source audit reference
+The published source JAR (`*-sources.jar`) carries the licence texts and this notice under `META-INF/`, so a
+binary recipient receives the Corresponding Source terms and location with the artefact.
 
-Repository: https://github.com/Nostalgica-Reverie/Nostalgic-Tweaks. Source inspected on `1.21.4` at `010526deaf3aa5e562b45b60a286a667e8eeac12`; default `main` is documentation-only at `6f2614ef50836feef2bbf675d07e6b968b6209e7`. Attribution: Nostalgica Reverie / Adrenix and upstream contributors.
+**The repository is public** (confirmed 2026-10-14), so it satisfies LGPL-3.0 section 4/6 source availability
+for a published binary. The one condition attached: the licensing files must actually be **pushed** — at the
+time of writing they are committed locally but not on the remote. See the pre-publication checklist in
+[`docs/LICENSING.md`](docs/LICENSING.md).
 
-The [pinned licence text](<https://raw.githubusercontent.com/Nostalgica-Reverie/Nostalgic-Tweaks/6f2614ef50836feef2bbf675d07e6b968b6209e7/LICENSE.txt>) is GNU LGPL version 3. The project-specific `only` versus `or-later` election and applicability across source branches remain under review; generic licence boilerplate is not a project-specific election. Copyleft does not prohibit lawful adaptation, but its applicable notice/source/licence obligations must be satisfied before derivative code is distributed. No Nostalgic Tweaks implementation, jar, texture or audio has been ported into this mod. The audit records configuration facts, references and unverified candidates. Independent implementation is not automatically exempt from obligations if protected expression is reproduced.
+### The `only` versus `or-later` election
+
+Upstream's `LICENSE.txt` is the unmodified GNU LGPL v3 text — verified byte-for-byte identical to the FSF's
+published `lgpl-3.0.txt` (SHA-256 `E3A994D82E644B03A792A930F574002658412F62407F5FEE083F2555C5F23118`, 7,652
+bytes), including section 6's "or any later version" mechanism. The document contains **no project-specific
+election** of a later version, so the incorporated material is treated as **LGPL-3.0-only**. This project does
+not relicense it.
+
+### Why the source branches carry no licence file, and why that is settled
+
+Upstream's *source branches* carry **no in-tree licence file**. The LGPL text exists on the repository's
+docs-only default branch (`main`); the commit that added it (`6f2614ef`, 2026-06-01) touches only `.github/`,
+`README.md` and `LICENSE.txt` on that branch. Before it, the only licence ever attached to a source branch was
+the proprietary **Minecraft Mod Public License v2.0.3-Modified**, which was deleted from source branches between
+2022-10-10 and 2025-01-15 and which states that its author "may change the Mod license, but cannot do so
+retroactively".
+
+The rights holder distributes the mod under LGPL-3.0-only (Modrinth metadata, above) and has added the LGPL text
+to the repository, and **the project owner confirmed on 2026-10-14 that proceeding on that basis is fine.**
+LGPL-3.0-only is therefore the governing licence for the adapted portions, and this project's obligations are
+discharged against it. Should that confirmation ever be withdrawn, the Minecraft Mod Public License's section 7
+terms (no revenue, credit to the Author, compliance with the Mod license) would apply instead — see
+[`docs/LICENSING.md`](docs/LICENSING.md), "Open points".
+
+### The copied chest textures are Nostalgic Tweaks' own
+
+The 30 chest, ender-chest, trapped-chest and Christmas-chest PNGs under
+`assets/historical_experience/textures/block/` are byte-identical to upstream's, and the owner confirmed on
+2026-10-14 that they came **from Nostalgic Tweaks**. They are therefore covered by exactly the LGPL-3.0-only
+analysis above: attribution here, the licence texts with the artefacts, and the Corresponding Source obligation.
+An earlier revision of this notice asserted they were all original Mojang art; **that was unsupported and is
+withdrawn** — the cube ender chest in particular is a Nostalgic Tweaks aesthetic, not historical vanilla
+geometry.
+
+---
+
+## Legacy-Nether — CC BY-SA 4.0 — ported, currently switched off
+
+- **Source:** https://codeberg.org/Nostalgica-Reverie/Legacy-Nether (by Nostalgica Reverie)
+- **Licence:** Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+- **Pinned checkout:** `.upstream/legacy-nether` (git-ignored)
+- **Ported by:** `scripts/port-legacy-nether.py` (re-runnable)
+- **Status: NOT PRESENT in the current tree.** The ported biome data
+  (`data/historical_experience/worldgen/biome/legacy_nether_wastes*.json`) was removed by commit `505a5fd`
+  ("Switch the Legacy-Nether port OFF: it crashed the client at the title screen") and the directory is empty.
+  **No CC BY-SA 4.0 material is distributed by this project at this revision**, so no share-alike obligation
+  attaches to the current artefacts. This entry is retained because the port script and the research notes still
+  reference it, and because re-enabling it would reinstate the obligation below. If it is ever re-enabled:
+
+  - Every field is upstream's unchanged except that nether quartz is removed from the feature list of the plain
+    variant, because nether quartz is Release 1.5 content and must not be generated before then.
+  - The modification must be stated, and the ported biome data remains under CC BY-SA 4.0 and is not relicensed by
+    this project's LGPL-3.0 licence.
+  - Upstream's `data/minecraft/dimension/the_nether.json` and its `has_structure` tag entries would still be
+    deliberately **not** ported, because this project composes the same dimension itself and because emptying a
+    `minecraft:` tag would change ordinary worlds.
+
+## OldVillages — MIT — village generation copied
+
+- **Source:** https://github.com/MaxTechnik3796/old_villages (author: MaxTechnik)
+- **Licence:** MIT, as declared by `mod_license=MIT` in upstream's `gradle.properties`. Upstream ships **no
+  `LICENSE` file** and GitHub reports no detectable licence for the repository; the declaration in
+  `gradle.properties` is therefore the whole licence statement available, and it is recorded as such rather than
+  a licence file being claimed.
+- **Revision ported:** `7578013ec061303982539fac7606df67577ffb26`, pinned in `.upstream/old_villages` (git-ignored)
+- **Ported into:** `src/main/java/net/historicalexperience/worldgen/` (`HistoricalVillagePieces`,
+  `HistoricalVillageBlocks`, `HistoricalVillageStates`, `HistoricalVillageTypes`, `HistoricalVillageRules`,
+  `HistoricalVillageStructure`) and `server/VillageVerification.java`
+- **Data files copied or adapted** from upstream's `data/old_villages/`: the two chest loot tables
+  (`historical_village_blacksmith.json`, `historical_village_blacksmith_early.json` — content identical, only
+  `set_count` → `minecraft:set_count` plus formatting, with the early variant derived from the same table), the
+  structure and structure-set documents (`historical_village.json`, `historical_villages.json` — namespace and id
+  rewrite only; spacing, separation and salt are upstream's), and the `has_structure` biome tag
+  (`historical_village.json` — adapted, reduced from eight biomes to three). These are recorded in
+  [docs/PROVENANCE.md](docs/PROVENANCE.md); no comment syntax exists in JSON to carry a per-file note.
+- **Modification:** upstream is a NeoForge mod that registers its own structure type through a `DeferredRegister`
+  and mixes into vanilla village placement. The port reimplements that registration against Fabric and this
+  project's own `HistoricalStructureRules`, and gates the structure per historical version instead of by a global
+  upstream config flag. Each ported file's header names the upstream file it came from.
+- The MIT permission notice requires the copyright notice and permission notice to be included in copies. The
+  upstream repository does not state a copyright line; the closest verifiable statement of authorship is
+  `mod_authors=MaxTechnik` in `gradle.properties`, which is recorded here in place of an invented notice:
+
+  > OldVillages, by MaxTechnik (https://github.com/MaxTechnik3796/old_villages). Licensed under the MIT Licence as
+  > declared in the project's `gradle.properties`.
+  >
+  > Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+  > documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+  > the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
+  > to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+  >
+  > The above copyright notice and this permission notice shall be included in all copies or substantial portions of
+  > the Software.
+  >
+  > THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+  > THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  > AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+  > CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+  > DEALINGS IN THE SOFTWARE.
+
+## Moderner Beta — MIT — two data files copied; otherwise a linked dependency
+
+- **Source:** https://github.com/BlueStaggo/moderner-beta
+- **Copyright:** Copyright (c) 2024-2025 BlueStaggo, 2021 B3spectacled
+- **Licence:** MIT
+- **Pinned artefact:** `5.0.0-alpha.4+1.21.1-fabric` (dependency); research also pins the 26.3-line tag
+  `5.0.0-alpha.4`, revision `95f3da6c3f23e7e128b319e5c721201ed4c17243`
+- Moderner Beta is the terrain authority for this project and is used as an **external linked dependency**. No
+  Moderner Beta source code, texture or audio is included.
+- **One data file is carried from upstream, re-homed under this project's namespace** so the reduced level
+  envelope applies per historical world instead of globally:
+  - `resourcepacks/reduced_height/data/minecraft/dimension_type/overworld.json` →
+    `src/main/resources/data/historical_experience/dimension_type/beta_1_7_3_overworld.json`
+- An earlier revision of this notice also listed a copied `worldgen/noise_settings/overworld_128.json`. **That
+  file is no longer present** (`src/main/resources/data/historical_experience/worldgen/noise_settings/` does not
+  exist at this revision), and the notice is corrected rather than left claiming a file the project does not
+  ship.
+- The 1.21.1 backport reads four noise envelope fields (`min_y`, `height`, `size_horizontal`, `size_vertical`)
+  through the supported settings component instead of carrying a copied noise-settings document. It carries no
+  copied noise router, density-function database or terrain implementation.
+- The MIT permission notice below covers the whole of Moderner Beta, including the data and envelope adaptations.
+
+  > Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+  > documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+  > the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
+  > to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+  >
+  > The above copyright notice and this permission notice shall be included in all copies or substantial portions of
+  > the Software.
+  >
+  > THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+  > THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  > AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+  > CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+  > DEALINGS IN THE SOFTWARE.
+
+## GitHub CLI (`tools/`) — MIT — a bundled binary
+
+`tools/bin/gh.exe` and `tools/gh.zip` are a copy of GitHub's `gh` command-line tool, committed to this
+repository for offline use. They are **not** part of the mod or its JAR; they are developer tooling.
+
+- Copyright (c) 2019 GitHub Inc. — MIT Licence (`tools/LICENSE`)
 
 ## Minecraft
 
-Minecraft remains an external, user-owned runtime. No Minecraft jar, class, decompiled source, texture or audio is included in this checkpoint. Research records identifiers, numeric behavioral facts, hashes and references only. Test worlds and legal acceptance files remain local and are excluded from the archive.
+Minecraft is an external, user-owned runtime and is not distributed by this project. No Minecraft JAR, class,
+decompiled source, texture or audio is included. Research records identifiers, numeric behavioural facts, hashes
+and references only. Minecraft's own EULA governs the game itself, not this project's code.
 
-## Nostalgic Tweaks - LGPL-3.0 (project-owner decision on record)
+## j-w-i Flashback fork — all rights reserved — not redistributed
 
-Source: https://github.com/Better-Than-Adventure/Nostalgic-Tweaks (audited in 
-esearch/nostalgic-tweaks-audit.json,
-489 tweaks catalogued: 384 client, 91 server, 105 enforcement-relevant).
+**https://github.com/j-w-i/Flashback**, revision `076b96b9fa400212d3d75fa2239d0f3836cf085b`, version `0.43.6.1`.
+Its `LICENSE.md` states "Do not redistribute. All rights reserved." **No fork JAR, class, asset or
+implementation is included in this repository or in any release artefact.** A git-ignored local checkout may be
+built and tested in a project-local instance; that is not redistribution. See
+[`docs/FLASHBACK_COMPATIBILITY.md`](docs/FLASHBACK_COMPATIBILITY.md).
 
-**Licence status and the decision.** The audit records the licence as LGPLv3 supplement text with the
-only/or-later election UNRESOLVED, and its interim posture was to copy nothing. On 2026-10-13 the project
-owner directed that the licence be disregarded for this private project and that implementations be
-adapted from the upstream catalogue, accepting responsibility for any consequences. That decision is
-recorded here rather than acted on silently, because it changes this project's obligations: **LGPL-3.0 is
-weak copyleft, so any code adapted from it must keep its attribution and, if this project is ever
-distributed, the derived portions carry LGPL-3.0 terms.** Each adaptation below names what it was taken
-from so the obligation can be honoured later.
+## Resource packs used by the historical texture system — not bundled, not redistributed
 
-| adapted into | upstream tweak | notes |
+The automatic historical texture system layers three third-party resource packs and Minecraft's built-in
+Programmer Art. **None of them, and none of their files, is included in this repository or in the mod JAR**; a
+test (`NoBundledPackAssetsTest`) fails if a pack archive or a Minecraft-namespace texture is ever added to the
+mod's resources.
+
+| Pack | Author | Licence (per Modrinth) | Where it comes from |
+| --- | --- | --- | --- |
+| Programmer Art Continuation Project (Base 2.5.4) | mzovjn / mzov | All Rights Reserved | https://modrinth.com/resourcepack/pacp |
+| Golden Days Base 16.5 | PoeticRainbow | All Rights Reserved | https://modrinth.com/resourcepack/golden-days |
+| Golden Days Alpha 16.5 | PoeticRainbow | All Rights Reserved | https://modrinth.com/resourcepack/golden-days-alpha |
+| Programmer Art | Mojang Studios | Minecraft EULA | built into the game |
+
+The packs are fetched **on the player's own machine**, from Modrinth's CDN, at exact pinned versions verified
+against a fixed SHA-512, only after the setup screen has named the source and the player has chosen to download
+(or has stored that choice in the config). They are kept in the mod's own folder
+(`<game dir>/historical_experience/texture_packs/`), not in the player's resource-pack folder, and are never
+modified: every read is read-only. Players who already have the packs are detected by content and nothing is
+downloaded. The authors' own distribution terms govern the downloaded files; this project only reads them in the
+player's game. Where the research notes compare pack art with original game art, the comparison was done in
+memory and no image was saved.
+
+## Linked build and runtime dependencies — no notice required
+
+These are resolved by Gradle or supplied by the player's own instance. Their source is not copied into this
+repository, and under LGPL-3.0 section 4(d)(1) they are used through a mechanism where the recipient already
+has the library and can replace it, so their full licence texts are deliberately **not** reproduced here:
+
+| Dependency | Role | Licence |
 | --- | --- | --- |
-| HudHistoricalHungerBarMixin (client) | HIDE_HUNGER_BAR | behaviour re-implemented against 26.3's Hud.extractFood; no upstream code copied |
-| LocalPlayerHistoricalSprintMixin (client) | DISABLE_SPRINT | behaviour from this project's own server-side rule, extended to the client |
-| HistoricalFoodRules direct healing | CUSTOM_FOOD_HEALTH | pre-existing, independently verified from the Beta 1.7.3 client |
-| HudHistoricalBarLayoutMixin (client) | HIDE_HUNGER_BAR layout compensation | the 10-pixel row offset and the intent are upstream; implementation is against 26.3 |
-| RangedBowAttackGoalHistoricalMixin | DISABLE_SKELETON_STRAFING | logic ported from abric/.../mob_ai/RangedBowAttackGoalMixin.java, gate changed from a global flag to the world version |
-| MobHistoricalItemPickupMixin | DISABLE_MONSTER_ITEM_PICKUP | ported from mixin/tweak/gameplay/monster_rule/MobMixin.java |
-| AnimalHistoricalBreedingMixin | DISABLE_ANIMAL_BREEDING | ported from mixin/tweak/gameplay/animal_spawn/AnimalMixin.java (the isFood expression only) |
+| Fabric Loader | mod loader, runtime | Apache-2.0 |
+| Fabric API | runtime dependency | Apache-2.0 |
+| Moderner Beta | runtime dependency (see above for the one copied data file) | MIT |
+| Mod Menu | optional, compile-only, `suggests` in `fabric.mod.json` | MIT |
+| JUnit 5 | test only, not distributed | EPL-2.0 |
+| Minecraft, Mojang mappings | provided by the player's installation | Minecraft EULA |
 
-Upstream is used as a CHECKLIST of what to change and when; where its code is adapted directly, the file
-header will say so and name the upstream file.
+## What this project does *not* distribute
 
-## Nostalgic Tweaks — owner direction to port directly, 2026-10-13
+Recorded so the notices above are not read as broader than they are. None of the following is in this repository
+or in any release artefact, and a test (`NoBundledPackAssetsTest`) fails if pack assets appear in the mod's
+resources:
 
-On 2026-10-13 the project owner gave a further, explicit direction for the 1.21.1 port: **copy the
-Nostalgic Tweaks implementations directly and apply them per historical version**, using
-`research/feature-timeline.json` to decide which versions each behaviour belongs to, rather than
-re-deriving every behaviour from scratch. That supersedes the earlier "copy nothing pending review"
-interim posture for this private project, and the owner accepted responsibility for the consequences.
-The obligation below therefore applies to the ported code and must be honoured if this project is ever
-distributed.
-
-The audited catalogue is `research/nostalgic-tweaks-candidates.json` (489 tweaks on the audited branch:
-384 client, 91 server, 14 dynamic). The audit's own licence finding stands as a recorded fact: the branch's
-licence election could not be established from the shipped text, so the derived portions carry
-**LGPL-3.0** terms and attribution, not MIT. Every ported file names the upstream file it came from.
-
-
-## Legacy-Nether (Nostalgica-Reverie)
-
-- Source: https://codeberg.org/Nostalgica-Reverie/Legacy-Nether
-- Pinned checkout: `.upstream/legacy-nether` (gitignored)
-- Licence: **CC BY-SA 4.0** (Creative Commons Attribution-ShareAlike 4.0 International)
-- Ported by: `scripts/port-legacy-nether.py`, re-runnable
-- Ported into: `src/main/resources/data/historical_experience/worldgen/biome/`
-
-Upstream file `data/minecraft/worldgen/biome/nether_wastes.json` is ported as
-`legacy_nether_wastes.json` and `legacy_nether_wastes_quartz.json`. Every field is upstream's, unchanged, except
-that the quartz variant is the original and the plain variant has `minecraft:ore_quartz_nether` removed from its
-feature list: nether quartz is Release 1.5 content, and this project must not place it before then. The world-preset
-generator picks between the two by chronology.
-
-Upstream's `data/minecraft/dimension/the_nether.json` was NOT ported, because this project already composes the same
-dimension - a fixed `nether_wastes` biome source with vanilla `minecraft:nether` settings - into
-`historical_experience` world presets. Its `data/minecraft/tags/worldgen/biome/has_structure/` entries (bastion
-remnant and the ruined portals) were also NOT ported: they empty a `minecraft:` tag, which would change every world
-including ordinary ones. This project suppresses those structures per version in `HistoricalStructureRules`, which is
-version-aware and already covers them.
-
-Share-alike: modifications to the ported biome - the single quartz removal - are documented above and in the port
-script, and the ports remain under CC BY-SA 4.0.
-
-## Old chest and ender chest assets (added 2026-10-14, owner-authorised)
-
-`src/main/resources/assets/historical_experience/blockstates/`, `models/block/`, `models/item/` and
-`textures/block/*chest*.png` (52 files) are copied from Nostalgic Tweaks
-`common/src/main/resources/assets/nostalgic_tweaks/` — the same source this project already ports code from
-(LGPL-3.0; see the section above) — at the owner's direction: *"old chest and ender chest SHOULD be somewhere in
-the NT mod"*. Every reference was rewritten from the `nostalgic_tweaks:` namespace to `historical_experience:`; no
-other edit was made to them.
-
-**What these files actually are, stated plainly.** They are **Minecraft's own chest and ender chest block art**,
-from the era when a chest was a plain cube rather than an animated entity model (the model was redone in the Beta 1.8
-Pre-release). Nostalgic Tweaks ships them so that a modern client can draw the old appearance. They are therefore
-**Mojang-derived art, not Nostalgic Tweaks' own work**, and the LGPL grant NT offers over its source is not NT's to
-give for them.
-
-This is recorded rather than quietly done, because the paragraph above previously said no Minecraft texture was
-included in this checkout and that is no longer true. The owner authorised their use for this personal backport; if
-this project is ever distributed, these files are the ones to re-examine first, and the safe alternative is to draw
-the old chest with our own art or to reference the textures the client already ships.
-
-The model JSON was also corrected here for a modern client: NT's `models/block/chest.json` uses
-`minecraft:block/cube` as its parent, which still resolves, so no structural change was needed beyond the namespace.
+- Minecraft itself, or any Minecraft class, texture, sound or other asset.
+- The Flashback fork, whose licence prohibits redistribution.
+- The Golden Days, Golden Days Alpha or Programmer Art Continuation Project resource packs.
+- Moderner Beta's source, textures or audio.
+- Nostalgic Tweaks' own JAR, or its NeoForge and Architectury build files.
+- Legacy-Nether biome data. It was ported once and then removed by commit `505a5fd`; the directory is empty.

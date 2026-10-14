@@ -1,3 +1,20 @@
+/*
+ * Minecraft Historical Experience
+ * Copyright (C) 2026 Minecraft Historical Experience contributors
+ *
+ * This program is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License along with
+ * this program. If not, see <https://www.gnu.org/licenses/>.
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
 package net.historicalexperience.client;
 
 import net.fabricmc.api.ClientModInitializer;
@@ -43,11 +60,23 @@ public final class HistoricalExperienceClient implements ClientModInitializer {
         net.historicalexperience.client.version.ManageWorldHistoricalVersion.register();
         // Gated on a system property; inert unless a verification run asks for it.
         net.historicalexperience.client.version.ScreenProbe.register();
+        NtVisualProbe.register();
+        NtStarsProbe.register();
 
         // The old lighting engine follows the sky: it re-lights a few sections a tick as the time of day moves, so it
         // needs a heartbeat. Cheap when no old mode is active - the mode is cached and the method returns early.
         net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.START_CLIENT_TICK.register(
             net.historicalexperience.client.lighting.HistoricalOldLighting::onTick);
+        net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.START_CLIENT_TICK.register(
+            net.historicalexperience.client.lighting.HistoricalStars::onTick);
+
+        // Historical textures: keep the resource layer in step with the world (one comparison covers joining, leaving,
+        // a version push, a committed upgrade and the config toggle), and show the first-run setup once.
+        net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.START_CLIENT_TICK.register(
+            net.historicalexperience.client.textures.HistoricalTextureService::tick);
+        net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.START_CLIENT_TICK.register(
+            net.historicalexperience.client.textures.TextureFirstRun::tick);
+        net.historicalexperience.client.textures.TexturesProbe.register();
 
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
             HistoricalClientRules.clearSyncedVersion();

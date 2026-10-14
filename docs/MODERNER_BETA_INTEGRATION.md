@@ -33,6 +33,12 @@ Canonical remote is Codeberg (`fabric.mod.json` `sources`); GitHub is the mirror
 `55519d1`. Provenance flag for ADR: `README.md` L61 credits a Nintendo Switch Edition decompilation as an LCE
 reference — it does not touch the Beta presets, but should be recorded.
 
+*Historical note (2026-10-14):* older Moderner Beta was LGPLv3 **up to and including** commit `55519d1`, so do not
+read the pinned `5.0.0-alpha.4+1.21.1-fabric` artefact's MIT licence as covering those earlier revisions. This
+project copies exactly one Moderner Beta data file (`dimension_type/beta_1_7_3_overworld.json`) from the pinned
+artefact, whose licence is MIT; the copied file and the MIT text are recorded in
+[THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md) and [PROVENANCE.md](PROVENANCE.md).
+
 **Target:** Fabric/Quilt, MC `26.3.x`, Java 25, loader `>=0.16.0` (mod pins `0.19.3`), `fabric-api: "*"` (mod pins
 `0.160.4+26.3`). Verified present: java `25.0.4.1+1-LTS` on this host; 26.3 is Mojang's current release; Fabric meta
 lists loaders to `0.19.5` for 26.3; both `fabric-api-0.160.4+26.3.jar` (2,587,950 B) and `0.161.0+26.3.jar`
