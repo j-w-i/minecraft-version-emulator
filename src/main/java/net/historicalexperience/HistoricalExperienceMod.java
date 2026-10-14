@@ -52,5 +52,7 @@ public final class HistoricalExperienceMod implements ModInitializer {
         // Two things older versions did that the modern game does not: a hoe throwing seeds off grass (gone in
         // Beta 1.6 Test Build 3) and a punch priming TNT (gone in Beta 1.7).
         net.historicalexperience.gameplay.HistoricalFarmingInteractionEvents.register();
+        // Doors, levers and buttons were operated with a LEFT click until Release 1.4.2.
+        net.historicalexperience.gameplay.HistoricalLeftClickEvents.register();
     }
 }

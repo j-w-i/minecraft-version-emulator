@@ -62,6 +62,7 @@ public final class HistoricalWorldTweaks {
     private static final String CLOUD_KEY = "oldCloudHeight";
     private static final String ITEM_2D_KEY = "old2dItems";
     private static final String RECIPE_BOOK_KEY = "disableRecipeBook";
+    private static final String SKY_KEY = "oldUniversalSky";
 
     /** Beta 1.8 Pre-release raised the clouds and replaced the item model. */
     private static final String FIRST_NEW_LIGHTING_BUILD = "historical_experience:beta_1_8_1";
@@ -174,5 +175,118 @@ public final class HistoricalWorldTweaks {
     public static boolean setRecipeBookDisabled(boolean enabled) {
         write(RECIPE_BOOK_KEY, enabled);
         return true;
+    }
+
+    // ---- Universal sky colour: which flat colour the era's sky used ---------------------------------------
+
+    /**
+     * The old uniform sky colours, ported from Nostalgic Tweaks {@code SkyHelper.getOldColor} and its
+     * {@code SkyColor} enum (LGPL-3.0; see THIRD_PARTY_NOTICES.md). Upstream exposes these as a menu of five eras;
+     * here the WORLD'S VERSION picks the era, which is the owner's instruction: alpha sky on alpha versions, beta
+     * sky on beta versions below 1.8, the modern (unmodified) sky from the releases.
+     *
+     * <p>The two earliest values are carried for completeness even though no declared version is that old - the
+     * oldest is Infdev 20100420, which is after Classic and after most of Infdev:
+     * <ul>
+     *   <li>{@code 0xA6D1FE} Classic, from the enum's own note.</li>
+     *   <li>{@code 0xC6DEFF} Infdev, from the enum's own note.</li>
+     *   <li>{@code 0x8BBDFF} Alpha, which is the value for every declared alpha build.</li>
+     *   <li>{@code 0x97A3FF} Beta. The enum notes that the beta sky actually <i>"changed depending on the
+     *       temperature of the biome"</i>, and this flat colour is the value upstream substitutes for it; it applies
+     *       to every declared beta build below Beta 1.8.</li>
+     * </ul>
+     *
+     * <p>No release profile gets a substitute: the owner's rule is that Release 1.0.0 onwards uses the modern sky,
+     * which is what the game already draws.
+     */
+    private static final int SKY_CLASSIC = 0xA6D1FE;
+    private static final int SKY_INFDEV = 0xC6DEFF;
+    private static final int SKY_ALPHA = 0x8BBDFF;
+    private static final int SKY_BETA = 0x97A3FF;
+
+    /** The Nether's old sky: from {@code SkyHelper.getOldColor}'s nether branch. Public so a test can pin it. */
+    public static final int NETHER_SKY_COLOUR = 0x210505;
+
+    /** True while a beta-era sky should be substituted, which is every beta build below Beta 1.8. */
+    private static final String FIRST_BETA_BUILD = "historical_experience:beta_1_0";
+
+    /** The first build whose sky is the modern one: the releases, and Beta 1.8.1 onwards. */
+    private static final String FIRST_RELEASE_BUILD = "historical_experience:release_1_0_0";
+
+    /**
+     * The era's flat sky colour for this version, or {@code null} when the game's own sky colour should be kept.
+     *
+     * <p>Pure and version-keyed so the boundary can be tested without a client. The decision uses the declared
+     * CHRONOLOGY rather than name matching, so a profile is placed by when it is and not by what it is called - the
+     * registry's own ordering is already the thing every other gate trusts.
+     *
+     * <p>The owner's rule, applied in order: <b>alpha versions get the alpha sky, beta versions get the beta sky,
+     * and the releases get the modern sky.</b> Beta 1.8 and the Beta 1.9 prereleases are beta by name but already
+     * have the rewritten sky, so they are placed with the releases - which is the same boundary the cloud height,
+     * the lighting engine and the shading all use.
+     */
+    public static Integer eraSkyColour(HistoricalVersion version) {
+        if (version == null) {
+            return null;
+        }
+        HistoricalVersion infdev = HistoricalVersions.byId("historical_experience:infdev_420").orElse(null);
+        HistoricalVersion alpha = HistoricalVersions.byId("historical_experience:alpha_1_0_1").orElse(null);
+        HistoricalVersion beta = HistoricalVersions.byId(FIRST_BETA_BUILD).orElse(null);
+        HistoricalVersion newLighting = HistoricalVersions.byId(FIRST_NEW_LIGHTING_BUILD).orElse(null);
+        if (infdev == null || alpha == null || beta == null || newLighting == null) {
+            // A registry that cannot resolve its own boundary constants must not guess a colour.
+            return null;
+        }
+        int when = version.chronology();
+        if (when < infdev.chronology()) {
+            return SKY_CLASSIC;
+        }
+        if (when < alpha.chronology()) {
+            return SKY_INFDEV;
+        }
+        if (when < beta.chronology()) {
+            return SKY_ALPHA;
+        }
+        if (when < newLighting.chronology()) {
+            return SKY_BETA;
+        }
+        return null;
+    }
+
+    /** The colour the sky should be drawn in for the client's current version, or {@code null} to leave it alone. */
+    public static Integer skyColourOverride() {
+        HistoricalVersion version = HistoricalClientRules.activeVersion();
+        if (!availableForSkyColour(version) || !read(SKY_KEY, true)) {
+            return null;
+        }
+        return eraSkyColour(version);
+    }
+
+    /** Whether this version has an era sky colour at all, which is every build before Beta 1.8.1. */
+    public static boolean availableForSkyColour(HistoricalVersion version) {
+        return eraSkyColour(version) != null;
+    }
+
+    public static boolean setOldSkyColour(boolean enabled) {
+        if (enabled && !availableForSkyColour(HistoricalClientRules.activeVersion())) {
+            return false;
+        }
+        write(SKY_KEY, enabled);
+        return true;
+    }
+
+    /**
+     * The Nether's old sky colour: {@code 0x210505}, from {@code SkyHelper.getOldColor}'s nether branch, or
+     * {@code null} outside the window.
+     *
+     * <p>The Nether arrived in Alpha v1.2.0, so it has no sky in the declared Infdev builds and its colour belongs
+     * to the alpha, beta and early-release ones.
+     */
+    public static Integer netherSkyColour() {
+        HistoricalVersion version = HistoricalClientRules.activeVersion();
+        if (!availableForSkyColour(version) || !read(SKY_KEY, true)) {
+            return null;
+        }
+        return NETHER_SKY_COLOUR;
     }
 }

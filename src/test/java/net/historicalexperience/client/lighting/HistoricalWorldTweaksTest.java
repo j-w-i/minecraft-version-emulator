@@ -1,6 +1,8 @@
 package net.historicalexperience.client.lighting;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import net.historicalexperience.version.HistoricalVersion;
@@ -78,5 +80,45 @@ class HistoricalWorldTweaksTest {
         assertFalse(HistoricalWorldTweaks.recipeBookDisabled());
         assertFalse(HistoricalLightingTweaks.oldLeavesLighting());
         assertFalse(HistoricalLightingTweaks.oldWaterLighting());
+    }
+
+    @Test
+    @DisplayName("the sky is the era's colour: alpha for alpha, beta for beta below 1.8, nothing from the releases")
+    void eraSkyColour() {
+        assertEquals(Integer.valueOf(0x8BBDFF), HistoricalWorldTweaks.eraSkyColour(at("historical_experience:alpha_1_0_1")));
+        assertEquals(Integer.valueOf(0x8BBDFF), HistoricalWorldTweaks.eraSkyColour(at("historical_experience:alpha_1_1_0")));
+        assertEquals(Integer.valueOf(0x8BBDFF), HistoricalWorldTweaks.eraSkyColour(at("historical_experience:alpha_1_2_0")));
+        assertEquals(Integer.valueOf(0x97A3FF), HistoricalWorldTweaks.eraSkyColour(at("historical_experience:beta_1_0")));
+        assertEquals(Integer.valueOf(0x97A3FF), HistoricalWorldTweaks.eraSkyColour(at("historical_experience:beta_1_7_3")));
+        // Beta by name, but the sky was rewritten there, so it takes the modern sky with the releases.
+        assertNull(HistoricalWorldTweaks.eraSkyColour(at("historical_experience:beta_1_8_1")));
+        assertNull(HistoricalWorldTweaks.eraSkyColour(at("historical_experience:beta_1_9_pre_3")));
+        assertNull(HistoricalWorldTweaks.eraSkyColour(at("historical_experience:release_1_0_0")));
+        assertNull(HistoricalWorldTweaks.eraSkyColour(at("historical_experience:release_1_6_4")));
+        // The Infdev builds predate the alpha sky and have their own value.
+        assertEquals(Integer.valueOf(0xC6DEFF), HistoricalWorldTweaks.eraSkyColour(at("historical_experience:infdev_420")));
+        assertNull(HistoricalWorldTweaks.eraSkyColour(null), "unknown is not 'yes'");
+        // And the Nether colour is a different value, from upstream's nether branch.
+        assertEquals(0x210505, HistoricalWorldTweaks.NETHER_SKY_COLOUR);
+    }
+
+    @Test
+    @DisplayName("left-click activation holds until Release 1.4.2, so it stops at the Release 1.5 profile")
+    void leftClickActivation() {
+        assertTrue(net.historicalexperience.gameplay.HistoricalLeftClickEvents
+            .availableFor(at("historical_experience:alpha_1_0_1")));
+        assertTrue(net.historicalexperience.gameplay.HistoricalLeftClickEvents
+            .availableFor(at("historical_experience:beta_1_7_3")));
+        assertTrue(net.historicalexperience.gameplay.HistoricalLeftClickEvents
+            .availableFor(at("historical_experience:release_1_0_0")));
+        assertTrue(net.historicalexperience.gameplay.HistoricalLeftClickEvents
+            .availableFor(at("historical_experience:release_1_4")),
+            "Release 1.4 and 1.4.1 still had left-click activation; it went in 1.4.2");
+        assertFalse(net.historicalexperience.gameplay.HistoricalLeftClickEvents
+            .availableFor(at("historical_experience:release_1_5")),
+            "Release 1.5 is after 1.4.2, so left-click activation is gone");
+        assertFalse(net.historicalexperience.gameplay.HistoricalLeftClickEvents
+            .availableFor(at("historical_experience:release_1_6_4")));
+        assertFalse(net.historicalexperience.gameplay.HistoricalLeftClickEvents.availableFor(null));
     }
 }
