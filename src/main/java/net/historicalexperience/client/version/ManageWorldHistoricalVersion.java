@@ -39,8 +39,8 @@ import net.minecraft.world.level.storage.LevelSummary;
  */
 public final class ManageWorldHistoricalVersion {
     private static final String MARKER = "Historical Version";
-    private static final int BUTTON_WIDTH = 200;
-    private static final int MARGIN = 16;
+    private static final int BUTTON_WIDTH = 308;
+    private static final int ROW_HEIGHT = 24;
 
     private ManageWorldHistoricalVersion() {
     }
@@ -52,23 +52,25 @@ public final class ManageWorldHistoricalVersion {
                 return;
             }
 
-            // The world list is re-initialised every time a sub-screen closes, and an added widget can survive
-            // that, so adding blindly puts a second button on top of the first - which is what the create-world
-            // screen did before this check existed.
-            if (existingButton(screen) != null) {
-                return;
+            // Reserve another footer row by shrinking the actual scrolling/hit-test area, not by drawing over it.
+            // Vanilla rebuilds this list on init/resize, so this adjustment is applied once to each new list.
+            WorldSelectionList list = screen.children().stream()
+                .filter(WorldSelectionList.class::isInstance)
+                .map(WorldSelectionList.class::cast).findFirst().orElseThrow();
+            list.updateSizeAndPosition(list.getWidth(), list.getHeight() - ROW_HEIGHT, list.getY());
+
+            Button button = existingButton(screen);
+            if (button == null) {
+                button = Button.builder(Component.literal(MARKER + "..."),
+                    pressed -> open(selectWorldScreen, client)).width(BUTTON_WIDTH).build();
+                Screens.getButtons(screen).add(button);
+                Button managedButton = button;
+                ScreenEvents.beforeRender(screen).register((current, graphics, mouseX, mouseY, delta) ->
+                    managedButton.active = selectedEntry(selectWorldScreen).isPresent());
             }
-
-            // Bottom left, matching the create-world screen: the search box owns the top right of this screen, and
-            // the footer's buttons are centred, so this corner is free - but it must be ABOVE the footer separator,
-            // not on it. height - 52 put the create-world button straight through that line.
-            Button button = Button.builder(Component.literal(MARKER + "..."),
-                    pressed -> open(selectWorldScreen, client))
-                .pos(MARGIN, height - 60 - 30)
-                .width(BUTTON_WIDTH)
-                .build();
-
-            Screens.getButtons(screen).add(button);
+            // Same width, centre and four-pixel row spacing as vanilla's two footer rows.
+            button.setPosition((width - BUTTON_WIDTH) / 2, height - 76);
+            button.active = selectedEntry(selectWorldScreen).isPresent();
         });
     }
 

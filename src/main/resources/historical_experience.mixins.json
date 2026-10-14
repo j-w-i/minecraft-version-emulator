@@ -85,6 +85,7 @@
     "HumanoidArmorLayerHistoricalTintMixin",
     "MinecraftHistoricalInstantEatMixin",
     "WorldListEntryAccessor",
+    "CreateWorldHistoricalFooterMixin",
     "LocalPlayerHistoricalSneakingMixin",
     "InventoryScreenHistoricalOffhandMixin",
     "SlotPositionMixin"

@@ -1,4 +1,14 @@
-# Persistent project status — 2026-10-13 (14) / the Nostalgic Tweaks worklist: nine of ten in, one held on evidence
+# Persistent project status — 2026-10-14 / integrated historical-version UI
+
+## UI repair — historical-version buttons no longer float over screen content
+
+- Create World: replaced the fixed bottom-left overlay with a real vertical footer layout containing the historical-version row and vanilla's original horizontal Create/Cancel row. Footer height is reserved through vanilla's own HeaderAndFooterLayout, so the separator and tab content account for the extra row and resizing follows the native layout.
+- Select World: historical version occupies a centred 308-pixel footer row matching vanilla's controls. The actual world-list viewport (including scrolling, separator and hit testing) is shortened by 24 pixels to reserve that row. The action is disabled until a world is selected.
+- No generation, upgrade service or world-storage behaviour changed.
+- Reproducible menu-only verification: `./gradlew.bat runClientQuickPlay -PscreenLayoutProbe --console=plain`. Opens no save; captures both host screens, all three creation tabs and return-to-screen at GUI scales 1/2/3 in a 960x720 window, logs visible-widget overlap/bounds/duplicate checks to `run/client/logs/screen-probe.json`, and exits gracefully. Screenshots are under `run/client/screenshots/hex-layout-*.png`.
+- Initial build: `./gradlew.bat build --console=plain`, exit 0; **376 tests, 0 failures**. Initial 854x480 client probe: exit 0, all nine host/return layout checks passed (GUI 3 was clamped to 2 by vanilla at this window size). Final 960x720 client probe: exit 0; **15/15 checks passed**, exactly one historical button and zero overlaps/out-of-bounds at effective GUI sizes 960x720, 480x360 and 320x240. Visually reviewed the compact World tab and Select World screenshots. Final artifact: `build/libs/historical-experience-1211-0.1.0.jar`. No external launcher instance was modified.
+
+# Previous milestone — 2026-10-13 (14) / the Nostalgic Tweaks worklist: nine of ten in, one held on evidence
 
 ## Round 79 — the owner's ten-item NT list, worked through
 

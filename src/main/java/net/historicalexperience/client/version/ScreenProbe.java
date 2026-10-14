@@ -67,6 +67,10 @@ public final class ScreenProbe {
 
     private static void drive(Minecraft client, net.minecraft.client.gui.screens.Screen firstScreen) {
         try {
+            if (Boolean.getBoolean(PROPERTY + ".layoutOnly")) {
+                driveLayouts(client);
+                return;
+            }
             // Wait for the world, so the photographs are of screens drawn over a loaded game rather than of a
             // loading screen mid-fade. Bounded, so a run that never reaches a world still photographs the menus.
             for (int waited = 0; waited < 60 && client.level == null; waited++) {
@@ -107,7 +111,77 @@ public final class ScreenProbe {
             note("probe failed: " + failure);
         } finally {
             writeVerdict(client);
+            if (Boolean.getBoolean(PROPERTY + ".layoutOnly")) {
+                client.execute(client::stop);
+            }
         }
+    }
+
+    /** Menu-only regression run: never opens or writes a save. */
+    private static void driveLayouts(Minecraft client) throws InterruptedException {
+        Thread.sleep(6000);
+        int originalScale = client.options.guiScale().get();
+        try {
+            for (int scale : new int[] {1, 2, 3}) {
+                onClientThread(client, () -> {
+                    client.options.guiScale().set(scale);
+                    client.resizeDisplay();
+                    client.setScreen(new SelectWorldScreen(new TitleScreen()));
+                });
+                Thread.sleep(2200);
+                checkLayout(client, "select-world-scale-" + scale);
+                capture(client, "layout-select-world-scale-" + scale);
+
+                onClientThread(client, () -> net.minecraft.client.gui.screens.worldselection.CreateWorldScreen
+                    .openFresh(client, new TitleScreen()));
+                Thread.sleep(4000);
+                checkLayout(client, "create-world-scale-" + scale);
+                capture(client, "layout-create-world-scale-" + scale);
+                for (int tab : new int[] {1, 2}) {
+                    onClientThread(client, () -> client.screen.children().stream()
+                        .filter(net.minecraft.client.gui.components.tabs.TabNavigationBar.class::isInstance)
+                        .map(net.minecraft.client.gui.components.tabs.TabNavigationBar.class::cast)
+                        .findFirst().orElseThrow().selectTab(tab, false));
+                    Thread.sleep(500);
+                    checkLayout(client, "create-world-tab-" + tab + "-scale-" + scale);
+                    capture(client, "layout-create-world-tab-" + tab + "-scale-" + scale);
+                }
+                // Returning from the picker invokes init again; verify no duplicate or misplaced footer rows.
+                onClientThread(client, () -> client.setScreen(client.screen));
+                Thread.sleep(800);
+                checkLayout(client, "create-world-return-scale-" + scale);
+            }
+        } finally {
+            onClientThread(client, () -> client.options.guiScale().set(originalScale));
+        }
+    }
+
+    private static void checkLayout(Minecraft client, String label) {
+        onClientThread(client, () -> {
+            var screen = client.screen;
+            var widgets = screen.children().stream()
+                .filter(net.minecraft.client.gui.components.AbstractWidget.class::isInstance)
+                .map(net.minecraft.client.gui.components.AbstractWidget.class::cast)
+                .filter(widget -> widget.visible).toList();
+            var historical = widgets.stream().filter(widget ->
+                widget.getMessage().getString().startsWith("Historical Version")).toList();
+            int failures = historical.size() == 1 ? 0 : 1;
+            for (var button : historical) {
+                if (button.getX() < 0 || button.getY() < 0
+                        || button.getRight() > screen.width || button.getBottom() > screen.height) {
+                    failures++;
+                }
+                for (var other : widgets) {
+                    if (other != button && button.getX() < other.getRight() && button.getRight() > other.getX()
+                            && button.getY() < other.getBottom() && button.getBottom() > other.getY()) {
+                        failures++;
+                        note("OVERLAP " + label + ": " + other.getClass().getSimpleName());
+                    }
+                }
+            }
+            note((failures == 0 ? "PASS " : "FAIL ") + label + " " + screen.width + "x" + screen.height
+                + " historical buttons=" + historical.size() + " failures=" + failures);
+        });
     }
 
     private static void photograph(Minecraft client, net.minecraft.client.gui.screens.Screen lastScreen,
@@ -134,8 +208,7 @@ public final class ScreenProbe {
 
     private static void capture(Minecraft client, String label) throws InterruptedException {
         onClientThread(client, () -> {
-            File directory = new File(client.gameDirectory, "screenshots");
-            Screenshot.grab(directory, "hex-" + label + ".png", client.getMainRenderTarget(),
+            Screenshot.grab(client.gameDirectory, "hex-" + label + ".png", client.getMainRenderTarget(),
                 message -> note("captured " + label + ": " + message.getString()));
         });
 

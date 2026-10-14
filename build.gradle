@@ -97,9 +97,14 @@ loom {
             client()
             configName = 'Client Quick Play'
             runDir 'run/client'
-            programArgs '--quickPlaySingleplayer',
-                (project.findProperty('quickPlayWorld') ?: 'hexflash')
-            if (project.hasProperty('screenProbe')) {
+            if (!project.hasProperty('screenLayoutProbe')) {
+                programArgs '--quickPlaySingleplayer',
+                    (project.findProperty('quickPlayWorld') ?: 'hexflash')
+            } else {
+                programArgs '--width', '960', '--height', '720'
+                vmArg '-Dhistorical_experience.screenProbe.layoutOnly=true'
+            }
+            if (project.hasProperty('screenProbe') || project.hasProperty('screenLayoutProbe')) {
                 // Opens the version screens, photographs them at several GUI scales, and writes a verdict. Gated
                 // like the server's generation probe: the mod does nothing extra unless this is set.
                 vmArg '-Dhistorical_experience.screenProbe=true'
