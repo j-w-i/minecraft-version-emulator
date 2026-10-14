@@ -1,4 +1,136 @@
-# Persistent project status — 2026-10-14 / integrated historical-version UI
+# Current feature — 2026-10-14 / automatic historical textures (Programmer Art + Continuation + Golden Days)
+
+Goal `goal-341dba9d…` is active. **Target note:** the brief says Minecraft 26.3; this repository's only target is 1.21.1
+(AGENTS.md: the 26.3 tree was deleted at the owner's instruction), so all of this was built and verified on 1.21.1.
+Research, mappings, boundary evidence and provenance: `research/historical-textures.md`.
+
+**What exists (all under `net.historicalexperience.client.textures`, plus one mixin):**
+
+* `HistoricalTextureRules` / `TexturePlan` / `AssetRule` / `VersionWindow` / `TextureSource`: the pure, tested policy. The
+  stack is a function of the registry's chronology key (never of names); per-asset rules (XP bar pinned away from Golden Days,
+  cobblestone Golden Days through Beta 1.6 then Programmer Art) express exclusion, preference, vanilla pin and mcmeta-follows-image.
+* `PackRepositoryHistoricalTexturesMixin` + `HistoricalTexturePackResources`: the whole integration. One synthetic pack is
+  appended to `PackRepository.openAllSelected()` for the client's own repository; the selected list and `options.txt` are
+  never touched, and it outranks user packs only for the resources the plan defines.
+* `PackScanner` / `PackClassifier` / `PackFiles`: detection by metadata + namespaces + credits, ZIPs and folders, any file
+  name, duplicates, wrong variant, unsupported format. Read-only.
+* `PackPin` / `PackDownloader`: pinned Modrinth CDN downloads, SHA-512 verified, size-bounded, atomic, off-thread, into the
+  mod's own folder. Consent is explicit (setup screen button, or the stored opt-in).
+* `HistoricalTextureService`: one reconcile that compares desired against applied signature and reloads only on a change.
+* `TextureSetupScreen` (first run, once, versioned marker), `TexturesConfigScreen` (reached from the existing options screen,
+  therefore from Mod Menu), `TextureFirstRun`, `TexturesProbe` (opt-in verification).
+
+**Boundaries (evidence in the research note):** Golden Days Alpha through Alpha 1.2.x (its grass/leaves art is exactly the
+pre-1.2.0 art; the 1.2.x change is at tiles 0/14/52/53/...); Golden Days Base through Release 1.2.5; cobblestone changes at
+Beta 1.7 (tile identical Alpha 1.0.11 to Beta 1.6.6, Golden Days Base = old tile, Programmer Art = new tile).
+
+**Verification, with what each level does and does not show:**
+
+* Unit/integration: `gradlew.bat --console=plain build` exit 0, **460 tests, 0 failures** (49 new across rules, scanner,
+  composition, downloader, no-bundled-assets guard). They test logic against synthetic in-memory/temp packs.
+* Real client (1.21.1, `-PtexturesProbe`, evidence in `run/client/logs/tex-*.txt`): the probe asks the live
+  `ResourceManager` which pack served each resource and hashes the bytes. Results:
+  * Alpha 1.0.1: cobblestone = Golden Days Base (`5d142ff1…`), grass/leaves = Golden Days **Alpha**, XP bar = vanilla.
+  * Beta 1.7.3 / 1.8.1 / 1.9 pre-3 / Release 1.0: cobblestone = Programmer Art (`d3b21a63…`), others Golden Days Base, XP bar vanilla.
+  * One session joined Alpha, Beta 1.7.3, Beta 1.9 pre-3, Release 1.0 in turn: each JOINED state correct, every LEFT state back to
+    vanilla, 1 reload per join and 1 per leave, final title state `none`, `options.txt` byte-identical throughout.
+  * A synthetic user pack overriding cobblestone/stone/dirt/XP-bar: with enforcement ON the user pack served none of the
+    enforced resources; with it OFF it served all of them; ON again restored enforcement. `options.txt` unchanged.
+  * A genuinely ordinary world (fresh vanilla world): no layer, no reload, everything served by vanilla.
+  * First run from the title screen: the setup screen appeared on its own, listed the 4 packs, and with an empty pack folder
+    the real pinned download fetched all three; their SHA-512 equal Modrinth's and the owner's installed copies. Declining
+    downloads nothing: the managed folder was never created.
+* **Committed version upgrade (round 2):** on a scratch copy of the Beta 1.7.3 test world the probe called
+  `HistoricalUpgradeService.upgradeUnloadedWorld` (the Manage World button's own service) to Release 1.3, then opened it.
+  Before: Golden Days Base + Programmer Art cobblestone. After the upgrade: stack `programmer_art+continuation` only, grass
+  and dirt back to vanilla/Programmer Art, `oak_leaves` and `stone` now Programmer Art, cobblestone still Programmer Art, XP
+  bar still vanilla, one reload on the join. The original `hexflash` world was untouched (still `beta_1_7_3`) and the scratch
+  copy was deleted afterwards.
+* **Mod Menu through the real loader (round 2):** the probe discovered the `modmenu` entrypoints via `FabricLoader`, found
+  `hex1211`, built its config screen (`HistoricalConfigScreen`, which contains the Historical Textures button) and opened
+  Mod Menu's own list, where the mod appears. A second client launched with `-PwithoutModMenu` (Mod Menu absent from the
+  mod list, 56 mods, `hex1211` present) started normally, joined Beta 1.7.3 and built the full layer: Mod Menu is optional.
+* **Missing packs, downloads declined (round 2):** with setup completed, `historicalTexturesAutoDownload=false` and an empty
+  pack folder, joining Beta 1.7.3 showed exactly one toast naming the missing packs, started 0 downloads, never created the
+  managed folder, and still built a working layer from what exists (`opened=[VANILLA_PIN, PROGRAMMER_ART]`).
+* Screenshots (`run/client/screenshots/tex-probe-*.png`) were viewed for the setup, both config screens and the Mod Menu list;
+  precedence is proven by pack ids and hashes, not by them.
+
+**Not verified / known limits (do not read the above as more than it is):**
+
+* **Multiplayer is out of scope by the owner's decision** and was not exercised. The service reads
+  `HistoricalClientRules.activeVersion()`, which already uses the existing server-push handshake; an unknown version means
+  "no layer", which is the safe fallback.
+
+* **Not visually compared against the original games.** Textures in the game are the packs' own; this proves which pack
+  serves what, not that Golden Days Base matches a given Beta build pixel for pixel.
+* **Golden Days Alpha is pre-1.2.0 art** extended through 1.2.x by the owner's rule; Alpha 1.2.x grass/leaves therefore show
+  1.1.x art. Recorded in the research note, not hidden.
+* **Mossy cobblestone** is not part of the cobblestone exception (it changed in Beta 1.8 and the brief names only cobblestone).
+* Not deployed to the live Prism instance: the running owner game holds the jar (see the sky section).
+* The repo's `Repeat texture-pack scan` diagnostic stays in `rescan()`; the original 13-scan burst came from an unsynchronised
+  first call, now fixed (one scan per session in the later runs).
+
+# Previous repair — 2026-10-14 / the Beta sky colour: NT's palette was wrong, the clients were right
+
+- **The owner's correction is what closed this.** Nostalgic Tweaks' Old Universal Sky Colour is not the Beta sky:
+  its Beta entry is a flat `0x97A3FF`, and the Beta clients never used a flat sky colour. Time previously spent
+  comparing our render against NT was spent against the wrong reference.
+- **Extracted from the original clients themselves**, decompiled into `.upstream/legacy-decompile/`:
+  - Alpha v1.0.11: sky colour is a field on the world object, `8961023 == 0x8BBDFF` (`a1011/cj.java:20`, applied at
+    `cj.java:868`). NT's Alpha value was the one entry that was right, and Moderner Beta's `ALPHA_SKY_COLOR` agrees.
+  - Beta 1.0, Beta 1.7.3 and Beta 1.8.1: all three call `getSkyColorByTemp(temperature)`, i.e.
+    `Color.getHSBColor(0.62222224F - t*0.05F, 0.5F + t*0.1F, 1.0F)` with `t = clamp(temperature/3, -1, 1)`
+    (`b10/dd.java:952`+`gq.java:96`, `b173/fd.java:927`+`kd.java:126`, `b181/rv.java:997`+`vh.java:106`). Reachable
+    range `0x9C99FF` cold to `0x66BDFF` warm, `0x80A1FF` neutral. The temperature is the world's climate noise
+    (`b173/xv.java:30`), which is what Moderner Beta's own `SkyColorSampler` reproduces.
+  - Beta 1.9 Pre-release 6 (`b19pre6/uy.java:1015`) and Release 1.0 (`10/ry.java:1015`) switch to the biome
+    temperature at height 64 - the same HSV function modern Minecraft still calls from
+    `OverworldBiomes.calculateSkyColor`. From Beta 1.9 the game's own colour is already right, so nothing is
+    substituted there; this moves the owner's "Beta until 1.7.3, then modern" line to where the clients changed.
+  - Infdev: NT's `0xC6DEFF` is uncited; Moderner Beta's extracted `INFDEV_*_SKY_COLOR` is `0x99CCFF` and is now
+    used, recorded as the weaker provenance because no Infdev jar exists locally.
+- **Beta's rounding, not modern's, is ported.** `java.awt.Color.HSBtoRGB` rounds (`+0.5F`); `Mth.hsvToRgb`
+  truncates, so modern differs by one unit at most temperatures (`0x80A1FF` against `0x7FA1FF` neutral). Runtime
+  evidence shows both: Moderner Beta's own sampler returns `0x70AFFF` where our port returns Beta's `0x71AFFF` for
+  the same temperature. Reproducible table: `java research/tools/SkyTable.java`.
+- **Implemented** in `HistoricalSkyColours` (extracted values + Beta's function), `HistoricalWorldTweaks.SkyEra`
+  (Infdev/Alpha flat, Beta 1.0-1.8.1 temperature, nothing from Beta 1.9), and `BiomeHistoricalSkyColourMixin`, which
+  now feeds Beta's function the climate temperature from Moderner Beta's sampler rather than inventing a second
+  generator. NT's hook point and its low-render-distance fog branch are unchanged.
+- **Verification.** `gradlew.bat --console=plain build` exit 0; **408 tests, 0 failures** (8 in the world-tweaks
+  suite, including new pins on the extracted colours and on Beta's rounding). Dev probe
+  (`logs/nt-visual-client7.log`, exit 0) on the Beta 1.7.3 test world: `skyEra=TEMPERATURE flat=none
+  optionActive=true`, temperature at player `1.7115993`, our colour `0x71AFFF`, `biomeBaseSky=0x71AFFF`,
+  `renderedSky=(0.44313726, 0.6862745, 1.0)` — noon, so the daylight factor is exactly 1.0. Midnight and rain
+  samples still show the level's own modulation on top, which is what the original clients did too.
+- **Known gap, stated rather than papered over:** Alpha v1.1.x/v1.2.x used the same temperature form
+  (`a126/cy.java:948`), but Moderner Beta exposes no Alpha sky-temperature sampler, so those profiles keep the
+  Alpha v1.0.x flat colour (the value Moderner Beta gives its Alpha biomes).
+- Not addressed here and still open: the stars probe still stalls on its synchronous disconnect inside a tick, and
+  the wider fog/void/blue-void/2D-item/crafting-screen/config work is unchanged by this repair.
+
+# Previous repair — 2026-10-14 / NT visual defects (superseded in part by the sky finding above)
+
+> Superseded detail: the bullets below describe the port as it stood while NT's palette was still trusted. Its Beta
+> entry `0x97A3FF` is not the Beta sky (see the section above); the flat-colour probes recorded there measured a
+> constant that has since been replaced by the era's own temperature function.
+
+
+- Owner confirms chests now look correct. Leave appearance intact; ordinary-world block-model/particle sampling remains a documented isolation caveat.
+- Sky acceptance is STILL OPEN. Owner identifies NT **Old Universal Sky Colour**, not blue void or fog. Source traced directly to `CandyTweak.UNIVERSAL_SKY_COLOR`, `SkyHelper.getOldColor`, and `world_sky/BiomeMixin`: Infdev `0xC6DEFF`, Alpha `0x8BBDFF`, Beta `0x97A3FF`, disabled preserves original. Replacement hook changes `Biome.getSkyColor`, not the final sky vector; added missing NT low-render-distance shader-fog branch. Releases/Beta1.8+ retain modern base per owner direction.
+- NT old-night minimum port is now separate, preserving time/weather math. Old world-fog distance/shape and pre-Beta1.8 sunrise-fog tint suppression are a bounded additional slice; full NT colour/transition/void algorithms remain pending, not claimed implemented.
+- Recipe book now hides/deactivates the actual ImageButton in inventory/crafting/furnace init, besides hiding the panel. Final dev probe confirms InventoryScreen/CraftingScreen/FurnaceScreen each have zero visible image buttons; screenshots retained. First inventory probe incorrectly opened creative UI; corrected probe temporarily selects local survival presentation only and restores it.
+- Corrected clouds to 108 before Beta1.8,128 afterward for declared historical releases; no-cloud NaN retained. Corrected 2D-item gate to include published1.4.2 profile (renderer still pending). Left-click ends at release_1_4, not1.5; handler now resolves the authoritative server profile without importing client classes.
+- Removed orphan Classic lightmap function, moved client shading mixin out of common array, and cached new client option reads (no per-frame file reads). Compared four allegedly corrupted lighting rewrites against `0f17f4c`: actual diffs are the intended mode removal plus comments/imports, not letter corruption.
+- Build after direct sky/fog changes: `gradlew.bat --console=plain build`, exit0; independently counted404 tests,0 failures,0 errors. Earlier first build failed on two nonexistent1.8.9 test-profile references, corrected before acceptance.
+- Final dev probe (`logs/nt-visual-client-final.log`) exit0: Beta base/noon RGB match `0x97A3FF`; midnight RGB `(0.00296,0.003196,0.005)`; rain RGB `(0.44719,0.45896,0.54915)`. This verifies downstream environment modulation, not owner's visual acceptance.
+- Deployment SUCCESS: `pwsh -NoProfile -File scripts/deploy-to-prism.ps1`, exit0,707KB,593 readable archive entries,SHA256 prefix `5B17981A4556F033`. Only Prism1.21.1 HE instance modified. Existing running owner game must restart; no game processes killed. Sky remains awaiting owner comparison after restart.
+- Dev probe2 (`logs/nt-visual-client-second.log`) exited0 and observed Beta1.7.3 base `0x97A3FF`, matching rendered daytime RGB; this is NOT visual fidelity acceptance. Screenshots inspected: crafting/furnace button absent, cube chest drawn. Latest live Prism jar at20:12 remains hash `F8B1E0DCCC55FE26...`, contains the old final-vector sky hook, not the replacement biome hook. Do not mistake dev verification for deployment or claim stale deployment is the sole underlying defect.
+- Reproduce current opt-in probe: `gradlew.bat --console=plain runClientQuickPlay -PntVisualProbe -PquickPlayWorld=hexflash`. It operates only on project test save, writes `run/client/logs/nt-visual-probe.txt` and screenshots, and closes through Minecraft normally. No owner game process is stopped.
+- Remaining requested NT list: stars geometry/brightness, sky/nether effect completion, full fog/dark/dynamic/nether/cave/void/creative algorithms, blue void, water lighting, 2D item rendering, old crafting screen and config controls. Gates alone are not ports. Chest texture provenance remains unresolved; earlier categorical legal claims corrected.
+
+# Previous milestone — integrated historical-version UI
 
 ## UI repair — historical-version buttons no longer float over screen content
 
