@@ -253,6 +253,42 @@ public final class HistoricalCraftingEra {
     }
 
     /**
+     * The item a recipe's result becomes in this version, when the result itself had not been separated out yet.
+     *
+     * <h2>The woods, reported by the owner</h2>
+     *
+     * <blockquote>"Birch trees are available in beta 1.2 but I can't craft anything with the logs and they dont go into
+     * planks. Until Release 1.2 they were just wooden planks but in 1.2 they start crafting into birch planks."</blockquote>
+     *
+     * <p>So there was one planks item, and any log made it. Refusing the per-species planks recipes (which is what
+     * {@link #EXISTED_BY_1_6_4} does on its own) therefore left a birch, spruce or jungle log with no route to planks
+     * at all - the recipe was hidden and nothing replaced it. The version's answer is the generic planks, which is
+     * {@code minecraft:oak_planks} here because it is the plank this project already gives those versions.
+     *
+     * <p>Substitution is judged by the RESULT, not by the recipe: every route to a per-species plank before Release
+     * 1.2 produced the one planks item, whatever the recipe was called.
+     *
+     * @return the replacement item id, or null when this result stands as it is
+     */
+    public static String substitutedResult(String versionId, String itemId) {
+        if (!declared(versionId) || itemId == null) {
+            return null;
+        }
+        String first = EXISTED_BY_1_6_4.get(itemId);
+        if (first == null || !before(versionId, first)) {
+            return null;
+        }
+        return SPECIES_PLANKS.contains(itemId) ? GENERIC_PLANKS : null;
+    }
+
+    /** The per-species planks, which are the one family this project substitutes rather than refuses. */
+    private static final Set<String> SPECIES_PLANKS =
+        Set.of("minecraft:spruce_planks", "minecraft:birch_planks", "minecraft:jungle_planks");
+
+    /** The single planks item those versions had. */
+    public static final String GENERIC_PLANKS = "minecraft:oak_planks";
+
+    /**
      * Whether crafting this result must be refused in this version.
      *
      * @param versionId a declared version; anything else (an ordinary world) is never refused
@@ -267,6 +303,11 @@ public final class HistoricalCraftingEra {
         if (!EXISTED_BY_1_6_4.containsKey(itemId)) {
             // Not in the 1.6.4 client, therefore in no declared version.
             return true;
+        }
+        if (substitutedResult(versionId, itemId) != null) {
+            // Not refused: it is what this version's recipe produced, wearing the later item's name. The result is
+            // rewritten instead - see CraftingRecipeHistoricalWoodMixin.
+            return false;
         }
         String first = EXISTED_BY_1_6_4.get(itemId);
         if (first != null && before(versionId, first)) {

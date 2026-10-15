@@ -794,6 +794,11 @@ public final class HistoricalFeatureExclusions {
         if (alias == null) {
             return false;
         }
+        if (isEndGatewayReturn(level, feature)) {
+            // Not a per-revision exclusion on purpose; see END_GATEWAY_RETURN.
+            SKIPPED.increment();
+            return true;
+        }
         List<Exclusion> restrictions = runtimeExclusionsForAlias(alias);
         if (restrictions.isEmpty()) {
             return false;
@@ -816,6 +821,29 @@ public final class HistoricalFeatureExclusions {
             }
         }
         return false;
+    }
+
+    /**
+     * The placed feature that builds the End gateways scattered over the outer islands of the End Highlands.
+     *
+     * <p>End gateways are Release 1.9 content (15w31a; the outer-island ones are 1.11), and no profile this project
+     * declares reaches either, so every historical world must be without them. This is therefore NOT a row in the
+     * per-revision exclusion tables. Those tables are append-only, because a revision describes what its recipe
+     * generated, and adding this to one means a new revision for every version - for a feature the End of a historical
+     * world has no way to want. It is keyed on "this is a historical world" alone, which is the same condition the
+     * rest of {@link #shouldSkip} starts from. The End itself is vanilla-generated, so this feature list is the one
+     * place the gateway can be stopped before it places anything.
+     */
+    private static final String END_GATEWAY_RETURN = "minecraft:end_gateway_return";
+
+    private static boolean isEndGatewayReturn(WorldGenLevel level, PlacedFeature feature) {
+        ResourceLocation id = ResourceLocation.tryParse(END_GATEWAY_RETURN);
+        if (id == null) {
+            return false;
+        }
+        var holder = level.registryAccess().registryOrThrow(Registries.PLACED_FEATURE)
+            .getHolder(ResourceKey.create(Registries.PLACED_FEATURE, id));
+        return holder.isPresent() && holder.get().value() == feature;
     }
 
     /** How many feature placements this hook has suppressed since process start. */

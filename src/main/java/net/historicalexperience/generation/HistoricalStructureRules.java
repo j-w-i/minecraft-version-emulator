@@ -163,6 +163,8 @@ public final class HistoricalStructureRules {
         Map.entry("historical_experience:infdev_611",
             noStructures("Infdev 20100611",
                 "It predates the 20100625-1917 monster room, so its dungeon feature is excluded too")),
+        Map.entry("historical_experience:alpha_1_2_2a", noStructures("Alpha v1.2.2a",
+            "It is a clone of Alpha v1.2.0, which introduced the Nether; the nether fortress did not exist until Beta 1.9 Prerelease 1, so it placed no structure-set structure")),
         Map.entry("historical_experience:alpha_1_2_0", noStructures("Alpha v1.2.0",
             "It introduced the Nether and the nether fortress did not exist until Beta 1.9 Prerelease 1, so it placed no structure-set structure")),
         Map.entry("historical_experience:alpha_1_1_0", noStructures("Alpha v1.1.0",

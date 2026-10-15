@@ -103,15 +103,29 @@ public final class HistoricalOldLighting {
         return current;
     }
 
-    /** Refused when the version does not have the engine, so a value stored in one world cannot apply in another. */
-    public static boolean setToggle(boolean enabled) {
-        if (enabled && !availableFor(HistoricalClientRules.activeVersion())) {
-            return false;
-        }
+    /**
+     * Sets the toggle and persists it, always.
+     *
+     * <p>Not refused when the current world does not have the engine, for the measured reason recorded in
+     * {@link HistoricalSmoothLighting#setToggle}: a player reaches the config screen from Mod Menu with no world
+     * open, the write was discarded there, and the option appeared to do nothing at all. The window still decides
+     * whether the engine is used, through {@link #activeNow()}.
+     */
+    public static void setToggle(boolean enabled) {
         toggle = enabled;
         HistoricalClientOptions.set(TOGGLE_KEY, enabled);
         refresh();
-        return true;
+    }
+
+    /**
+     * Marks everything in view for a mesh rebuild.
+     *
+     * <p>Public because the smooth-shading rule is baked into a chunk's mesh too, so its toggle has to ask for the
+     * same rebuild this engine already performs when its own state changes. The flag is drained by {@link #onTick}
+     * whenever a world is open, so a request made with no world open simply waits for one.
+     */
+    public static void requestRelight() {
+        relightAll = true;
     }
 
     /** Recomputes the cached answer. Called every tick, and immediately when a toggle changes. */

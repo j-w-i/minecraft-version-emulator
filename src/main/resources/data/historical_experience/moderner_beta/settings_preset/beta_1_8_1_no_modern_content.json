@@ -18,6 +18,6 @@
   "caveBiomeSettings": {
     "moderner_beta:preset": "moderner_beta:beta_1_8_1",
     "moderner_beta:provider": "moderner_beta:single",
-    "moderner_beta:single_biome": "moderner_beta:beta_taiga"
+    "moderner_beta:single_biome": "moderner_beta:late_beta_taiga"
   }
 }

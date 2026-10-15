@@ -124,20 +124,31 @@ public final class HistoricalSmoothLighting {
     }
 
     /**
-     * Sets the toggle and persists it.
+     * Sets the toggle and persists it, always.
      *
-     * <p>Refused when the current version does not offer the engine, so a value stored in one world cannot silently
-     * start applying in another: the caller is told no rather than being obeyed into a wrong render.
+     * <h2>Why this is not refused when the current world does not offer the engine</h2>
      *
-     * @return whether the change was applied
+     * <p>It used to be: {@code setToggle(true)} returned false unless a world inside the Beta 1.3-1.7.3 window was
+     * open, on the reasoning that "a value stored in one world cannot silently start applying in another". The owner
+     * reported the consequence - turning the option on or off appeared to do nothing, and reopening the world did not
+     * help either - because the place a player most often reaches this screen is Mod Menu <em>without</em> a world
+     * open, where the write was discarded. The reasoning was also unnecessary: whether the engine may apply is
+     * decided by {@link #activeNow()} for the world being played, so a stored preference can only ever take effect
+     * inside the window it belongs to.
+     *
+     * <p>Corner shading is read while a chunk is <em>meshed</em>, so a change is invisible until chunks are rebuilt.
+     * The relight queue is therefore nudged here: without it the option would look inert until the player happened to
+     * cause a chunk update or reload the world.
      */
-    public static boolean setToggle(boolean enabled) {
-        if (enabled && !availableFor(HistoricalClientRules.activeVersion())) {
-            return false;
-        }
+    public static void setToggle(boolean enabled) {
+        boolean changed = enabled != toggle();
         toggle = enabled;
         save(enabled);
-        return true;
+        if (changed) {
+            // The same queue the old-lighting engine drains a few sections per tick. It is drained whenever a world
+            // is open, so a change made at the title screen simply waits until one is.
+            HistoricalOldLighting.requestRelight();
+        }
     }
 
     /** Forgets the cached value, so the next world re-reads the config. */

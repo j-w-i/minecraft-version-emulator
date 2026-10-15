@@ -151,6 +151,11 @@ public final class HistoricalVillageRules {
     private static final Set<String> PERMITTED_BIOMES = Set.of(
         "minecraft:plains",
         "minecraft:sunflower_plains",
+        // Moderner Beta's own plains. This is the plains every village-capable profile actually generates: Beta 1.8.1
+        // through Release 1.6.4 take their plains from {@code moderner_beta:late_beta_plains} (there is no
+        // early-release plains), and the vanilla ids above never appear there. Leaving it out was the bug that made
+        // villages generate in deserts only - the one biome on the list that Moderner Beta really produces.
+        "moderner_beta:late_beta_plains",
         "minecraft:desert");
 
     /** The biome whose villages are built from sandstone. */

@@ -1,0 +1,14 @@
+accessWidener v2 named
+# A biome's own downfall lives in a package-private record. ModernBetaClimateSamplerHistoricalMixin reads it to tint a
+# converted Beta 1.8.1+ chunk from the biome it stores.
+accessible class net/minecraft/world/level/biome/Biome$ClimateSettings
+accessible method net/minecraft/world/level/biome/Biome$ClimateSettings downfall ()F
+accessible method net/minecraft/world/level/biome/Biome$ClimateSettings temperature ()F
+# Inventory
+# Copied from Nostalgic Tweaks' own access widener (common/src/main/resources/nostalgic_tweaks.accesswidener,
+# LGPL-3.0-only; see THIRD_PARTY_NOTICES.md), under its own "# Inventory" heading and with its two declarations
+# unchanged. A slot's screen coordinates are final in 1.21.1, and moving a slot is how upstream hides the off-hand
+# slot in a version that had none (SlotTracker.move writes `slot.x = x; slot.y = y;`). Lifting the finality here is
+# what lets that code be the same code, rather than an accessor of this project's own.
+mutable field net/minecraft/world/inventory/Slot x I
+mutable field net/minecraft/world/inventory/Slot y I

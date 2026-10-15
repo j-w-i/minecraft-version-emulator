@@ -245,6 +245,14 @@ public final class HistoricalVersionCatalogue {
         planned(entries, Era.ALPHA, "Alpha 1.0.14", 1, 0, 14, "historical_experience:alpha_1_0_14", null);
         planned(entries, Era.ALPHA, "Alpha 1.0.17", 1, 0, 17, "historical_experience:alpha_1_0_17", null);
         planned(entries, Era.ALPHA, "Alpha 1.1.0", 1, 1, 0, "historical_experience:alpha_1_1_0", null);
+        // Alpha v1.2.2a is the BANNER build for the Alpha 1.2 line, chosen by the owner: it is a clone of 1.2.0
+        // plus the F4 portal-spawn debug key, which 1.2.0 provably does not have. It is an IMPLEMENTED EXTRA and not a
+        // planned target, the same as both Infdev builds and the Alpha v1.1.2_01 profile: the plan does not name it,
+        // so counting it would overstate the plan's coverage, but it must stay selectable. 1.2.0 remains selectable
+        // too, for anyone who wants the build without the key.
+        entries.add(new Entry("historical_experience:alpha_1_2_2a", "Alpha v1.2.2a", Era.ALPHA,
+            chronologyOf("historical_experience:alpha_1_2_2a", Era.ALPHA, 1, 2, 2), Status.IMPLEMENTED,
+            "Alpha v1.2.2a", "clone of Alpha v1.2.0 with the F4 portal-spawn debug key", false));
         planned(entries, Era.ALPHA, "Alpha 1.2.0", 1, 2, 0, "historical_experience:alpha_1_2_0", null);
 
         planned(entries, Era.BETA, "Beta 1.0", 1, 0, 0, "historical_experience:beta_1_0", null);

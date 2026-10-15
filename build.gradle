@@ -212,6 +212,7 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 loom {
+    accessWidenerPath = file('src/main/resources/historical_experience.accesswidener')
     runs {
         // A quick-play client, so CLIENT mixins can be verified the way server ones are. There was no client
         // run config at all, which is why scripts/client-launch-probe.ps1 failed with
@@ -232,6 +233,9 @@ loom {
                 programArgs '--width', '960', '--height', '720'
                 vmArg '-Dhistorical_experience.screenProbe.layoutOnly=true'
             }
+            if (project.hasProperty('clientMixinCheck')) {
+                vmArg '-Dhistorical_experience.clientMixinCheck=' + project.findProperty('clientMixinCheck')
+            }
             if (project.hasProperty('ntStarsProbe')) {
                 vmArg '-Dhistorical_experience.ntStarsProbe=true'
             }
@@ -245,6 +249,9 @@ loom {
                 // Selects a synthetic user pack IN MEMORY (options.txt is never written) to prove it cannot override
                 // the enforced textures.
                 vmArg "-Dhistorical_experience.texturesProbe.userPack=${project.findProperty('texturesUserPack')}"
+            }
+            if (project.hasProperty('texturesTooltipWorlds')) {
+                vmArg "-Dhistorical_experience.texturesProbe.tooltipWorlds=" + project.property('texturesTooltipWorlds')
             }
             if (project.hasProperty('texturesModMenu')) {
                 vmArg '-Dhistorical_experience.texturesProbe.modMenu=true'
@@ -289,6 +296,12 @@ loom {
             server()
             ideConfigGenerated = true
             runDir project.findProperty('generationRunDir') ?: 'run'
+            if (project.hasProperty('enchantProbe')) {
+                vmArg '-Dhistorical_experience.enchantProbe=true'
+            }
+            if (project.hasProperty('dragonProbe')) {
+                vmArg '-Dhistorical_experience.dragonProbe=true'
+            }
             if (project.hasProperty('generationProbe')) {
                 vmArg '-Dhistorical_experience.generationProbe=true'
                 if (project.hasProperty('netherProbe')) {

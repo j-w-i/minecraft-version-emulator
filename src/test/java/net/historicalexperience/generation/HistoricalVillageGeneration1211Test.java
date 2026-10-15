@@ -289,15 +289,22 @@ class HistoricalVillageGeneration1211Test {
     // ---- (b) the biome set --------------------------------------------------------------------------
 
     @Test
-    @DisplayName("the permitted biome set is exactly plains, sunflower plains and desert")
+    @DisplayName("the permitted biome set is the plains family and desert, including Moderner Beta's own plains")
     void permittedBiomesAreExactlyPlainsDesert() throws Exception {
         Set<String> declared =
             json(DATA.resolve("tags/worldgen/biome/has_structure/historical_village.json"))
                 .getAsJsonArray("values").asList().stream()
                 .map(element -> element.getAsString())
                 .collect(Collectors.toCollection(LinkedHashSet::new));
-        assertEquals(Set.of("minecraft:plains", "minecraft:sunflower_plains", "minecraft:desert"),
+        assertEquals(Set.of("minecraft:plains", "minecraft:sunflower_plains", "moderner_beta:late_beta_plains",
+                "minecraft:desert"),
             declared, "the tag is what the game reads and it must be exactly the researched set");
+        // The regression: villages generated in deserts only, because the plains Moderner Beta really produces for
+        // Beta 1.8.1 onward is not a vanilla id and was missing from the list.
+        assertTrue(HistoricalVillageRules.biomeIsPermitted("moderner_beta:late_beta_plains"),
+            "a village must be able to generate in the plains the village-capable profiles actually have");
+        assertFalse(HistoricalVillageRules.isDesert("moderner_beta:late_beta_plains"),
+            "and it is a plains village, not a sandstone one");
         assertEquals(declared, HistoricalVillageRules.permittedBiomes(),
             "the code's set and the tag must not drift");
         // The later expansion is after the newest profile this project declares (Release 1.6.4), so no world

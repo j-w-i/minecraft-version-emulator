@@ -49,11 +49,16 @@ public final class HistoricalExperienceMod implements ModInitializer {
         // See HistoricalVillageTypes.
         net.historicalexperience.worldgen.HistoricalVillageTypes.register();
         net.historicalexperience.server.VillageVerification.registerIfRequested();
+        net.historicalexperience.server.DragonFightVerification.registerIfRequested();
+        net.historicalexperience.server.EnchantingVerification.registerIfRequested();
         HistoricalCommand.register();
         // Tells a joining client which version it is in. Without this, every client-side rule would work
         // in single-player and silently do nothing on a server, because the client has no world metadata
         // of its own to read.
         HistoricalVersionSync.register();
+        // Alpha v1.2.2a's F4 key. The client sends an empty request and the server builds the portal, so the
+        // placement stays authoritative and a modified client cannot ask for one somewhere else.
+        net.historicalexperience.server.PortalSpawnRequest.register();
         // The Beta 1.8-1.9 sword-blocking stance. Both halves are in place now: this handler raises the
         // sword on right-click, and LivingEntityHistoricalSwordBlockingMixin applies the 50% reduction. The
         // version gate lives in HistoricalSwordBlocking.canBlock, so a pre-Beta-1.8 world has no stance and

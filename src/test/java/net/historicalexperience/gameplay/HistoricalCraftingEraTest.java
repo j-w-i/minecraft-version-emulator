@@ -19,6 +19,7 @@ package net.historicalexperience.gameplay;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
@@ -92,9 +93,12 @@ class HistoricalCraftingEraTest {
             if (HistoricalCraftingEra.isRecipeRefused(ALPHA, recipe.getKey())) {
                 continue;
             }
-            // Every recipe in this test is judged exactly as the mixin judges it: id first, then result.
+            // Every recipe in this test is judged exactly as the mixin judges it: id first, then result - and then
+            // the result the player actually receives, which is what a substituted wood changes.
+            String obtained = HistoricalCraftingEra.substitutedResult(ALPHA, recipe.getValue());
+            String result = obtained != null ? obtained : recipe.getValue();
             if (!HistoricalCraftingEra.isRefused(ALPHA, recipe.getValue(), null)) {
-                craftable.add(recipe.getValue().replace("minecraft:", ""));
+                craftable.add(result.replace("minecraft:", ""));
             }
         }
         // The things the owner named, and the hundreds the old gate missed.
@@ -104,6 +108,12 @@ class HistoricalCraftingEraTest {
                 "polished_andesite", "granite_wall", "smithing_table", "loom", "barrel", "lantern", "campfire",
                 "observer", "honey_block", "beehive", "chain", "end_rod", "elytra_placeholder")) {
             assertFalse(craftable.contains(modern), modern + " must not be craftable in Alpha 1.0.1");
+        }
+        // The per-species planks are the one family a pre-Release-1.2 world substitutes rather than refuses, so what a
+        // player gets must be the single planks item and never the species ones.
+        for (String species : List.of("spruce_planks", "birch_planks", "jungle_planks")) {
+            assertFalse(craftable.contains(species),
+                species + " did not exist as an item in Alpha; the recipe yields planks instead");
         }
         // And nothing in the whole modern-wood / modern-block families got through.
         for (String id : craftable) {
@@ -120,6 +130,47 @@ class HistoricalCraftingEraTest {
                 "bucket", "flint_and_steel")) {
             assertTrue(craftable.contains(old), old + " must stay craftable in Alpha 1.0.1");
         }
+    }
+
+    @Test
+    @DisplayName("a log makes planks up to Release 1.2, and its own planks from Release 1.2")
+    void logsArePlanksBeforeRelease12() {
+        // The owner's report: "Birch trees are available in beta 1.2 but I can't craft anything with the logs and they
+        // dont go into planks. Until Release 1.2 they were just wooden planks but in 1.2 they start crafting into
+        // birch planks." So before Release 1.2 the species planks recipes must be ALLOWED (not refused, which left
+        // the log with no recipe at all) and their result rewritten to the one planks item.
+        for (String version : List.of("historical_experience:alpha_1_0_1", "historical_experience:beta_1_2",
+                "historical_experience:beta_1_7_3", "historical_experience:release_1_0_0",
+                "historical_experience:release_1_1")) {
+            for (String species : List.of("minecraft:spruce_planks", "minecraft:birch_planks",
+                    "minecraft:jungle_planks")) {
+                assertFalse(HistoricalCraftingEra.isRefused(version, species, species),
+                    species + " must not be refused in " + version + ", or the log has no recipe left");
+                assertEquals(HistoricalCraftingEra.GENERIC_PLANKS,
+                    HistoricalCraftingEra.substitutedResult(version, species),
+                    species + " must become the single planks item in " + version);
+            }
+        }
+
+        // Release 1.2 is the boundary the owner named: from there the recipes make their own planks.
+        for (String version : List.of("historical_experience:release_1_2_5", "historical_experience:release_1_3",
+                "historical_experience:release_1_6_4")) {
+            for (String species : List.of("minecraft:spruce_planks", "minecraft:birch_planks",
+                    "minecraft:jungle_planks")) {
+                assertNull(HistoricalCraftingEra.substitutedResult(version, species),
+                    species + " is its own item from Release 1.2 onward, in " + version);
+                assertFalse(HistoricalCraftingEra.isRefused(version, species, species), species + " in " + version);
+            }
+        }
+
+        // Only that family is substituted, and only for a declared version.
+        assertNull(HistoricalCraftingEra.substitutedResult("historical_experience:beta_1_7_3",
+            "minecraft:oak_planks"), "the single planks item is not substituted");
+        assertNull(HistoricalCraftingEra.substitutedResult("historical_experience:beta_1_7_3",
+            "minecraft:cherry_planks"), "a later wood is refused, not substituted");
+        assertNull(HistoricalCraftingEra.substitutedResult("historical_experience:beta_1_7_3", "minecraft:stick"));
+        assertNull(HistoricalCraftingEra.substitutedResult(null, "minecraft:birch_planks"),
+            "an ordinary world has no version and nothing is substituted in it");
     }
 
     @Test

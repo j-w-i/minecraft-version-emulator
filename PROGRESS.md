@@ -1,4 +1,868 @@
-# Current feature — 2026-10-14 / automatic historical textures (Programmer Art + Continuation + Golden Days)
+# Current change — 2026-10-15 / the off-hand slot by NT's own method, and logs that make planks again
+
+Two owner reports. *"Birch trees are available in beta 1.2 but I can't craft anything with the logs and they dont go
+into planks. Until Release 1.2 they were just wooden planks but in 1.2 they start crafting into birch planks."* and
+*"you've failed yet again to remove your fix to do the offhand slot in inventory and just only take and directly
+apply NT's fix."*
+
+## 1. The off-hand slot: NT's method, and what "my fix" actually was
+
+**Why the slot was still visible.** The previous in-house port moved the slot off-screen, which hides the slot itself
+but not the box the player sees: **the off-hand box is painted into the game's own inventory background**
+(`assets/minecraft/textures/gui/container/inventory.png`, checked against the 1.21.1 client jar). Moving a slot cannot
+remove part of a background texture, so the empty box stayed - and the screenshot from 12:29 today shows it.
+
+**What NT does, now ported directly.**
+- `SlotTracker` identifies the slot **by position** (77,62), not by index or container, and moves it with
+  `slot.x = x; slot.y = y;` - so upstream needs those fields writable, and it gets that from *its access widener*:
+  `mutable field net/minecraft/world/inventory/Slot x I` / `... y I` under an `# Inventory` heading. **That is the
+  piece my version reinvented**: a duck interface (`SlotPositionAccess`) plus a `@Mutable @Shadow` mixin
+  (`SlotPositionMixin`), built on the false belief that the fields could not be lifted. Both are **deleted**, and the
+  two upstream lines are copied into `historical_experience.accesswidener` unchanged.
+- `HistoricalInventoryScreen` is NT's `InventoryScreenHelper` trimmed to the `InventoryShield.INVISIBLE` branch:
+  `SlotTracker.OFF_HAND.move(slot, -9999, -9999)` and upstream's own paint-over patch
+  (`graphics.blit(INVENTORY, leftPos + 76, height / 2 - 22, 178, 74, 18, 18)`), with upstream's inventory texture
+  copied in byte-for-byte.
+- `InventoryScreenHistoricalOffhandMixin` is NT's `InventoryScreenMixin` for the two injections that matter here
+  (constructor `TAIL` and `renderBg` `TAIL`, calling the same two helpers), with its shield-position setting replaced
+  by this project's version gate. Upstream's crafting-grid/recipe-button/label/`hasClickedOutside` injections belong
+  to its full old-inventory layout and are recorded as not ported.
+- `InventoryShieldSlotMixin` is NT's own, including its target (`InventoryMenu$1#getNoItemIcon`), its `null` return,
+  and its second condition - upstream's creative-mode check is `gameMode.hasInfiniteItems()`.
+
+**Evidence.** The project's NT visual probe on the Beta 1.7.3 fixture (`runClientQuickPlay -PquickPlayWorld=hexflash
+-PntVisualProbe`, log `run/offhand-visual.out`): `version=historical_experience:beta_1_7_3`,
+`recipeBookDisabled=true`, and `run/client/screenshots/nt-probe-inventory.png` now shows the inventory **with no
+off-hand box**, where the 12:29 screenshot of the same screen had one.
+
+**Provenance.** `client/inventory/SlotTracker.java`, `client/inventory/HistoricalInventoryScreen.java` and
+`mixin/InventoryShieldSlotMixin.java` carry the compound header and are in `NT_FILES`;
+`client/SlotPositionAccess.java` and `mixin/SlotPositionMixin.java` are gone from it. The copied texture and the two
+access-widener lines are recorded in `docs/PROVENANCE.md` and `THIRD_PARTY_NOTICES.md`, and the declared counts move
+with them: **103 Java files, 53 asset files** (`scripts/apply-licence-headers.py --check`: "all 377 Java files carry
+the correct licence header (103 Nostalgic Tweaks-derived, 274 project)").
+
+## 2. A log makes planks again before Release 1.2
+
+**The defect.** The crafting gate refuses a recipe whose result item did not exist yet, and `birch_planks`,
+`spruce_planks` and `jungle_planks` are dated Release 1.2. Refusing them left the logs those trees drop with **no
+recipe at all** - which is the owner's "I can't craft anything with the logs": the recipe was hidden and nothing
+replaced it.
+
+**The fix.** Those three items are now *substituted* rather than refused before Release 1.2:
+`HistoricalCraftingEra.substitutedResult` maps them to `minecraft:oak_planks` - the single planks item those versions
+had - and `CraftingRecipeHistoricalWoodMixin` rewrites the assembled result (count and components preserved) in the one
+method a crafting recipe turns its inputs into a stack, `CraftingRecipe.assemble`, targeting `ShapedRecipe` and
+`ShapelessRecipe`. Judged by the result, so every route to a species plank before Release 1.2 yields the one planks
+item, whatever the recipe was called. Nothing changes from Release 1.2 onward, and an ordinary world has no session
+and is untouched.
+
+**Evidence - a server probe through the real `RecipeManager`** (temporary `CRAFTPROBE`, since removed; log
+`run/craft-probe.out`):
+
+| version | birch_log | spruce_log | jungle_log | oak_log |
+| --- | --- | --- | --- | --- |
+| beta_1_2 | 4x oak_planks | 4x oak_planks | 4x oak_planks | 4x oak_planks |
+| beta_1_7_3 | 4x oak_planks | 4x oak_planks | 4x oak_planks | 4x oak_planks |
+| release_1_1 | 4x oak_planks | 4x oak_planks | 4x oak_planks | 4x oak_planks |
+| release_1_2_5 | **4x birch_planks** | **4x spruce_planks** | **4x jungle_planks** | 4x oak_planks |
+
+Each row is `RecipeManager.getRecipeFor` followed by `assemble`, which is exactly the pair of calls the two mixins
+judge. The boundary is the one the owner named.
+
+**Tests.** **580, 0 failures.** `HistoricalCraftingEraTest` gains `logsArePlanksBeforeRelease12` (both sides of the
+Release 1.2 boundary, oak not substituted, a later wood refused rather than substituted, ordinary world untouched) and
+its Alpha sweep now reports the item a player *receives*, so the species planks can no longer appear craftable in a
+version that had one planks item.
+
+Deployed once the game was closed: live jar sha256 `61020224CCAC9477…`, 717 entries, live hash independently compared
+equal to the tested build. The owner must restart Minecraft completely.
+
+# Earlier change — 2026-10-15 / Beta's sky colour reverted to the flat value the owner prefers
+
+Owner: *"Colour for beta 1.7.3 should be reverted to before I recently told you to change as in the sky colour."*
+
+**What "before" was, read out of git rather than memory.** Commit `9f9a4db` ("Universal sky colour per era")
+carried `HistoricalWorldTweaks.eraSkyColour` with SKY_BETA `0x97A3FF` for the window `[beta_1_0, beta_1_8_1)`, and
+`ClientLevelHistoricalSkyColourMixin` replaced the **finished** `ClientLevel.getSkyColor(Vec3, float)` vector with
+that flat colour. The 2026-10-14 change - the owner's own correction, recorded in the section below - deleted that
+mixin and replaced the flat Beta value with the clients' temperature function for `[beta_1_0, beta_1_9)`.
+
+**Reverted.** `skyEra`/`eraSkyColour` map Infdev, Alpha and Beta below Beta 1.8.1 to `FLAT` again, with
+`HistoricalSkyColours.INFDEV` `0x99CCFF`, `.ALPHA` `0x8BBDFF` and the new `.BETA_FLAT` `0x97A3FF`; the window's end
+returns to Beta 1.8.1 as well, since the 2026-10-14 change had extended it to Beta 1.9. The temperature function,
+its Moderner Beta sampler hook and its tests are **retained and no longer reached by any declared version** - the
+mapping methods are where the decision lives now, so reversing it again is those two bodies and nothing else. A new
+test derives the window from the registry and asserts that exactly those versions are served and that every one of
+them has a flat colour, so the retained path cannot become live by accident.
+
+**One deliberate difference from the pre-change code, stated because it is visible.** The flat colour is applied as
+the *biome's base* colour, which is where the 2026-10-14 change put it, so the level's own day/night and rain
+processing still applies on top. The pre-change hook replaced the finished vector, so it drew `0x97A3FF` even at
+midnight. Daytime is identical; midnight and rain are not. If the owner wants the flat colour at all times of day,
+that is a one-line change to `BiomeHistoricalSkyColourMixin`.
+
+**Evidence.** Build: **579 tests, 0 failures** (the sky suite now pins the reverted mapping both by name and over the
+whole catalogue). Client run of the project's own NT visual probe on the Beta 1.7.3 fixture
+(`runClientQuickPlay -PquickPlayWorld=hexflash -PntVisualProbe`, log kept at `run/sky-revert-probe.out`):
+
+```
+biomeBaseSky=0x97a3ff
+skyEra=FLAT flat=0x97a3ff optionActive=true
+renderedSky=(0.5921568870544434, 0.6392157077789307, 1.0)      <- 0x97A3FF, daylight factor exactly 1.0
+sky-noon=(0.5921568870544434, 0.6392157077789307, 1.0)
+sky-midnight=(0.002960784360766411, 0.0031960783526301384, 0.004999999888241291)
+sky-rain=(0.4471921920766367, 0.45895689725875854, 0.5491529703140259)
+modernerBetaSky sampler=BiomeProviderBeta temperatureAtPlayer=1.8795123 betaFormula=0x70B1FF   <- retained, not drawn
+```
+
+Deployed: live jar sha256 `1356D8CE46152AF9…`, 712 entries, live hash independently compared equal to the tested
+build. The owner must restart Minecraft completely.
+
+# Earlier change — 2026-10-15 / the lighting options did nothing, and never stored anything
+
+Owner: *"enabled and disabling old smooth lighting does not update in the game and it does not update even when
+opening and closing the world neither does old lighting"*.
+
+**Two defects, both in the config path rather than in the engines.**
+
+1. **The write was discarded.** `HistoricalSmoothLighting.setToggle` and `HistoricalOldLighting.setToggle` both
+   returned early unless the world being played was inside the engine's window, and `HistoricalConfigScreen`
+   additionally greyed the row out. Mod Menu's config screen is normally opened with no world open at all
+   (`activeVersion()` is null), so both the write and the click were refused - which is why nothing changed in the
+   game and why reopening the world did not help: no value had been stored. The guard's stated reason ("a value
+   stored in one world cannot silently apply in another") was unnecessary, because whether an engine is *used* is
+   already decided by `activeNow()` per world.
+2. **Old smooth shading never asked for a re-mesh.** Its rule is read while a chunk is meshed
+   (`BlockBehaviour.getShadeBrightness`), so even a stored change stays invisible until chunks are rebuilt - and
+   nothing requested a rebuild. Old lighting already had a relight queue; the smooth toggle now nudges it through
+   the new `HistoricalOldLighting.requestRelight()`.
+
+**The fix.** Both `setToggle`s now always store and persist (and the smooth one requests a relight when the value
+actually changes). Every row on the config screen is clickable at all times, and its text states the preference and
+where it applies, via the new pure `OptionScope` (`APPLIES` / `NOT_IN_THIS_VERSION` / `NO_VERSION`):
+`Old lighting: ON - used by every version before Beta 1.8.1 (click to turn off)`. The old greyed variants
+(`not_applicable`, `no_world`) are gone from `en_us.json`, and the third row (version name in corner) is treated the
+same way, since it had the same shape.
+
+**Evidence - the real config screen, driven by a client run** (`runClientQuickPlay -PquickPlayWorld=hexflash`, a
+Beta 1.7.3 world where both windows apply; temporary probe, since removed; log kept at `run/lighting-probe.out`):
+
+```
+in world: version=…:beta_1_7_3 smooth(available=true toggle=true activeNow=true) old(available=true toggle=true activeNow=true) relightDrained=141
+config opened row[0] active=true text=Old smooth shading (NT): ON - used by Beta 1.3 to Beta 1.7.3 (click to turn off)
+config opened row[1] active=true text=Old lighting: ON - used by every version before Beta 1.8.1 (click to turn off)
+clicked old smooth shading at 213,70 handled=true
+after clicking the smooth row row[0] active=true text=Old smooth shading (NT): OFF - used by Beta 1.3 to Beta 1.7.3 (click to turn on)
+clicked old lighting at 213,94 handled=true
+after clicking the old lighting row row[1] active=true text=Old lighting: OFF - used by every version before Beta 1.8.1 (click to turn on)
+still in the config screen: smooth(available=true toggle=false activeNow=false) old(available=true toggle=false activeNow=false) relightDrained=3981
+back in the world: … relightDrained=5505
+```
+
+So each row is active, the click is handled, the label flips, the value the mixins read (`activeNow`) flips with it,
+the re-mesh is requested and drained (141 -> 5505 sections - the smooth toggle previously requested *nothing*), and
+the file ends up holding `oldLighting=false` and `oldSmoothLighting=false`. No crash.
+
+**A note for the owner's expectation.** Old lighting's most visible effects are the grey lightmap (which differs from
+the modern tint mainly on *block* light) and the round-robin re-light at dusk and dawn; at bright midday in a
+brightly lit scene the difference is subtle even though it is applied. The measured facts above say the engine is
+switched, not that every scene looks obviously different.
+
+**New tests** (578 total, 0 failures): `client/config/OptionScopeTest` - the scope mapping, the two engine windows
+against the registry (including that an unknown version is never "applies"), that every config row has text for every
+scope, that the composed rows really take the `%s` note argument, and that the obsolete greyed-out keys are gone.
+
+Deployed once the game was closed: live jar sha256 `DB2AC130E92E7685…`, 712 entries, live hash independently compared
+equal to the tested build. The owner must restart Minecraft completely.
+
+# Earlier repair — 2026-10-15 / the biome-conversion screen crashed the client on hand-off
+
+The owner's client crashed at 10:54:03 with
+`java.lang.NullPointerException: Screen cannot be null` from
+`net.fabricmc.fabric.api.client.screen.v1.ScreenEvents.afterTick`, affected screen
+`net.historicalexperience.client.biome.BiomeConversionScreen`, after the log line
+`Recorded biome conversion to biome_hierarchy_v4:beta_plains_only`. The world data was saved first - the integrated
+server logged `All dimensions are saved` and the crash was client-side - so nothing was lost, and because the
+conversion had already been recorded the world no longer owes one.
+
+**Cause.** `BiomeConversionScreen.tick` called its hand-off runnable directly once the driver reported finished. That
+runnable does `setScreen(null)` and then re-issues the world open, so `Minecraft.screen` became null while
+`Screen.tick()` was still on the stack; Fabric's screen API fires its `afterTick` event against `Minecraft.screen`
+once that method returns and was handed null. The path only became reachable now because the previous repair stopped
+conversions running on every load, so a conversion only happens for an explicit upgrade - which is exactly the state
+the owner's world was in.
+
+**Fix.** `Minecraft.tell(whenFinished)` - the task is queued and drained by `runAllTasks` from the client's own tick,
+never from inside a `Screen.tick()`. The failure button also moved out of `render` into `tick`: `render` walks the
+widget list, and adding to it mid-iteration is its own crash.
+
+**`execute()` is NOT deferred, and the first attempt at this fix was wrong.** Read from the 1.21.1 bytecode:
+`BlockableEventLoop.execute` runs its task **inline** when called from the game thread (`ay()` is "not on the game
+thread"), and only queues from another thread. `tell` (`method_18858`) adds to the queue unconditionally.
+
+**Evidence - a real client run, A/B on the same fixture world.** A copy of the `world` fixture was given a revision-2
+history entry naming a version upgrade and no conversion record, so it owed one exactly as the owner's did, and
+quick-played with the project's own harness (`runClientQuickPlay -PquickPlayWorld=crashfix-probe`, game dir
+`run/client`):
+
+| build | conversion | result |
+|---|---|---|
+| first attempt (`execute`) | `4 region file(s), 338 pre-existing chunk(s)`, recorded | **crashed**: `Screen cannot be null`, `run/client/crash-reports/crash-2026-10-15_10.59.15-client.txt` |
+| this build (`tell`) | `4 region file(s), 338 pre-existing chunk(s)`, recorded | `Player971 joined the game` - no crash |
+
+Logs kept: `run/crashfix-probe.out` (crash) and `run/crashfix-probe-fixed.out` (fixed). The fixture world copy was
+deleted afterwards; the original `world` fixture was never modified, and `run/client/saves` is back to its ten worlds.
+
+Two harness lessons, both of which cost a run: `-PquickPlayWorld` only works with the project's own
+`runClientQuickPlay` configuration, because it is that configuration which sets `runDir 'run/client'` - the generic
+`runClient` runs with game dir `run`, so quick play looked for the world in the wrong saves folder and reported
+"Failed to quick play". And killing the Gradle *wrapper* does not stop the client it launched: the orphaned dev client
+kept running in the fixture world and re-saved it after the directory was deleted, which is how a world reappeared.
+Stop the `KnotClient`/`devlaunchinjector` process itself, and only then clean up.
+
+Build: 572 tests / 0 failures. Deployed twice: live jar sha256 `4B3B7252F1F91DAB…` with the crash fix, then
+`B51AA219C671877C…` after the world-list notice stopped parsing the operation's summary by prefix (see the developer
+mode section above). Both times the live hash was independently compared equal to the tested build. The owner must
+restart Minecraft completely; their affected world needs no repair.
+
+# Earlier feature — 2026-10-15 / "Developer mode" toggle, off by default
+
+Owner: *"this screen this text and this text is developer and should only be shown if a toggle in mod menu called
+developer mode is enabled you should add this and disable it by default regular users should not see this."* The three
+surfaces shown were the staged-upgrade report screen, the version selector's list row (`emulates Release 1.6.4`) and
+the selector's details block (`Current version: … / … - Release / Implemented. Emulates … / Generates with
+historical_experience:release_1_6_4_no_modern_content`).
+
+**The switch.** `client/config/HistoricalDeveloperMode` — key `developerMode` in this project's own client properties
+file (`historical_experience-client.properties`), read through the same cache as the other client options, **off by
+default**. Exposed as the fourth button on the Mod Menu config screen (`HistoricalConfigScreen`), labelled
+`Developer mode: OFF (click to enable)` / `ON (click to disable)` (`historical_experience.config.developer.*`). Unlike
+the three options above it, it is never greyed: it does not depend on which version is active.
+
+**What it gates.**
+* `HistoricalVersionScreen`'s details block and row second line, through the new `client/version/VersionText` — with
+  it off a player sees the version name, its era, and `Implemented.` (or `Planned. <what is missing>`), and no recipe
+  alias, revision number or measured build anywhere.
+* `ManageWorldHistoricalVersion`'s result screen. With it on, the operation's own account is shown exactly as before.
+  With it off, a player gets one plain sentence through vanilla's `AlertScreen` - "Version changed: <display name> will
+  generate from the next time this world is opened. Existing chunks, builds and inventories are not changed." - and
+  failures get the service's own summary, which is already plain English, with the world path and revision detail
+  dropped. A successful change is still announced rather than performed silently: it does not take effect until the
+  world is next opened, so silence would read as a failed click.
+* `BiomeConversionScreen`'s target line, which printed the internal record label
+  (`biome_hierarchy_v4:beta_plains_only`); with it off the world's name stands there instead and the progress bar,
+  counts and file name are unchanged. This fourth surface was not in the owner's list but is the same kind of output.
+
+`HistoricalVersionResultScreen` itself is unchanged and still reachable with the switch on.
+
+**Evidence.** `gradlew.bat --console=plain build` with `JAVA_HOME=C:\Program Files\Java\jdk-25.0.4.1` exited 0 —
+**572 tests / 0 failures / 0 skipped** (564 before this change). New `client/version/VersionTextTest` (7 tests) asserts
+the negative case for **every** implemented catalogue entry - no `Emulates`, no `Generates with`, no
+`historical_experience:` id in player-facing text - and that developer mode restores the recipe word for word. It also
+records that `HistoricalVersionCatalogue.future()` is currently empty (every declared version is playable), so the
+"Planned." branch is covered by a synthetically built entry and the test fails if a real planned version reappears.
+
+**Verified in a real client run, both ways.** The project's own screen probe
+(`runClientQuickPlay -PscreenProbe`, game dir `run/client`) photographed the version selector at 11:03 with the switch
+at its default (the client config file had no `developerMode` key at all) and at 11:10 with `developerMode=true`
+written into it:
+
+* **OFF** - `run/client/screenshots/hex-selector-release.png`: the rows read `Release 1.2.5 / implemented` with no
+  second line, and the details read `Release 1.6.4 - Release` / `Implemented.` - no `emulates`, no
+  `Generates with historical_experience:…`.
+* **ON** - the same screenshot path, rewritten: `Release 1.2.5 / emulates Release 1.2.5`, and the details read
+  `Implemented. Emulates Release 1.6.4.` / `Generates with historical_experience:release_1_6_4_no_modern_content
+  (revision …)`.
+
+The probe config was restored afterwards (`developerMode` removed), and `en_us.json` was checked to parse and to
+contain exactly the two keys the button asks for.
+
+Also in this round: the world-list notice no longer takes the operation's summary apart on its prefix. It is built
+from the chosen version's key through the catalogue, so renaming that sentence cannot silently produce a sentence with
+a hole in it; the failure sentence is the service's own, which is already plain English. The world-list path itself
+(the button, the selector, the notice in both modes) still has **not** been driven in-game - it needs GUI clicks that
+no probe here performs - so the toggle's rendering on Mod Menu's config screen is likewise unphotographed: the row is
+built with the same call as the three rows above it and its two translation keys exist and match.
+
+**Deployed.** Live jar sha256 `B51AA219C671877C…`, 711 entries, live hash independently compared equal to the tested
+build.
+
+# Earlier repair — 2026-10-15 / the "experimental settings" prompt on every historical world
+
+Owner: *"everytime I load a world with the mod installed this appears. get rid of it. also, make sure in vanilla
+worlds the mod has absolutely 0 effect."* The screenshot was the client's `BackupConfirmScreen`: "Worlds using
+Experimental Settings are not supported" / "…Here be dragons!" with **Create Backup and Load**, **I know what I'm
+doing!**, **Cancel**.
+
+**Cause, read from the 1.21.1 client rather than guessed.** `WorldOpenFlows.askForBackup(access, customized,
+onLoad, onCancel)` is reached only when `WorldData.worldGenSettingsLifecycle() != Lifecycle.stable()`.
+`LevelStorageSource` computes that as
+`settings.dimensions().bake(levelStems).lifecycle().add(registryAccess.allRegistriesLifecycle())`, and the verdict is
+formed in `WorldDimensions.bake`, which registers every dimension with `checkStability`. That reports `experimental`
+unless the stem is *vanilla-like*: the overworld must use exactly `minecraft:overworld`/`minecraft:overworld_caves`
+(ours is `historical_experience:beta_1_7_3_overworld`, height 128 — the era's envelope, so it can never match); the
+Nether must carry vanilla's multi-noise Nether preset (ours is deliberately a fixed-biome one); the End passes.
+`MappedRegistry.register` folds each entry's lifecycle into the registry's with `Lifecycle.add`, so one failing
+dimension makes the whole world experimental. Consumers of the value in 1.21.1 are exactly two: that prompt, and the
+server's crash-report "World Generation" line. (The world-list "Experimental" label is a different flag —
+`FeatureFlags.isExperimental` over level.dat's `enabled_features` — and was never involved.)
+
+**Fix.** `WorldDimensionsHistoricalStabilityMixin` overrides `WorldDimensions$Complete.lifecycle()` — the single
+producer of the value — and returns `Lifecycle.stable()` only when the overworld stem is this mod's: a dimension type
+in the `historical_experience` namespace, or a Moderner Beta biome source. The decision is in
+`worldgen/HistoricalWorldStability.java`; `worldgen/HistoricalWorldStabilityTest` (4 tests) pins the negative cases,
+including that a namespace merely *starting* with ours does not match and that a plain vanilla overworld is never
+credited.
+
+**Runtime evidence, two worlds, one process each (`-PenchantProbe`, temporary STABILITYPROBE lines since removed):**
+
+| probe world | overworld dimension type | Moderner Beta source | vanilla verdict | with the fix |
+|---|---|---|---|---|
+| `level-type=historical_experience:beta_1_7_3` | `historical_experience:beta_1_7_3_overworld` | true | `Experimental` | `Stable` |
+| `level-type=minecraft:normal` | `minecraft:overworld` | false | `Stable` | `Stable` (recognised=false, untouched) |
+
+So the injection lands (its `require = 1` would have aborted the run) and the historical world's stored
+`worldGenSettingsLifecycle()` is now `Stable`, which is the value the prompt reads. The prompt *screen* itself was not
+photographed this round: the client path resolves the same value, and the owner can confirm by opening a world.
+
+**"Absolutely 0 effect in vanilla worlds" — audited, and the guarantee is by construction.** A vanilla world
+(`level-type=minecraft:normal`) logged `action=LEAVE_ORDINARY … treating it as an ordinary world and leaving it
+untouched`: no metadata is written, no upgrade journal exists, and `HistoricalGenerationScope` is cleared, so no
+historical structure/block rule applies to its generation either. Client-side presentation is driven by
+`HistoricalClientRules.activeVersion()`, which is the *server's* classification in single-player and the server's push
+in multiplayer (cleared on disconnect); for an ordinary world `HistoricalProfileLookup.profileIdForLevel` returns
+`null`, so the colour maps, texture stack, tooltips, HUD and the NT-derived visual tweaks (`HistoricalWorldTweaks`,
+all of which return the original when the version is null) are inert — which the owner's own log shows as
+`Historical colour maps installed: none`. The one deliberate vanilla-namespace write remains the datapack tag
+`data/minecraft/tags/worldgen/world_preset/normal.json`, which lists this mod's presets in the world-creation list;
+that changes the creation screen, not any world.
+
+Evidence: `gradlew.bat --console=plain build` with `JAVA_HOME=C:\Program Files\Java\jdk-25.0.4.1` exited 0 —
+**564 tests / 0 failures / 0 skipped**, licence checks pass. Deployed to Prism; live jar sha256
+`BE782A277CF4CFF5…`, 709 entries, build and live hashes independently compared equal. Both probe worlds and their
+logs were removed and `run/server.properties` was left at `level-name=world`,
+`level-type=historical_experience\:beta_1_7_3`.
+
+Also this round: the dev-server probe harness was fixed after it reported "not launching" — the run had actually
+failed to compile (`ServerLevel.dimensionTypeId()` is Yarn naming; the official accessor is
+`level.dimensionType()`/`dimensionTypeRegistration()`), and the harness then waited for a `Done` line that could
+never arrive. It now stops on `BUILD FAILED` too.
+
+# Earlier repair — 2026-10-15 / explicit chunk-upgrade triggers and durable completion
+
+Owner paused Indev work to fix unintended chunk upgrades on reopening an Infdev world and upgrade status resetting
+across app restarts. The old open-world hook inferred an upgrade from biome palettes alone, including a fresh Infdev
+world whose native placeholder differs from the Alpha mapping. The revised driver requires the canonical explicit
+version-change entry already persisted by GenerationUpgrade in append-only metadata history. Initial establishment,
+recipe-only changes, palette differences and mapping-label changes are not independent triggers.
+
+Completion now records the specific metadata upgrade revision in the separate biome-conversion record (schema 3),
+without modifying upgrade-owned world metadata. A later explicit version change can run even within the same biome
+family; revisiting a family updates its chunk set instead of returning early with stale bookkeeping. Legacy records
+use their persisted completion timestamp to avoid replay on migration. Failed completion writes are now failures,
+not silently reported success; the screen offers Back instead of repeatedly reopening/retrying. Conversion holds the
+world's vanilla directory lock. Empty worlds also persist completion.
+
+Evidence: `gradlew.bat --console=plain build` with JAVA_HOME `C:\Program Files\Java\jdk-25.0.4.1` exited 0;
+560 tests / 0 failures / 0 skipped, including 8 new trigger/worker/disk-persistence regressions. These tests cover
+re-reading completion after resetting progress state, not a manual client quit/relaunch. Full client UI and gameplay
+verification remain outstanding. No personal saves were changed, and previously misconverted chunks were not restored.
+
+Deployment: `scripts/deploy-to-prism.ps1` succeeded; live jar SHA-256 prefix D46E313DBD9A73C4, 707 archive entries,
+readability and full build/live hash equality verified by the script. Restart Minecraft completely to load it.
+Indev implementation remains paused; its earlier scratch probe resources were left alone during this repair.
+
+# Earlier feature — 2026-10-15 / historical biome tint, tooltips, mossy cobblestone, and licensing re-read
+
+Owner's four requests this round: re-read the reworked licensing policy; extract the real biome/grass/foliage colourings
+from the Alpha 1.2, Beta 1.8.1 and Release 1.0 clients and stop relying on Moderner Beta's; make the Alpha → Alpha 1.2
+upgrade change the stored biome to Beta plains; and port Nostalgic Tweaks' legacy tooltips with the boundaries "nothing
+before Beta 1.0, legacy from Beta 1.0, modern from Beta 1.9 Pre-release 2". Mossy cobblestone was added to the historical
+texture exception as an extra.
+
+## 1. Licensing — re-read and complied with (done, verified)
+
+`docs/LICENSING.md` is the project licence account: the project is **LGPL-3.0-or-later**, incorporated Nostalgic Tweaks
+material stays **LGPL-3.0-only**, and a file mixing both carries the compound
+`SPDX-License-Identifier: LGPL-3.0-or-later AND LGPL-3.0-only`. Three new NT-derived files were added to `NT_FILES` in
+`scripts/apply-licence-headers.py` and the declared counts were corrected from 98 to 101 in `THIRD_PARTY_NOTICES.md` and
+`docs/PROVENANCE.md` (both files state the count, and the compliance test checks both):
+
+* `client/tooltip/HistoricalTooltips.java`
+* `mixin/AbstractContainerScreenHistoricalTooltipMixin.java`
+* `mixin/TooltipRenderUtilHistoricalMixin.java`
+
+Evidence: `python scripts/apply-licence-headers.py --check` → *all 317 Java files carry the correct licence header (101
+Nostalgic Tweaks-derived, 216 project)*; `*LicenceComplianceTest*` passes in the full build. The extracted colour-map data
+is recorded in `docs/PROVENANCE.md` as **Mojang's values, extracted not authored**, with its source jars and hashes.
+
+## 2. Historical grass/foliage colouring (done and verified in the real client)
+
+**What was measured, not assumed.** The original clients store the tint lookup as a 256×256 `misc/grasscolor.png` /
+`misc/foliagecolor.png`, which the client reads into a 65536-entry array with
+`getRGB(0, 0, 256, 256, pixels, 0, 256)` and indexes with
+`((int)((1.0 - rain * temp) * 255.0) << 8) | (int)((1.0 - temp) * 255.0)`. Extracted across the available clients
+(`tools/ExtractHistoricalColormaps.java`):
+
+* the **grass** map is byte-identical in every version from Alpha v1.2.6 through Release 1.0;
+* the **foliage** map changes exactly once in that window: Alpha v1.2.6 and Beta 1.0 share the older map, Beta 1.2_02
+  through Release 1.0 share the newer one. (Measured with Beta 1.2_02, 1.3_01, 1.4_01, 1.5_01 added to the survey.)
+
+**How the user's "Moderner Beta is controlling the colouring via the biome" was confirmed.** MB's `GrassBlockTintSource`
+and `FoliageTintSource` are registered block tint sources that call vanilla `GrassColor.get`/`FoliageColor.get` with its
+own climate samples, and vanilla's own answers come from the 65536-entry `pixels` array that
+`GrassColorReloadListener`/`FoliageColorReloadListener` fill via `GrassColor.init`/`FoliageColor.init`. So the one place
+that decides the era's colour for *every* consumer is that table.
+
+**Implementation.** `client/colour/HistoricalColormaps.java` loads the extracted tables; two mixins
+(`GrassColorHistoricalColormapMixin`, `FoliageColorHistoricalColormapMixin`) substitute the era's table in `init`. No
+per-block rule is needed. `HistoricalTextureService.tick` compares `desiredEraSignature()` against `appliedEra()` and
+requests one reload when the era changes — the tables load during a resource reload, which happens before a world is
+known. Whole ranges share a signature, so two adjacent versions inside one range never reload.
+
+**Data.** `assets/historical_experience/colormap/*.bin.gz` (3 files, 74 KB total), regenerated by
+`tools/GenerateHistoricalColormaps.java`; `README.txt` beside them records the source jar SHA-256s and the SHA-256 of
+each uncompressed table. No image is copied and no original file is redistributed.
+
+**Verified.** Unit: 6 tests in `HistoricalColormapsTest`, including exact cell values read back from the extracted tables
+(grass `80B497`/`8EB971`/`47CD33`; Release 1.0 foliage `60A17B`/`71A74D`/`1ABF00`; Beta 1.0 foliage `60A17C`/`19BF00`).
+Real client: a three-world cycle (Alpha 1.0.1 → Beta 1.7.3 → Release 1.0) logged the tables being swapped per join —
+`grass+foliage_new` on join, `none` on leave — with `options.txt` unchanged and one reload per join.
+
+**Open.** Alpha 1.0.x and Infdev had no colour map at all (the tint was literal renderer constants; `tools/ScanLegacyColourConstants.java`
+was written to recover them and did not find them). No declared profile sits in that range, so nothing was invented and
+the game's own colouring is left alone there. This is recorded as an open unknown rather than guessed.
+
+## 3. Mossy cobblestone (done and verified)
+
+Measured with `tools/ScanLegacyTerrainTiles.java` and `tools/MatchPackTextureToJar.java`, which compares a pack's 16×16
+texture against each jar's `terrain.png` tile by mean channel distance:
+
+* Plain cobblestone changes at **Beta 1.7**; Golden Days Base carries the pre-1.7 art, Programmer Art the 1.7+ art.
+* **Mossy cobblestone changes later, at Beta 1.8** — a genuinely different boundary, so it needs its own rule.
+* And the packs are paired the *opposite* way for mossy: **Golden Days Base is identical (distance 0.00) to the tile
+  Alpha v1.0.11 through Beta 1.7.3 shipped**, while **Programmer Art is identical to Beta 1.8's**.
+
+`HistoricalTextureRules` therefore gained `MOSSY_COBBLESTONE_CHANGE` (Beta 1.8) and two rules: Golden Days Base through
+Beta 1.7, Programmer Art from Beta 1.8, each excluding the other so the `.mcmeta` follows the image. Unit-tested at both
+boundaries plus the metadata companion, and the test asserts the two cobblestone boundaries differ.
+
+## 4. Legacy tooltips (implemented, unit-tested, confirmed in game by the owner)
+
+`client/tooltip/HistoricalTooltips.java` + two mixins, ported from NT's `CandyTweak.OLD_NO_ITEM_TOOLTIPS`
+(`AbstractContainerScreenHistoricalTooltipMixin`, answering `Slot.hasItem()`) and `CandyTweak.OLD_TOOLTIP_BOXES`
+(`TooltipRenderUtilHistoricalMixin`, which cancels `renderTooltipBackground` and fills NT's own geometry and default
+colour `#000000C0`):
+
+* before **Beta 1.0** → `ABSENT`, no tooltip drawn;
+* **Beta 1.0 → Beta 1.9 Pre-release 1** → `LEGACY`, the flat black box;
+* **Beta 1.9 Pre-release 2 onward** → `MODERN`, nothing substituted and the game draws its own.
+
+Upstream exposes both as player settings with a global default; here the condition is the active version's era, matching
+this project's rule that behaviour is gated per version rather than by a config flag.
+
+**Verified.** Unit: 5 tests over the real registry, both boundaries, and the ordinary-world case. Real client: the owner
+confirmed the in-game result after running the tooltip probe (`tooltipShots` in `TexturesProbe`, which hands the player a
+stone pickaxe, opens the survival inventory, moves the real cursor onto a slot holding an item and photographs the
+result). The probe's own automatic run was interrupted before it recorded a screenshot, so the photographic evidence has
+not been filed — the confirmation is the owner's. `mixin/ContainerScreenAccess` was added for the probe to read which slot
+is hovered.
+
+## 5. Alpha → Alpha 1.2 biome rule — configuration, not chunk rewriting (corrected, owner-reported defect fixed)
+
+**The first attempt was wrong and the owner caught it.** A chunk rewrite was built: it discovered chunk positions from
+the region headers and rewrote the stored biome of each resident chunk through `fillBiomesFromNoise`. It was made
+incremental (work per tick, progress in chat) after an earlier synchronous version froze the client. It demonstrably
+worked on disk — a real 2652-chunk world went from 1260 chunks of `moderner_beta:alpha` and 0 of `beta_plains` to 419 and
+**841** of `beta_plains`, read back from the region files by `scripts/region-biome-census.py`, with the block census
+proving no terrain changed.
+
+**And it changed nothing the game reported.** The owner's F3 readout still said `moderner_beta:alpha`. The reason is in
+Moderner Beta's source: `ModernBetaBiomeSource.getNoiseBiome(biomeX, biomeY, biomeZ)` returns
+`this.biomeProvider.getBiome(...)` for every position and **never reads the biome stored in a chunk**. On top of that the
+Alpha preset's provider is `BiomeProviderSingle`, which returns one held biome unconditionally. So the stored value is not
+what the game reports, and for this world the *provider's settings* are the only thing that decides the biome.
+
+**The fix is the supported configuration path**, which is also what this project's own rules already prefer — "use
+generation-time settings; use narrowly scoped hooks only where configuration cannot express per-world restrictions":
+
+* `alpha_1_2_0_beta_plains` — a NEW revision of Alpha v1.2.0 (never an edit to the published `_no_modern_content`
+  alias, which would move the terrain of existing worlds' ungenerated chunks). Its settings preset inherits
+  `moderner_beta:alpha` unchanged for terrain and adds `"moderner_beta:single_biome": "moderner_beta:beta_plains"`.
+* A matching world preset and the menu tag entry, so the build can actually be created through the GUI.
+* All the chunk-rewrite machinery was deleted: `HistoricalBiomeConversion`, `HistoricalBiomeConversionTask`,
+  `ChunkMapAccess`, their tests and the tick hook.
+
+**Why it matters for this build specifically:** Alpha v1.2.0 is the Halloween Update, which removed the selectable winter
+world mode in favour of biome-based weather, and the owner's rule for the upgrade into it is that the current biome
+becomes Beta plains. `GenerationUpgrade` targets "a declared version's newest revision", so upgrading a world to Alpha
+v1.2.0 now selects the Beta plains revision, and the biome follows from the provider with no chunk work at all.
+
+**The entry gate is therefore moot.** The owner asked that the player not be let in until chunks are converted. Because
+the biome now comes from provider configuration there are no chunks to convert, so there is nothing to gate and no
+progress to show. The player is let straight in, as before.
+
+**Verified statically, deliberately.** `Alpha12BiomeRuleTest` asserts that Alpha v1.2.0's newest revision names
+`moderner_beta:beta_plains` as its single biome, that the revision keeps the `moderner_beta:alpha` foundation so terrain
+is unchanged, that Alpha 1.0.1 carries no single-biome override, and that every declared revision alias has a preset file
+of the same name. Asserting the preset's content *is* asserting the behaviour here, because the provider is the only
+input.
+
+**Measured in the real client before that:** Alpha 1.0.1 reported
+`Biome at spawn -110, 66, 155 = moderner_beta:alpha (profile historical_experience:alpha_1_0_1)` from the spawn-biome
+line the server now logs at startup.
+
+**Still to confirm in game:** that an Alpha v1.2.0 world reports `moderner_beta:beta_plains`. Two attempts to produce
+that world by hand failed *closed* — first because the copied world's level stem disagreed with its metadata, then
+because the metadata's revision did not match its history — and each left the client on a fail-closed screen, which the
+owner saw as a freeze. The natural test is the real upgrade path (Manage World → Alpha v1.2.0) on a throwaway copy, and
+that has not been run since the preset fix. `<world>/historical_experience_metadata.json` records the revision; the hand
+edit that failed set `revision` to 3 while `history` still ended at 1, and the loader rejects that mismatch by design.
+
+## 6. Open question left with the owner: are the colour maps still wanted?
+
+The owner said "don't change the colourings if changing the biome fixes it", then in the same message described the
+colourings as something to apply retroactively to pregenerated chunks. These point in different directions, so nothing was
+removed, and the distinction that matters is:
+
+* **The colour maps decide the tint** — the actual green a grass block is drawn in. Substituting them is inherently
+  retroactive, because the tint is resolved per block *at render time*, so pregenerated chunks are recoloured with no
+  chunk rewriting at all.
+* **A biome decides identity** — temperature, rainfall, what spawns, and which entry of the colour map is consulted.
+
+Moderner Beta already places biomes sensibly (the owner's "colours biomes fine (ish)"), and its tint sources then read
+whatever colour map the game loaded. So the two mechanisms do not overlap: dropping the colour maps would leave MB's
+placement deciding the tint, and every pre-1.2 version would go back to modern green. Recommendation is to keep them;
+say the word and they come out.
+
+## 7. Golden Days Alpha boundary corrected (done and verified in the real client)
+
+**The owner's rule:** the Alpha texture pack applies only to Alpha versions **below** Alpha 1.2. The boundary had been
+`chronology(ERA_ALPHA, 1, 3, 0)` with the note that "the owner's rule extends it through 1.2.x"; it is now
+`chronology(ERA_ALPHA, 1, 2, 0)` and exclusive, so Alpha 1.2.0 is the first build without it.
+
+That boundary is right for two independent reasons, and both were already measured: the pack's `grass_block_top` and
+`oak_leaves` are the Alpha v1.1.2_01 `terrain.png` pixels exactly (tiles 0, 52 and 53, distance 0.0), and those tiles
+first change in Alpha v1.2.x; and Alpha v1.2.0 is the Halloween Update, which introduced biome-based weather and the
+`grasscolor`/`foliagecolor` lookups, so the pre-1.2 art and the pre-1.2 colouring stop in the same build.
+
+**Verified in the real client** by upgrading a scratch world from Alpha 1.0.1 to Alpha 1.2.0 through the normal upgrade
+path:
+
+| | Alpha 1.0.1 | Alpha 1.2.0 |
+| --- | --- | --- |
+| stack | `vanilla+programmer_art+continuation+golden_days_base+golden_days_alpha` | `vanilla+programmer_art+continuation+golden_days_base` |
+| `grass_block_top` | `GOLDEN_DAYS_ALPHA` | `GOLDEN_DAYS_BASE` |
+| `oak_leaves` | `GOLDEN_DAYS_ALPHA` | `GOLDEN_DAYS_BASE` |
+
+## 8. Bug found and fixed: the biome override was written into the wrong preset
+
+While verifying, the biome still reported `moderner_beta:alpha` for the Alpha 1.2.0 world. The cause was mine: an early
+edit put `"moderner_beta:single_biome": "moderner_beta:beta_plains"` into
+`alpha_1_2_0_no_modern_content.json` — a **published alias**, whose worlds recorded the Alpha biome — and the new
+revision's preset was then created by copying that file, so both asked for Beta plains and neither stood out.
+`alpha_1_2_0_no_modern_content.json` has been restored to the shape every other Alpha preset has (no single-biome
+override) and the override now lives only in `alpha_1_2_0_beta_plains.json`.
+
+`Alpha12BiomeRuleTest` did **not** catch this, and that is the useful part: it only asserted the override existed. It now
+compares the two presets as parsed JSON and requires them to differ by exactly the single-biome setting, so an override
+in the wrong file fails.
+
+## 9. RESOLVED — why the biome rule appeared not to work
+
+After the wrong-preset fix the biome at spawn for an upgraded Alpha 1.2.0 world was still `moderner_beta:alpha`, and
+every candidate was checked and found correct, so none of them was the cause: `level.dat` named the beta-plains preset in
+all three places the overworld generator records one; the metadata recorded the same preset; the preset inside the built
+jar contained `"moderner_beta:single_biome": "moderner_beta:beta_plains"`; and Moderner Beta's own `alpha.json` declares
+`provider: single` with `single_biome: alpha`, which `ModernBetaSettings.mapPreset` merges *under* the overriding file's
+own components, so the override should win.
+
+**The answer, found in section 10 by instrumenting the biome source: those checks were reading the wrong API.**
+`ModernBetaBiomeSource.getNoiseBiome` reads the *provider* and correctly reported the new biome. `Level.getBiome(pos)`,
+which is backed by the *chunk's stored biome data*, reported the old one. Both readings are real; they answer different
+questions, and an upgraded world has them out of step until its stored chunks are rewritten. The rule was never broken —
+it was being checked against the chunk-backed API while only the provider had been changed.
+
+## 10. Beta 1.8.1 onward to `late_beta_plains` — preset side DONE, chunk converter still required
+
+Owner's request: apply the Alpha 1.2 treatment again from Beta 1.8.1 to the latest Release so the biome reads as
+`late_beta_plains`; "upgrade the beta plains to late beta plains and also if there are any other beta/late beta it should
+do that"; AND build an extremely performant chunk converter so the stored chunks change too, with the player held out
+until it finishes, a progress bar, and multithreading.
+
+### What the diagnostic settled (this is the important part)
+
+A diagnostic added to `HistoricalServerLifecycle` (`reportBiomeProvider`, which prints the resolved single-biome
+component, the concrete provider class and the provider's own answer at spawn) settled the whole question in one run:
+
+```
+Moderner Beta biome source: provider=BiomeProviderSingle single_biome=<none>
+  biome_at_spawn=ResourceKey[minecraft:worldgen/biome / moderner_beta:late_beta_plains]
+Biome at spawn 100, 64, -229 = moderner_beta:beta_rainforest
+```
+
+Three conclusions, all measured:
+
+1. **The preset change works.** The provider is `BiomeProviderSingle` and its own answer for the spawn position is
+   `late_beta_plains`.
+2. **The two biome APIs disagree.** `ModernBetaBiomeSource.getNoiseBiome` — the provider, which is what F3 reports —
+   answers `late_beta_plains`. `Level.getBiome(pos)`, backed by the **chunk's stored biome data**, still answers
+   `beta_rainforest`, because those chunks were written before the preset changed and no preset rewrites them.
+3. **Therefore the owner was right and the chunk converter IS required.** The two have to agree, so both halves are
+   needed. (This also means the earlier chunk rewrite was not useless, only insufficient on its own.)
+
+### Done: the preset side
+
+`scripts/set-late-beta-biome.py` applied to the 15 presets that worlds in that range generate from (Beta 1.8.1's
+`cave_fix` and `no_modern_content`, every Beta 1.9 prerelease `no_modern_content`, and Releases 1.0 through 1.6.4):
+
+* `biomeSettings` gains `"moderner_beta:provider": "moderner_beta:single"` and
+  `"moderner_beta:single_biome": "moderner_beta:late_beta_plains"`. The provider had to be set as well as the biome,
+  because from Beta 1.8.1 the inherited providers are fractal (`moderner_beta:beta_fractal`, `moderner_beta:fractal`) and
+  a fractal provider ignores a single-biome setting. **This is what makes those worlds a single biome rather than a
+  distribution** — the owner confirmed that is wanted.
+* `caveBiomeSettings.single_biome` moves `beta_taiga` → `late_beta_taiga`, since the whole `beta_*` family is the
+  pre-1.8 naming and none of it should survive into this range.
+* Chunk settings and the terrain foundation are untouched, so terrain shape is unchanged.
+
+`scripts/rename-beta-biomes.py` was written for the name-rename reading of the request and is kept, but it showed that
+the project's own presets override only the cave biome; the main biome names live in Moderner Beta's inherited presets, so
+the single-biome setting is the mechanism that actually reaches them.
+
+### Still to do: the chunk converter
+
+Required, per conclusion 3, and now known to be cheap: a 1.21.1 chunk stores biomes as a **palette-only container with no
+packed data** (`data` absent, `palette: ['minecraft:plains']`), so a rewrite replaces a string per section rather than
+re-packing indices. `scripts/inspect-chunk-biomes.py` shows this for any world.
+
+Design to implement: read region files in worker threads with one region per thread, rewrite each section's biome palette
+to the target, re-compress, replace atomically, aggregate progress into a bar, and hold world entry until it reports
+finished. It must not run while a world is open, since it writes the files underneath it.
+
+`RevisionInventoryTest` was added to print each version's revisions and the preset each names, so this work is driven by
+the compiled registry rather than by reading the Java source by eye.
+
+### Done: the chunk converter, verified
+
+`scripts/convert-chunk-biomes.py`. It rewrites the biomes stored in a world's chunks with:
+
+* **one worker per region file**, so regions convert in parallel (`--threads`, default one per CPU);
+* a **live progress bar** — `[####----] 2652/2652 100.0% 1020 chunks/s 0s left 36008 changed`;
+* **atomic replacement** — each rewritten region is built in a `.tmp` file and moved into place with `os.replace`,
+  so an interrupted run leaves the original intact;
+* **no-op safety** — a chunk already holding only the target biome is left byte-identical, so re-running is nearly
+  free (measured: a second run reports 0 changed);
+* only the `biomes` palette is touched, so terrain, entities and containers are never read or written.
+
+Because the target name is a different LENGTH from the names it replaces, each NBT string's length prefix has to be
+rebuilt, which is why it parses NBT rather than patching bytes in place.
+
+**Measured on a real 2652-chunk Release 1.0 world** (a throwaway copy of `New World (3)`):
+
+| | before | after |
+| --- | --- | --- |
+| biomes referenced | `minecraft:plains` 1392, `moderner_beta:beta_taiga` 1122, `early_release_swampland` 290, `minecraft:ocean` 290, `late_beta_extreme_hills` 238, … | **`moderner_beta:late_beta_plains` in 2652 chunks, and nothing else** |
+| palette entries rewritten | — | 36,008 |
+| wall clock | — | **2.6 s** (≈1,020 chunks/s) |
+| block census | air 86.08%, stone 10.99%, water 0.97%, bedrock 0.66% | **identical to the source world, unchanged** |
+
+Parsing bug worth recording, because it failed silently three times: a LIST payload parses to
+`(item_tag, [items])`, and this repository's reader builds that pair as a single element, so `sections[1]` arrives as
+`[item_tag, [items]]` — one level deeper than assumed. Iterating the wrong level yields zero changes and looks like a
+correct no-op. `unwrap`/`item_value` now accept every shape seen, with the reason in their docstrings.
+
+### Still to do: the entry gate
+
+The owner asked that the player not be let into the world until the conversion finishes. The converter is a
+region-file tool, so it must run with the world CLOSED — it cannot run behind the "Loading terrain" screen, because
+the running server holds those files and would overwrite the result on its next save. Two honest options, and the
+owner's call:
+
+1. **Run it as a pre-launch step** in the launcher/profile, before the game starts, showing its own progress bar.
+2. **Run it from inside the mod at world selection**, before the server opens the region files, blocking entry with a
+   progress screen until it reports finished. This is the owner's literal request and is the next piece of work.
+
+Option 1 is what the tool supports today.
+
+### Done and END-TO-END VERIFIED: both halves together
+
+The decisive run, on one upgraded Release 1.6.4 world, before and after the converter:
+
+```
+before  Biome at spawn 100, 64, -229 = moderner_beta:beta_rainforest
+        Moderner Beta biome source: provider=BiomeProviderSingle ... biome_at_spawn=late_beta_plains
+        ^ the provider and the stored chunk DISAGREED
+
+after   Biome at spawn 100, 64, -229 = moderner_beta:late_beta_plains
+        Moderner Beta biome source: provider=BiomeProviderSingle ... biome_at_spawn=late_beta_plains
+        ^ both agree
+```
+
+So the rule now holds on both sides: the provider reports `late_beta_plains` and the stored chunks say the same.
+The conversion on that world rewrote 36,008 palette entries across 2652 chunks in 2.6 s, and a re-run reports 0
+changed.
+
+### NEXT: the converter must live in the jar, and this is the design
+
+**Owner's correction, and it is correct:** "You should not use a script bruh that's ABYSMAL for the user this is
+supposed to be an end to end product it needs to be built into the jar and it should run a conversion step like before
+the world even attempts to load via minecraft it should run conversion and then load and show the screen then."
+
+So `scripts/convert-chunk-biomes.py` is a **development tool that proved the transform**, not the feature. The feature
+is a Java converter inside the jar. Nothing about the mechanism changes — the Python version is the specification, and
+it is measured (36,008 palette entries, 2652 chunks, 2.6 s, terrain byte-identical, re-run is a no-op). What changes is
+where it lives and how the player meets it.
+
+**Why the game must not be allowed to open the storage first.** `LevelStorageSource.validateAndCreateAccess(String)`
+is what acquires the session lock and opens the region files. Converting after that means the running server holds
+those files and overwrites the result on its next save, so the conversion has to complete *before* that call is
+allowed to proceed — which is exactly what the owner asked for.
+
+**The entry point.** `createWorldOpenFlows().openWorld(...)` → `LevelStorageSource.validateAndCreateAccess`. A mixin
+on `LevelStorageSource` that intercepts `validateAndCreateAccess` is the single choke point; it is called on the client
+thread, so returning early and resuming later is safe.
+
+**The flow to build.**
+
+1. On the client thread, read the world directory named by the argument and decide whether conversion is needed: the
+   world's metadata `generationPreset`/`profileId` says it is in the Beta 1.8.1 → Release 1.6.4 range, and at least one
+   region file still holds a biome other than `moderner_beta:late_beta_plains`.
+2. If not needed, call the original method and load as normal — no screen, no delay. Ordinary worlds and worlds already
+   converted take this path.
+3. If needed, **do not call the original**. Instead set a progress screen and start the conversion on a daemon thread
+   pool (one task per region file, mirroring the Python tool's parallelism), then return without opening the storage.
+4. The progress screen polls an `AtomicInteger`/`LongAdder` of chunks done and total and draws a bar, the way the
+   "Loading terrain" screen does.
+5. When the pool reports finished, the screen re-issues the world load, which now takes path 2 and opens normally.
+   Show the result line briefly ("Converted 36,008 biomes across 2652 chunks") before handing off.
+
+**What to port, in order.** The NBT read/write pair, the region rebuild with recomputed sector offsets and preserved
+timestamps, the biome palette rewrite, per-region worker parallelism, the progress counters, and the "already
+converted is a no-op" guard. Vanilla already ships NBT (`CompoundTag`, `NbtIo`, `NbtAccounter`) and the region format
+constants, so the parse and re-encode should use those rather than a hand-written pair — only the biome rewrite itself
+is ours.
+
+**A trap already paid for, so it is not paid twice.** A parsed LIST is `(item_tag, [items])`, and nested one level
+deeper again inside a compound that is itself a pair: the Python version reported "0 changed" three times before the
+shapes were handled. Whatever port is written must assert a non-zero expected count on a fixture world, because this
+failure is silent and looks like success.
+
+### DONE: the conversion is now inside the jar, gated before the world opens
+
+**Owner's correction, and it was right:** "You should not use a script bruh that's ABYSMAL for the user this is
+supposed to be an end to end product it needs to be built into the jar and it should run a conversion step like before
+the world even attempts to load via minecraft it should run conversion and then load and show the screen then."
+`scripts/convert-chunk-biomes.py` remains a development tool that proved the transform; the feature is now Java in the
+jar.
+
+**Where it hooks.** `mixin/WorldOpenFlowsHistoricalBiomeMixin` injects at the HEAD of `WorldOpenFlows.openWorld`, which
+is the client's single entry point for opening an existing world and runs on the client thread *before* any storage is
+acquired. When a world needs converting the hook cancels the call and shows `BiomeConversionScreen`, so the region
+files are never handed to a server that would overwrite the work on its next save. That is the ordering the owner asked
+for: convert, then load.
+
+**The rest of the implementation.**
+
+* `world/upgrade/HistoricalRegionBiomes` — the region-file rewrite: read the location table and the chunk bodies, decode
+  each chunk through vanilla's own `NbtIo` with the compression scheme its header names, replace every biome palette
+  entry, re-encode, recompute the sector offsets, preserve the timestamps, and write atomically through a temporary file
+  and `ATOMIC_MOVE`.
+* `world/upgrade/HistoricalBiomeConversionDriver` — one task per region file across a pool sized to the available
+  processors, atomic counters for the screen to read from the client thread, and a `needsConversion` scan that decides
+  by inspecting the biome palettes rather than trusting a stored flag.
+* `client/biome/BiomeConversionScreen` — the progress screen: world name, `done / total (n%)`, a bar smoothed so it
+  cannot jump backwards, the region file in flight, and a one-line summary when finished. Escape does not close it,
+  because closing would leave the conversion running against a half-open world.
+* Three language keys under `historical_experience.biome_conversion.*`.
+
+**Verified end to end, in the client, from the jar.** A scratch world was upgraded to Release 1.6.4 so it was on the new
+preset while its chunks still held the old biomes, then opened through the ordinary path:
+
+1. **The owner saw the conversion screen**, which is the gate working: the world was held back rather than loaded.
+2. The stored biomes were rewritten — the census then reported `moderner_beta:late_beta_plains` in all 2652 chunks.
+3. The world loaded afterwards, and both biome APIs agreed:
+
+```
+Biome at spawn 100, 64, -229 = moderner_beta:late_beta_plains
+Moderner Beta biome source: provider=BiomeProviderSingle ... biome_at_spawn=late_beta_plains
+```
+
+`HistoricalRegionBiomesTest` (4 tests) covers the rewrite on hand-built chunk tags. It exists because **this failure
+mode is silent**: the same transform in the development tool reported "0 changed" three times while skipping every
+section, and a no-op looks exactly like success. The tests assert a non-zero count for that reason, including the
+already-converted case that must report zero.
+
+**Known limit.** The scanning pass runs on the client thread before the screen appears, so a very large world has a
+short pause before the bar shows. The conversion itself is parallel and off-thread; only the size scan is not.
+
+### Three corrections from the owner, all verified
+
+**1. The conversion started at the wrong build.** It ran only from Beta 1.8.1. It now starts at **Alpha v1.2.0**, which
+is where biome-based colouring and weather actually arrive, so a world upgraded to that build is converted there rather
+than eleven builds later. Beta 1.8.1 is the second boundary, where the *target* changes from `beta_plains` to
+`late_beta_plains`, not where conversion begins. `targetBiomeFor(version)` returns the right one per version, and the
+screen names the biome it writes rather than assuming.
+
+**2. Upgrades from Infdev (or anything earlier) convert.** They already did in principle, because the hook runs on the
+*destination* version and a world cannot be upgraded *to* Infdev - so there is no source-side case to write. What was
+missing was that Alpha v1.2.0 was not a converting build at all (see 1), which is exactly the path an Infdev world
+takes on its way forward. Verified: an Alpha 1.0.1 world upgraded to Alpha 1.2.0 had all 3212 chunks converted to
+`moderner_beta:beta_plains`, and `Level.getBiome` at spawn agreed.
+
+**3. A conversion now runs exactly once per boundary, not once per load.** This was the dangerous one. Deciding by
+scanning the chunks was destructive: once a converted world generates chunks of its own, those hold the biomes its
+generator produces - a distribution, not one biome - so the next load would see them, call the world unconverted, and
+flatten them. That destroys precisely the variety the rule exists to keep.
+
+`BiomeConversionRecord` records each conversion in the world's own append-only metadata history, in the same form the
+version upgrades use:
+
+```
+rev3 [biome conversion] converted stored chunk biomes to moderner_beta:late_beta_plains
+```
+
+A conversion is owed only when the target this world's version needs has **never** been recorded for it. Written as
+"has this target ever been done" rather than "is it the most recent", because a world can move between profiles in
+either direction and a last-target record would consider an earlier one owed again on the way back. The chunk scan
+survives only as the fallback for a world with no record at all.
+
+### Two more corrections about generation
+
+**Generation must not be flattened.** The single-biome settings were removed from every Beta 1.8.1-to-Release-1.6.4
+preset, so those builds keep the multi-biome fractal providers they ship with. Measured on an upgraded Beta 1.8.1 world:
+**8 distinct biomes across 81 samples** - desert, forest, ocean, river, and the four `late_beta_*` names - while the
+chunks that already existed were converted. That is the owner's rule exactly: only chunks generated prior are affected.
+
+**Alpha v1.2.0 takes Beta 1.1's biome generator**, because the owner's rule is that their generators are the same.
+Beta 1.1 uses `"moderner_beta:provider": "moderner_beta:beta"` - climate-based, with a mapping table from climate to
+biome - so Alpha 1.2.0 now generates plains, taiga, desert, forest, rainforest and the rest rather than one biome. Only
+the *biome* settings are taken from Beta 1.1; the chunk settings stay `moderner_beta:alpha`, so terrain and the height
+envelope do not move.
+
+### Verified end to end
+
+| what | result |
+| --- | --- |
+| Alpha 1.0.1 → Alpha 1.2.0 | 3212 chunks converted to `beta_plains`; `getBiome` at spawn agrees |
+| Upgrade to Beta 1.8.1 | pregenerated chunks converted; generation still yields 8 distinct biomes |
+| Second open of that world | **no conversion** - the record prevented it; still 8 distinct biomes |
+| Metadata after | `rev3 [biome conversion] ...`; history intact, profile and preset untouched |
+
+`BiomeConversionRecordTest` (4 tests) and `BiomeConversionTargetsTest` (3 tests) cover the run-once rule, the
+both-directions case and the two boundaries. `HistoricalRegionBiomesTest` (4 tests) covers the rewrite itself.
+
+## Build state at this handoff
+
+`.\gradlew.bat --console=plain build` (JDK 25) → **exit 0, 499 tests, 0 failures**. `python scripts/apply-licence-headers.py
+--check` → all 329 Java files carry the correct licence header (101 Nostalgic Tweaks-derived, 228 project). The jar
+carries the three colour-map resources, the mixin classes and `META-INF/{LICENSE,COPYING,COPYING.LESSER}`.
+
+The Alpha v1.2.0 biome rule is now data, not code: `alpha_1_2_0_beta_plains` in the version registry, its settings preset,
+its world preset, and the world-creation menu tag entry. `Alpha12BiomeRuleTest` holds those four in agreement — the same
+way the sandbox history in this project has always guarded a preset, and for the same reason: the alias and the JSON file
+of the same name must both exist, and a test catches it when they do not.
+# Previous feature — 2026-10-14 / automatic historical textures (Programmer Art + Continuation + Golden Days)
 
 Goal `goal-341dba9d…` is active. **Target note:** the brief says Minecraft 26.3; this repository's only target is 1.21.1
 (AGENTS.md: the 26.3 tree was deleted at the owner's instruction), so all of this was built and verified on 1.21.1.

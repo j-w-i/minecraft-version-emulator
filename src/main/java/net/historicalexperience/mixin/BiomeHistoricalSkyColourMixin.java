@@ -37,9 +37,14 @@ import org.spongepowered.asm.mixin.injection.At;
  * exactly what the original clients did after choosing the colour (Beta 1.7.3 {@code fd.java:945} darkens the same
  * way). Replacing the finished vector would throw that away.
  *
- * <p>The colour itself no longer comes from Nostalgic Tweaks' era menu. Its Beta entry is a flat {@code 0x97A3FF}
- * which is not what any Beta client drew: Beta computed the sky from the world's temperature field. What is applied
- * here is measured from the clients - see {@link HistoricalWorldTweaks.SkyEra} and {@link HistoricalSkyColours}:
+ * <h2>What is applied today, and what is kept behind it</h2>
+ *
+ * <p>Every version this hook serves now returns a flat colour from {@code HistoricalWorldTweaks.eraSkyColour}: the
+ * extracted Infdev and Alpha v1.0.x values, and - since the owner's 2026-10-15 revert - Nostalgic Tweaks' flat Beta
+ * {@code 0x97A3FF} for Beta 1.0 up to Beta 1.8.1. The temperature branch below is therefore <b>not reachable by any
+ * declared version today</b>. It is retained because it is the measured behaviour of the Beta clients, it is tested,
+ * and reversing the owner's choice is then a change to the two mapping methods in {@code HistoricalWorldTweaks}
+ * rather than a re-derivation of the sampler plumbing:
  *
  * <ul>
  *   <li><b>Infdev and Alpha v1.0.x</b>: the flat colour that era's client used.</li>
@@ -49,7 +54,8 @@ import org.spongepowered.asm.mixin.injection.At;
  *       generator, which this project does not do. Moderner Beta ships the same function for the sky as well, but on
  *       1.21.1 its injection writes the colour into the sampler's position argument, so the value never reaches the
  *       sky on its own; reading the sampler's temperature and applying Beta's function is both its data and the
- *       original arithmetic.</li>
+ *       original arithmetic. Moderner Beta's sampler needs a Beta world; where there is none, the branch keeps the
+ *       game's own colour.</li>
  *   <li><b>Everything else, including ordinary worlds</b>: untouched.</li>
  * </ul>
  *
@@ -78,6 +84,9 @@ public abstract class BiomeHistoricalSkyColourMixin {
         if (flat != null) {
             return flat;
         }
+        // Retained measurement rather than a live path: since the owner's 2026-10-15 revert, every version this hook
+        // serves returns a flat colour from the block above, and a test asserts that. See the class comment for why
+        // the clients' own temperature behaviour is kept here anyway.
         if (HistoricalWorldTweaks.skyEra(version) == HistoricalWorldTweaks.SkyEra.TEMPERATURE) {
             Float temperature = historicalExperience$betaSkyTemperature(client);
             if (temperature != null) {

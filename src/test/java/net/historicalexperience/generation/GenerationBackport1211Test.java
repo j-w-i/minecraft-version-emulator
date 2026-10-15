@@ -87,7 +87,7 @@ class GenerationBackport1211Test {
         // Pinned explicitly as well, so an accidental gain or loss is a failure rather than something the
         // expression above would silently absorb. 29 was the count before Beta 1.4, 1.5 and 1.6 were declared -
         // the last three unimplemented targets of the expansion matrix.
-        assertEquals(32, checked, "the project declares thirty-two profiles");
+        assertEquals(33, checked, "the project declares thirty-three profiles");
     }
 
     @Test void newerRevisionsExistForEveryVersionWhoseModernContentWasMissing() {
@@ -177,7 +177,16 @@ class GenerationBackport1211Test {
         // sand." - so Beta 1.0 had neither the block nor the rule and Beta 1.2 had the block but not the rule. The
         // shared moderner_beta:beta foundation enables the rule for both; Beta 1.3 keeps it, because there the rule
         // is genuine. New revisions, never edits, because `_historical_envelope` is published.
-        assertEquals(94, reduced);
+        //
+        // 94 + 1 = 95 now: `alpha_1_2_0_beta_plains`, whose single biome is Beta plains. Alpha v1.2.0 removed winter
+        // world mode in favour of biome-based weather, and the owner's rule for the upgrade into it is that the current
+        // biome becomes Beta plains. Again a NEW revision, and again a preset setting rather than a chunk rewrite,
+        // because Moderner Beta's biome source asks its provider for every position and never reads a chunk's stored
+        // biome - so only the provider's settings can change what the world reports and generates.
+        // 95 + 4 = 99: the four Alpha 1.2.2a recipes, cloned from the 1.2.0 line so the banner build of that era
+        // generates exactly what 1.2.0 did. Not one is a new revision of an existing version, which is why the count
+        // moves by the number of NEW versions rather than by the number of edits.
+        assertEquals(99, reduced);
         assertFalse(Files.exists(DATA.resolve("minecraft/worldgen/noise_settings")));
         assertFalse(Files.exists(DATA.resolve("moderner_beta/worldgen/noise_settings")));
     }

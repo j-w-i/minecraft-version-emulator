@@ -1,0 +1,823 @@
+{
+  "schema": 1,
+  "source": "research/version-transitions.json",
+  "note": "Not exhaustive: the research this comes from says so itself, and absence from a list is not evidence that a feature was absent.",
+  "versions": {
+    "historical_experience:alpha_1_0_1": {
+      "introduced": [
+        "redstone ore and redstone dust",
+        "redstone torches, levers, buttons, pressure plates",
+        "iron doors (require redstone, unlike later broad interaction options)",
+        "first reported redstone circuitry",
+        "signs can now be wall-mounted (existing signs)"
+      ],
+      "changed": [
+        "gold ore generates twice as often",
+        "diamond ore generates twice as often in slightly smaller blobs",
+        "mushrooms could generate in more places but popped off in sunlight",
+        "monster spawners stopped dropping as items (no longer obtainable by ordinary block drops)",
+        "redstone dust had only on/off visual states",
+        "wiki history reports improved mob AI, but gives no exact pathing/targeting detail"
+      ],
+      "removed": [
+        "monster spawners as an obtainable block drop"
+      ],
+      "worldgen": [
+        "pre-biome Halloween generator: no biome system yet (biomes arrive in Alpha v1.2.0)",
+        "worlds 128 blocks tall with sea level Y=64 (historical summary, Part IV)",
+        "redstone ore blobs reported at this boundary; a coal-blob size change is flagged as needing verification",
+        "caves, ore blobs, springs and dungeons predate this target range",
+        "dungeons predate this build (their generator attempts double in Alpha v1.0.14)",
+        "Nether not yet present"
+      ]
+    },
+    "historical_experience:alpha_1_0_4": {
+      "introduced": [
+        "snow and ice blocks",
+        "selectable winter-mode worlds (alternate world creation mode)",
+        "sitting pose (mechanism not established)"
+      ],
+      "changed": [
+        "mob physics changed; jumps became shorter",
+        "in winter worlds exposed water froze and exposed surfaces accumulated snow"
+      ],
+      "removed": [],
+      "worldgen": [
+        "winter-mode worlds: 25% chance at world creation; exposed water froze, exposed surfaces accumulated snow, gravel-beach water was not fully frozen",
+        "normal world generation appears unaffected by the winter mode",
+        "this is a generator/world-type mode, not a later climate-driven snow biome"
+      ]
+    },
+    "historical_experience:alpha_1_0_6": {
+      "introduced": [
+        "cactus",
+        "boats (early, fragile: version history records breakage on land placement/impact)",
+        "snowballs stack to 16 and can be thrown without disappearing",
+        "fancy (large) trees generate alongside small trees"
+      ],
+      "changed": [
+        "leaves no longer decay",
+        "sapling drop chance reduced 10% -> 5%",
+        "snow blocks became water-resistant",
+        "snow-block recipe uses four snowballs while breaking yields six (repeatable snowball supply)",
+        "boats have low early durability; can fit through one-block water openings per historical notes"
+      ],
+      "removed": [
+        "leaf decay (leaves no longer decay in this build; reintroduced in Beta 1.0 with changed behavior)"
+      ],
+      "worldgen": [
+        "cacti naturally generate on sand",
+        "fancy trees now generate alongside small trees; precise frequencies unverified",
+        "no biome system yet"
+      ]
+    },
+    "historical_experience:alpha_1_0_11": {
+      "introduced": [
+        "clay, clay balls",
+        "reeds (later named sugar cane)",
+        "paper, books, brick items/blocks",
+        "slimes",
+        "bucket milking of cows",
+        "cactus harms mobs only when contacted (contact rule)"
+      ],
+      "changed": [
+        "bookshelf and brick block crafting recipes restored",
+        "cactus now only on sand and cannot be placed adjacent to another block",
+        "slimes split into smaller forms on death (historical notes: only when killed by fist, spawn below Y=32, only the smallest form drops slimeballs)"
+      ],
+      "removed": [
+        "bookshelf drops (bookshelves dropped nothing when mined)"
+      ],
+      "worldgen": [
+        "clay generates near water",
+        "reeds appear near beaches and can grow up to three blocks",
+        "tree/flower patch generation changed; exact placement attempts and heights not documented",
+        "no biome system yet"
+      ]
+    },
+    "historical_experience:alpha_1_0_14": {
+      "introduced": [
+        "chickens and eggs",
+        "jukeboxes and music discs",
+        "furnace minecart",
+        "chest minecart",
+        "music discs obtained in dungeon chests or when a skeleton kills a creeper",
+        "three non-ambient music tracks: piano1, piano2, piano3 (Dry Hands, Wet Hands, Mice on Venus)",
+        "chicken sound events, jukebox/disc playback, revised title logo, new splashes"
+      ],
+      "changed": [
+        "obsidian blast resistance increased to 1,200",
+        "dungeon generator iterations increased 4 -> 8, increasing dungeon generation and shifting subsequent decorator RNG outcomes such as trees/flowers",
+        "music re-enabled and now plays throughout the world rather than only as ambient music",
+        "original client's jukebox recipe incorrectly yielded a bookshelf; same-day reupload corrected it"
+      ],
+      "removed": [
+        "slime natural spawning (reduced and then disabled in this build due to a reported spawn-limit miscalculation; not a permanent removal)"
+      ],
+      "worldgen": [
+        "dungeon generator iterations 4 -> 8, changing population order and other generated content",
+        "no base terrain generator change identified"
+      ]
+    },
+    "historical_experience:alpha_1_0_17": {
+      "introduced": [
+        "oak fences (players reportedly began with 64 in inventory)",
+        "spider jockey",
+        "working multiplayer day/night cycle",
+        "pigs, chickens and slimes added to multiplayer"
+      ],
+      "changed": [
+        "milk buckets can be emptied",
+        "chickens no longer take fall damage and glide downward"
+      ],
+      "removed": [],
+      "worldgen": [
+        "no identified generator change"
+      ]
+    },
+    "historical_experience:alpha_1_1_0": {
+      "introduced": [
+        "compass, pointing toward world spawn",
+        "shared client/server inventory",
+        "player inventory persisted on a multiplayer server",
+        "player location persisted on disconnect",
+        "chests, signs and furnaces working in multiplayer",
+        "experimental switch enabling monsters in multiplayer"
+      ],
+      "changed": [
+        "monster spawners stopped rendering their contained mob (visual/internal change)",
+        "camera-through-walls exploit fixed only by the second reupload"
+      ],
+      "removed": [],
+      "worldgen": [
+        "no identified terrain change"
+      ]
+    },
+    "historical_experience:alpha_1_2_0": {
+      "introduced": [
+        "the Nether dimension, reachable through a player-built obsidian portal",
+        "netherrack, soul sand, glowstone",
+        "pumpkins and jack-o'-lanterns",
+        "clocks",
+        "fishing rod and raw fish (documented catch is raw fish only)",
+        "12 listed biomes and biome-colored terrain; Ice Desert is listed but unused",
+        "ghasts and zombie pigmen (zombie pigmen neutral until attacked, then nearby group retaliation)",
+        "six music tracks: hal1-hal4, nuance1-nuance2",
+        "Overworld:Nether distance mapping of 8:1"
+      ],
+      "changed": [
+        "fishing source history gives 1 in 500 chance per tick while the bobber is in water for raw fish (rate semantics unverified)",
+        "depth-noise-like scale reported changing 100 -> 200 (low-medium confidence; labelled a development preview with conjectural causal attribution)",
+        "monoliths cease",
+        "bottom layer becomes all bedrock",
+        "Wet Hands mix changed and Mice on Venus extended",
+        "ghast fireballs use the snowball texture (asset only) and explode on impact",
+        "Nether water evaporates"
+      ],
+      "removed": [
+        "slime natural spawning (removed from mob spawning code)",
+        "selectable winter world mode from Alpha v1.0.4 (replaced by biome-based weather)",
+        "player 'ough' damage sound"
+      ],
+      "worldgen": [
+        "major generator discontinuity: 12 listed biomes introduced (Ice Desert unused); replaces the pre-Halloween terrain algorithm rather than toggling biome IDs",
+        "depth-noise-like scale 100 -> 200 and monoliths cease (low-medium confidence, WIP history, causal attribution conjectural)",
+        "all-bedrock bottom layer; world-height/bedrock floor changed",
+        "monoliths cease; sea-level/height noise changed",
+        "near 32M blocks fake non-solid chunks appear and lighting/decoration generation stops",
+        "same seed does not preserve terrain across this boundary"
+      ]
+    },
+    "historical_experience:alpha_1_2_2a": {
+      "introduced": [
+        "F4, which rebuilt a lit Nether portal next to the player - the only content this build adds beyond Alpha v1.2.0. Read from the client: Minecraft.java handles key code 62 by calling nj.c(world, player), which searches 16 blocks around the player for a floor with headroom, takes an orientation from nextInt(4) and places an obsidian frame with lit portal blocks inside. It does not teleport: nj.b, which finds an existing portal within 128 blocks and moves the player to it, is not called."
+      ],
+      "changed": [
+        "a fix release over Alpha v1.2.0, so everything else is that build's profile - same mob set, food table, crafting table, block dates, structure rule and generation revisions, taken from the 1.2.0 version object rather than restated"
+      ],
+      "removed": [
+        "nothing this project records; Alpha v1.2.0 remains selectable for anyone who wants the build without the F4 key"
+      ],
+      "worldgen": [
+        "generation is Alpha v1.2.0's, revision for revision: the alpha terrain foundation with the Beta 1.1 biome settings, grass excluded as a pre-Beta 1.6 correction, and the same modern-content exclusions"
+      ]
+    },
+    "historical_experience:beta_1_0": {
+      "introduced": [
+        "item-name tooltip on hover",
+        "cape support (only the Mojang cape existed then)",
+        "deadmau5 ears cosmetic support",
+        "leaf decay (reintroduced, with changed behavior)",
+        "eggs stack to 16, can be thrown, 1/8 (12.5%) chicken spawn chance",
+        "inventory becomes server-side functional"
+      ],
+      "changed": [
+        "eggs stack size 64 -> 16",
+        "leaf decay behavior differs from its earlier form",
+        "armor-slot outlines removed",
+        "crafting-grid slots no longer hold items; attempted placement drops them",
+        "tools on ground no longer repair themselves (durability behavior)",
+        "lava lakes replace neighboring blocks with stone",
+        "chest UI closes if the player moves too far or the chest explodes",
+        "servers save chunks less often: chunks are not resaved if saved during the preceding 30 seconds",
+        "/kill fixed"
+      ],
+      "removed": [
+        "armor-slot outlines",
+        "crafting-grid slots holding items",
+        "tool self-repair when tools lie on the ground"
+      ],
+      "worldgen": [
+        "existing climate-era generator (pre-Beta-1.8) persists",
+        "lava lakes replace neighboring blocks with stone",
+        "Beta 1.0 grassland/sand boundary is misaligned until Beta 1.3",
+        "Nether inherited; no Beta 1.8 strongholds/villages/mineshafts",
+        "exact generator parameters unknown"
+      ]
+    },
+    "historical_experience:beta_1_2": {
+      "introduced": [
+        "charcoal, note blocks, dyes and colored wool, sugar, dispensers",
+        "squid (10 health, drops ink sac, no sounds, could be milked in this build)",
+        "lapis lazuli, lapis block and lapis ore",
+        "bone and bone meal",
+        "sandstone",
+        "birch and spruce logs/leaves; birch trees in forests, spruce replaces oak in taiga",
+        "cake, cocoa beans (Creative/editor-only at this point), brown wool (external-tool-only)",
+        "monster spawners show a rotating mob model again in singleplayer"
+      ],
+      "changed": [
+        "sugar cane renamed from reeds; crafting table renamed from workbench",
+        "tool durability: wood 33 -> 59, stone 65 -> 131, iron 129 -> 250, diamond 1025 -> 1561",
+        "gold tools gained much faster mining in some categories while retaining old durability/restrictions",
+        "wool dyeing restored",
+        "stone slab crafting and several dye recipes altered",
+        "skeletons now drop bones",
+        "spiders can climb walls",
+        "sheep can be dyed and some gray/black colors spawn naturally",
+        "cake restores 3 health per slice",
+        "bone meal fertilizes saplings/wheat",
+        "note blocks play an instrument determined by the block underneath and emit on click/use/power",
+        "dispenser drops contents"
+      ],
+      "removed": [],
+      "worldgen": [
+        "birch trees added to forests, spruce trees replace oak in taiga",
+        "lapis ore appears (Beta 1.2_02 later adjusts lapis frequency/height and permits bedrock-level generation; do not backdate)",
+        "wiki history reports more coal/iron/diamond in caves but does not settle whether frequency or blob size changed"
+      ]
+    },
+    "historical_experience:beta_1_3": {
+      "introduced": [
+        "beds (sleeping/time skip)",
+        "redstone repeaters (delayed/further redstone transmission)",
+        "cobblestone/wood/sandstone slabs",
+        "smooth stone slab (present but unobtainable)",
+        "'Skull on Fire' painting content",
+        "world seed/name selection, multiple world slots, /time and whitelist commands",
+        "smooth-lighting engine and graphics option"
+      ],
+      "changed": [
+        "sandstone generates under natural sand and has faster mining",
+        "stone slabs switch to the stone recipe; double slabs drop 2 slabs",
+        "stone pressure plate recipe decreases from three material to two",
+        "gunpowder renamed from sulphur",
+        "lapis multiplayer ore drops 4-8",
+        "Beta 1.0 grassland/sand biome boundary fixed (no longer visibly misaligned at chunk borders)",
+        "squid can no longer be milked",
+        "slimes spawn again",
+        "squid now swims in 3D instead of remaining at water bottom",
+        "multiplayer hostile mobs can be attacked properly",
+        "powered dust gets darker farther from source, unpowered dust is black"
+      ],
+      "removed": [
+        "squid milking (possible in Beta 1.2, removed here)"
+      ],
+      "worldgen": [
+        "sandstone generates under naturally generated sand",
+        "Beta 1.0 grassland/sand biome boundary fixed",
+        "no structure epoch",
+        "Bedrock wall/floor behavior unchanged in the sources consulted"
+      ]
+    },
+    "historical_experience:beta_1_4": {
+      "introduced": [
+        "wolves (neutral, common in taiga, 10 health, tame via bones at 1/3 chance per bone)",
+        "cookies (heal 1 health, stack to 8, crafted from wheat + cocoa beans)",
+        "April Fools locked chest (breaks only via explosions; adjacent ones form a double chest)",
+        "bed spawn position reset (added but bugged)",
+        "achievement infrastructure: inventory/wood/workbench triggers",
+        "changed Minecraft logo and missing-texture fallback",
+        "GUI scale changeable in options.txt"
+      ],
+      "changed": [
+        "bed spawn position reset only changes when clicking 'Leave bed' and works only for multiplayer; 'does not work for most users'",
+        "ladders: sneaking while climbing holds position",
+        "wheat grows faster",
+        "inventory default key becomes E",
+        "zombies/spiders previously only hurt when one block above the player; fixed to hurt in all instances",
+        "multiplayer client slime spawn fixed",
+        "spider sounds removed; spiders stop trampling crops",
+        "tamed wolves defend owners, assist combat, become angry if the player or the owner's wolves are hit; tails indicate health; raw pork can be fed; they drop nothing when killed"
+      ],
+      "removed": [
+        "spider sounds",
+        "spiders trampling crops",
+        "wolf drops (wolves drop nothing when killed)",
+        "original artifact's in-memory walking-distance debug code (removed in the reupload)"
+      ],
+      "worldgen": [
+        "locked chest can randomly generate only when the system date is April 1 (prank content, not an ordinary structure)",
+        "dungeon chests gain cocoa beans",
+        "no terrain generator change"
+      ]
+    },
+    "historical_experience:beta_1_5": {
+      "introduced": [
+        "weather: natural rain, snowfall and thunderstorms with unique rain sounds",
+        "birch and spruce saplings",
+        "detector rails",
+        "powered rails (need redstone; transmit across up to 8 powered rails and accelerate minecarts)",
+        "cobweb (unobtainable without inventory editing; slows players/mobs; drops string when sword-broken)",
+        "16 achievements and statistics"
+      ],
+      "changed": [
+        "saplings smelt 0.5 items each",
+        "birch/spruce leaves drop their respective saplings",
+        "redstone wire can be placed on snow and render states change",
+        "ladder recipe now makes 2 to offset the staggered-ladder exploit",
+        "players can shift-click between chest/inventory",
+        "dropped items in flowing water move faster",
+        "unarmed damage increases 1 -> 2 health points",
+        "beds can be used during daytime thunderstorms",
+        "lightning strikes create fire and deal nearby damage; creepers become charged and explode with greater force; pigs struck by lightning turn into zombie pigmen",
+        "wolves become more common outside taiga/forest and pathfinding through doors improves",
+        "in multiplayer, weather transitions start/stop instantly"
+      ],
+      "removed": [],
+      "worldgen": [
+        "natural rain, snowfall and thunderstorms added; no new base generator",
+        "weather operates with biome snow/rain rules; probabilities not quantified here"
+      ]
+    },
+    "historical_experience:beta_1_6": {
+      "introduced": [
+        "map item (displays an overhead section)",
+        "wooden trapdoor",
+        "dead bush (deserts only, placeable only on sand)",
+        "short grass and fern (grass patches in most grassy-soil biomes; fern naturally only in swamps/rainforests)",
+        "Nether support in multiplayer; server properties view-distance and allow-nether",
+        "texture packs gain grass/foliage color-map files (capability; maps initially were not read)"
+      ],
+      "changed": [
+        "bed in the Nether explodes",
+        "fire spread severely slowed and no longer spreads infinitely",
+        "ice regenerates even when not snowing",
+        "mushrooms spread slowly",
+        "leaves on Fast no longer opaque solid blocks for placement/spawning",
+        "powered rail speed rises 0.04 -> 0.06 to offset removal of glitch boosters",
+        "below a layer of source blocks, water no longer behaves as source",
+        "player dismounts from boat/minecart entering a Nether portal; earlier portal-ride crash fixed",
+        "combat missed-hit 10 tick cooldown removed",
+        "shift-click crafting/inventory behavior expanded: crafts max and routes output to inventory; moves inventory stacks to hotbar",
+        "network compression strengthened"
+      ],
+      "removed": [
+        "combat missed-hit 10-tick cooldown",
+        "ore-generation quadrant bias: before this version some ores were reported at least 50% more common in southeast (+X,+Z) than northwest (-X,-Z)",
+        "glitch boosters (compensated by the powered-rail speed change)"
+      ],
+      "worldgen": [
+        "public Beta 1.6 fixes the ore-generation quadrant bias (prior builds: some ores at least 50% more common southeast than northwest)",
+        "adds grass patches on grass blocks, ferns in swamp/rainforest, dead bushes only in deserts/on sand",
+        "unreleased Beta 1.6 Test Build 3 adds randomized vegetation details and has a clay-coordinate defect (x=z) later fixed in public Beta 1.7",
+        "no new base generator"
+      ]
+    },
+    "historical_experience:beta_1_7_3": {
+      "introduced": [
+        "piston and sticky piston",
+        "shears (238 uses, crafted from two diagonally placed iron ingots; collect leaves and wool without harming sheep)",
+        "TNT redstone activation",
+        "F3 direction value display"
+      ],
+      "changed": [
+        "sheared sheep drop 2-4 wool; unsheared sheep killed drop one; punching sheep no longer yields wool",
+        "cobweb now properly broken with shears or sword and drops string",
+        "TNT no longer primes by empty-hand/item hit; use flint-and-steel or redstone (old behavior remains hidden in metadata value 1, editor-accessible)",
+        "bedrock hardness now defined unbreakable rather than -1",
+        "fixes the Beta 1.6 clay generation bug",
+        "sticky piston pushes and pulls; piston pushes blocks when powered"
+      ],
+      "removed": [
+        "punching sheep yielding wool",
+        "TNT priming by empty-hand/item hit",
+        "bedrock hardness value -1"
+      ],
+      "worldgen": [
+        "fixes the Beta 1.6 clay generation bug",
+        "no new terrain generator",
+        "no natural stone-brick generation"
+      ]
+    },
+    "historical_experience:beta_1_8_1": {
+      "introduced": [
+        "hunger: 20-point food meter; food feeds hunger instead of healing",
+        "sprinting (double-tap W)",
+        "XP orbs and an XP bar (collect/display only)",
+        "melee critical hits",
+        "sword blocking (reported 50% damage reduction)",
+        "hold-to-charge bows",
+        "endermen, silverfish, cave spiders (cave-spider spawners in mineshafts)",
+        "melons/seeds, vines, stone bricks and variants, infested stone/cobblestone/stone bricks, iron bars, glass panes, fence gates, huge mushroom blocks/stems, brick and stone-brick stairs/slabs, ender pearls, raw/cooked meat variants, rotten flesh",
+        "Creative mode returns",
+        "strongholds, villages, mineshafts, ravines",
+        "ocean, river and extreme-hills biomes; sand/gravel/clay disks",
+        "title-menu panorama; FOV 70-110 and brightness options; new lighting engine"
+      ],
+      "changed": [
+        "food ceases direct healing and instead feeds hunger",
+        "natural regeneration gated at above 90% hunger: 1 health every four seconds; at zero hunger starvation removes 1 health every four seconds (reported difficulty thresholds: Easy 10 HP, Normal 1 HP, Hard can kill)",
+        "sprint unavailable at <=6 hunger, consumes the hunger/exhaustion resource, permits about 4-block horizontal sprint jumps without increasing jump height",
+        "bows switch from rapid-fire to hold-to-charge",
+        "critical hit reportedly adds a random 0-100% of weapon damage plus 2 health points, applied after enchantments (none available in this build)",
+        "sword blocking reduces incoming damage by 50%; it also historically reduced fall damage and let players rise faster underwater until those sub-behaviors were removed in a Beta 1.9 prerelease",
+        "fractal biome placement replaces the earlier climate system; elevation linked to biome; sea level 64 -> 63",
+        "old biomes (rainforest/seasonal forest/savanna/shrubland/tundra) and shore beaches removed; sand/gravel/clay disks replace some old surface behavior",
+        "when pre-1.8 chunks are opened under the new generator their biome assignments are regenerated (this does not by itself mean terrain blocks are regenerated)",
+        "world boundary changes from +/-32 million to +/-30 million; Far Lands move beyond normal reach (about 5.39x10^16 blocks)",
+        "initial strongholds: one per world, initially only the central staircase generated; initial villages broken/partial (wells, paths, lamp posts) and fixed in a reupload"
+      ],
+      "removed": [
+        "legacy direct food healing",
+        "old biomes: rainforest, seasonal forest, savanna, shrubland, tundra",
+        "pre-1.8 shore beaches as a per-column surface feature"
+      ],
+      "worldgen": [
+        "fractal biome placement vs the earlier climate system; elevation linked to biome; continent-scale land in open ocean",
+        "sea level 64 -> 63; base world height remains 128 in the Beta 1.8 range",
+        "ocean/river/extreme-hills biomes added; ravines, strongholds, villages, mineshafts, sand/gravel/clay disks added",
+        "world boundary becomes +/-30 million; Far Lands pushed beyond about 5.39x10^16 blocks",
+        "Beta 1.8 prerelease 2 lowers mineshaft density but raises structure frequency about 2.5x and sets three strongholds per world",
+        "Beta 1.8.1 changes mineshaft support beams from planks to fences",
+        "exact algorithms/noise/structure spacing unavailable (generation history is WIP)"
+      ]
+    },
+    "historical_experience:beta_1_9_pre_1": {
+      "introduced": [
+        "nether bricks, nether brick stairs and fences",
+        "mycelium (generates but is not ordinarily obtainable)",
+        "lily pads (visually unnamed/grayscale and non-solid)",
+        "blaze rods, ghast tears, gold nuggets, Nether wart (no use yet in this build)",
+        "Nether fortresses in world generation, with two blaze spawners",
+        "mushroom-island biome",
+        "Ice Plains, Ice Mountains, Frozen Ocean and Frozen River biomes",
+        "blaze, magma cube, mooshroom, snow golem and villagers",
+        "reduced landmass scale (about half) and ocean height variation 0.5 -> 0.4"
+      ],
+      "changed": [
+        "armor effectiveness/durability behavior changed: reported armor no longer reduces fire/explosion/projectile damage, durability increased, and armor no longer loses effectiveness as durability falls",
+        "auto-repeat jump was removed",
+        "XP dropped on player death is capped in this build (cap not established)",
+        "snowfall temporarily destroys redstone, torches, saplings and rails (a regression fixed in Pre5; do not carry it into Release 1.0)",
+        "swamp tint changes"
+      ],
+      "removed": [
+        "armor's reduction of fire/explosion/projectile damage",
+        "armor effectiveness decay as durability falls",
+        "held-jump auto-repeat (restored in Pre2)"
+      ],
+      "worldgen": [
+        "Nether fortresses enter world generation with two blaze spawners",
+        "mushroom-island biomes appear; mushroom islands are hostile-mob-free according to build notes",
+        "Ice Plains, Ice Mountains, Frozen Ocean and Frozen River added; Ice Mountains is inaccessible in this build",
+        "landmass scale reduced by about half; ocean height variation 0.5 -> 0.4",
+        "swamp tint changes"
+      ]
+    },
+    "historical_experience:beta_1_9_pre_2": {
+      "introduced": [
+        "cauldron (code exists without an assigned block ID; experimental, not ordinarily placeable/obtainable)",
+        "glass bottles, spider eyes, blaze powder, fermented spider eye, magma cream",
+        "potion/status-effect system (invisibility is a no-op)",
+        "nine new disc tracks/items: 11, blocks, chirp, far, mall, mellohi, stal, strad, ward (Ward Creative-only)",
+        "Hardcore mode (locks difficulty to Hard, permadeath)",
+        "hunger/effect UI icons; tooltip borders; third-person front view",
+        "animal breeding using wheat for cows, mooshrooms, sheep, pigs and chickens",
+        "combining same damaged tools/weapons in crafting to repair"
+      ],
+      "changed": [
+        "experimental cauldron could hold three bottles, fill from a water bucket and mix ingredients; many combinations had negative/no-op effects",
+        "milk clears status effects",
+        "spider eye is food/ingredient and can poison when eaten",
+        "fermented spider eye and magma cream recipes became available",
+        "offspring are born fully grown in this build (Pre3 later changes newborns to baby variants)",
+        "XP-on-jump debug bug removed; held-jump auto-repeat restored"
+      ],
+      "removed": [
+        "the Beta 1.9 Pre1 erroneous 1-100 XP-on-jump bug",
+        "the auto-repeat jump regression of Pre1"
+      ],
+      "worldgen": [
+        "no new terrain/structure milestone identified in build notes",
+        "Nether progression content exists but does not imply these items were usable there"
+      ]
+    },
+    "historical_experience:beta_1_9_pre_3": {
+      "introduced": [
+        "brewing stand (brewing listed at 30 seconds; a reduced set of 25 potions/31 combinations)",
+        "enchantment table with UI, three Standard Galactic Alphabet choices, item glint and 'Enchanted!!' presentation (no enchantments)",
+        "End portal frame and End portal block, plus eye of ender",
+        "cauldron with an assigned block ID, as a water-holding block",
+        "baby animal variants",
+        "stronghold End portal rooms in world generation; glass locator pillars",
+        "spiders/cave spiders are poison-immune and categorized as arthropods"
+      ],
+      "changed": [
+        "cauldrons replaced as potion machinery by brewing stands and become water-holding blocks",
+        "duplicate potion combinations removed",
+        "enchantment table has three SGA choices and a documented 15-level cap but no enchantment effects",
+        "sword damage reduced: stone 6 -> 5 HP, iron 8 -> 6, diamond 10 -> 7 (per the 1.0.0 comparison table)",
+        "enderman health doubled 20 -> 40",
+        "numeric XP level is still not displayed (arrives Pre4)"
+      ],
+      "removed": [
+        "duplicate potion combinations",
+        "cauldron-as-potion-machinery behavior from Pre2"
+      ],
+      "worldgen": [
+        "stronghold End portal rooms added; glass locator pillars remain",
+        "a multiplayer world-generation bug creates Sky-dimension chunks and causes biome results to differ from singleplayer (fixed in Pre4)"
+      ]
+    },
+    "historical_experience:beta_1_9_pre_4": {
+      "introduced": [
+        "End stone",
+        "potion of regeneration; splash potions (gunpowder makes potions throwable)",
+        "Ender crystals/entity infrastructure",
+        "operational enchanting: 17 enchantments; table max level raised to 50 and bookshelf arrangement/power required (up to 30 bookshelves for maximum)",
+        "the End dimension, generated and reachable through an active portal; obsidian pillars",
+        "numeric XP levels displayed; functional spending of XP levels on enchantments with rising costs per level",
+        "moon phases; sun/moon cardinal direction and round textures"
+      ],
+      "changed": [
+        "enchantments actually apply; enchanting becomes server-side (previously client-only)",
+        "hoes, flint-and-steel and shears removed from table-eligible items",
+        "healing potion recipe changed to glistering melon; fermented spider eye can convert healing to harming",
+        "eye of ender right-click tracks strongholds",
+        "endermen can spawn in the End, stop burning in daylight and teleport to shade",
+        "spiders/cave spiders immune to poison and categorized as arthropods",
+        "the End replaces/removes the Sky dimension; the Pre3 multiplayer sky-dimension chunk bug is fixed",
+        "multiplayer critical-hit particles and furnace minecart bugs fixed"
+      ],
+      "removed": [
+        "stronghold glass locator pillars",
+        "the Sky dimension (replaced/removed by the End)",
+        "hoes, flint-and-steel and shears as table-eligible enchantment items"
+      ],
+      "worldgen": [
+        "the End dimension is generated/accessed with a central obsidian platform and pillars",
+        "stronghold glass locator pillars removed",
+        "Pre3 multiplayer sky-dimension chunk bug fixed",
+        "no claim of a new Overworld generator"
+      ]
+    },
+    "historical_experience:beta_1_9_pre_5": {
+      "introduced": [
+        "ten achievements, including brewing, Nether, locate End and kill Dragon",
+        "/toggledownfall and /xp commands",
+        "clouds toggle",
+        "Ender Dragon death animation and test health 1 (implemented but it still does not spawn)",
+        "multiplayer breeding now produces babies rather than adults"
+      ],
+      "changed": [
+        "hostile mobs become neutral toward players in Creative (attack range reduced)",
+        "slime spawn height increases from Y=0-16 to Y=0-40",
+        "Silk Touch no longer obtains spawners/lit furnaces and becomes incompatible with Fortune",
+        "water downward flow begins creating source blocks (temporary, reversed in Pre6)",
+        "many block textures/names/selection boxes changed; stair lighting and selection boxes fixed/adjusted",
+        "snowfall no longer destroys redstone, torches, saplings and rails (fixes the prerelease weather regression)",
+        "mycelium and End stone become visible in the Creative inventory",
+        "enchanted swords can block (per build notes; exact damage unverified)"
+      ],
+      "removed": [
+        "Silk Touch obtaining spawners and lit furnaces",
+        "Silk Touch compatibility with Fortune",
+        "snowfall destruction of redstone, torches, saplings and rails (regression fixed here)"
+      ],
+      "worldgen": [
+        "no significant new terrain/structure reported; Nether, strongholds and End persist from earlier builds"
+      ]
+    },
+    "historical_experience:beta_1_9_pre_6": {
+      "introduced": [
+        "End crystals (on obsidian pillars, healing the dragon)",
+        "dragon egg",
+        "boss bar",
+        "the Ender Dragon actually spawning -- first build in the prerelease sequence with a spawning/killable dragon",
+        "working exit portal and reachable credits/End poem",
+        "baby sheep inherit dye",
+        "lit bedrock fire persists indefinitely in the End"
+      ],
+      "changed": [
+        "End crystals on obsidian pillars heal the dragon; killing the dragon opens the exit portal, the dragon egg appears and credits become reachable",
+        "dragon egg teleports when clicked/mined; a torch/non-full-block trick can collect it",
+        "water downward flow reverted to flowing behavior rather than Pre5 source creation",
+        "tool/block drops and mining strengths change; efficiency works on all blocks; stairs self-drop; End-related and ore smelting/Silk Touch rules adjusted",
+        "mining/tool strengths and durability behavior adjusted; Creative mode durability use fixed; armor durability and item/block interaction fixes",
+        "repeater chunk-unload behavior fixed; furnace-cart push behavior fixed"
+      ],
+      "removed": [
+        "Pre5's downward-water source-creation behavior (temporary experiment reverted)"
+      ],
+      "worldgen": [
+        "no major new terrain boundary; the End pillar/crystal boss arena functions",
+        "pre-existing End structures are now tied into boss progression"
+      ]
+    },
+    "historical_experience:release_1_0_0": {
+      "introduced": [
+        "the 1.0 sound update: chest open/close, XP-orb pickup, bone-crack damage, eating/drinking, blaze breathing, Enderman-specific sounds (replacing zombie sounds), a short portal-like teleport, magma-cube/silverfish sounds, arrow-landing twang, tool/armor-break animation and sounds",
+        "End/credits music; nine discs as stable content"
+      ],
+      "changed": [
+        "replaces firing sounds for bows/thrown items, door/trapdoor/fence-gate sounds and explosion variants via the shared asset server (asset replacements could reach older clients, so separate them from client-binary changes)",
+        "documents the final forms of brewing, enchanting and End progression; compare against Pre6 before labelling anything 'new'",
+        "MINECON showcase build differs from final by one authentication/server-ID parsing line"
+      ],
+      "removed": [],
+      "worldgen": [
+        "inherits the Beta 1.8 Adventure generator plus Nether fortresses and strongholds; the End is generated/accessed with dragon progression",
+        "exact worldgen changes between Pre6 and the final jar are not yet exhaustively diffed"
+      ]
+    },
+    "historical_experience:release_1_1": {
+      "introduced": [
+        "twenty spawn eggs (Creative-only, not survival-available)",
+        "bow enchantments Power, Punch, Flame and Infinity",
+        "beaches return as a distinct beach biome (with old-style sand/sandstone shore characteristics)",
+        "new hills/edge biome variants: frozen ocean, desert hills, forest hills, taiga hills, extreme-hills edge",
+        "Superflat as a separate selectable world type (bedrock + three dirt + grass) where villages may generate"
+      ],
+      "changed": [
+        "apples now drop from oak leaves (reported 1/200)",
+        "skeleton-killed creepers drop music discs, making most prior discs except '11' survival-obtainable",
+        "sheep regrow wool by eating grass",
+        "magma cubes can drop magma cream",
+        "ladders lose collision",
+        "fence gates can be activated by redstone",
+        "pumpkin/melon stems can grow onto dirt, not only farmland",
+        "golden apples change from the Beta 1.8 10-hunger/30-second regeneration form and gold-block recipe to a 4-hunger/4-second regeneration form with gold nuggets"
+      ],
+      "removed": [
+        "ladder collision"
+      ],
+      "worldgen": [
+        "beaches return as a distinct biome rather than the pre-Beta-1.8 per-column beach surface feature",
+        "new hills/edge variants added (frozen ocean, desert hills, forest hills, taiga hills, extreme-hills edge)",
+        "Superflat is a separate selectable world type, not a default terrain replacement; villages may generate there"
+      ]
+    },
+    "historical_experience:release_1_2_5": {
+      "introduced": [
+        "jungle wood/log/leaves and associated jungle content; jungle and Jungle Hills biomes",
+        "redstone lamp",
+        "bottle o' enchanting (Creative-only/unavailable in ordinary survival at 1.2.1)",
+        "fire charge",
+        "chiseled stone bricks",
+        "ocelots/cats and iron golems",
+        "desert wells (12w04a) and mineshaft wooden bridges (12w05a)",
+        "zombie sieges and villager breeding/transformation behavior",
+        "world-height limit 128 -> 256 in stable 1.2.1"
+      ],
+      "changed": [
+        "jungle and Jungle Hills enter in 12w03a, shifting the placement of major land biomes",
+        "caves/ravines are temporarily disabled in 12w07a and restored in 12w08a, so that regression does not describe stable 1.2.1",
+        "in 12w04a zombies and skeletons gain sun-avoidance pathing: if burning, seek water or shelter unless pursuing a player",
+        "lava gains a faint rumble and large popping particles; Nether fog moves closer",
+        "third-person view delays head movement enough to reveal the side of the head",
+        "ambience begins working in multiplayer",
+        "debug screen gains block/sky/raw brightness and biome fields"
+      ],
+      "removed": [],
+      "worldgen": [
+        "jungle biome and jungle wood; desert wells; mineshaft wooden bridges",
+        "stable 1.2.1 raises the world-height limit 128 -> 256; this does not imply pre-existing terrain is vertically rescaled",
+        "emerald ore is ABSENT at this version boundary; it arrives with 1.3 development",
+        "major biome placement shifts with the jungle biomes (12w03a)"
+      ]
+    },
+    "historical_experience:release_1_3": {
+      "introduced": [
+        "tripwire hook and wire (functional redstone input)",
+        "Ender chest (shares player inventory across chests; Silk Touch required to harvest it as a block, otherwise obsidian drops)",
+        "book and quill / written books",
+        "emeralds, emerald ore, emerald block and villager trading",
+        "cocoa pods/beans become naturally available",
+        "sandstone stairs and wood species stairs/slabs; chiseled stone bricks already present",
+        "enchanted golden apple",
+        "desert pyramids and jungle temples with loot",
+        "optional bonus chest",
+        "Large Biomes world type (about 16x biome scale)",
+        "Adventure mode; Open to LAN; integrated singleplayer server",
+        "XP from mining ores (arrives in 12w22a development, before stable 1.3.1)"
+      ],
+      "changed": [
+        "villager trading introduced/expanded; pig drops change",
+        "boats become faster/more responsive and break through lily pads, dropping the pad instead of destroying the boat",
+        "desert-village palette changes",
+        "emerald ore generates only in Extreme Hills, at Y=4-31 inclusive, up to 8 placements per chunk in single-block veins in stable 1.3.1 (earlier 12w21a veins could reach ten blocks; 12w22a reduces to one block before stable)",
+        "mobs can spawn atop upside-down slabs/stairs"
+      ],
+      "removed": [
+        "the old boat-vs-lily-pad behavior (boats break the pad instead of being destroyed)"
+      ],
+      "worldgen": [
+        "desert pyramids and jungle temples added",
+        "Large Biomes world type (about 16x biome scale) added",
+        "emerald ore: Extreme Hills only, Y=4-31, up to 8 placements per chunk, single-block veins in stable 1.3.1",
+        "mobs can spawn atop upside-down slabs/stairs"
+      ]
+    },
+    "historical_experience:release_1_4": {
+      "introduced": [
+        "anvil (repairs/combines/enchants items)",
+        "item frame; flower pot; cobblestone and mossy cobblestone walls",
+        "carrots, potatoes, carrot-on-a-stick, pumpkin pie; golden carrot",
+        "Nether wart block",
+        "command block (not craftable or normally Survival-obtainable)",
+        "beacon and Nether Star",
+        "Wither (summoned using soul sand and three wither skeleton skulls)",
+        "witch, bat, wither skeleton, zombie villager",
+        "witch huts generating in swamps by 12w40a, with witches associated to the hut",
+        "silverfish-infested monster-egg blocks generating rarely in Extreme Hills and variants from 12w38a",
+        "new night-vision/invisibility potion paths"
+      ],
+      "changed": [
+        "anvils repair/combine/enchant items",
+        "zombies can pick up items",
+        "difficulty can be changed in-game",
+        "the Nether Star enables the beacon, which requires a mineral pyramid"
+      ],
+      "removed": [],
+      "worldgen": [
+        "silverfish-infested monster-egg blocks generate rarely in Extreme Hills and variants from 12w38a",
+        "witch huts generate in swamps by 12w40a, with witches associated to the hut",
+        "no major terrain generator change; Nether fortresses inherited",
+        "carrot/potato village/loot routes require an exact subversion check"
+      ]
+    },
+    "historical_experience:release_1_5": {
+      "introduced": [
+        "comparator (analog output reads container fullness; can compare/subtract side input)",
+        "hopper (transfers items; disabled by redstone power)",
+        "dropper (ejects)",
+        "trapped chest",
+        "light and heavy weighted pressure plates (respond to item/entity weight)",
+        "daylight sensor (responds to sky light and rain)",
+        "redstone block (pushable constant power source)",
+        "Nether quartz ore, quartz blocks/stairs/slabs",
+        "activator rail",
+        "texture packs using individual block/item files stitched at runtime, with independent resolutions, animation metadata, special water/lava rules, vanilla fallback for missing textures and font changes",
+        "optimized lighting with more realistic slab/stair lighting"
+      ],
+      "changed": [
+        "Nether quartz ore is generated in the Nether; the version history estimates about 70 ore blocks per Nether chunk on average (secondary summary, not a deterministic placement rule)",
+        "remaining lighting defects remain: active furnace emits light only from the front, black spots persist"
+      ],
+      "removed": [],
+      "worldgen": [
+        "Nether quartz ore generated in the Nether (about 70 ore blocks per Nether chunk on average per a secondary summary)",
+        "no new biome, structure or mob identified"
+      ]
+    },
+    "historical_experience:release_1_6_4": {
+      "introduced": [
+        "horses and variants, donkeys and mules (tameable/rideable, specialized breeding/stat inheritance)",
+        "donkey/mule chest storage",
+        "horse armor (uncraftable, loot-only)",
+        "leads (leash entities)",
+        "name tags (uncraftable, loot-only)",
+        "carpet, hay bales, hardened/stained clay, coal block",
+        "resource packs replacing texture packs (format 1); new launcher/resource-pack system; entity/item attribute system; missing-texture texture",
+        "the playsound command (arrives in the 1.6.1 release boundary, not the prerelease)",
+        "Nether fortress chests by 13w18a (fortresses previously existed without generated chests)"
+      ],
+      "changed": [
+        "resource packs replace texture packs and can include textures, sounds, partial fonts, language files, credits, the End poem and splash texts",
+        "horses spawn naturally in plains/savanna",
+        "deserts no longer contain water lakes (begins in 13w17a)",
+        "minimum Java version rises to Java 6 (Release 1.5.2 is the last release retaining Java 5 and PowerPC support)"
+      ],
+      "removed": [
+        "water lakes in deserts (from 13w17a)",
+        "texture packs (replaced by resource packs)"
+      ],
+      "worldgen": [
+        "horses spawn naturally in plains/savanna",
+        "deserts no longer contain water lakes, beginning in 13w17a",
+        "Nether fortress chests are introduced by 13w18a; these add loot to existing structures, not new structures/biomes"
+      ]
+    }
+  }
+}

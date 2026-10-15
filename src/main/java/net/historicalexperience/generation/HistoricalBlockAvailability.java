@@ -86,6 +86,7 @@ public final class HistoricalBlockAvailability {
         "historical_experience:alpha_1_1_0",
         "historical_experience:alpha",
         "historical_experience:alpha_1_2_0",
+        "historical_experience:alpha_1_2_2a",
         "historical_experience:beta_1_0",
         "historical_experience:beta_1_2",
         "historical_experience:beta_1_3",

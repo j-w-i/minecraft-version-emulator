@@ -19,7 +19,7 @@ algorithm or behaviour is not treated as derivation, and merely naming NT as res
 | Origin | Licence | Files |
 | --- | --- | --- |
 | This project's own work | LGPL-3.0-or-later | Everything not listed below |
-| Nostalgic Tweaks | LGPL-3.0-only | **98 Java files**, 52 asset files |
+| Nostalgic Tweaks | LGPL-3.0-only | **103 Java files**, 53 asset files |
 | OldVillages | MIT | 6 Java files, 1 verification helper, 5 JSON data files |
 | Moderner Beta | MIT | 1 JSON data file (linked as a dependency otherwise) |
 | GitHub CLI | MIT | `tools/` only |
@@ -42,7 +42,7 @@ The list is now built by reading each file. Any future port must be added to it 
 
 Upstream: https://github.com/Nostalgica-Reverie/Nostalgic-Tweaks · licence **LGPL-3.0-only**.
 
-Branch and commit: **`1.21` = `51d6d3dc1fa33223f8548e1625ed7595183c2b9e`** for 91 of the 95 files;
+Branch and commit: **`1.21` = `51d6d3dc1fa33223f8548e1625ed7595183c2b9e`** for 92 of the 96 files;
 **`1.21.4` = `010526deaf3aa5e562b45b60a286a667e8eeac12`** for `gameplay/HistoricalDamageValues.java`,
 `gameplay/HistoricalSwordBlocking.java`, `gameplay/HistoricalSwordBlockingEvents.java`, and for
 `mixin/HumanoidArmorLayerHistoricalTintMixin.java`, whose stated upstream path
@@ -61,6 +61,7 @@ per-world historical version gate, which is the modification common to nearly al
 | --- | --- | --- | --- | --- |
 | `client/hud/HudElement.java` | NT `helper/candy/hud/HudElement.java` | Verbatim, `STAMINA` retained | LGPL-3.0-only | Header present; attribution in notices |
 | `client/hud/HudHelper.java` | NT `helper/candy/hud/HudHelper.java` | Adapted: pose handling, offsets and element order upstream's; stamina renderer not ported | LGPL-3.0-only | As above |
+| `client/hud/HistoricalVersionOverlay.java` | NT `listener/client/GuiListener.java` (`renderTextOverlay`, the `OLD_VERSION_OVERLAY` branch) and `util/client/gui/CornerManager.java` (`drawText`, top-left path) | Adapted: the global flag is replaced by a per-version rule (`HistoricalVersionLabel`, original, derived from the client jars); only the top-left corner is ported | LGPL-3.0-only | As above |
 | `client/hud/FlagHolder.java` | NT `util/common/data/FlagHolder.java` | Trimmed | LGPL-3.0-only | As above |
 | `client/lighting/HistoricalFogTweaks.java` | NT `helper/candy/level/fog/OverworldFogRenderer.java` (ALPHA_R164) | **Verbatim constants**: `(renderDistance*16)*(renderDistance>28?1:2)`; terrain end 0.7/0.65/0.55/0.48; sky end 0.65/0.5/0.2/0.8. Classic mode not ported | LGPL-3.0-only | Header corrected; was plain project header |
 | `client/lighting/HistoricalStars.java` | NT `world_sky/LevelRendererMixin` (`OLD_STARS` selection, ALPHA/BETA formulas) | Adapted; buffer lifecycle re-implemented here | LGPL-3.0-only | Header corrected |
@@ -73,7 +74,8 @@ per-world historical version gate, which is the modification common to nearly al
 | `client/lighting/HistoricalSmoothLighting.java` | NT `mixin/tweak/candy/world_lighting/BlockBehaviourMixin.java` (corner-shading branch) | Adapted: corner shading only; the lightmap gap is recorded in-file | LGPL-3.0-only | As above |
 | `client/lighting/HistoricalWorldTweaks.java` | NT era menu, recipe-book helper | Adapted | LGPL-3.0-only | As above |
 | `client/HistoricalRecipeBookButton.java` | NT `InventoryScreenHelper.setRecipeButton` | Version-gated port of the disabled branch | LGPL-3.0-only | As above |
-| `client/SlotPositionAccess.java` | NT `mixin/duck` package | Ported duck interface | LGPL-3.0-only | As above |
+| `client/inventory/SlotTracker.java` | NT `helper/candy/screen/inventory/SlotTracker.java` | Trimmed to the `OFF_HAND` tracker and its `isEqualTo`/`reset`/`move`; upstream's crafting-grid and result trackers are not ported | LGPL-3.0-only | As above |
+| `client/inventory/HistoricalInventoryScreen.java` | NT `helper/candy/screen/inventory/InventoryScreenHelper.java` (`setPositionsForSlots`, `renderOffHandSlot`) | Adapted: the `InventoryShield.INVISIBLE` branch only, with upstream's `-9999` coordinate and its 178,74 background patch; gate changed | LGPL-3.0-only | As above |
 | `client/render/ArmorHelper.java` | NT `helper/candy/ArmorHelper.java` | Ported | LGPL-3.0-only | As above |
 | `client/render/MobArmHelper.java` | NT `helper/animation/MobArmHelper.java` | Verbatim; the three values per arm are upstream's | LGPL-3.0-only | As above |
 | `client/render/SwordBlockingRenderer.java` | NT `helper/gameplay/combat/SwordBlockingRenderer.java` | Verbatim transforms | LGPL-3.0-only | As above |
@@ -138,8 +140,8 @@ link; the project file's own documentation comment names the upstream file.
 | `mixin/AbstractZombieModelHistoricalArmsMixin.java` | `animation/mob_arms/AbstractZombieModelMixin` | Adapted; same args and indices | As above |
 | `mixin/AnimationUtilsHistoricalArmBobMixin.java` | `animation/mob_arms/AnimationUtilsMixin` | Injection point upstream's | As above |
 | `mixin/HumanoidArmorLayerHistoricalTintMixin.java` | `fabric/.../candy/armor_damage/HumanoidArmorLayerMixin.java` — **exists only on branch `1.21.4`** | Adapted; entity captured in `renderArmorPiece` | As above; branch recorded |
-| `mixin/InventoryScreenHistoricalOffhandMixin.java` | `candy/inventory_screen/InventoryScreenMixin` + `InventoryScreenHelper` | `InventoryShield.INVISIBLE` branch only | As above |
-| `mixin/SlotPositionMixin.java` | `mixin/duck/SlotTracker` + `mixin/access/*` | `@Mutable` shadow re-implementation | As above |
+| `mixin/InventoryScreenHistoricalOffhandMixin.java` | `candy/inventory_screen/InventoryScreenMixin` + `InventoryScreenHelper` | Upstream's two injections (constructor and `renderBg` both at `TAIL`) and its two helper calls; only its shield-position setting was replaced by the version gate. Upstream's crafting-grid/recipe-button/label/`hasClickedOutside` injections belong to its full old-inventory layout and are not ported | As above |
+| `mixin/InventoryShieldSlotMixin.java` | `candy/inventory_screen/InventoryShieldSlotMixin` | Upstream's target (`InventoryMenu$1`), injection and both of its conditions; the config flag is the version gate | As above |
 | `mixin/GuiHistoricalHudMixin.java` | `fabric/.../candy/old_hud/GuiMixin.java` | Injection points, slices, shifts and wraps upstream's; stamina hook not ported | As above |
 | `mixin/GuiHistoricalAttackIndicatorMixin.java` | `gameplay/combat_player/GuiMixin.java` | Adapted; same slice and target | As above |
 | `mixin/HumanoidModelHistoricalBlockingMixin.java` | `gameplay/combat_player/HumanoidModelMixin.java` | Adapted | As above |
@@ -186,7 +188,7 @@ link; the project file's own documentation comment names the upstream file.
 | `mixin/ImageButtonHistoricalSpritesAccess.java` | NT recipe-button helper's sprite use | Adapted | As above |
 | `mixin/ClientLevelHistoricalAttackSoundMixin.java` | NT attack-sound mixin | Adapted | As above |
 
-**The authoritative list is `NT_FILES` in `scripts/apply-licence-headers.py` — 98 entries**, confirmed against
+**The authoritative list is `NT_FILES` in `scripts/apply-licence-headers.py` — 102 entries**, confirmed against
 the files by the tool's `--check` mode and by `LicenceComplianceTest`. Any file above that is not itemised
 individually is still in that list, with the same licence and the same modification pattern. Keeping the count in
 one machine-readable place is deliberate: the two earlier hand-maintained versions of this table drifted from the
@@ -222,8 +224,10 @@ Compared byte-for-byte against NT by `scripts/compare-nt-assets.py`.
 | `assets/historical_experience/models/block/*.json` (11) | NT same-named files | Namespace rewrite; `chest.json` parent resolves unchanged | LGPL-3.0-only | As above |
 | `assets/historical_experience/models/item/*.json` (7) | NT same-named files | Namespace rewrite | LGPL-3.0-only | As above |
 | `assets/historical_experience/textures/block/*.png` (30) | NT same-named files | **Byte-identical** | LGPL-3.0-only — confirmed NT-authored by the owner on 2026-10-14 | None: covered by the same attribution, licence texts and source-availability obligation as the copied source |
+| `assets/historical_experience/textures/gui/inventory.png` | NT `assets/nostalgic_tweaks/textures/gui/inventory.png` | **Byte-identical**; used for the 18x18 background patch that covers the off-hand slot's box, and for nothing else | LGPL-3.0-only | As above |
 | `assets/historical_experience/icon.png` | This project | — | LGPL-3.0-or-later | None |
 | `assets/historical_experience/lang/en_us.json` | This project | — | LGPL-3.0-or-later | None |
+| `assets/historical_experience/colormap/*.bin.gz` (3) | **Mojang's original clients** — the values of `misc/grasscolor.png` and `misc/foliagecolor.png` from `minecraft-1.0-client.jar` and `minecraft-b1.0-client.jar` | Read out of each jar as the client's own 65536-entry `getRGB` array and re-emitted as gzipped RGB triples; **no image is copied and no original file is redistributed** | Not this project's to license — extracted game data, recorded here rather than assumed clear | Nothing is required of this project to *use* them, but they are Mojang's values and are recorded as such. Source jars, hashes and the regeneration command are in `assets/historical_experience/colormap/README.txt` and `tools/GenerateHistoricalColormaps.java`. The owner directed this extraction ("extract them yourself from the jar files") |
 
 ## Other incorporated third-party material
 
@@ -239,6 +243,7 @@ Compared byte-for-byte against NT by `scripts/compare-nt-assets.py`.
 | `test/.../HistoricalVillageGeneration1211Test.java` | OldVillages (test) | Adapted | MIT | As above |
 | `data/.../loot_table/chests/historical_village_blacksmith.json` | OldVillages `data/old_villages/loot_table/chests/village_blacksmith.json` | Namespace rewrite; `set_count` → `minecraft:set_count`; formatting. Content identical | MIT | Recorded in notices; JSON has no comment syntax |
 | `data/.../loot_table/chests/historical_village_blacksmith_early.json` | OldVillages (same table) | Early-era variant derived from the same table | MIT | As above |
+| `historical_experience.accesswidener` (2 lines) | NT `common/src/main/resources/nostalgic_tweaks.accesswidener`, under its own `# Inventory` heading | `mutable field net/minecraft/world/inventory/Slot x I` and `... y I`, copied unchanged; the file's other entries are this project's own | LGPL-3.0-only for those two lines | Header comment in the file names upstream; attribution in notices. A slot's coordinates are final in 1.21.1, and lifting that here is what lets `SlotTracker.move` write `slot.x = x` exactly as upstream does, instead of through an accessor of this project's own |
 | `data/.../worldgen/structure/historical_village.json` | OldVillages `data/old_villages/worldgen/structure/old_village.json` | Namespace and id rewrite only | MIT | As above |
 | `data/.../worldgen/structure_set/historical_villages.json` | OldVillages `…/structure_set/old_village.json` | Identical apart from namespace/id (spacing 60, separation 20, salt 1648146493 are upstream's) | MIT | As above |
 | `data/.../tags/worldgen/biome/has_structure/historical_village.json` | OldVillages `…/tags/.../has_structure/old_village.json` | Adapted: eight biomes reduced to three | MIT | As above |

@@ -782,6 +782,54 @@ public final class HistoricalVersions {
                     + "moderner_beta:alpha. Food table shared with Alpha 1.0.1: no edible item is added between them."),
             HistoricalFeatureExclusions.BEFORE_LAPIS_EXISTED));
 
+        // Alpha v1.2.0 gets a NEW revision whose BIOME SETTINGS come from Beta 1.1, because the owner's rule is that
+        // this build's generation is the same as Beta 1.1's - their biome generators are the same.
+        //
+        // That matters because it is NOT a single-biome world. Moderner Beta's `beta_1_1_02` biome settings use
+        // `"moderner_beta:provider": "moderner_beta:beta"`, a climate-based generator with a mapping table from climate
+        // to biome (`plains` -> `beta_plains`, `taiga` -> `beta_oak_taiga`, and so on), so Alpha v1.2.0 now generates
+        // plains, taiga, desert, forest, rainforest and the rest rather than one biome everywhere. An earlier revision
+        // here set `single_biome` instead, which did make the BIOME READ as Beta plains but did it by replacing the
+        // whole provider - flattening every chunk the world generated afterwards. The owner rejected that, twice and
+        // for both halves of this range.
+        //
+        // The chunk settings are deliberately left alone: only the biome settings are taken from Beta 1.1, so the
+        // terrain foundation stays `moderner_beta:alpha` and the height envelope does not move.
+        //
+        // It is a revision rather than an edit to `_no_modern_content` for the project's usual reason: that alias is
+        // published, and a world created against it recorded the terrain it was given.
+        versions.set(versions.size() - 1, withBetaElevenBiomes(
+            versions.get(versions.size() - 1), "historical_experience:alpha_1_2_0_beta_plains"));
+
+        // Alpha v1.2.2a, requested by the owner: "in alpha 1.2.2a you could press F4 to spawn a portal. add this as a
+        // clone of 1.2.0 but add that feature". The owner then chose it as the BANNER version for the Alpha 1.2 line,
+        // so it is the selectable default for this era the way beta_1_7_3 is for Beta 1.7.
+        //
+        // The F4 feature is VERIFIED, not taken on faith. Both clients were downloaded and SHA-1 checked against
+        // Mojang's own manifest, then decompiled:
+        //
+        //   * Alpha 1.2.0 has F11 (87), F3 (63) and no F4 at all.
+        //   * Alpha 1.2.2a has F11 (87), F4 (62) and F3 (63). Minecraft.java:829 reads
+        //       if (Keyboard.getEventKey() == 62) { new nj().c(this.e, this.g); continue; }
+        //     and nj.c searches 16 blocks around the player for a floor with headroom, picks an orientation from
+        //     nextInt(4) and builds an obsidian (nl.ap) frame with nl.be portal blocks inside, setting cw.i = true
+        //     while it does - the flag that places a portal block LIT. nj.b, the method that finds an existing portal
+        //     within 128 blocks and MOVES the player to it, is not called, so F4 rebuilds a lit portal where you
+        //     stand rather than teleporting.
+        //
+        // So the chronology descends from 1.2.0 rather than from 1.2.6: the build letter is not a number, and this
+        // places 1.2.2a exactly where it belongs in the order - after 1.2.0 and before anything else. Everything
+        // else is a clone of 1.2.0, INCLUDING its three generation revisions and its description, because 1.2.2a was
+        // a fix release and the Halloween Update content it inherits is the point. The rules are taken from the 1.2.0
+        // version object itself rather than restated, so the two cannot drift; only the identity moves.
+        versions.add(renamedClone(
+            versions.get(versions.size() - 1),
+            "historical_experience:alpha_1_2_0",
+            "historical_experience:alpha_1_2_2a",
+            "Alpha v1.2.0",
+            "Alpha v1.2.2a",
+            chronology(ERA_ALPHA, 1, 2, 2)));
+
         // The Release 1.3 / 1.4 / 1.5 gap, and it needs NO approximation - which is the opposite of what I expected
         // when I flagged it as needing a decision. The research states it directly: Release 1.4 says "no major
         // terrain generator change; Nether fortresses inherited", and Release 1.5 says "no new biome, structure or
@@ -1336,6 +1384,91 @@ public final class HistoricalVersions {
             previous.orePopulation()));
         return new HistoricalVersion(base.id(), base.displayName(), base.era(), base.chronology(), base.rules(),
             List.copyOf(revisions));
+    }
+
+    /**
+     * A new revision whose preset takes Beta 1.1's biome settings, leaving the terrain foundation and every other
+     * setting inherited unchanged.
+     *
+     * <p>Written as a helper for the same reason as {@link #withSurfaceSandstoneDisabled}: the shape is the point. The
+     * new revision inherits the previous revision's exclusion list and ore population by reference because the only thing
+     * it changes is the biome settings inside the settings preset named by {@code alias}. Two things must agree, and a
+     * test catches it if they do not: this alias and the preset JSON file of the same name.
+     *
+     * <p>It exists for Alpha v1.2.0, whose generation the owner requires to match Beta 1.1's. That is a MULTI-biome
+     * climate generator, not a single biome, which is why this is not {@code withSingleBiome}.
+     */
+    private static HistoricalVersion withBetaElevenBiomes(HistoricalVersion base, String alias) {
+        List<HistoricalVersion.GenerationRevision> revisions = new java.util.ArrayList<>(base.revisions());
+        HistoricalVersion.GenerationRevision previous = revisions.get(revisions.size() - 1);
+        revisions.add(new HistoricalVersion.GenerationRevision(
+            revisions.size(),
+            alias,
+            previous.foundation(),
+            true,
+            "biome settings from moderner_beta:beta_1_1_02, because Alpha v1.2.0 and Beta 1.1 share a biome generator",
+            previous.excludedPlacedFeatures(),
+            previous.orePopulation()));
+        return new HistoricalVersion(base.id(), base.displayName(), base.era(), base.chronology(), base.rules(),
+            List.copyOf(revisions));
+    }
+
+    /**
+     * Copies a version under a new identity, moving its id, display name and chronology and nothing else.
+     *
+     * <h2>Why a clone is written this way</h2>
+     *
+     * <p>Requested for Alpha v1.2.2a, which the owner asked for as "a clone of 1.2.0" with one feature added. Its
+     * generation is deliberately IDENTICAL to 1.2.0's, so restating that generation here would create a second copy of
+     * a description and a rule set that would then have to be kept in step by hand - and this project has already been
+     * bitten by two tables that drifted apart. Taking the rules from the version object itself means a later
+     * correction to 1.2.0 either applies to both or fails loudly, instead of silently applying to one.
+     *
+     * <p>The chronology is passed in rather than derived, because a build's letter ("2a") is not a number.
+     *
+     * @param from the version to copy
+     * @param oldKey the id to replace, e.g. {@code historical_experience:alpha_1_2_0}
+     * @param newKey the replacement id, e.g. {@code historical_experience:alpha_1_2_2a}
+     * @param oldName the display-name substring to replace, e.g. {@code Alpha v1.2.0}
+     * @param newName the replacement display-name substring, e.g. {@code Alpha v1.2.2a}
+     * @param chronology the new chronology key
+     */
+    private static HistoricalVersion renamedClone(HistoricalVersion from, String oldKey, String newKey,
+            String oldName, String newName, int chronology) {
+        String shortOld = oldKey.substring(oldKey.indexOf(':') + 1);
+        String shortNew = newKey.substring(newKey.indexOf(':') + 1);
+        List<HistoricalVersion.GenerationRevision> revisions = new java.util.ArrayList<>();
+        for (HistoricalVersion.GenerationRevision revision : from.revisions()) {
+            String alias = rename(revision.alias(), oldKey, newKey, shortOld, shortNew);
+            String description = rename(revision.description(), oldName, newName, shortOld, shortNew);
+            revisions.add(new HistoricalVersion.GenerationRevision(
+                revision.revision(),
+                alias,
+                revision.foundation(),
+                revision.experimental(),
+                description,
+                revision.excludedPlacedFeatures(),
+                revision.orePopulation()));
+        }
+        return new HistoricalVersion(newKey, newName, from.era(), chronology, from.rules(),
+            List.copyOf(revisions));
+    }
+
+    /**
+     * Applies whichever of the two renames the text actually contains, longest pattern first.
+     *
+     * <p>{@code alpha_1_2_0_beta_plains} CONTAINS {@code alpha_1_2_0}, so replacing the short form first would turn it
+     * into {@code alpha_1_2_2a_beta_plains} by accident and leave the longer replacement with nothing to match. Asking
+     * for the longer pattern first is therefore not a style choice but the thing that makes the alias come out right.
+     */
+    private static String rename(String text, String firstOld, String firstNew, String secondOld, String secondNew) {
+        if (text == null) {
+            return null;
+        }
+        if (text.contains(firstOld)) {
+            return text.replace(firstOld, firstNew);
+        }
+        return text.replace(secondOld, secondNew);
     }
 
     /**

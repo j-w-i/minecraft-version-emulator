@@ -69,13 +69,17 @@ class HistoricalTextureRulesTest {
     }
 
     @Test
-    @DisplayName("Alpha 1.2 and everything declared before it keep Golden Days Alpha; Alpha 1.2.0 is inclusive")
+    @DisplayName("Golden Days Alpha applies only to Alpha versions BELOW Alpha 1.2; 1.2.0 itself does not get it")
     void alphaBoundary() {
+        // The owner's rule, and it matches the art: the pack's grass and leaves are the Alpha v1.1.2_01 pixels exactly,
+        // and those tiles changed in Alpha v1.2.0. Alpha 1.2.0 is also the Halloween Update, which introduced
+        // biome-based colouring, so the pre-1.2 art and the pre-1.2 colouring stop in the same build.
+        assertEquals(WITH_ALPHA, stack("alpha_1_0_1"));
         assertEquals(WITH_ALPHA, stack("alpha_1_1_0"));
-        assertEquals(WITH_ALPHA, stack("alpha_1_2_0"));
-        // The first declared build after Alpha 1.2.x is Beta 1.0; no Alpha build sits between them.
+        assertEquals(WITH_BASE, stack("alpha_1_2_0"));
         assertEquals(WITH_BASE, stack("beta_1_0"));
-        assertTrue(HistoricalTextureRules.GOLDEN_DAYS_ALPHA_END > at("alpha_1_2_0").chronology());
+        // The boundary is Alpha 1.2.0 exclusive, so it is exactly the chronology of 1.2.0 rather than a step past it.
+        assertEquals(at("alpha_1_2_0").chronology(), HistoricalTextureRules.GOLDEN_DAYS_ALPHA_END);
         assertTrue(HistoricalTextureRules.GOLDEN_DAYS_ALPHA_END <= at("beta_1_0").chronology());
     }
 
@@ -110,7 +114,6 @@ class HistoricalTextureRulesTest {
         int betweenAlphaAndBeta = at("alpha_1_2_0").chronology() + 1;
         assertEquals(HistoricalTextureRules.planFor(betweenAlphaAndBeta).sources().contains(TextureSource.GOLDEN_DAYS_ALPHA),
             betweenAlphaAndBeta < HistoricalTextureRules.GOLDEN_DAYS_ALPHA_END);
-        // A key one step past 1.2.5 - what a 1.2.6 build would be - is already outside Golden Days Base.
         int justAfter = at("release_1_2_5").chronology() + 1;
         assertFalse(HistoricalTextureRules.planFor(justAfter).sources().contains(TextureSource.GOLDEN_DAYS_BASE));
         // And one step before the cobblestone change is still on the Golden Days side.
@@ -257,18 +260,140 @@ class HistoricalTextureRulesTest {
     @Test
     @DisplayName("adjacent versions with the same effective stack share a signature, so no reload is needed between them")
     void signaturesAvoidNeedlessReloads() {
-        assertEquals(HistoricalTextureRules.planFor(at("beta_1_8_1")).signature(),
+        // Two boundaries sit inside Beta now: Golden Days' chest ends after Beta 1.8.1, and its End portal frame ends
+        // at Beta 1.9 Prerelease 4. Each really changes what is drawn, so each really needs a reload.
+        assertFalse(HistoricalTextureRules.planFor(at("beta_1_8_1")).signature()
+            .equals(HistoricalTextureRules.planFor(at("beta_1_9_pre_1")).signature()), "the chest changes after 1.8.1");
+        assertEquals(HistoricalTextureRules.planFor(at("beta_1_9_pre_1")).signature(),
             HistoricalTextureRules.planFor(at("beta_1_9_pre_3")).signature());
+        assertFalse(HistoricalTextureRules.planFor(at("beta_1_9_pre_3")).signature()
+            .equals(HistoricalTextureRules.planFor(at("beta_1_9_pre_4")).signature()),
+            "the End portal frame changes at Prerelease 4");
+        assertEquals(HistoricalTextureRules.planFor(at("beta_1_9_pre_4")).signature(),
+            HistoricalTextureRules.planFor(at("release_1_0_0")).signature());
         assertEquals(HistoricalTextureRules.planFor(at("release_1_0_0")).signature(),
             HistoricalTextureRules.planFor(at("release_1_1")).signature());
         assertEquals(HistoricalTextureRules.planFor(at("release_1_3")).signature(),
             HistoricalTextureRules.planFor(at("release_1_6_4")).signature());
-        // Crossing a real boundary changes it.
-        assertFalse(HistoricalTextureRules.planFor(at("alpha_1_2_0")).signature()
-            .equals(HistoricalTextureRules.planFor(at("beta_1_0")).signature()));
+        // Crossing a real boundary changes it. The Alpha boundary is now BELOW Alpha 1.2.0, not above it, so the pair
+        // that differs is Alpha 1.1.0 against Alpha 1.2.0 - Alpha 1.2.0 through Beta 1.9 share one stack, which is
+        // correct rather than a defect.
+        assertFalse(HistoricalTextureRules.planFor(at("alpha_1_1_0")).signature()
+            .equals(HistoricalTextureRules.planFor(at("alpha_1_2_0")).signature()));
+        assertEquals(HistoricalTextureRules.planFor(at("alpha_1_2_0")).signature(),
+            HistoricalTextureRules.planFor(at("beta_1_0")).signature());
         assertFalse(HistoricalTextureRules.planFor(at("beta_1_6")).signature()
             .equals(HistoricalTextureRules.planFor(at("beta_1_7_3")).signature()));
         assertFalse(HistoricalTextureRules.planFor(at("release_1_2_5")).signature()
             .equals(HistoricalTextureRules.planFor(at("release_1_3")).signature()));
     }
-}
+
+    @Test
+    @DisplayName("mossy cobblestone is Golden Days through Beta 1.7, then Programmer Art from Beta 1.8")
+    void mossyCobblestoneBoundary() {
+        // Measured: Golden Days Base's mossy art is identical to the tile Alpha v1.0.11 through Beta 1.7.3 shipped,
+        // and Programmer Art's is identical to Beta 1.8's. That is the opposite pairing to plain cobblestone, whose
+        // boundary is Beta 1.7 - hence its own rule with its own boundary.
+        String mossy = "textures/block/mossy_cobblestone.png";
+        for (String id : new String[] {"alpha_1_0_1", "alpha_1_2_0", "beta_1_0", "beta_1_6", "beta_1_7_3"}) {
+            assertEquals(TextureSource.GOLDEN_DAYS_BASE,
+                HistoricalTextureRules.planFor(at(id)).winner(ALL_INSTALLED, MC, mossy), id);
+        }
+        for (String id : new String[] {"beta_1_8_1", "beta_1_9_pre_1", "release_1_0_0", "release_1_2_5",
+            "release_1_3", "release_1_6_4"}) {
+            assertEquals(TextureSource.PROGRAMMER_ART,
+                HistoricalTextureRules.planFor(at(id)).winner(ALL_INSTALLED, MC, mossy), id);
+        }
+        // The two boundaries are genuinely different, and at Beta 1.7.3 the two cobblestones come from different packs.
+        assertTrue(HistoricalTextureRules.MOSSY_COBBLESTONE_CHANGE > HistoricalTextureRules.COBBLESTONE_CHANGE);
+        TexturePlan beta173 = HistoricalTextureRules.planFor(at("beta_1_7_3"));
+        assertEquals(TextureSource.PROGRAMMER_ART, beta173.winner(ALL_INSTALLED, MC, COBBLE));
+        assertEquals(TextureSource.GOLDEN_DAYS_BASE, beta173.winner(ALL_INSTALLED, MC, mossy));
+        // And its metadata companion follows its image.
+        assertTrue(beta173.serves(TextureSource.GOLDEN_DAYS_BASE, MC, mossy + ".mcmeta"));
+        assertFalse(beta173.serves(TextureSource.PROGRAMMER_ART, MC, mossy + ".mcmeta"));
+        TexturePlan beta181 = HistoricalTextureRules.planFor(at("beta_1_8_1"));
+        assertTrue(beta181.serves(TextureSource.PROGRAMMER_ART, MC, mossy + ".mcmeta"));
+        assertFalse(beta181.serves(TextureSource.GOLDEN_DAYS_BASE, MC, mossy + ".mcmeta"));
+    }
+
+    // ---- Ender eyes, End portal frame, ender chest, chests --------------------------------------------------
+
+    private static final String ENDERMAN_EYES = "textures/entity/enderman/enderman_eyes.png";
+    private static final String DRAGON_EYES = "textures/entity/enderdragon/dragon_eyes.png";
+
+    @Test
+    @DisplayName("Golden Days never serves the enderman or dragon eyes, in any version")
+    void enderEyesAreNeverGoldenDays() {
+        for (HistoricalVersion version : HistoricalVersions.all()) {
+            var plan = HistoricalTextureRules.planFor(version);
+            for (String path : new String[] {ENDERMAN_EYES, DRAGON_EYES}) {
+                assertFalse(plan.serves(TextureSource.GOLDEN_DAYS_BASE, MC, path), version.id() + " " + path);
+                assertFalse(plan.serves(TextureSource.GOLDEN_DAYS_ALPHA, MC, path), version.id() + " " + path);
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("the End portal frame is Golden Days'' only before Beta 1.9 Prerelease 4")
+    void endPortalFrameEndsAtPrerelease4() {
+        String side = "textures/block/end_portal_frame_side.png";
+        assertEquals(TextureSource.GOLDEN_DAYS_BASE,
+            HistoricalTextureRules.planFor(at("beta_1_9_pre_3")).winner(ALL_INSTALLED, MC, side));
+        for (String id : new String[] {"beta_1_9_pre_4", "beta_1_9_pre_6", "release_1_0_0", "release_1_2_5"}) {
+            var plan = HistoricalTextureRules.planFor(at(id));
+            assertFalse(plan.serves(TextureSource.GOLDEN_DAYS_BASE, MC, side), id);
+            for (String path : HistoricalTextureRules.END_PORTAL_FRAME_PATHS) {
+                assertFalse(plan.serves(TextureSource.GOLDEN_DAYS_BASE, MC, path), id + " " + path);
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("Golden Days never serves any part of the ender chest")
+    void enderChestIsNeverGoldenDays() {
+        for (HistoricalVersion version : HistoricalVersions.all()) {
+            var plan = HistoricalTextureRules.planFor(version);
+            for (String path : HistoricalTextureRules.ENDER_CHEST_PATHS) {
+                assertFalse(plan.serves(TextureSource.GOLDEN_DAYS_BASE, MC, path), version.id() + " " + path);
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("Golden Days'' chest stops after Beta 1.8.1 and is still used up to and including it")
+    void chestEndsAfterBeta181() {
+        String chest = "textures/entity/chest/normal.png";
+        for (String id : new String[] {"alpha_1_0_1", "alpha_1_2_0", "beta_1_0", "beta_1_7_3", "beta_1_8_1"}) {
+            assertTrue(HistoricalTextureRules.planFor(at(id)).serves(TextureSource.GOLDEN_DAYS_BASE, MC, chest), id);
+        }
+        for (String id : new String[] {"beta_1_9_pre_1", "beta_1_9_pre_6", "release_1_0_0", "release_1_2_5"}) {
+            var plan = HistoricalTextureRules.planFor(at(id));
+            for (String path : HistoricalTextureRules.CHEST_PATHS) {
+                assertFalse(plan.serves(TextureSource.GOLDEN_DAYS_BASE, MC, path), id + " " + path);
+            }
+        }
+    }
+    @Test
+    @DisplayName("excluding a texture also excludes the Golden Days model that names it, or the block draws magenta")
+    void modelsAreExcludedWithTheirTextures() {
+        // Golden Days' End portal frame model names end_portal_frame_empty and end_portal_frame_bottom, which the game
+        // does not have. Dropping only the textures left that model pointing at nothing: the frame's top rendered as
+        // the missing-texture pattern in a real world. The same holds for the chest item models.
+        var preFour = HistoricalTextureRules.planFor(at("beta_1_9_pre_4"));
+        for (String model : new String[] {"models/block/end_portal_frame.json",
+            "models/block/end_portal_frame_filled.json"}) {
+            assertFalse(preFour.serves(TextureSource.GOLDEN_DAYS_BASE, MC, model), model);
+            assertTrue(HistoricalTextureRules.planFor(at("beta_1_9_pre_3"))
+                .serves(TextureSource.GOLDEN_DAYS_BASE, MC, model), model + " is still Golden Days at Prerelease 3");
+        }
+        var release = HistoricalTextureRules.planFor(at("release_1_0_0"));
+        for (String model : new String[] {"models/item/chest.json", "models/item/trapped_chest.json",
+            "models/item/chest_christmas.json", "items/chest.json", "textures/block/chest_front.png"}) {
+            assertFalse(release.serves(TextureSource.GOLDEN_DAYS_BASE, MC, model), model);
+        }
+        for (String model : HistoricalTextureRules.ENDER_CHEST_PATHS) {
+            assertFalse(HistoricalTextureRules.planFor(at("beta_1_7_3"))
+                .serves(TextureSource.GOLDEN_DAYS_BASE, MC, model), model);
+        }
+    }}

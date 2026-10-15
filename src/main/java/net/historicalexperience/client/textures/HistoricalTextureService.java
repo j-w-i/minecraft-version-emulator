@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import net.historicalexperience.client.HistoricalClientRules;
+import net.historicalexperience.client.colour.HistoricalColormaps;
 import net.historicalexperience.version.HistoricalVersion;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.Minecraft;
@@ -371,6 +372,13 @@ public final class HistoricalTextureService {
             return;
         }
         maybeAutoDownload(client);
+        // The tint tables are installed while the resource manager reloads, which happens before a world is known, so a
+        // change of era needs one more reload. Whole ranges of versions share a table, so only a real change reloads.
+        String tint = HistoricalColormaps.desiredEraSignature();
+        if (!tint.equals(HistoricalColormaps.appliedEra())) {
+            reload(client, "colormaps:" + tint);
+            return;
+        }
         String desired = desiredSignature();
         if (desired.equals(appliedSignature)) {
             failedSignature = null;
@@ -387,11 +395,32 @@ public final class HistoricalTextureService {
         }
     }
 
+    /**
+     * The loading overlay of the reload this service started, or null.
+     *
+     * <p>Kept by identity so only OUR reload is made quiet: a reload the player starts themselves (F3+T, the pack
+     * screen) is not in this field and keeps the ordinary Mojang loading screen. The overlay is then drawn by
+     * {@code LoadingOverlayHistoricalQuietMixin}, which skips vanilla's logo and progress bar for exactly this one.
+     */
+    private static volatile Object quietOverlay;
+
+    /** Whether {@code overlay} belongs to a reload this service started and should not draw the Mojang screen. */
+    public static boolean isQuietOverlay(Object overlay) {
+        return overlay != null && overlay == quietOverlay;
+    }
+
     private static void reload(Minecraft client, String desired) {
         reloadPending = true;
         reloads++;
         LOGGER.info("Reloading resources for historical textures: {} -> {}", appliedSignature, desired);
-        client.reloadResourcePacks().whenComplete((ignored, failure) -> {
+        net.minecraft.client.gui.screens.Overlay before = client.getOverlay();
+        java.util.concurrent.CompletableFuture<Void> reloading = client.reloadResourcePacks();
+        net.minecraft.client.gui.screens.Overlay after = client.getOverlay();
+        // Only claim an overlay this call actually created. If a reload was already running, the overlay on screen
+        // belongs to it, and silencing that one would hide a loading screen this service did not start.
+        quietOverlay = after != null && after != before ? after : null;
+        reloading.whenComplete((ignored, failure) -> {
+            quietOverlay = null;
             reloadPending = false;
             if (failure != null) {
                 failedSignature = desired;

@@ -22,7 +22,7 @@ the source-availability obligations of a copyleft licence. Those are addressed i
 | Licence | **GNU Lesser General Public License, version 3 — LGPL-3.0-only** |
 | Upstream licence file | `LICENSE.txt`, blob `0a041280bd00a9d068f503b8ee7ce35214bd24a1` |
 | Declared by the distributor | Modrinth project `nostalgic-tweaks` reports `{"id": "LGPL-3.0-only"}` |
-| Revision this project ports from | Branch `1.21`, commit `51d6d3dc1fa33223f8548e1625ed7595183c2b9e` (2026-08-14), mod version `2.0.0-beta.923-indev.2`, for **94** of the 98 Java files. Four files state branch `1.21.4` instead — see below. |
+| Revision this project ports from | Branch `1.21`, commit `51d6d3dc1fa33223f8548e1625ed7595183c2b9e` (2026-08-14), mod version `2.0.0-beta.923-indev.2`, for **96** of the 103 Java files. Seven files state other revisions instead — see below. |
 | Local reference checkout | `.upstream/nostalgic-tweaks` (git-ignored; never distributed) |
 
 ### What has been incorporated, and how
@@ -31,7 +31,7 @@ the source-availability obligations of a copyleft licence. Those are addressed i
 Stacking a notice on top of a jar dependency is not what has happened, so LGPL-3.0's obligations to provide
 Corresponding Source for the incorporated portions apply to this project's own repository and artefacts.
 
-- **98 Java source files** under `src/main/java/net/historicalexperience/` contain code copied or adapted from
+- **103 Java source files** under `src/main/java/net/historicalexperience/` contain code copied or adapted from
   Nostalgic Tweaks. Each of those files carries a copyright and licence header naming Nostalgic Tweaks, and each
   names the upstream file or tweak constant it came from in its own documentation comment. The
   `SPDX-License-Identifier` expression on those files is `LGPL-3.0-or-later AND LGPL-3.0-only`: the project's own
@@ -59,12 +59,17 @@ Corresponding Source for the incorporated portions apply to this project's own r
   material. Where a project file merely *names* Nostalgic Tweaks as research, a checklist or a citation of a
   measured constant, it is not listed as incorporated material; those files are named in
   [docs/PROVENANCE.md](docs/PROVENANCE.md) together with the reason.
-- **52 asset files** are copied from upstream's `common/src/main/resources/assets/nostalgic_tweaks/` into this
-  project's own namespace: 4 blockstates, 18 block/item model JSON files, and 30 block textures for the old chest,
-  ender chest, trapped chest and Christmas chest. The JSON files differ from upstream only by the
-  `nostalgic_tweaks` → `historical_experience` namespace rewrite and, in three blockstates, by whitespace; the 30
+- **53 asset files** are copied from upstream's `common/src/main/resources/assets/nostalgic_tweaks/` into this
+  project's own namespace: 4 blockstates, 18 block/item model JSON files, 30 block textures for the old chest,
+  ender chest, trapped chest and Christmas chest, and 1 GUI texture (`textures/gui/inventory.png`, used to paint over
+  the modern inventory's off-hand slot box). The JSON files differ from upstream only by the
+  `nostalgic_tweaks` → `historical_experience` namespace rewrite and, in three blockstates, by whitespace; the 31
   PNGs are byte-identical to upstream's. `assets/historical_experience/icon.png` and `lang/en_us.json` are this
   project's own. The comparison is reproducible with `scripts/compare-nt-assets.py`.
+- **Two lines of upstream's access widener** are copied into `historical_experience.accesswidener`, under the same
+  `# Inventory` heading: `mutable field net/minecraft/world/inventory/Slot x I` and `... y I`. They lift the
+  finality of a slot's screen coordinates, which is what lets this project move a slot with upstream's own
+  `slot.x = x; slot.y = y;` rather than through an accessor of its own.
 
 See [`docs/PROVENANCE.md`](docs/PROVENANCE.md) for the file-by-file table.
 

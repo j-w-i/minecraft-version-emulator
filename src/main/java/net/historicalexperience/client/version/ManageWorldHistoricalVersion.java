@@ -23,10 +23,14 @@ import java.util.Optional;
 
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.client.screen.v1.Screens;
+import net.historicalexperience.client.config.HistoricalDeveloperMode;
 import net.historicalexperience.mixin.WorldListEntryAccessor;
 import net.historicalexperience.server.HistoricalUpgradeService;
+import net.historicalexperience.version.HistoricalVersionCatalogue;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.AlertScreen;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.worldselection.SelectWorldScreen;
 import net.minecraft.client.gui.screens.worldselection.WorldSelectionList;
 import net.minecraft.network.chat.Component;
@@ -50,9 +54,11 @@ import net.minecraft.world.level.storage.LevelSummary;
  *
  * <h2>What the player is told</h2>
  *
- * <p>A change is staged: the record changes now and the generator is rewritten when the world is next loaded, so
- * the screen says so in the service's own words. Terrain is never regenerated, and a world that is open elsewhere
- * is refused rather than written under a running game that would overwrite it.
+ * <p>A change is staged: the record changes now and the generator is rewritten when the world is next loaded, so the
+ * player is told that in one plain sentence. The operation's own account of itself - recipe alias, document revision,
+ * backup directory and manifest hash - is shown instead when developer mode is on, and is not shown otherwise.
+ * Terrain is never regenerated, and a world that is open elsewhere is refused rather than written under a running
+ * game that would overwrite it.
  */
 public final class ManageWorldHistoricalVersion {
     private static final String MARKER = "Historical Version";
@@ -105,9 +111,8 @@ public final class ManageWorldHistoricalVersion {
         Optional<WorldSelectionList.WorldListEntry> selected = selectedEntry(screen);
 
         if (selected.isEmpty()) {
-            client.setScreen(new HistoricalVersionResultScreen(screen, false,
-                "Select a world first, then choose its historical version.", List.of(
-                    "The version belongs to a world, so one has to be selected before it can be changed.")));
+            report(screen, client, false,
+                "Select a world first, then choose its historical version.", List.of(), null);
             return;
         }
 
@@ -115,10 +120,8 @@ public final class ManageWorldHistoricalVersion {
         HistoricalUpgradeService.WorldVersionState state = HistoricalUpgradeService.inspect(worldDirectory);
 
         if (!state.changeable()) {
-            client.setScreen(new HistoricalVersionResultScreen(screen, false,
-                "This world's version cannot be changed from here.", List.of(
-                    "world: " + worldDirectory.getFileName(),
-                    state.problem())));
+            report(screen, client, false,
+                "This world's version cannot be changed from here.", List.of(state.problem()), null);
             return;
         }
 
@@ -140,8 +143,58 @@ public final class ManageWorldHistoricalVersion {
         HistoricalUpgradeService.Report report = HistoricalUpgradeService.upgradeUnloadedWorld(
             worldDirectory, key, "world list", System.currentTimeMillis());
 
-        client.setScreen(new HistoricalVersionResultScreen(screen, report.ok(),
-            report.summary(), report.details()));
+        report(screen, client, report.ok(), report.summary(), report.details(), key);
+    }
+
+    /**
+     * Shows the outcome of a version change, at the level of detail the player has asked for.
+     *
+     * <h2>Why this is not simply the report screen</h2>
+     *
+     * <p>{@link HistoricalVersionResultScreen} prints the operation's own account of itself, line for line, which is
+     * the right thing while developing and the wrong thing for a player: it names generation recipe aliases,
+     * document revisions, the backup directory and its SHA-256 manifest. Behind
+     * {@link HistoricalDeveloperMode} that account is unchanged; without it a player gets one plain sentence and no
+     * identifiers.
+     *
+     * <p>A successful change is still announced rather than performed silently. It does not take effect until the
+     * world is next opened - that is inherent, because a running world holds its own copy of the generator and would
+     * write it back over a change made underneath it - so a player who saw nothing at all would reasonably conclude
+     * that the click had failed.
+     *
+     * @param chosenKey the version the world was moved to, used to name it to a player. The player-facing sentence is
+     *                  built from the catalogue rather than by taking the operation's summary apart: the summary
+     *                  names the internal version id, and parsing it would be a second implementation of that
+     *                  wording that breaks silently the next time the wording changes
+     */
+    private static void report(Screen screen, Minecraft client, boolean ok, String summary,
+            java.util.List<String> details, String chosenKey) {
+        if (HistoricalDeveloperMode.enabled()) {
+            client.setScreen(new HistoricalVersionResultScreen(screen, ok, summary, details));
+            return;
+        }
+
+        String title;
+        String message;
+        if (!ok) {
+            // The service already answers failures in plain English - "This world appears to be open, so its version
+            // was not changed." - so there is nothing to reword. Its detail lines, which carry the world path and the
+            // recipe alias, are what developer mode is for.
+            title = "Version not changed";
+            message = summary;
+        } else {
+            String named = chosenKey == null ? null : HistoricalVersionCatalogue.byKey(chosenKey)
+                .map(HistoricalVersionCatalogue.Entry::displayName)
+                .orElse(chosenKey);
+            title = "Version changed";
+            message = named == null
+                ? "This world will generate with the new version from the next time it is opened. Existing chunks, "
+                    + "builds and inventories are not changed."
+                : named + " will generate from the next time this world is opened. Existing chunks, builds and "
+                    + "inventories are not changed.";
+        }
+        client.setScreen(new AlertScreen(() -> client.setScreen(screen),
+            Component.literal(title), Component.literal(message)));
     }
 
     /** The selected row, taken from the screen's own list rather than from a second source of selection state. */

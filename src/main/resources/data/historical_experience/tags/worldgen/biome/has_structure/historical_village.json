@@ -3,6 +3,7 @@
   "values": [
     "minecraft:plains",
     "minecraft:sunflower_plains",
+    "moderner_beta:late_beta_plains",
     "minecraft:desert"
   ]
 }

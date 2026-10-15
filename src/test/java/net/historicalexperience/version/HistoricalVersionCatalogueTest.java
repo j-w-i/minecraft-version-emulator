@@ -114,9 +114,9 @@ class HistoricalVersionCatalogueTest {
     void profilesThePlanDoesNotNameStayReachableWithoutCounting() {
         List<Entry> extras = HistoricalVersionCatalogue.implementedExtras();
 
-        assertEquals(3, extras.size(),
-            "both Infdev builds and the Alpha v1.1.2_01 profile exist but are not in the planned matrix, and "
-                + "each must still be reachable: " + extras.stream().map(Entry::key).toList());
+        assertEquals(4, extras.size(),
+            "both Infdev builds, the Alpha v1.1.2_01 profile and Alpha v1.2.2a exist but are not in the planned "
+                + "matrix, and each must still be reachable: " + extras.stream().map(Entry::key).toList());
         assertTrue(extras.stream().allMatch(Entry::selectable),
             "an extra is implemented, so it must be selectable even though the plan does not name it");
         assertTrue(extras.stream().noneMatch(Entry::target),

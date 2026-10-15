@@ -745,6 +745,36 @@ public final class HistoricalGameplayTweaks {
     }
 
     /**
+     * Alpha v1.2.2a's chronology: the F4 portal-spawn debug key. Narrower than the Nether boundary, so it is stated
+     * separately rather than reusing it.
+     */
+    private static final int ALPHA_1_2_2A_CHRONOLOGY = 401_202;
+
+    /** The F4 boundary, exposed so a test can tie the literal to the registry's numbering. */
+    public static int f4PortalBoundaryChronology() {
+        return ALPHA_1_2_2A_CHRONOLOGY;
+    }
+
+    /**
+     * Whether pressing F4 rebuilds a lit Nether portal, which is <b>Alpha v1.2.2a only</b>.
+     *
+     * <p>An equality rather than a "from here on" comparison, because the key is a debug shortcut that existed in one
+     * development build. Both clients were downloaded and SHA-1 checked against Mojang's manifest and decompiled:
+     * Alpha 1.2.0 handles F11 (87) and F3 (63) and has no F4 case at all, while Alpha 1.2.2a has
+     * {@code if (Keyboard.getEventKey() == 62)} calling {@code new nj().c(world, player)}. Treating it as a floor
+     * would hand the key to every later Alpha build and invent behaviour those clients do not contain.
+     *
+     * <p>It is also restricted to the exact declared version rather than to the chronology, because the chronology is
+     * a sortable key and not an identity: a later build placed on the same number must not inherit the key.
+     */
+    public static boolean f4SpawnsPortal(String versionId) {
+        var version = HistoricalVersions.byId(versionId).orElse(null);
+        return version != null
+            && version.chronology() == ALPHA_1_2_2A_CHRONOLOGY
+            && "historical_experience:alpha_1_2_2a".equals(version.id());
+    }
+
+    /**
      * Whether the Nether exists in this version. It arrives with the Halloween Update, <b>Alpha 1.2.0</b>.
      *
      * <p>The owner asked for this directly: "I assume you've already blocked nether portals until alpha 1.2". The

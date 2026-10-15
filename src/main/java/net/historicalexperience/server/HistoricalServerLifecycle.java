@@ -27,12 +27,16 @@ import net.historicalexperience.HistoricalExperienceMod;
 import net.historicalexperience.HistoricalMarker;
 import net.historicalexperience.integration.modernerbeta.ModernerBetaAdapter;
 import net.historicalexperience.profile.HistoricalProfiles;
+import net.historicalexperience.gameplay.HistoricalProfileLookup;
 import net.historicalexperience.world.HistoricalWorldState;
+import net.historicalexperience.version.HistoricalVersion;
+import net.historicalexperience.version.HistoricalVersions;
 import net.historicalexperience.world.metadata.HistoricalIdentifier;
 import net.historicalexperience.world.metadata.HistoricalMetadata;
 import net.historicalexperience.world.metadata.HistoricalMetadataStore;
 import net.historicalexperience.world.metadata.MetadataException;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.storage.LevelResource;
 
 /**
@@ -349,10 +353,104 @@ public final class HistoricalServerLifecycle {
     }
 
     private static void onServerStarted(MinecraftServer server) {
+        HistoricalServerContext.onServerStarted(server);
         // Intentionally empty: the 26.3 probe reported here, and the region-file census replaced it.
+        //
+        // Alpha v1.2.0's biome conversion used to run here as a queued chunk rewrite, worked through a batch per tick.
+        // It was removed because it was unnecessary, not because it was wrong: Moderner Beta's biome source is
+        // authoritative - ModernBetaBiomeSource.getNoiseBiome asks its provider for every position and never reads the
+        // biome stored in a chunk - so rewriting stored biomes changed nothing the game reported, which is exactly what
+        // the F3 readout showed after 841 chunks had verifiably changed on disk. The biome now comes from the
+        // `alpha_1_2_0_beta_plains` revision's preset setting, so there is no chunk work to gate or to show progress
+        // for, and no world entry to hold back.
+        //
+        // What is reported here instead is the biome the level actually resolves at spawn - the value F3 shows, and the
+        // only way to check the Alpha v1.2.0 biome rule, because Moderner Beta's biome source answers every position
+        // from its provider rather than from the chunk.
+        try {
+            var overworld = server.overworld();
+            var spawn = overworld.getSharedSpawnPos();
+            HistoricalExperienceMod.LOGGER.info("Biome at spawn {} = {} (profile {})",
+                spawn.toShortString(),
+                overworld.getBiome(spawn).unwrapKey().map(Object::toString).orElse("unresolved"),
+                HistoricalProfileLookup.profileIdForLevel(overworld));
+            reportBiomeProvider(overworld, spawn);
+            reportBiomeVariety(overworld, spawn);
+        } catch (RuntimeException failure) {
+            HistoricalExperienceMod.LOGGER.warn("Could not report the biome at spawn", failure);
+        }
+    }
+
+    /**
+     * Samples the biome at a spread of positions and reports how many distinct ones there are.
+     *
+     * <p>This is the check that matters for generation: a single-biome world reports one name for every sample, and a
+     * climate-based generator reports several. It exists because a settings change flattened generation once - the
+     * owner's report was "in the world upgraded to 1.8.1, NO OTHER BIOME GENERATES" - and the spawn biome alone could
+     * never have shown that, since a flattened world still has a correct-looking biome at spawn.
+     */
+    private static void reportBiomeVariety(ServerLevel level, net.minecraft.core.BlockPos spawn) {
+        java.util.Set<String> found = new java.util.TreeSet<>();
+        int samples = 0;
+        // A wide, deterministic spread: multiples of 256 blocks so the samples fall in different climate cells.
+        for (int x = -1024; x <= 1024; x += 256) {
+            for (int z = -1024; z <= 1024; z += 256) {
+                var pos = new net.minecraft.core.BlockPos(spawn.getX() + x, spawn.getY(), spawn.getZ() + z);
+                found.add(level.getBiome(pos).unwrapKey().map(Object::toString).orElse("unresolved"));
+                samples++;
+            }
+        }
+        HistoricalExperienceMod.LOGGER.info("Biome variety across {} samples: {} distinct -> {}",
+            samples, found.size(), found);
+    }
+
+    /**
+     * Reports what Moderner Beta's biome source actually resolved, which is the thing the biome rules depend on.
+     *
+     * <p>Written because two rules were built on the assumption that a settings preset decides the biome, and one of
+     * them (Alpha v1.2.0) worked while the other did not, with no way from outside to tell why. This prints the
+     * resolved {@code single_biome} component and the concrete provider class, which distinguishes the three possible
+     * causes: the override not reaching the settings, the provider not being the single-biome one, or the provider
+     * being single but named something else.
+     */
+    private static void reportBiomeProvider(ServerLevel level, net.minecraft.core.BlockPos spawn) {
+        try {
+            Object source = level.getChunkSource().getGenerator().getBiomeSource();
+            String providerName = "<not a Moderner Beta source>";
+            String singleBiome = "<none>";
+            if (source instanceof mod.bluestaggo.modernerbeta.level.biome.ModernBetaBiomeSource modernBeta) {
+                java.lang.reflect.Field field =
+                    mod.bluestaggo.modernerbeta.level.biome.ModernBetaBiomeSource.class
+                        .getDeclaredField("biomeProvider");
+                field.setAccessible(true);
+                Object provider = field.get(modernBeta);
+                providerName = provider == null ? "<null>" : provider.getClass().getSimpleName();
+                // Walk the resolved settings for the single-biome component.
+                var settingsField = mod.bluestaggo.modernerbeta.level.biome.ModernBetaBiomeSource.class
+                    .getDeclaredField("biomeSettings");
+                settingsField.setAccessible(true);
+                var settings = (mod.bluestaggo.modernerbeta.settings.ModernBetaSettings) settingsField.get(modernBeta);
+                for (mod.bluestaggo.modernerbeta.settings.SettingsComponent<?> component : settings) {
+                    if (component.type() == mod.bluestaggo.modernerbeta.settings.SettingsComponentTypes.SINGLE_BIOME) {
+                        singleBiome = String.valueOf(component.value());
+                    }
+                }
+                HistoricalExperienceMod.LOGGER.info(
+                    "Moderner Beta biome source: provider={} single_biome={} biome_at_spawn={}",
+                    providerName, singleBiome,
+                    modernBeta.getNoiseBiome(spawn.getX() >> 2, spawn.getY() >> 2, spawn.getZ() >> 2,
+                        net.minecraft.world.level.biome.Climate.empty()).unwrapKey()
+                        .map(Object::toString).orElse("?"));
+            } else {
+                HistoricalExperienceMod.LOGGER.info("Biome source is {}", providerName);
+            }
+        } catch (ReflectiveOperationException | RuntimeException failure) {
+            HistoricalExperienceMod.LOGGER.warn("Could not report the biome source", failure);
+        }
     }
 
     private static void onServerStopping(MinecraftServer server) {
+        HistoricalServerContext.onServerStopped();
         // Intentionally empty, for the same reason.
     }
 

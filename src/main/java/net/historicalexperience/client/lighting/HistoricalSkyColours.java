@@ -59,6 +59,20 @@ public final class HistoricalSkyColours {
      */
     public static final int ALPHA = 0x8BBDFF;
 
+    /**
+     * The Beta sky <b>as this project now draws it</b>: Nostalgic Tweaks' flat Beta entry, {@code 0x97A3FF}.
+     *
+     * <h2>Why an approximation is drawn, having been measured to be one</h2>
+     *
+     * <p>{@link #temperatureSkyColour(float)} is what the Beta clients actually did, and nothing here disputes that -
+     * it is stated in this file's own header and pinned by tests. The owner nevertheless asked on 2026-10-15 for the
+     * earlier appearance back ("colour for beta 1.7.3 should be reverted to before I recently told you to change, as
+     * in the sky colour"), and what is drawn is the owner's call. This constant is named for what it is so the choice
+     * is visible at the point of use, and the measured behaviour is kept beside it: restoring it is a change to
+     * {@code HistoricalWorldTweaks.skyEra} and {@code eraSkyColour} and to nothing else.
+     */
+    public static final int BETA_FLAT = 0x97A3FF;
+
     private HistoricalSkyColours() {
     }
 

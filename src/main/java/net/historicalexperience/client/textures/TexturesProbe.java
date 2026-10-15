@@ -27,6 +27,7 @@ import java.util.Optional;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.historicalexperience.client.HistoricalClientRules;
 import net.minecraft.client.Minecraft;
+import net.historicalexperience.client.tooltip.HistoricalTooltips;
 import net.minecraft.client.Screenshot;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
@@ -84,6 +85,10 @@ public final class TexturesProbe {
             ticks++;
             if (Boolean.getBoolean("historical_experience.texturesProbe.titleOnly")) {
                 titleOnly(client);
+                return;
+            }
+            if (System.getProperty("historical_experience.texturesProbe.tooltipWorlds") != null) {
+                tooltipShots(client);
                 return;
             }
             if (Boolean.getBoolean("historical_experience.texturesProbe.modMenu")) {
@@ -147,6 +152,9 @@ public final class TexturesProbe {
                 note("desired=" + HistoricalTextureService.desiredSignature()
                     + " applied=" + HistoricalTextureService.appliedSignature());
                 note("reloads=" + HistoricalTextureService.reloadCount());
+                note("colormaps desired=" + net.historicalexperience.client.colour.HistoricalColormaps
+                    .desiredEraSignature() + " applied=" + net.historicalexperience.client.colour.HistoricalColormaps
+                    .appliedEra());
                 observe(client, "ORDINARY");
                 shot(client, "tex-probe-ordinary.png");
                 boolean untouched = "none".equals(HistoricalTextureService.appliedSignature())
@@ -174,6 +182,9 @@ public final class TexturesProbe {
                 note("version=" + describeVersion());
                 note("scan=" + HistoricalTextureService.scan().usable().keySet());
                 note("selectedUserPacks=" + client.getResourcePackRepository().getSelectedIds());
+                note("colormaps desired=" + net.historicalexperience.client.colour.HistoricalColormaps
+                    .desiredEraSignature() + " applied=" + net.historicalexperience.client.colour.HistoricalColormaps
+                    .appliedEra());
                 note("reloads=" + HistoricalTextureService.reloadCount());
                 observe(client, "ENFORCED");
                 shot(client, "tex-probe-enforced.png");
@@ -215,8 +226,143 @@ public final class TexturesProbe {
         }
     }
 
-    private static int modMenuStage;
+   private static int modMenuStage;
     private static int modMenuTicks;
+
+    private static int tooltipStage;
+    private static int tooltipTicks;
+    private static String tooltipWorld = "";
+    private static final java.util.List<String> TOOLTIP_WORLDS = new java.util.ArrayList<>();
+
+    /**
+     * Opens a world, puts a real item under the cursor in the survival inventory, and photographs the tooltip, then
+     * repeats for the next world. Screenshots are the only way to see this: whether a tooltip is drawn, and whether it is
+     * the flat legacy box or the modern bordered one, is a rendering outcome rather than a value to read.
+     *
+     * <p>Worlds are taken from {@code -Dhistorical_experience.texturesProbe.tooltipWorlds=a,b,c}, in order. The expected
+     * result per world comes from {@link HistoricalTooltips.Era}, so the probe records what it saw rather than deciding.
+     */
+    private static void tooltipShots(Minecraft client) {
+        tooltipTicks++;
+        if (TOOLTIP_WORLDS.isEmpty()) {
+            String configured = System.getProperty("historical_experience.texturesProbe.tooltipWorlds", "");
+            for (String entry : configured.split(";")) {
+                if (!entry.isBlank()) {
+                    TOOLTIP_WORLDS.add(entry.trim());
+                }
+            }
+        }
+        if (client.getOverlay() != null) {
+            return;
+        }
+        switch (tooltipStage) {
+            case 0 -> { // on the title screen: open the next world
+                if (client.level == null && client.screen instanceof net.minecraft.client.gui.screens.TitleScreen
+                    && tooltipTicks > 60) {
+                    if (TOOLTIP_WORLDS.isEmpty()) {
+                        note("FAIL no tooltipWorlds configured");
+                        finish(client);
+                        return;
+                    }
+                    tooltipWorld = TOOLTIP_WORLDS.remove(0);
+                    HistoricalTextureConfig.markSetupCompleted();
+                    note("---- tooltip check in world '" + tooltipWorld + "'");
+                    note("tooltip era expected: " + HistoricalTooltips.era());
+                    client.createWorldOpenFlows().openWorld(tooltipWorld, () -> { });
+                    tooltipStage = 1;
+                    tooltipTicks = 0;
+                }
+            }
+            case 1 -> { // in world: hand the player an item, then open the survival inventory
+                if (client.player == null || client.level == null) {
+                    if (tooltipTicks > 1200) {
+                        note("FAIL world never loaded: " + tooltipWorld);
+                        finish(client);
+                    }
+                    return;
+                }
+                if (tooltipTicks == 40) {
+                    client.player.getInventory().setItem(0, new net.minecraft.world.item.ItemStack(
+                        net.minecraft.world.item.Items.STONE_PICKAXE));
+                    note("gave the player a stone pickaxe to hover");
+                }
+                if (tooltipTicks == 60) {
+                    client.setScreen(new net.minecraft.client.gui.screens.inventory.InventoryScreen(client.player));
+                    tooltipStage = 2;
+                    tooltipTicks = 0;
+                }
+            }
+            case 2 -> { // hover the slot, let a frame draw, then photograph
+                if (tooltipTicks == 20) {
+                    hoverFirstSlot(client);
+                }
+                if (tooltipTicks == 60) {
+                    note("screen=" + client.screen.getClass().getSimpleName()
+                        + " hoveredSlot=" + hoveredSlotDescription(client));
+                    shot(client, "tex-probe-tooltip-" + tooltipWorld.replaceAll("[^A-Za-z0-9]+", "_") + ".png");
+                }
+                if (tooltipTicks == 90) {
+                    // Leave the world so the next world starts from a clean title screen.
+                    client.level.disconnect();
+                    client.disconnect(new net.minecraft.client.gui.screens.TitleScreen());
+                    tooltipStage = 0;
+                    tooltipTicks = 0;
+                }
+            }
+            default -> { }
+        }
+    }
+
+    /** Ask the container screen which slot is hovered, so the probe can say whether the hover actually landed. */
+    private static String hoveredSlotDescription(Minecraft client) {
+        if (!(client.screen instanceof net.minecraft.client.gui.screens.inventory.AbstractContainerScreen<?> screen)) {
+            return "not a container screen";
+        }
+        net.minecraft.world.inventory.Slot slot =
+            ((net.historicalexperience.mixin.ContainerScreenAccess) screen).historicalExperience$hoveredSlot();
+        return slot == null ? "none" : ("slot " + slot.getContainerSlot() + " item=" + slot.getItem().getItem());
+    }
+
+    /**
+     * Move the real OS cursor over the first inventory slot. The game resolves the hovered slot from the cursor, so the
+     * cursor has to actually move; {@code AbstractContainerScreen.getSlotUnderMouse} then reports it and the tooltip is
+     * drawn on the next frame.
+     */
+    private static void hoverFirstSlot(Minecraft client) {
+        if (!(client.screen instanceof net.minecraft.client.gui.screens.inventory.AbstractContainerScreen<?> screen)) {
+            return;
+        }
+        net.minecraft.world.inventory.Slot slot = null;
+        for (net.minecraft.world.inventory.Slot candidate : screen.getMenu().slots) {
+            if (candidate.hasItem()) {
+                slot = candidate;
+                break;
+            }
+        }
+        if (slot == null) {
+            note("no slot in this menu holds an item to hover");
+            return;
+        }
+        // Slot coordinates are in GUI space; the window wants real pixels, so scale by the GUI factor.
+        double scale = client.getWindow().getGuiScale();
+        double windowX = (((net.historicalexperience.mixin.ContainerScreenAccess) screen).historicalExperience$leftPos()
+            + slot.x + 8) * scale;
+        double windowY = (((net.historicalexperience.mixin.ContainerScreenAccess) screen).historicalExperience$topPos()
+            + slot.y + 8) * scale;
+        // The window's framebuffer is the screenshot's coordinate space only when nothing is offset, so convert from
+        // GUI space to window space and let GLFW place the cursor there.
+        double[] cursorX = new double[1];
+        double[] cursorY = new double[1];
+        org.lwjgl.glfw.GLFW.glfwGetCursorPos(client.getWindow().getWindow(), cursorX, cursorY);
+        org.lwjgl.glfw.GLFW.glfwSetCursorPos(client.getWindow().getWindow(), windowX, windowY);
+        note("moved cursor to " + (int) windowX + "," + (int) windowY + " for slot " + slot.getContainerSlot()
+            + " (was " + (int) cursorX[0] + "," + (int) cursorY[0] + ", guiScale=" + scale + ")");
+        // The screen recomputes its hovered slot in its mouse-moved handler, so tell it the mouse moved.
+        screen.mouseMoved(windowX / scale, windowY / scale);
+    }
+
+    private static int modMenuStageUnused;
+    private static int modMenuTicksUnused;
 
     /**
      * Mod Menu check through the real loader: discovers the {@code modmenu} entrypoints exactly as Mod Menu does, finds

@@ -22,16 +22,22 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import net.historicalexperience.version.HistoricalVersionCatalogue;
+import net.historicalexperience.version.VersionOverview;
 import net.historicalexperience.version.HistoricalVersionCatalogue.Entry;
 import net.historicalexperience.version.HistoricalVersionCatalogue.Era;
 import net.historicalexperience.version.HistoricalVersionCatalogue.Status;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.MultiLineTextWidget;
 import net.minecraft.client.gui.components.ObjectSelectionList;
+import net.minecraft.client.gui.narration.NarratedElementType;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.FormattedText;
+import net.minecraft.util.FormattedCharSequence;
 
 /**
  * Browsing and choosing a historical Minecraft version, shared by world creation and world management.
@@ -69,13 +75,44 @@ public class HistoricalVersionScreen extends Screen {
     private static final int DETAILS_HEIGHT = 52;
     private static final int ROW_HEIGHT = 22;
 
-    /** The width of the version column. The list and the details panel share it so they line up. */
+    /** Gap between the version list and the overview panel beside it. */
+    private static final int PANEL_GAP = 8;
+
+    /**
+     * How the window's width is shared between the version list and the overview panel.
+     *
+     * <p>On a wide window the list keeps its full 320 and the panel takes the rest, up to 300. When the window is
+     * narrow - a high GUI scale - the list gives up width first, down to 170, because a version name still reads at
+     * that width while a paragraph of text beside it does not read at less than about 150.
+     */
+    private int usableWidth() {
+        return this.width - 20;
+    }
+
+    /** The width of the version column. The list and the details line under it share it so they line up. */
     private int columnWidth() {
-        return Math.min(320, this.width - 40);
+        int usable = usableWidth();
+        if (usable >= 320 + PANEL_GAP + 220) {
+            return 320;
+        }
+        return Math.max(170, (usable - PANEL_GAP) * 45 / 100);
+    }
+
+    private int panelWidth() {
+        return Math.max(120, Math.min(300, usableWidth() - columnWidth() - PANEL_GAP));
+    }
+
+    /** Left edge of the whole list-plus-panel block, centred as one unit. */
+    private int blockLeft() {
+        return (this.width - (columnWidth() + PANEL_GAP + panelWidth())) / 2;
     }
 
     private int columnLeft() {
-        return (this.width - columnWidth()) / 2;
+        return blockLeft();
+    }
+
+    private int panelLeft() {
+        return blockLeft() + columnWidth() + PANEL_GAP;
     }
 
     private final Screen lastScreen;
@@ -86,6 +123,7 @@ public class HistoricalVersionScreen extends Screen {
     private Era shownEra;
     private VersionList list;
     private MultiLineTextWidget details;
+    private OverviewPanel overview;
     private Button confirmButton;
 
     /**
@@ -161,9 +199,16 @@ public class HistoricalVersionScreen extends Screen {
         // row sitting directly on top of the text reads as a rendering fault rather than as a scrolled list.
         int listTop = 30 + ERA_ROW_HEIGHT + 8;
         int detailsTop = this.height - DETAILS_HEIGHT - 30;
-        this.list = new VersionList(this.minecraft, columnWidth(),
-            Math.max(ROW_HEIGHT * 3, detailsTop - listTop - 14), listTop, ROW_HEIGHT);
+        int listHeight = Math.max(ROW_HEIGHT * 3, detailsTop - listTop - 14);
+        this.list = new VersionList(this.minecraft, columnWidth(), listHeight, listTop, ROW_HEIGHT);
+        this.list.setX(columnLeft());
         addRenderableWidget(this.list);
+
+        // The overview spans from the top of the list to the bottom of the details line, so it is as tall as the two
+        // together and long entries have room before they need to scroll.
+        this.overview = new OverviewPanel(panelLeft(), listTop, panelWidth(),
+            detailsTop + DETAILS_HEIGHT - listTop);
+        addRenderableWidget(this.overview);
         this.list.populate(this.shownEra);
         this.list.selectKey(this.initialKey);
 
@@ -227,6 +272,9 @@ public class HistoricalVersionScreen extends Screen {
         VersionList.VersionRow row = this.list == null ? null : this.list.getSelected();
         Entry selected = row == null ? null : row.entry;
         this.details.setMessage(describe(selected));
+        if (this.overview != null) {
+            this.overview.show(selected);
+        }
         if (this.confirmButton != null) {
             this.confirmButton.active = selected != null
                 && selected.selectable()
@@ -242,34 +290,206 @@ public class HistoricalVersionScreen extends Screen {
      * report.
      */
     private Component describe(Entry selected) {
-        StringBuilder text = new StringBuilder();
+        // The words themselves live in VersionText, where a test can call them: whether the recipe alias and the
+        // measured build are shown is a decision, and the screen is not testable. Developer mode is read here, once
+        // per redraw, so switching it in Mod Menu takes effect on the next version highlighted.
+        return Component.literal(VersionText.details(selected, this.context.note().getString(),
+            net.historicalexperience.client.config.HistoricalDeveloperMode.enabled()));
+    }
 
-        if (!this.context.note().getString().isEmpty()) {
-            text.append(this.context.note().getString()).append('\n');
+    /**
+     * What the highlighted version added, changed, removed and did to world generation, beside the list.
+     *
+     * <p>A widget of its own rather than more text under the list: the entries run to a dozen lines for the larger
+     * releases, so they have to scroll, and a scrolling region needs its own clip, wheel handling and scrollbar. The
+     * content comes from {@link VersionOverview}; nothing here decides what a version contains.
+     */
+    private final class OverviewPanel extends AbstractWidget {
+        private static final int PAD = 6;
+        private static final int SCROLLBAR = 4;
+
+        /** One rendered line; a null text is vertical space, and {@code dot} marks the first line of a bullet. */
+        private record Line(FormattedCharSequence text, int indent, int colour, boolean dot) {
         }
 
-        if (selected == null) {
-            text.append("Select a version. Use the era buttons to browse Alpha, Beta and Release.");
-            return Component.literal(text.toString());
+        private static Line space() {
+            return new Line(null, 0, 0, false);
         }
 
-        text.append(selected.displayName()).append(" - ").append(selected.era().displayName());
+        private List<Line> lines = List.of();
+        private String shownKey = "";
+        private double scroll;
+        private boolean draggingBar;
 
-        if (selected.status() == Status.FUTURE) {
-            text.append('\n').append("Planned. ").append(selected.summary());
-            return Component.literal(text.toString());
+        private OverviewPanel(int x, int y, int width, int height) {
+            super(x, y, width, height, Component.literal("Version overview"));
         }
 
-        text.append('\n').append("Implemented.");
-        if (!selected.emulated().isEmpty()) {
-            text.append(" Emulates ").append(selected.emulated()).append('.');
+        private int step() {
+            return HistoricalVersionScreen.this.font.lineHeight + 2;
         }
 
-        var revision = selected.version().latestRevision();
-        text.append('\n').append("Generates with ").append(revision.alias())
-            .append(" (revision ").append(revision.revision()).append(')');
+        private int contentHeight() {
+            return this.lines.size() * step() + 2 * PAD;
+        }
 
-        return Component.literal(text.toString());
+        private int maxScroll() {
+            return Math.max(0, contentHeight() - this.height);
+        }
+
+        private void show(Entry selected) {
+            String key = selected == null ? "" : selected.key();
+            if (!key.equals(this.shownKey)) {
+                this.scroll = 0;
+                this.shownKey = key;
+            }
+            this.lines = build(selected);
+            this.scroll = Math.min(this.scroll, maxScroll());
+        }
+
+        private List<Line> build(Entry selected) {
+            List<Line> out = new java.util.ArrayList<>();
+            int wrap = this.width - 2 * PAD - SCROLLBAR - 2;
+
+            if (selected == null) {
+                paragraph(out, "Select a version to see what it added.", 0, 0xFFAAAAAA, wrap);
+                return out;
+            }
+            paragraph(out, selected.displayName(), 0, 0xFFFFFFFF, wrap);
+            if (!selected.selectable()) {
+                out.add(space());
+                paragraph(out, "Planned. " + selected.summary(), 0, 0xFFAAAAAA, wrap);
+                return out;
+            }
+            var overview = VersionOverview.forVersion(selected.key());
+            if (overview.isEmpty()) {
+                out.add(space());
+                paragraph(out, "No overview is recorded for this build.", 0, 0xFFAAAAAA, wrap);
+                return out;
+            }
+            section(out, "Added", 0xFF55FF55, overview.get().introduced(), wrap);
+            section(out, "Changed", 0xFFFFFF55, overview.get().changed(), wrap);
+            section(out, "Removed", 0xFFFF5555, overview.get().removed(), wrap);
+            section(out, "World generation", 0xFF55FFFF, overview.get().worldgen(), wrap);
+            out.add(space());
+            // Said on screen because the research behind these lists says so itself: a missing item is not evidence.
+            paragraph(out, "Not exhaustive: an item missing here does not mean it was absent.", 0, 0xFF808080, wrap);
+            return out;
+        }
+
+        private void section(List<Line> out, String title, int colour, List<String> items, int wrap) {
+            if (items.isEmpty()) {
+                return;
+            }
+            out.add(space());
+            paragraph(out, title, 0, colour, wrap);
+            for (String item : items) {
+                bullet(out, item, wrap);
+            }
+        }
+
+        private void paragraph(List<Line> out, String text, int indent, int colour, int wrap) {
+            for (FormattedCharSequence part : HistoricalVersionScreen.this.font.split(FormattedText.of(text),
+                    wrap - indent)) {
+                out.add(new Line(part, indent, colour, false));
+            }
+        }
+
+        /** A bullet whose wrapped lines hang under its first word rather than under the dot. */
+        private void bullet(List<Line> out, String text, int wrap) {
+            int hang = HistoricalVersionScreen.this.font.width("\u2022 ");
+            boolean first = true;
+            for (FormattedCharSequence part : HistoricalVersionScreen.this.font.split(FormattedText.of(text),
+                    wrap - hang)) {
+                out.add(new Line(part, hang, 0xFFE0E0E0, first));
+                first = false;
+            }
+        }
+
+        @Override
+        protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+            graphics.fill(getX(), getY(), getX() + this.width, getY() + this.height, 0xB0000000);
+            graphics.renderOutline(getX(), getY(), this.width, this.height, 0xFF555555);
+
+            graphics.enableScissor(getX() + 1, getY() + 1, getX() + this.width - 1, getY() + this.height - 1);
+            int y = getY() + PAD - (int) this.scroll;
+            int step = step();
+            for (Line line : this.lines) {
+                if (line.text() != null) {
+                    graphics.drawString(HistoricalVersionScreen.this.font, line.text(),
+                        getX() + PAD + line.indent(), y, line.colour(), false);
+                    if (line.dot()) {
+                        graphics.drawString(HistoricalVersionScreen.this.font, "\u2022", getX() + PAD, y,
+                            line.colour(), false);
+                    }
+                }
+                y += step;
+            }
+            graphics.disableScissor();
+
+            if (maxScroll() > 0) {
+                int trackX = getX() + this.width - SCROLLBAR - 2;
+                int trackTop = getY() + 2;
+                int trackHeight = this.height - 4;
+                graphics.fill(trackX, trackTop, trackX + SCROLLBAR, trackTop + trackHeight, 0xFF202020);
+                int thumb = Math.max(16, trackHeight * this.height / contentHeight());
+                int thumbY = trackTop + (int) ((trackHeight - thumb) * (this.scroll / maxScroll()));
+                graphics.fill(trackX, thumbY, trackX + SCROLLBAR, thumbY + thumb, 0xFFA0A0A0);
+            }
+        }
+
+        @Override
+        public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+            if (!isMouseOver(mouseX, mouseY) || maxScroll() == 0) {
+                return false;
+            }
+            this.scroll = Math.max(0, Math.min(maxScroll(), this.scroll - scrollY * step() * 2));
+            return true;
+        }
+
+        private boolean overBar(double mouseX, double mouseY) {
+            return maxScroll() > 0 && mouseX >= getX() + this.width - SCROLLBAR - 6 && mouseX <= getX() + this.width
+                && mouseY >= getY() && mouseY <= getY() + this.height;
+        }
+
+        private void dragTo(double mouseY) {
+            int trackTop = getY() + 2;
+            int trackHeight = this.height - 4;
+            double fraction = (mouseY - trackTop) / Math.max(1, trackHeight);
+            this.scroll = Math.max(0, Math.min(maxScroll(), fraction * maxScroll()));
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            if (button == 0 && overBar(mouseX, mouseY)) {
+                this.draggingBar = true;
+                dragTo(mouseY);
+                return true;
+            }
+            // Clicking the text does nothing, and must not play the button click or take focus from the list.
+            return false;
+        }
+
+        @Override
+        public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+            if (this.draggingBar) {
+                dragTo(mouseY);
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public boolean mouseReleased(double mouseX, double mouseY, int button) {
+            boolean was = this.draggingBar;
+            this.draggingBar = false;
+            return was;
+        }
+
+        @Override
+        protected void updateWidgetNarration(NarrationElementOutput output) {
+            output.add(NarratedElementType.TITLE, Component.literal("Version overview"));
+        }
     }
 
     /** The scrolling list of one era's versions. */
@@ -298,7 +518,7 @@ public class HistoricalVersionScreen extends Screen {
 
         @Override
         public int getRowWidth() {
-            return Math.min(320, this.width - 40);
+            return columnWidth() - 12;
         }
 
         /** One version. */
@@ -328,9 +548,10 @@ public class HistoricalVersionScreen extends Screen {
                 graphics.drawString(HistoricalVersionScreen.this.font, state, x + entryWidth - stateWidth - 4,
                     y + 3, selectable ? 0xFF55FF55 : 0xFFAAAAAA, true);
 
-                if (!this.entry.emulated().isEmpty()) {
-                    graphics.drawString(HistoricalVersionScreen.this.font,
-                        "emulates " + this.entry.emulated(), x + 4, y + 12, 0xFFAAAAAA, true);
+                String note = VersionText.rowNote(this.entry,
+                    net.historicalexperience.client.config.HistoricalDeveloperMode.enabled());
+                if (!note.isEmpty()) {
+                    graphics.drawString(HistoricalVersionScreen.this.font, note, x + 4, y + 12, 0xFFAAAAAA, true);
                 }
             }
 

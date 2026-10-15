@@ -19,6 +19,7 @@ package net.historicalexperience.client.lighting;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -104,7 +105,7 @@ class HistoricalWorldTweaksTest {
     }
 
     @Test
-    @DisplayName("the sky is the era's own: a flat Infdev/Alpha colour, the Beta temperature function, nothing later")
+    @DisplayName("the sky is the era's flat colour, and Beta is the flat value the owner asked to have back")
     void eraSkyColour() {
         // Alpha v1.0.11 carries 8961023 (0x8BBDFF) as its world sky colour; Infdev's is Moderner Beta's extracted
         // INFDEV_*_SKY_COLOR, 0x99CCFF. See HistoricalSkyColours for the jar references.
@@ -114,20 +115,22 @@ class HistoricalWorldTweaksTest {
         assertEquals(Integer.valueOf(0x99CCFF), HistoricalWorldTweaks.eraSkyColour(at("historical_experience:infdev_420")));
         assertEquals(Integer.valueOf(0x99CCFF), HistoricalWorldTweaks.eraSkyColour(at("historical_experience:infdev_611")));
 
-        // Beta's sky was computed from the temperature field, so there is no flat colour to assert - asserting one is
-        // exactly the mistake Nostalgic Tweaks made with 0x97A3FF. Beta 1.0 through Beta 1.8.1 are the temperature
-        // window; the flat value must stay null for all of them.
+        // Beta draws the flat 0x97A3FF again, at the owner's request of 2026-10-15 ("colour for beta 1.7.3 should be
+        // reverted to before I recently told you to change, as in the sky colour"). It is Nostalgic Tweaks' value and
+        // the measured behaviour of these clients is the temperature function - retained, tested, and deliberately
+        // not drawn; see HistoricalSkyColours.BETA_FLAT for why the approximation is allowed to stand.
         for (String id : new String[] {"beta_1_0", "beta_1_2", "beta_1_3", "beta_1_4", "beta_1_5", "beta_1_6",
-            "beta_1_7_3", "beta_1_8_1"}) {
+            "beta_1_7_3"}) {
             HistoricalVersion beta = at("historical_experience:" + id);
-            assertEquals(HistoricalWorldTweaks.SkyEra.TEMPERATURE, HistoricalWorldTweaks.skyEra(beta), id);
-            assertNull(HistoricalWorldTweaks.eraSkyColour(beta), id);
+            assertEquals(HistoricalWorldTweaks.SkyEra.FLAT, HistoricalWorldTweaks.skyEra(beta), id);
+            assertEquals(Integer.valueOf(0x97A3FF), HistoricalWorldTweaks.eraSkyColour(beta), id);
             assertTrue(HistoricalWorldTweaks.availableForSkyColour(beta), id);
         }
 
-        // Beta 1.9 Pre-release 6 and Release 1.0 both read the biome temperature at height 64 and feed it to the same
-        // HSV function modern Minecraft still uses, so from there the game's own colour is already correct.
-        for (String id : new String[] {"beta_1_9_pre_1", "beta_1_9_pre_6", "release_1_0_0", "release_1_6_4"}) {
+        // Beta 1.8.1 onward already draws its own correct sky, and that is where the flat colour stopped *before* the
+        // 2026-10-14 change as well - that change had extended the window to Beta 1.9, and the revert put it back.
+        for (String id : new String[] {"beta_1_8_1", "beta_1_9_pre_1", "beta_1_9_pre_6", "release_1_0_0",
+            "release_1_6_4"}) {
             HistoricalVersion later = at("historical_experience:" + id);
             assertEquals(HistoricalWorldTweaks.SkyEra.NONE, HistoricalWorldTweaks.skyEra(later), id);
             assertNull(HistoricalWorldTweaks.eraSkyColour(later), id);
@@ -137,6 +140,44 @@ class HistoricalWorldTweaksTest {
         assertEquals(HistoricalWorldTweaks.SkyEra.NONE, HistoricalWorldTweaks.skyEra(null), "unknown is not 'yes'");
         assertNull(HistoricalWorldTweaks.eraSkyColour(null));
         assertFalse(HistoricalWorldTweaks.skyTweakActive(null), "ordinary worlds must stay untouched");
+    }
+
+    @Test
+    @DisplayName("the temperature hook is unreachable today, which is what keeps the retained path honest")
+    void temperatureHookIsUnreachable() {
+        // The retained temperature branch in BiomeHistoricalSkyColourMixin only runs when skyEra says TEMPERATURE and
+        // eraSkyColour has no flat value. Both mappings are asserted here over the whole catalogue, so if either is
+        // changed back the hook becomes live on purpose rather than by accident - and this test is where that shows.
+        HistoricalVersion beta181 = at("historical_experience:beta_1_8_1");
+        long expected = 0;
+        java.util.List<String> served = new java.util.ArrayList<>();
+        for (net.historicalexperience.version.HistoricalVersionCatalogue.Entry entry
+                : net.historicalexperience.version.HistoricalVersionCatalogue.implemented()) {
+            HistoricalVersion version = entry.version();
+            if (version == null) {
+                continue;
+            }
+            // The window, derived from the registry alone: a declared Infdev/Alpha/Beta build below Beta 1.8.1.
+            boolean inWindow = version.chronology() < beta181.chronology()
+                && switch (version.era()) {
+                    case "infdev", "alpha", "beta" -> true;
+                    default -> false;
+                };
+            if (inWindow) {
+                expected++;
+            }
+            if (!HistoricalWorldTweaks.availableForSkyColour(version)) {
+                continue;
+            }
+            served.add(entry.displayName());
+            assertEquals(HistoricalWorldTweaks.SkyEra.FLAT, HistoricalWorldTweaks.skyEra(version),
+                entry.displayName() + " is served by the sky hook, so it must have a flat colour today");
+            assertNotNull(HistoricalWorldTweaks.eraSkyColour(version), entry.displayName());
+        }
+        assertEquals(expected, served.size(),
+            "the sky hook must serve exactly the declared Infdev/Alpha/Beta builds below Beta 1.8.1; it served "
+                + served);
+        assertTrue(expected >= 15, "the catalogue should contain most of these versions; derived only " + expected);
     }
 
     @Test

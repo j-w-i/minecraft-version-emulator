@@ -34,6 +34,7 @@
   "suggests": {
     "modmenu": "*"
   },
+  "accessWidener": "historical_experience.accesswidener",
   "mixins": [
     "historical_experience.mixins.json"
   ]
