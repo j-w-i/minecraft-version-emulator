@@ -274,12 +274,60 @@ public final class HistoricalCraftingEra {
         if (!declared(versionId) || itemId == null) {
             return null;
         }
+        if (BED_ITEMS.contains(itemId) && !RED_BED.equals(itemId)) {
+            // Coloured beds are Release 1.12 (17w15a); before that there was one bed and it was red, whatever wool
+            // was used - minecraft.wiki, Bed: "The red bed was the original default bed color", and the sixteen
+            // coloured beds appear in its 1.12 history row. None of these profiles is 1.12, and a test asserts that.
+            //
+            // Before Beta 1.3 there is no bed at all, so this returns null and the recipe stays refused: a bed must
+            // not be conjured out of wool in a build that had none.
+            String bedsArrive = EXISTED_BY_1_6_4.get(itemId);
+            return bedsArrive != null && !before(versionId, bedsArrive) ? RED_BED : null;
+        }
         String first = EXISTED_BY_1_6_4.get(itemId);
         if (first == null || !before(versionId, first)) {
             return null;
         }
         return SPECIES_PLANKS.contains(itemId) ? GENERIC_PLANKS : null;
     }
+
+    /** The one bed those versions had. */
+    public static final String RED_BED = "minecraft:red_bed";
+
+    /**
+     * The chronology of Release 1.12, where the coloured beds arrive, as a literal because no such profile is
+     * declared. {@link #substitutedResult} treats every bed as red and does not consult it, so a test asserts that no
+     * declared version reaches it - if one ever does, that test fails and the boundary has to be written properly.
+     */
+    public static int colouredBedsChronology() {
+        return 602_200;
+    }
+
+    /** Every bed item in the modern game, which is the family the substitution above covers. */
+    private static final Set<String> BED_ITEMS = bedItems();
+
+    private static Set<String> bedItems() {
+        Set<String> beds = new java.util.LinkedHashSet<>();
+        for (String colour : COLOURS) {
+            beds.add("minecraft:" + colour + "_bed");
+        }
+        beds.add(RED_BED);
+        return Set.copyOf(beds);
+    }
+
+    /**
+     * Whether a stack's item is shown under the plain name "Bed" in this version.
+     *
+     * <p>The owner: <i>"they were red beds for a long time no matter the wool used and they were just called
+     * beds"</i>. The item a player holds is the modern {@code red_bed}, whose own name is "Red Bed", so the name has
+     * to be answered by the version rather than by the item. Applies to every bed colour, because a world may
+     * already hold beds of other colours.
+     */
+    public static boolean showsPlainBedName(String versionId, String itemId) {
+        return declared(versionId) && itemId != null && BED_ITEMS.contains(itemId);
+    }
+
+    /** The three wood species whose planks are substituted before Release 1.2. */
 
     /** The per-species planks, which are the one family this project substitutes rather than refuses. */
     private static final Set<String> SPECIES_PLANKS =

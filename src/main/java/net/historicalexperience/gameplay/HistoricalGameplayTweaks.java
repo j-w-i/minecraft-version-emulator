@@ -659,10 +659,17 @@ public final class HistoricalGameplayTweaks {
      * </ul>
      *
      * <p>So an experience bar being present is NOT evidence that enchanting works, and the two are gated apart.
+     *
+     * <p><b>An ordinary world is not "no".</b> No session, or a version this build does not declare, is a world with
+     * no historical rules at all, and there the modern answer is the right one - because the caller <em>cancels</em>
+     * enchanting when this is false, which switched the table off in every ordinary world. The owner reported the
+     * same defect through sneaking ("I can also not shift in a default world which means some stuff is still being
+     * disabled"); {@link #functionalBrewing}, {@link #endPortalFunctional} and {@link #sneakingAvailable} are the
+     * other three that answered it, and all four now answer the modern way for a version they do not know.
      */
     public static boolean functionalEnchanting(String versionId) {
         var version = HistoricalVersions.byId(versionId).orElse(null);
-        return version != null && version.chronology() >= BETA_1_9_PRE_4_CHRONOLOGY;
+        return version == null || version.chronology() >= BETA_1_9_PRE_4_CHRONOLOGY;
     }
 
     /**
@@ -821,6 +828,37 @@ public final class HistoricalGameplayTweaks {
     }
 
     /**
+     * Whether the HUD shows the player's experience <b>level number</b> above the bar.
+     *
+     * <p>minecraft.wiki, <i>Java Edition Beta 1.9-pre3</i>, section <b>Experience levels</b>: <i>"Now shown above
+     * experience bar."</i> The bar itself is an earlier boundary, Beta 1.8's Adventure Update, whose own history line
+     * records the bar being shown as "Skill points" in the development trailer.
+     *
+     * <p>So the bar and the number are two boundaries, and this project had only the first: the owner reported the
+     * second - <i>"The experience point number was only added in a later version ... you couldnt see how much
+     * experience you had in beta 1.8 or pre 1"</i>. A Beta 1.8.1 or Prerelease 1 world must draw the bar with no
+     * number above it.
+     *
+     * <h2>Which build, and the source that disagreed</h2>
+     *
+     * <p>Prerelease <b>3</b>, not Prerelease 4. The <i>Experience</i> article's History table puts "The experience
+     * level number is now shown" in its Prerelease 4 row - which is also where it records the leveling curve change
+     * and the ability to spend levels, so a reader of that table alone (which this project was) lands one build late.
+     * The version page for Prerelease 3 is the specific changelog for that build and lists the number as its own
+     * entry, and the owner - who was playing Prerelease 3 when they asked for this - named the same build. The
+     * version page and the owner agree, so Prerelease 3 is the boundary and the History table is recorded here as
+     * the source that misled, not as an alternative.
+     *
+     * <p>Answering true for a null or undeclared version follows the rule stated on
+     * {@link #functionalEnchanting}: this is a positive question, the caller <em>cancels</em> the vanilla drawing when
+     * it answers false, and a world with no historical rules keeps what the modern game does.
+     */
+    public static boolean experienceLevelShown(String versionId) {
+        var version = HistoricalVersions.byId(versionId).orElse(null);
+        return version == null || version.chronology() >= BETA_1_9_PRE_3_CHRONOLOGY;
+    }
+
+    /**
      * Whether the player can sneak in this version. Sneaking arrives in <b>Alpha 1.1.0</b>.
      *
      * <p>Reported by the owner after playing an Alpha 1.0.1 world: "i can also still sneak way before sneaking was
@@ -829,10 +867,17 @@ public final class HistoricalGameplayTweaks {
      *
      * <p>Refusing the crouch outright is the faithful answer: before Alpha 1.1.0 the shift key did nothing, so the
      * player neither crouched, nor moved at sneak speed, nor used the sneak pose.
+     *
+     * <p><b>A world with no historical version can sneak, and that is the fix the owner asked for.</b> The first
+     * version of this answered false for a null session, which is a world with no historical rules at all - so the
+     * shift key did nothing in ordinary worlds: "I can also not shift in a default world which means some stuff is
+     * still being disabled". An unknown version and no version are both "this build has nothing to say here", and
+     * the modern answer is the one that must be given. See {@link #functionalEnchanting} for the other three
+     * predicates that had the same defect.
      */
     public static boolean sneakingAvailable(String versionId) {
         var version = HistoricalVersions.byId(versionId).orElse(null);
-        return version != null && version.chronology() >= ALPHA_1_1_0_CHRONOLOGY;
+        return version == null || version.chronology() >= ALPHA_1_1_0_CHRONOLOGY;
     }
 
     /**
@@ -845,10 +890,13 @@ public final class HistoricalGameplayTweaks {
      *
      * <p>So a Beta 1.8 world must not brew at all, and "brewing exists" is not the same as "brewing works" before
      * Prerelease 3.
+     *
+     * <p>A world with no declared version brews: the caller cancels the brewing stand when this is false, so the
+     * ordinary-world answer must be the modern one. See {@link #functionalEnchanting}.
      */
     public static boolean functionalBrewing(String versionId) {
         var version = HistoricalVersions.byId(versionId).orElse(null);
-        return version != null && version.chronology() >= BETA_1_9_PRE_3_CHRONOLOGY;
+        return version == null || version.chronology() >= BETA_1_9_PRE_3_CHRONOLOGY;
     }
 
     /**
@@ -858,10 +906,13 @@ public final class HistoricalGameplayTweaks {
      * but the portal block has no function: the frame repairs and nothing follows. Prerelease 4 activates the
      * portal and generates the End. The dragon is a later boundary again - it does not spawn until Prerelease 6 -
      * so this gate covers the portal only, and says nothing about the boss.
+     *
+     * <p>A world with no declared version has a working portal: the caller makes the eye of ender do nothing when
+     * this is false, so the ordinary-world answer must be the modern one. See {@link #functionalEnchanting}.
      */
     public static boolean endPortalFunctional(String versionId) {
         var version = HistoricalVersions.byId(versionId).orElse(null);
-        return version != null && version.chronology() >= BETA_1_9_PRE_4_CHRONOLOGY;
+        return version == null || version.chronology() >= BETA_1_9_PRE_4_CHRONOLOGY;
     }
 
     /**
@@ -1103,6 +1154,29 @@ public final class HistoricalGameplayTweaks {
         return appliesTo("jumpExperienceBug", versionId)
             ? 1 + random.nextInt(100)
             : 0;
+    }
+
+    /**
+     * Whether holding the jump key no longer keeps jumping: the other half of the same wiki entry.
+     *
+     * <p>minecraft.wiki, Java Edition Beta 1.9-pre1, under <b>Jumping</b>:
+     *
+     * <blockquote>
+     * <ul>
+     *   <li>When the player jumps, their experience increases by a number between 1 and 100 experience.</li>
+     *   <li>Continuous jumping by holding down the jump key is no longer possible.</li>
+     * </ul>
+     * </blockquote>
+     *
+     * <p>{@link #jumpExperienceBug} implemented the first bullet and this project's own note claimed the second
+     * "needs no code, because it describes this method being reached on every tick the key is held, which is what
+     * vanilla does". That was wrong, and the owner found it: vanilla <em>does</em> keep jumping while the key is held,
+     * so a held key paid out on every landing where Prerelease 1 required a fresh press. Both halves are the same
+     * build - our research records Pre2 as the one that "removes the XP bug and restores held-jump auto-repeat" - so
+     * this answers from the same gate.
+     */
+    public static boolean jumpRequiresFreshPress(String versionId) {
+        return appliesTo("jumpExperienceBug", versionId);
     }
 
     public static List<String> documentedGates() {

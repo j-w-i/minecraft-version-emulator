@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import net.historicalexperience.version.HistoricalVersions;
@@ -68,8 +69,18 @@ class SneakingBoundaryTest {
     }
 
     @Test
-    void unresolvedVersionsNeverGetSneaking() {
-        assertFalse(HistoricalGameplayTweaks.sneakingAvailable(null));
-        assertFalse(HistoricalGameplayTweaks.sneakingAvailable("historical_experience:no_such_version"));
+    @DisplayName("a world with no historical version can sneak, because nothing there is being emulated")
+    void unresolvedVersionsKeepTheModernBehaviour() {
+        // This test used to assert the opposite, and the owner found the consequence: "I can also not shift in a
+        // default world which means some stuff is still being disabled". The caller CANCELS the shift key when this
+        // predicate is false, so "false" for an ordinary world means the player cannot crouch there at all. A null
+        // session, or a version id this build does not declare, is a world with no historical rules; the modern
+        // answer is the only safe one.
+        assertTrue(HistoricalGameplayTweaks.sneakingAvailable(null),
+            "an ordinary world must keep vanilla sneaking");
+        assertTrue(HistoricalGameplayTweaks.sneakingAvailable("historical_experience:no_such_version"),
+            "an undeclared version is not a historical world either, so it keeps vanilla sneaking");
+        // The gate still refuses inside the versions that really had no crouch.
+        assertFalse(HistoricalGameplayTweaks.sneakingAvailable("historical_experience:alpha_1_0_1"));
     }
 }

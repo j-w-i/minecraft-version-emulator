@@ -95,6 +95,19 @@ public final class HudHelper {
         return session != null && net.historicalexperience.gameplay.HistoricalLootRules.suppressesExperience(session);
     }
 
+    /**
+     * Whether this world's version drew no experience LEVEL NUMBER above the bar.
+     *
+     * <p>A second boundary, not a corollary of {@link #hideExperienceBar()}: the bar arrives in Beta 1.8's Adventure
+     * Update and the number only in Beta 1.9 Prerelease 4, so a Beta 1.8.1 world draws the bar and must not draw the
+     * number. See {@code HistoricalGameplayTweaks.experienceLevelShown} for the source of that boundary.
+     */
+    public static boolean hideExperienceLevel() {
+        String session = HistoricalActiveSession.current();
+        return session != null
+            && !net.historicalexperience.gameplay.HistoricalGameplayTweaks.experienceLevelShown(session);
+    }
+
     /** Upstream: {@code begin}. */
     public static void begin(GuiGraphics graphics) {
         if (HUD_MANAGED.ifDisabledThenEnable()) {

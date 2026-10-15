@@ -20,6 +20,7 @@ package net.historicalexperience.gameplay;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -77,10 +78,20 @@ class PrereleaseProgressionTest {
     }
 
     @Test
-    void unresolvedVersionsGetNothing() {
-        assertFalse(HistoricalGameplayTweaks.functionalBrewing(null));
-        assertFalse(HistoricalGameplayTweaks.endPortalFunctional(null));
-        assertFalse(HistoricalGameplayTweaks.functionalBrewing("historical_experience:no_such_version"));
-        assertFalse(HistoricalGameplayTweaks.endPortalFunctional("historical_experience:no_such_version"));
+    @DisplayName("a world with no historical version keeps brewing and a working End portal")
+    void unresolvedVersionsKeepTheModernBehaviour() {
+        // Both predicates answer a POSITIVE question and both callers CANCEL modern behaviour when they answer false
+        // (the brewing stand returns early; the eye of ender returns PASS). They used to answer false for a version
+        // they did not know, which switched brewing off and made the eye of ender inert in every ordinary world. See
+        // SneakingBoundaryTest for the owner's report of the same defect.
+        assertTrue(HistoricalGameplayTweaks.functionalBrewing(null),
+            "an ordinary world must keep vanilla brewing");
+        assertTrue(HistoricalGameplayTweaks.endPortalFunctional(null),
+            "an ordinary world must keep a working End portal");
+        assertTrue(HistoricalGameplayTweaks.functionalBrewing("historical_experience:no_such_version"));
+        assertTrue(HistoricalGameplayTweaks.endPortalFunctional("historical_experience:no_such_version"));
+        // And the real boundaries are untouched.
+        assertFalse(HistoricalGameplayTweaks.functionalBrewing("historical_experience:beta_1_8_1"));
+        assertFalse(HistoricalGameplayTweaks.endPortalFunctional("historical_experience:beta_1_9_pre_3"));
     }
 }

@@ -60,6 +60,7 @@
   "createWorld.customize.modern_beta.preset.name.historical_experience.alpha": "Alpha v1.1.2_01",
   "createWorld.customize.modern_beta.preset.desc.historical_experience.alpha": "Moderner Beta's corresponding historical terrain at Y 0..127, without deepslate, modern cave biomes or grass patches. The implemented content, structure and spawn restrictions are applied before generation. Generation-only backport; other gameplay and exact ore/decoration fidelity for this era are not claimed.",
   "historical_experience.config.title": "Historical Experience",
+  "historical_experience.item.bed": "Bed",
   "historical_experience.config.note": "Old smooth shading: Beta 1.3 to Beta 1.7.3. Old lighting (grey, sky light follows the time of day): before Beta 1.8.",
   "historical_experience.config.smooth.on": "Old smooth shading (NT): ON - %s (click to turn off)",
   "historical_experience.config.smooth.off": "Old smooth shading (NT): OFF - %s (click to turn on)",

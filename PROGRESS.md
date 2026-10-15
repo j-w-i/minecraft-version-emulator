@@ -1,4 +1,189 @@
-# Current change — 2026-10-15 / the off-hand slot by NT's own method, and logs that make planks again
+## 6. The recipe-banner mixin crashed the client, and why the build was green anyway
+
+The owner's next run reached their Beta 1.9 Prerelease 1 world and then died the moment a recipe was unlocked:
+
+```
+Mixin apply for mod hex1211 failed historical_experience.mixins.json:RecipeToastHistoricalMixin
+Invalid descriptor on ...historicalExperience$noRecipeBanner(Lnet/minecraft/class_374;Lnet/minecraft/class_1799;...)
+Expected (Lnet/minecraft/class_374;Lnet/minecraft/class_8786;...)V
+... Client disconnected with reason: Network Protocol Error
+```
+
+`class_8786` is `RecipeHolder`, not `ItemStack` (which is what the toast *displays*). The mixin is corrected to
+`RecipeHolder<?>` on both `addOrUpdate` and `addItem`.
+
+**Why nothing caught it, and what now does.** A mixin's target signature is verified by the mixin processor when the
+game loads the target class, not by the compiler, and `RecipeToast` loads only when a recipe is unlocked - so
+`compileJava`, the 583 tests and my own client probes were all consistent with a mixin that could not apply. The
+project already has the instrument for this: `ClientMixinCheck` (`-PclientMixinCheck=<class>`) forces the named client
+class to load and reports the outcome. It now reports:
+
+```
+CLIENTMIXINCHECK loaded net.minecraft.client.gui.components.toasts.RecipeToast (RecipeToast) - its mixins applied
+```
+
+with no `InvalidInjectionException` and no disconnect, in a real client run (`run/toast-mixin-check.out`). The other
+two mixins added in this round never needed it: `ItemStack` and `KeyboardInput` are both loaded during startup, so the
+owner's run that crashed on the toast had already proved those two applied - a lazy-mixin failure of either would
+have stopped the game before the world loaded.
+
+Deployed: live jar sha256 `C065FC1075BF0255…`, 722 entries, hash-matched to the tested build.
+
+# Current change — 2026-10-15 / the experience level number, and a boundary the owner corrected
+
+Owner: *"The experience point number was only added in a later version check when it was but you couldnt see how much
+experience you had in beta 1.8 or pre 1 im not sure when it was added find out and gate it"*.
+
+## The boundary, and the source that misled
+
+The bar and the number are **two** boundaries. Beta 1.8's Adventure Update added the bar (its own history line records
+it being shown as "Skill points" in the development trailer); the **number above it arrives in Beta 1.9 Prerelease 3** -
+minecraft.wiki, *Java Edition Beta 1.9-pre3*, section **Experience levels**: *"Now shown above experience bar."*
+
+This rule was first written against the wrong build, and the owner caught it inside a minute: *"Experience levels were
+first shown ... during Beta 1.9 Pre-release 3. and yet you're launching pre 3 and it dont' show thats the version it
+should show"*. The cause is worth recording: the *Experience* article's History table files "The experience level
+number is now shown" under its **Prerelease 4** row - the same row that carries the levelling-curve change and the
+ability to spend levels - so a reader of that table alone lands one build late. The specific version page for
+Prerelease 3 lists the number as its own entry, and the owner, who was playing Prerelease 3 at the time, named the same
+build. Version page and owner agree; the History table is recorded in the code as the source that misled rather than
+as an alternative.
+
+## The change
+
+- `HistoricalGameplayTweaks.experienceLevelShown(versionId)` - true from Beta 1.9 Prerelease 3, false for Beta 1.8.1
+  through Prerelease 2. Positive predicate, so a null or undeclared version keeps the modern answer, per the rule on
+  `functionalEnchanting` that four features had wrong.
+- `HudHelper.hideExperienceLevel()` - deliberately separate from `hideExperienceBar()`, because the bar and the number
+  are different boundaries: a Beta 1.8.1 world draws the bar with no number.
+- `GuiHistoricalExperienceLevelMixin` - cancels `Gui.renderExperienceLevel` at its head, so the bar, the bar's geometry
+  and every element positioned around it are untouched. **Not** an NT port, and marked as such in the file: upstream's
+  nearest feature is `CandyTweak.SHOW_EXP_LEVEL_TEXT`, an optional corner readout drawn by its own `GuiListener`
+  (default off), and `HIDE_EXPERIENCE_BAR` hides the whole bar - NT has nothing for "bar without the number", so this
+  file carries the project header alone.
+
+## Evidence - pixels, in an A/B fixture pair
+
+A temporary probe (`XpLevelProbe`, since deleted along with its registration and its Gradle property) joined a fixture
+world, granted 30 levels through the integrated server, and screenshotted the HUD 80 ticks later:
+
+| fixture | version | gates reported | screenshot |
+| --- | --- | --- | --- |
+| `xp-b18` (copy of `fixture-world`) | beta_1_8_1 | `barHidden=false levelHidden=true` | bar drawn, **no number** |
+| `xp-pre3` (copy of `New World (2)`) | beta_1_9_pre_3 | `barHidden=false levelHidden=false` | bar drawn, **"67" above it** |
+
+`run/client/screenshots/xp-probe-historical_experience_beta_1_8_1.png` and `...beta_1_9_pre_3.png`; logs
+`run/xp-probe-b18.out`, `run/xp-probe-pre3.out`. The two fixture copies are kept in `run/client/saves` as the A/B pair.
+
+## The descriptor, again - and the check that now catches it
+
+`GuiHistoricalExperienceLevelMixin` first declared `(GuiGraphics, Font)`. The parameter is
+`(GuiGraphics, DeltaTracker)`: `fgf` in the tiny mappings is `class_9779` = `DeltaTracker`, and this was the second
+time in one session that a descriptor was assumed from the mapping letters instead of resolved. The temporary probe
+run caught it immediately - the client crashed at startup with `InvalidInjectionException` naming both descriptors -
+so nothing shipped this time, unlike the recipe toast. The letters are resolved (`fhz` = `class_332` = `GuiGraphics`,
+`fgf` = `class_9779` = `DeltaTracker`) and the mixin is documented with both.
+
+**Build**: 584 tests, 0 failures; `apply-licence-headers.py --check` → "all 382 Java files carry the correct licence
+header (103 Nostalgic Tweaks-derived, 279 project)". **Deployed**: live jar sha256 `3964BC84A89BD1A8…`, 723 entries,
+hash-matched. The owner restarted and confirmed it in game ("yep it worked").
+
+# Current change — 2026-10-15 / five reports: sneak in ordinary worlds, recipe banners, beds, Programmer Art, jump XP
+
+Owner: *"you need to totally disable the banners that appear when you unlock new recipes, also coloured beds didn't
+exist until well idk when but they were red beds for a long time no matter the wool used and they were just called
+beds. I can also not shift in a default world which means some stuff is still being disabled. When textures are
+disabled this should include the programmer art pack. When jumping in pre 1.9 beta 1 the xp being added is incorrect
+consult the wiki for how much should be added per jump and/or inspet the jar."*
+
+## 1. Sneaking (and three siblings) were switched off in ordinary worlds — fixed
+
+**The defect, and it was a class of them.** These predicates answer a POSITIVE question and their call sites *cancel*
+modern behaviour when the answer is false. All four answered false for a version they did not know, which includes a
+world with no historical session at all:
+
+| predicate | call site | what an ordinary world lost |
+| --- | --- | --- |
+| `sneakingAvailable` | `EntityHistoricalSneakingMixin`, `LocalPlayerHistoricalSneakingMixin` | the shift key did nothing - the owner's report |
+| `functionalBrewing` | `BrewingStandHistoricalBrewingMixin` | the brewing stand refused to brew |
+| `endPortalFunctional` | `EnderEyeHistoricalPortalMixin` | the eye of ender returned PASS, so the portal never filled |
+| `functionalEnchanting` | `EnchantmentMenuHistoricalEnchantingMixin` (via `enchantingDisabled`) | the enchanting table click did nothing |
+
+All four now answer the modern way when the version is null **or undeclared**, which is "this build has nothing to say
+here". Their version boundaries are unchanged, and the tests that asserted the old answer
+(`SneakingBoundaryTest.unresolvedVersionsNeverGetSneaking`, `PrereleaseProgressionTest.unresolvedVersionsGetNothing`,
+`EnchantingBoundaryTest.undeclaredAndNullVersionsAreNeverTreatedAsEnchanting`) were rewritten to assert the fixed
+behaviour with the reason. The negative-sense predicates (`offhandUnavailable`, `usesOldTableRules`,
+`appliesTo(gate, …)`) already meant "no restriction" for a null version and were left alone.
+
+## 2. Recipe banners — disabled
+
+`RecipeToastHistoricalMixin` cancels both `RecipeToast.addOrUpdate` (the banner appears) and `RecipeToast.addItem`
+(an existing banner grows), so no "New Recipe Unlocked!" banner can show in a historical world. An ordinary world
+keeps the vanilla banner. Context: the recipe book itself is absent from every declared version (the newest declared
+profile is Release 1.6.4; the book is Release 1.12), so the banner was the visible half of a feature that is not there.
+
+## 3. Beds — red, and called "Bed"
+
+Owner: *"they were red beds for a long time no matter the wool used and they were just called beds"*. minecraft.wiki,
+Bed: the sixteen coloured beds appear in the 1.12 history row (**17w15a**), and "The red bed was the original default
+bed color".
+
+- **Crafting**: every bed item is substituted to `minecraft:red_bed` in any declared version, through the same result
+  rewrite the logs use (`HistoricalCraftingEra.substitutedResult` + `CraftingRecipeHistoricalWoodMixin`). Before Beta
+  1.3 there is no bed at all, so nothing is substituted and the recipe stays refused - no bed is conjured out of wool.
+- **Name**: `ItemStackHistoricalBedNameMixin` returns this project's own `historical_experience.item.bed` ("Bed") from
+  `getHoverName` for any bed in a declared version, because the item a player holds is the modern `red_bed` whose own
+  name is "Red Bed". Every bed colour is covered, since a world may already hold others.
+- The rule is written as "every declared version" rather than as a comparison against a 1.12 boundary, because no 1.12
+  profile exists; `noDeclaredVersionHasColouredBeds` fails if one is ever declared, so the boundary has to be written
+  then instead of silently painting 1.12's beds red.
+
+## 4. Programmer Art is turned off with the textures it belongs to
+
+Owner: *"When textures are disabled this should include the programmer art pack."* Programmer Art is the one source
+this feature uses that changes the game **by being selected**: the mod's layer opens it directly, but if the player
+also has it ticked, turning historical textures off left it applying on its own. `HistoricalTextureService` now
+deselects `programmer_art` while the texture setting is OFF, persists the change the way the pack screen does
+(`Options.updateResourcePacks`) and reloads; a player with the setting ON keeps their own pack selection untouched,
+and an ordinary world is never touched. Golden Days and Continuation are the player's own downloads and are only read
+through the layer, so their selection is left alone.
+
+## 5. Jump XP: the amount was right, the other half of the wiki entry was missing — now implemented
+
+Owner: *"When jumping in pre 1.9 beta 1 the xp being added is incorrect consult the wiki for how much should be added
+per jump."* The wiki's own page for that build says, under **Jumping**:
+
+> * When the [[player]] jumps, their [[experience]] increases by a number between 1 and 100 experience.
+> * Continuous jumping by holding down the jump key is no longer possible.
+
+`HistoricalGameplayTweaks.jumpExperienceBug` already awarded `1 + random.nextInt(100)` - 1 to 100 inclusive - and only
+in Beta 1.9 Prerelease 1, so the amount and the build were what the wiki states. Asked which half was wrong, the owner
+confirmed it is the second: **holding the jump key still re-jumps**, so the payout repeated on every landing where
+that build required a fresh press. This project's own note had claimed that half "needs no code, because it describes
+this method being reached on every tick the key is held, which is what vanilla does" - which is exactly the error:
+vanilla *does* keep jumping while the key is held.
+
+- `HistoricalGameplayTweaks.jumpRequiresFreshPress` answers from the same `jumpExperienceBug` gate, so both halves are
+  the one build (our research records Pre2 as the build that "removes the XP bug and restores held-jump auto-repeat").
+- `HistoricalJumpInput` is a one-flag latch: "a jump has happened since the jump key was last released".
+- `KeyboardInputHistoricalJumpMixin` reads and writes it at `Input.tick`'s `TAIL` - the point where the key state has
+  just been read into `Input.jumping`. A held key has its jump input cleared; releasing the key arms the next press.
+  Suppressing the input rather than the jump keeps the client and server agreeing: the client never asks for the
+  second jump, instead of predicting one the server refuses.
+- The latch is cleared on disconnect, so a jump made in one world cannot suppress the first jump in the next.
+- **An ordinary world and any undeclared version keep vanilla's held-jump repeat** (`jumpRequiresFreshPress(null)` is
+  false), which is the same null rule as the four predicates fixed in item 1 above, and it is asserted.
+
+**Build**: 583 tests, 0 failures; `apply-licence-headers.py --check` → "all 381 Java files carry the correct licence
+header (103 Nostalgic Tweaks-derived, 278 project)". **Deployed**: live jar sha256 `97ADEDD45D15113D…`, 722 entries,
+live hash independently compared equal to the tested build. The owner must restart Minecraft completely.
+
+Not verified in a client run: the held-jump change (it needs a held key, which no probe here presses) and the recipe
+banner suppression. Both are gated on the session, and both are the kind of change a hand on the keyboard settles in
+seconds.
+
+# Earlier change — 2026-10-15 / the off-hand slot by NT's own method, and logs that make planks again
 
 Two owner reports. *"Birch trees are available in beta 1.2 but I can't craft anything with the logs and they dont go
 into planks. Until Release 1.2 they were just wooden planks but in 1.2 they start crafting into birch planks."* and

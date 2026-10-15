@@ -371,6 +371,10 @@ public final class HistoricalTextureService {
         if (++ticks % CHECK_INTERVAL_TICKS != 0 || reloadPending || client.getOverlay() != null) {
             return;
         }
+        if (releaseProgrammerArt(client)) {
+            // The pack list changed, so the game needs its own reload before anything else is compared.
+            return;
+        }
         maybeAutoDownload(client);
         // The tint tables are installed while the resource manager reloads, which happens before a world is known, so a
         // change of era needs one more reload. Whole ranges of versions share a table, so only a real change reloads.
@@ -407,6 +411,45 @@ public final class HistoricalTextureService {
     /** Whether {@code overlay} belongs to a reload this service started and should not draw the Mojang screen. */
     public static boolean isQuietOverlay(Object overlay) {
         return overlay != null && overlay == quietOverlay;
+    }
+
+    /**
+     * Turns the vanilla Programmer Art pack off when the player has turned historical textures off.
+     *
+     * <h2>Why this one pack, and why the mod touches the pack list at all</h2>
+     *
+     * <p>Owner: <i>"When textures are disabled this should include the programmer art pack."</i> Programmer Art is the
+     * one source of this feature that changes the game <em>by being selected</em>: the mod's own layer opens it
+     * directly (see {@link #buildLayer}), but if the player also has it ticked in the pack list then turning
+     * historical textures off leaves it applying on its own - the world still looks like the old textures after the
+     * player asked for no historical textures. The other sources (Golden Days, Continuation) are the player's own
+     * downloads and are only ever read through the layer, so their selection is left alone.
+     *
+     * <p>Only reached while the setting is OFF, so a player who has historical textures on keeps whatever pack
+     * selection they chose, and an ordinary world with the setting on is untouched - the selection is a client-wide
+     * setting and this method refuses to touch it for any other reason.
+     *
+     * @return whether the pack list was changed, in which case the caller reloads and waits
+     */
+    private static boolean releaseProgrammerArt(Minecraft client) {
+        if (HistoricalTextureConfig.enabled()) {
+            return false;
+        }
+        PackRepository repository = client.getResourcePackRepository();
+        if (repository == null) {
+            return false;
+        }
+        java.util.List<String> selected = new java.util.ArrayList<>(repository.getSelectedIds());
+        if (!selected.remove(PROGRAMMER_ART_PACK)) {
+            return false;
+        }
+        LOGGER.info("Historical textures are off, so the {} pack is being deselected with them", PROGRAMMER_ART_PACK);
+        repository.setSelected(selected);
+        // Persisted the way the pack selection screen persists it, so the change survives a restart rather than
+        // reappearing on the next launch.
+        client.options.updateResourcePacks(repository);
+        reload(client, "programmer_art off");
+        return true;
     }
 
     private static void reload(Minecraft client, String desired) {

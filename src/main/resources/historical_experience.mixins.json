@@ -74,6 +74,8 @@
     "SheepHistoricalShearMixin",
     "RecipeManagerHistoricalCraftingMixin",
     "CraftingRecipeHistoricalWoodMixin",
+    "RecipeToastHistoricalMixin",
+    "ItemStackHistoricalBedNameMixin",
     "SlotHistoricalFoodStackMixin",
     "ContainerHistoricalFoodStackMixin",
     "MenuHistoricalFoodStackMixin",
@@ -135,6 +137,8 @@
     "CreateWorldHistoricalFooterMixin",
     "LocalPlayerHistoricalSneakingMixin",
     "InventoryScreenHistoricalOffhandMixin",
-    "InventoryShieldSlotMixin"
+    "InventoryShieldSlotMixin",
+    "KeyboardInputHistoricalJumpMixin",
+    "GuiHistoricalExperienceLevelMixin"
   ]
 }

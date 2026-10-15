@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import net.historicalexperience.version.HistoricalVersions;
@@ -84,10 +85,20 @@ class EnchantingBoundaryTest {
     }
 
     @Test
-    void undeclaredAndNullVersionsAreNeverTreatedAsEnchanting() {
-        assertFalse(HistoricalGameplayTweaks.functionalEnchanting(null),
-            "a world whose version could not be resolved must not be handed modern enchanting");
+    @DisplayName("a world with no historical version keeps a working enchanting table")
+    void undeclaredAndNullVersionsKeepModernEnchanting() {
+        // The opposite of what this test used to assert, and the owner found the reason: `enchantingDisabled` is
+        // `!functionalEnchanting && !placeholder`, and EnchantmentMenuHistoricalEnchantingMixin returns "the click did
+        // nothing" when it is true - so an ordinary world's enchanting table was inert. A null session or an
+        // undeclared version is a world with no historical rules; the modern answer is the only safe one. The
+        // version-specific boundaries below are unaffected.
+        assertTrue(HistoricalGameplayTweaks.functionalEnchanting(null),
+            "an ordinary world must keep a working enchanting table");
+        assertTrue(HistoricalGameplayTweaks.functionalEnchanting("historical_experience:no_such_version"));
+        assertFalse(HistoricalGameplayTweaks.enchantingDisabled(null),
+            "nothing is disabled in a world with no historical version");
+        assertFalse(HistoricalGameplayTweaks.enchantingDisabled("historical_experience:no_such_version"));
+        // `enchantingTableExists` is a different question - whether the BLOCK is obtainable - and is left as it was.
         assertFalse(HistoricalGameplayTweaks.enchantingTableExists(null));
-        assertFalse(HistoricalGameplayTweaks.functionalEnchanting("historical_experience:no_such_version"));
     }
 }

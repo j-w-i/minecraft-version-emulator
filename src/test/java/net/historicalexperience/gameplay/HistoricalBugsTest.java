@@ -223,4 +223,23 @@ class HistoricalBugsTest {
                 "and no later build ever had it");
         }
     }
+
+    @Test
+    @DisplayName("held-jump repeat is removed in the same single build, and nowhere else")
+    void heldJumpRepeatIsRemovedInPre1Only() {
+        // The same wiki entry that carries the payout carries this: Java Edition Beta 1.9-pre1, "Jumping":
+        // "Continuous jumping by holding down the jump key is no longer possible." Both halves are one build, and
+        // our research records Pre2 as the build that restored held-jump auto-repeat.
+        assertTrue(HistoricalGameplayTweaks.jumpRequiresFreshPress(PRE_1),
+            "Prerelease 1 is the build the owner reported and the wiki describes");
+        assertFalse(HistoricalGameplayTweaks.jumpRequiresFreshPress("historical_experience:beta_1_9_pre_2"),
+            "Pre2 restored held-jump auto-repeat, so the key may be held there");
+        assertFalse(HistoricalGameplayTweaks.jumpRequiresFreshPress("historical_experience:beta_1_8_1"));
+        assertFalse(HistoricalGameplayTweaks.jumpRequiresFreshPress("historical_experience:release_1_6_4"));
+        // An ordinary world, and a version this build does not declare, keep vanilla's held-jump repeat. This is the
+        // same null rule as the four predicates fixed in the same round: false here means "modern behaviour", and the
+        // input hook reads it that way.
+        assertFalse(HistoricalGameplayTweaks.jumpRequiresFreshPress(null));
+        assertFalse(HistoricalGameplayTweaks.jumpRequiresFreshPress("historical_experience:no_such_version"));
+    }
 }

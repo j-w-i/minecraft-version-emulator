@@ -151,4 +151,43 @@ class HistoricalLootWiring1211Test {
             "an ordinary world must keep its experience");
         assertFalse(HistoricalLootRules.suppressesExperience(null));
     }
+
+    @Test
+    @DisplayName("the experience level number is withheld between the bar and the number")
+    void experienceLevelNumberHasItsOwnBoundary() {
+        // Owner: "The experience point number was only added in a later version ... you couldnt see how much
+        // experience you had in beta 1.8 or pre 1". minecraft.wiki, Java Edition Beta 1.9-pre3, section Experience
+        // levels: "Now shown above experience bar." The bar is Beta 1.8, so the number is its own boundary: a Beta
+        // 1.8.1 world has the bar WITHOUT the number, which is what this test exists to protect.
+        //
+        // The boundary is Prerelease 3, corrected by the owner after this rule was first written against the
+        // Experience article's History table, which files the same sentence under Prerelease 4. See the long note on
+        // HistoricalGameplayTweaks.experienceLevelShown.
+        assertFalse(HistoricalGameplayTweaks.experienceLevelShown("historical_experience:beta_1_8_1"),
+            "Beta 1.8.1 drew the bar and no number");
+        assertFalse(HistoricalGameplayTweaks.experienceLevelShown("historical_experience:beta_1_9_pre_1"),
+            "Prerelease 1 is the build the owner was playing when they reported this");
+        assertFalse(HistoricalGameplayTweaks.experienceLevelShown("historical_experience:beta_1_9_pre_2"));
+        assertTrue(HistoricalGameplayTweaks.experienceLevelShown("historical_experience:beta_1_9_pre_3"),
+            "Prerelease 3 is where the version page and the owner both put the number");
+        assertTrue(HistoricalGameplayTweaks.experienceLevelShown("historical_experience:beta_1_9_pre_4"));
+        assertTrue(HistoricalGameplayTweaks.experienceLevelShown("historical_experience:beta_1_9_pre_5"));
+        assertTrue(HistoricalGameplayTweaks.experienceLevelShown("historical_experience:release_1_0_0"));
+        assertTrue(HistoricalGameplayTweaks.experienceLevelShown("historical_experience:release_1_6_4"));
+
+        // Positive predicate, so the modern answer for a world with no historical rules - see the convention on
+        // HistoricalGameplayTweaks.functionalEnchanting. Getting this backwards is what switched four features off
+        // in ordinary worlds.
+        assertTrue(HistoricalGameplayTweaks.experienceLevelShown(null),
+            "an ordinary world must keep the number");
+        assertTrue(HistoricalGameplayTweaks.experienceLevelShown("moderner_beta:beta"));
+        assertTrue(HistoricalGameplayTweaks.experienceLevelShown("historical_experience:no_such_version"));
+
+        // And the two boundaries are independent: the versions that had no experience at all have neither.
+        for (String version : new String[] {"historical_experience:beta_1_7_3", "historical_experience:alpha"}) {
+            assertTrue(HistoricalLootRules.suppressesExperience(version));
+            assertFalse(HistoricalGameplayTweaks.experienceLevelShown(version),
+                version + " had no bar and no number");
+        }
+    }
 }

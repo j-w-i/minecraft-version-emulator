@@ -87,6 +87,8 @@ public final class HistoricalExperienceClient implements ClientModInitializer {
             HistoricalClientRules.clearSyncedVersion();
             // The next world's sky light is unrelated to this one's.
             net.historicalexperience.client.lighting.HistoricalOldLighting.reset();
+            // A held-jump latch from the world just left must not suppress the first jump in the next one.
+            net.historicalexperience.client.input.HistoricalJumpInput.clear();
         });
     }
 

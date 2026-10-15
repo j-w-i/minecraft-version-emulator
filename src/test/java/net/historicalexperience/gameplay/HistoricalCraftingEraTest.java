@@ -253,6 +253,60 @@ class HistoricalCraftingEraTest {
     }
 
     @Test
+    @DisplayName("every bed is the red bed, and is called Bed, because no declared version had the colours")
+    void bedsAreRedAndCalledBed() {
+        // Owner: "coloured beds didn't exist until well idk when but they were red beds for a long time no matter the
+        // wool used and they were just called beds". minecraft.wiki, Bed: the sixteen coloured beds appear in the
+        // 1.12 history row (17w15a) and "The red bed was the original default bed color".
+        for (String version : List.of("historical_experience:beta_1_3", "historical_experience:beta_1_7_3",
+                "historical_experience:release_1_0_0", "historical_experience:release_1_6_4")) {
+            for (String colour : List.of("white", "blue", "black", "lime")) {
+                String bed = "minecraft:" + colour + "_bed";
+                assertEquals(HistoricalCraftingEra.RED_BED, HistoricalCraftingEra.substitutedResult(version, bed),
+                    bed + " must be a red bed in " + version);
+                assertFalse(HistoricalCraftingEra.isRefused(version, bed, bed),
+                    bed + " must not be refused in " + version + ", or the wool has no recipe left");
+                assertTrue(HistoricalCraftingEra.showsPlainBedName(version, bed),
+                    bed + " must be called Bed in " + version);
+            }
+            // The red bed itself needs no substitution, and is still called Bed.
+            assertNull(HistoricalCraftingEra.substitutedResult(version, HistoricalCraftingEra.RED_BED));
+            assertTrue(HistoricalCraftingEra.showsPlainBedName(version, HistoricalCraftingEra.RED_BED));
+        }
+
+        // Before Beta 1.3 there is no bed at all: refused, and NEVER substituted into one.
+        assertTrue(HistoricalCraftingEra.isRefused("historical_experience:beta_1_0", "minecraft:red_bed",
+            "minecraft:red_bed"));
+        assertNull(HistoricalCraftingEra.substitutedResult("historical_experience:beta_1_0", "minecraft:red_bed"),
+            "a build with no bed must not be handed one");
+        assertNull(HistoricalCraftingEra.substitutedResult("historical_experience:alpha_1_0_1",
+            "minecraft:white_bed"));
+
+        // An ordinary world keeps the modern bed and its modern name.
+        assertNull(HistoricalCraftingEra.substitutedResult(null, "minecraft:white_bed"));
+        assertFalse(HistoricalCraftingEra.showsPlainBedName(null, "minecraft:white_bed"));
+        assertFalse(HistoricalCraftingEra.showsPlainBedName("historical_experience:no_such_version",
+            "minecraft:white_bed"));
+        // Not every item is a bed.
+        assertFalse(HistoricalCraftingEra.showsPlainBedName("historical_experience:beta_1_7_3",
+            "minecraft:oak_planks"));
+    }
+
+    @Test
+    @DisplayName("no declared version reaches Release 1.12, which is why every bed is treated as red")
+    void noDeclaredVersionHasColouredBeds() {
+        // The bed rule is written as "every declared version", not as a comparison against a 1.12 boundary, because no
+        // 1.12 profile exists to compare with. This guard keeps that honest: declare Release 1.12 and it fails, so the
+        // rule has to be given its real boundary instead of silently painting 1.12's beds red.
+        int newest = net.historicalexperience.version.HistoricalVersionCatalogue.entries().stream()
+            .mapToInt(net.historicalexperience.version.HistoricalVersionCatalogue.Entry::order)
+            .max().orElseThrow();
+        assertTrue(newest < HistoricalCraftingEra.colouredBedsChronology(),
+            "a declared profile now reaches Release 1.12 (" + HistoricalCraftingEra.colouredBedsChronology()
+                + "); the bed substitution needs its real boundary");
+    }
+
+    @Test
     @DisplayName("an ordinary world, or an unknown version, is never refused")
     void ordinaryWorldsAreUntouched() throws IOException {
         for (String world : new String[] {null, "moderner_beta:beta", "example:nothing"}) {
