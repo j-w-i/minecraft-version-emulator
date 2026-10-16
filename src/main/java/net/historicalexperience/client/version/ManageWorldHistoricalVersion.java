@@ -132,10 +132,13 @@ public final class ManageWorldHistoricalVersion {
         client.setScreen(new HistoricalVersionScreen(screen, new HistoricalVersionScreen.Context(
             Component.literal("Change Historical Version"),
             Component.literal("Change to this version"),
-            state.profileId(),
+            state.selectionId(),
             entry -> entry.selectable(),
             key -> change(screen, client, worldDirectory, state, key),
-            Component.literal(note))));
+            Component.literal(note),
+            // No Indev map settings here: changing an existing world's version is an upgrade of the world it already
+            // is, and does not re-choose the map settings it was created with.
+            null)));
     }
 
     private static void change(SelectWorldScreen screen, Minecraft client, Path worldDirectory,
@@ -190,7 +193,7 @@ public final class ManageWorldHistoricalVersion {
             message = named == null
                 ? "This world will generate with the new version from the next time it is opened. Existing chunks, "
                     + "builds and inventories are not changed."
-                : named + " will generate from the next time this world is opened. Existing chunks, builds and "
+                : named + " will take effect when this world is next opened. Existing chunks, builds and "
                     + "inventories are not changed.";
         }
         client.setScreen(new AlertScreen(() -> client.setScreen(screen),

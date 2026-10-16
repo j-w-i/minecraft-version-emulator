@@ -62,10 +62,14 @@ public final class HistoricalExperienceClient implements ClientModInitializer {
         net.historicalexperience.client.version.ManageWorldHistoricalVersion.register();
         // Gated on a system property; inert unless a verification run asks for it.
         net.historicalexperience.client.version.ScreenProbe.register();
+        net.historicalexperience.client.version.SnapshotFeatureProbe.register();
+        net.historicalexperience.client.version.SnapshotAnvilProbe.register();
+        net.historicalexperience.client.indev.IndevMapProbe.registerIfRequested();
         NtVisualProbe.register();
         ClientMixinCheck.registerIfRequested();
         // Alpha v1.2.2a's F4: the raw key, as that client read it, rather than a rebindable control.
         F4PortalKey.register();
+        SnapshotCreativeKey.register();
         NtStarsProbe.register();
 
         // The old lighting engine follows the sky: it re-lights a few sections a tick as the time of day moves, so it

@@ -71,6 +71,12 @@ test {
     useJUnitPlatform()
     workingDir projectDir
     testLogging { events 'failed'; exceptionFormat 'full' }
+    // Opt-in: lets a developer measurement point at saved fixture worlds and print what they actually contain.
+    if (project.hasProperty('apronFixture')) {
+        systemProperty 'historical_experience.apronFixture', project.findProperty('apronFixture')
+        systemProperty 'historical_experience.apronFixture.max', project.findProperty('apronFixtureMax') ?: '6'
+        testLogging { showStandardStreams = true }
+    }
 }
 
 java {
@@ -233,6 +239,21 @@ loom {
                 programArgs '--width', '960', '--height', '720'
                 vmArg '-Dhistorical_experience.screenProbe.layoutOnly=true'
             }
+            if (project.hasProperty('snapshotProbe')) {
+                vmArg '-Dhistorical_experience.snapshotProbe=true'
+                vmArg "-Dhistorical_experience.snapshotProbe.root=${file('run/client').absolutePath}"
+            }
+            if (project.hasProperty('villageResidentsProbe')) {
+                vmArg '-Dhistorical_experience.villageResidentsProbe=true'
+            }
+            if (project.hasProperty('snapshotAnvilProbe') || project.hasProperty('villageResidentsProbe')) {
+                vmArg '-Dhistorical_experience.snapshotAnvilProbe=true'
+                vmArg "-Dhistorical_experience.snapshotProbe.root=${file('run/client').absolutePath}"
+            }
+            if (project.hasProperty('indevProbe')) {
+                vmArg '-Dhistorical_experience.indevProbe=true'
+                vmArg "-Dhistorical_experience.indevProbe.root=${file('run/client').absolutePath}"
+            }
             if (project.hasProperty('clientMixinCheck')) {
                 vmArg '-Dhistorical_experience.clientMixinCheck=' + project.findProperty('clientMixinCheck')
             }
@@ -288,6 +309,7 @@ loom {
                 // like the server's generation probe: the mod does nothing extra unless this is set.
                 vmArg '-Dhistorical_experience.screenProbe=true'
                 vmArg "-Dhistorical_experience.screenProbe.dir=${project.findProperty('screenProbeDir') ?: 'logs/screen-probe.json'}"
+                vmArg "-Dhistorical_experience.screenProbe.prefix=${project.findProperty('screenProbePrefix') ?: ''}"
             }
         }
         server {

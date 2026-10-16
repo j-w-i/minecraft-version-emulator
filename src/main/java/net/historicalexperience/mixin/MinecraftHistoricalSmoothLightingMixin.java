@@ -16,6 +16,7 @@ package net.historicalexperience.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.historicalexperience.client.HistoricalClientRules;
+import net.historicalexperience.client.lighting.HistoricalOldLighting;
 import net.historicalexperience.version.HistoricalVersions;
 import net.minecraft.client.Minecraft;
 import org.spongepowered.asm.mixin.Mixin;
@@ -44,7 +45,8 @@ import org.spongepowered.asm.mixin.injection.At;
  *
  * <p>Smooth lighting arrived in <b>Beta 1.3</b> - minecraft.wiki, Light, History: <i>"1.3 - Smooth lighting engine
  * added with the help of MrMessiah and his 'BetterLight' mod."</i> - so before it there is nothing to be smooth and
- * this answers false for every earlier version.
+ * this answers false for every earlier version, while the historical lighting engine is switched on. With that switch
+ * off the player's own setting is used instead: the owner turned the mod's lighting off and it kept acting.
  *
  * <p>This is NOT the same question as {@link HistoricalSmoothLighting}, which covers Beta 1.3 up to Beta 1.7.3 and
  * asks about the shape of the shading. This one is about whether the feature existed at all.
@@ -72,10 +74,17 @@ public abstract class MinecraftHistoricalSmoothLightingMixin {
             .map(first -> version.chronology() < first.chronology())
             .orElse(false);
         if (beforeSmooth) {
-            // Before Beta 1.3 there was no smooth lighting, so the setting is answered false regardless of what the
-            // player chose. The option itself is left alone rather than forced, so a player who set it keeps their
-            // preference for the next world they open.
-            return false;
+            // Before Beta 1.3 there was no smooth lighting, so while the historical lighting engine is ON the setting
+            // is answered false whatever the player chose. The option itself is left alone rather than forced, so a
+            // player who set it keeps their preference for the next world they open.
+            //
+            // The engine's own switch is checked FIRST, and this used to be missing: the owner turned old lighting off
+            // and smooth shading was still forced off in a version that never had it - the mod acting after being
+            // switched off. The two switches are the whole of this feature, so with old lighting off the player's own
+            // setting stands and the world is lit exactly as an unmodded one would be. Which switch governs this is a
+            // judgement call - the era's lighting is what old lighting emulates, and the smooth-shading row's own
+            // tooltip says it applies to Beta 1.3 to 1.7.3, so it does not speak for a version before it existed.
+            return HistoricalOldLighting.toggle() ? false : useAmbientOcclusion;
         }
         return useAmbientOcclusion;
     }

@@ -121,10 +121,12 @@ public class HistoricalVersionScreen extends Screen {
     private final String initialKey;
 
     private Era shownEra;
+    private String highlightedKey = "";
     private VersionList list;
     private MultiLineTextWidget details;
     private OverviewPanel overview;
     private Button confirmButton;
+    private Button eraOptionsButton;
 
     /**
      * What the two callers of this screen have in common, and the little they differ by.
@@ -137,9 +139,12 @@ public class HistoricalVersionScreen extends Screen {
      * @param onConfirm    what to do with the chosen key
      * @param note         an extra line shown above the version details, for context a caller needs to state -
      *                     the world's current version, or a warning about a staged change
+     * @param eraOptions   an extra action offered only while a version of a particular era is highlighted, or null.
+     *                     World creation passes the original Indev map settings here; world management passes null,
+     *                     because changing an existing world's version does not re-choose its map settings
      */
     public record Context(Component title, Component confirmLabel, String initialKey,
-            Predicate<Entry> permitted, Consumer<String> onConfirm, Component note) {
+            Predicate<Entry> permitted, Consumer<String> onConfirm, Component note, Runnable eraOptions) {
         public Context {
             if (permitted == null) {
                 throw new IllegalArgumentException("a selector must state which versions may be chosen");
@@ -171,28 +176,35 @@ public class HistoricalVersionScreen extends Screen {
     protected void init() {
         // Reached again on every resize, so all geometry is derived from width and height here and nothing is
         // cached from a previous size.
-        int eraCount = HistoricalVersionCatalogue.eras().size();
-        int eraWidth = Math.min(120, (this.width - 20) / eraCount - 4);
-        int eraRowWidth = eraCount * (eraWidth + 4) - 4;
+        var eras = HistoricalVersionCatalogue.eras();
+        int eraCount = eras.size();
+        boolean compact = this.width < 480;
+        int[] widths = new int[eraCount];
+        int minimum = eras.stream().mapToInt(era -> this.font.width(era.displayName()) + 10).sum() + (eraCount - 1) * 4;
+        int extra = Math.max(0, (this.width - 20 - minimum) / eraCount);
+        for (int i = 0; i < eraCount; i++) widths[i] = compact
+            ? this.font.width(eras.get(i).displayName()) + 10 + extra
+            : Math.min(120, (this.width - 20) / eraCount - 4);
+        int eraRowWidth = java.util.Arrays.stream(widths).sum() + (eraCount - 1) * 4;
         int eraX = (this.width - eraRowWidth) / 2;
 
         int index = 0;
-        for (Era era : HistoricalVersionCatalogue.eras()) {
+        for (Era era : eras) {
             final Era target = era;
             boolean current = era == this.shownEra;
 
             // The current era is marked rather than disabled. Disabling it made the row read as four greyed-out
             // buttons, which is what "broken" looked like: a tab that is selected should look selected, not
-            // unavailable. Every era stays clickable, and the marker says which one is showing.
-            Button button = Button.builder(
-                    Component.literal(current ? "» " + era.displayName() : era.displayName()),
-                    pressed -> showEra(target))
-                .pos(eraX + index * (eraWidth + 4), 30)
-                .width(eraWidth)
+            // unavailable. Compact windows use a colour marker and content-sized buttons so "Snapshots" fits.
+            var label = Component.literal(current && !compact ? "» " + era.displayName() : era.displayName());
+            if (current && compact) label.withStyle(net.minecraft.ChatFormatting.YELLOW);
+            Button button = Button.builder(label, pressed -> showEra(target))
+                .pos(eraX, 30)
+                .width(widths[index])
                 .build();
 
             addRenderableWidget(button);
-            index++;
+            eraX += widths[index++] + 4;
         }
 
         // A gap between the list and the details, because the list clips its last row at its own edge and a clipped
@@ -210,7 +222,10 @@ public class HistoricalVersionScreen extends Screen {
             detailsTop + DETAILS_HEIGHT - listTop);
         addRenderableWidget(this.overview);
         this.list.populate(this.shownEra);
-        this.list.selectKey(this.initialKey);
+        // The row the player was on wins over the key this screen was opened with: init() runs again when a screen
+        // opened from here (the Indev map settings) returns, and re-selecting from the opening key would silently
+        // clear the highlight - which is what disables the confirm button.
+        this.list.selectKey(this.highlightedKey.isEmpty() ? this.initialKey : this.highlightedKey);
 
         // Aligned with the version column rather than to the window edge, so the panel reads as belonging to the
         // list instead of floating in the corner.
@@ -220,15 +235,46 @@ public class HistoricalVersionScreen extends Screen {
         addRenderableOnly(this.details);
 
         this.confirmButton = addRenderableWidget(Button.builder(this.context.confirmLabel(), pressed -> confirm())
-            .pos(this.width / 2 - 154, this.height - 26)
-            .width(150)
+            .pos(this.footerButtonX(0), this.height - 26)
+            .width(this.footerButtonWidth(0))
             .build());
         addRenderableWidget(Button.builder(Component.literal("Cancel"), pressed -> onClose())
-            .pos(this.width / 2 + 4, this.height - 26)
-            .width(150)
+            .pos(this.footerButtonX(1), this.height - 26)
+            .width(this.footerButtonWidth(1))
             .build());
+        if (this.context.eraOptions() != null) {
+            this.eraOptionsButton = addRenderableWidget(Button.builder(this.eraOptionsLabel(), pressed -> {
+                if (this.context.eraOptions() != null) {
+                    this.context.eraOptions().run();
+                }
+            }).pos(this.footerButtonX(2), this.height - 26).width(this.footerButtonWidth(2)).build());
+        }
 
         updateDetails();
+    }
+
+    /**
+     * The footer's button geometry: two buttons as before, or three when the caller offered an era-specific action.
+     *
+     * <p>Index 0 is the confirm button, 1 is Cancel and 2 is the era action, laid out in that order left to right and
+     * centred as a row. Widths shrink so three buttons still fit the narrowest supported window.
+     */
+    private int footerButtonWidth(int index) {
+        int count = this.context.eraOptions() == null ? 2 : 3;
+        int gap = 4;
+        return Math.min(150, (this.width - 32 - (count - 1) * gap) / count);
+    }
+
+    private int footerButtonX(int index) {
+        int count = this.context.eraOptions() == null ? 2 : 3;
+        int gap = 4;
+        int width = footerButtonWidth(0);
+        int total = count * width + (count - 1) * gap;
+        return (this.width - total) / 2 + index * (width + gap);
+    }
+
+    private Component eraOptionsLabel() {
+        return Component.literal("Indev settings...");
     }
 
     @Override
@@ -271,6 +317,7 @@ public class HistoricalVersionScreen extends Screen {
     private void updateDetails() {
         VersionList.VersionRow row = this.list == null ? null : this.list.getSelected();
         Entry selected = row == null ? null : row.entry;
+        this.highlightedKey = selected == null ? "" : selected.key();
         this.details.setMessage(describe(selected));
         if (this.overview != null) {
             this.overview.show(selected);
@@ -279,6 +326,14 @@ public class HistoricalVersionScreen extends Screen {
             this.confirmButton.active = selected != null
                 && selected.selectable()
                 && this.context.permitted().test(selected);
+        }
+        if (this.eraOptionsButton != null) {
+            // Offered only for the era whose extra options they are, and only for a version that can be chosen, so
+            // the button cannot appear against Beta or an ordinary world type.
+            this.eraOptionsButton.active = selected != null
+                && selected.selectable()
+                && net.historicalexperience.version.HistoricalVersions.isFiniteWorld(selected.version().id());
+            this.eraOptionsButton.setMessage(this.eraOptionsLabel());
         }
     }
 
@@ -361,7 +416,12 @@ public class HistoricalVersionScreen extends Screen {
                 paragraph(out, "Planned. " + selected.summary(), 0, 0xFFAAAAAA, wrap);
                 return out;
             }
-            var overview = VersionOverview.forVersion(selected.key());
+            if (selected.snapshotPatch().isPresent()) {
+                paragraph(out, VersionText.details(selected, "", false), 0, 0xFFAAAAAA, wrap);
+                out.add(space());
+                paragraph(out, "The following overview describes the parent baseline:", 0, 0xFFAAAAAA, wrap);
+            }
+            var overview = VersionOverview.forVersion(selected.version().id());
             if (overview.isEmpty()) {
                 out.add(space());
                 paragraph(out, "No overview is recorded for this build.", 0, 0xFFAAAAAA, wrap);

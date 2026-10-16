@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "implementationStatus": "IMPLEMENTED_NATIVE_11W49A_TOGGLE_MENU_DISCARD_PRESERVATION_REOPEN_AND_12W49A_ANVIL_UNPATCHED_ORDINARY_CONTROLS_PASS",
+  "scope": "Explicit patches on existing release-family profiles. Not claims of complete snapshot terrain, registries, physics or cost algorithms.",
+  "selectionIntegration": {
+    "tab": "Snapshots: explicit selectable patch entries with baseline and fidelity limitations visible by default.",
+    "newWorlds": "Reuse the parent preset; bind a one-shot intent after native new-world directory allocation. Initial metadata consumes only the normalized exact path and matching parent. New/recreated UI flows clear stale choices; existing metadata wins and discards matching intent.",
+    "existingWorlds": "Reuse the backup/journal/restart transaction. Same-parent patch/clear retains the exact generation alias; cross-parent patch uses the normal target recipe and one new metadata revision. Inspection retains base profileId and separately reports selectionId/patchId.",
+    "unitTests": "Creation/bootstrap isolation, unknown/wrong-parent/stale/existing metadata; staging/apply, unchanged same-parent level bytes, backup verification, journal-before-metadata recovery, cross-parent history and component sentinel preservation, ordinary/locked/no-op refusals.",
+    "nativeGuiReceipt": "logs/20261017-snapshot-selectors-v2.json",
+    "nativeGuiScope": "Both patch choices rendered at GUI scales1/2/3; existing Create/Manage footer bounds checks pass. Small-window Snapshots label clipping found in v1 and fixed/visually checked in v2. No world created/changed by those layout-only GUI probes. Separate native11w49a feature probe now passes actual Create confirmation-to-save/reopen and B/menu/preservation. Separate native12w49a/1.4/1.1/ordinary controls also pass in one client process. Actual Manage confirmation-to-restart remains JVM transaction/recovery coverage, not a claimed native GUI acceptance."
+  },
+  "snapshots": [
+    {
+      "id": "historical_experience:snapshot_11w49a",
+      "displayName": "11w49a",
+      "parentRelease": "1.1",
+      "baseProfileId": "historical_experience:release_1_1",
+      "releaseDate": "2011-12-08",
+      "feature": "B_CREATIVE_SHORTCUT",
+      "behavior": "B toggles Survival and Creative once per physical press, as explicitly clarified by the owner. The source documents Creative entry; toggle-back fidelity and original multiplayer restrictions have not been established by original-artifact execution.",
+      "source": "https://minecraft.wiki/w/Java_Edition_11w49a?action=raw",
+      "reference": "Infobox parent=1.1; Trivia: Pressing B allows the player to go into Creative mode. 11w50a is also mislabeled 11w49a in-game, so matching only the title string is insufficient.",
+      "confidence": "High for parent/date and documented shortcut; original keyboard and multiplayer algorithm unverified.",
+      "implementedAuthorityPolicy": "Empty C2S intent, rechecked against the running world's cached explicit patch. Only the owner of a private, unpublished integrated world may enter Creative without cheats; dedicated/LAN/non-owner requests cannot escalate privileges. This guard is a deliberate compatibility policy, not an original multiplayer fidelity claim.",
+      "runtimeStatus": "Native1.21.1/Java21 exact-Minecraft-window WM_KEYDOWN/UP exercised the real GLFW B adapter and request handler: Survival to Creative to Survival to Creative across three presses, with no held-key repetition and cheats disabled. Actual selector/directory metadata, same/different/right catalog cursor discard, mouse grant, refused future insertion/drop/CLONE, cursor/source resync and actual saved-player/world reopen passed. Dedicated/LAN/non-owner runtime remains unexecuted; safety policy unit-tested. Unpatched1.4/1.1 and ordinary real-B/forged-request negatives pass in the four-world native control receipt.",
+      "nativeReceipt": "run/client/snapshot-probe-1792162092679.json",
+      "nativeScreenshot": "run/client/screenshots/sol-snapshot-native-1792160232039-legacy.png",
+      "artifactMetadata": "https://meta.celestia.sh/versions/v1/11w49a.json",
+      "clientSha1": "6f92a726e6b8b64f66c7e4d236f983c278d5af54",
+      "clientBytes": 3510866,
+      "artifactCachedOrExecuted": false,
+      "artifactLimitation": "Archive download returned HTTP403. Pin is published metadata, not a claimed successful artifact verification."
+    },
+    {
+      "id": "historical_experience:snapshot_12w49a",
+      "displayName": "12w49a",
+      "parentRelease": "1.4.6",
+      "baseProfileId": "historical_experience:release_1_4",
+      "baseProfileLimitation": "The existing 1.4 family is the baseline; this does not declare an independently complete Release1.4.6 profile or reproduce every snapshot addition.",
+      "releaseDate": "2012-12-07",
+      "feature": "BOOK_ON_ANY_SINGLE_ITEM",
+      "behavior": "Enchanted-book anvil application may target any single item/block, including in Survival. Does not itself waive costs, material consumption or enchantment compatibility checks.",
+      "source": "https://minecraft.wiki/w/Java_Edition_12w49a?action=raw",
+      "reference": "Infobox parent=1.4.6. Additions / Enchanted books: due to a bug, any item could be given any enchantment in Survival using an anvil. Single-target count is the direct owner's requested constraint, not an independently executed old algorithm.",
+      "confidence": "High for parent/date and documented eligibility bug; exact original XP, durability and combination algorithms unverified.",
+      "runtimeAdapter": "Existing anvil guard wraps the pinned 1.21.1 Enchantment.canEnchant(ItemStack) invocation only for this patch and an enchanted book plus one target. A pre-assembly guard refuses stacked targets even in Creative. Native costs, book consumption, combination compatibility and input component handling are not replaced.",
+      "runtimeStatus": "Native1.21.1/Java21 Survival dirt/glass/bowl/apple single-target previews pass; stacked Survival/Creative targets refuse without consuming inputs; Fortune/Silk Touch incompatibility remains. Real AnvilScreen and native C2S result pickup produced one Unbreaking dirt, preserved name/custom data, consumed target/book and charged exactly displayed XP. Unpatched1.4/1.1 and ordinary Survival non-enchantable targets remain refused; normal tool baseline is unchanged. This constructs native menus, not proof of historically obtainable anvil blocks in every control era.",
+      "nativeReceipt": "run/client/snapshot-anvil-probe-1792162354757.json",
+      "artifactMetadata": "https://meta.celestia.sh/versions/v1/12w49a.json",
+      "clientSha1": "a5a4cf65cf89207eb6ad7371c9237973865eba81",
+      "clientBytes": 4990865,
+      "artifactCachedOrExecuted": false
+    }
+  ],
+  "creativeMenu": {
+    "requestedStart": "Beta1.8.1",
+    "oldLayoutEndExclusive": "Release1.3.1",
+    "firstTabbedSnapshot": "12w21b",
+    "source": "https://minecraft.wiki/w/Java_Edition_12w21b?action=raw",
+    "reference": "Parent1.3.1; Changes / Creative: new inventory screen, category tabs, search and Survival inventory tab.",
+    "layoutSource": "https://minecraft.wiki/w/Creative_inventory/history?action=raw",
+    "oldCatalogColumns": 8,
+    "oldCatalogRows": 9,
+    "replacementCatalogColumns": 9,
+    "replacementCatalogRows": 5,
+    "confidence": "High for documented replacement and72-to45 slot layout dimensions; exact original pixel coordinates/ordering not artifact-executed.",
+    "coarseProfileHandling": "Existing release_1_3 represents the 1.3 family and must already use the replacement menu. The snapshots remain patches, not inserted fake numeric release chronology entries.",
+    "allHistoricalMenus": "Implemented own positive dated catalog, variant/component checks, native working-list filtering, legacy8x9 screen and two-sided server creative grant/CLONE guards. Unsupported owned stacks are conserved, not scrubbed; raw creative writes freeze them, normal server-owned movement remains. Native11w49a legacy/cursor/saved-player checks and replacement-tab/search, same-process ordinary restoration, normal Creative chest pickup/shift-transfer, historical clone-drag refusal and ordinary CLONE positive controls pass. Native saved-toolbar restore UI itself was not separately automated; server raw grants and cloning are guarded. Exact original order/artwork and exhaustive item membership not claimed. See research/creative-menu-catalog.json."
+  },
+  "linkedResourcePack": {
+    "url": "https://www.curseforge.com/minecraft/texture-packs/old-creative-menu-restored",
+    "access": "HTTP403 from project and dependency pages; PlanetMinecraft page also HTTP403",
+    "license": "UNVERIFIED",
+    "publicDomainClaim": "Direct owner statement, not independently verified project/source licensing evidence.",
+    "codeOrAssetsCopied": false,
+    "implementation": "Implemented functional layout with own code and runtime vanilla resources. No proprietary Minecraft code or textures copied into deliverables."
+  },
+  "tests": [
+    "src/test/java/net/historicalexperience/gameplay/HistoricalSnapshotPatchesTest.java",
+    "src/test/java/net/historicalexperience/world/metadata/SnapshotMetadataTest.java",
+    "src/test/java/net/historicalexperience/world/SnapshotCreationTest.java",
+    "src/test/java/net/historicalexperience/server/SnapshotUpgradeTest.java",
+    "src/test/java/net/historicalexperience/client/version/SnapshotSelectorTest.java",
+    "src/test/java/net/historicalexperience/gameplay/HistoricalCreativeCatalogTest.java"
+  ]
+}

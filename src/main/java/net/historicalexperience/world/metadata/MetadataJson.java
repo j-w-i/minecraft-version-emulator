@@ -55,6 +55,8 @@ public final class MetadataJson {
                 writer.endObject();
             }
             writer.endArray();
+            // Omit an absent patch entirely: existing canonical metadata bytes and finite-origin hashes stay stable.
+            if (!metadata.snapshotPatchId().isEmpty()) writer.name("snapshotPatchId").value(metadata.snapshotPatchId());
             writer.endObject();
             writer.flush();
             return out.toString();
@@ -78,6 +80,7 @@ public final class MetadataJson {
         Integer schema = null;
         String profileId = null;
         String generationPreset = null;
+        String snapshotPatchId = "";
         Long revision = null;
         java.util.List<MetadataRevision> history = null;
 
@@ -102,6 +105,7 @@ public final class MetadataJson {
                     case "generationPreset" -> generationPreset = readString(reader, name);
                     case "revision" -> revision = readLong(reader, name);
                     case "history" -> history = readHistory(reader);
+                    case "snapshotPatchId" -> snapshotPatchId = readString(reader, name);
                     default -> throw new MetadataException(
                         "unknown field '" + name + "' in historical metadata document");
                 }
@@ -141,7 +145,7 @@ public final class MetadataJson {
         HistoricalIdentifier preset = parseIdentifier(generationPreset, "generationPreset");
 
         try {
-            return new HistoricalMetadata(schema, profile, preset, revision, history);
+            return new HistoricalMetadata(schema, profile, preset, revision, history, snapshotPatchId);
         } catch (IllegalArgumentException e) {
             throw new MetadataException("historical metadata failed validation: " + e.getMessage(),
                 e);

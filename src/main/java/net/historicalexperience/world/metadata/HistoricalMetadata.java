@@ -37,14 +37,22 @@ package net.historicalexperience.world.metadata;
  * @param generationPreset terrain generation preset identifier
  * @param revision         current revision number, {@code >= 1}
  * @param history          append-only revision history, oldest first
+ * @param snapshotPatchId  optional explicit snapshot patch; empty retains the ordinary parent profile
  */
 public record HistoricalMetadata(
     int schema,
     HistoricalIdentifier profileId,
     HistoricalIdentifier generationPreset,
     long revision,
-    java.util.List<MetadataRevision> history
+    java.util.List<MetadataRevision> history,
+    String snapshotPatchId
 ) {
+    /** Existing worlds and callers have no snapshot patch unless explicitly selected. */
+    public HistoricalMetadata(int schema, HistoricalIdentifier profileId, HistoricalIdentifier generationPreset,
+                              long revision, java.util.List<MetadataRevision> history) {
+        this(schema, profileId, generationPreset, revision, history, "");
+    }
+
     public HistoricalMetadata {
         if (schema != MetadataSchema.CURRENT) {
             throw new IllegalArgumentException(
@@ -57,6 +65,10 @@ public record HistoricalMetadata(
         if (generationPreset == null) {
             throw new IllegalArgumentException("generationPreset must not be null");
         }
+        if (snapshotPatchId == null || (!snapshotPatchId.isEmpty() && snapshotPatchId.isBlank())) {
+            throw new IllegalArgumentException("snapshotPatchId must be empty or a known patch identifier");
+        }
+        net.historicalexperience.version.HistoricalSnapshotPatches.validateAttachment(profileId.value(), snapshotPatchId);
         if (revision < 1) {
             throw new IllegalArgumentException("revision must be >= 1, got " + revision);
         }
@@ -111,6 +123,27 @@ public record HistoricalMetadata(
             MetadataSchema.CURRENT, profileId, generationPreset, 1, java.util.List.of(first));
     }
 
+    /** Initial snapshot selection keeps the parent's terrain/profile and records only an explicit patch. */
+    public static HistoricalMetadata initialWithSnapshot(HistoricalIdentifier profileId, HistoricalIdentifier generationPreset,
+                                                         String patchId, String actor, long timestamp) {
+        var initial = initial(profileId, generationPreset, actor, timestamp);
+        return new HistoricalMetadata(initial.schema(), profileId, generationPreset, initial.revision(), initial.history(), patchId);
+    }
+
+    /** Selector/network identity; the ordinary historical rules continue to use profileId. */
+    public String selectionId() {
+        return snapshotPatchId.isEmpty() ? profileId.value() : snapshotPatchId;
+    }
+
+    /** Patch changes are metadata revisions, never an in-place generator or terrain replacement. */
+    public HistoricalMetadata advanceSnapshotPatch(String patchId, String actor, String note, long timestamp) {
+        if (snapshotPatchId.equals(patchId)) throw new IllegalArgumentException("snapshot patch is unchanged");
+        long next = revision + 1;
+        var nextHistory = new java.util.ArrayList<>(history);
+        nextHistory.add(new MetadataRevision(next, timestamp, actor, note));
+        return new HistoricalMetadata(schema, profileId, generationPreset, next, nextHistory, patchId);
+    }
+
     /**
      * Returns a new metadata value with a bumped revision and appended history entry. The
      * generation preset can be advanced independently of the profile.
@@ -133,7 +166,8 @@ public record HistoricalMetadata(
             profileId,
             newGenerationPreset == null ? generationPreset : newGenerationPreset,
             next,
-            nextHistory);
+            nextHistory,
+            snapshotPatchId);
     }
 
     /**

@@ -100,7 +100,9 @@ class FiniteApronReleaseTest {
         byte[] entityBefore = Files.readAllBytes(world.resolve("entities/r.0.0.mca"));
         var plan = FiniteApronRelease.release(world);
         assertTrue(plan.complete()); assertEquals(1, plan.releasedChunks()); assertEquals(2, plan.preservedExteriorChunks());
-        assertEquals(16, plan.knownEdgeColumns());
+        assertEquals(0, plan.knownEdgeColumns(),
+            "an upgrade is a HARD CUT: it samples no island edge and therefore blends nothing, by the owner's "
+                + "decision - the collar was pulling the coast into long ridges");
         assertTrue(plan.protectedTerrainChunks().contains(net.minecraft.world.level.ChunkPos.asLong(7, 0)));
         assertTrue(plan.protectedTerrainChunks().contains(net.minecraft.world.level.ChunkPos.asLong(9, 0)));
         assertTrue(plan.protectedTerrainChunks().contains(net.minecraft.world.level.ChunkPos.asLong(10, 0)));
@@ -119,12 +121,156 @@ class FiniteApronReleaseTest {
         assertArrayEquals(after, Files.readAllBytes(path), "retry must not rewrite an already-completed region");
     }
 
+    /** A chunk whose every block is air: the shape a custom-settings map has outside its island. */
+    static CompoundTag emptyChunk() {
+        var chunk = new CompoundTag();
+        chunk.putString("Status", "minecraft:full");
+        var sections = new ListTag();
+        for (int sy = 0; sy < 8; sy++) {
+            var section = new CompoundTag();
+            section.putByte("Y", (byte) sy);
+            var state = new CompoundTag();
+            var palette = new ListTag();
+            var entry = new CompoundTag();
+            entry.putString("Name", "minecraft:air");
+            palette.add(entry);
+            state.put("palette", palette);
+            section.put("block_states", state);
+            var biomes = new CompoundTag();
+            var biomePalette = new ListTag();
+            biomePalette.add(net.minecraft.nbt.StringTag.valueOf("moderner_beta:indev_normal"));
+            biomes.put("palette", biomePalette);
+            section.put("biomes", biomes);
+            sections.add(section);
+        }
+        chunk.put("sections", sections);
+        return chunk;
+    }
+
+    @Test
+    void provablyEmptyExteriorIsReleasedWhileAnythingHoldingContentIsNot() throws Exception {
+        // Same fixture shape as the shell test, except the exterior chunk that CAN be released is empty rather than
+        // shell-shaped - so this fails on the old rule, which released only bedrock/dirt/water chunks. Measured
+        // against real worlds, that rule left ~95% of even a default world's exterior chunks behind and every one of
+        // a custom-settings world's, because a custom map has no shell at all.
+        FiniteTransitionIdentityTest.fixture(world, 123, 100);
+        Path path = world.resolve("region/r.0.0.mca");
+        Files.createDirectories(path.getParent());
+        CompoundTag occupied = emptyChunk();
+        var container = new CompoundTag();
+        container.putString("id", "minecraft:chest");
+        var containers = new ListTag();
+        containers.add(container);
+        occupied.put("block_entities", containers);
+        // 7 is inside the island; 8 is empty; 9 is empty but holds a chest; 10 is the shell and has an entity record.
+        Files.write(path, region(Map.of(7, apron(), 8, emptyChunk(), 9, occupied, 10, apron())));
+        Path entities = world.resolve("entities/r.0.0.mca");
+        Files.createDirectories(entities.getParent());
+        var entityChunk = new CompoundTag();
+        var list = new ListTag();
+        var entity = new CompoundTag();
+        entity.putString("id", "minecraft:item");
+        list.add(entity);
+        entityChunk.put("Entities", list);
+        Files.write(entities, region(Map.of(10, entityChunk)));
+
+        var plan = FiniteApronRelease.release(world);
+        assertEquals(1, plan.releasedChunks(), "only the provably empty exterior chunk may be released");
+        assertEquals(2, plan.preservedExteriorChunks(), "the chest chunk and the entity-record chunk stay");
+        var snapshot = new FiniteRegionSnapshot(path);
+        assertEquals(List.of(7, 9, 10), snapshot.chunks.stream().map(FiniteRegionSnapshot.Chunk::slot).toList(),
+            "slot 8 is gone, and only slot 8");
+        assertFalse(plan.protectedTerrainChunks().contains(net.minecraft.world.level.ChunkPos.asLong(8, 0)));
+        assertTrue(plan.protectedTerrainChunks().contains(net.minecraft.world.level.ChunkPos.asLong(9, 0)));
+    }
+
+    @Test
+    void aRecordedCustomFootprintDecidesWhatIsIslandAndWhatIsExterior() throws Exception {
+        // The end-to-end consequence of reading the world's own geometry. Chunk -5 is INSIDE the shipped default
+        // footprint [-8,8) and OUTSIDE a 64-block map's [-2,2): under the hardcoded footprint it was island and kept
+        // forever, which is the ring of void the owner is left with. With the geometry read from the world it is
+        // exterior, and being provably empty it is released. The same world also proves the shell path still works.
+        FiniteTransitionIdentityTest.fixture(world, 123, 100);
+        var root = FiniteTransitionIdentityTest.level(world);
+        var properties = new CompoundTag();
+        properties.putString("type", "inland");
+        properties.putString("theme", "normal");
+        properties.putInt("width", 64);
+        properties.putInt("length", 64);
+        properties.putInt("height", 64);
+        FiniteTransitionIdentityTest.generator(root).getCompound("provider_settings")
+            .put("moderner_beta:finite_level_properties", properties);
+        NbtIo.writeCompressed(root, world.resolve("level.dat"));
+
+        Path path = world.resolve("region/r.0.0.mca");
+        Files.createDirectories(path.getParent());
+        // Region r.0.0 gives chunk x = slot % 32, z = 0. With a 64-block recorded map the island is x in [-2,2), so:
+        // slot 1 is island, slot 2 is the RING (outside the recorded footprint, inside the shipped default's [-8,8)),
+        // and slot 9 is beyond both. Slot 2 is empty, slot 9 is shell-shaped.
+        Files.write(path, region(Map.of(1, apron(), 2, emptyChunk(), 9, apron())));
+
+        var plan = FiniteApronRelease.release(world);
+        assertEquals(new net.historicalexperience.world.upgrade.FiniteGeometry(64, 64, 64, "inland", "normal", true),
+            plan.identity().geometry());
+        assertEquals(2, plan.releasedChunks(),
+            "the empty ring chunk the hardcoded footprint called island, and the shell chunk beyond both footprints");
+        assertEquals(0, plan.preservedExteriorChunks(),
+            "the kept chunk is island under the recorded geometry, so it is protected terrain rather than kept exterior");
+        assertTrue(plan.protectedTerrainChunks().contains(net.minecraft.world.level.ChunkPos.asLong(1, 0)),
+            "the island chunk is recorded as terrain to preserve");
+        var snapshot = new FiniteRegionSnapshot(path);
+        assertEquals(List.of(1), snapshot.chunks.stream().map(FiniteRegionSnapshot.Chunk::slot).toList(),
+            "the island chunk survives and the two exterior ones are gone");
+    }
+
+    /** Exterior terrain of the kind an Inland map generates: solid, flat, neither the water shell nor empty. */
+    static CompoundTag plainChunk() {
+        var chunk = emptyChunk();
+        var sections = chunk.getList("sections", Tag.TAG_COMPOUND);
+        var state = sections.getCompound(0).getCompound("block_states");
+        var palette = new ListTag();
+        for (String name : List.of("minecraft:air", "minecraft:grass_block", "minecraft:dirt", "minecraft:stone")) {
+            var entry = new CompoundTag();
+            entry.putString("Name", name);
+            palette.add(entry);
+        }
+        state.put("palette", palette);
+        // Four bits per block: y=0 stone, y=1..3 dirt, y=4 grass, above that air - a plain surface, which is all this
+        // needs: the point is that it is neither the known shell nor empty.
+        long[] packed = new long[256];
+        for (int i = 0; i < 4096; i++) {
+            int y = i >> 8;
+            int value = y == 0 ? 3 : y < 4 ? 2 : y == 4 ? 1 : 0;
+            packed[i / 16] |= (long) value << (i % 16 * 4);
+        }
+        state.putLongArray("data", packed);
+        return chunk;
+    }
+
+    @Test
+    void theUpgradePathCutsOffPlainExteriorTerrainThatTheNarrowRuleWouldKeep() throws Exception {
+        // The owner's case, exactly: an Inland map's outside is generated flat land, which is neither the water shell
+        // nor empty, so the narrow rule kept every such chunk and the finite plain survived the upgrade. The upgrade
+        // path has no proven source and does not consult shape, so it cuts them; the repair path keeps its own rule,
+        // which the other tests here and in FiniteEdgeRepairTest pin.
+        FiniteTransitionIdentityTest.fixture(world, 123, 100);
+        Path path = world.resolve("region/r.0.0.mca");
+        Files.createDirectories(path.getParent());
+        Files.write(path, region(Map.of(1, apron(), 9, plainChunk())));
+
+        var upgrade = FiniteApronRelease.release(world);
+        assertTrue(upgrade.blanketExterior(), "an explicit upgrade records that it used the cut-everything rule");
+        assertEquals(1, upgrade.releasedChunks(), "the plain land outside the island is cut off");
+        assertEquals(List.of(1), new FiniteRegionSnapshot(path).chunks.stream()
+            .map(FiniteRegionSnapshot.Chunk::slot).toList(), "the island chunk stays, the plain one is gone");
+    }
+
     @Test void recoveryIsIdempotentAndCorruptBackupRefusesBeforeWriting() throws Exception {
         Path path = fixture(); byte[] original = Files.readAllBytes(path);
         var completed = FiniteApronRelease.release(world);
         byte[] after = Files.readAllBytes(path);
         var pending = new FiniteApronRelease.Plan(3, false, completed.edgeHeights(), completed.releasedChunks(),
-            completed.preservedExteriorChunks(), completed.changes(), completed.protectedTerrainChunks(), completed.identity());
+            completed.preservedExteriorChunks(), completed.changes(), completed.protectedTerrainChunks(), completed.identity(), completed.blanketExterior());
         Files.write(path, original); // Crash before the region write.
         FiniteApronRelease.apply(world, pending); assertArrayEquals(after, Files.readAllBytes(path));
         FiniteApronRelease.apply(world, pending); assertArrayEquals(after, Files.readAllBytes(path));
@@ -148,11 +294,20 @@ class FiniteApronReleaseTest {
         assertThrows(java.io.IOException.class, () -> FiniteApronRelease.read(other));
     }
 
-    @Test void customFiniteSourceRefusesBeforeCreatingBackupsOrWritingRegions() throws Exception {
+    @Test void malformedFiniteMapSettingsRefuseBeforeCreatingBackupsOrWritingRegions() throws Exception {
+        // What still refuses: map settings that cannot be read (here, a width that is not an int). A well-formed
+        // customization is accepted now - that is the owner's decision - but an unprovable geometry must never be
+        // handed to the release, and the refusal must land before any backup or region write exists.
         Path path = fixture(); byte[] before = Files.readAllBytes(path);
         var root = FiniteTransitionIdentityTest.level(world);
+        var properties = new CompoundTag();
+        properties.putString("type", "island");
+        properties.putString("theme", "normal");
+        properties.putString("width", "512"); // a map setting with the wrong type, not a foreign component
+        properties.putInt("length", 256);
+        properties.putInt("height", 128);
         FiniteTransitionIdentityTest.generator(root).getCompound("biome_source").getCompound("provider_settings")
-            .putInt("moderner_beta:finite_width", 512);
+            .put("moderner_beta:finite_level_properties", properties);
         NbtIo.writeCompressed(root, world.resolve("level.dat"));
         assertThrows(java.io.IOException.class, () -> FiniteApronRelease.release(world));
         assertArrayEquals(before, Files.readAllBytes(path));
@@ -203,7 +358,7 @@ class FiniteApronReleaseTest {
 
     @Test void collarMatchesEachEdgeAndReturnsExactlyToUpstream() {
         int[] heights = new int[1024]; Arrays.fill(heights, 54);
-        var plan = new FiniteApronRelease.Plan(3, true, heights, 1, 0, List.of(), java.util.Set.of(), FiniteTransitionIdentityTest.dummy());
+        var plan = new FiniteApronRelease.Plan(3, true, heights, 1, 0, List.of(), java.util.Set.of(), FiniteTransitionIdentityTest.dummy(), true);
         for (int[] pos : new int[][] {{128, 0}, {-129, 0}, {0, 128}, {0, -129}, {128, 128}, {-129, -129}}) {
             assertTrue(plan.blend(-1000, pos[0], 54, pos[1]) > 0);
             assertTrue(plan.blend(1000, pos[0], 55, pos[1]) < 0);
@@ -212,7 +367,7 @@ class FiniteApronReleaseTest {
         assertEquals(456, plan.blend(456, -192, 54, 0));
         assertEquals(789, plan.blend(789, 0, 54, 0), "never modify the finite island footprint");
         heights[768 + 128] = -1;
-        var unknown = new FiniteApronRelease.Plan(3, true, heights, 0, 0, List.of(), java.util.Set.of(), FiniteTransitionIdentityTest.dummy());
+        var unknown = new FiniteApronRelease.Plan(3, true, heights, 0, 0, List.of(), java.util.Set.of(), FiniteTransitionIdentityTest.dummy(), true);
         assertEquals(123, unknown.blend(123, 128, 54, 0), "unknown edges never fabricate heights");
     }
 }

@@ -28,8 +28,17 @@ public final class FiniteApronRelease {
     private static final String BACKUP = "historical_experience_finite_transition_backup";
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     public record Change(String region, String beforeHash, String afterHash, List<Integer> slots) { }
+    /**
+     * @param blanketExterior the owner's rule for an explicit UPGRADE: everything outside the island is cut off and
+     *     regenerated except a chunk holding an entity or block entity, whatever shape the terrain has (an Inland
+     *     map's outside is generated flat grass, which matches no known shell). False - the default, and what a plan
+     *     written before this field existed reads as - keeps the audited REPAIR rule: only chunks whose stored source
+     *     matches the known shell or is empty, AND whose evidence proves it. The two rules cannot be the same one:
+     *     applying the blanket rule to repair broke its preservation guarantees outright.
+     */
     public record Plan(int schema, boolean complete, int[] edgeHeights, int releasedChunks,
-            int preservedExteriorChunks, List<Change> changes, Set<Long> protectedTerrainChunks, FiniteTransitionIdentity identity) {
+            int preservedExteriorChunks, List<Change> changes, Set<Long> protectedTerrainChunks,
+            FiniteTransitionIdentity identity, boolean blanketExterior) {
         public Plan {
             if (schema != 3 || identity == null || edgeHeights == null || edgeHeights.length != 1024 || changes == null || protectedTerrainChunks == null
                     || releasedChunks < 0 || preservedExteriorChunks < 0) throw new IllegalArgumentException("Invalid finite plan");
@@ -112,6 +121,12 @@ public final class FiniteApronRelease {
             }
             if (paths.isEmpty()) return null;
             var identity = provenSource == null ? FiniteTransitionIdentity.fromSource(world) : provenSource;
+            // The footprint is the world's own, not the default's: a 64x64 map's island is chunks [-2,2), and treating
+            // the ring around it as island left every empty chunk there behind.
+            FiniteGeometry geometry = identity.geometry();
+            // The blanket rule belongs to the explicit UPGRADE, which is the call with no proven source. A repair
+            // supplies the source it proved from a backup and must keep the narrow, evidence-backed rule.
+            boolean blanket = provenSource == null;
             identity.verifyWorld(world);
             Set<Long> protectedChunks = protectedChunks(world);
             Set<Long> terrainToPreserve = new HashSet<>();
@@ -123,17 +138,48 @@ public final class FiniteApronRelease {
                 FiniteRegionSnapshot region = new FiniteRegionSnapshot(path);
                 List<Integer> slots = new ArrayList<>();
                 for (var chunk : region.chunks) {
-                    if (inside(chunk.x(), chunk.z())) {
+                    if (geometry.inside(chunk.x(), chunk.z())) {
                         if (hasTerrain(chunk.tag())) terrainToPreserve.add(ChunkPos.asLong(chunk.x(), chunk.z()));
-                        if (chunk.x() == -8 || chunk.x() == 7 || chunk.z() == -8 || chunk.z() == 7) {
+                        // The upgrade does NOT sample the island edge, because it does not blend. A hard cut is what
+                        // the owner asked for - "you don't need to try and carefully transition in, you are allowed to
+                        // just hard cut" - and it is what the online converters do: release everything outside, let
+                        // the infinite generator write fresh chunks. Sampling here is what fed the collar that pulled
+                        // the coastline into long ridges. The repair path still samples, because its job is the
+                        // opposite: put back a rim without touching what is there.
+                        if (!blanket && (chunk.x() == -8 || chunk.x() == 7 || chunk.z() == -8 || chunk.z() == 7)) {
                             captureEdge(heights, chunk);
                         }
                     } else {
-                        boolean pristine;
-                        try { pristine = FiniteRegionSnapshot.pristineApron(chunk.tag()); }
-                        catch (IOException unsupported) { pristine = false; }
-                        boolean proven = pristine && evidence.allows(chunk);
-                        if (pristine && !proven) uncertain++;
+                        // Two shapes are provably nothing and therefore releasable: the synthetic shell the finite
+                        // provider lays down (bedrock/dirt/water), and a chunk that is entirely empty. The second is
+                        // what a custom-settings map has instead of a shell, and what most of even a default map's
+                        // exterior is - measuring saved worlds gave 37 shell chunks against 668 empty ones. Anything
+                        // else, including an empty chunk carrying an entity or block-entity record, is kept.
+                        // Shape rules are kept for now: the repair path shares this code and its audited guarantee is
+                        // that only exact, evidence-backed source chunks are released. Scoping the owner's blanket
+                        // "cut everything outside" rule TO THE UPGRADE PATH is the next step; applying it here broke
+                        // five repair tests, which is the signal that it must not be global.
+                        boolean proven;
+                        boolean releasable;
+                        if (blanket) {
+                            // UPGRADE: the owner's rule. Anything outside the island is cut off unless it holds an
+                            // entity or a block entity - somebody's animals or their chests - or an entity/POI region
+                            // claims it. Shape is not consulted, which is the entire point: an Inland map's outside is
+                            // generated flat grass.
+                            releasable = !FiniteRegionSnapshot.holdsContent(chunk.tag());
+                            proven = releasable;
+                        } else {
+                            // REPAIR: unchanged and deliberately narrow - the known shell, or a chunk that is entirely
+                            // empty, and only with saved source evidence.
+                            try {
+                                releasable = FiniteRegionSnapshot.pristineApron(chunk.tag())
+                                    || FiniteRegionSnapshot.provablyEmpty(chunk.tag());
+                            } catch (IOException unsupported) {
+                                releasable = false;
+                            }
+                            proven = releasable && evidence.allows(chunk);
+                            if (releasable && !proven) uncertain++;
+                        }
                         if (!protectedChunks.contains(ChunkPos.asLong(chunk.x(), chunk.z())) && proven) slots.add(chunk.slot());
                         else {
                             kept++;
@@ -153,21 +199,23 @@ public final class FiniteApronRelease {
                 }
             }
             if (uncertain > 0) net.historicalexperience.HistoricalExperienceMod.LOGGER.warn(
-                "FINITE_TRANSITION retained {} block-matching apron chunks with unsupported or uncertain source evidence; their walls are intentionally preserved", uncertain);
-            plan = new Plan(3, false, heights, released, kept, changes, terrainToPreserve, identity);
+                "FINITE_TRANSITION retained {} provably-empty-or-shell exterior chunks with unsupported or uncertain source evidence; they are intentionally preserved", uncertain);
+            plan = new Plan(3, false, heights, released, kept, changes, terrainToPreserve, identity, blanket);
             writePlan(world, plan); // Commit intent only after every staged image has been forced and verified.
         }
         apply(world, plan, evidence);
         Plan complete = new Plan(3, true, plan.edgeHeights, plan.releasedChunks, plan.preservedExteriorChunks,
-            plan.changes, plan.protectedTerrainChunks, plan.identity);
+            plan.changes, plan.protectedTerrainChunks, plan.identity, plan.blanketExterior);
         writePlan(world, complete);
         net.historicalexperience.HistoricalExperienceMod.LOGGER.info(
-            "FINITE_TRANSITION released={} preservedExterior={} knownEdgeColumns={}/1024 backup={}",
-            complete.releasedChunks, complete.preservedExteriorChunks, complete.knownEdgeColumns(), world.resolve(BACKUP));
+            "FINITE_TRANSITION released={} preservedExterior={} knownEdgeColumns={}/1024 blanketExterior={} backup={}",
+            complete.releasedChunks, complete.preservedExteriorChunks, complete.knownEdgeColumns(),
+            complete.blanketExterior(), world.resolve(BACKUP));
         return complete;
     }
 
-    static boolean inside(int x, int z) { return x >= -8 && x < 8 && z >= -8 && z < 8; }
+    /** The shipped default footprint. Kept for the developer measurement that compares worlds against it. */
+    static boolean inside(int x, int z) { return FiniteGeometry.DEFAULT.inside(x, z); }
 
     static void apply(Path world, Plan plan) throws IOException { apply(world, plan, FiniteChunkEvidence.nativeOnly()); }
 
@@ -185,9 +233,17 @@ public final class FiniteApronRelease {
             for (int slot : change.slots) {
                 var saved = original.chunks.stream().filter(chunk -> chunk.slot() == slot).findFirst()
                     .orElseThrow(() -> new IOException("Prepared finite slot is missing from its source image"));
-                if (inside(saved.x(), saved.z()) || occupied.contains(ChunkPos.asLong(saved.x(), saved.z()))
-                        || !FiniteRegionSnapshot.pristineApron(saved.tag()) || !evidence.allows(saved)) {
-                    throw new IOException("Prepared finite slot lacks pristine default source evidence: " + change.region + " slot " + slot);
+                // Re-prove the slot under the rule THIS plan was prepared with. A blanket (upgrade) plan proves the
+                // chunk holds no entity or block entity; a repair plan additionally proves the stored source matches
+                // the known shell or is empty, with saved evidence - the guarantee its tests pin.
+                boolean acceptable = plan.blanketExterior()
+                    ? !FiniteRegionSnapshot.holdsContent(saved.tag())
+                    : (FiniteRegionSnapshot.pristineApron(saved.tag())
+                        || FiniteRegionSnapshot.provablyEmpty(saved.tag())) && evidence.allows(saved);
+                if (plan.identity().geometry().inside(saved.x(), saved.z())
+                        || occupied.contains(ChunkPos.asLong(saved.x(), saved.z())) || !acceptable) {
+                    throw new IOException("Prepared finite slot is not releasable under this plan's rule: "
+                        + change.region + " slot " + slot);
                 }
             }
             String current = WorldBackup.sha256(Files.readAllBytes(world.resolve("region").resolve(change.region)));

@@ -159,9 +159,6 @@ public class HistoricalVillageStructure extends Structure {
             generatePieces(builder, context, startPos, biomeId, versionId)));
     }
 
-    /** How many villagers a village may hold. Upstream has no cap; this keeps a large village from flooding a chunk. */
-    private static final int MAX_VILLAGERS = 8;
-
     @Override
     public void afterPlace(
         net.minecraft.world.level.WorldGenLevel level,
@@ -172,16 +169,8 @@ public class HistoricalVillageStructure extends Structure {
         ChunkPos chunkPos,
         net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer pieces
     ) {
-        // ONCE PER STRUCTURE START, not once per chunk.
-        //
-        // afterPlace is called for EVERY chunk the structure occupies, so a village spanning four chunks ran this
-        // whole method four times and spawned its entire complement four times over, at the same piece centres. The
-        // owner saw exactly that: "too many villagers spawn in villages and they all spawn in one place". Guarding
-        // on the chunk that holds the structure's minimum corner means the spawn happens once, and it is stable
-        // across calls because that corner does not move.
-        if (chunkPos.x != (box.minX() >> 4) || chunkPos.z != (box.minZ() >> 4)) {
-            return;
-        }
+        // The callback box clips the CURRENT CHUNK, not the whole structure. Each piece clips
+        // its actual residential coordinates and persists per-resident claims; the well has none.
         // VILLAGERS ARE CONDITIONAL, and this replaces a deliberate shortcut that cost a real feature.
         //
         // The port originally placed no entities at all, on the reasoning that upstream spawns villagers in five of
@@ -208,57 +197,9 @@ public class HistoricalVillageStructure extends Structure {
             return;
         }
 
-        int spawned = 0;
-
-        for (net.minecraft.world.level.levelgen.structure.StructurePiece piece : pieces.pieces()) {
-            if (spawned >= MAX_VILLAGERS) {
-                break;
-            }
-
-            // Roads are for walking along, not for standing on.
-            if (piece instanceof HistoricalVillagePieces.VillagePiece villagePiece
-                    && villagePiece.pieceType() == HistoricalVillagePieces.PIECE_PATH) {
-                continue;
-            }
-
-            BoundingBox pieceBox = piece.getBoundingBox();
-            // The piece has already placed its own floor, so its minimum Y is the surface it sits on. Upstream looks
-            // the height up through the level, which no longer exists on WorldGenLevel in 1.21.1.
-            int x = (pieceBox.minX() + pieceBox.maxX()) / 2;
-            int z = (pieceBox.minZ() + pieceBox.maxZ()) / 2;
-            int y = pieceBox.minY() + 1;
-
-            net.minecraft.world.entity.npc.Villager villager =
-                net.minecraft.world.entity.EntityType.VILLAGER.create(level.getLevel());
-
-            if (villager == null) {
-                continue;
-            }
-
-            villager.moveTo(x + 0.5, y, z + 0.5, random.nextFloat() * 360.0F, 0.0F);
-            // A villager that despawns is worse than no villager, because the village then looks broken rather
-            // than empty.
-            villager.setPersistenceRequired();
-
-            // PROFESSIONS ARRIVE WITH TRADING IN RELEASE 1.3. Before that a villager has none, which is the default
-            // and therefore what this leaves alone; from 1.3 it gets one of the professions that build actually had.
-            // Without this gate a Release 1.0 villager would offer trades that did not exist for five more builds.
-            if (version.chronology() >= HistoricalVillageRules.RELEASE_1_3_CHRONOLOGY) {
-                String professionId = HistoricalVillageRules.RELEASE_1_3_PROFESSIONS.get(
-                    random.nextInt(HistoricalVillageRules.RELEASE_1_3_PROFESSIONS.size()));
-                var profession = net.minecraft.core.registries.BuiltInRegistries.VILLAGER_PROFESSION
-                    .get(net.minecraft.resources.ResourceLocation.parse(professionId));
-
-                if (profession != null) {
-                    // VillagerType.PLAINS for every villager, because the biome-specific skins are a 1.14 feature
-                    // and this project's newest target is Release 1.6.4.
-                    villager.setVillagerData(new net.minecraft.world.entity.npc.VillagerData(
-                        net.minecraft.world.entity.npc.VillagerType.PLAINS, profession, 1));
-                }
-            }
-
-            level.addFreshEntityWithPassengers(villager);
-            spawned++;
+        for (var piece : pieces.pieces()) {
+            if (piece instanceof HistoricalVillagePieces.VillagePiece villagePiece)
+                villagePiece.spawnResidents(level, box);
         }
     }
 

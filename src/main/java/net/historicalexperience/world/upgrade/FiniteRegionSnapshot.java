@@ -119,6 +119,42 @@ final class FiniteRegionSnapshot {
         return result;
     }
 
+    /**
+     * Whether a chunk holds anything somebody made or owns: a block entity (chest, furnace, sign, bed...) or a saved
+     * entity.
+     *
+     * <p>This is the whole test for the owner's rule on an exterior chunk: "cut off everything outside the world,
+     * keeping only chunks that contain entities or block entities". Shape is deliberately NOT part of it - an Inland
+     * map's outside is generated flat grass, which matched neither the water shell nor "entirely empty", so the finite
+     * plain survived the upgrade. The trade-off was put to the owner and accepted: a plain-block build outside the
+     * island is cut, while chests, animals and item frames survive.
+     */
+    static boolean holdsContent(CompoundTag chunk) {
+        return !chunk.getList("block_entities", Tag.TAG_COMPOUND).isEmpty()
+            || !chunk.getList("entities", Tag.TAG_COMPOUND).isEmpty();
+    }
+
+    /**
+     * A chunk that provably holds nothing at all: every block air, no block entities, no entities.
+     *
+     * <p>Added because the shell test alone was narrower than "provably nothing", and measuring saved worlds showed
+     * what that cost: even in a default Indev world only ~37 of ~705 exterior chunks carry the bedrock/dirt/water
+     * shell - the rest are empty protochunks that the migration therefore KEEPT, and a kept chunk is one future
+     * worldgen will not write to. A world with custom map settings has no shell at all (751 of 751 exterior chunks
+     * empty), so nothing was released for it even in principle. Empty is as safe to release as shell-shaped, and it is
+     * proven here the same way: nothing but air anywhere in the column, and no entity or block-entity record.
+     */
+    static boolean provablyEmpty(CompoundTag chunk) throws IOException {
+        if (!chunk.getList("block_entities", Tag.TAG_COMPOUND).isEmpty()
+                || !chunk.getList("entities", Tag.TAG_COMPOUND).isEmpty()) {
+            return false;
+        }
+        for (String block : blocks(chunk)) {
+            if (!block.equals("minecraft:air")) return false;
+        }
+        return true;
+    }
+
     static boolean pristineApron(CompoundTag chunk) throws IOException {
         if (!chunk.getList("block_entities", Tag.TAG_COMPOUND).isEmpty()
                 || !chunk.getList("entities", Tag.TAG_COMPOUND).isEmpty()) return false;

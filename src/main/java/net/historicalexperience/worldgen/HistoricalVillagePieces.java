@@ -82,10 +82,11 @@ import org.jetbrains.annotations.NotNull;
  *   <li>The 1.14 workstations are the crafting table, furnace and bookshelf they replaced; the smooth and
  *       chiseled slabs are stone and sandstone slabs; the blacksmith's forge rail is a fence; and the crops
  *       are limited to what the version grew. See {@link HistoricalVillageBlocks} for the evidence.</li>
- *   <li><b>No entities.</b> Upstream spawns villagers in five of the pieces. Villagers are Beta 1.9
- *       Prerelease content and this structure generates from Beta 1.8.1, so a villager in a Beta 1.8.1
- *       village would be an anachronism; rather than make entity spawning conditional, this port places no
- *       entities at all. That is a deliberate, recorded reduction - see {@link HistoricalVillageRules}.</li>
+ *   <li><b>Conditional residents.</b> Upstream's five populated building types plus single residents
+ *       in small houses/shacks use clear local positions, clipped to their generation chunk and claimed
+ *       in saved piece data. Beta1.8.1 remains empty; residents start
+ *       at Beta1.9 Prerelease1. The structure calls this after placing blocks, under its historical alias
+ *       guard, rather than spawning at arbitrary piece centres or in the well.</li>
  *   <li><b>No heightmap lookup through the level.</b> Upstream calls {@code level.getHeight(Heightmap.Types,
  *       x, z)}, which no longer exists on {@code WorldGenLevel} in 1.21.1. The surface is found by walking
  *       the column down from the piece's own top instead, which is bounded by the piece box and therefore
@@ -408,6 +409,8 @@ public final class HistoricalVillagePieces {
         private final int villageStyle;
         /** The version whose blocks this piece places, so a reload cannot change its era. */
         private String versionId;
+        /** Claimed resident positions, persisted with this piece instead of reset per chunk callback. */
+        private int residentMask;
         /** The resolved styles, built once from {@link #versionId} and {@link #villageStyle}. */
         private Style plainsStyle;
         private Style desertStyle;
@@ -453,6 +456,7 @@ public final class HistoricalVillagePieces {
             super(type, tag);
             this.pieceType = tag.getInt("PieceType");
             this.villageStyle = tag.getInt("VillageStyle");
+            this.residentMask = tag.getInt("HexResidentMask") & HistoricalVillageResidents.validMask(pieceType);
             lockVersion(tag.getString("HexVersion"));
         }
 
@@ -507,6 +511,42 @@ public final class HistoricalVillagePieces {
             // The version has to be persisted: a chunk generated as Beta 1.8.1 and re-placed after an
             // upgrade must still build a Beta 1.8.1 village.
             tag.putString("HexVersion", this.versionId == null ? "" : this.versionId);
+            tag.putInt("HexResidentMask", residentMask());
+        }
+
+        public synchronized int residentMask() { return residentMask; }
+        public java.util.List<BlockPos> residentPositions() {
+            return HistoricalVillageResidents.spots(pieceType).stream()
+                .map(spot -> getWorldPos(spot.x(), spot.y(), spot.z()).immutable()).toList();
+        }
+        /** Original local positions and current-chunk clipping; a saved per-resident claim prevents repeats.
+         * Only entity placement is repaired here. No layout, terrain, loot or frozen recipe is changed.
+         */
+        synchronized void spawnResidents(WorldGenLevel level, BoundingBox clip) {
+            if (versionId == null) return;
+            var version = net.historicalexperience.version.HistoricalVersions.byId(versionId).orElse(null);
+            if (version == null || version.chronology() < HistoricalVillageRules.BETA_1_9_PRE_1_CHRONOLOGY) return;
+            var positions = residentPositions();
+            for (int i = 0; i < positions.size(); i++) {
+                if ((residentMask & (1 << i)) != 0) continue;
+                BlockPos pos = positions.get(i);
+                if (!clip.isInside(pos)) continue;
+                var villager = net.minecraft.world.entity.EntityType.VILLAGER.create(level.getLevel());
+                if (villager == null) continue;
+                villager.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0.0F, 0.0F);
+                villager.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), net.minecraft.world.entity.MobSpawnType.STRUCTURE, null);
+                var profession = net.minecraft.world.entity.npc.VillagerProfession.NONE;
+                if (version.chronology() >= HistoricalVillageRules.RELEASE_1_3_CHRONOLOGY) {
+                    var random = RandomSource.create(level.getSeed() ^ pos.asLong());
+                    var ids = HistoricalVillageRules.RELEASE_1_3_PROFESSIONS;
+                    profession = net.minecraft.core.registries.BuiltInRegistries.VILLAGER_PROFESSION
+                        .get(ResourceLocation.parse(ids.get(random.nextInt(ids.size()))));
+                }
+                villager.setVillagerData(new net.minecraft.world.entity.npc.VillagerData(
+                    net.minecraft.world.entity.npc.VillagerType.PLAINS, profession, 1));
+                villager.setPersistenceRequired();
+                if (level.addFreshEntity(villager)) residentMask |= 1 << i;
+            }
         }
 
         // ---- helpers ---------------------------------------------------------------------------
@@ -995,8 +1035,7 @@ public final class HistoricalVillagePieces {
             this.placeBlock(level, style.bed()
                 .setValue(BedBlock.PART, BedPart.FOOT).setValue(BedBlock.FACING, Direction.SOUTH),
                 4, 2, 2, box);
-            // Upstream spawns two villagers here. This port places no entities: villagers are Beta 1.9
-            // Prerelease content and this structure generates from Beta 1.8.1. See the class comment.
+            // The structure's afterPlace schedules these two upstream resident positions conditionally.
         }
 
         private BlockState cropFor(int typeRoll, RandomSource random, Style style) {

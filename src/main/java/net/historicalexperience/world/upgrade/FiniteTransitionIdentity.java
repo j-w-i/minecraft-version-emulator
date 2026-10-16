@@ -13,21 +13,31 @@ import net.historicalexperience.world.metadata.MetadataException;
  * Copies of the same world remain valid; an unrelated world with the same seed does not inherit the plan.
  * Source geometry is proven by the three preset-only settings references, never inferred from a border size.
  */
-public record FiniteTransitionIdentity(Long worldSeed, String originHash, String sourcePreset) {
+public record FiniteTransitionIdentity(Long worldSeed, String originHash, String sourcePreset, FiniteGeometry geometry) {
     public FiniteTransitionIdentity {
         if (worldSeed == null || originHash == null || !originHash.matches("[0-9a-f]{64}")
                 || sourcePreset == null || !HistoricalVersions.isFinitePreset(sourcePreset)) {
             throw new IllegalArgumentException("Invalid finite transition identity");
         }
+        // A plan written before the geometry was recorded carries no field; it can only have come from a world the old
+        // rule accepted, which was the preset-only default, so that is what its absence means.
+        geometry = geometry == null ? FiniteGeometry.DEFAULT : geometry;
     }
 
     /** The source must still be stored as finite; called before staging or changing any region bytes. */
     public static FiniteTransitionIdentity fromSource(Path world) throws IOException {
         try {
+            var state = WorldGenSettingsAdvance.read(world);
+            if (state.isEmpty()) {
+                throw new UpgradeException("No stored historical finite generator");
+            }
             return new FiniteTransitionIdentity(WorldGenSettingsAdvance.readWorldSeed(world), originHash(world),
-                WorldGenSettingsAdvance.requireDefaultFiniteSource(world));
+                state.get().settingsPreset(), WorldGenSettingsAdvance.readFiniteGeometry(world));
         } catch (UpgradeException failure) {
-            throw new IOException("Cannot establish safe default finite source identity", failure);
+            // The cause is what the player sees on the "Converting world biomes" screen, so carry it: the generic
+            // wrapper alone told the owner nothing about why their world could not advance.
+            String cause = failure.getMessage() == null ? failure.getClass().getSimpleName() : failure.getMessage();
+            throw new IOException("Cannot establish safe default finite source identity: " + cause, failure);
         }
     }
 

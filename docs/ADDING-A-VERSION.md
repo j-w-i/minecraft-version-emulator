@@ -575,16 +575,26 @@ appears in the create-world list, and the GUI's own path silently refuses to app
 vanilla's normal-preset list:
 
 ```java
-// client/version/CreateWorldHistoricalVersion.java:159-167
+// client/version/CreateWorldHistoricalVersion.java:262-275
+    private static void applyStoredSelection(CreateWorldScreen createWorldScreen) {
+        WorldCreationUiState uiState = createWorldScreen.getUiState();
         List<WorldCreationUiState.WorldTypeEntry> presets = uiState.getNormalPresetList();
+        String key = Selection.enabled() ? Selection.key() : "";
 
-        for (WorldCreationUiState.WorldTypeEntry preset : presets) {
-            if (matches(preset, key)) {
-                uiState.setWorldType(preset);
-                return;
+        if (!key.isBlank()) {
+            for (WorldCreationUiState.WorldTypeEntry preset : presets) {
+                if (matches(preset, key)) {
+                    uiState.setWorldType(preset);
+                    return;
+                }
             }
+            return;
         }
 ```
+
+The footer switch beside the button gates that application: while it is off the world type is left ordinary (or
+put back to `minecraft:normal` if a preset of ours was applied), however the version was chosen. A version's own
+tests therefore reach the preset through the button with the switch on, which is its default.
 
 The button label would still read "Historical Version: Alpha v1.2.0" while the world is created with the
 previously selected vanilla world type. This is the only **required** artefact in the checklist with no test

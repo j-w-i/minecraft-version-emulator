@@ -64,7 +64,9 @@ public final class HistoricalVersionCatalogue {
         INFDEV("Infdev", 300_000),
         ALPHA("Alpha", 400_000),
         BETA("Beta", 500_000),
-        RELEASE("Release", 600_000);
+        RELEASE("Release", 600_000),
+        // UI group for overlays on Release profiles, not another terrain era/chronology.
+        SNAPSHOTS("Snapshots", 600_000);
 
         private final String displayName;
         private final int base;
@@ -146,13 +148,20 @@ public final class HistoricalVersionCatalogue {
             return this.status == Status.IMPLEMENTED;
         }
 
-        /** The registry entry behind this row, or null when the version is not implemented. */
+        /** A patch identity is explicit: its baseline is not claimed to be a complete snapshot profile. */
+        public Optional<HistoricalSnapshotPatches.Patch> snapshotPatch() {
+            return HistoricalSnapshotPatches.byId(key);
+        }
+
+        /** The registry profile (or snapshot's stated baseline), null for unimplemented choices. */
         public HistoricalVersion version() {
-            return this.status == Status.IMPLEMENTED ? HistoricalVersions.byId(this.key).orElse(null) : null;
+            return this.status == Status.IMPLEMENTED ? HistoricalSnapshotPatches.baseProfileForSelection(this.key)
+                .flatMap(HistoricalVersions::byId).orElse(null) : null;
         }
 
         /** The display name to show, read from the registry when implemented. */
         public String displayName() {
+            if (snapshotPatch().isPresent()) return snapshotPatch().get().displayName() + " (patch)";
             HistoricalVersion declared = version();
             return declared != null ? declared.displayName() : this.targetName;
         }
@@ -171,7 +180,8 @@ public final class HistoricalVersionCatalogue {
             }
 
             HistoricalVersion.GenerationRevision revision = declared.latestRevision();
-            return "generates with " + revision.alias() + " (from " + revision.foundation()
+            return (snapshotPatch().isPresent() ? "explicit snapshot patch on " + declared.displayName() + "; " : "")
+                + "generates with " + revision.alias() + " (from " + revision.foundation()
                 + "), revision " + revision.revision();
         }
     }
@@ -294,6 +304,11 @@ public final class HistoricalVersionCatalogue {
         planned(entries, Era.RELEASE, "Release 1.6", 1, 6, 0, "historical_experience:release_1_6_4",
             "Release 1.6.4");
 
+        for (var patch : HistoricalSnapshotPatches.all()) {
+            var baseline = HistoricalVersions.byId(patch.baseProfileId()).orElseThrow();
+            entries.add(new Entry(patch.id(), patch.displayName(), Era.SNAPSHOTS, baseline.chronology(),
+                Status.IMPLEMENTED, "", "", false));
+        }
         entries.sort(Comparator.comparingInt(Entry::order).thenComparing(Entry::targetName));
         rejectDuplicates(entries);
         return List.copyOf(entries);

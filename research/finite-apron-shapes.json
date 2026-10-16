@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "status": "MEASURED_FROM_SAVED_FIXTURE_WORLDS_DESIGN_DECIDED",
+  "subject": "What a saved finite (Indev) world actually contains outside its island, and what that means for the finite-to-infinite apron migration",
+  "howMeasured": {
+    "tool": "src/test/java/net/historicalexperience/world/upgrade/SavedApronShapeTest.java",
+    "armed": "gradlew test --tests '*SavedApronShapeTest*' -PapronFixture=run/client/saves -PapronFixtureMax=8",
+    "why": "The shell is what Moderner Beta PRE-FILLS while generating. A chunk this project requests later on demand comes back empty, so the saved region files are the only honest source; an earlier live-chunk sample was therefore NOT evidence and is superseded by this measurement.",
+    "whatItCounts": "Per world: chunks inside the release's hardcoded footprint [-8,8) in chunk coordinates, chunks outside it, how many outside match FiniteRegionSnapshot.pristineApron (bedrock 0-53 / dirt 54 / water level=0 55-63 / air above), and how many are entirely air.",
+    "caveat": "The probe worlds were themselves used for earlier measurements, which called level.getChunk on exterior coordinates and thereby added empty saved chunks. Exterior all-air counts are therefore inflated; the shell counts are not. Inland has not been measured at all - no Inland world was ever created."
+  },
+  "measurements": [
+    {
+      "world": "sol-indev-default-1792177034051",
+      "storedProviderSettings": {"moderner_beta:preset": "historical_experience:indev_latest_with_ores"},
+      "outsideChunks": 705,
+      "outsideMatchingDefaultShell": 37,
+      "outsideAllAir": 668,
+      "sampleOutsideColumn": "0-127 minecraft:air",
+      "sampleInsideColumn": "0-0 bedrock | 1 lava:nondefault | 2-4 air | 5-9 gravel | 10-16 stone | 17-18 gravel | 19-23 stone | 24-25 coal_ore | 26-31 stone | 32-33 air | 34-38 stone | 39-40 air | 41-50 stone | 51-54 dirt | 55-63 water | 64-127 air",
+      "reading": "The island edge carries real terrain (ores, lava, the water table at 55-63). Outside it, only ~5% of chunks match the shell; the rest are empty protochunks."
+    },
+    {
+      "world": "sol-indev-defaults-1792179312423 (options screen opened and the DEFAULT choice confirmed)",
+      "storedProviderSettings": {"moderner_beta:preset": "historical_experience:indev_latest_with_ores"},
+      "outsideChunks": 696,
+      "outsideMatchingDefaultShell": 33,
+      "outsideAllAir": 663,
+      "reading": "Identical in shape to a world that never opened the chooser, which is the intended effect of writing no override for the default option names."
+    },
+    {
+      "world": "sol-indev-chosen-1792179703424 (Floating / Hell / Deep Small)",
+      "storedProviderSettings": {"moderner_beta:finite_level_properties": {"height": 256, "length": 64, "theme": "hell", "type": "floating", "width": 64}, "moderner_beta:preset": "historical_experience:indev_latest_with_ores"},
+      "outsideChunks": 751,
+      "outsideMatchingDefaultShell": 0,
+      "outsideAllAir": 751,
+      "reading": "A custom map has NO synthetic shell at all - every exterior chunk is empty. The release recognises the shell only, so it releases nothing and the world keeps 751 empty chunks."
+    }
+  ],
+  "conclusions": [
+    "The migration's 'pristine apron' test is narrower than 'provably nothing'. Even in the default world most exterior chunks are empty protochunks that today are KEPT, and a kept chunk is one future worldgen will not write to - which is exactly the 'it does not cut everything off' the owner is seeing.",
+    "A provably empty exterior chunk (all air, no entities, no block entities, no POI) is as safe to release as a shell chunk, and is the shape a custom-settings world has instead of a shell.",
+    "Moderner Beta pre-fills the DEFAULT 256x256 area (exactly 256 chunks inside [-8,8)) whatever the map settings say; a 64x64 map puts its terrain in the middle of that area and leaves the rest empty. So the footprint for 'terrain to preserve' and for the coastline must come from the world's own recorded width/length, not from that pre-filled area.",
+    "The old refusal is therefore doubly wrong for these worlds: it refuses them outright, and if it did not, it would still keep every empty exterior chunk."
+  ],
+  "design": {
+    "acceptedExteriorShapes": ["the known synthetic shell, parameterised by the world's recorded theme/height", "provably empty (all air, no entities/block entities/POI records)"],
+    "geometrySource": "The world's own stored moderner_beta:finite_level_properties (type, theme, width, length, height), recorded into the transition plan so recovery and re-verification can re-prove it instead of assuming 256x256x128.",
+    "defaultPathUnchanged": "A preset-only world resolves to the shipped default geometry, and the released set must be verified equal to today's for those worlds.",
+    "stillRefused": "Chunks with any terrain, container, entity or POI are never released, whatever their geometry - preservation outranks appearance.",
+    "unmeasured": ["Inland's own exterior shape", "Long/Deep/Huge footprints", "Hell's boundary liquid at default geometry"]
+  },
+  "next": [
+    "Accept a recorded geometry in requireDefaultFiniteSource instead of requiring preset-only provider settings.",
+    "Treat provably-empty exterior chunks as releasable, and derive inside()/edge capture from the recorded width/length.",
+    "Size the block reader by the world's height (today it is a 128-tall array and throws above it).",
+    "Measure Inland (needs one client run that creates an Inland world and reads its SAVED regions), then re-run the real upgrade for a custom-settings world."
+  ]
+}

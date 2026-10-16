@@ -25,16 +25,39 @@ import net.minecraft.client.gui.screens.worldselection.CreateWorldScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /** Reserve a real footer row; vanilla then lays out, registers and resizes all its widgets normally. */
 @Mixin(CreateWorldScreen.class)
 public abstract class CreateWorldHistoricalFooterMixin {
+    @Inject(method = "openFresh", at = @At("HEAD"), require = 1)
+    private static void historicalExperience$freshChoice(CallbackInfo ci) {
+        CreateWorldHistoricalVersion.Selection.clear();
+        net.historicalexperience.world.HistoricalSnapshotCreation.clear();
+        net.historicalexperience.client.version.IndevMapSelection.clear();
+    }
+
+    @Inject(method = "createFromExisting", at = @At("HEAD"), require = 1)
+    private static void historicalExperience$recreatedChoice(CallbackInfoReturnable<CreateWorldScreen> cir) {
+        CreateWorldHistoricalVersion.Selection.clear();
+        net.historicalexperience.world.HistoricalSnapshotCreation.clear();
+        net.historicalexperience.client.version.IndevMapSelection.clear();
+    }
+
+    @Inject(method = "createNewWorldDirectory", at = @At("RETURN"), require = 1)
+    private void historicalExperience$bindSnapshotDirectory(CallbackInfoReturnable<java.util.Optional<net.minecraft.world.level.storage.LevelStorageSource.LevelStorageAccess>> cir) {
+        cir.getReturnValue().ifPresent(access -> CreateWorldHistoricalVersion.bindSnapshotToNewWorld(
+            (CreateWorldScreen) (Object) this, access.getLevelPath(net.minecraft.world.level.storage.LevelResource.ROOT)));
+    }
+
     @Redirect(method = "init", at = @At(value = "INVOKE",
         target = "Lnet/minecraft/client/gui/layouts/HeaderAndFooterLayout;addToFooter(Lnet/minecraft/client/gui/layouts/LayoutElement;)Lnet/minecraft/client/gui/layouts/LayoutElement;"))
     private LayoutElement historicalExperience$footer(HeaderAndFooterLayout layout, LayoutElement actions) {
         layout.setFooterHeight(60);
         LinearLayout rows = LinearLayout.vertical().spacing(4);
-        rows.addChild(CreateWorldHistoricalVersion.createButton((CreateWorldScreen) (Object) this));
+        rows.addChild(CreateWorldHistoricalVersion.createRow((CreateWorldScreen) (Object) this));
         rows.addChild(actions);
         layout.addToFooter(rows);
         // Vanilla continues populating its original horizontal action row, not our vertical wrapper.

@@ -66,9 +66,96 @@ public final class WorldGenSettingsAdvance {
 
     private static final String OVERWORLD = "minecraft:overworld";
     private static final String PRESET_KEY = "moderner_beta:preset";
+    /** The one stored component the apron migration can account for: the world's own finite map settings. */
+    private static final String FINITE_PROPERTIES_KEY = "moderner_beta:finite_level_properties";
 
     private WorldGenSettingsAdvance() {
     }
+
+    /**
+     * Components that only mean something to a FINITE map, removed when the generator becomes infinite.
+     *
+     * <p>This is a real defect the owner found by playing: the advance rewrote the three preset references and left
+     * every inline component behind, so a customized finite world became an infinite generator STILL carrying the
+     * finite map's own settings. The visible result was an Infdev world generated in flat terraces - the retained
+     * {@code noise_generator_settings} still named {@code moderner_beta:finite_2d}, the finite map's 2D noise field,
+     * which is not a terrain generator for an infinite world. The destination preset supplies its own settings, so
+     * anything finite-only goes with the transition. Components that are merely customized (deepslate, for instance)
+     * are left alone: this removes what cannot mean anything any more, not what the player chose.
+     */
+    private static final List<String> FINITE_ONLY_KEYS = List.of(
+        "moderner_beta:finite_beaches",
+        "moderner_beta:finite_cave_generation",
+        "moderner_beta:finite_level_properties",
+        "moderner_beta:finite_noise",
+        "moderner_beta:finite_pools",
+        "moderner_beta:world_border",
+        "moderner_beta:biome_injection_rules");
+
+    private static List<String> stripFiniteComponents(CompoundTag settings) {
+        if (settings == null) {
+            return List.of();
+        }
+        List<String> removed = new java.util.ArrayList<>();
+        for (String key : FINITE_ONLY_KEYS) {
+            if (settings.contains(key)) {
+                settings.remove(key);
+                removed.add(key);
+            }
+        }
+        if (settings.getString("moderner_beta:noise_generator_settings").equals("moderner_beta:finite_2d")) {
+            settings.remove("moderner_beta:noise_generator_settings");
+            removed.add("moderner_beta:noise_generator_settings");
+        }
+        return List.copyOf(removed);
+    }
+
+    /**
+     * Removes finite-only components left in a world that is ALREADY infinite, and reports what it removed.
+     *
+     * <p>This exists because the strip above only helps worlds advanced from now on. A world advanced before it keeps
+     * the finite map's components in its stored settings - measured on the owner's world as an Infdev landscape
+     * generated in long parallel ridges, because the stored generator still named the finite 2D noise field. Reading
+     * the settings and finding the same defect is the only way to repair a world that is already broken, and it is
+     * safe by construction: this runs only when the stored generator is NOT a finite preset, so every key it removes
+     * is one the current generator cannot use. A world that is already clean is left byte-identical, and the write
+     * happens before the level is loaded, which is the same point in the life of a world that the advance write uses.
+     *
+     * @return the keys removed, empty when there was nothing to repair
+     */
+    public static List<String> repairRetainedFiniteComponents(Path worldDirectory) throws UpgradeException {
+        State state = read(worldDirectory).orElse(null);
+        if (state == null || !state.consistent()
+                || net.historicalexperience.version.HistoricalVersions.isFinitePreset(state.settingsPreset())) {
+            return List.of();
+        }
+        Path file = worldDirectory.resolve(FILE_NAME);
+        CompoundTag root = readTag(file);
+        CompoundTag generator = generatorTag(root).orElse(null);
+        if (generator == null) {
+            return List.of();
+        }
+        CompoundTag biome = biomeSource(generator).orElse(null);
+        if (biome == null) {
+            return List.of();
+        }
+        List<String> removed = new java.util.ArrayList<>();
+        removed.addAll(stripFiniteComponents(childOrNull(generator, "provider_settings")));
+        removed.addAll(stripFiniteComponents(childOrNull(biome, "provider_settings")));
+        removed.addAll(stripFiniteComponents(childOrNull(biome, "cave_provider_settings")));
+        if (removed.isEmpty()) {
+            return List.of();
+        }
+        writeTag(root, file);
+        return List.copyOf(removed);
+    }
+
+    /** The stored level type that means "land, not ocean", which decides whether the sea level is adjusted. */
+    private static final String INLAND_TYPE = "inland";
+    /** Moderner Beta's own sea-level setting, written only for an Inland source. */
+    private static final String SEA_LEVEL_KEY = "moderner_beta:sea_level";
+    /** At 0 the destination generates no ocean at all; the Inland map's land continues instead of drowning. */
+    private static final int INLAND_SEA_LEVEL = 0;
 
     /**
      * The three preset references in the overworld generator, in the order the file stores them.
@@ -138,21 +225,70 @@ public final class WorldGenSettingsAdvance {
             ? java.util.OptionalLong.of(data.getLong("Time")) : java.util.OptionalLong.empty();
     }
 
-    /** Only the project's unchanged default finite preset can use the fixed 256x256 apron geometry. */
-    public static String requireDefaultFiniteSource(Path worldDirectory) throws UpgradeException {
+    /**
+     * The finite geometry this world generates with, read from its own settings, refusing anything it cannot prove.
+     *
+     * <p>Each of the three provider-settings objects is allowed to be either the preset reference alone - which means
+     * the shipped default geometry - or that reference plus exactly the {@code finite_level_properties} map settings.
+     * Anything else (another customized component, a malformed map setting, values that disagree between the three
+     * copies) is refused with the reason, because the apron release cannot be handed a geometry it did not verify.
+     *
+     * <p>This replaces a rule that refused EVERY customized world. Reading the geometry is what lets a world with an
+     * Inland or smaller map migrate at all; it is not a relaxation of what may be released, which is decided
+     * separately and only for chunks that are provably nothing.
+     */
+    public static FiniteGeometry readFiniteGeometry(Path worldDirectory) throws UpgradeException {
         State state = read(worldDirectory).orElseThrow(() -> new UpgradeException("No stored historical finite generator"));
         if (!state.consistent() || !net.historicalexperience.version.HistoricalVersions.isFinitePreset(state.settingsPreset())) {
             throw new UpgradeException("Finite transition requires a consistent, recognized finite source preset");
         }
         CompoundTag gen = generatorTag(readTag(worldDirectory.resolve(FILE_NAME))).orElseThrow();
         CompoundTag biome = biomeSource(gen).orElseThrow();
+        FiniteGeometry recorded = null;
         for (CompoundTag settings : List.of(gen.getCompound("provider_settings"), biome.getCompound("provider_settings"),
                 biome.getCompound("cave_provider_settings"))) {
-            if (!settings.getAllKeys().equals(java.util.Set.of(PRESET_KEY))) {
-                throw new UpgradeException("Customized finite provider settings cannot use the default apron migration; no region changes performed");
+            java.util.Set<String> keys = settings.getAllKeys();
+            if (!keys.contains(FINITE_PROPERTIES_KEY)) {
+                // Other inline settings do not change the MAP geometry, which is the only thing the apron release has
+                // to prove. Refusing them - which this did at first - stopped a real world dead with "Customized
+                // finite provider settings other than the map settings cannot use the apron migration", while the
+                // geometry it needed was right there. Whatever else is customized is simply not this migration's
+                // business.
+                continue;
+            }
+            FiniteGeometry here = geometryFrom(settings.getCompound(FINITE_PROPERTIES_KEY));
+            if (recorded != null && !recorded.equals(here)) {
+                throw new UpgradeException("Finite map settings disagree between the generator, the biome source and the "
+                    + "cave biome source; refusing to choose one");
+            }
+            recorded = here;
+        }
+        return recorded == null ? FiniteGeometry.DEFAULT : recorded;
+    }
+
+    /** The five stored map-setting fields, all required and type-checked, or a refusal naming what was wrong. */
+    private static FiniteGeometry geometryFrom(CompoundTag properties) throws UpgradeException {
+        java.util.Set<String> expected = java.util.Set.of("type", "theme", "width", "length", "height");
+        if (!properties.getAllKeys().equals(expected)) {
+            throw new UpgradeException("Finite map settings must carry exactly " + expected + "; found "
+                + properties.getAllKeys());
+        }
+        for (String key : List.of("type", "theme")) {
+            if (!properties.contains(key, net.minecraft.nbt.Tag.TAG_STRING)) {
+                throw new UpgradeException("Finite map setting '" + key + "' is missing or not a string");
             }
         }
-        return state.settingsPreset();
+        for (String key : List.of("width", "length", "height")) {
+            if (!properties.contains(key, net.minecraft.nbt.Tag.TAG_INT)) {
+                throw new UpgradeException("Finite map setting '" + key + "' is missing or not an int");
+            }
+        }
+        try {
+            return new FiniteGeometry(properties.getInt("width"), properties.getInt("length"),
+                properties.getInt("height"), properties.getString("type"), properties.getString("theme"), true);
+        } catch (IllegalArgumentException malformed) {
+            throw new UpgradeException("Finite map settings are out of range: " + malformed.getMessage(), malformed);
+        }
     }
 
     /**
@@ -225,9 +361,33 @@ public final class WorldGenSettingsAdvance {
             }
         }
 
+        // Inland is chosen because it is land, and the owner's complaint about the upgraded result was exactly the
+        // opposite: "avoid tonnes of water when using the Inland variant". An Inland map's land border becomes the
+        // destination's infinite OCEAN, because the infinite terrain is generated at the destination's sea level. The
+        // sea level is a stored Moderner Beta setting, so an Inland source gets one that keeps the new terrain land.
+        // Island and Floating sources are left alone: for those, water is the point.
+        try {
+            FiniteGeometry source = readFiniteGeometry(worldDirectory);
+            if (source.type().equals(INLAND_TYPE)) {
+                CompoundTag destination = childOrNull(generator, "provider_settings");
+                if (destination != null) {
+                    destination.putInt(SEA_LEVEL_KEY, INLAND_SEA_LEVEL);
+                    net.historicalexperience.HistoricalExperienceMod.LOGGER.info(
+                        "Inland source: destination sea level set to {} so the new terrain is land, not ocean",
+                        INLAND_SEA_LEVEL);
+                }
+            }
+        } catch (UpgradeException geometryUnreadable) {
+            // The source geometry could not be read. The advance itself was already validated above, so carry on
+            // without the Inland adjustment rather than refusing to move the world.
+        }
+
         setPreset(childOrNull(generator, "provider_settings"), to);
         setPreset(childOrNull(biomeSource, "provider_settings"), to);
         setPreset(childOrNull(biomeSource, "cave_provider_settings"), to);
+        stripFiniteComponents(childOrNull(generator, "provider_settings"));
+        stripFiniteComponents(childOrNull(biomeSource, "provider_settings"));
+        stripFiniteComponents(childOrNull(biomeSource, "cave_provider_settings"));
 
         if (releaseWorldBorder) {
             Double before2 = setWorldBorderToDefault(root);

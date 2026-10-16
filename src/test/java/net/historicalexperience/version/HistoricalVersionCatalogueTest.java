@@ -114,8 +114,8 @@ class HistoricalVersionCatalogueTest {
     void profilesThePlanDoesNotNameStayReachableWithoutCounting() {
         List<Entry> extras = HistoricalVersionCatalogue.implementedExtras();
 
-        assertEquals(5, extras.size(),
-            "Indev 20100223, both Infdev builds, the Alpha v1.1.2_01 profile and Alpha v1.2.2a exist but are not in the planned "
+        assertEquals(7, extras.size(),
+            "Two explicit snapshot patches, Indev 20100223, both Infdev builds, Alpha v1.1.2_01 and Alpha v1.2.2a are outside the planned "
                 + "matrix, and each must still be reachable: " + extras.stream().map(Entry::key).toList());
         assertTrue(extras.stream().allMatch(Entry::selectable),
             "an extra is implemented, so it must be selectable even though the plan does not name it");
@@ -128,8 +128,13 @@ class HistoricalVersionCatalogueTest {
         for (Entry entry : HistoricalVersionCatalogue.implemented()) {
             assertNotNull(entry.version(), entry.key() + " is marked implemented but the registry has no such "
                 + "version, which would make a menu row that cannot be played");
-            assertTrue(HistoricalVersions.byId(entry.key()).isPresent(),
-                entry.key() + " must be a registry id, because that is what a world persists");
+            if (entry.snapshotPatch().isPresent()) {
+                assertEquals(entry.snapshotPatch().get().baseProfileId(), entry.version().id());
+                assertFalse(HistoricalVersions.byId(entry.key()).isPresent(), "patches must not manufacture terrain profiles");
+                assertEquals(Era.SNAPSHOTS, entry.era());
+                assertTrue(entry.displayName().contains("patch"));
+            } else assertTrue(HistoricalVersions.byId(entry.key()).isPresent(),
+                entry.key() + " must be a registry id unless it explicitly describes a snapshot overlay");
         }
     }
 
@@ -149,7 +154,7 @@ class HistoricalVersionCatalogueTest {
     @Test
     void noImplementedVersionIsHiddenFromTheMenu() {
         Set<String> catalogued = HistoricalVersionCatalogue.implemented().stream()
-            .map(Entry::key)
+            .map(entry -> entry.version().id())
             .collect(Collectors.toSet());
         Set<String> declared = HistoricalVersions.all().stream()
             .map(HistoricalVersion::id)
@@ -191,7 +196,7 @@ class HistoricalVersionCatalogueTest {
 
     @Test
     void orderIsChronologicalAcrossAndWithinEras() {
-        List<Era> expected = List.of(Era.INDDEV, Era.INFDEV, Era.ALPHA, Era.BETA, Era.RELEASE);
+        List<Era> expected = List.of(Era.INDDEV, Era.INFDEV, Era.ALPHA, Era.BETA, Era.RELEASE, Era.SNAPSHOTS);
 
         assertEquals(expected, HistoricalVersionCatalogue.eras(), "eras are ordered oldest first");
         assertSame(Era.INDDEV, HistoricalVersionCatalogue.entries().get(0).era(),

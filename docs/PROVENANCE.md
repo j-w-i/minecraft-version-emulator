@@ -20,7 +20,7 @@ algorithm or behaviour is not treated as derivation, and merely naming NT as res
 | --- | --- | --- |
 | This project's own work | LGPL-3.0-or-later | Everything not listed below |
 | Nostalgic Tweaks | LGPL-3.0-only | **103 Java files**, 53 asset files |
-| OldVillages | MIT | 6 Java files, 1 verification helper, 5 JSON data files |
+| OldVillages | MIT | 7 Java files (including extracted resident coordinates), 1 verification helper, 5 JSON data files |
 | Moderner Beta | MIT | 1 JSON data file (linked as a dependency otherwise) |
 | GitHub CLI | MIT | `tools/` only |
 
@@ -233,7 +233,8 @@ Compared byte-for-byte against NT by `scripts/compare-nt-assets.py`.
 
 | File or component | Origin | Modifications | Applicable licence | Required action |
 | --- | --- | --- | --- | --- |
-| `worldgen/HistoricalVillagePieces.java` | OldVillages `worldgen/OldVillagePieces.java` @ `7578013e` | Adapted to Fabric and this project's version gate | MIT | Header names upstream; MIT text in notices |
+| `worldgen/HistoricalVillagePieces.java` | OldVillages `worldgen/OldVillagePieces.java` @ `7578013e` | Adapted to Fabric/version gate; original residential coordinates and current-chunk clipping restored, with this project's saved per-resident claims | MIT | Header names upstream; MIT text in notices |
+| `worldgen/HistoricalVillageResidents.java` | Same pinned file, resident call-site coordinates at449/450,555,611/612,658,731 | Declarative extraction of five upstream populated piece types; own missing-resident repair additionally gives one NPC to small houses/shacks at inspected clear interior positions. No well/road/farm positions | MIT source attribution retained; own table wrapper LGPL-3.0-or-later | File names source/revision; existing MIT notice retained |
 | `worldgen/HistoricalVillageBlocks.java` | OldVillages `worldgen/OldVillagePieces.java` | As above | MIT | As above |
 | `worldgen/HistoricalVillageStates.java` | OldVillages `worldgen/OldVillagePieces.java` | As above | MIT | As above |
 | `worldgen/HistoricalVillageTypes.java` | OldVillages `OldVillagesMod.java` | NeoForge `DeferredRegister` replaced with Fabric registration | MIT | As above |

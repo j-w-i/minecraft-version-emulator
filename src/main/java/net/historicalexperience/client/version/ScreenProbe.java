@@ -168,6 +168,10 @@ public final class ScreenProbe {
                 Thread.sleep(800);
                 checkLayout(client, "create-world-return-scale-" + scale);
             }
+            for (int scale : new int[]{1, 2, 3}) {
+                photograph(client, new TitleScreen(), "historical_experience:snapshot_11w49a", scale, "snapshot-11w49a-scale-" + scale);
+                photograph(client, new TitleScreen(), "historical_experience:snapshot_12w49a", scale, "snapshot-12w49a-scale-" + scale);
+            }
         } finally {
             onClientThread(client, () -> client.options.guiScale().set(originalScale));
         }
@@ -214,7 +218,8 @@ public final class ScreenProbe {
                     initialKey,
                     Entry::selectable,
                     key -> note("confirmed " + key),
-                    Component.empty()));
+                    Component.empty(),
+                    null));
 
             client.setScreen(screen);
         });
@@ -225,7 +230,9 @@ public final class ScreenProbe {
 
     private static void capture(Minecraft client, String label) throws InterruptedException {
         onClientThread(client, () -> {
-            Screenshot.grab(client.gameDirectory, "hex-" + label + ".png", client.getMainRenderTarget(),
+            String prefix = System.getProperty(PROPERTY + ".prefix", "");
+            if (!prefix.matches("[A-Za-z0-9_-]*")) throw new IllegalArgumentException("Unsafe screenshot prefix");
+            Screenshot.grab(client.gameDirectory, "hex-" + prefix + (prefix.isEmpty() ? "" : "-") + label + ".png", client.getMainRenderTarget(),
                 message -> note("captured " + label + ": " + message.getString()));
         });
 

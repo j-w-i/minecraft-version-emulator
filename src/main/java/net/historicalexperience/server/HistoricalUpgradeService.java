@@ -91,6 +91,7 @@ public final class HistoricalUpgradeService {
 
         java.util.List<String> details = new java.util.ArrayList<>();
         details.add("profile: " + metadata.profileId());
+        if (!metadata.snapshotPatchId().isEmpty()) details.add("snapshot patch: " + metadata.snapshotPatchId());
         details.add("generation preset: " + metadata.generationPreset());
         details.add("document revision: " + metadata.revision()
             + " (a counter of changes to the record, not a generation recipe number)");
@@ -179,7 +180,7 @@ public final class HistoricalUpgradeService {
      */
     public static Report upgrade(Path worldDirectory, String targetId, String actor, long timestamp) {
         targetId = qualify(targetId);
-        if (!HistoricalVersions.byId(targetId).isPresent()) {
+        if (net.historicalexperience.version.HistoricalSnapshotPatches.baseProfileForSelection(targetId).isEmpty()) {
             return Report.failure("There is no declared historical version called '" + targetId + "'.",
                 java.util.List.of(declaredVersions()));
         }
@@ -229,7 +230,12 @@ public final class HistoricalUpgradeService {
      * @param problem          why the world cannot be understood, or why it cannot be changed
      */
     public record WorldVersionState(Kind kind, String profileId, String displayName, String generationPreset,
-            long documentRevision, boolean pendingUpgrade, String problem) {
+            long documentRevision, boolean pendingUpgrade, String problem, String snapshotPatchId) {
+        public WorldVersionState(Kind kind, String profileId, String displayName, String generationPreset,
+                                 long documentRevision, boolean pendingUpgrade, String problem) {
+            this(kind, profileId, displayName, generationPreset, documentRevision, pendingUpgrade, problem, "");
+        }
+        public String selectionId() { return snapshotPatchId.isEmpty() ? profileId : snapshotPatchId; }
         /** The three states the lifecycle itself distinguishes. */
         public enum Kind {
             /** No historical document: an ordinary world, which this mod leaves alone. */
@@ -271,8 +277,10 @@ public final class HistoricalUpgradeService {
         var historical = (net.historicalexperience.world.HistoricalWorldState.Historical) state;
         HistoricalMetadata metadata = historical.metadata();
         String profileId = metadata.profileId().value();
-        String displayName = HistoricalVersions.byId(profileId).map(HistoricalVersion::displayName)
-            .orElse(profileId + " (not declared by this build)");
+        String displayName = net.historicalexperience.version.HistoricalSnapshotPatches.byId(metadata.snapshotPatchId())
+            .map(patch -> patch.displayName() + " (snapshot patch)")
+            .orElseGet(() -> HistoricalVersions.byId(profileId).map(HistoricalVersion::displayName)
+                .orElse(profileId + " (not declared by this build)"));
         boolean pending = UpgradeJournal.existsIn(worldDirectory);
 
         return new WorldVersionState(WorldVersionState.Kind.HISTORICAL, profileId, displayName,
@@ -280,7 +288,7 @@ public final class HistoricalUpgradeService {
             pending
                 ? "A staged upgrade is waiting to be applied. It will be completed when this world is next "
                     + "loaded, so another change cannot be staged until then."
-                : "");
+                : "", metadata.snapshotPatchId());
     }
 
     /**
@@ -382,6 +390,8 @@ public final class HistoricalUpgradeService {
             .map(HistoricalVersion::id)
             .toList();
         out.append(String.join(", ", ids));
+        out.append("; snapshot patches: ").append(String.join(", ", net.historicalexperience.version.HistoricalSnapshotPatches.all()
+            .stream().map(net.historicalexperience.version.HistoricalSnapshotPatches.Patch::id).toList()));
         return out.toString();
     }
 
@@ -395,6 +405,8 @@ public final class HistoricalUpgradeService {
             try {
                 HistoricalMetadata metadata = store.read();
                 report.put("profileId", metadata.profileId().value());
+                report.put("selectionId", metadata.selectionId());
+                report.put("snapshotPatchId", metadata.snapshotPatchId());
                 report.put("generationPreset", metadata.generationPreset().value());
                 report.put("documentRevision", Long.toString(metadata.revision()));
             } catch (MetadataException | IOException e) {

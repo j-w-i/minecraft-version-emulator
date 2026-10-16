@@ -15,6 +15,7 @@
 package net.historicalexperience.client.lighting;
 
 import net.historicalexperience.client.HistoricalClientRules;
+import net.historicalexperience.client.lighting.HistoricalOldLighting;
 import net.historicalexperience.version.HistoricalVersion;
 import net.historicalexperience.version.HistoricalVersions;
 
@@ -30,9 +31,18 @@ public final class HistoricalLightingTweaks {
     private HistoricalLightingTweaks() {
     }
 
-    /** NT's leaves ambient-occlusion brightness, not emissive or full-bright rendering. */
+    /**
+     * NT's leaves ambient-occlusion brightness, not emissive or full-bright rendering.
+     *
+     * <p>These two detail switches are ALSO governed by the old-lighting switch the player can see. They default to on,
+     * they are not on the config screen, and they used to consult only the version window - so in an Infdev world with
+     * both visible options turned off, leaves were still lit by the old model and the owner reported exactly that:
+     * "smooth shading being applied is the old smooth shading model even when it's off". Turning the mod's lighting
+     * off has to mean the mod's lighting is off, including the parts with no row of their own.
+     */
     public static boolean oldLeavesLighting() {
-        return beforeNewEngine() && HistoricalClientOptions.get(LEAVES_KEY, true);
+        return beforeNewEngine() && HistoricalOldLighting.toggle()
+            && HistoricalClientOptions.get(LEAVES_KEY, true);
     }
 
     public static boolean setOldLeavesLighting(boolean enabled) {
@@ -43,9 +53,14 @@ public final class HistoricalLightingTweaks {
         return true;
     }
 
-    /** Gate only: the complete water-lighting renderer/relight port is still pending. */
+    /**
+     * Gate only: the complete water-lighting renderer/relight port is still pending.
+     *
+     * <p>Governed by the visible old-lighting switch for the same reason as the leaves one above.
+     */
     public static boolean oldWaterLighting() {
-        return beforeNewEngine() && HistoricalClientOptions.get(WATER_KEY, true);
+        return beforeNewEngine() && HistoricalOldLighting.toggle()
+            && HistoricalClientOptions.get(WATER_KEY, true);
     }
 
     public static boolean setOldWaterLighting(boolean enabled) {

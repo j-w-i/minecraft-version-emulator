@@ -21,6 +21,8 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.world.inventory.Slot;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
+import org.spongepowered.asm.mixin.gen.Invoker;
+import net.minecraft.world.inventory.ClickType;
 
 /**
  * Exposes the protected fields of a container screen that the tooltip probe needs: which slot is hovered, and where the
@@ -38,4 +40,8 @@ public interface ContainerScreenAccess {
 
     @Accessor("topPos")
     int historicalExperience$topPos();
+
+    /** Native click dispatch for explicitly armed developer gesture acceptance. */
+    @Invoker("slotClicked")
+    void historicalExperience$slotClicked(Slot slot, int slotId, int button, ClickType type);
 }

@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "status": "IMPLEMENTED_NATIVE_REAL_GENERATION_NINE_HOUSE_TYPES_LEDGER_PRESERVATION_AND_ORDINARY_CONTROLS_PASS",
+  "nativeReceipt": "run/client/village-resident-probe-1792166227822.json",
+  "nativeResult": "Real generated Release1.1 village has14 live loaded residents; corresponding Beta1.8.1 village has0. Native four-world fixtures cover all nine residential types/four rotations,44 residents in1.1/1.4,0 inBeta1.8.1/ordinary, exact expected interior positions, chunk-split house, registered compressed-piece disk roundtrip and three repeated callback passes with unchanged UUID sets and existing villager data.",
+  "userScope": "Restart with rebuilt mod; affects newly generated villages, not automatic repopulation of already-generated empty villages. No existing NPC deletion or relocation.",
+  "firstNativeReceipt": "run/client/village-resident-probe-1792165699186.json",
+  "firstNativeResult": "Five-upstream-type plan passed real1.1 generation with3 villagers and four-world fixtures. This does NOT disprove the owner report: small-house/shack-only layouts had zero eligible resident sites.",
+  "compatibilityRepair": {
+    "reason": "Do not classify actual homes as nonresidential merely because the pinned port omitted their spawn calls. Each small house/shack gets one resident; wells/roads/farms get none.",
+    "ownClearInteriorPositions": {"2_small_house": [[2,2,2]], "3_fenced_small_house": [[2,2,2]], "10_shack": [[1,2,2]], "11_high_roof_shack": [[1,2,2]]},
+    "evidence": "Direct inspection of existing generateSmallHouse/generateShack floor at local y1, walls, headroom, ladder/fence/door placement. Additional positions are this repair, not claimed upstream call sites or independently executed original Minecraft algorithms."
+  },
+  "ownerRetest": "Owner reported no villagers after first fix; requested version/new-generation details. Found and repaired omission of the four small-house/shack variants, which otherwise had no eligible resident sites. Final actual-generation/native evidence supersedes the unit-only milestone without claiming the owner's exact unspecified save was reproduced.",
+  "nativeAcceptanceCommand": "gradlew --offline runClientQuickPlay -PtitleStart -PvillageResidentsProbe",
+  "nativeAcceptanceScope": "Real generated1.1/Beta1.8.1 villages plus four-world native callback fixtures: all residential rotations, no well/nonresidential positions, current-chunk clipping, compressed registered-piece disk roundtrip/repeated callbacks, existing villager data and ordinary isolation. Require passed=true receipt, not process exit.",
+  "implementation": "afterPlace retains historical alias/version guards, delegates to residential piece positions, clips to the current callback box, and persists HexResidentMask after successful native entity insertion. No terrain/layout/loot settings or existing villagers changed.",
+  "tests": "HistoricalVillageResidentsTest: five bootstrapped JVM tests cover all nine residential piece counts, pinned and additional clear-interior coordinates, small-house/shack-only layouts, no well/nonresidential positions, immutable data, all native rotations at negative coordinates and NBT claim persistence/default/clamping. Final offline build1970 passes701 tests; actual population/piece disk reload/repeated callback/ordinary controls pass in nativeReceipt.",
+  "ownerReport": "Historical villages generate excessive villagers inside wells.",
+  "observedImplementation": {
+    "file": "src/main/java/net/historicalexperience/worldgen/HistoricalVillageStructure.java",
+    "method": "afterPlace",
+    "chunkGuard": "Compares the current chunk against the callback box minimum, rather than a durable per-resident claim.",
+    "positions": "Loops over every piece except roads, including the well, and spawns at each bounding-box centre/minY+1.",
+    "population": "Local cap8 resets on every callback; no saved spawn ledger. The well is the first piece, guaranteeing a wrong well spawn per accepted callback."
+  },
+  "upstream": {
+    "url": "https://github.com/MaxTechnik3796/old_villages/blob/7578013ec061303982539fac7606df67577ffb26/src/main/java/cz/maxtechnik/old_villages/worldgen/OldVillagePieces.java",
+    "reference": "spawnVillager lines133-143 clips the rotated world position to the current box; calls at449/450,555,611/612,658,731.",
+    "license": "MIT as declared by upstream gradle.properties; existing port notices retained. No LICENSE file claimed.",
+    "residentialSpots": {
+      "4_large_house": [[2,2,3],[4,2,3]],
+      "7_blacksmith": [[4,2,2]],
+      "8_tavern": [[1,2,7],[4,2,7]],
+      "9_church": [[2,2,7]],
+      "12_library": [[2,2,3]]
+    },
+    "omittedCallSites": "No well/road/farm calls, and this pinned source also omitted the residential small-house/shack calls. The latter omission is explicitly repaired above; these are not nonresidential buildings.",
+    "confidence": "Direct pinned-source inspection, not a claim of independently executed original Minecraft population algorithms."
+  },
+  "boundedFixPlan": [
+    "Replace whole-village centre spawning with upstream local residential positions transformed by each existing piece orientation.",
+    "Clip each resident to its own generation chunk and persist a per-piece resident claim mask to prevent duplicate callbacks/save-reload multiplication.",
+    "Retain historical-world isolation, Beta1.8.1 empty-village boundary, pre1.3 no-profession and old-profession/plain-skin policies.",
+    "Do not modify terrain algorithms, frozen settings/presets, block layouts or loot; do not delete or silently move existing villagers.",
+    "Verify negative/nonresidential pieces, all four rotations, chunk boundaries/callback order, saved ledger and actual native spawned residents."
+  ]
+}

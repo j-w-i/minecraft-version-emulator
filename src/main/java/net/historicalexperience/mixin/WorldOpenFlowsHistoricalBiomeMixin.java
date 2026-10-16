@@ -74,6 +74,22 @@ public abstract class WorldOpenFlowsHistoricalBiomeMixin {
             // Not a historical world as far as this project is concerned, so its biomes are not ours to move.
             return;
         }
+        // Repair before anything else, and on every open, not only when a conversion is owed: a world advanced by an
+        // older build carries the finite map's components in its stored generator - the finite 2D noise field among
+        // them - which generates the infinite landscape in long ridges. Doing this here means the repair happens
+        // before the level reads its generator, and it is a no-op (not a write) for a world already clean.
+        try {
+            var repaired = net.historicalexperience.world.upgrade.WorldGenSettingsAdvance
+                .repairRetainedFiniteComponents(worldDirectory);
+            if (!repaired.isEmpty()) {
+                net.historicalexperience.HistoricalExperienceMod.LOGGER.info(
+                    "Retained finite settings removed from an already-infinite world: {}", repaired);
+            }
+        } catch (Exception repairFailed) {
+            // Never block a world from opening over this: the world still loads, it may just generate as it did.
+            net.historicalexperience.HistoricalExperienceMod.LOGGER.warn(
+                "Could not check this world for retained finite settings: {}", repairFailed.toString());
+        }
         if (!HistoricalBiomeConversionDriver.needsConversion(worldDirectory, version)) {
             return;
         }

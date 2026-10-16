@@ -160,7 +160,7 @@ class FiniteEdgeRepairTest {
         byte[] after = before.without(List.of(8));
         var change = new FiniteApronRelease.Change("r.0.0.mca", WorldBackup.sha256(before.bytes), WorldBackup.sha256(after), List.of(8));
         var plan = new FiniteApronRelease.Plan(3, false, java.util.stream.IntStream.range(0, 1024).map(i -> -1).toArray(),
-            1, 1, List.of(change), Set.of(0L), FiniteEdgeRepair.read(world).identity());
+            1, 1, List.of(change), Set.of(0L), FiniteEdgeRepair.read(world).identity(), false);
         Path backup = world.resolve("historical_experience_finite_transition_backup"); Files.createDirectories(backup);
         Files.write(backup.resolve("r.0.0.mca.before"), before.bytes); Files.write(backup.resolve("r.0.0.mca.after"), after);
         Files.writeString(world.resolve(FiniteApronRelease.FILE_NAME), new com.google.gson.Gson().toJson(plan));

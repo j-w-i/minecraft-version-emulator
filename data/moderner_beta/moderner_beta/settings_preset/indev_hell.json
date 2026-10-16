@@ -1,0 +1,125 @@
+{
+  "biomeSettings": {
+    "moderner_beta:biome_injection_rules": [
+      {
+        "type": "moderner_beta:cache_2d",
+        "injector": {
+          "type": "moderner_beta:predicate",
+          "onMatch": {
+            "type": "moderner_beta:constant_biome",
+            "biome": "minecraft:the_void"
+          },
+          "predicate": {
+            "condition": "moderner_beta:out_of_bounds",
+            "margin": 4
+          }
+        },
+        "step_for": "before_surface"
+      }
+    ],
+    "moderner_beta:provider": "moderner_beta:single",
+    "moderner_beta:single_biome": "moderner_beta:indev_hell"
+  },
+  "caveBiomeSettings": {
+    "moderner_beta:provider": "moderner_beta:none"
+  },
+  "chunkSettings": {
+    "moderner_beta:cave_generation": {
+      "fixCaveBorders": false,
+      "forceBetaCanyons": true,
+      "forceBetaCaves": true,
+      "seedMethod": "modern",
+      "useCarvers": false,
+      "useNoiseCaves": false
+    },
+    "moderner_beta:deepslate_generation": {
+      "block": "minecraft:deepslate",
+      "enabled": false,
+      "maxY": 8,
+      "minY": 0
+    },
+    "moderner_beta:finite_beaches": {
+      "gravelThreshold": 12.0,
+      "gravelUnderAir": true,
+      "gravelUnderFluid": true,
+      "prioritizeGravelBeaches": false,
+      "sandThreshold": 8.0,
+      "sandUnderAir": true,
+      "sandUnderFluid": false
+    },
+    "moderner_beta:finite_cave_generation": {
+      "length": 200.0,
+      "radius": 1.0,
+      "rarity": 8192,
+      "use14aCaves": false,
+      "useCaves": true
+    },
+    "moderner_beta:finite_level_properties": {
+      "type": "island",
+      "height": 128,
+      "length": 256,
+      "theme": "hell",
+      "width": 256
+    },
+    "moderner_beta:finite_noise": {
+      "heightNoiseScale": 1.3,
+      "heightUnderDamp": 1.25,
+      "maxHeightBoost": 6.0,
+      "maxHeightDamp": 5.0,
+      "minHeightBoost": -4.0,
+      "minHeightDamp": 6.0,
+      "selectorOctaves": 6,
+      "selectorScale": 1.0
+    },
+    "moderner_beta:finite_pools": {
+      "lavaRarity": 20000,
+      "uniformLavaHeights": false,
+      "waterRarity": 8000
+    },
+    "moderner_beta:noise_generator_settings": "moderner_beta:finite_2d",
+    "moderner_beta:perlin_noise_settings": {
+      "alpha2DSampling": true,
+      "failurePoint": 2147483647,
+      "infdevNoiseScaling": true,
+      "randomNoiseOffsets": false,
+      "wrapped": false
+    },
+    "moderner_beta:provider": "moderner_beta:finite_2d",
+    "moderner_beta:structure_modifiers": {
+      "overrides": {
+        "minecraft:strongholds": {
+          "placement": {
+            "type": "minecraft:concentric_rings",
+            "count": 1,
+            "distance": 0,
+            "preferred_biomes": "#minecraft:stronghold_biased_to",
+            "salt": 0,
+            "spread": 0
+          },
+          "structures": [
+            {
+              "structure": "minecraft:stronghold",
+              "weight": 1
+            }
+          ]
+        }
+      },
+      "removed": []
+    },
+    "moderner_beta:use_surface_rules": false,
+    "moderner_beta:world_border": {
+      "centerType": "origin",
+      "enabled": true,
+      "falloffType": "ocean",
+      "groundLevel": 55,
+      "width": 256
+    }
+  },
+  "description": {
+    "translate": "createWorld.customize.modern_beta.preset.desc.moderner_beta.indev_hell"
+  },
+  "name": {
+    "color": "yellow",
+    "translate": "createWorld.customize.modern_beta.preset.name.moderner_beta.indev_hell"
+  }
+}

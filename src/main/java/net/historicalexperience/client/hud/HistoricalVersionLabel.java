@@ -76,10 +76,13 @@ public final class HistoricalVersionLabel {
     }
 
     /**
-     * The text the corner showed. Infdev wrote only "Minecraft Infdev", with no build, so that is what is returned for
-     * it; every later build named itself, and this project's display names are those same names.
+     * Indev and Infdev use their respective era names without a build number. Later builds use this project's
+     * historical display names.
      */
     public static String textFor(HistoricalVersion version) {
+        if ("indev".equals(version.era())) {
+            return "Minecraft Indev";
+        }
         if (version.chronology() < HistoricalVersions.ERA_ALPHA) {
             return "Minecraft Infdev";
         }

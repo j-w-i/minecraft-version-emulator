@@ -121,6 +121,17 @@ silently undo the change.
   with a following details panel. Unimplemented versions are listed, dimmed and readable, and cannot be confirmed.
 - `client/version/CreateWorldHistoricalVersion` — adds the selector to world creation and applies the choice by
   selecting the vanilla world preset the project already ships. The choice survives the screen being rebuilt.
+- `client/version/HistoricalVersionToggle` — removed after the owner's follow-up: the switch is now the plain vanilla
+  ON/OFF **button** built in `CreateWorldHistoricalVersion.createRow`, not a custom coloured widget, and it sits
+  beside the version button with a 4px gap instead of overlapping it. Nothing custom is drawn for it. It turns the
+  historical version off for the next world without forgetting which one was chosen, greys the version button while
+  off, and puts vanilla's ordinary `minecraft:normal` world type back when switched off. The row is sized to
+  **exactly** vanilla's create/cancel row (`Button.DEFAULT_WIDTH * 2 + Button.DEFAULT_SPACING` = 308) as version
+  button 260 + 8px gap + switch 40, because the footer positions its rows on a shared left edge and a row of any
+  other width hangs past Cancel. A native check compares both edges against the real Create New World and Cancel
+  buttons, so a future width change fails the probe instead of being noticed by eye. Creation only - the
+  world-management screen still changes an existing historical world's version through the upgrade transaction
+  rather than switching the feature off.
 - `client/version/ManageWorldHistoricalVersion` — adds the selector to the world list and calls
   `upgradeUnloadedWorld`, so the GUI and `/hex upgrade` share one implementation. It resolves the save directory
   from `LevelSummary.getLevelId()` rather than the row's display name, because two worlds may share a display name

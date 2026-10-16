@@ -57,8 +57,12 @@ import net.minecraft.network.chat.Component;
  * lighting rows refused to even store the change in that state. The owner's report was that turning old lighting and
  * old smooth lighting on or off did nothing - in the game, and still nothing after reopening the world - and the cause
  * was that refusal: Mod Menu is usually opened with no world open, where the write was discarded. Every row is now
- * clickable at all times, the setting is always stored, and the row's own text says which worlds it is used in. See
- * {@link OptionScope}.
+ * clickable at all times and the setting is always stored.
+ *
+ * <p>The rows used to spell out which worlds each option is used in, interpolated into the button's own text, and the
+ * result did not fit: "Old smooth shading (NT): OFF - not used by this version, kept for the versions that had it
+ * (click to turn on)". The owner asked for short names. The explanation is still on screen - the note at the foot
+ * covers both lighting options - so the rows are now name plus ON/OFF only.
  *
  * <h2>Why the widget references are kept</h2>
  *
@@ -93,6 +97,8 @@ public final class HistoricalConfigScreen extends Screen {
                 refresh();
             })
                 .bounds(centre - ROW_WIDTH / 2, y, ROW_WIDTH, ROW_HEIGHT)
+                .tooltip(rowTooltip("smooth", HistoricalSmoothLighting.toggle(),
+                    HistoricalSmoothLighting.availableFor(activeVersion())))
                 .build());
 
         this.oldLightButton = this.addRenderableWidget(
@@ -101,6 +107,8 @@ public final class HistoricalConfigScreen extends Screen {
                 refresh();
             })
                 .bounds(centre - ROW_WIDTH / 2, y + ROW_HEIGHT + 4, ROW_WIDTH, ROW_HEIGHT)
+                .tooltip(rowTooltip("oldlight", HistoricalOldLighting.toggle(),
+                    HistoricalOldLighting.availableFor(activeVersion())))
                 .build());
 
         this.versionLabelButton = this.addRenderableWidget(
@@ -110,6 +118,9 @@ public final class HistoricalConfigScreen extends Screen {
                 refresh();
             })
                 .bounds(centre - ROW_WIDTH / 2, y + (ROW_HEIGHT + 4) * 2, ROW_WIDTH, ROW_HEIGHT)
+                .tooltip(rowTooltip("versionlabel",
+                    net.historicalexperience.client.hud.HistoricalVersionOverlay.toggle(),
+                    net.historicalexperience.client.hud.HistoricalVersionOverlay.availableFor(activeVersion())))
                 .build());
 
         // The historical texture system has its own section; this button is how Mod Menu's config button reaches it.
@@ -169,34 +180,45 @@ public final class HistoricalConfigScreen extends Screen {
     }
 
     /**
-     * One row's text: the option's name, whether it is on, where that applies, and what clicking does.
+     * One row's text: the option's name and whether it is on.
      *
-     * @param option  the language-file stem, e.g. {@code smooth}
-     * @param on      the stored preference
-     * @param applies whether the world being played uses it
+     * <p>Deliberately short. It used to also interpolate where the option applies and what clicking does, which made a
+     * row read "Old smooth shading (NT): OFF - not used by this version, kept for the versions that had it (click to
+     * turn on)" - wider than the button it sat in, and the owner could not read it. The same reasoning is already
+     * printed at the foot of this screen, and clicking a button whose text says ON or OFF needs no explanation.
+     *
+     * @param option the language-file stem, e.g. {@code smooth}
+     * @param on     the stored preference
      */
-    private static Component row(String option, boolean on, boolean applies) {
+    private static Component row(String option, boolean on) {
+        return Component.translatable("historical_experience.config." + option + (on ? ".on" : ".off"));
+    }
+
+    /**
+     * What the short label leaves out: where the option applies, and what clicking does. Shown as the row's tooltip,
+     * because the sentence is worth keeping even though it is too long to sit in the button.
+     */
+    private static net.minecraft.client.gui.components.Tooltip rowTooltip(String option, boolean on, boolean applies) {
         String scope = OptionScope.of(activeVersion(), applies).keySuffix();
-        return Component.translatable("historical_experience.config." + option + (on ? ".on" : ".off"),
-            Component.translatable("historical_experience.config." + option + ".note." + scope));
+        return net.minecraft.client.gui.components.Tooltip.create(Component.translatable(
+            "historical_experience.config." + option + ".note." + scope)
+            .append(Component.literal(" "))
+            .append(Component.translatable("historical_experience.config.click." + (on ? "on" : "off"))));
     }
 
     /** The old smooth shading engine's row, which applies from Beta 1.3 to Beta 1.7.3. */
     private static Component smoothLabel() {
-        return row("smooth", HistoricalSmoothLighting.toggle(),
-            HistoricalSmoothLighting.availableFor(activeVersion()));
+        return row("smooth", HistoricalSmoothLighting.toggle());
     }
 
     /** The old lighting's row: grey light, sky light that follows the time of day, no flicker. */
     private static Component oldLightLabel() {
-        return row("oldlight", HistoricalOldLighting.toggle(),
-            HistoricalOldLighting.availableFor(activeVersion()));
+        return row("oldlight", HistoricalOldLighting.toggle());
     }
 
     /** The corner version name's row, drawn only by the builds that drew it. */
     private static Component versionLabelLabel() {
-        return row("versionlabel", net.historicalexperience.client.hud.HistoricalVersionOverlay.toggle(),
-            net.historicalexperience.client.hud.HistoricalVersionOverlay.availableFor(activeVersion()));
+        return row("versionlabel", net.historicalexperience.client.hud.HistoricalVersionOverlay.toggle());
     }
 
     /** The developer-mode button's text. Available in every world and at the title screen, so it has no "no world" form. */

@@ -88,9 +88,16 @@ class OptionScopeTest {
             for (String state : List.of("on", "off")) {
                 String key = "historical_experience.config." + option + "." + state;
                 assertTrue(lang.has(key), "missing " + key);
-                assertTrue(lang.get(key).getAsString().contains("%s"),
-                    key + " must take the sentence about where the setting applies, or the note is silently "
-                        + "dropped: " + lang.get(key).getAsString());
+                // The label is deliberately short - name and ON/OFF only. It used to interpolate the scope sentence,
+                // which produced rows wider than their own buttons; the owner asked for short names. The sentence is
+                // not lost: the screen shows it as the row's tooltip, and the note at the foot covers both lighting
+                // options, so these keys must still exist and still be usable as tooltips.
+                String label = lang.get(key).getAsString();
+                assertFalse(label.contains("%s"), key + " is a short label now: " + label);
+                assertTrue(label.length() < 40, key + " must stay short: " + label);
+                // The click hint moved into the tooltip with the scope sentence, so it must exist for both states.
+                assertTrue(lang.has("historical_experience.config.click." + state),
+                    "missing historical_experience.config.click." + state + " for the tooltip");
             }
             for (OptionScope scope : OptionScope.values()) {
                 String key = "historical_experience.config." + option + ".note." + scope.keySuffix();

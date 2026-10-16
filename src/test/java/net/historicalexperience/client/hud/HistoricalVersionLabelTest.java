@@ -43,7 +43,7 @@ class HistoricalVersionLabelTest {
     @Test
     @DisplayName("every build the jars show drawing the label draws it")
     void alwaysDrawnBuilds() {
-        for (String id : List.of("infdev_420", "infdev_611", "alpha_1_0_1", "alpha_1_0_4", "alpha_1_0_6",
+        for (String id : List.of("indev_latest", "infdev_420", "infdev_611", "alpha_1_0_1", "alpha_1_0_4", "alpha_1_0_6",
             "alpha_1_0_11", "alpha_1_0_14", "alpha_1_0_17", "alpha_1_1_0", "alpha", "alpha_1_2_0", "beta_1_0",
             "beta_1_2", "beta_1_3", "beta_1_4", "beta_1_5", "beta_1_6", "beta_1_8_1")) {
             assertTrue(HistoricalVersionLabel.shownIn(at(id)), id + " drew its name on the plain screen");
@@ -77,8 +77,9 @@ class HistoricalVersionLabelTest {
     }
 
     @Test
-    @DisplayName("the text is the original's: Infdev names no build, the rest name themselves")
+    @DisplayName("Indev and Infdev have distinct era labels; later builds retain their names")
     void text() {
+        assertEquals("Minecraft Indev", HistoricalVersionLabel.textFor(at("indev_latest")));
         assertEquals("Minecraft Infdev", HistoricalVersionLabel.textFor(at("infdev_611")));
         assertEquals("Minecraft Infdev", HistoricalVersionLabel.textFor(at("infdev_420")));
         assertEquals("Minecraft Alpha v1.1.2_01", HistoricalVersionLabel.textFor(at("alpha")));

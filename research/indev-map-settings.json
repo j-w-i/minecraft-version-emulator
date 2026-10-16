@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "status": "RESEARCH_VERIFIED_IMPLEMENTATION_STARTED",
+  "subject": "Original Indev map settings (level type, shape, size, theme) for the project's Indev profile",
+  "projectIndevProfile": {
+    "id": "historical_experience:indev_latest",
+    "displayName": "Indev 20100223",
+    "modernerBetaPreset": "moderner_beta:indev",
+    "currentFixedOptions": "type=island, theme=normal, 256x256x128 (Normal square), world border 256 centred on origin",
+    "note": "20100223 is the LAST Indev build, so every original option below existed by then; Paradise and Woods were added 20100214, five days earlier."
+  },
+  "primarySource": {
+    "url": "https://minecraft.wiki/w/Indev_map_settings?action=raw",
+    "title": "Indev map settings",
+    "retrieved": "2026-10-17",
+    "confidence": "Wiki article with a HistoryTable of in-game changes; used as the option list. Dimensions are a published table, NOT read out of an original jar, and are recorded as such."
+  },
+  "secondarySource": {
+    "url": "https://minecraft.wiki/w/Java_Edition_Indev?action=raw",
+    "note": "Confirms the feature list wording: 'Map generation screen with configurable map themes, map types, and map shapes', and lists the 20100223 latest version."
+  },
+  "originalOptions": {
+    "levelType": {
+      "introduced": "Indev 0.31 20100106-2158",
+      "values": ["Island", "Floating", "Flat", "Original"],
+      "laterChange": "20100109-1939 replaced 'Original' with 'Inland'",
+      "asOf20100223": ["Island", "Floating", "Flat", "Inland"],
+      "default": "Island",
+      "descriptions": {
+        "Island": "default; minor hills; boundary liquid (water)",
+        "Floating": "multiple floating islands; death below as the surface is bedrock; floating gravel/sand common; water rare",
+        "Flat": "flat grass with flowers and trees plus a starting house",
+        "Inland": "slightly hilly; Island type with infinite flat land at the borders instead of water; sand and gravel common"
+      }
+    },
+    "levelTheme": {
+      "introduced": "Normal and Hell in Indev 0.31 20100107-1851; Paradise and Woods added 20100214",
+      "values": ["Normal", "Hell", "Paradise", "Woods"],
+      "default": "Normal",
+      "effects": {
+        "Normal": "sporadic trees; partly cloudy; equal day/night; all ores; lava near bedrock; boundary liquid water",
+        "Hell": "much less daylight so mobs spawn at any time; all water replaced by lava; dirt instead of grass; mushrooms abundant; farming one stage per day; boundary liquid lava",
+        "Paradise": "larger beaches and more flora; time always noon; hostile mobs only underground; farming 30-45 minutes per harvest; boundary liquid water",
+        "Woods": "constant overcast reducing light; higher tree density; spotty mushrooms; boundary liquid water"
+      }
+    },
+    "levelShape": {
+      "introduced": "Indev 0.31 20100106-2158",
+      "values": ["Square", "Long", "Deep"],
+      "rules": {
+        "Square": "equal length and width, height 64",
+        "Long": "twice the length and half the width of a square map",
+        "Deep": "four times the height and half the width and length of a square map"
+      }
+    },
+    "levelSize": {
+      "values": ["Small", "Normal", "Huge"],
+      "dimensionTable": {
+        "Small":  {"Square": [128, 128, 64],  "Long": [256, 64, 64],  "Deep": [64, 64, 256]},
+        "Normal": {"Square": [256, 256, 64],  "Long": [512, 128, 64], "Deep": [128, 128, 256]},
+        "Huge":   {"Square": [512, 512, 64],  "Long": [1024, 256, 64], "Deep": [256, 256, 256]}
+      },
+      "dimensionOrder": "[width X, length Z, height Y]"
+    }
+  },
+  "upstreamMapping": {
+    "modernerBetaJar": "moderner-beta-5.0.0-alpha.4+1.21.1-fabric.jar",
+    "settingsComponent": "moderner_beta:finite_level_properties",
+    "record": "mod.bluestaggo.modernerbeta.settings.component.FiniteLevelProperties(IndevType type, IndevTheme theme, int width, int length, int height)",
+    "levelTypeEnum": {
+      "class": "mod.bluestaggo.modernerbeta.level.chunk.provider.indev.IndevType",
+      "ids": ["island", "floating", "inland", "classic"],
+      "gap": "There is NO 'flat' id. Upstream implements Island, Floating and Inland from the original list; 'classic' is Classic-era terrain, which is NOT the original Indev 'Flat' type. Flat is therefore unimplemented upstream and must not be presented as working."
+    },
+    "themeEnum": {
+      "class": "mod.bluestaggo.modernerbeta.level.chunk.provider.indev.IndevTheme",
+      "ids": ["normal", "hell", "paradise", "woods"],
+      "match": "Exactly the four original themes, and upstream ships one preset per theme: moderner_beta:indev, indev_hell, indev_paradise, indev_woods."
+    },
+    "shapeAndSize": "No shape or size enum: upstream collapses both into width/length/height, which the dimension table above supplies.",
+    "savedCustomSettings": {
+      "class": "mod.bluestaggo.modernerbeta.settings.ModernBetaSavedPresetPack",
+      "methods": ["getRoot(Path)", "exists(Path)", "getPreset(ResourceLocation)", "save(Path, ModernBetaSettingsPreset, Codec, RegistryOps)"],
+      "note": "Upstream's own per-world custom-settings mechanism, i.e. the supported place to persist a player's Indev choice for one world."
+    },
+    "createWorldCustomisation": {
+      "class": "mod.bluestaggo.modernerbeta.client.gui.screen.ModernBetaWorldScreenProvider",
+      "method": "createModifier(ModernBetaSettings, ModernBetaSettings, ModernBetaSettings) -> WorldCreationContext.Modifier",
+      "note": "Upstream attaches its settings editor to world creation through vanilla's WorldCreationContext.Modifier. This project must use the same supported hook rather than assembling generator settings itself."
+    }
+  },
+  "intendedBehaviour": {
+    "scope": "An Indev-era world creation may choose level type (Island/Floating/Inland), theme (Normal/Hell/Paradise/Woods) and shape+size (Square/Long/Deep x Small/Normal/Huge). Flat is listed but unavailable, with the reason shown, because upstream has no implementation.",
+    "default": "Island / Normal / Square Normal, which is what the project generates today, so an untouched flow creates exactly the same world as before.",
+    "gating": "Only profiles whose generator is the finite Indev provider offer these options; ordinary worlds, Infdev and every later version are unchanged.",
+    "preservation": "Existing Indev saves keep their stored settings; no retrofit, no chunk rewriting, no live generator swapping.",
+    "nonGoals": ["Rebuilding upstream's finite terrain algorithm", "presenting Flat as working", "adding a second settings system alongside Moderner Beta's"]
+  },
+  "openQuestions": [
+    "Which hook our create-world flow uses to hand the chosen options to the new world: vanilla's WorldCreationContext.Modifier (what upstream uses) or a saved preset pack written for the world directory. To be settled by inspection in the implementation round, not guessed.",
+    "Whether the original 'Flat' type can be expressed at all through the pinned upstream provider; if not it stays visibly unavailable."
+  ]
+}

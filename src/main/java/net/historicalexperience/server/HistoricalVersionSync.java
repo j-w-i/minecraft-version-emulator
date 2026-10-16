@@ -72,12 +72,13 @@ public final class HistoricalVersionSync {
 
     /** Registers the payload and the join listener. Called once from the server initialiser. */
     public static void register() {
+        HistoricalSnapshotRuntime.register();
         // clientboundPlay(), not the older playS2C(): the registry methods were renamed.
         PayloadTypeRegistry.playS2C().register(ActiveVersionPayload.TYPE,
             ActiveVersionPayload.CODEC);
 
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
-            String versionId = HistoricalProfileLookup.profileIdForLevel(handler.player.serverLevel());
+            String versionId = HistoricalProfileLookup.profileIdForLevel(server.overworld());
             // The server owns enforcement, so the session holder is set here too: gates that cannot see a
             // level (an item's attack damage, for one) read it instead.
             HistoricalActiveSession.set(versionId);
@@ -89,7 +90,7 @@ public final class HistoricalVersionSync {
                 // Not a historical world, so nothing is claimed and the client keeps modern presentation.
                 return;
             }
-            ServerPlayNetworking.send(handler.player, new ActiveVersionPayload(versionId));
+            ServerPlayNetworking.send(handler.player, new ActiveVersionPayload(HistoricalSnapshotRuntime.selectionId(server, versionId)));
         });
 
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> HistoricalActiveSession.clear());

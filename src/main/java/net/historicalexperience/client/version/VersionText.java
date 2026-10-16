@@ -47,7 +47,7 @@ import net.historicalexperience.version.HistoricalVersionCatalogue;
 public final class VersionText {
     /** Shown in the details area when nothing is highlighted yet. */
     public static final String SELECT_PROMPT =
-        "Select a version. Use the era buttons to browse Alpha, Beta and Release.";
+        "Select a version. Use the era buttons, including Snapshots, to browse.";
 
     private VersionText() {
     }
@@ -80,7 +80,16 @@ public final class VersionText {
             return text.toString();
         }
 
-        text.append('\n').append("Implemented.");
+        if (selected.snapshotPatch().isPresent()) {
+            var patch = selected.snapshotPatch().get();
+            text.append("\nSnapshot patch for ").append(patch.parentRelease()).append(" development (").append(patch.releaseDate()).append(").");
+            if (patch.enables(net.historicalexperience.version.HistoricalSnapshotPatches.Feature.B_CREATIVE_SHORTCUT))
+                text.append("\nB toggles Survival/Creative for the owner of a private single-player world.");
+            if (patch.enables(net.historicalexperience.version.HistoricalSnapshotPatches.Feature.BOOK_ON_ANY_SINGLE_ITEM))
+                text.append("\nEnchanted books apply to any single item/block in an anvil.");
+            text.append("\nBaseline: ").append(selected.version().displayName()).append(". Parent terrain; not full snapshot emulation.");
+            if (!developer) return text.toString();
+        } else text.append('\n').append("Implemented.");
         if (!developer) {
             return text.toString();
         }

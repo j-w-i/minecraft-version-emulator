@@ -101,6 +101,43 @@ class VersionGuiWiringTest {
     }
 
     @Test
+    void theIndevAdapterDelegatesRatherThanBuildingAGenerator() throws IOException {
+        // The version GUI must not know what a generator is, so the one piece of client code that has to touch one
+        // lives outside it - and is held to the same rule by its own list. It may READ the settings the selected
+        // world type already resolved and hand them to upstream's modifier; it may not construct a generator, resolve
+        // or assemble a settings preset, touch noise settings, or read/write settings JSON.
+        Path adapter = Path.of("src", "main", "java", "net", "historicalexperience", "client", "indev");
+        List<String> forbidden = List.of("new ModernBetaChunkGenerator", "ModernBetaSettingsPreset",
+            "WorldGenSettings", "NoiseGeneratorSettings", "settings_preset", "fromCompound", "toCompound",
+            "ModernerBetaSettingsPresets", "IRegistryHandler");
+
+        List<Path> files = new java.util.ArrayList<>();
+        try (var stream = java.nio.file.Files.walk(adapter)) {
+            stream.filter(path -> path.toString().endsWith(".java")).forEach(files::add);
+        }
+        assertFalse(files.isEmpty(), "the Indev adapter must exist for this check to mean anything");
+
+        for (Path file : files) {
+            String source = read(file);
+            for (String api : forbidden) {
+                assertFalse(source.contains(api),
+                    file.getFileName() + " names " + api + ". The Indev options change one component of the settings "
+                        + "the chosen world type already resolved and hand it to Moderner Beta's own modifier; "
+                        + "anything that assembles a generator or a preset would be a second world-generation system.");
+            }
+        }
+
+        boolean delegates = false;
+        for (Path file : files) {
+            if (read(file).contains("ModernBetaWorldScreenProvider.createModifier")) {
+                delegates = true;
+            }
+        }
+        assertTrue(delegates, "something in the Indev adapter package must hand its result to upstream's own modifier "
+            + "rather than applying settings by hand");
+    }
+
+    @Test
     void oneSelectorServesBothWorldCreationAndWorldManagement() throws IOException {
         assertTrue(read(GUI.resolve("CreateWorldHistoricalVersion.java")).contains("HistoricalVersionScreen"),
             "world creation uses the shared selector");

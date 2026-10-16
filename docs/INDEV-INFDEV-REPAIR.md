@@ -1,5 +1,7 @@
 # Indev → Infdev repair handoff
 
+**Later label-only fix:** the rebuilt mod now displays **Minecraft Indev** in Indev's top-left corner; Infdev stays **Minecraft Infdev**. Build/tests pass. The core runtime acceptance and SHA-256 below identify the earlier acceptance build, not this later text-only rebuild; those Minecraft sweeps were not repeated.
+
 ## Delivered scope
 
 The default 256×256 Indev island can advance to Infdev without retaining the unchanged synthetic bedrock/dirt apron. The island itself is not regenerated. Exact, provenance-verified apron chunks are released during a locked stopped-world transaction; edited or uncertain chunks remain intact. Moderner Beta remains the terrain authority, with a 64-block coast collar on future terrain.

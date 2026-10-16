@@ -516,14 +516,18 @@ public final class HistoricalServerLifecycle {
         java.util.Objects.requireNonNull(store, "store");
         java.util.Objects.requireNonNull(binding, "binding");
         if (store.hasEntry()) {
+            net.historicalexperience.world.HistoricalSnapshotCreation.discard(store.file().toAbsolutePath().getParent());
             HistoricalExperienceMod.LOGGER.info(
                 "Historical metadata already present at {}; not overwriting.", store.file());
             return;
         }
 
-        HistoricalMetadata metadata = HistoricalMetadata.initial(
+        String snapshotPatch = net.historicalexperience.world.HistoricalSnapshotCreation.consume(
+            store.file().toAbsolutePath().getParent(), binding.profile().id().value());
+        HistoricalMetadata metadata = HistoricalMetadata.initialWithSnapshot(
             binding.profile().id(),
             binding.rawSettingsAlias(),
+            snapshotPatch,
             HistoricalExperience.MOD_ID,
             System.currentTimeMillis());
         try {

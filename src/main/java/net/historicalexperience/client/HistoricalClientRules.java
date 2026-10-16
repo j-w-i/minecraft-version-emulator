@@ -49,23 +49,29 @@ public final class HistoricalClientRules {
 
     /** Records the version the server says this client is in. Called when the server's push arrives. */
     public static void applySyncedVersion(String versionId) {
-        syncedVersionId = versionId;
-        // Item attributes are session-global rather than per-level, so they are answered from this holder
-        // rather than from a world. See HistoricalActiveSession.
-        HistoricalActiveSession.set(versionId);
+        syncedVersionId = net.historicalexperience.version.HistoricalSnapshotPatches.baseProfileForSelection(versionId).orElse(null);
+        net.historicalexperience.server.HistoricalSnapshotRuntime.setClientSelection(versionId);
+        // Snapshot quirks are separate: all existing gameplay tables still receive the parent's profile.
+        HistoricalActiveSession.set(syncedVersionId);
     }
 
     /** Forgets a pushed version, so a client that leaves a server stops applying that server's rules. */
     public static void clearSyncedVersion() {
         syncedVersionId = null;
+        net.historicalexperience.server.HistoricalSnapshotRuntime.setClientSelection(null);
         HistoricalActiveSession.clear();
     }
 
-    /**
-     * The version this client is in, or null when it cannot be established.
-     *
-     * <p>A null answer means "make no claim", never "modern behaviour is correct here".
-     */
+    /** Exact snapshot identity, if selected; this must never be inferred from the parent's release alone. */
+    public static String activeSnapshotPatchId() {
+        var minecraft = Minecraft.getInstance();
+        if (minecraft == null) return "";
+        var server = minecraft.getSingleplayerServer();
+        return server != null ? net.historicalexperience.server.HistoricalSnapshotRuntime.activePatchId(server)
+            : net.historicalexperience.server.HistoricalSnapshotRuntime.clientPatchId();
+    }
+
+    /** The parent's historical rules, or null when the server has made no historical claim. */
     public static HistoricalVersion activeVersion() {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft == null) {

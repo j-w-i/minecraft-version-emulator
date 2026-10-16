@@ -143,10 +143,34 @@ public final class GenerationUpgrade {
         String actor,
         long timestamp
     ) throws UpgradeException {
+        var snapshot = net.historicalexperience.version.HistoricalSnapshotPatches.byId(targetId);
+        if (snapshot.isPresent()) {
+            var patch = snapshot.get();
+            HistoricalMetadata target;
+            if (current.profileId().value().equals(patch.baseProfileId())) {
+                if (current.snapshotPatchId().equals(patch.id())) throw new UpgradeException("This snapshot patch is already selected");
+                target = current.advanceSnapshotPatch(patch.id(), actor, "select snapshot patch " + patch.displayName(), timestamp);
+            } else {
+                var baseline = plan(current, patch.baseProfileId(), actor, timestamp);
+                var history = new java.util.ArrayList<>(baseline.history());
+                var last = history.remove(history.size() - 1);
+                history.add(new net.historicalexperience.world.metadata.MetadataRevision(last.revision(), last.timestamp(), last.actor(),
+                    last.note() + "; snapshot patch " + patch.displayName()));
+                target = new HistoricalMetadata(baseline.schema(), baseline.profileId(), baseline.generationPreset(),
+                    baseline.revision(), history, patch.id());
+            }
+            requireConsistent(target, current.revision());
+            return target;
+        }
         HistoricalVersion version = HistoricalVersions.byId(targetId)
             .orElseThrow(() -> new UpgradeException(
                 "no declared historical version has the id '" + targetId
                     + "'; an upgrade target must be declared in the version registry"));
+        if (current.profileId().value().equals(version.id()) && !current.snapshotPatchId().isEmpty()) {
+            var released = current.advanceSnapshotPatch("", actor, "return to parent release " + version.displayName(), timestamp);
+            requireConsistent(released, current.revision());
+            return released;
+        }
         HistoricalVersion.GenerationRevision revision = version.latestRevision();
         HistoricalIdentifier targetPreset = HistoricalIdentifier.parse(revision.alias());
 

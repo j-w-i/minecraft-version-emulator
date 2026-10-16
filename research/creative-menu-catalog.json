@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "status": "IMPLEMENTED_NATIVE_LEGACY_TOGGLE_CURSOR_DISCARD_PRESERVATION_AND_REPLACEMENT_MENU_SAME_PROCESS_ORDINARY_CONTROLS_PASS",
+  "scope": "Modern representations of dated available historical items, with selected documented creative-inventory entry/removal boundaries. Not a complete executable reconstruction of every original creative catalog, numeric-ID order, pixel geometry, or early registry. Existing coarse release-family profiles remain coarse; no new terrain versions or registry removal.",
+  "data": "src/main/java/net/historicalexperience/gameplay/HistoricalCreativeCatalog.java",
+  "stackValidation": "src/main/java/net/historicalexperience/gameplay/HistoricalCreativeGrants.java",
+  "layout": {"columns": 8, "rows": 9, "catalogSlots": 72, "hotbarSlots": 9, "implementation": "Own simple shaded panel, scroll and mouse handling; vanilla runtime item renderer, no third-party GUI assets copied."},
+  "sources": [
+    {"url": "https://minecraft.wiki/w/Creative_inventory/history?action=raw", "reference": "Beta1.8 inventory;1.0pre6 plants/leaves;12w17a petrified slab removal;12w21b8x9-to9x5;12w22a potions;12w38a healing/harming;1.13 later block entries;1.19.3 spawner/dragon egg entries.", "confidence": "Documented layout and listed entry/removal boundaries, not original artifact execution."},
+    {"file": "research/feature-timeline.json", "reference": "Existing reviewed historical feature introduction groups."},
+    {"file": "research/version-boundaries.json", "reference": "Existing reviewed version boundary records and block palettes."},
+    {"file": "src/main/java/net/historicalexperience/gameplay/HistoricalEnchanting.java", "reference": "Positive enchantment boundaries;12w49a precedes12w50a Thorns. Do not admit Mending or other later enchantments because the enchanted_book ID exists."},
+    {"url": "https://minecraft.wiki/w/Java_Edition_1.3.1", "reference": "Distinct wood slabs/stairs, emerald/trading family, tripwire/ender chest, new tabbed inventory."},
+    {"url": "https://minecraft.wiki/w/Java_Edition_1.4.6", "reference": "Enchanted books/fireworks/nether brick slabs. Included in the existing coarse1.4 baseline, not claimed present in exact1.4.2."},
+    {"url": "https://minecraft.wiki/w/Java_Edition_1.5", "reference": "Quartz and redstone components; not granted to1.4 or earlier."},
+    {"url": "https://minecraft.wiki/w/Java_Edition_1.6.1", "reference": "Horse family/items, name tags, leads, coal/hay/terracotta/carpet additions."}
+  ],
+  "aliases": {
+    "smooth_stone_slab": "Old stone slab, not modern stone_slab introduced with later stone slabs.",
+    "petrified_oak_slab": "Pre1.3 wooden-textured stone slab; modern oak_slab and wood variants begin with1.3 family.",
+    "red_bed": "The single old bed. Other bed colors are not old variants.",
+    "cod/cooked_cod": "Old raw/cooked fish representation, not later salmon/pufferfish/tropical-fish items.",
+    "poppy": "Modern representation of the old rose.",
+    "leather armor": "Modern representation of old cloth armor; the separate leather material and milk bucket only enter the represented Alpha1.0.11 profile, after their Alpha1.0.8 introduction. Buckets enter Alpha1.0.1, after June15 and the last declared June11 Infdev profile.",
+    "pumpkin": "Existing project/generation/crafting representation of the old pumpkin; no additional carved_pumpkin item granted as a separate historical item.",
+    "zombified_piglin_spawn_egg": "Modern representation of the old zombie pigman egg, not a piglin egg. No giant eggs or spawn-list changes.",
+    "blue/brown/black/white dye": "Old counterparts are lapis/cocoa/ink/bone meal; modern separate dye items are excluded."
+  },
+  "authority": {
+    "scope": "Creative new grants/duplicates only; ordinary worlds and stored loads/saves/normal server-owned container movement are not filtered.",
+    "positiveData": "Unknown/modded IDs refused only in known historical scope. Item count, enchantment dates/levels and potion variant/effects checked. Unknown rich components compared against default item representation after allowing names/lore/wear/repair and dated supported variants; real stacks are never sanitized.",
+    "conservation": "Unavailable owned slot writes are frozen on both removal and replacement; unavailable incoming grants and drops refused. Identical rich no-op packets canceled before vanilla block-entity coordinate-copy rewriting. Full inventory/current menu and cursor resynchronized from server truth. Such stacks must be moved using normal chest or Survival inventory operations, not raw creative writes.",
+    "clone": "Server menu CLONE and clone-style QUICK_CRAFT cannot duplicate unavailable stacks; normal ownership-conserving pickup/swap/transfer/drop untouched.",
+    "thread": "Packet hook runs after native PacketUtils main-thread dispatch, before native NBT copying and inventory writes. Native permission/count/drop checks remain for accepted requests."
+  },
+  "limitations": [
+    "Exact original numeric-ID ordering and pixel artwork not reproduced; no copyrighted Minecraft GUI implementation/textures copied.",
+    "This curated positive catalog intentionally excludes unverified/special command-only items; not claimed exhaustive. Earliest pre-Beta presentation is a convenience creative mode over the existing profiles, not a claim that those versions originally had Creative.",
+    "Only declared historical profiles are gated. Later target profiles not yet registered are not invented here.",
+    "Native replacement layout remains the host's tabbed GUI with filtered working lists, not a full restoration of every release's tab layout.",
+    "Native11w49a real B input/client+server,72-slot geometry/last-page policy, mouse-to-server grant, refused future insertion/drop/CLONE, cursor/source resync, actual save/reopen and saved-player rich sentinel passed (run/client/snapshot-probe-1792160232039.json). First driver immediately reopened during texture reconciliation and stalled; corrected driver waits for overlay completion and title frames; rerun passed. Latest11w49a receipt run/client/snapshot-probe-1792162092679.json also passes B Creative/Survival toggling and same/different/right catalog cursor discard. Four-world receipt run/client/snapshot-anvil-probe-1792162354757.json passes12w49a live result/XP/book/component checks, stacked/conflict refusals, actual native tab/search filtering, same-process ordinary future search/CLONE restoration, unpatched B/anvil negatives and normal chest pickup/shift-transfer versus refused historical clone-drag. Native saved-toolbar UI and dedicated/LAN/non-owner sessions were not separately automated; authority policy has unit coverage."
+  ],
+  "tests": ["src/test/java/net/historicalexperience/gameplay/HistoricalCreativeCatalogTest.java", "src/test/java/net/historicalexperience/gameplay/HistoricalSnapshotPatchesTest.java"]
+}

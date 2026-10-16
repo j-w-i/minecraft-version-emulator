@@ -103,12 +103,16 @@ public final class HistoricalCommand {
                         builder.suggest(version.id());
                         builder.suggest(version.id().substring(version.id().indexOf(':') + 1));
                     }
+                    for (var patch : net.historicalexperience.version.HistoricalSnapshotPatches.all()) {
+                        builder.suggest(patch.id());
+                        builder.suggest(patch.id().substring(patch.id().indexOf(':') + 1));
+                    }
                     return builder.buildFuture();
                 })
                 .executes(context -> {
                     String target = StringArgumentType.getString(context, "version");
                     reply(context, "Staging an upgrade to " + target
-                        + "; the generation change takes effect after the server stops.");
+                        + "; the selected version or patch takes effect after restart.");
                     return report(context, HistoricalUpgradeService.upgrade(
                         worldDirectory(context.getSource()),
                         target,
