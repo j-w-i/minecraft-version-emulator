@@ -166,18 +166,25 @@ public final class HistoricalMobLootHelper {
             net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).toString();
         EntityType<?> entityType = entity.getType();
 
-        // THE SHEEP IS CHECKED BEFORE THE VERSION GATE, and that ordering is the fix for a reported defect.
-        //
-        // The owner reported that sheep still drop MUTTON, which arrived in Release 1.8 and so must not exist in
-        // any of the 32 declared versions. It was reaching them because this branch used to sit BELOW the
-        // hasOldDrops gate: that gate is true only for the versions that carry the four-mob drop table, so for
-        // Alpha, Beta 1.0-1.6 and every Release profile the call fell through to the MODERN table - the one that
-        // contains raw mutton. Measured from the jars rather than assumed: the string "mutton" occurs 0 times in
-        // alpha-1.1.2_01, b1.7.3, b1.8.1, 1.0.0, 1.1, 1.2.5 and 1.6.4 language data, and 6 times in 1.8.9.
-        //
-        // Both branches below are mutton-free, so hoisting the whole branch is the correct fix rather than adding
-        // a mutton filter somewhere downstream: a sheep of this era yields its wool, or nothing if already shorn.
-        if (entityType == EntityType.SHEEP) {
+        String profile = entity.level() instanceof net.minecraft.server.level.ServerLevel server
+            ? HistoricalProfileLookup.profileIdForLevel(server) : HistoricalActiveSession.current();
+        if (EarlyGameplayRecipes.supports(profile)) {
+            // The old clients roll nextInt(3) of their one selected item: no looting, on-fire smelting,
+            // music disc condition, bones, rare equipment, or sheep death wool. Sheep yield cloth when punched.
+            var rule = HistoricalLootRules.forEntity(profile, entityTypeId);
+            if (rule.isEmpty()) return LootTable.EMPTY;
+            var item = net.minecraft.core.registries.BuiltInRegistries.ITEM.get(
+                net.minecraft.resources.ResourceLocation.parse(rule.get().itemId()));
+            return LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
+                .add(LootItem.lootTableItem(item).apply(SetItemCountFunction.setCount(
+                    UniformGenerator.between(0, rule.get().maxExclusiveCount() - 1))))).build();
+        }
+
+        // Upstream's sheep branch is independently gated by OLD_SHEEP_DROPS. Keep it before the
+        // generic per-mob map, but restore the missing historical-world boundary: the old unconditional
+        // port also replaced ordinary sheep death loot and removed its mutton. Meat arrives in Release 1.8.
+        // The exact early clients above remain separate: cloth is a punch drop, not a death-table reward.
+        if (entityType == EntityType.SHEEP && HistoricalLootRules.usesLegacySheepDrops(profile)) {
             RegistryAccess sheepRegistries = entity.level().registryAccess();
             init(sheepRegistries);
             Sheep sheep = (Sheep) entityType.tryCast(entity);

@@ -54,6 +54,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  */
 @Mixin(WorldGenRegion.class)
 public abstract class WorldGenRegionHistoricalBlockVetoMixin {
+    /** OreFeature writes sections directly, but checks this predicate first (verified 1.21.1 bytecode). */
+    @Inject(method = "ensureCanWrite", at = @At("HEAD"), cancellable = true, require = 1)
+    private void historicalExperience$preserveSourceTerrain(BlockPos pos, CallbackInfoReturnable<Boolean> callback) {
+        if (net.historicalexperience.generation.FiniteTransitionRuntime.protectsWrite((WorldGenLevel) (Object) this, pos)) {
+            callback.setReturnValue(false);
+        }
+    }
+
     /** Vanilla: {@code setBlock(BlockPos, BlockState, int flags, int recursionLeft)}. */
     @Inject(
         method = "setBlock(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;II)Z",
@@ -61,7 +69,8 @@ public abstract class WorldGenRegionHistoricalBlockVetoMixin {
         cancellable = true)
     private void historicalExperience$vetoAnachronisticBlock(BlockPos pos, BlockState state, int flags,
             int recursionLeft, CallbackInfoReturnable<Boolean> callback) {
-        if (HistoricalFeatureExclusions.shouldSuppressBlock((WorldGenLevel) (Object) this, state)) {
+        if (net.historicalexperience.generation.FiniteTransitionRuntime.protectsWrite((WorldGenLevel) (Object) this, pos)
+                || HistoricalFeatureExclusions.shouldSuppressBlock((WorldGenLevel) (Object) this, state)) {
             callback.setReturnValue(false);
         }
     }

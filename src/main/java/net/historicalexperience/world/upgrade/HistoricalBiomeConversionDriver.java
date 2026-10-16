@@ -229,6 +229,12 @@ public final class HistoricalBiomeConversionDriver {
             return thread;
         });
         try (var worldLock = net.minecraft.util.DirectoryLock.create(worldDirectory)) {
+            // Release only a proven finite source during this explicit upgrade, BEFORE remembering old chunk positions.
+            var source = WorldGenSettingsAdvance.read(worldDirectory).orElse(null);
+            if (source != null && source.consistent() && HistoricalVersions.isFinitePreset(source.settingsPreset())
+                    && !HistoricalVersions.isFiniteWorld(destination.id())) {
+                FiniteApronRelease.release(worldDirectory);
+            }
             // Total first, so the bar is honest from the start rather than growing as work is discovered.
             int total = 0;
             java.util.Set<Long> preExistingChunks = new java.util.HashSet<>();
@@ -299,7 +305,7 @@ public final class HistoricalBiomeConversionDriver {
             } else {
                 detail = "Biome conversion did not finish; close this screen and retry opening the world.";
             }
-        } catch (IOException | RuntimeException failure) {
+        } catch (IOException | UpgradeException | RuntimeException failure) {
             failed = true;
             detail = "Conversion failed: " + failure;
         } finally {

@@ -41,6 +41,7 @@ public final class HistoricalExperienceMod implements ModInitializer {
         LOGGER.info("Historical Experience {} initialising (server-authoritative slice)",
             HistoricalExperience.MOD_ID);
         HistoricalServerLifecycle.register();
+        net.historicalexperience.generation.FiniteTransitionRuntime.register();
         net.historicalexperience.server.GenerationVerification.registerIfRequested();
         // The historical village's structure type and piece type. Registered here rather than through a
         // mixin or a loader-specific event bus: both are ordinary 1.21.1 registries, still open during a

@@ -1,3 +1,477 @@
+# Current handoff — 2026-10-16 / bounded Indev→Infdev repair verified on all four shorelines
+
+The owner interrupted the open-ended audit, then asked to resume. The resumed pass stayed on the original repair: **no new feature branches or side audits**. Offline build/licence artifacts pass; Gradle reused unchanged inputs for the existing **653 passing tests**, zero failures/errors/skips. Current main artifact is still **b986fbd5980d8d393c559031dc4b3c68f30ef6d58ede7b71bc1ded6b91114006**, matching all [eight previously executed early/ordinary gameplay controls](<logs/early-mob-paths-acceptance-v1.json>). [Practical handoff and operator steps](<docs/INDEV-INFDEV-REPAIR.md>) distinguish delivered core behavior from an exhaustive historical certification.
+
+A NEW owned replica, sol-20261016-finite-final-v1, was made from verified before-images of the existing second-seed April fixture; [source fingerprint receipt](<logs/sol-20261016-finite-final-v1-old-replica.json>) confirms the source unchanged. The current remapped JAR passed [real build/container/player-sentinel preparation](<logs/sol-1211-sol-20261016-finite-final-v1-reload-prepare-build.json>), [actual /hex repair-finite-edge staging](<logs/sol-1211-sol-20261016-finite-final-v1-reload-repair.json>), locked normal stop and restart. **183** proven apron chunks released. [Independent full-shoreline acceptance](<logs/20261016-core-repair-acceptance.json>) proves all **256 island chunks**, two protected exterior block/container/biome digests, seven-diamond chest and one synthetic saved-player file unchanged. All four sides now covered: **1,008 unmodified boundary columns** (north256/south256/west256/east240), **zero high bedrock**, maximum surface difference **one block**. The deliberately protected build's16 columns retain their old content and are counted separately. All **242 generated exterior terrain chunks** outside the two explicit protected fixtures were also scanned: zero bedrock at Y8+. This improves the older160-pair evidence without weakening preservation or the wall assertion. [SE sweep](<logs/sol-20261016-finite-final-v1-perimeter-se-v2.json>) and [NW sweep](<logs/sol-20261016-finite-final-v1-perimeter-nw.json>) each sampled289 chunks with radius8, validated their own centers/tokens and loaded artifact hash. Evidence-only rework: a zero-center run labels its output -reload, not -reload-far; the first SE copy was stale and the independent validator rejected it. The corrected SE-v2 copy uses the actual successful radius8/center0 receipt; no game code or assertion was changed to conceal that error.
+
+The previously interrupted round9 milestone is now recorded: [actual mob-death audit](<research/early-gameplay-audit.md>) reproduced charged-killer zombie/skull loot outside normal tables and an unconditional sheep port removing ordinary mutton. [Creeper capability guard](<src/main/java/net/historicalexperience/mixin/CreeperHistoricalEarlyDropsMixin.java>) now prevents the early skull award before item/budget creation; [registry-derived sheep scope](<src/main/java/net/historicalexperience/gameplay/HistoricalLootRules.java>) restores ordinary passthrough while retaining the [attributed NT helper](<src/main/java/net/historicalexperience/gameplay/HistoricalMobLootHelper.java>). **18 original numeric selector calls**, [factual dataset](<research/early-mob-drop-facts.json>), [five new regressions](<src/test/java/net/historicalexperience/gameplay/EarlyMobDropFactsTest.java>) and **768 method-level deaths** across eight runtime controls passed. A preexisting named/damaged/custom-data netherite sword on a zombie survived its charged-killer death exactly. Positive ordinary controls detect heads/discs/bows/mutton/cooked pork/XP; early counterparts remain gated. Full craft/smelt/food/leaf/four-workstation checks passed. No true player-login/client-combat/pickup or saved-mob replay claim follows from untracked diagnostic actors.
+
+**Completion boundary:** the requested core transition repair and higher-detail gating slice for Indev AND April/June Infdev are delivered with these explicit limits. This is not blanket production readiness or a certification of every Minecraft feature. Conservative uncertain/modified chunks are retained, potentially leaving a local old wall; custom finite settings/external datapacks, genuine GUI-converted sources, process-level crash injection, real client/login and exhaustive fuel/crop/tool/physics remain unverified. Recovery/corruption tests exist, but are not labeled a process-crash campaign. Earlier history remains below. No personal saves/accounts/client installation, deployment, commits, subagents or running background jobs. Do not restart an expanding audit automatically after this bounded handoff.
+
+# Current repair — 2026-10-15 / artifact-backed oak leaf drops in Indev AND both Infdev profiles
+
+Goal round8 fixed a normal-survival acquisition leak. [April Infdev baseline](<logs/sol-1211-sol-infdev420-leaf-drops-v1-fresh.log>) rolled **53 apples /506 saplings /260 sticks per10,000 seeded oak-leaf rolls**. Actual hash-pinned Indev/April/June leaf callbacks instead each return only **one sapling with one-in-ten probability**, with no apple/stick/fortune/silk branch. Infdev apple registration does NOT establish a leaf source. [New reflection extractor](<scripts/EarlyLeafExtractor.java>) verifies SHA-1/size before class loading, isolates the original registry, probes leaf18 from x.c (Indev/April) or y.c (June), and exhausts ten quantity buckets ×16 metadata values ×two callbacks ×three builds = **960 factual calls**. It records each bounded RNG call and rejects untraced primitives. [Existing regeneration script](<scripts/extract-early-gameplay.py>) now supports offline --leaf-only; all previous artifact/recipe/smelt/food fields independently match the pre-edit snapshot, with only leafDrop/leafDropEvidence added to the three bundled tables. Raw strict facts: [Indev](<logs/early-leaf-in-20100223-100979c94dba4fd48085c311a79dbb97.txt>), [April](<logs/early-leaf-inf-20100420-e0eacc3a9e684d7c93a5dceb326c8b1a.txt>), [June](<logs/early-leaf-inf-20100611-c272bff4034a47239eae634f349d2677.txt>). [Corrupted-copy rejection](<logs/early-leaf-artifact-rejection-v1.json>) confirms a one-byte-changed duplicate fails identity before registry probing; original jars untouched.
+
+[Data model](<src/main/java/net/historicalexperience/gameplay/EarlyGameplayRecipes.java>) validates immutable drop rows, unknown profile/block scope and invalid rolls. [New loot guard](<src/main/java/net/historicalexperience/mixin/LootTableHistoricalEarlyLeavesMixin.java>), registered in [mixin config](<src/main/resources/historical_experience.mixins.json>), replaces the raw consumer roll **before modern pools execute**, using the context's own ServerLevel profile. Only mapped oak leaves in the three early profiles are covered; other species/eras pass through without a fidelity claim. No modern roll then item deletion, no registry removal, no stored-block rewriting or generation revision; existing attributed block/ore hooks unchanged. No proprietary Minecraft implementation or textures copied.
+
+**648 tests pass, zero failures/errors/skips**, including [four leaf data/negative-path tests](<src/test/java/net/historicalexperience/gameplay/EarlyLeafDropsTest.java>); build/licence artifacts pass. [Runtime verifier](<src/main/java/net/historicalexperience/server/EarlyLeafDropVerification.java>) is wired into [full gameplay verifier](<src/main/java/net/historicalexperience/server/EarlyGameplayVerification.java>). Fresh development AND Java21 remapped restart pass for [Indev](<logs/sol-1211-sol-indev-leaf-drops-v1-reload.json#L30-L39>), [April](<logs/sol-1211-sol-infdev420-leaf-drops-v2-reload.json#L30-L39>), [June](<logs/sol-1211-sol-infdev611-leaf-drops-v1-reload.json#L30-L39>) and [ordinary](<logs/sol-1211-sol-leaf-drops-ordinary-v1-reload.json>). Each early run gets **1,036 saplings only per10,000 seeded rolls**, exactly matching an independent nextInt(10) reference. Ordinary retains the original **53 apples /506 saplings /260 sticks**, no historical metadata and zero decoration suppression. Per early run: **80 exact bucket/tool/state cases** (empty hand/shears/Silk Touch/FortuneIII ×two persistent/distance states ×ten buckets), exact output and unchanged tool components, **256 public Block.getDrops calls** rejecting forbidden items, three raw-consumer explosion compatibility cases. Full previous craft/limited-craft/food/four-workstation tests remain passing. No fake player data files saved. All four production copied main artifacts match SHA-256 **14ae9960503c77ba1678af343aa72d6ba5bb13671f338ba58ae847db9282f6cd**. Fresh records: [Indev](<logs/sol-1211-sol-indev-leaf-drops-v1-fresh.json>), [April](<logs/sol-1211-sol-infdev420-leaf-drops-v2-fresh.json>), [June](<logs/sol-1211-sol-infdev611-leaf-drops-v1-fresh.json>), [ordinary](<logs/sol-1211-sol-leaf-drops-ordinary-v1-fresh.json>). Compiler-only rework: this target exposes Enchantments.FORTUNE, not obsolete BLOCK_FORTUNE; javap confirmed the API, no assertions removed/skipped.
+
+**Important limits:** All three original base-block callers were inspected too: their quantity callback is followed by a separate float survival test, item callback and item-position RNG. This change establishes callback distribution/item identity, NOT full source-world RNG consumption, old blast rates, decay timing or pickup physics. Runtime retains modern loot random-source plumbing and public ExplosionCondition survival as an explicit compatibility shim; radius2 checks do NOT prove historical TNT/creeper behavior. Queries used no placed blocks and did not reseed world RNG; actual player breaking/entity pickup/client/network remains unproved. The exact oak source overrides oak-leaf datapack pools inside early profiles, not a general mod-compatibility claim. Other apple sources remain unknown; valid registered Infdev recipes/foods were not removed. [Artifact audit](<research/early-gameplay-audit.md>) has the detailed boundaries.
+
+**Next:** actual early death/punch/rare equipment drops (inspect existing skeleton custom-loot suppression first), actual harvesting/pickup, exact fuel/tools/armour/crop/acquisition/spawn behavior, remaining loom/cartography/NT opening paths, client/network/audio/dimension checks. GUI-converted source, crash injection and broader finite perimeter/seed coverage remain. Terrain/transaction code unchanged, previous finite preservation evidence NOT newly retested here. Goal active/incomplete, no production readiness; no personal save/client/deployment/subagents. Pre-edit snapshot: ignored `.upstream/snapshots/20261015-early-leaf-drops/`. All background jobs collected.
+
+# Current repair — 2026-10-15 / anvil and grindstone result paths guarded for all three early profiles
+
+Goal round6 was read-only audit plus the owner's scope question: this is **Indev AND both April20/June11 Infdev profiles**, not Indev-only; no claim that the new audit has verified every later era. Goal round7 reproduced an independent bypass: [Indev baseline](<logs/sol-1211-sol-indev-independent-menus-v1-fresh.log>) exposed a modern anvil rename result without any RecipeManager lookup. New [narrow pure policy](<src/main/java/net/historicalexperience/gameplay/HistoricalEarlyMenuRules.java>) gates only anvil/grindstone results in those three profiles; it is not a general availability oracle or a global block ban. [Anvil guard](<src/main/java/net/historicalexperience/mixin/AnvilMenuHistoricalEarlyMixin.java>) and [grindstone guard](<src/main/java/net/historicalexperience/mixin/GrindstoneMenuHistoricalEarlyMixin.java>) bind the menu creator's level and cancel createResult **before assembly**, clearing only output/cost state, not inputs, then broadcasting changes. Separate single-target mixins keep their unrelated production method mappings explicit. [Mixin config](<src/main/resources/historical_experience.mixins.json>) registers both. Ordinary/later profiles pass through.
+
+Availability evidence: [existing anvil timeline](<research/feature-timeline.json#L647-L658>) / [Anvil history](https://minecraft.wiki/w/Anvil#History) dates it to **1.4.2/12w41a**; [exact fetched raw Java grindstone history](https://minecraft.wiki/w/Grindstone?action=raw&section=18) dates its block to **1.14/18w44a**, functional repair/disenchant to **18w48a**. Confidence high for both being later than the offered2010 builds; not algorithm evidence for old tool/loot/fuel mechanics. New guards are independently implemented server-result enforcement, NOT a claimed direct NT port. Inspected NT InteractionListener.onRightClickBlock separately interrupts anvil opening using DISABLE_ANVIL/BlockTags.ANVIL. Its attributed opening-path port and real placed-block interaction remain pending; no existing attributed NT code was rewritten/removed. Existing enchantment/brewing mixins remain intact.
+
+[New owned-actor verifier](<src/main/java/net/historicalexperience/server/EarlyIndependentMenuVerification.java>), wired into [player verifier](<src/main/java/net/historicalexperience/server/EarlyPlayerGameplayVerification.java>), exercises actual AnvilMenu and GrindstoneMenu. Early cases check no rename/repair preview, no pickup OR shift-click gain, zero anvil cost, unchanged XP and exact input identity/name/damage/count/component data. A named sword carries a custom-data sentinel. Ordinary control actually takes a new name while preserving damage100/custom data, consumes exactly one sword and one XP level; two damaged iron swords then become one fully repaired sword with both inputs consumed and no XP-level change. XP30 is only a field on the unsaved/unjoined diagnostic actor, not a real account grant. This does NOT positively test disenchantment/XP-orb drops, actual block-opening, packets or client UI.
+
+**Build/licence artifacts and 644 tests pass, zero failures/errors/skips** (previous641 + [three policy tests](<src/test/java/net/historicalexperience/gameplay/HistoricalEarlyMenuRulesTest.java>)). All four cases pass fresh development AND Java21 remapped-distributable restart: [Indev](<logs/sol-1211-sol-indev-independent-menus-v2-reload.json#L45-L55>), [April](<logs/sol-1211-sol-infdev420-independent-menus-v1-reload.json#L45-L55>), [June](<logs/sol-1211-sol-infdev611-independent-menus-v1-reload.json#L45-L55>), [ordinary](<logs/sol-1211-sol-independent-menus-ordinary-v1-reload.json>). Full existing craft/limited-craft/food/stonecutter/smithing regressions still pass; ordinary metadata absent, zero decoration suppression, vanilla food unchanged. No fake player data files saved. All four production copied main artifacts match SHA-256 **7831fb65f31a7a3c20867fc7231138994ecc86e99c014dffb3563252eae8fd9e**. Fresh records: [Indev](<logs/sol-1211-sol-indev-independent-menus-v2-fresh.json>), [April](<logs/sol-1211-sol-infdev420-independent-menus-v1-fresh.json>), [June](<logs/sol-1211-sol-infdev611-independent-menus-v1-fresh.json>), [ordinary](<logs/sol-1211-sol-independent-menus-ordinary-v1-fresh.json>). [Active artifact audit](<research/early-gameplay-audit.md>) records scope/URLs/limitations.
+
+**Next priority:** normal-survival acquisition/loot: inspect the exact legacy leaf/sapling/apple/stick drop methods and test modern block loot in all three profiles; registration of an Infdev apple is not proof it should drop from leaves. Initial own-code search found no explicit apple/leaf rule, but inspect generic block/drop resources too before calling it missing. Then actual death/punch/rare drops (existing skeleton custom-drop suppression must not be duplicated), fuel/tools/armour/crops/spawn details. Loom/cartography, NT opening-path port, positive disenchanting, client/network/audio/cross-dimension controls, GUI-converted source, crash and perimeter/seed coverage remain. Terrain/transaction code unchanged; earlier finite/player-file evidence is NOT newly retested here. Goal active/incomplete; no production readiness, no personal Minecraft save/client changes, no deployment/subagents. Pre-edit snapshot: ignored `.upstream/snapshots/20261015-early-independent-menus/`. All background jobs collected.
+
+# Current repair — 2026-10-15 / actual workstation recipe-list bypass closed
+
+Automatic goal round5 found a real additional gating hole: the [Indev stonecutter baseline](<logs/sol-1211-sol-indev-workstations-v1-fresh.log>) exposed **seven modern recipes** through its actual menu despite single-lookup denial. Minecraft1.21.1 bytecode confirmed StonecutterMenu and SmithingMenu result selection call **RecipeManager.getRecipesFor(type,input,level)**, not the getRecipeFor overload already gated. [Recipe-manager mixin](<src/main/java/net/historicalexperience/mixin/RecipeManagerHistoricalCraftingMixin.java>) now gates that level-aware list API: exact early crafts, six allowed smelt pairs with one output, no other machine recipe types. No-level byKey/getAllRecipesFor queries remain shared/global, and ordinary/later historical profiles are unchanged. No registry removal, generation revision or terrain/transaction change.
+
+All three pinned legacy furnace classes **net.minecraft.a.a.b.a.b** were inspected with javap: creating/incrementing one output and consuming one input is factual, not assumed from a modern recipe. [Pure rule](<src/main/java/net/historicalexperience/gameplay/EarlyGameplayRecipes.java>) now also validates output count1; [regression](<src/test/java/net/historicalexperience/gameplay/EarlyGameplayRecipesTest.java>) rejects counts -1/0/2/64, unknown pairs and unsupported profiles. A controlled two-output previous SmeltingRecipe holder is rejected in real mixed-in runtime without ever registering it or altering global recipe data. Fuel/timers/XP and actual placed-furnace ticking remain separate work.
+
+[Manager verifier](<src/main/java/net/historicalexperience/server/EarlyGameplayVerification.java>) now compares single/list lookups for all **64/65/68** early craft cases and all six smelts per profile; rejects the existing modern/dormant patterns and bad-smelt lists; checks four other machine list types; exercises known-ID and CachedCheck valid→invalid→valid paths; verifies raw shared registry sentinels still exist. Every positive list is cleared/re-queried to verify mutable, independent results. [Player verifier](<src/main/java/net/historicalexperience/server/EarlyPlayerGameplayVerification.java>) constructs/clicks actual stonecutter/smithing menus with imported future items. Early menus have **zero** stonecut recipes, no button selection/result change, no shift-click output, exact input identity/count preservation (all three smithing inputs) and no inventory gain. Negative flint arrows now preserve all three ingredient counts. The previous full table/inventory/limited-crafting/food cases still pass.
+
+Development uncovered and retained two distinct issues, not hidden behind skipped assertions: [v2 button test](<logs/sol-1211-sol-indev-workstations-v2-fresh.log>) wrongly treated the button's boolean ACK as acceptance; vanilla returns true even for an invalid index, so selection/output/input state is authoritative. [v3 cleanup](<logs/sol-1211-sol-indev-workstations-v3-fresh.log#L123-L132>) exposed a real bug in my first list implementation: immutable empty lists violate StonecutterMenu's retained-list clear-on-input-change contract. **Every early list path now returns a fresh mutable ArrayList**, verified by actual cleanup and explicit positive-list clear/re-query checks, not by swallowing the exception. v1/v2/v3 failures are NOT acceptance fixtures.
+
+**Build/licence artifacts and 641 tests pass, zero failures/errors/skips.** All four fixtures passed fresh development AND Java21 remapped-distributable restart: [Indev](<logs/sol-1211-sol-indev-workstations-v4-reload.json#L12-L48>), [April](<logs/sol-1211-sol-infdev420-workstations-v1-reload.json#L12-L48>), [June](<logs/sol-1211-sol-infdev611-workstations-v1-reload.json#L12-L48>), [ordinary](<logs/sol-1211-sol-workstations-ordinary-v1-reload.json>). Ordinary menu exposes seven stonecut choices and actually takes **two stone slabs** from one stone and **one netherite sword**, consuming exactly one of each smithing input. It retains vanilla delayed food, no historical metadata and zero decoration suppression. No fake player data files were saved in any fixture. Each production report's copied main artifact SHA-256 matches **820578b2056c2677f7f201314f7e02f661f8ebdf361255fa8fb33c38d76bc8cc**. Fresh evidence: [Indev](<logs/sol-1211-sol-indev-workstations-v4-fresh.json>), [April](<logs/sol-1211-sol-infdev420-workstations-v1-fresh.json>), [June](<logs/sol-1211-sol-infdev611-workstations-v1-fresh.json>), [ordinary](<logs/sol-1211-sol-workstations-ordinary-v1-fresh.json>). These remain **unjoined server-player method tests**, not placed-block interactions, packet/client UI, login or same-process world-switch acceptance. [Active artifact audit](<research/early-gameplay-audit.md>) records exact scope and failures.
+
+**Next concrete work:** audit independent non-RecipeManager workstation behaviors (anvil/grindstone/loom/cartography etc.) and actual early death/punch/rare loot paths, then exact fuel/tools/armour/crops/leaves/acquisition/spawn details. Existing enchantment and brewing mixins exist: inspect their current gates instead of duplicating them. Existing skeleton custom-equipment drop suppression also exists. Networking/client/audio/cross-dimension checks, GUI-converted source, crash injection and broader perimeter/seed coverage still remain. Previous round3 finite/player-file preservation is distinct evidence, not newly retested here. Goal active/incomplete, no production-readiness claim. No personal Minecraft save/client touched; no deployment/subagents. Pre-edit snapshot: ignored `.upstream/snapshots/20261015-early-workstations/`. All background jobs collected.
+
+# Current repair — 2026-10-15 / server-player crafting and food verified in remapped runtime
+
+Automatic goal round 4 moved beyond recipe lookup to actual server-player methods and found/fixed two real defects. [EarlyRecipeLookup](<src/main/java/net/historicalexperience/gameplay/EarlyRecipeLookup.java>) returned unsynchronized synthetic IDs as ordinary recipes: taking a craft really added those IDs to the vanilla book ([baseline failure](<logs/sol-1211-sol-indev-player-paths-v1-fresh.log#L157>)). Per-level synthetic shaped values now report **isSpecial=true**, preventing unsynced recipe awards/book unlocks and modern limited-crafting unlock requirements without touching the global registry. Null/unsupported profiles bypass their cache. [Bootstrapped vanilla-registry tests](<src/test/java/net/historicalexperience/gameplay/EarlyRecipeLookupRuntimeTest.java>) verify every early value's special flag/result and unsupported-profile isolation; they are plain JVM/vanilla tests, not Fabric/mixin acceptance.
+
+Historical right-click behavior was rechecked directly in the three pinned SHA-1-verified client jars: Indev/April **net.minecraft.a.b.p.a(stack,world,player)** and June **net.minecraft.a.b.r.a** decrement immediately, call player.b(int), and return; **no health gate, delay or effects call**. Stew subclass **net.minecraft.a.b.b.a** delegates and returns a new bowl. [Audit/reproduction](<research/early-gameplay-audit.md>) records exact classes/descriptors and metadata URLs, not copied implementation code. The old one-tick NT shortcut still left an artificial use state ([properly-bound baseline](<logs/sol-1211-sol-indev-player-paths-v2-fresh.log#L154>)). [Early food mixin](<src/main/java/net/historicalexperience/mixin/ItemHistoricalEarlyFoodMixin.java>) now targets **ItemStack.use before subclass dispatch**, immediately finishing allowed foods via existing vanilla/healing/effect hooks even at full health, and rejecting later foods without changing their stacks. This also reaches honey bottles' overridden use method that an Item.use-only injection misses. Only the three early profiles change; existing attributed NT hooks remain, not duplicated. Other historical profiles and ordinary worlds pass through.
+
+[Player-path verifier](<src/main/java/net/historicalexperience/server/EarlyPlayerGameplayVerification.java>), wired through [early verification](<src/main/java/net/historicalexperience/server/EarlyGameplayVerification.java>), uses a real **unjoined ServerPlayer**, real InventoryMenu/CraftingMenu clicks and ServerPlayerGameMode.useItem. It temporarily binds the context a real login sets, restores it and the limited-crafting rule in finally, never adds/joins/saves the actor and binds no socket. An intermediate wrong-heal diagnostic was a HARNESS error, not a product finding: the unjoined actor initially lacked login's version binding ([retained error](<logs/sol-1211-sol-indev-player-paths-v1-reload.log#L140>)). That was fixed before evaluating food behavior. A compile-time attempt to use a nonexistent getKnown API was corrected after inspecting the actual RecipeBook.contains interface. No assertions were skipped to pass these failures.
+
+**Development AND remapped-distributable restart pass for all three profiles plus ordinary control.** [Indev production](<logs/sol-1211-sol-indev-player-paths-v3-reload.json#L25-L36>): **64** table results taken; [April](<logs/sol-1211-sol-infdev420-player-paths-v1-reload.json#L25-L36>): **65**; [June](<logs/sol-1211-sol-infdev611-player-paths-v1-reload.json#L25-L36>): **68**. Every take checks exact output/count and depletion of every ingredient. Each profile also takes **8** fitting inventory-grid crafts, shift-clicks three iron-arrow batches into exactly **12**, refuses modern flint arrows in a real result slot, keeps the primary flint ingredient, records no synthetic book IDs, and crafts successfully with limited crafting enabled. Food uses at health **1 AND maximum**: **8/12/12** cases respectively; exact direct heals/clamp, one consumption, one stew bowl, immediate completion and no modern **status** effects. Five later/specialized foods (honey bottle, suspicious stew, enchanted golden apple, cookie, chorus fruit) fail with same held stack/count and unchanged health/use/effect state; Indev also refuses apple/golden apple. Development evidence: [Indev](<logs/sol-1211-sol-indev-player-paths-v3-fresh.json>), [April](<logs/sol-1211-sol-infdev420-player-paths-v1-fresh.json>), [June](<logs/sol-1211-sol-infdev611-player-paths-v1-fresh.json>).
+
+[Ordinary production control](<logs/sol-1211-sol-early-player-ordinary-v1-reload.json>): vanilla menu crafting, delayed apple use with no instant heal, ladder output3, no historical metadata and zero suppression. No probe player data files were saved in ANY of the four fixtures. [Runner](<scripts/verify-generation-1211.py>) now records launch mode and SHA-256 of actual copied mod artifacts. All four Java21 production restarts used remapped main JAR SHA-256 **ce339af8bfdebdc183a1d6ccd5b09681e54cded091edeba48baf4be41f0ba17f**. Full build/licence artifacts pass: **640 automated tests, zero failures/errors/skips** (previous638 +2). These server methods are not socket/client UI, packet serialization, true login or same-process world-switch acceptance. Visual/audio behavior, other non-food/block use and creative-mode adaptation remain unproved. The existing PlayerHistoricalFoodMixin comment records a still-unported burp suppression path: do not call audio fidelity complete merely because status effects are suppressed.
+
+**Next concrete priority:** inspect actual stonecutter/menu recipe-list paths and alternate RecipeManager APIs, rather than treating getRecipeFor-only workstation denials as full menu acceptance. Then actual early death/punch/rare custom drops (existing skeleton custom-drop wrap already exists; do not duplicate), exact fuel/tool/armour/crop/leaf/acquisition/spawn details, broader GUI-converted-source and crash/corner/seed tests, and real network/client controls. Recipe registration is not survival acquisition: the current audit labels 64/65/68 as mapped non-fire cases, not a claim that apples or every ingredient can be acquired. Finite preservation evidence remains the bounded round3 result below; terrain/transaction code was not changed in this round. Goal active/incomplete, no production-readiness claim. No personal saves/client touched; no deployment; no subagents. Pre-edit snapshot: ignored `.upstream/snapshots/20261015-early-player-gameplay/`. All background jobs collected.
+
+# Current repair — 2026-10-15 / per-chunk evidence and saved exterior build verified
+
+Automatic goal round 3 adds [saved chunk evidence](<src/main/java/net/historicalexperience/world/upgrade/FiniteChunkEvidence.java>) on top of exact apron blocks, world seed/origin/default settings and verified backup history. It decodes **all 512 used biome cells** (unused palette entries prove nothing). Pinned-provider source saves contain native Indev normal plus out-of-bounds void, including mixed boundary cells. Rewritten source biomes must match [the existing converter](<src/main/java/net/historicalexperience/world/upgrade/BiomeCarryForward.java>) AND have an actual LONG nonnegative chunk LastUpdate no newer than the verified original backup's actual LONG monotonic game time. [Time reader](<src/main/java/net/historicalexperience/world/upgrade/WorldGenSettingsAdvance.java>) never substitutes zero for missing/wrong-type/negative time. A later conversion census is not origin proof. Unknown attachments/metadata, missing/malformed sections, actual structures/ticks/entities/POI and destination-native replicas are retained, even if that leaves part of the wall. This is conservative encoded-save evidence under a normal monotonic clock, not a cryptographic receipt against deliberately forged NBT/native-biome replicas or game-clock resets. Converted chunks saved after the staging checkpoint may conservatively be retained even if older than the actual switch.
+
+[Region migration](<src/main/java/net/historicalexperience/world/upgrade/FiniteApronRelease.java>) revalidates every immutable prepared before-image before ANY writes, including older development plans: correct checksums alone cannot authorize deletion. Current entity/POI occupancy is rechecked too. [Region reader](<src/main/java/net/historicalexperience/world/upgrade/FiniteRegionSnapshot.java>) accepts an explicit original region identity for .before images. [Repair service](<src/main/java/net/historicalexperience/world/upgrade/FiniteEdgeRepair.java>) derives converted-biome evidence and the clock from the verified source backup at execution. Valid finite-prefilled protochunks must NOT require FULL status: actual saved source statuses include structure_starts/carvers/initialize_light despite complete default blocks/biomes. Empty carving masks and correctly packed vanilla postprocessing queues are supported, not treated as player attachments. [Evidence tests](<src/test/java/net/historicalexperience/world/upgrade/FiniteChunkEvidenceTest.java>), [repair tests](<src/test/java/net/historicalexperience/world/upgrade/FiniteEdgeRepairTest.java>) and [identity/time tests](<src/test/java/net/historicalexperience/world/upgrade/FiniteTransitionIdentityTest.java>) pin native/used-vs-unused palette data, converted clock boundary, unknown metadata, malformed packed cells, proto caches, fresh destination-native replicas and unsafe old prepared plans. **638 tests pass; zero failures/errors/skips.** Build and licence artifacts pass.
+
+**Real saved build, inventory and negative-case runtime:** new diagnostic `sol-indev-old-edge-build-v5` passes preparation → independent snapshot → actual repair command → normal locked stop → restart → independent saved comparison. [Probe-only fixture code](<src/main/java/net/historicalexperience/server/FiniteRepairFixtureVerification.java>) places nine cobblestone blocks and a real chest with **seven diamonds** in exterior chunk 8,0; changes all **512** stored biome cells in chunk 9,0 to Infdev while preserving its exact **32768-block** apron table; and writes an explicitly **synthetic saved-player NBT sentinel** containing eleven diamonds. That sentinel tests file preservation, NOT player login/inventory interaction. [Preparation evidence](<logs/sol-1211-sol-indev-old-edge-build-v5-reload-prepare-build.json>). [Actual repair log](<logs/sol-1211-sol-indev-old-edge-build-v5-reload-repair.log#L125-L127>) clears exactly **183** slots, excludes both modified chunks, withdraws **183** biome positions (**1521 → 1338**), preserves every other biome field and historical metadata bytes, and warns about the one exact-pattern chunk with unsupported origin evidence. Retained exterior entries **1105** are mostly placeholders, not 1105 player builds.
+
+[Restart](<logs/sol-1211-sol-indev-old-edge-build-v5-reload-far.json#L346>) verifies platform/chest, replica blocks/biomes and player-file SHA-256. [Independent saved result](<logs/sol-indev-old-edge-build-v5-finite-check.json>) proves **256 island chunks unchanged**, both protected exterior block/container/biome digests unchanged, and one player data file byte-identical. All **1024** source boundary heights are present. **160 eligible shore pairs (112 east / 48 south)** have zero height difference and zero bedrock at Y8+. **16** first-exterior columns in the deliberately retained build chunk still have the wall: these are explicitly reported separately, not hidden as regenerated successes. [Offline verifier](<scripts/verify-finite-transition-1211.py>) now uses versioned canonical digests (v2 normalizes absent air; v1 evidence stays readable), independently decoded biome cells for protected chunks and player-file hashes. Only explicitly snapshotted, identity-verified protected chunks get this exemption. Full perimeter/corner acceptance remains open.
+
+Fresh [ordinary control](<logs/sol-1211-sol-early-ordinary-control-v2-fresh.json>): no historical metadata/alias, vanilla NoiseBasedChunkGenerator height384/minY-64, modern ladder output3, zero suppressed decoration writes, no fixture effects. This is a fresh-process control, not same-process world-switch/client UI acceptance. The final diagnostic assertion initially indexed the alias key directly; Gson omits null fields. It was corrected to validate absent/null alias plus independent no-metadata and vanilla-generator assertions, and passes. No product fix was needed for that helper error.
+
+Intermediate failures were investigated and retained, not called acceptance. Build-v3 fixture setup mistakenly wrote its new diagnostic marker to the SOURCE project fixture; the owned-target guard refused BEFORE placing blocks. That one new marker was read/content-checked, its absolute path verified, and removed; source game data was not modified. [Replica builder](<scripts/prepare-old-finite-fixture-1211.py>) now confines the marker to the NEW target, rejects symlinks and fingerprints every source world file except the held session lock; [v5 receipt](<logs/sol-indev-old-edge-build-v5-old-replica.json>) verifies source unchanged. Build-v4 preserved build/container/player data but failed the actual wall assertion because the first metadata gate rejected valid prefilled protochunks and their vanilla generation caches. Those exact saved fields were inspected, regression coverage added, and v5 rebuilt from the original verified source. No wall/island assertions were relaxed to hide it.
+
+**Next priority is actual gameplay, not another broad seam claim.** Real inventory/table/shift-click/result consumption and recipe-book/award/sync paths; actual food use/health/count/effects/full-health behavior and specialized subclasses; actual early death drops. Read current code before assuming missing functionality: [MobHistoricalCustomLootMixin](<src/main/java/net/historicalexperience/mixin/MobHistoricalCustomLootMixin.java>) already wraps skeleton custom equipment drops (do NOT duplicate it), [PlayerHistoricalFoodMixin](<src/main/java/net/historicalexperience/mixin/PlayerHistoricalFoodMixin.java>) heals at eat HEAD but still needs real consumption/effect verification, and [CraftingScreenHistoricalRecipeBookMixin](<src/main/java/net/historicalexperience/mixin/CraftingScreenHistoricalRecipeBookMixin.java>) already delegates button hiding. Investigate real historical right-click code rather than inferring full-health/instant-use semantics from a modern NT port. Audit acquisition separately: registered item/recipe presence is not proof of survival ingredient availability (apple/golden-apple sources remain to be checked; do not change their valid registered recipes on speculation). Then alternate recipe-list/workstation APIs, tool/armour/fuel/crop/leaf/spawn weights, GUI-converted-source runtime, real process-crash paths, broader corner/seed tests and same-process/client controls. [ADR 0011](<docs/ADR-0011-finite-island-transition.md>) and [operator docs](<docs/BACKPORT-1211.md>) synchronized. Objective remains active/incomplete. Giants remain excluded everywhere. No personal saves/client touched; no deployment; no subagents. Pre-edit snapshot: ignored `.upstream/snapshots/20261015-finite-chunk-evidence/`. All background jobs collected.
+
+# Current repair — 2026-10-15 / explicit repair for already-upgraded worlds verified
+
+Automatic continuation round 2 implements **`/hex repair-finite-edge`**, operator permission 2, staging intent only. It is not an unsolicited cleanup and never edits live region data. Exactly one matching historical backup must verify every manifest hash/size, source metadata + level, default finite source settings, the same seed/origin, an append-only history prefix and the following explicit infinite-version action. Current stored generator references must agree with current metadata. Request pins metadata/backup-manifest hashes and revalidates at execution. Missing, corrupt, foreign, ambiguous or changed provenance refuses; pending repair and version upgrades cannot interleave. COMPLETE requests remain audit records but do not block future version upgrades.
+
+The stop callback now reacquires the world session lock before applying repair or a pending standard upgrade; startup recovery runs under the already-acquired lock before world-data decode. Repair reuses [the exact-pristine region transaction](<src/main/java/net/historicalexperience/world/upgrade/FiniteApronRelease.java>) with the source identity proven by backup, protects all other current terrain, and keeps intent pending until [old biome coordinates are pruned](<src/main/java/net/historicalexperience/world/upgrade/BiomeConversionRecord.java>). Pruning preserves every other bit and every other JSON field, forces/verifies a content-addressed original backup, replaces atomically, and retries idempotently. Corrupt records/backups fail closed; partial region/biome completion cannot be silently loaded.
+
+[Repair service](<src/main/java/net/historicalexperience/world/upgrade/FiniteEdgeRepair.java>), [command](<src/main/java/net/historicalexperience/server/HistoricalCommand.java>), [stop lifecycle](<src/main/java/net/historicalexperience/server/HistoricalServerLifecycle.java>), [pre-decode hook](<src/main/java/net/historicalexperience/mixin/LevelStorageHistoricalUpgradeRecoveryMixin.java>), [upgrade interlock](<src/main/java/net/historicalexperience/world/upgrade/GenerationUpgrade.java>), [repair regressions](<src/test/java/net/historicalexperience/world/upgrade/FiniteEdgeRepairTest.java>) and [biome pruning regressions](<src/test/java/net/historicalexperience/world/upgrade/BiomeRecordRepairTest.java>). Tests include intent-only staging, edited exterior blocks, unchanged metadata/level, missing/corrupt/foreign/ambiguous provenance, stage-vs-execute revalidation, concurrent-upgrade refusal, malformed intent, crash retry between region and biome commits, negative coordinates, unknown JSON fields and corrupt original-record backup refusal. All **623 automated tests** pass; build/licence artifacts and CRLF-aware diff check pass. Final preflight also verifies that the current infinite profile owns the stored recipe; metadata cannot disguise a still-finite recipe as an infinite world.
+
+**Bounded runtime proof:** [the diagnostic builder](<scripts/prepare-old-finite-fixture-1211.py>) reconstructed an old-upgrade layout ONLY in a new project fixture `sol-indev-old-edge-repair-v2`, from the v4 fixture's hash-verified immutable pre-migration region images. It never changed the source and is NOT a production repair tool. Dedicated-server source had no optional GUI biome record, so the replica explicitly adds a diagnostic old-census record; this is disclosed in [replica provenance](<logs/sol-indev-old-edge-repair-v2-old-replica.json>). The [real command probe](<logs/sol-1211-sol-indev-old-edge-repair-v2-reload-repair.json>) returns 1, leaves pending=true and plan-before=false/plan-after=false while live. [Normal shutdown](<logs/sol-1211-sol-indev-old-edge-repair-v2-reload-repair.log#L126>) completes under the lock: **185** pristine chunks released, **185** biome positions withdrawn (**1521 → 1336**); all other biome fields unchanged, historical metadata byte-identical to source. After [restart](<logs/sol-1211-sol-indev-old-edge-repair-v2-reload-far.json>), [saved comparison](<logs/sol-indev-old-edge-repair-v2-finite-check.json>) proves **256 island chunks unchanged**, **1024 edge heights**, **96 sampled shore pairs**, **zero height difference**, **zero bedrock at Y8+**. Exterior retained count 1080 is mostly protochunk placeholders, not 1080 player edits.
+
+Diagnostic setup failures were investigated, not counted as acceptance: v1 builder wrongly assumed a biome record existed; v2 snapshot originally required an already-existing finite plan, which an old world does not have. Builder now explicitly labels its synthetic census. [Offline verification](<scripts/verify-finite-transition-1211.py>) now independently proves backup hashes, exact seed, default finite references and a matching history prefix without requiring a plan. The snapshot then ran before any server repair attempt. Island equality/wall/seam assertions were not relaxed. Earlier incomplete fixture v1 is not runtime acceptance.
+
+**Next / safety review before deployment:** the already-upgraded path currently proves WORLD source identity, then classifies exact 32,768-block apron patterns. It does not independently prove each candidate chunk existed before the original version switch. A player-created exact apron replica in a newly generated Infdev chunk could be indistinguishable by blocks alone. Investigate native saved Indev-vs-Infdev biome palettes and any trustworthy original conversion census/time evidence; preserve/refuse uncertain candidates, rather than treating a world backup as per-chunk provenance. A contrived exact-pattern build in a destination-native biome is a useful negative regression. GUI conversions may have rewritten source biomes, and a later/overwritten census must not be blindly assumed to be the original finite census. This gap is NOT a reason to claim the objective complete or deploy. Then verify real edited-exterior build/container/player-data preservation through this path and restart; then actual player inventory/table/shift-click/food/death-drop tests and alternate recipe-list/workstation APIs. For the edited fixture, the offline coast verifier currently checks every loaded first-exterior column: explicitly distinguish released/newly generated chunks from intentionally preserved modified exterior chunks, assert the latter's complete decoded state/container identity separately, and report retained-wall exceptions rather than calling them an algorithm failure or silently omitting them. A real saved cobblestone/chest inventory in one apron chunk can exercise that boundary. Source snapshots/digests should remain independent and versioned if normalizing absent air sections. Recipe manager lookup tests are NOT UI acceptance. Inspect actual implementation/bytecode before assuming the remaining food/equipment mechanics work. Full seam/corner coverage, external datapack override limitations and process-crash injection remain open. See [ADR 0011](<docs/ADR-0011-finite-island-transition.md>) and [operator flow](<docs/BACKPORT-1211.md>). Goal remains active/incomplete. Giants still excluded across all profiles. No personal save/client modification, no deployment, no subagents. Pre-edit snapshot for this round is ignored `.upstream/snapshots/20261015-finite-edge-repair/`. No background jobs remain uncollected.
+
+# Current repair — 2026-10-15 / finite plans bound to world identity; second seed/destination verified
+
+Automatic continuation round 1 made the migration safer, not broader in reach. Current finite plan **schema 3** binds the exact signed 64-bit saved seed, a SHA-256 of the immutable initial historical revision, and the recognized source preset. All three source provider-settings objects must contain only the preset reference; inline overrides refuse before staging backups or touching regions. Read, recovery and generator attachment revalidate identity. A legitimate clone/rename or later version advance remains valid; a copied plan for a different seed or different same-seed world origin is rejected. Missing seed is NOT treated as seed zero. Schemas 1/2 were development fixtures only and now fail closed; no personal world received them. Arbitrary external datapack replacements of named presets are not authenticated by this offline check.
+
+Implementation: [identity binding](<src/main/java/net/historicalexperience/world/upgrade/FiniteTransitionIdentity.java>), [source-settings/seed readers](<src/main/java/net/historicalexperience/world/upgrade/WorldGenSettingsAdvance.java>), [migration/read/recovery checks](<src/main/java/net/historicalexperience/world/upgrade/FiniteApronRelease.java>), [runtime seed check](<src/main/java/net/historicalexperience/generation/FiniteTransitionRuntime.java>), [identity regressions](<src/test/java/net/historicalexperience/world/upgrade/FiniteTransitionIdentityTest.java>) and [no-write refusal/64-bit round-trip tests](<src/test/java/net/historicalexperience/world/upgrade/FiniteApronReleaseTest.java>). Snapshot before this round's source edits: ignored `.upstream/snapshots/20261015-finite-identity/`.
+
+**Verification:** offline build and licence artifacts pass, **609 tests / zero failures, errors or skips**; CRLF-aware diff check passes. Fresh fixture `sol-indev-edge-v4-identity` uses seed **-9223372036854775791**, upgrades through the operator command to April Infdev, stops normally and reloads with the bound plan. All **256 island chunks** retain decoded blocks/block entities; **185** exact apron chunks released; **1024** source boundary heights captured. **128** north/west saved shoreline pairs have **zero height difference** and **zero bedrock at Y8+**. This complements the previous southeast/June fixture, not complete corner/perimeter acceptance. Exact seed is retained in JSON and checked against the live level after restart. [Source snapshot](<logs/sol-indev-edge-v4-identity-finite-source.json>), [coast result](<logs/sol-indev-edge-v4-identity-finite-check.json>), [April runtime](<logs/sol-1211-sol-indev-edge-v4-identity-reload-far.json>), [ADR](<docs/ADR-0011-finite-island-transition.md>).
+
+**Next concrete task, still not implemented:** explicit operator repair for worlds already upgraded by the old build. Proposed contract: `/hex repair-finite-edge` stages intent only; process after closed-world drain or before world decode under the storage lock, never while chunks are live. Establish source default geometry from an existing **verified** historical backup's metadata + level, prove seed/origin and append-only history-prefix match the current world, and refuse absent/ambiguous/corrupt provenance. Reuse the exact-pristine-only region transaction with the verified source identity; preserve every other current terrain chunk. Retain the request until the region transaction AND biome position bookkeeping finish, then complete. Released chunk coordinates may still be in the old biome conversion record and must be withdrawn safely/idempotently; do not assume chunk header deletion alone updates that record. No unsolicited repair on ordinary load and no personal-save edits. Exercise this path on copies of project fixtures only.
+
+The active objective remains incomplete. Real-player inventory/shift-click/consumption/death drops, alternate recipe-list/workstation paths, broader feature/fuel/crop/leaf/spawn mechanics, edited exterior runtime preservation and full seam/corner coverage remain owed. Giants remain excluded in all profile spawn lists. No deployment to the owner's client.
+
+# Current repair — 2026-10-15 / exact early-build gameplay, no giants, finite transition under acceptance
+
+The owner reported the saved bedrock/dirt apron when upgrading Indev to Infdev, poor gating, and then explicitly said **do not add giants to the spawn list**. No subagents were used. No personal save or running client was modified.
+
+**Giants:** removed from every declared natural-spawn allowance, not merely Indev/Infdev. Registry presence is not natural-spawn evidence. A new all-profile regression asserts their absence. Indev and the two offered Infdev builds now allow six species. Earlier entries describing seven and calling the prior gating complete are superseded, not silently rewritten.
+
+**Artifact corrections:** independently re-fetched metadata from `meta.celestia.sh` verifies SHA-1 and byte length for `in-20100223`, `inf-20100420`, `inf-20100611`. The Indev hash gap is resolved. An isolated reflection tool now extracts exact crafting patterns, output counts, six smelts, and food instances/fields into committed data. Totals: 68/69/72 recipe registrations (four dormant fire-chainmail recipes in each), four Indev foods and six Infdev foods. The old zero-food audit was false: executable food registrations and the heal caller prove it. The earlier Applet substring false positive did not validate the independent zero-caller assertion.
+
+Implementation: build-local shaped recipe lookup before vanilla lookup; server profile from the actual level; closed early smelting/workstation lookup; exact food values; ordinary imported modern foods rejected without deleting stacks; early single-item mob tables without modern bones/Looting/on-fire cooking; light-gray punch-shearing; no early sheep grazing/regrowth; separate creeper disc/head custom-drop gate. Painting ingredients, gold-block golden apple, iron arrow tip, nine-string cloth, cloth armour, three-output steps and June-only one-output ladders/signs/doors are no longer approximated by modern recipes. See [corrected audit](<research/early-gameplay-audit.md>), [extractor](<scripts/extract-early-gameplay.py>), [pure tests](<src/test/java/net/historicalexperience/gameplay/EarlyGameplayRecipesTest.java>) and [runtime assertions](<src/main/java/net/historicalexperience/server/EarlyGameplayVerification.java>).
+
+**Finite edge:** pinned Moderner Beta generates exterior chunks with bedrock Y0–53, dirt54, water55–63, air above. Releasing the world border alone retained that apron. The new explicit upgrade migration releases only whole exterior chunks equal to that exact pattern, with block/entity/POI protections; immutable SHA-256 before/after backups and PREPARED/COMPLETE recovery precede header-only region changes. It never regenerates the island. Sampled boundary heights feed a 64-block collar through Moderner Beta's density modifier, before block placement, attached to the specific generator. Unknown edges are not fabricated. See [ADR 0011](<docs/ADR-0011-finite-island-transition.md>).
+
+**Important runtime-discovered defects:** empty zero-byte vanilla entity-region handles initially refused recovery; fixed and tested. Biomes-only placeholders initially looked like height-zero edges; fixed by requiring terrain-stage status. Intermediate fixture v2 then caught **178 real ore/dirt/gravel writes spilling into island chunk (7,7)** after regeneration. This was not waved away: plan schema 2 now persists source-terrain chunks and rejects future generation writes through both `WorldGenRegion.setBlock` and `ensureCanWrite` (vanilla OreFeature checks the latter before writing sections directly). Fixtures v1/v2 are diagnostic failures, not seam acceptance. Fresh v3 now passes the bounded preservation/seam check: 256/256 island chunks unchanged in decoded block states and block entities; 185 pristine apron chunks released with verified backups; 1024/1024 source edge heights captured; 96 saved exterior shoreline pairs show zero height difference and zero bedrock blocks at Y8 or above. The 1080 retained exterior entries are mostly empty generation placeholders, not 1080 player edits. Broader seeds/corners remain owed.
+
+**Verification at this milestone:** repeated offline `build` passed, including licence artifacts and **599 tests, zero failures/errors/skips**. `git -c core.whitespace=cr-at-eol diff --check` passes; plain Git whitespace checking interprets the repository's existing CRLF as trailing whitespace, so line endings were not normalized wholesale. Actual mixed-in recipe-manager checks passed April's 65 crafts and June's 68 crafts (plus six smelts, six denied modern smelts, cached previous-holder rechecks and four workstation-type denials); fresh Indev runtime also passed all 64 crafts. These are manager-level runtime checks, not live player inventory/table/shift-click or health/drop end-to-end acceptance. The source-island snapshot/check tool compares decoded block states and containers rather than relying on unchanged palettes or a launch. Retained bounded acceptance: [v3 saved-coast comparison](<logs/sol-indev-edge-v3-finite-check.json>), [v3 source inventory](<logs/sol-indev-edge-v3-finite-source.json>), [Indev runtime](<logs/sol-1211-sol-indev-edge-v3-fresh-upgrade.json>), [June runtime](<logs/sol-1211-sol-indev-edge-v3-reload-far.json>) and [ordinary control](<logs/sol-1211-sol-early-ordinary-control-v1-fresh.json>). The fresh ordinary control kept the vanilla generator, no historical alias, no suppressed placements, and modern three-output ladders. This is a fresh-server negative control, not a same-process world-switch test.
+
+**Still owed, not declared complete:** explicit safe repair for already-upgraded worlds; plan seed/custom-finite-setting identity validation; multiple-seed/full-corner seam evidence and edited-exterior runtime fixtures; real player crafting/consumption/drops/limited-crafting; alternate recipe-list/workstation paths; broader block/item/tool/fuel/crop/leaf/spawn-mechanics audit and ordinary-world negative controls. The new source and jar have NOT been deployed to the owner's client. No personal save cleanup has been attempted. Do not mark the active repair goal complete on the strength of these unit tests.
+
+# Current change — 2026-10-15 / the owner selected Indev and got a vanilla world: my tag edit broke the picker
+
+Reported directly: "I created and launched a world with indev selected and it was just default." It was, and the cause
+was mine.
+
+**Diagnosis, from artifacts rather than guesses.** The world the owner created (`New World (4)`) records **vanilla
+generation** in its `level.dat` - no `historical_experience`, no `moderner_beta:preset`, no project dimension type -
+and the session log shows this project's own decision line for it: `Historical marker decision for ...New World (4)..:
+action=LEAVE_ORDINARY`. Four worlds the owner made earlier the same day (`New World` through `(3)`) all carried project
+presets (`beta_1_9_pre_1_no_modern_content`, `beta_1_8_1_no_modern_content`, `release_1_3_no_modern_content`,
+`beta_1_0_no_sandstone`), so the picker itself works and only the Indev path failed.
+
+**The cause.** The version picker (`CreateWorldHistoricalFooterMixin` -> `HistoricalVersionScreen`) lists versions from
+the catalogue, whose `key` is the **profile id** (`historical_experience:indev_latest`), and
+`CreateWorldHistoricalVersion.matches` requires a preset in the `minecraft:normal` tag whose location **equals that key
+exactly**. When I added the ore revision I edited the tag by *replacing* the three pre-Beta profile ids with
+`_with_ores` aliases. That kept the entry count at 34, so the count assertion stayed green and the alias still named a
+revision of a declared version, so the menu test stayed green too - but the keys the picker stores no longer existed in
+the tag, `matches` found nothing, and the world type silently stayed at Default. The tests could not see it because
+neither of them asserts that a tag entry *is* the profile id.
+
+**The fix, in two halves, following the convention the tests do state** ("the normal world-preset tag must list every
+declared profile exactly once"):
+1. The tag lists **profile ids only** again - `indev_latest`, `infdev_420`, `infdev_611` - back to 34 entries, and the
+   `_with_ores` aliases are gone from it.
+2. By the project's convention the **base** world preset references the **newest settings revision**, which is what the
+   picker's own description line reports. `indev_latest.json`, `infdev_420.json` and `infdev_611.json` now reference
+   `..._with_ores` in all three places each, so a world created from the menu gets the era ores as well.
+
+Verified wiring afterwards: picker key `historical_experience:indev_latest` -> present in the menu tag -> settings
+preset `historical_experience:indev_latest_with_ores` -> which wraps Moderner Beta's `moderner_beta:indev`. Same shape
+for both Infdev profiles. 588 tests, 0 failures, including both menu tests.
+
+**Owed**: a re-deploy - the owner's client was running (PID 30932) when this was written - and then a fresh world from
+the picker to confirm end to end. The lesson worth keeping: an invariant that a test enforces as a COUNT can still be
+broken by substituting one kind of entry for another, and "the count stayed 34" is not the same statement as "the
+picker can still find its key".
+
+# Current change — 2026-10-15 / Indev closed out: registry, gating, upgrade, ores all evidenced
+
+Closing summary of the Indev work, so the next session starts from facts rather than narration.
+
+**Registered.** `historical_experience:indev_latest` - "Indev 20100223", era `indev`, chronology `ERA_INDEV + 223`,
+upstream preset `moderner_beta:indev` (finite 256x256x128, `finite_2d`, theme normal, border 256 centred on origin),
+with this project's overrides: deepslate off, cave biomes off, and the preset's stronghold placement override removed.
+Four revision aliases ship: base, `_no_grass`, `_no_modern_content`, and the new `_with_ores`. It is the only finite
+profile: `HistoricalVersions.FINITE_PROFILES` names it alone.
+
+**Gated.** Rules start from Infdev's and adjust to Indev's record: seven mob species (creeper, skeleton, spider,
+giant, zombie, pig, sheep), Indev 20100219 drops (feathers, arrows, porkchops, string), the direct-heal food model
+(apple 4, bread 5, stew 10, raw porkchop 3, cooked 8, brown mushroom 5, with the red mushroom's -3 recorded as
+unmodelled rather than applied), no hunger, sprinting, experience or structures. Per-profile boundary tests pass:
+every gate agrees with the boundary it was declared for.
+
+**Upgraded.** An Indev world upgrades to Infdev through the biome upgrader with the border released: the log records
+"world border size 256.0 (vanilla default 2.9999984E7)", the profile advances to `historical_experience:infdev_420`
+revision 2, and `FINITEPROBE` reads 256.0 before and 2.9999984E7 after. The upgraded world's census is
+byte-identical in block content to its source, which is the chunk-preservation property the architecture requires.
+
+**Ores.** A census found the pre-Beta family generating **no ore at all** - Indev 19 distinct blocks over 673 chunks,
+and an infinite Infdev world 10 distinct over 928,038 stone. Revision 3 (`_with_ores`) fixes it for Indev 20100223 and
+both Infdev builds, and all three are now **verified by census**: coal/iron/diamond/gold present (3498/2772/254/230,
+6519/3312/278/248, 3862/2905/254/223) and redstone, lapis, copper and emerald absent in every one.
+
+**Block registry.** Ids 1-62 read from `in-20100223.jar` with two reconciled readers, cross-checked against the era
+texture layout on thirteen id/texture pairs. The Beta 1.7.3 table names ids 21-34 with blocks that postdate the
+build; the atlas settles it instead - ids 21-36 are the sixteen cloth colours, texture 64-79, and `terrain.png` read
+tile by tile gives them as a hue ramp from red (221,49,49) to white (221,221,221), with **no black** in the set.
+
+**Open, and only two things.** (1) The re-deploy: the live jar is `BFD480D688E0D88C` while the build is now
+`F1CF19B01F225540`, so the owner must close Minecraft before `scripts/deploy-to-prism.ps1` can replace it - the client
+was still running (PID 36180) when this was written. (2) The Indev jar's SHA-1 is self-computed because the Omniarchive
+Vault publishes no checksums, so it does not yet meet the project rule of comparison against an independently published
+metadata document; the owner was asked where such a document lives and that answer is still outstanding.
+
+# Current change — 2026-10-15 / the cloth colours read straight from the jar, and one inherited assumption corrected
+
+No wiki citation turned out to be necessary. `terrain.png` is in `in-20100223.jar`, PIL was available, so the atlas was
+read tile by tile and averaged - the artifact is the primary source.
+
+**Indev ids 21 to 36 are the sixteen cloth colours, and their order is now known:** red (221,49,49), orange
+(221,135,49), yellow (221,221,49), yellow-green (135,221,49), green (49,221,49), spring-green (49,221,135), cyan
+(49,221,221), light blue (104,162,221), blue (119,119,221), blue-violet (135,49,221), violet (174,73,221), magenta
+(221,49,221), pink (221,49,135), dark grey (76,76,76), grey (142,142,142), white (221,221,221). RBG triples are
+recorded in `research/indev-20100223-blocks.json` so the reading can be checked without repeating it.
+
+**And it corrects something I was about to inherit.** Texture 64 is RED and there is **no black** anywhere in the
+range - the darkest tile is (76,76,76). The note added last round called the project's recorded Beta 1.7.3 wool order
+"probable" for Indev; that is now superseded by measurement. Both records can be right about their own version: the
+Beta order is a metadata order for sixteen dye colours, and Indev's sixteen are a hue ramp with no black. They must not
+be conflated, and the file now says so rather than leaving the earlier guess standing.
+
+**State**: 588 tests, 0 failures; five snapshots. Open items are down to one code-side item and one operator item: the
+re-deploy once the owner's client closes, and nothing else on the research side of Indev.
+
+# Current change — 2026-10-15 / the Indev mid-range is resolved, and the extraction script is repaired
+
+**Ids 21 to 36 in Indev 20100223 are the sixteen cloth colours.** The parse reads a texture index for every one of
+them, and they run 64, 65, 66 … 79 - sixteen ids against sixteen consecutive textures, which is the cloth range of the
+era terrain atlas. The Beta 1.7.3 table names lapis ore, a lapis block, a dispenser, sandstone, a music block, a bed,
+two rails, two pistons, cobweb, tall grass and a dead bush across that range: every one of those arrives after this
+build, so the table is evidence about Beta there and must not be read as Indev's registry. Where the two ranges can be
+checked against each other they agree - the Beta table calls ids 37 and 38 flower and rose, and the same parse gives
+them textures 13 and 12, the plant textures.
+
+Confidence, stated in three parts, in `research/indev-20100223-blocks.json` under `midRangeResolved`: **definite** that
+21-36 are the sixteen cloth colours by texture index; **probable** that they follow the legacy metadata order the
+project already records for wool (black, red, green, brown, blue, purple, cyan, silver, gray, pink, lime, yellow, light
+blue, magenta, orange, white); **unverified** the colour of each individual id, which needs one citation and is not
+needed for gating - what matters is that these ids are cloth and therefore not lapis ore, a dispenser, sandstone, a
+music block, a bed, rails, pistons, cobweb, tall grass or a dead bush. Nothing in this project gated on the old names,
+but anything that later read the table for a pre-Beta profile would have judged lapis ore available in Indev and cloth
+unavailable - wrong in both directions.
+
+**And the extraction script had a real bug, now fixed.** It appended two literal characters - a backslash and an `n` -
+after its JSON instead of a newline, because an earlier repair of mine over-escaped the write. That is exactly what
+produced "Extra data: line 453 column 2" from every run, including the run that emptied the artifact two rounds ago.
+`scripts/extract-indev-blocks.py` now writes valid JSON, and its output was verified by loading it back: 63 blocks.
+That also means the earlier failures had two independent causes, not one - the semicolon bug in the descriptor
+comparison, and this write.
+
+**State**: 588 tests, 0 failures; snapshots at four points. The open list is now two items: one citation for the
+individual cloth colours, and a re-deploy once the owner's client closes.
+
+# Current change — 2026-10-15 / all three pre-Beta ore profiles verified, and a flag of mine retracted
+
+**The second Infdev build is censused**, which closes the caveat left last round rather than leaving it implied:
+
+| world | preset | chunks | coal | iron | diamond | gold | later ores |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `run/indevores` | `indev_latest_with_ores` | 49 | 3,498 | 2,772 | 254 | 230 | none |
+| `run/infdevores` | `infdev_420_with_ores` | 49 | 6,519 | 3,312 | 278 | 248 | none |
+| `run/infdev611ores` | `infdev_611_with_ores` | 49 | 3,862 | 2,905 | 254 | 223 | none |
+
+The acceptance criterion - four era ores present, four later ones absent - is therefore met **by measurement for all
+three pre-Beta profiles**, not by construction for two of them.
+
+**And the Infdev apple/mushroom discrepancy is retracted; the project's claim stands.** Two rounds ago I flagged the
+recorded statement "there are no constant-pool hits for any food item" because a scan found `apple` and `mushroom` in
+all four Infdev jars. Locating the hits settled it in the opposite direction: `apple` occurs only inside
+`java/applet/Applet` in `net/minecraft/client/MinecraftApplet.class`, and `mushroom` only inside a splash text - "Try
+the mushroom stew!" - in `net/minecraft/client/q.class`. Neither is a food registration.
+
+The flag was my own scanning error: a naive substring search over class bytes matches ordinary English inside
+unrelated strings, and `Applet` contains `apple`. The lesson is recorded in
+`research/infdev-jar-verification.json` beside the retraction - needles must be chosen so they cannot occur inside
+another identifier, or a window must be printed around every hit, which is what found this.
+
+**State**: 588 tests, 0 failures; a fourth snapshot taken. Open items are unchanged and now shorter: the era id table
+for Indev's block ids 21-34, the owner's independent hash document for the Indev jar, and a re-deploy once their
+client closes.
+
+# Current change — 2026-10-15 / the pre-Beta ore gap is closed and verified by census
+
+The fix worked on the first try, because the edit was made the careful way: anchor counts asserted before writing, a
+span chosen that only the terrain helper contains, and a paren-tolerant tail - the exact guard whose absence broke two
+files three rounds earlier.
+
+**What changed.** `HistoricalVersions.terrainOnlyWithRules` now wraps its three shared revisions in
+`withPreBetaOreRevision(id, upstreamPreset, chronology, List.of(…))`, which appends **revision 3** (`_with_ores`) only
+when `chronology < ERA_ALPHA`. That condition lives in the new helper precisely because the first attempt added the
+revision unconditionally and handed every Alpha profile an alias with no preset file - caught by
+`Alpha12BiomeRuleTest`. The revision carries `HistoricalFeatureExclusions.preAlphaWithVanillaOres()`:
+`keepingVanillaOres(INFDEV_WITHOUT_DUNGEONS)` plus explicit exclusions for redstone, lapis, copper, emerald and the
+three modern diamond shapes. Six preset files and the three create-world menu entries follow the alias.
+
+**Verified by census, on newly generated worlds.**
+
+| world | preset | chunks | coal | iron | diamond | gold | later ores |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `run/indevores` | `indev_latest_with_ores` | 49 | 3,498 | 2,772 | 254 | 230 | **none** |
+| `run/infdevores` | `infdev_420_with_ores` | 49 | 6,519 | 3,312 | 278 | 248 | **none** |
+
+Before this, the same Indev world had **no ore of any kind** (19 distinct blocks across 673 chunks) and an infinite
+Infdev world had none either (10 distinct blocks, 928,038 stone). The acceptance criterion set two rounds ago - four
+era ores present, four later ones absent - is therefore **met for Indev and for Infdev 20100420**. The 20100611 build
+shares the revision list and the chronology band, so it follows by construction; it has not been censused itself, and
+that is stated rather than implied.
+
+**One test count moved** and was updated with its reason: `GenerationBackport1211Test` counts presets carrying the
+reduced envelope without overriding ordinary noise registries, 99 → **101** (it moved by two, not by the three files
+added, which is what that filter sees).
+
+**State**: 588 tests, 0 failures; snapshots at three points in `.upstream/snapshots/`, all gitignored; nothing gated on
+research artifacts. Still open: the era id table for Indev's block ids 21-34 (the Beta table's names there postdate the
+build), the Infdev apple/mushroom constant-pool discrepancy, the owner's independent hash document for the Indev jar,
+and a re-deploy - the live jar predates this session's last deploy and the owner's client was running.
+
+# Current change — 2026-10-15 / ore revision: anchors measured, script refused to write, tree still green
+
+The safe procedure recorded last round was followed, and it did its job: the edit script **refused to write** rather
+than splice, because its own precondition failed.
+
+**What was measured, with newline-tolerant regexes** (the first counts came back zero for a different reason - this
+file mixes CRLF from its history with LF from edits written through Python, so any multi-line anchor must accept both):
+
+| anchor | occurrences | verdict |
+| --- | --- | --- |
+| `return new HistoricalVersion(` … `rules,` … `List.of(` | **2** | shared by the terrain and Release helpers, as feared |
+| `private static HistoricalVersion releaseTerrainOnlyWithRules(` | 1 | unique |
+| `// Revision 1 removes grass, which did not exist before Beta 1.6` | 1 | unique |
+| `// Revision 2 adds the desert well, and the monster room only where the version predates it` | 1 | unique |
+| `revisionTwoExclusions,` newline `List.of()));` | 0 | the tail text is not what was assumed - the regex must allow any run of `)` |
+
+**The next edit, precisely.** Span from the *unique* revision-1 comment backwards to the `List.of(` that opens the
+terrain helper's revision list, wrap that opening in
+`withPreBetaOreRevision(id, upstreamPreset, chronology, List.of(` - the helper is already in the file and compiles -
+and take the tail with `revisionTwoExclusions,\s*\r?\n\s*List\.of\(\)+\);`, adding one `)` for the new call. Assert
+exactly one match for each span before writing, and compile immediately after; that is the check whose absence broke
+two files three rounds ago.
+
+**Where the ore work stands.** `HistoricalFeatureExclusions.preAlphaWithVanillaOres()` exists and compiles:
+`keepingVanillaOres(INFDEV_WITHOUT_DUNGEONS)` plus explicit exclusions for redstone, lapis, copper, emerald and the
+three modern diamond shapes, leaving coal, iron, gold, the plain diamond vein, dirt and gravel. It is not yet
+referenced by a revision, and no preset or tag entry has been added, so **nothing about ore generation has changed in
+game** - the censuses that found no ore at all in Indev and in an infinite Infdev world still describe the current
+binary. The measured facts behind it are in `research/indev-20100223-blocks.json` under `oreIsolationExperiment`.
+
+**State**: 588 tests, 0 failures; a fresh snapshot covers the helper insertion
+(`.upstream/snapshots/` now holds two, both gitignored). The live jar still predates this session's last deploy.
+
+# Current change — 2026-10-15 / snapshot taken, ore helper reinstated, and the exact next step pinned down
+
+**A snapshot now exists**, because the previous round showed what its absence costs: `.upstream/snapshots/2026-10-15-1721/`
+holds `src/main` and `src/test` (685 files, gitignored). HEAD is `dc625cd Fixup Experience levels` with 35 uncommitted
+entries, which is exactly why a `git checkout` of two files silently discarded a session of work - the snapshot is the
+guard against repeating that, and it is taken before any further multi-file change.
+
+**The ore helper is back in and compiles**: `HistoricalFeatureExclusions.preAlphaWithVanillaOres()`, a method rather
+than a field so it can reference `INFDEV_WITHOUT_DUNGEONS` without an illegal forward reference. It is
+`keepingVanillaOres(INFDEV_WITHOUT_DUNGEONS)` plus explicit exclusions for redstone, lapis, copper, emerald and the
+three modern diamond shapes, leaving coal, iron, gold, the plain diamond vein, dirt and gravel. It is not yet used by
+any revision, which is the remaining step.
+
+**The remaining step, and the trap that must not be repeated.** `terrainOnlyWithRules` ends its revision list with
+
+```
+                    revisionTwoExclusions,
+                    List.of())));
+```
+
+and revision 3 has to be added *conditionally* (`chronology < ERA_ALPHA`) because that helper is shared with the Alpha
+declare­ments - adding it unconditionally handed every Alpha profile an alias whose preset file does not exist, which
+`Alpha12BiomeRuleTest` caught. The safe shape is a small helper that takes the three shared revisions and appends the
+ore one when the chronology is below `ERA_ALPHA`, called by wrapping the list in the terrain helper:
+
+```
+            withPreBetaOreRevision(id, upstreamPreset, chronology, List.of(
+                new GenerationRevision(0, ...),
+                ... )));
+```
+
+**The trap**: `releaseTerrainOnlyWithRules` (the Release helper) opens its own list with byte-identical text -
+`return new HistoricalVersion(` then `id, displayName, era, chronology, rules,` then `List.of(` - so an anchor on that
+text matches BOTH helpers, and the earlier attempt to change "the return" damaged both. Before replacing anything, the
+next round must count the occurrences of every anchor it plans to use and pick one that is unique to the terrain
+helper - the revision-2 comment block ("// Revision 2 adds the desert well...") is the obvious candidate, since it
+appears only there. Then: compile after that single edit, add the third preset pair and the tag entry, build, and
+re-census an Indev world and an Infdev world for the four era ores present and the four later ones absent.
+
+**State**: 588 tests, 0 failures; the Indev profile, its presets, the finite helpers, the biome carry-forward, the
+border release and the upgrade evidence are all intact. Live jar `BFD480D688E0D88C` differs from the current build
+`FBFA1E4AA0FF8E6F` only because the build was re-run; the source is equivalent, and a re-deploy is owed once the
+owner closes Minecraft (their client was running: Prism PID 36180).
+
+# Current change — 2026-10-15 / Indev and Infdev generate no ores at all - measured, and isolated
+
+The census the previous entry called for, and the experiment that isolates it.
+
+**Indev.** `scripts/region-block-census.py` over the world this project generated from the Indev preset: 673 chunks,
+22,052,864 blocks, **19 distinct**, and no ore of any kind - stone, bedrock, water, dirt, lava, grass_block,
+oak_leaves, sand, oak_log, gravel, dandelion, poppy, both mushrooms (the planks, torches, obsidian and portal blocks
+are the enchanting probe's own output; its log reads PORTALPROBE obsidian=14 portal=6, matching those counts exactly).
+
+**The hypothesis was wrong in an instructive direction.** I expected an anachronistic *redstone* ore, since redstone is
+Alpha v1.0.1 content. The measurement says a **missing** population instead: not only redstone and lapis, which belong
+to later builds, but also coal, iron, gold and diamond, which Indev 20100223 certainly had.
+
+**Isolated to the pre-Beta family, not the finite provider.** An INFINITE Infdev 20100420 world, generated from the
+project preset and censused the same way, contains **10 distinct blocks** - stone 928,038, air, bedrock, dirt, water,
+sand, grass_block, oak_leaves, oak_log, gravel - and again **no ore at all**. In 928,038 stone blocks a Beta-era
+population would place roughly nine thousand coal ore. So the finite level is not the cause: Indev and both Infdev
+builds share the pre-Alpha revision list, that list excludes the vanilla ore features, and nothing replaces them for
+`chronology < ERA_ALPHA`.
+
+**The project already owns the right tool.** `HistoricalFeatureExclusions.keepingVanillaOres(...)` is documented as
+"the same restrictions without the replacement bans, **for versions that place no ores of their own**" - and it is
+applied to the later profiles that have no researched ore population, but not to the pre-Beta ones. That asymmetry is
+the whole gap.
+
+**The shape of the fix is a NEW revision, not an edit.** Revisions are append-only and worlds already exist on the
+current pre-Beta revisions, so changing their exclusion lists in place would move terrain for chunks those worlds have
+not generated yet. The new revision applies `keepingVanillaOres` and then excludes the ores no declared version could
+have had there - redstone (Alpha v1.0.1), lapis (Alpha), copper (1.17), emerald (Release 1.3.1) - leaving coal, iron,
+gold, diamond, dirt and gravel, which is exactly what the availability table already allows for these builds.
+Acceptance is a re-census of both an Indev and an Infdev world: the four era ores present, the four later ones absent.
+
+**Recorded in** `research/indev-20100223-blocks.json` (rule `oreIsolationExperiment`) with both censuses and the
+acceptance criterion. Nothing else changed this round: 588 tests, 0 failures, live jar in sync.
+
+# Current change — 2026-10-15 / Indev: the block ids are read, the names are wrong in the middle, and the ores need a census
+
+Three results from the artifact work the owner asked for, none of them gating anything yet.
+
+**1. The Indev registry is read from the jar.** `in-20100223.jar` (555,633 bytes, Omniarchive Vault BETA Indev client
+index), registry class `net.minecraft.a.a.b.x`, ids **1 to 62 continuous**. Two readers had to be reconciled because
+neither sees everything: one takes the first two integer pushes between consecutive stores (catches constructions that
+nest another object), the other walks each store back to the construction of its own field class (catches the first
+blocks, which the first reader misattributes to the step-sound stores before them). Ids >= 128 were discarded as the
+lookup-table sentinels they are (255, 256). Three of my own bugs had to be fixed on the way: a descriptor comparison
+that appended a semicolon the regex had already consumed, a class name sliced with `[1:-1]`, and an exact-class
+requirement that left 40 of 71 stores unread. The parse now lives in `scripts/extract-indev-blocks.py`; the broken
+PowerShell version is deleted rather than left as a trap.
+
+**Why the ids are trustworthy and the names are not.** Thirteen id/texture pairs match the era's terrain.png layout
+exactly - stone 1/1, dirt 3/2, cobblestone 4/16, planks 5/4, sapling 6/15, bedrock 7/17, water 8/3, sand 12/18, gravel
+13/19, ores 14/15/16 against 32/33/34 - so the reader is not swapping ids and texture indices. But mapping them
+through the project's own Beta 1.7.3 numeric table (`research/beta173-availability.json`) produces names for ids 21-34
+that **cannot** be Indev's: lapis, dispenser, sandstone, music block, bed, rails, pistons, cobweb, tall grass and dead
+bush all arrive after this build, some of them (pistons Beta 1.7, tall grass and dead bush Beta 1.6) long after. So the
+Beta table is usable for 1-20 and 35-62 and is evidence about Beta, not Indev, in the middle. That warning, five
+individually flagged ids (4, 26, 52, 53, 55) and the reasoning are recorded in `research/indev-20100223-blocks.json`.
+
+**2. MB's own Indev data is the citable authority for what generates**, and it is now read. Moderner Beta resolves
+Indev blocks through data files, not code (`javap` on its providers finds no block references at all), so the sources
+are `data/moderner_beta/worldgen/biome/indev_*.json`, `.../configured_feature/trees_indev*.json`,
+`.../placed_feature/trees_indev*.json` and `.../noise_settings/finite_2d.json`. What they reference and what this
+project's Indev revisions already handle: `minecraft:monster_room` and `monster_room_deep` (excluded by
+INFDEV_WITHOUT_DUNGEONS), `ore_lapis`, `ore_copper`, `amethyst_geode`, `underwater_magma` (excluded through
+BEFORE_LAPIS_EXISTED and the Beta root), `moderner_beta:patch_grass_alpha_2` (excluded by BEFORE_GRASS_EXISTED), and
+`minecraft:strongholds` (removed by the Indev preset's own structure modifier). The biome also lists modern spawners -
+bat, chicken, cow, enderman, glow squid, slime, squid, witch, zombie villager - which this project filters at runtime
+through the seven-species spawn set rather than in the biome.
+
+**3. The open question for the next round: the ores.** The ore features are not handled by those exclusion lists at
+all. They are handled by `REPLACED_BY_BETA_POPULATION` (which strips the vanilla ore placement so Beta's own population
+can replace it) plus whatever population the project applies per version - and for the pre-Beta eras the recorded
+position is that ore distribution is **NOT researched** ("NOT researched for this version and therefore still modern:
+its mob set, mob drops, food heal values, ore distribution and decoration"). So nothing in the code, as far as this
+round got, says an Indev world will not generate **redstone ore**, which is Alpha v1.0.1 content and therefore
+anachronistic in a build from February 2010. The block availability table already judges it ANACHRONISTIC for Indev
+(its boundary is alpha_1_0_1, well above Indev's chronology), which is exactly the kind of disagreement between a table
+and the generator that has bitten this project before.
+
+**The way to settle it is a census, not an argument**: generate an Indev world, count the ore blocks it actually
+contains, and compare that against the era. The project already has the instruments (`scripts/region-block-census.py`,
+ColumnStats, the generation probe). That is the next round's first action, and it decides whether an exclusion is
+needed for the two Infdev builds as well, since they share the same pre-Alpha revision list and both predate Alpha
+v1.0.1.
+
+**State**: 588 tests, 0 failures; live jar in sync; nothing gated on any of the above.
+
 ## 6. The recipe-banner mixin crashed the client, and why the build was green anyway
 
 The owner's next run reached their Beta 1.9 Prerelease 1 world and then died the moment a recipe was unlocked:
@@ -28,6 +502,290 @@ owner's run that crashed on the toast had already proved those two applied - a l
 have stopped the game before the world loaded.
 
 Deployed: live jar sha256 `C065FC1075BF0255…`, 722 entries, hash-matched to the tested build.
+
+# Current change — 2026-10-15 / Indev block research: the jar is in hand, the registry is not yet
+
+Following the owner's two corrections - *"Make sure you actually research indev's block availablility"* and *"You could
+also extract from a jar..."* - the artifact route is started, and this records exactly how far it got.
+
+**The artifact.** `in-20100223.jar`, 555,633 bytes, from the Omniarchive Vault BETA's Indev client index
+(<https://vault.omniarchive.uk/archive/java/client-indev/index.html>), stored at
+`.upstream/legacy-jars/in-20100223.jar` (gitignored, not vendored into the build). SHA-1 as computed here:
+`801ce486bb7fd1b43a56bc5d226dfb1370c08678`.
+
+**A provenance problem to settle before this jar gates anything.** The Vault index publishes **no checksums**, so that
+hash is mine, computed from the download - and the project's rule for these jars is the opposite: *"the SHA-1 checked
+against an independently published per-version metadata document - not against the download itself"*, which is how the
+four Infdev jars in `.upstream/legacy-decompile/` were obtained. The owner supplied that document for Infdev; the same
+source is needed for Indev. Until then the jar is evidence of nothing by itself.
+
+**What the jar is.** 309 classes, fully **obfuscated** (`net/minecraft/client/a.class`, `b.class`, …), no
+default-package classes, so no readable block or item names survive. Two structural candidates stand out by the number
+of objects their `<clinit>` builds: `net.minecraft.a.a.b.x` (72 constructions, 7 array fields - the block registry) and
+`net.minecraft.a.b.i` (67, 1 array - the item registry).
+
+**The extraction, twice, and why neither is trustworthy yet.** A first backward scan of the integer pushes before each
+`putstatic` produced a list containing lookup-table bounds (0, 255, 256) and missing many registrations. A rewritten
+parse (`scripts/extract-indev-blocks.ps1`) reads each constructor call's **own** arguments and yields 45 calls / 44
+distinct ids (6, 7, 12-16, 18, 20-42, 45-53, 55-57, 59) - still not the registry: it misses stone (1) at one end and
+everything above 59 at the other, because many blocks are built by subclass constructors whose descriptors are longer
+than the `(II…)` shape that pass accepts. Indev stores **no block name strings**, so even a complete id list needs the
+era's documented id table to become names.
+
+**Nothing is gated on any of this.** The wiki sweep artifact (`research/indev-block-availability.json`) stays marked
+INCOMPLETE and unusable; the jar findings are in `research/indev-jar-provenance.json` (status PROVISIONAL) and
+`research/indev-20100223-blocks.json`. `HistoricalBlockAvailability`'s Indev verdicts still rest only on the sixteen
+boundaries whose own evidence dates them to Classic or earlier, plus diamond ore's introduction-and-withdrawal dates -
+which is what the entry below records.
+
+**Build**: 588 tests, 0 failures. **Deployment** still pending: the owner's client held the live jar through this round.
+
+# Earlier change — 2026-10-15 / Indev: the biome upgrader, and the finite -> infinite border, both measured
+
+Rounding out the Indev objective. Owner: *"remember the biome upgrader also itll upgrade from a finite to infinite
+world so account for that"*. 588 tests, 0 failures.
+
+## The biome upgrader: PLACEHOLDERS was a list nothing consulted
+
+`BiomeCarryForward` keeps a `PLACEHOLDERS` set that already named `moderner_beta:indev_normal`, `indev_hell`,
+`indev_paradise`, `indev_woods` and the Infdev names - and **nothing used it** except a test accessor. So a stored
+Indev or Infdev biome reached the renamed-place suffix lookup, was not recognised, and answered **null**, which the
+driver reads as "no change needed": an Indev world upgraded to Beta 1.8.1 would have kept `moderner_beta:indev_normal`
+inside it, and the same was true of every Infdev placeholder.
+
+`inLateBeta` and `inEarlyRelease` now carry any placeholder to `LATE_BETA_PLAINS`, and the switch's Alpha-only and
+Beta-plains-only branches already mapped them correctly. Pocket Edition provider names (`moderner_beta:pe_*`) are
+**deliberately excluded** by `isCarriedPlaceholder`: they come from another edition and this project has no researched
+hierarchy for them, so moving one would be inventing a mapping - the existing test that pins that behaviour still
+passes, and a new test asserts every Java-line placeholder carries while every `pe_*` name does not.
+
+## The finite -> infinite border: found in the wrong NBT shape first
+
+Owners' requirement implemented in `WorldGenSettingsAdvance`, inside the **same** `level.dat` write as the generator
+advance and therefore under the same backup and journal - a second, later write would be invisible to the crash
+recovery path.
+
+The first attempt was wrong in a way worth recording. It looked for a `WorldBorder` compound under `Data`, found
+nothing, and logged *"world border was absent, so the default already applied"* - over a world that was still 256
+blocks wide. **1.21.1 flattens the border into `Data` as `BorderSize`, `BorderSizeLerpTarget`, `BorderCenterX/Z` and
+the warning keys.** A byte-level dump of the world's own `level.dat` showed the real keys, and the release now writes
+`BorderSize` **and** `BorderSizeLerpTarget` - leaving the lerp target alone would let the border crawl back to 256 while
+the world looked released.
+
+## Evidence: a real Indev world upgraded to Infdev, twice measured
+
+`run/indevlatest` (the Indev world generated earlier) copied to a second world, upgraded through the project's own
+path (`runServer -PgenerationProbe -PprobeUpgradeTo=historical_experience:infdev_420`), then re-opened and read:
+
+```
+[run 1] Finite world released: historical_experience:indev_latest_no_modern_content ->
+        historical_experience:infdev_420_no_modern_content, world border size 256.0 (vanilla default 2.9999984E7)
+[run 2] Historical world detected: profileId=historical_experience:infdev_420
+        rawRecipePreset=historical_experience:infdev_420_no_modern_content
+[run 2] FINITEPROBE borderSize=2.9999984E7 borderCenter=0,0 surfaceWithin=6 solidBeyond128=4
+```
+
+Before the upgrade the same world read `FINITEPROBE borderSize=256.0`; after it, vanilla's default. The upgraded
+world's metadata records revision 2, `profileId=historical_experience:infdev_420`, with a history entry
+*"version upgrade to historical_experience:infdev_420 on generation recipe
+historical_experience:infdev_420_no_modern_content"*. Logs: `run/indev-upgrade2-1.out`, `run/indev-upgrade2-2.out`;
+worlds kept at `run/indevupgrade`/`run/indevupgrade2`.
+
+One thing the evidence also settles for later: the upgraded world's spawn chunk still reported
+`moderner_beta:indev_normal` at the first load, which is correct - the **biome conversion is a separate
+chunk-rewriting pass**, and the carry-forward rule above is what decides where those stored biomes go.
+
+## Still open
+
+1. **Indev block availability from the 20100223 client jar** - the outstanding correction. The wiki sweep remains
+   inadequate and its artifact stays marked INCOMPLETE; the jar route needs the exact artifact and its published
+   SHA-1, and Indev predates MCP mappings so the registry has to be identified from decompiled code.
+2. The remaining "gate everything" sweep for Indev (crafting/availability tables, HUD, textures) - several gates
+   already answer correctly because they are boundary-based and Indev sits below every boundary, which
+   `HistoricalGameplayTweaksTest.everyGateAgreesWithItsBoundary` checks for every profile.
+3. **Deployment is still pending**: the owner's client held the live jar through this entire round (Prism PID 12560),
+   so both this build and the hang watchdog are built, tested and undeployed.
+
+# Earlier change — 2026-10-15 / Indev 20100223: registered, generating, finite — and the block research that is NOT done
+
+Owner: *"Implement Indev the latest version as you did every other version ... it should start using infdev version
+gating and then you can adjust to what it should be also use the indev latest generation in moderner beta for gen
+remember the biome upgrader also itll upgrade from a finite to infinite world so account for that"*, scope confirmed as
+one profile (20100223, finite, with the border it shipped with), then: *"Make sure you actually research indev's block
+availability"* and *"You could also extract from a jar..."*.
+
+## What is implemented and verified
+
+- **Registry**: `historical_experience:indev_latest`, "Indev 20100223", era `indev`, chronology `ERA_INDEV + 223`
+  (200_223, the era + month*100 + day convention the Infdev builds use). New `Era.INDDEV("Indev", 200_000)` in
+  `HistoricalVersionCatalogue`, and an implemented-extra entry beside the two Infdev builds.
+- **Rules**, starting from Infdev as instructed and adjusted to Indev's own record:
+  `HistoricalSpawnRules.INDEV_20100223_MOBS` (the same seven species, adopted from the next *measured* era because no
+  research row adds or removes an Indev species); `HistoricalLootRules.INDEV_20100223` (Indev 20100219's tables:
+  zombie 0-2 feathers, skeleton 0-2 arrows, pig 0-2 raw porkchops, spider 0-2 string - bones are Beta 1.2, rotten
+  flesh is Beta 1.8); `HistoricalFoodRules.INDEV_20100223` (apple 4, bread 5, stew 10, raw porkchop 3, cooked 8,
+  brown mushroom 5). **Not** Infdev's food table: Infdev's emptiness is a measurement of Infdev, while Indev is where
+  eating was invented. No hunger, no sprinting, no experience, no structures.
+- **The red mushroom's harmful -3 is recorded but not applied** (`UNMODELLED_HARMFUL_FOOD`): this model is positive
+  heals only and two validations reject a non-positive value deliberately, so expressing a damaging food needs the
+  eat path to damage the player - a behaviour change that does not belong inside a version registration. Recorded for
+  the owner rather than silently dropped.
+- **Generation**: three project-owned settings presets (`indev_latest{,_no_grass,_no_modern_content}`) wrapping
+  Moderner Beta's `moderner_beta:indev` - deepslate already off, cave biomes off, and the preset's **stronghold
+  placement override removed**, because a stronghold at distance 0 would put Release 1.0's structure in the middle of
+  a 256-block Indev island - plus the matching world presets. Deliberately **no** `overworld_128` noise override: the
+  finite provider reads its own `finite_2d` settings and its height comes from `finite_level_properties`.
+- **Create-world menu**: `minecraft:normal` world-preset tag now lists
+  `historical_experience:indev_latest_no_modern_content` (the newest revision, which is what the menu test requires).
+- **Structure rule**: `noStructures("Indev 20100223", ...)` in `HistoricalStructureRules`, with the Indev house noted
+  as a placed *spawn* feature rather than a structure-set entry.
+- **Block chronology**: `HistoricalBlockAvailability.CHRONOLOGY` now starts at Indev, and the **sixteen** boundaries
+  that were clamped to the then-oldest profile (Infdev) moved to Indev - bedrock, the stone/ore families, leaves and
+  saplings, glass and sponge, TNT, grass block, obsidian, wheat/farmland, and diamond ore (whose own history is
+  "introduced Indev 0.31 20100128-2200, withdrawn in Infdev 20100227-1414, restored 20100320" - this build sits
+  between the introduction and the withdrawal, so it HAD diamond ore). A comment at the static block records the
+  clamping rule and which rows moved, and the palette-derived halves of those evidence strings still name Beta 1.7.3.
+
+**Runtime evidence that the finite profile works** (`runServer -PenchantProbe`, log `run/indev-latest-probe.out`,
+world kept at `run/indevlatest/`):
+
+```
+Historical marker decision for .\indevlatest\.: action=ESTABLISH_METADATA
+  marker=historical_experience:indev_latest_no_modern_content
+Established historical world metadata ... profileId=historical_experience:indev_latest
+Preparing level "indevlatest"
+Done (3.196s)! For help, type "help"
+Biome at spawn 42, 65, -10 = moderner_beta:indev_normal (profile historical_experience:indev_latest)
+Biome variety across 81 samples: 1 distinct -> [moderner_beta:indev_normal]
+FINITEPROBE borderSize=256.0 borderCenter=0,0 surfaceWithin=6 solidBeyond128=4
+```
+
+So a project-owned Indev world **loads and generates**, single-biome, finite, with the 256-block border centred on
+the origin. That also narrows the old blanket note in `HistoricalVersions` ("Classic and Indev do not generate"): the
+hang was measured on **Classic** (`moderner_beta:classic_0_30`, even from Moderner Beta's own preset); Indev is a
+different provider path and does not hang. **Classic stays withdrawn** - only Indev is offered.
+
+**Build**: 584 tests, 0 failures, 34 declared profiles.
+
+## What the block-availability research is NOT
+
+The owner asked for Indev's block availability to be *researched*, and it is **not** yet good enough to gate anything.
+`scripts/research-indev-blocks.ps1` sweeps minecraft.wiki's Indev build pages, and its first pass was bad in two
+visible ways: it enumerated pages by title prefix (182 hits, subpages included) and it accepted any wiki link inside a
+section whose heading contains "Blocks", so its output contains prose links ("Gear", "block", "infinite water
+source") and misread a "no longer" line as a removal of lava. Its own artifact says so:
+`research/indev-block-availability.json` is marked **INCOMPLETE / NOT AUTHORITATIVE** and must not be used.
+
+The right source is the **jar**, as the owner says, and the project already has the route and the tools for it: the
+Infdev jars came from Omniarchive with every SHA-1 checked against an independently published per-version metadata
+document (recorded in `infdevTerrainOnly`'s provenance comment), and `scripts/extract-b173-palette.py` /
+`extract-block-palette.py` are the extraction pattern used for Beta 1.7.3. Two things to settle before Indev's jar is
+used: the exact 20100223 artifact and its published SHA-1, and how to read its block registry - Indev precedes MCP
+mappings, so `.upstream/legacy-decompile/b19pre6`'s named packages are not available for it, and the registry has to
+be identified from the decompiled code itself. That is the next step, and the table's Indev verdicts should not be
+considered reviewed until then.
+
+## Still to do for this objective
+
+1. Indev block availability from the client jar (above), then the table's Indev verdicts reviewed against it.
+2. The rest of "gate everything": crafting/availability tables, HUD and texture rules, and the swept gates for
+   Indev (several already answer correctly because they are boundary-based and Indev is below every boundary).
+3. **Biome upgrader**: `BiomeCarryForward.destinationFor` returns null for `moderner_beta:indev_normal`
+   (and `indev_hell`/`indev_paradise`/`indev_woods`) in the Late Beta and Early Release generations, so an Indev
+   biome would survive into a Beta 1.8.1+ world; that family must join the placeholder branch.
+4. **Finite -> infinite upgrade**: a finite Indev level persists `size=256` in `level.dat`, and advancing the preset
+   to an infinite Infdev/Alpha generator does not clear it, so the upgrade path must reset the border to the
+   destination's default and record it in the upgrade record/journal, preserving existing chunks as always.
+5. Tests for the above, docs (coverage/provenance), and deployment - the watchdog build is still undeployed because
+   the live jar is held by the running game.
+
+# Current change — 2026-10-15 / the freeze on leaving a world, and the Indev reconnaissance
+
+## The freeze: localised, not reproduced, now diagnosable
+
+Owner: *"there was a freeze"*, then, asked where: **"Froze leaving the world — screen stuck on 'Saving world'/
+loading, never reached the title screen."**
+
+**What the log proves.** `logs/2026-10-15-7.log.gz` (the 16:25 session) ends at
+`[16:26:07] [Server thread/INFO]: Saving worlds` and then contains **nothing**: no "Stopping worker threads", no
+`Reloading resources for historical textures: … -> …`, no `Historical colour maps installed: none`, no atlas creation,
+no `Stopping!`. The session that left a world earlier the same afternoon (16:03, log 5) contains all of those before
+its `Stopping!`. So the client did not crash - it stopped in the game's own teardown, **before this mod's restore
+reload is even reached**. There is no crash report (newest is 10:54) and no watchdog dump.
+
+**What I could not do.** Reproduce it. A temporary quit probe (`QuitProbe`, since deleted) joined the Beta 1.8.1
+fixture, called `server.halt(false)` the way "save and quit" does, and dumped the stacks from its own daemon thread 30
+seconds later. The client left the world cleanly: the restore reload ran, `Historical colour maps installed: none (was
+grass+foliage_new)`, `level=null`, and the Render thread was `RUNNABLE` at the multiplayer screen
+(`run/quit-probe-b18.out`). The dev harness therefore does not reproduce it, and the most likely reason is a
+difference in the clients: the owner's runs Iris, Sodium, EntityCulling, ImmediatelyFast, Lithium, FerriteCore and
+ModernFix beside this mod, while `runClientQuickPlay` runs none of them.
+
+**What now exists instead of a guess.** `LoadingHangWatchdog` (permanent, project-only, client): if the client's
+loading overlay stays up for **30 seconds** after a world has been joined, it logs one warning with the client's
+level/screen/overlay state and the stacks of the render thread, server thread, main and the worker pools. It fires once
+per stuck overlay, never blocks and never throws. It is deliberately not a fix: on a hang the log otherwise simply
+stops, and the next occurrence will now name the frame. The threshold cannot be tripped by an ordinary start-up, and
+an ordinary world is untouched (it reads the client's own overlay and writes one log entry).
+
+**Next occurrence**: send the `HANGWATCHDOG` block from `logs/latest.log` and the frame that holds the lock will be
+visible in it.
+
+## Indev reconnaissance (implementation next)
+
+Owner, on scope: *"Implement Indev the latest version as you did every other version … it should start using infdev
+version gating and then you can adjust to what it should be also use the indev latest generation in moderner beta for
+gen remember the biome upgrader also itll upgrade from a finite to infinite world so account for that."* Scope
+confirmed: **one profile, Indev 20100223, finite with the border it shipped with** (not the four themes).
+
+**What Moderner Beta already provides** (read from the shipped jar, not assumed):
+`data/moderner_beta/moderner_beta/settings_preset/indev.json` and `indev_{hell,paradise,woods}.json`; biome
+`moderner_beta:indev_normal`; provider `moderner_beta:finite_2d`; noise settings `moderner_beta:finite_2d`;
+`finite_level_properties` = type `island`, height 128, **length 256, width 256**, theme `normal`;
+`world_border` = enabled, **width 256**, centre origin, falloff `ocean`, ground level 55; an out-of-bounds biome
+injection to `minecraft:the_void` (margin 4); deepslate already disabled; cave biomes already `none`; and a stronghold
+placement override this project's presets will drop. Also `ChunkProviderFinite`, `ChunkProviderFinite2D`,
+`SpawnLocatorIndev` and `IndevTheme`/`IndevType` classes.
+
+**The earlier attempt's conclusion is narrower than its comment.** `HistoricalVersions` says Classic *and* Indev are
+not offered because Moderner Beta's finite path does not generate. The measurement behind that is **Classic**
+(`moderner_beta:classic_0_30` hangs on chunk (0,0) even from Moderner Beta's own preset), while
+`run/indevprobe.out` shows an Indev world **generating**: spawn prepared in 1.25 s, biome at spawn
+`moderner_beta:indev_normal`, `FINITEPROBE borderSize=256.0 borderCenter=0,0 surfaceWithin=6 solidBeyond128=4`. So
+Indev is worth re-measuring as its own case before repeating the Classic verdict, and that is the first runtime step.
+
+**The project shape to add** (copied from how Infdev is declared, per the owner's "start using infdev version gating"):
+project-owned settings presets `indev_latest{,_no_grass,_no_modern_content}.json` wrapping `moderner_beta:indev` (the
+finite preset must **not** take the `overworld_128` noise override Infdev's presets use - it has its own
+`finite_2d` settings and a 128-high level), matching world presets, a `terrainOnlyWithRules` entry with
+`ERA_INDEV + 223` (era + month*100 + day, the Infdev convention), and a catalogue `Era.INDDEV("Indev", 200_000)`
+entry - `ERA_INDEV = 200_000` already exists in `HistoricalVersions`.
+
+**The Indev facts the project's own research already establishes** (all VERIFIED, `research/feature-timeline.json`
+unless noted): mobs burn in daylight from **Indev 20100213**; mob armour and arm-swinging **removed in Indev
+20100202**, so 20100223 has neither; fire from **Indev 20100109-1939** with infinite burn until Beta 1.2_02;
+TNT primed by an empty hand (through Beta 1.6.6); farming, seeds and **wheat/farmland from Indev 20100206-2034**;
+diamond ore from Indev 0.31; natural obsidian from water on lava; **drops from Indev 20100219** - zombie 0-2
+feathers, skeleton arrows (bones only from Beta 1.2), pig 0-2 raw porkchop, spider 0-2 string; **sheep drop light
+grey cloth from Indev 20100223** (white from Infdev 20100624); drowning present (1 damage/second from Indev
+20100125); food is the direct-heal model - `research/historical-features.json` records apple 4 HP (Indev 20100110),
+bread 5 HP and mushroom stew 10 HP (Indev 20100206-2034), raw porkchop 3 HP / cooked 8 HP (Indev 20100219). Infdev's
+*empty* food table is a measured property of Infdev, **not** a baseline to inherit for Indev, which is exactly the
+"then you can adjust" half of the owner's instruction.
+
+**Biome upgrader and finite -> infinite** (owner: *"remember the biome upgrader also itll upgrade from a finite to
+infinite world so account for that"*): `BiomeCarryForward.destinationFor` maps a stored biome into the destination's
+generation and already treats `moderner_beta:alpha` as the pre-biome placeholder, but an Indev source biome
+(`moderner_beta:indev_normal`, and `indev_hell`/`indev_paradise`/`indev_woods`) falls through `inLateBeta` and
+`inEarlyRelease`'s suffix lookup and returns **null = no change**, which would leave an Indev biome inside a Beta
+1.8.1+ world. That family must join the placeholder branch. The finite -> infinite half is the **world border**: a
+finite Indev level persists `size=256` in `level.dat`, and advancing the preset to an infinite Infdev/Alpha generator
+does not clear it, so the upgrade path must reset the border to the destination's default and record that in the
+upgrade record/journal, with existing chunks inside the old border preserved as always.
+
+**Build**: 584 tests, 0 failures; `apply-licence-headers.py --check` → "all 383 Java files carry the correct licence
+header (103 Nostalgic Tweaks-derived, 280 project)". The watchdog build is **not deployed** - the game was running and
+holds the live jar (live jar still `3964BC84A89BD1A8…`, the experience-number build).
 
 # Current change — 2026-10-15 / the experience level number, and a boundary the owner corrected
 

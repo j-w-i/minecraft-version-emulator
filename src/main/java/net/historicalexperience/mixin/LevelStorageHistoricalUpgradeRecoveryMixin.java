@@ -41,11 +41,12 @@ public abstract class LevelStorageHistoricalUpgradeRecoveryMixin {
     private void historicalExperience$recoverBeforeDecode(boolean fallback,
             CallbackInfoReturnable<Dynamic<?>> callback) throws IOException {
         Path world = getLevelPath(LevelResource.ROOT);
-        if (!UpgradeJournal.existsIn(world)) return;
+        if (!UpgradeJournal.existsIn(world) && !net.historicalexperience.world.upgrade.FiniteEdgeRepair.pending(world)) return;
         // Do not bypass vanilla's ownership check: even reading an interrupted journal cannot confer
         // permission to change a world which this LevelStorageAccess no longer owns.
         checkLock();
         try {
+            net.historicalexperience.world.upgrade.FiniteEdgeRepair.recover(world);
             GenerationUpgrade.recover(world);
             var advance = GenerationUpgrade.applyPendingAdvance(world);
             HistoricalExperienceMod.LOGGER.info("Recovered historical upgrade before world-data decode: {} {}",

@@ -348,6 +348,9 @@ public final class HistoricalCraftingEra {
         if (!declared(versionId) || itemId == null) {
             return false;
         }
+        if (EarlyGameplayRecipes.supports(versionId)) {
+            return !EarlyGameplayRecipes.canCraftResult(versionId, itemId);
+        }
         if (!EXISTED_BY_1_6_4.containsKey(itemId)) {
             // Not in the 1.6.4 client, therefore in no declared version.
             return true;

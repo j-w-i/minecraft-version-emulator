@@ -109,6 +109,20 @@ public final class GenerationUpgrade {
         // On 1.21.1 level.dat itself contains the generator. Back it up once, not twice.
         WorldGenSettingsAdvance.FILE_NAME);
 
+    /**
+     * Whether this upgrade takes a FINITE world into an infinite one, and so owes the border release.
+     *
+     * <p>Owner: "itll upgrade from a finite to infinite world so account for that". Both sides are asked as
+     * generation-preset aliases, because that is what the journal and the level stem store: the source is the preset
+     * the world was created with and the destination is the preset it is moving to. A finite-to-finite upgrade (were
+     * a second finite era ever offered) releases nothing, and an infinite-to-anything upgrade has no border of ours
+     * to release.
+     */
+    private static boolean releasesFiniteBorder(String fromPreset, String toPreset) {
+        return net.historicalexperience.version.HistoricalVersions.isFinitePreset(fromPreset)
+            && !net.historicalexperience.version.HistoricalVersions.isFinitePreset(toPreset);
+    }
+
     private GenerationUpgrade() {
     }
 
@@ -289,7 +303,8 @@ public final class GenerationUpgrade {
         // version of this method refused every deferred advance with "the file names X but the upgrade
         // expected Y", where both X and Y were wrong for the same reason.
         WorldGenSettingsAdvance.advance(worldDirectory, journal.fromPreset(),
-            target.generationPreset().value());
+            target.generationPreset().value(),
+            releasesFiniteBorder(journal.fromPreset(), target.generationPreset().value()));
 
         UpgradeJournal.deleteFrom(worldDirectory);
         return Optional.of(new Result(Phase.COMPLETE, journal.backupDirectory(), current, target));
@@ -305,6 +320,9 @@ public final class GenerationUpgrade {
             throw new UpgradeException(
                 "refusing to upgrade while terrain generation is in flight; the new revision must apply "
                     + "to future chunks from a known boundary, not to a partially generated region");
+        }
+        if (FiniteEdgeRepair.pending(worldDirectory)) {
+            throw new UpgradeException("A finite-edge repair is pending; finish it before staging another version upgrade");
         }
         if (UpgradeJournal.existsIn(worldDirectory)) {
             throw new UpgradeException(
@@ -368,6 +386,9 @@ public final class GenerationUpgrade {
                 "refusing to upgrade while terrain generation is in flight; the new revision must apply "
                     + "to future chunks from a known boundary, not to a partially generated region");
         }
+        if (FiniteEdgeRepair.pending(worldDirectory)) {
+            throw new UpgradeException("A finite-edge repair is pending; finish it before staging another version upgrade");
+        }
         if (UpgradeJournal.existsIn(worldDirectory)) {
             throw new UpgradeException(
                 "an unfinished upgrade journal exists for this world; recover it before starting another "
@@ -419,7 +440,8 @@ public final class GenerationUpgrade {
         // file while loading the world, so the new preset takes effect from the next session's first
         // chunk, with no partially generated region straddling two recipes.
         WorldGenSettingsAdvance.advance(worldDirectory, before.generationPreset().value(),
-            target.generationPreset().value());
+            target.generationPreset().value(),
+            releasesFiniteBorder(before.generationPreset().value(), target.generationPreset().value()));
         if (stopAfter == Phase.PRESET_ADVANCED) {
             return new Result(Phase.PRESET_ADVANCED, backupDirectory, before, target);
         }

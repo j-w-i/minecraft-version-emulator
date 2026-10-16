@@ -174,10 +174,20 @@ class HistoricalRegionBiomesTest {
         // at a Beta 1.8.1 destination.
         assertTrue(HistoricalRegionBiomes.holdsCarriedBiome(chunk(section("moderner_beta:alpha")), TO_BETA_181),
             "the Alpha biome is what an Infdev or Alpha world holds, and it moves at a Beta 1.8.1 destination");
-        // A declared Infdev profile name is NOT the same thing: Moderner Beta can name a biome after a build, but only
-        // the Alpha placeholder is what those worlds actually store, so a stale infdev_* name has no counterpart.
-        assertFalse(HistoricalRegionBiomes.holdsCarriedBiome(chunk(section("moderner_beta:infdev_611")), TO_BETA_181),
-            "a stored infdev_* name has no counterpart in the default sequence, so it is left alone");
+        // A biome named after an Infdev build is the other half of the same story, and this assertion changed when
+        // the carry-forward learned to recognise the whole placeholder family. Moderner Beta names a biome per era,
+        // and BiomeCarryForward's PLACEHOLDERS set lists them - infdev_*, indev_*, classic_*, alpha_winter, alpha -
+        // because every one of them means "a world whose generation predates biome weather". Nothing consulted that
+        // set, so these names reached the renamed-place lookup, were not recognised, and answered null = "no change",
+        // which is how an Indev world could be upgraded into Beta 1.8.1 and keep moderner_beta:indev_normal in it.
+        assertTrue(HistoricalRegionBiomes.holdsCarriedBiome(chunk(section("moderner_beta:infdev_611")), TO_BETA_181),
+            "a stored infdev_* placeholder does have a counterpart: this generation's plains");
+        assertTrue(HistoricalRegionBiomes.holdsCarriedBiome(chunk(section("moderner_beta:indev_normal")), TO_BETA_181),
+            "and an Indev world's biome is the case the owner reported");
+        // A Pocket Edition provider name is still left alone: it belongs to another edition and this project has no
+        // researched hierarchy for it, so moving it would be inventing a mapping.
+        assertFalse(HistoricalRegionBiomes.holdsCarriedBiome(chunk(section("moderner_beta:pe_plains")), TO_BETA_181),
+            "a Pocket Edition name is not part of this project's hierarchy");
         assertFalse(HistoricalRegionBiomes.holdsCarriedBiome(
             chunk(section("moderner_beta:late_beta_plains"), section("minecraft:ocean")), TO_BETA_181));
         // A chunk with no sections at all must not be mistaken for one that needs work.

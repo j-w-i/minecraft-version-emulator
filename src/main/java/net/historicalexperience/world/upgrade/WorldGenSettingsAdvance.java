@@ -51,8 +51,8 @@ import net.minecraft.nbt.NbtIo;
  * <p>This runs <b>before</b> the world is loaded, from the startup path, so:
  * <ul>
  *   <li>generation is genuinely drained - no chunk of this session has been generated yet;</li>
- *   <li>existing chunks are untouched, because only this small NBT file is rewritten and no region file
- *       is opened for writing;</li>
+ *   <li>existing player terrain is preserved. An explicit finite-to-infinite advance may additionally
+ *       release exact pristine synthetic exterior chunks through the separately journaled apron transaction;</li>
  *   <li>the new preset applies to every chunk generated from this session onward.</li>
  * </ul>
  *
@@ -122,6 +122,39 @@ public final class WorldGenSettingsAdvance {
                 .orElse(null)));
     }
 
+    /** Reads the actual saved seed, refusing missing/wrong-type fields rather than silently defaulting to zero. */
+    public static long readWorldSeed(Path worldDirectory) throws UpgradeException {
+        CompoundTag data = readTag(worldDirectory.resolve(FILE_NAME)).getCompound("Data").getCompound("WorldGenSettings");
+        if (!data.contains("seed", net.minecraft.nbt.Tag.TAG_LONG)) {
+            throw new UpgradeException("WorldGenSettings.seed is missing or is not a long; cannot bind a finite transition");
+        }
+        return data.getLong("seed");
+    }
+
+    /** Monotonic saved game time, NOT player-set day time; absence/invalid type is not guessed as zero. */
+    public static java.util.OptionalLong readGameTime(Path worldDirectory) throws UpgradeException {
+        CompoundTag data = readTag(worldDirectory.resolve(FILE_NAME)).getCompound("Data");
+        return data.contains("Time", net.minecraft.nbt.Tag.TAG_LONG) && data.getLong("Time") >= 0
+            ? java.util.OptionalLong.of(data.getLong("Time")) : java.util.OptionalLong.empty();
+    }
+
+    /** Only the project's unchanged default finite preset can use the fixed 256x256 apron geometry. */
+    public static String requireDefaultFiniteSource(Path worldDirectory) throws UpgradeException {
+        State state = read(worldDirectory).orElseThrow(() -> new UpgradeException("No stored historical finite generator"));
+        if (!state.consistent() || !net.historicalexperience.version.HistoricalVersions.isFinitePreset(state.settingsPreset())) {
+            throw new UpgradeException("Finite transition requires a consistent, recognized finite source preset");
+        }
+        CompoundTag gen = generatorTag(readTag(worldDirectory.resolve(FILE_NAME))).orElseThrow();
+        CompoundTag biome = biomeSource(gen).orElseThrow();
+        for (CompoundTag settings : List.of(gen.getCompound("provider_settings"), biome.getCompound("provider_settings"),
+                biome.getCompound("cave_provider_settings"))) {
+            if (!settings.getAllKeys().equals(java.util.Set.of(PRESET_KEY))) {
+                throw new UpgradeException("Customized finite provider settings cannot use the default apron migration; no region changes performed");
+            }
+        }
+        return state.settingsPreset();
+    }
+
     /**
      * Rewrites all three references from {@code expectedFrom} to {@code to}, atomically.
      *
@@ -130,6 +163,30 @@ public final class WorldGenSettingsAdvance {
      *                          currently name {@code expectedFrom} in all three places
      */
     public static State advance(Path worldDirectory, String expectedFrom, String to)
+            throws UpgradeException {
+        return advance(worldDirectory, expectedFrom, to, false);
+    }
+
+    /**
+     * The same rewrite, and - when {@code releaseWorldBorder} is set - the finite level's world border with it.
+     *
+     * <h2>Why the border belongs to this step</h2>
+     *
+     * <p>Owner: <i>"remember the biome upgrader also itll upgrade from a finite to infinite world so account for
+     * that"</i>. A finite world's size is not a property of its generator that this rewrite would incidentally clear:
+     * Moderner Beta's {@code world_border} component SETS the level's border when the world is created, and the game
+     * persists that border in {@code level.dat}. So a 256-block Indev world upgraded to an infinite Infdev or Alpha
+     * generator would keep generating as an infinite world while the player stayed fenced inside a 256-block square -
+     * the terrain would move and the world would not.
+     *
+     * <p>It is done here, and not as a separate pass, because this is the one write to {@code level.dat} that the
+     * upgrade already performs under the journal and the backup: a second, later write would be invisible to the
+     * crash-recovery path, and a crash between the two would leave a world whose generator says "infinite" and whose
+     * border still says "finite", with nothing recording that the second step was owed.
+     *
+     * <p>The replacement value is vanilla's own default border, which is what a world that never had a border uses.
+     */
+    public static State advance(Path worldDirectory, String expectedFrom, String to, boolean releaseWorldBorder)
             throws UpgradeException {
         Path file = worldDirectory.resolve(FILE_NAME);
         if (!Files.isRegularFile(file)) {
@@ -158,11 +215,86 @@ public final class WorldGenSettingsAdvance {
                 + "world in a way nothing has described");
         }
 
+        if (releaseWorldBorder
+                && net.historicalexperience.version.HistoricalVersions.isFinitePreset(expectedFrom)
+                && !net.historicalexperience.version.HistoricalVersions.isFinitePreset(to)) {
+            try {
+                FiniteApronRelease.release(worldDirectory);
+            } catch (IOException failure) {
+                throw new UpgradeException("Finite edge migration did not finish; generator unchanged, retry recovery", failure);
+            }
+        }
+
         setPreset(childOrNull(generator, "provider_settings"), to);
         setPreset(childOrNull(biomeSource, "provider_settings"), to);
         setPreset(childOrNull(biomeSource, "cave_provider_settings"), to);
 
+        if (releaseWorldBorder) {
+            Double before2 = setWorldBorderToDefault(root);
+            net.historicalexperience.HistoricalExperienceMod.LOGGER.info(
+                "Finite world released: {} -> {}, world border {} (vanilla default {})",
+                expectedFrom, to,
+                before2 == null ? "was absent, so the default already applied" : "size " + before2,
+                DEFAULT_WORLD_BORDER_SIZE);
+        }
+
         writeTag(root, file);
+        return before;
+    }
+
+    /** Vanilla's own default world border size, which is what a level with no stored border behaves as. */
+    public static final double DEFAULT_WORLD_BORDER_SIZE = 29_999_984.0D;
+
+    /**
+     * The border size stored in this world's {@code level.dat}, when it stores one.
+     *
+     * <p>A read-only diagnostic: the upgrade reports the size before and after so a released border is visible in the
+     * log rather than only in the effect on play. Absent, unreadable or not-a-number all answer empty rather than a
+     * made-up default, because "this world stores no border" and "this world stores 29,999,984" are different facts.
+     */
+    public static Optional<Double> readWorldBorderSize(Path worldDirectory) {
+        try {
+            Path file = worldDirectory.resolve(FILE_NAME);
+            if (!Files.isRegularFile(file)) {
+                return Optional.empty();
+            }
+            CompoundTag data = childOrNull(readTag(file), "Data");
+            if (data == null || !data.contains("BorderSize")) {
+                return Optional.empty();
+            }
+            return Optional.of(data.getDouble("BorderSize"));
+        } catch (UpgradeException | RuntimeException failure) {
+            return Optional.empty();
+        }
+    }
+
+    /**
+     * Sets the stored border to vanilla's default, returning the size it held.
+     *
+     * <p>1.21.1 stores the border FLATTENED into {@code Data} as {@code BorderSize} and its companions, not as a
+     * {@code WorldBorder} compound - the first version of this method looked for the compound, found nothing, and
+     * reported "the border was absent, so the default already applied" over a world that was still 256 blocks wide.
+     *
+     * <p>Only the size is touched. The border's centre is where the finite level put it - the origin, which is
+     * also where an infinite world's default is - and its damage, warning distance and timer are the player's own
+     * settings, not this project's to overwrite. A level with no stored border is left alone: it already behaves as
+     * the default, and writing one would be inventing state.
+     *
+     * @return the previous size, or null when the level stored none
+     */
+    private static Double setWorldBorderToDefault(CompoundTag root) {
+        CompoundTag data = childOrNull(root, "Data");
+        if (data == null || !data.contains("BorderSize")) {
+            return null;
+        }
+        double before = data.getDouble("BorderSize");
+        data.putDouble("BorderSize", DEFAULT_WORLD_BORDER_SIZE);
+        // The lerp target as well, and this is the part that would have been missed: the border grows toward
+        // BorderSizeLerpTarget over BorderSizeLerpTime, so leaving the target at the finite size would let the
+        // border crawl back to 256 while the world looked released.
+        if (data.contains("BorderSizeLerpTarget")) {
+            data.putDouble("BorderSizeLerpTarget", DEFAULT_WORLD_BORDER_SIZE);
+        }
         return before;
     }
 

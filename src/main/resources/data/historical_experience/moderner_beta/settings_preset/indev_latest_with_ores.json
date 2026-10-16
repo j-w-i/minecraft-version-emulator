@@ -1,0 +1,21 @@
+{
+  "chunkSettings": {
+    "moderner_beta:preset": "moderner_beta:indev",
+    "moderner_beta:deepslate_generation": {
+      "enabled": false
+    },
+    "moderner_beta:structure_modifiers": {
+      "overrides": {},
+      "removed": [
+        "minecraft:stronghold"
+      ]
+    }
+  },
+  "biomeSettings": {
+    "moderner_beta:preset": "moderner_beta:indev"
+  },
+  "caveBiomeSettings": {
+    "moderner_beta:preset": "moderner_beta:indev",
+    "moderner_beta:provider": "moderner_beta:none"
+  }
+}

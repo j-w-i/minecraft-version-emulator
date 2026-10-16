@@ -54,16 +54,14 @@ public final class HistoricalSpawnRules {
      * The mobs registered by the Beta 1.7.3 client, as modern entity type identifiers.
      *
      * <p>Derived one-to-one from the {@code jc.class} constant pool; see
-     * {@code research/beta173-entity-types.json}. {@code minecraft:giant} is included because it
-     * existed in Beta, even though neither version gives it a natural spawn entry - including it is
-     * inert and avoids inventing a restriction that the evidence does not support.
+     * {@code research/beta173-entity-types.json}. Registered-but-non-spawning giants are deliberately excluded:
+     * registry presence does not establish natural spawning, and the owner explicitly forbids this allowance.
      */
     public static final Set<String> BETA_1_7_3_MOBS = Set.of(
         "minecraft:chicken",
         "minecraft:cow",
         "minecraft:creeper",
         "minecraft:ghast",
-        "minecraft:giant",
         "minecraft:pig",
         "minecraft:sheep",
         "minecraft:skeleton",
@@ -110,16 +108,13 @@ public final class HistoricalSpawnRules {
      * <p><b>Four of Beta 1.7.3's mobs are absent and were confirmed absent</b> as UTF-8 constants
      * anywhere in the jar, not merely missing from a list: ghasts, zombie pigmen, squid and wolves.
      *
-     * <p>Giant is included for consistency with the Beta 1.7.3 set, which also registers it. It is
-     * registered here and there alike and is not understood to have spawned naturally in either; the
-     * registry is the convention this project uses, and the self-check that fixed that convention
-     * reproduced Beta 1.7.3's 14 mobs exactly.
+     * <p>The registered giant is excluded from natural spawning, exactly as in the Beta and earlier sets.
+     * Registration alone is not a natural-spawn eligibility rule.
      */
     public static final Set<String> ALPHA_1_1_2_MOBS = Set.of(
         "minecraft:chicken",
         "minecraft:cow",
         "minecraft:creeper",
-        "minecraft:giant",
         "minecraft:pig",
         "minecraft:sheep",
         "minecraft:skeleton",
@@ -433,7 +428,7 @@ public final class HistoricalSpawnRules {
     );
 
     /**
-     * Infdev 20100420 and 20100611's mobs: the registry-backed set, seven species.
+     * Infdev 20100420 and 20100611's natural-spawn allow-list: six species, excluding the registered giant.
      *
      * <p>Both builds carry entity registry class {@code net/minecraft/a/c/e} with an identical
      * {@code <clinit>} instruction sequence and 13 registrations: the base classes Mob and Monster, seven
@@ -445,7 +440,6 @@ public final class HistoricalSpawnRules {
         "minecraft:creeper",
         "minecraft:skeleton",
         "minecraft:spider",
-        "minecraft:giant",
         "minecraft:zombie",
         "minecraft:pig",
         "minecraft:sheep"
@@ -464,6 +458,34 @@ public final class HistoricalSpawnRules {
      * restricts rather than an empty set meaning "unrestricted".
      */
     public static final Set<String> INFDEV_20100227_MOBS = Set.of();
+
+    /**
+     * Indev 20100223's natural-spawn allow-list: the same six as Infdev; never giants.
+     *
+     * <p>The owner's instruction for this profile was "it should start using infdev version gating and then you can
+     * adjust to what it should be", so the baseline is the measured Infdev set (creeper, skeleton, spider,
+     * zombie, pig, sheep; the registered giant is NOT eligible) with the adjustments this project's own research
+     * establishes for Indev 20100223:
+     *
+     * <ul>
+     *   <li>Mob armour and the arm-swinging attack animation were <b>removed in Indev 20100202</b>, so this build has
+     *       neither. Those are not spawn-set members - the species are unaffected - and they are gated where the
+     *       behaviours live.</li>
+     *   <li>Drops are the Indev 20100219 tables; see {@code HistoricalLootRules.INDEV_20100223}.</li>
+     * </ul>
+     *
+     * <p>No row of the research adds or removes a species between Indev 20100223 and Infdev 20100420, so this set is
+     * deliberately the same six eligible species as {@link #INFDEV_20100420_AND_20100611_MOBS} rather than a second guess: if an
+     * Indev-specific species boundary is ever established, it belongs here and the Infdev set stays as measured.
+     */
+    public static final Set<String> INDEV_20100223_MOBS = Set.of(
+        "minecraft:creeper",
+        "minecraft:skeleton",
+        "minecraft:spider",
+        "minecraft:zombie",
+        "minecraft:pig",
+        "minecraft:sheep"
+    );
 
     /** One era's natural-spawn rule and the evidence behind it. */
     public record SpawnRule(String profileId, Set<String> allowedEntityTypes, String evidence) {

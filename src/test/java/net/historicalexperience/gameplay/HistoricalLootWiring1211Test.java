@@ -118,9 +118,22 @@ class HistoricalLootWiring1211Test {
         assertEquals(3, betaZombie.maxExclusiveCount());
         assertFalse(betaZombie.evidence().isBlank(), "a rule must say where its value came from");
 
-        // Every mob the tables name is dated, and every rule carries evidence.
+        // Every mob a version can actually spawn, and that the Beta table names, is dated, and every rule carries
+        // evidence.
+        //
+        // The intersection is the point, not a convenience. Indev 20100223 is a version whose drops ARE researched
+        // (the Indev 20100219 tables) but which spawns no chickens - they arrive in Alpha 1.0.14 - so requiring a
+        // chicken rule of it would be requiring an invented drop for a mob that cannot appear. A version that spawns
+        // chicken still gets checked, because Beta 1.7.3's and Beta 1.8.1's spawn sets contain it.
         for (String profile : replaces) {
+            Set<String> spawnable = net.historicalexperience.version.HistoricalVersions.byId(profile)
+                .orElseThrow(() -> new AssertionError(profile + " replaces loot but is not a declared version"))
+                .rules()
+                .allowedNaturalSpawns();
             for (HistoricalLootRules.DropRule rule : HistoricalLootRules.BETA_1_7_3) {
+                if (!spawnable.contains(rule.entityTypeId())) {
+                    continue;
+                }
                 var found = HistoricalLootRules.forEntity(profile, rule.entityTypeId());
                 assertTrue(found.isPresent(), profile + " must have a rule for " + rule.entityTypeId());
                 assertFalse(found.get().evidence().isBlank(), "no evidence for " + rule.entityTypeId());

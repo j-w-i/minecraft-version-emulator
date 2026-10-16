@@ -1,0 +1,891 @@
+{
+  "status": "IDS, TEXTURES, MID-RANGE AND CLOTH COLOURS ALL READ FROM THE ARTIFACT",
+  "jar": {
+    "file": "in-20100223.jar",
+    "bytes": 555633,
+    "sha1ComputedFromDownload": "801ce486bb7fd1b43a56bc5d226dfb1370c08678",
+    "source": "https://vault.omniarchive.uk/archive/java/client-indev/in-20100223.jar",
+    "provenanceGap": "the Vault index publishes no checksums, so this hash is self-computed and does not yet meet the project rule of comparing against an independently published metadata document"
+  },
+  "registryClass": "net.minecraft.a.a.b.x",
+  "ids": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62
+  ],
+  "distinctBlockIds": 62,
+  "readers": {
+    "spanReader": "the first two integer pushes between one store and the next - catches constructions that nest another object",
+    "classWalk": "each store walked back to the construction of its own field class - catches the first blocks, which the span reader attributes to the step-sound stores preceding them",
+    "reconciled": "their union with ids >= 128 discarded; 255 and 256 appeared only because a span with no push of its own inherits the previous construction's"
+  },
+  "textureCrossCheck": [
+    {
+      "id": 1,
+      "texture": 1
+    },
+    {
+      "id": 3,
+      "texture": 2
+    },
+    {
+      "id": 4,
+      "texture": 16
+    },
+    {
+      "id": 5,
+      "texture": 4
+    },
+    {
+      "id": 6,
+      "texture": 15
+    },
+    {
+      "id": 7,
+      "texture": 17
+    },
+    {
+      "id": 8,
+      "texture": 3
+    },
+    {
+      "id": 10,
+      "texture": 255
+    },
+    {
+      "id": 12,
+      "texture": 18
+    },
+    {
+      "id": 13,
+      "texture": 19
+    },
+    {
+      "id": 14,
+      "texture": 32
+    },
+    {
+      "id": 15,
+      "texture": 33
+    },
+    {
+      "id": 16,
+      "texture": 34
+    }
+  ],
+  "crossCheckVerdict": "every checkable id/texture pair matches the era terrain.png layout exactly, which is what makes this evidence rather than bytecode noise",
+  "beta173Mapping": {
+    "source": "research/beta173-availability.json - the project's own Beta 1.7.3 numeric id extraction (223 entries)",
+    "why": "the numeric ids were stable from Classic through Beta 1.7.3, so the existing extraction is a citable id-to-name table",
+    "validatedBy": "the texture cross-check agrees on water 8/9, lava 10/11, sand 12, gravel 13 and the three ores 14/15/16",
+    "unmapped": [
+      34,
+      35,
+      36
+    ],
+    "unmappedNote": "the wool colours - recorded in the Beta table as metadata variants of one block, so they carry no numericId",
+    "flaggedForTheWiki": {
+      "4": "Beta 1.7.3 names id 4 stonebrick; texture index 16 and every era source expect cobblestone here",
+      "26": "Beta 1.7.3 calls 26 a bed; beds arrive in Beta 1.3, so this build had something else at 26",
+      "52": "Beta 1.7.3 calls 52 a monster spawner; the monster room arrives Infdev 20100625-1917, after this build",
+      "53": "Beta 1.7.3 calls 53 wooden stairs; this project gates stairs to Beta 1.7, after this build",
+      "55": "Beta 1.7.3 calls 55 redstone dust; redstone arrives Alpha 1.0.1, after this build"
+    },
+    "midRangeWarning": "The Beta 1.7.3 names for ids 21 to 34 cannot be Indev 20100223 names: they are lapis ore and block, dispenser, sandstone, music block, bed, the two rails, the two pistons, cobweb, tall grass, dead bush and the two slabs, and every one of those arrives after this build (lapis and redstone in Alpha 1.0.1, sandstone in Beta 1.2, pistons in Beta 1.7, cobweb in Beta 1.5, tall grass and dead bush in Beta 1.6). What Indev actually registered at 21 to 34 is therefore unknown from this source, and the Beta table's names there are evidence about Beta rather than about Indev.",
+    "whereTheBetaTableIsUsable": "ids 1 to 20 and 35 to 62, which the texture cross-check and the arrival dates do not contradict. The ids themselves are corroborated independently: the extracted id/texture pairs match the era layout exactly for stone 1/1, dirt 3/2, cobblestone 4/16, planks 5/4, sapling 6/15, bedrock 7/17, water 8/3, sand 12/18, gravel 13/19 and the three ores 14/15/16 against 32/33/34, so the reader is not simply swapping ids and texture indices."
+  },
+  "blocks": [
+    {
+      "id": 1,
+      "beta173Name": "stone",
+      "textureIndex": 1,
+      "confidence": "mapped"
+    },
+    {
+      "id": 2,
+      "beta173Name": "grass",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 3,
+      "beta173Name": "dirt",
+      "textureIndex": 2,
+      "confidence": "mapped"
+    },
+    {
+      "id": 4,
+      "beta173Name": "stonebrick",
+      "textureIndex": 16,
+      "confidence": "flagged",
+      "flag": "Beta 1.7.3 names id 4 stonebrick; texture index 16 and every era source expect cobblestone here"
+    },
+    {
+      "id": 5,
+      "beta173Name": "wood",
+      "textureIndex": 4,
+      "confidence": "mapped"
+    },
+    {
+      "id": 6,
+      "beta173Name": "sapling",
+      "textureIndex": 15,
+      "confidence": "mapped"
+    },
+    {
+      "id": 7,
+      "beta173Name": "bedrock",
+      "textureIndex": 17,
+      "confidence": "mapped"
+    },
+    {
+      "id": 8,
+      "beta173Name": "water",
+      "textureIndex": 3,
+      "confidence": "mapped"
+    },
+    {
+      "id": 9,
+      "beta173Name": "water",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 10,
+      "beta173Name": "lava",
+      "textureIndex": 255,
+      "confidence": "mapped"
+    },
+    {
+      "id": 11,
+      "beta173Name": "lava",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 12,
+      "beta173Name": "sand",
+      "textureIndex": 18,
+      "confidence": "mapped"
+    },
+    {
+      "id": 13,
+      "beta173Name": "gravel",
+      "textureIndex": 19,
+      "confidence": "mapped"
+    },
+    {
+      "id": 14,
+      "beta173Name": "oreGold",
+      "textureIndex": 32,
+      "confidence": "mapped"
+    },
+    {
+      "id": 15,
+      "beta173Name": "oreIron",
+      "textureIndex": 33,
+      "confidence": "mapped"
+    },
+    {
+      "id": 16,
+      "beta173Name": "oreCoal",
+      "textureIndex": 34,
+      "confidence": "mapped"
+    },
+    {
+      "id": 17,
+      "beta173Name": "log",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 18,
+      "beta173Name": "leaves",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 19,
+      "beta173Name": "sponge",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 20,
+      "beta173Name": "glass",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 21,
+      "beta173Name": "oreLapis",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 22,
+      "beta173Name": "blockLapis",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 23,
+      "beta173Name": "dispenser",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 24,
+      "beta173Name": "sandStone",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 25,
+      "beta173Name": "musicBlock",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 26,
+      "beta173Name": "bed",
+      "textureIndex": null,
+      "confidence": "flagged",
+      "flag": "Beta 1.7.3 calls 26 a bed; beds arrive in Beta 1.3, so this build had something else at 26"
+    },
+    {
+      "id": 27,
+      "beta173Name": "goldenRail",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 28,
+      "beta173Name": "detectorRail",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 29,
+      "beta173Name": "pistonStickyBase",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 30,
+      "beta173Name": "web",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 31,
+      "beta173Name": "tallgrass",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 32,
+      "beta173Name": "deadbush",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 33,
+      "beta173Name": "pistonBase",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 34,
+      "beta173Name": null,
+      "textureIndex": null,
+      "confidence": "unmapped in the Beta table"
+    },
+    {
+      "id": 35,
+      "beta173Name": null,
+      "textureIndex": null,
+      "confidence": "unmapped in the Beta table"
+    },
+    {
+      "id": 36,
+      "beta173Name": null,
+      "textureIndex": null,
+      "confidence": "unmapped in the Beta table"
+    },
+    {
+      "id": 37,
+      "beta173Name": "flower",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 38,
+      "beta173Name": "rose",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 39,
+      "beta173Name": "mushroom",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 40,
+      "beta173Name": "mushroom",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 41,
+      "beta173Name": "blockGold",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 42,
+      "beta173Name": "blockIron",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 43,
+      "beta173Name": "stoneSlab",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 44,
+      "beta173Name": "stoneSlab",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 45,
+      "beta173Name": "brick",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 46,
+      "beta173Name": "tnt",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 47,
+      "beta173Name": "bookshelf",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 48,
+      "beta173Name": "stoneMoss",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 49,
+      "beta173Name": "obsidian",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 50,
+      "beta173Name": "torch",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 51,
+      "beta173Name": "fire",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 52,
+      "beta173Name": "mobSpawner",
+      "textureIndex": null,
+      "confidence": "flagged",
+      "flag": "Beta 1.7.3 calls 52 a monster spawner; the monster room arrives Infdev 20100625-1917, after this build"
+    },
+    {
+      "id": 53,
+      "beta173Name": "stairsWood",
+      "textureIndex": null,
+      "confidence": "flagged",
+      "flag": "Beta 1.7.3 calls 53 wooden stairs; this project gates stairs to Beta 1.7, after this build"
+    },
+    {
+      "id": 54,
+      "beta173Name": "chest",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 55,
+      "beta173Name": "redstoneDust",
+      "textureIndex": null,
+      "confidence": "flagged",
+      "flag": "Beta 1.7.3 calls 55 redstone dust; redstone arrives Alpha 1.0.1, after this build"
+    },
+    {
+      "id": 56,
+      "beta173Name": "oreDiamond",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 57,
+      "beta173Name": "blockDiamond",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 58,
+      "beta173Name": "workbench",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 59,
+      "beta173Name": "crops",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 60,
+      "beta173Name": "farmland",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 61,
+      "beta173Name": "furnace",
+      "textureIndex": null,
+      "confidence": "mapped"
+    },
+    {
+      "id": 62,
+      "beta173Name": "furnace",
+      "textureIndex": null,
+      "confidence": "mapped"
+    }
+  ],
+  "gatingImpact": "none yet: HistoricalBlockAvailability's Indev verdicts still rest only on the sixteen boundaries whose own evidence dates them to Classic or earlier, plus diamond ore's introduction and withdrawal dates",
+  "nextStep": "settle ids 21 to 34 (and the five individually flagged ones) from the era table on minecraft.wiki, then compare the full 1..62 list against HistoricalBlockAvailability before changing any Indev verdict",
+  "generationCensus": {
+    "how": "python scripts/region-block-census.py run/indevlatest --top 400, on the world the project itself generated from the Indev preset",
+    "world": "run/indevlatest (historical_experience:indev_latest, finite, border 256)",
+    "regionFiles": 6,
+    "chunks": 673,
+    "sections": 5384,
+    "distinctBlocks": 19,
+    "topBlocks": {
+      "minecraft:air": 20797581,
+      "minecraft:stone": 687626,
+      "minecraft:bedrock": 398569,
+      "minecraft:water": 85622,
+      "minecraft:dirt": 57860,
+      "minecraft:lava": 10685,
+      "minecraft:grass_block": 10601,
+      "minecraft:oak_leaves": 1965,
+      "minecraft:sand": 1825,
+      "minecraft:oak_log": 174,
+      "minecraft:gravel": 161,
+      "minecraft:oak_planks": 119,
+      "minecraft:dandelion": 38,
+      "minecraft:obsidian": 14,
+      "minecraft:poppy": 11,
+      "minecraft:nether_portal": 6,
+      "minecraft:red_mushroom": 4,
+      "minecraft:wall_torch": 2,
+      "minecraft:brown_mushroom": 1
+    },
+    "probeArtefacts": "the 14 obsidian, 6 portal blocks, 2 torches and 119 planks are the enchanting verification probe, not generation: its log for this world reads PORTALPROBE written=20 obsidian=14 portal=6, which matches those counts exactly. The generated content is therefore the other fifteen blocks.",
+    "finding": "NO ORES AT ALL. Not redstone or lapis - which are post-Indev and which the availability table already judges anachronistic for this build - but also none of coal, iron, gold or diamond, which Indev 20100223 DID have: coal, iron and gold from Classic, and diamond ore from Indev 0.31 20100128-2200 per the project own research. The hypothesis going in was an anachronistic redstone ore; the measurement says a missing ore population instead.",
+    "why": "the vanilla ore features are stripped by REPLACED_BY_BETA_POPULATION so that Beta own ore population can replace them, and the pre-Beta era has no population of its own: HistoricalVersions records ore distribution for these eras as NOT researched and therefore still modern. Nothing then places ores in a finite Indev world at all.",
+    "tableDisagreement": "HistoricalBlockAvailability allows coal, iron, gold and diamond ore in Indev (their boundaries are Classic and Indev 0.31) and refuses redstone and lapis. The generator agrees with the refusals by accident - they are simply absent with everything else - and disagrees with every allowance.",
+    "nextStep": "give the pre-Beta eras the ore population they are entitled to: coal, iron and gold from Classic and diamond from Indev 0.31, with no redstone (Alpha 1.0.1), no lapis (Alpha) and no emerald (Release 1.3.1). That is a generation change and needs its own evidence - the era ore parameters are not extracted for Indev the way they are for Beta 1.7.3 in research/beta173-ore-parameters-parent-reviewed.json - so it must not be invented from Beta numbers."
+  },
+  "oreIsolationExperiment": {
+    "question": "is the missing ore population an Indev/finite-provider problem, or a pre-Beta family problem?",
+    "method": "generate an INFINITE Infdev 20100420 world from the project preset (level-type historical_experience:infdev_420_no_modern_content) and census it with scripts/region-block-census.py",
+    "result": {
+      "world": "run/orecheck",
+      "chunks": 49,
+      "blocks": [
+        "stone 928038",
+        "air 576669",
+        "bedrock 31356",
+        "dirt 25644",
+        "water 17455",
+        "sand 12677",
+        "grass_block 8223",
+        "oak_leaves 5215",
+        "oak_log 324",
+        "gravel 31"
+      ],
+      "distinctBlocks": 10,
+      "oresFound": "none - no coal, iron, gold or diamond ore in 928,038 stone blocks, where a Beta-era population would put roughly nine thousand coal ore in that sample"
+    },
+    "conclusion": "the finite provider is not the cause. The pre-Beta era family - Indev 20100223 and both Infdev builds, which share the same pre-Alpha revision list - generates no ores at all, because the vanilla ore features are excluded by that list and no era population replaces them for chronology below ERA_ALPHA.",
+    "existingMechanismToReuse": "HistoricalFeatureExclusions already has exactly the right tool: keepingVanillaOres(...) \"the same restrictions without the replacement bans, for versions that place no ores of their own\". It is applied to the later profiles that have no researched ore population of their own and NOT to the pre-Beta ones, which is the whole gap.",
+    "requiredShapeOfTheFix": "a NEW revision for the three pre-Beta profiles, not an edit: revisions are append-only and worlds already exist on the current ones, so changing their exclusion list in place would move the terrain of chunks those worlds have not generated yet. The new revision applies keepingVanillaOres and then excludes the ores no declared version could have had there - redstone (Alpha v1.0.1), lapis (Alpha), copper (1.17), emerald (Release 1.3.1) - leaving coal, iron, gold, diamond, dirt and gravel, which is what the availability table already allows for these builds.",
+    "acceptance": "regenerate an Indev world and an Infdev world and census both: coal, iron, gold and diamond ore present; redstone, lapis, copper and emerald absent."
+  },
+  "oreFixVerified": {
+    "revision": "revision 3, alias _with_ores, for the three pre-Beta profiles only (chronology < ERA_ALPHA)",
+    "mechanism": "HistoricalFeatureExclusions.preAlphaWithVanillaOres() = keepingVanillaOres(INFDEV_WITHOUT_DUNGEONS) + explicit exclusions for redstone, lapis, copper, emerald and the modern diamond shapes",
+    "indevCensus": {
+      "world": "run/indevores",
+      "preset": "historical_experience:indev_latest_with_ores",
+      "chunks": 49,
+      "distinctBlocks": 21,
+      "ores": {
+        "coal_ore": 3498,
+        "iron_ore": 2772,
+        "diamond_ore": 254,
+        "gold_ore": 230
+      },
+      "laterOres": "none - no redstone, lapis, copper or emerald"
+    },
+    "infdevCensus": {
+      "world": "run/infdevores",
+      "preset": "historical_experience:infdev_420_with_ores",
+      "chunks": 49,
+      "distinctBlocks": 14,
+      "ores": {
+        "coal_ore": 6519,
+        "iron_ore": 3312,
+        "diamond_ore": 278,
+        "gold_ore": 248
+      },
+      "laterOres": "none"
+    },
+    "before": "the same Indev world on the previous revision had NO ORE AT ALL (19 distinct blocks, 673 chunks), and an infinite Infdev world had none either (10 distinct blocks, 928,038 stone)",
+    "acceptance": "MET for all three pre-Beta profiles by census: Indev 20100223 (coal 3498, iron 2772, diamond 254, gold 230), Infdev 20100420 (6519 / 3312 / 278 / 248) and Infdev 20100611 (3862 / 2905 / 254 / 223), each with no redstone, lapis, copper or emerald.",
+    "infdev611Census": {
+      "world": "run/infdev611ores",
+      "preset": "historical_experience:infdev_611_with_ores",
+      "chunks": 49,
+      "distinctBlocks": 18,
+      "ores": {
+        "coal_ore": 3862,
+        "iron_ore": 2905,
+        "diamond_ore": 254,
+        "gold_ore": 223
+      },
+      "laterOres": "none"
+    }
+  },
+  "midRangeResolved": {
+    "question": "what did Indev 20100223 register at ids 21 to 34, where the Beta 1.7.3 table names lapis, dispenser, sandstone, music block, bed, rails, pistons, cobweb, tall grass and dead bush - every one of them a block that arrives after this build?",
+    "answer": "THE SIXTEEN CLOTH COLOURS. Indev ids 21 to 36 carry texture indices 64 to 79, one each, consecutively: 21/64, 22/65, 23/66, 24/67, 25/68, 26/69, 27/70, 28/71, 29/72, 30/73, 31/74, 32/75, 33/76, 34/77, 35/78, 36/79. Texture range 64 to 79 is the cloth range in the era terrain atlas, and sixteen ids against sixteen consecutive textures is not a coincidence. The Beta table names ids 37 and 38 flower and rose, and the same parse gives them texture 13 and texture 12, which are the plant textures - so the two ranges agree where they should.",
+    "confidence": {
+      "definite": "ids 21 to 36 are the sixteen cloth colours, read as texture indices 64 to 79 from the jar",
+      "probable": "the colours run in the legacy metadata order the project already records for wool - black, red, green, brown, blue, purple, cyan, silver, gray, pink, lime, yellow, light blue, magenta, orange, white - which is research/beta173-availability.json entry 36 metadataVariants",
+      "unverified": "the exact colour of each individual id, which needs one citation from the era wool page or the texture atlas itself. It is not needed for gating: what matters is that these ids are cloth and therefore NOT lapis ore, a dispenser, sandstone, a music block, a bed, rails, pistons, cobweb, tall grass or a dead bush."
+    },
+    "whyItMatters": "the Beta table is usable for ids 1 to 20 and 35 onward but is evidence about Beta in this range, and nothing in this project gated on those names - but anything that later reads the table for a pre-Beta profile would have judged lapis ore available in Indev and cloth unavailable, which is wrong in both directions."
+  },
+  "clothColoursFromAtlas": {
+    "method": "read terrain.png straight out of in-20100223.jar with PIL, average each 16px tile, and match the average against the sixteen dye colours by nearest squared RGB distance",
+    "finding": [
+      {
+        "indevId": 21,
+        "texture": 64,
+        "averageRgb": [
+          221,
+          49,
+          49
+        ],
+        "nearestColour": "red",
+        "distanceSquared": 2155,
+        "opaquePixels": 256
+      },
+      {
+        "indevId": 22,
+        "texture": 65,
+        "averageRgb": [
+          221,
+          135,
+          49
+        ],
+        "nearestColour": "orange",
+        "distanceSquared": 1550,
+        "opaquePixels": 256
+      },
+      {
+        "indevId": 23,
+        "texture": 66,
+        "averageRgb": [
+          221,
+          221,
+          49
+        ],
+        "nearestColour": "yellow",
+        "distanceSquared": 1258,
+        "opaquePixels": 256
+      },
+      {
+        "indevId": 24,
+        "texture": 67,
+        "averageRgb": [
+          135,
+          221,
+          49
+        ],
+        "nearestColour": "lime",
+        "distanceSquared": 857,
+        "opaquePixels": 256
+      },
+      {
+        "indevId": 25,
+        "texture": 68,
+        "averageRgb": [
+          49,
+          221,
+          49
+        ],
+        "nearestColour": "lime",
+        "distanceSquared": 7049,
+        "opaquePixels": 256
+      },
+      {
+        "indevId": 26,
+        "texture": 69,
+        "averageRgb": [
+          49,
+          221,
+          135
+        ],
+        "nearestColour": "cyan",
+        "distanceSquared": 5395,
+        "opaquePixels": 256
+      },
+      {
+        "indevId": 27,
+        "texture": 70,
+        "averageRgb": [
+          49,
+          221,
+          221
+        ],
+        "nearestColour": "lightBlue",
+        "distanceSquared": 1854,
+        "opaquePixels": 256
+      },
+      {
+        "indevId": 28,
+        "texture": 71,
+        "averageRgb": [
+          104,
+          162,
+          221
+        ],
+        "nearestColour": "lightBlue",
+        "distanceSquared": 2414,
+        "opaquePixels": 256
+      },
+      {
+        "indevId": 29,
+        "texture": 72,
+        "averageRgb": [
+          119,
+          119,
+          221
+        ],
+        "nearestColour": "purple",
+        "distanceSquared": 6454,
+        "opaquePixels": 256
+      },
+      {
+        "indevId": 30,
+        "texture": 73,
+        "averageRgb": [
+          135,
+          49,
+          221
+        ],
+        "nearestColour": "purple",
+        "distanceSquared": 1374,
+        "opaquePixels": 256
+      },
+      {
+        "indevId": 31,
+        "texture": 74,
+        "averageRgb": [
+          174,
+          73,
+          221
+        ],
+        "nearestColour": "magenta",
+        "distanceSquared": 2014,
+        "opaquePixels": 256
+      },
+      {
+        "indevId": 32,
+        "texture": 75,
+        "averageRgb": [
+          221,
+          49,
+          221
+        ],
+        "nearestColour": "magenta",
+        "distanceSquared": 3149,
+        "opaquePixels": 256
+      },
+      {
+        "indevId": 33,
+        "texture": 76,
+        "averageRgb": [
+          221,
+          49,
+          135
+        ],
+        "nearestColour": "magenta",
+        "distanceSquared": 3321,
+        "opaquePixels": 256
+      },
+      {
+        "indevId": 34,
+        "texture": 77,
+        "averageRgb": [
+          76,
+          76,
+          76
+        ],
+        "nearestColour": "gray",
+        "distanceSquared": 70,
+        "opaquePixels": 256
+      },
+      {
+        "indevId": 35,
+        "texture": 78,
+        "averageRgb": [
+          142,
+          142,
+          142
+        ],
+        "nearestColour": "silver",
+        "distanceSquared": 531,
+        "opaquePixels": 256
+      },
+      {
+        "indevId": 36,
+        "texture": 79,
+        "averageRgb": [
+          221,
+          221,
+          221
+        ],
+        "nearestColour": "white",
+        "distanceSquared": 594,
+        "opaquePixels": 256
+      }
+    ],
+    "orderFound": [
+      "red",
+      "orange",
+      "yellow",
+      "lime",
+      "lime",
+      "cyan",
+      "lightBlue",
+      "lightBlue",
+      "purple",
+      "purple",
+      "magenta",
+      "magenta",
+      "magenta",
+      "gray",
+      "silver",
+      "white"
+    ],
+    "interpretation": "ids 21 to 36 are the sixteen cloth colours and the atlas gives their order directly: red, orange, yellow, yellow-green, green, spring-green, cyan, light blue, blue, blue-violet, violet, magenta, pink, dark gray, gray, white. No wiki citation is needed for this - the jar terrain.png is the primary source, and it was read tile by tile. The RGB triples are recorded so the reading can be checked without rerunning it.",
+    "rampReading": {
+      "whyApproximate": "the era cloth colours are a simple ramp - the brightest channel is 221 throughout, e.g. red (221,49,49), orange (221,135,49), yellow (221,221,49), green (49,221,49), cyan (49,221,221), magenta (221,49,221), white (221,221,221) - so naming them by nearest distance to modern wool colours is approximate. The RGB triples themselves are the evidence.",
+      "sixteenInOrder": [
+        "red",
+        "orange",
+        "yellow",
+        "yellow-green",
+        "green",
+        "spring-green",
+        "cyan",
+        "light-blue",
+        "blue",
+        "blue-violet",
+        "violet",
+        "magenta",
+        "pink",
+        "dark-gray",
+        "gray",
+        "white"
+      ],
+      "notable": "THERE IS NO BLACK at texture 64-79; the darkest tile is (76,76,76) at 77 and (142,142,142) at 78. Indev cloth colour 64 is RED, not black.",
+      "correctionToTheProject": "this contradicts, for Indev, the legacy metadata order the project records for Beta 1.7.3 wool in research/beta173-availability.json (black, red, green, ... white). Both can be right about their own version: the Beta order is a metadata order for the 16 dye colours, and what the artifact shows here is Indev own sixteen, which are a hue ramp with no black. They must not be conflated, and the earlier note in this file calling the Beta order \"probable\" for Indev is superseded by this measurement."
+    }
+  }
+}

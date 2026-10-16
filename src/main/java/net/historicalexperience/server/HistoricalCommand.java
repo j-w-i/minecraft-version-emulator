@@ -34,8 +34,8 @@ import net.minecraft.world.level.storage.LevelResource;
 /**
  * The operator's entry point to the historical version machinery.
  *
- * <p>Deliberately thin. Every decision lives in {@link HistoricalUpgradeService}, which is unit-tested
- * against real world directories without a server, so this class only parses arguments and renders text.
+ * <p>Deliberately thin. Decisions live in {@link HistoricalUpgradeService} and the explicit finite-edge repair
+ * service, tested against real world directories without a server; this class parses arguments and renders text.
  * That split is what makes the upgrade reachable from a command, the runtime probe and any future
  * interface without three copies of the rules drifting apart.
  *
@@ -68,6 +68,18 @@ public final class HistoricalCommand {
                 return 1;
             })
             .build();
+
+        LiteralCommandNode<CommandSourceStack> finiteRepair = Commands.literal("repair-finite-edge")
+            .executes(context -> {
+                try {
+                    reply(context, net.historicalexperience.world.upgrade.FiniteEdgeRepair.stage(
+                        worldDirectory(context.getSource()), context.getSource().getTextName(), System.currentTimeMillis()));
+                    return 1;
+                } catch (java.io.IOException failure) {
+                    reply(context, "REFUSED: " + failure.getMessage());
+                    return 0;
+                }
+            }).build();
 
         LiteralCommandNode<CommandSourceStack> recover = Commands.literal("recover")
             .executes(context -> report(context, HistoricalUpgradeService.recover(
@@ -118,6 +130,7 @@ public final class HistoricalCommand {
             .then(status)
             .then(versions)
             .then(recover)
+            .then(finiteRepair)
             .then(upgrade));
     }
 

@@ -1,0 +1,155 @@
+{
+  "scope": "numeric item selectors only; not quantity/physics/RNG/death algorithm execution",
+  "cases": [
+    {
+      "artifact": "in-20100223.jar",
+      "sha1": "801ce486bb7fd1b43a56bc5d226dfb1370c08678",
+      "bytes": 555633,
+      "log": "logs/early-mob-in-20100223-722066b73c5d4dffb368fe4839c6228a.txt",
+      "selectors": [
+        {
+          "entity": "zombie",
+          "class": "net.minecraft.a.c.a.f",
+          "selectorOwner": "net.minecraft.a.c.a.f",
+          "selector": "c()I",
+          "numericDrop": 288
+        },
+        {
+          "entity": "skeleton",
+          "class": "net.minecraft.a.c.a.c",
+          "selectorOwner": "net.minecraft.a.c.a.c",
+          "selector": "c()I",
+          "numericDrop": 262
+        },
+        {
+          "entity": "pig",
+          "class": "net.minecraft.a.c.b.c",
+          "selectorOwner": "net.minecraft.a.c.b.c",
+          "selector": "c()I",
+          "numericDrop": 319
+        },
+        {
+          "entity": "spider",
+          "class": "net.minecraft.a.c.a.b",
+          "selectorOwner": "net.minecraft.a.c.a.b",
+          "selector": "c()I",
+          "numericDrop": 287
+        },
+        {
+          "entity": "creeper",
+          "class": "net.minecraft.a.c.a.d",
+          "selectorOwner": "net.minecraft.a.c.a.d",
+          "selector": "c()I",
+          "numericDrop": 289
+        },
+        {
+          "entity": "sheep",
+          "class": "net.minecraft.a.c.b.b",
+          "selectorOwner": "net.minecraft.a.c.e",
+          "selector": "c()I",
+          "numericDrop": 0
+        }
+      ]
+    },
+    {
+      "artifact": "inf-20100420.jar",
+      "sha1": "27010a5137abd2c8d8df85e99c14f5406ec197b3",
+      "bytes": 552012,
+      "log": "logs/early-mob-inf-20100420-30ae8caf63304a84b2d4bec0c27d1571.txt",
+      "selectors": [
+        {
+          "entity": "zombie",
+          "class": "net.minecraft.a.c.a.f",
+          "selectorOwner": "net.minecraft.a.c.a.f",
+          "selector": "b()I",
+          "numericDrop": 288
+        },
+        {
+          "entity": "skeleton",
+          "class": "net.minecraft.a.c.a.c",
+          "selectorOwner": "net.minecraft.a.c.a.c",
+          "selector": "b()I",
+          "numericDrop": 262
+        },
+        {
+          "entity": "pig",
+          "class": "net.minecraft.a.c.b.c",
+          "selectorOwner": "net.minecraft.a.c.b.c",
+          "selector": "b()I",
+          "numericDrop": 319
+        },
+        {
+          "entity": "spider",
+          "class": "net.minecraft.a.c.a.b",
+          "selectorOwner": "net.minecraft.a.c.a.b",
+          "selector": "b()I",
+          "numericDrop": 287
+        },
+        {
+          "entity": "creeper",
+          "class": "net.minecraft.a.c.a.d",
+          "selectorOwner": "net.minecraft.a.c.a.d",
+          "selector": "b()I",
+          "numericDrop": 289
+        },
+        {
+          "entity": "sheep",
+          "class": "net.minecraft.a.c.b.b",
+          "selectorOwner": "net.minecraft.a.c.f",
+          "selector": "b()I",
+          "numericDrop": 0
+        }
+      ]
+    },
+    {
+      "artifact": "inf-20100611.jar",
+      "sha1": "421318a554f17463a56a271d08e9597941d066d9",
+      "bytes": 566417,
+      "log": "logs/early-mob-inf-20100611-63c8b84e43cc4b5d8087932603e556c3.txt",
+      "selectors": [
+        {
+          "entity": "zombie",
+          "class": "net.minecraft.a.c.a.f",
+          "selectorOwner": "net.minecraft.a.c.a.f",
+          "selector": "b()I",
+          "numericDrop": 288
+        },
+        {
+          "entity": "skeleton",
+          "class": "net.minecraft.a.c.a.c",
+          "selectorOwner": "net.minecraft.a.c.a.c",
+          "selector": "b()I",
+          "numericDrop": 262
+        },
+        {
+          "entity": "pig",
+          "class": "net.minecraft.a.c.b.c",
+          "selectorOwner": "net.minecraft.a.c.b.c",
+          "selector": "b()I",
+          "numericDrop": 319
+        },
+        {
+          "entity": "spider",
+          "class": "net.minecraft.a.c.a.b",
+          "selectorOwner": "net.minecraft.a.c.a.b",
+          "selector": "b()I",
+          "numericDrop": 287
+        },
+        {
+          "entity": "creeper",
+          "class": "net.minecraft.a.c.a.d",
+          "selectorOwner": "net.minecraft.a.c.a.d",
+          "selector": "b()I",
+          "numericDrop": 289
+        },
+        {
+          "entity": "sheep",
+          "class": "net.minecraft.a.c.b.b",
+          "selectorOwner": "net.minecraft.a.c.f",
+          "selector": "b()I",
+          "numericDrop": 0
+        }
+      ]
+    }
+  ]
+}

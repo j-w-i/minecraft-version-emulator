@@ -28,7 +28,13 @@ def main():
     p.add_argument('--seed', default='hexbackport')
     p.add_argument('--production', action='store_true', help='verify the remapped distributable, not dev classes')
     p.add_argument('--upgrade-to', help='exercise the actual operator command, followed by normal stop')
+    p.add_argument('--repair-finite-edge', action='store_true', help='stage the actual explicit repair command in an already-upgraded fixture')
+    p.add_argument('--prepare-finite-repair-fixture', action='store_true', help='place real exterior platform/chest and explicit synthetic player-data sentinel in a NEW diagnostic replica')
     a = p.parse_args()
+    if a.prepare_finite_repair_fixture and (not a.reload or a.upgrade_to or a.repair_finite_edge):
+        raise SystemExit('prepare-build requires a diagnostic existing replica, separately from repair/upgrade')
+    if a.repair_finite_edge and (not a.reload or a.upgrade_to):
+        raise SystemExit('repair requires an existing fixture and cannot interleave with a version upgrade')
     import uuid
     token = uuid.uuid4().hex
     if not a.fixture.replace('-', '').replace('_', '').isalnum():
@@ -85,6 +91,20 @@ def main():
             command.append('-PprobeUpgradeTo=' + a.upgrade_to)
         label += '-upgrade'
         log = ROOT / 'logs' / ('sol-1211-' + label + '.log')
+    if a.prepare_finite_repair_fixture:
+        if a.production:
+            command.insert(-3, '-Dhistorical_experience.generationProbe.prepareFiniteRepairFixture=true')
+        else:
+            command.append('-PprobePrepareFiniteRepairFixture=true')
+        label += '-prepare-build'
+        log = ROOT / 'logs' / ('sol-1211-' + label + '.log')
+    if a.repair_finite_edge:
+        if a.production:
+            command.insert(-3, '-Dhistorical_experience.generationProbe.repairFiniteEdge=true')
+        else:
+            command.append('-PprobeRepairFiniteEdge=true')
+        label += '-repair'
+        log = ROOT / 'logs' / ('sol-1211-' + label + '.log')
     with log.open('w', encoding='utf-8') as output:
         proc = subprocess.Popen(command, cwd=run if a.production else PROJECT, env=env, stdin=subprocess.DEVNULL,
                                 stdout=output, stderr=subprocess.STDOUT)
@@ -138,9 +158,15 @@ def main():
     evidence['savedValidStructureStarts'] = starts
     result['counts'] = dict(result['counts'])
     evidence['savedChunkCensus'] = result
+    evidence['launchMode'] = 'remapped-production' if a.production else 'loom-development'
+    if a.production:
+        evidence['loadedModArtifacts'] = [{'file': artifact.name, 'sha256': hashlib.sha256((mods / artifact.name).read_bytes()).hexdigest()}
+                                          for artifact in artifacts]
     evidence['requestedCenterChunk'] = a.center
     evidence['requestedRadius'] = a.radius
     evidence['requestedUpgradeTarget'] = a.upgrade_to
+    evidence['requestedFiniteEdgeRepair'] = a.repair_finite_edge
+    evidence['requestedFiniteRepairBuildPreparation'] = a.prepare_finite_repair_fixture
     # Keep immutable token-named copies as well as the convenient latest label. Repeated live
     # commands / different distant samples must not erase the evidence of an earlier stage.
     retained_log = log.with_name(log.stem + '-' + token + log.suffix)

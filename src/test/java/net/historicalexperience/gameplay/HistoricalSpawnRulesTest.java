@@ -45,7 +45,7 @@ class HistoricalSpawnRulesTest {
     private static final String BETA_PROFILE = "historical_experience:beta_1_7_3";
 
     @Test
-    @DisplayName("the allowed set is exactly the Beta 1.7.3 entity registry")
+    @DisplayName("the allowed set excludes registered but non-spawning giants")
     void allowedSetMatchesTheBetaRegistry() {
         // Derived from jc.class in the hash-verified b1.7.3 client; see
         // research/beta173-entity-types.json. Pinned as an exact list, not a count.
@@ -54,7 +54,6 @@ class HistoricalSpawnRulesTest {
                 "minecraft:cow",
                 "minecraft:creeper",
                 "minecraft:ghast",
-                "minecraft:giant",
                 "minecraft:pig",
                 "minecraft:sheep",
                 "minecraft:skeleton",
@@ -65,6 +64,13 @@ class HistoricalSpawnRulesTest {
                 "minecraft:zombie",
                 "minecraft:zombified_piglin"),
             HistoricalSpawnRules.beta173MobsInOrder());
+    }
+
+    @Test
+    void giantsAreNotNaturalSpawnsInAnyDeclaredProfile() {
+        for (var version : net.historicalexperience.version.HistoricalVersions.all()) {
+            assertFalse(version.rules().allowedNaturalSpawns().contains("minecraft:giant"), version.id());
+        }
     }
 
     @Test

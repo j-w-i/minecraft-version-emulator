@@ -465,21 +465,24 @@ public final class HistoricalServerLifecycle {
      * start loads the intended recipe.
      *
      * <p>A failure is logged and the journal is kept, so the advance is not lost and the next shutdown
-     * tries again. The world itself is untouched either way: only the level stem, the metadata and the
-     * backup are ever written.
+     * tries again. Player terrain is preserved; the explicit finite transition/repair can additionally
+     * release only exact pristine exterior apron chunks through its own verified region transaction.
      */
     private static void applyPendingUpgradeAdvance(MinecraftServer server) {
         // The scope is per-process state for a running server, so it must not outlive one: leaving it set
         // would make the next world loaded in this process obey this world's historical structure rules.
         net.historicalexperience.generation.HistoricalGenerationScope.clear();
         Path worldDirectory = server.getWorldPath(LevelResource.ROOT);
-        try {
+        if (!net.historicalexperience.world.upgrade.UpgradeJournal.existsIn(worldDirectory)
+                && !net.historicalexperience.world.upgrade.FiniteEdgeRepair.pending(worldDirectory)) return;
+        try (var worldLock = net.minecraft.util.DirectoryLock.create(worldDirectory)) {
+            net.historicalexperience.world.upgrade.FiniteEdgeRepair.recover(worldDirectory);
             Optional<net.historicalexperience.world.upgrade.GenerationUpgrade.Result> applied =
                 net.historicalexperience.world.upgrade.GenerationUpgrade
                     .applyPendingAdvance(worldDirectory);
             applied.ifPresent(result -> HistoricalExperienceMod.LOGGER.warn(
                 "Applied the pending generation upgrade in {}: the stored generator now names {}. It "
-                    + "takes effect from the next start, and existing chunks are untouched.",
+                    + "takes effect from the next start; player terrain is preserved and only exact synthetic finite apron chunks may be released.",
                 worldDirectory, result.after().generationPreset()));
         } catch (Exception e) {
             HistoricalExperienceMod.LOGGER.error(

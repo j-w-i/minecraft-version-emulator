@@ -1,0 +1,249 @@
+{
+  "note": "INCOMPLETE AND NOT AUTHORITATIVE. First pass only: it enumerates Indev build pages by title prefix, which also matches subpages, and it reads any wiki link inside a section whose heading contains \"Blocks\", so its output contains prose links (\"Gear\", \"block\", \"infinite water source\") and at least one misread removal. Do NOT use these sets to gate block availability. See PROGRESS.md for what is established and what the remaining gap is.",
+  "retrieved": "2026-10-15",
+  "pagesRead": 182,
+  "sources": {
+    "Java Edition Indev 0.31": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31",
+    "Java Edition Indev 0.31 (2009-12-23 (2))": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%20%282009-12-23%20%282%29%29",
+    "Java Edition Indev 0.31 (2010-01-09)": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%20%282010-01-09%29",
+    "Java Edition Indev 0.31 (2010-01-11 (1))": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%20%282010-01-11%20%281%29%29",
+    "Java Edition Indev 0.31 (2010-01-22)": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%20%282010-01-22%29",
+    "Java Edition Indev 0.31 (2010-01-25 (1))": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%20%282010-01-25%20%281%29%29",
+    "Java Edition Indev 0.31 (2010-01-25 (2))": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%20%282010-01-25%20%282%29%29",
+    "Java Edition Indev 0.31 (2010-01-30)": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%20%282010-01-30%29",
+    "Java Edition Indev 0.31 (2010-02-01 (2))": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%20%282010-02-01%20%282%29%29",
+    "Java Edition Indev 0.31 (2010-02-01 (3))": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%20%282010-02-01%20%283%29%29",
+    "Java Edition Indev 0.31 (December 23, 2009, 2)": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%20%28December%2023%2C%202009%2C%202%29",
+    "Java Edition Indev 0.31 (February 1, 2010, 2)": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%20%28February%201%2C%202010%2C%202%29",
+    "Java Edition Indev 0.31 (February 1, 2010, 3)": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%20%28February%201%2C%202010%2C%203%29",
+    "Java Edition Indev 0.31 (January 11, 2010, 1)": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%20%28January%2011%2C%202010%2C%201%29",
+    "Java Edition Indev 0.31 (January 22, 2010)": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%20%28January%2022%2C%202010%29",
+    "Java Edition Indev 0.31 (January 25, 2010, 1)": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%20%28January%2025%2C%202010%2C%201%29",
+    "Java Edition Indev 0.31 (January 25, 2010, 2)": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%20%28January%2025%2C%202010%2C%202%29",
+    "Java Edition Indev 0.31 (January 30, 2010)": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%20%28January%2030%2C%202010%29",
+    "Java Edition Indev 0.31 (January 9, 2010)": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%20%28January%209%2C%202010%29",
+    "Java Edition Indev 0.31 20091223-1457": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%2020091223-1457",
+    "Java Edition Indev 0.31 20091223-1459": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%2020091223-1459",
+    "Java Edition Indev 0.31 20091223-2": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%2020091223-2",
+    "Java Edition Indev 0.31 20091223-3": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%2020091223-3",
+    "Java Edition Indev 0.31 20100109": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%2020100109",
+    "Java Edition Indev 0.31 20100109-1939": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%2020100109-1939",
+    "Java Edition Indev 0.31 20100110": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%2020100110",
+    "Java Edition Indev 0.31 20100122": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%2020100122",
+    "Java Edition Indev 0.31 20100122-2251": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%2020100122-2251",
+    "Java Edition Indev 0.31 20100124-2": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%2020100124-2",
+    "Java Edition Indev 0.31 20100124-2310": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%2020100124-2310",
+    "Java Edition Indev 0.31 20100125-1": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%2020100125-1",
+    "Java Edition Indev 0.31 20100129-2332": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%2020100129-2332",
+    "Java Edition Indev 0.31 20100130": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%2020100130",
+    "Java Edition Indev 0.31 2010019": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%202010019",
+    "Java Edition Indev 0.31 20100201-2": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%2020100201-2",
+    "Java Edition Indev 0.31 20100201-2227": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%2020100201-2227",
+    "Java Edition Indev 0.31 20100201-3": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%200.31%2020100201-3",
+    "Java Edition Indev 20091223-1459": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%2020091223-1459",
+    "Java Edition Indev 20100206-2": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%2020100206-2",
+    "Java Edition Indev 20100206-2034": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%2020100206-2034",
+    "Java Edition Indev 20100207-1057": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%2020100207-1057",
+    "Java Edition Indev 20100219": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%2020100219",
+    "Java Edition Indev 20100223": "https://minecraft.wiki/api.php?action=parse&page=Java%20Edition%20Indev%2020100223"
+  },
+  "added": {
+    "fire": [
+      "Java Edition Indev 0.31",
+      "Java Edition Indev 0.31 (2010-01-11 (1))",
+      "Java Edition Indev 0.31 (January 11, 2010, 1)",
+      "Java Edition Indev 0.31 20100110"
+    ],
+    "Chest": [
+      "Java Edition Indev 0.31"
+    ],
+    "Gear": [
+      "Java Edition Indev 0.31"
+    ],
+    "Diamond ore": [
+      "Java Edition Indev 0.31"
+    ],
+    "Block of diamond": [
+      "Java Edition Indev 0.31"
+    ],
+    "Crafting table": [
+      "Java Edition Indev 0.31"
+    ],
+    "flower": [
+      "Java Edition Indev 0.31 (2009-12-23 (2))",
+      "Java Edition Indev 0.31 (December 23, 2009, 2)",
+      "Java Edition Indev 0.31 20091223-1457",
+      "Java Edition Indev 0.31 20091223-1459",
+      "Java Edition Indev 0.31 20091223-2",
+      "Java Edition Indev 0.31 20091223-3",
+      "Java Edition Indev 20091223-1459"
+    ],
+    "dirt": [
+      "Java Edition Indev 0.31 (2009-12-23 (2))",
+      "Java Edition Indev 0.31 (December 23, 2009, 2)",
+      "Java Edition Indev 0.31 20091223-1457",
+      "Java Edition Indev 0.31 20091223-1459",
+      "Java Edition Indev 0.31 20091223-2",
+      "Java Edition Indev 0.31 20091223-3",
+      "Java Edition Indev 20091223-1459",
+      "Java Edition Indev 20100206-2",
+      "Java Edition Indev 20100206-2034",
+      "Java Edition Indev 20100207-1057"
+    ],
+    "block": [
+      "Java Edition Indev 0.31 (2010-01-09)",
+      "Java Edition Indev 0.31 (January 9, 2010)",
+      "Java Edition Indev 0.31 20100109",
+      "Java Edition Indev 0.31 20100109-1939",
+      "Java Edition Indev 0.31 2010019"
+    ],
+    "lava": [
+      "Java Edition Indev 0.31 (2010-01-22)",
+      "Java Edition Indev 0.31 (January 22, 2010)",
+      "Java Edition Indev 0.31 20100122",
+      "Java Edition Indev 0.31 20100122-2251"
+    ],
+    "cobblestone": [
+      "Java Edition Indev 0.31 (2010-01-30)",
+      "Java Edition Indev 0.31 (January 30, 2010)",
+      "Java Edition Indev 0.31 20100130",
+      "Java Edition Indev 20100219"
+    ],
+    "infinite water source": [
+      "Java Edition Indev 0.31 (2010-02-01 (2))",
+      "Java Edition Indev 0.31 (2010-02-01 (3))",
+      "Java Edition Indev 0.31 (February 1, 2010, 2)",
+      "Java Edition Indev 0.31 (February 1, 2010, 3)",
+      "Java Edition Indev 0.31 20100201-2",
+      "Java Edition Indev 0.31 20100201-2227",
+      "Java Edition Indev 0.31 20100201-3",
+      "Java Edition Indev 20100206-2",
+      "Java Edition Indev 20100206-2034"
+    ],
+    "infinite lava source": [
+      "Java Edition Indev 0.31 (2010-02-01 (2))",
+      "Java Edition Indev 0.31 (2010-02-01 (3))",
+      "Java Edition Indev 0.31 (February 1, 2010, 2)",
+      "Java Edition Indev 0.31 (February 1, 2010, 3)",
+      "Java Edition Indev 0.31 20100201-2",
+      "Java Edition Indev 0.31 20100201-2227",
+      "Java Edition Indev 0.31 20100201-3",
+      "Java Edition Indev 20100206-2",
+      "Java Edition Indev 20100206-2034"
+    ],
+    "planks": [
+      "Java Edition Indev 0.31 20100129-2332",
+      "Java Edition Indev 20100219",
+      "Java Edition Indev 20100223"
+    ],
+    "grass block": [
+      "Java Edition Indev 20100206-2",
+      "Java Edition Indev 20100206-2034"
+    ],
+    "log": [
+      "Java Edition Indev 20100223"
+    ]
+  },
+  "removed": {
+    "lava": [
+      "Java Edition Indev 0.31 (2010-01-25 (1))",
+      "Java Edition Indev 0.31 (2010-01-25 (2))",
+      "Java Edition Indev 0.31 (January 25, 2010, 1)",
+      "Java Edition Indev 0.31 (January 25, 2010, 2)",
+      "Java Edition Indev 0.31 20100124-2",
+      "Java Edition Indev 0.31 20100124-2310",
+      "Java Edition Indev 0.31 20100125-1"
+    ]
+  },
+  "available": {
+    "fire": [
+      "Java Edition Indev 0.31",
+      "Java Edition Indev 0.31 (2010-01-11 (1))",
+      "Java Edition Indev 0.31 (January 11, 2010, 1)",
+      "Java Edition Indev 0.31 20100110"
+    ],
+    "Chest": [
+      "Java Edition Indev 0.31"
+    ],
+    "Gear": [
+      "Java Edition Indev 0.31"
+    ],
+    "Diamond ore": [
+      "Java Edition Indev 0.31"
+    ],
+    "Block of diamond": [
+      "Java Edition Indev 0.31"
+    ],
+    "Crafting table": [
+      "Java Edition Indev 0.31"
+    ],
+    "flower": [
+      "Java Edition Indev 0.31 (2009-12-23 (2))",
+      "Java Edition Indev 0.31 (December 23, 2009, 2)",
+      "Java Edition Indev 0.31 20091223-1457",
+      "Java Edition Indev 0.31 20091223-1459",
+      "Java Edition Indev 0.31 20091223-2",
+      "Java Edition Indev 0.31 20091223-3",
+      "Java Edition Indev 20091223-1459"
+    ],
+    "dirt": [
+      "Java Edition Indev 0.31 (2009-12-23 (2))",
+      "Java Edition Indev 0.31 (December 23, 2009, 2)",
+      "Java Edition Indev 0.31 20091223-1457",
+      "Java Edition Indev 0.31 20091223-1459",
+      "Java Edition Indev 0.31 20091223-2",
+      "Java Edition Indev 0.31 20091223-3",
+      "Java Edition Indev 20091223-1459",
+      "Java Edition Indev 20100206-2",
+      "Java Edition Indev 20100206-2034",
+      "Java Edition Indev 20100207-1057"
+    ],
+    "block": [
+      "Java Edition Indev 0.31 (2010-01-09)",
+      "Java Edition Indev 0.31 (January 9, 2010)",
+      "Java Edition Indev 0.31 20100109",
+      "Java Edition Indev 0.31 20100109-1939",
+      "Java Edition Indev 0.31 2010019"
+    ],
+    "cobblestone": [
+      "Java Edition Indev 0.31 (2010-01-30)",
+      "Java Edition Indev 0.31 (January 30, 2010)",
+      "Java Edition Indev 0.31 20100130",
+      "Java Edition Indev 20100219"
+    ],
+    "infinite water source": [
+      "Java Edition Indev 0.31 (2010-02-01 (2))",
+      "Java Edition Indev 0.31 (2010-02-01 (3))",
+      "Java Edition Indev 0.31 (February 1, 2010, 2)",
+      "Java Edition Indev 0.31 (February 1, 2010, 3)",
+      "Java Edition Indev 0.31 20100201-2",
+      "Java Edition Indev 0.31 20100201-2227",
+      "Java Edition Indev 0.31 20100201-3",
+      "Java Edition Indev 20100206-2",
+      "Java Edition Indev 20100206-2034"
+    ],
+    "infinite lava source": [
+      "Java Edition Indev 0.31 (2010-02-01 (2))",
+      "Java Edition Indev 0.31 (2010-02-01 (3))",
+      "Java Edition Indev 0.31 (February 1, 2010, 2)",
+      "Java Edition Indev 0.31 (February 1, 2010, 3)",
+      "Java Edition Indev 0.31 20100201-2",
+      "Java Edition Indev 0.31 20100201-2227",
+      "Java Edition Indev 0.31 20100201-3",
+      "Java Edition Indev 20100206-2",
+      "Java Edition Indev 20100206-2034"
+    ],
+    "planks": [
+      "Java Edition Indev 0.31 20100129-2332",
+      "Java Edition Indev 20100219",
+      "Java Edition Indev 20100223"
+    ],
+    "grass block": [
+      "Java Edition Indev 20100206-2",
+      "Java Edition Indev 20100206-2034"
+    ],
+    "log": [
+      "Java Edition Indev 20100223"
+    ]
+  }
+}

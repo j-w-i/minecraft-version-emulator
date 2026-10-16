@@ -97,6 +97,44 @@ class BiomeCarryForwardTest {
     }
 
     @Test
+    @DisplayName("an Indev or Infdev world's placeholder biome is carried into the destination's generation")
+    void placeholderBiomesAreCarriedEverywhere() {
+        // The owner asked for this one directly: "remember the biome upgrader also itll upgrade from a finite to
+        // infinite world so account for that". Before this test, BiomeCarryForward's PLACEHOLDERS set named the Indev
+        // and Infdev biomes but nothing consulted it, so those stored biomes reached the renamed-place suffix lookup,
+        // were not recognised, and answered null - which the driver reads as "no change needed". An Indev world taken
+        // to Beta 1.8.1 would have kept moderner_beta:indev_normal in it.
+        for (String indev : new String[] {"moderner_beta:indev_normal", "moderner_beta:indev_hell",
+                "moderner_beta:indev_paradise", "moderner_beta:indev_woods"}) {
+            assertEquals("moderner_beta:alpha", land(indev, "alpha_1_1_0"),
+                indev + " reaching Alpha 1.1 becomes the Alpha placeholder");
+            assertEquals(BETA_PLAINS, land(indev, "beta_1_7_3"),
+                indev + " reaching Beta plains becomes Beta plains");
+            assertEquals(LATE_BETA_PLAINS, land(indev, "beta_1_8_1"),
+                indev + " reaching Beta 1.8.1 becomes late beta plains, the only placeholder that generation has");
+            assertNotEquals(indev, land(indev, "beta_1_8_1"),
+                indev + " must not survive an upgrade into the late beta generation");
+            assertEquals(LATE_BETA_PLAINS, land(indev, "release_1_6_4"),
+                indev + " reaching Release 1.6.4 keeps the late beta plains name, which is what plains keeps there");
+        }
+
+        // The Infdev placeholders were broken the same way, and are covered by the same set.
+        assertEquals(LATE_BETA_PLAINS, land("moderner_beta:infdev_611", "beta_1_8_1"));
+        assertEquals(LATE_BETA_PLAINS, land("moderner_beta:infdev_227", "release_1_6_4"));
+        // Every Java-line placeholder is carried, so a future one cannot be added half-wired - and the Pocket
+        // Edition provider names are NOT, because this project has no researched hierarchy for another edition.
+        for (String placeholder : BiomeCarryForward.placeholders()) {
+            if (placeholder.startsWith("moderner_beta:pe_")) {
+                assertNull(land(placeholder, "beta_1_8_1"),
+                    placeholder + " is a Pocket Edition name and must be left as stored");
+                continue;
+            }
+            assertEquals(LATE_BETA_PLAINS, land(placeholder, "beta_1_8_1"),
+                placeholder + " is a declared Java-line placeholder, so it must land on late beta plains");
+        }
+    }
+
+    @Test
     @DisplayName("every Beta climate biome a 1.7.3 world stores lands on a biome Beta 1.8.1 generates")
     void betaClimateBiomesAreFullyCarriedToLateBeta() {
         // The reported defect: Late Beta applied in the Moderner Beta provider but the chunks still held the Beta 1.7

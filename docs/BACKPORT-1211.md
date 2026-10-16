@@ -5,6 +5,8 @@ that the 26.3 tree be deleted: **Minecraft 1.21.1 is the only target and the mod
 root** (`build.gradle`, `src/main`, `src/test`). Nothing here is a comparison against a reference tree any
 more; it describes the current state. This tranche ports the generation features, not Flashback.
 
+Focused Indev→Infdev repair: [current operator handoff and bounded acceptance](<INDEV-INFDEV-REPAIR.md>). This includes the island apron/seam repair and artifact-backed gates for Indev and both Infdev profiles, not a blanket certification of every era.
+
 ## Repair scope
 
 | Feature | 1.21.1 implementation |
@@ -61,6 +63,7 @@ World upgrading is included, not deferred. Operator commands are:
 /hex upgrade beta_1_7_3
 /hex upgrade historical_experience:release_1_2_5
 /hex recover
+/hex repair-finite-edge
 ```
 
 A target means that version's **latest declared generation recipe**, so upgrading an older Beta recipe
@@ -75,9 +78,23 @@ references. **Restart** to load the destination terrain and generation-time cont
 Old blocks, containers, player files and unrelated level data are preserved. The existing storage dimension
 envelope is retained rather than shrinking it and silently dropping older out-of-range chunk sections.
 
-The automatic backup covers the **two files the upgrade writes**, metadata and level.dat; it is not a
-full-world archive. Builds/regions/player files are not rewritten by the transaction. A separate full-world
-backup remains sensible before any administrative change.
+The standard upgrade backup covers the **two version-bookkeeping files**, metadata and level.dat; it is not a
+full-world archive. Player terrain and player files are preserved. The narrow finite-to-infinite exception
+releases only exact pristine synthetic exterior apron chunks, with separate verified complete-region backups;
+it never authorizes general regeneration. A separate full-world backup remains sensible before administrative changes.
+
+For a world already upgraded by an older build, `/hex repair-finite-edge` stages intent only. Stop/restart
+normally: repair executes after drain/close under the session lock, or before world-data decode. It requires
+exactly one verified matching finite-source backup (metadata, seed, default settings and append-only history),
+refuses missing/corrupt/foreign/ambiguous provenance, and preserves edited exterior chunks. A pending repair
+blocks another version upgrade. The request stays pending until both region release and old biome-coordinate
+bookkeeping finish. Exact blocks alone are insufficient: all used saved biome cells must be native default Indev/void,
+or match the known conversion output with a real saved chunk update time no newer than the verified original
+backup's monotonic game time. Missing or ambiguous evidence, custom attachments, structures and occupied data
+are retained; this may intentionally leave some wall. Later conversion masks are not origin receipts. The
+checks also apply to older prepared plans before any writes. No unsolicited repair on ordinary load.
+See [ADR 0011](<ADR-0011-finite-island-transition.md>)
+for exact preservation limits and bounded runtime evidence; no personal world has been changed.
 
 Interrupted upgrades recover under the acquired **world session lock, before level.dat is decoded** via
 [the early recovery hook](<../src/main/java/net/historicalexperience/mixin/LevelStorageHistoricalUpgradeRecoveryMixin.java>).

@@ -114,8 +114,8 @@ class HistoricalVersionCatalogueTest {
     void profilesThePlanDoesNotNameStayReachableWithoutCounting() {
         List<Entry> extras = HistoricalVersionCatalogue.implementedExtras();
 
-        assertEquals(4, extras.size(),
-            "both Infdev builds, the Alpha v1.1.2_01 profile and Alpha v1.2.2a exist but are not in the planned "
+        assertEquals(5, extras.size(),
+            "Indev 20100223, both Infdev builds, the Alpha v1.1.2_01 profile and Alpha v1.2.2a exist but are not in the planned "
                 + "matrix, and each must still be reachable: " + extras.stream().map(Entry::key).toList());
         assertTrue(extras.stream().allMatch(Entry::selectable),
             "an extra is implemented, so it must be selectable even though the plan does not name it");
@@ -191,11 +191,11 @@ class HistoricalVersionCatalogueTest {
 
     @Test
     void orderIsChronologicalAcrossAndWithinEras() {
-        List<Era> expected = List.of(Era.INFDEV, Era.ALPHA, Era.BETA, Era.RELEASE);
+        List<Era> expected = List.of(Era.INDDEV, Era.INFDEV, Era.ALPHA, Era.BETA, Era.RELEASE);
 
         assertEquals(expected, HistoricalVersionCatalogue.eras(), "eras are ordered oldest first");
-        assertSame(Era.INFDEV, HistoricalVersionCatalogue.entries().get(0).era(),
-            "the oldest implemented version is an Infdev build");
+        assertSame(Era.INDDEV, HistoricalVersionCatalogue.entries().get(0).era(),
+            "the oldest implemented version is Indev 20100223, the project's only finite profile");
 
         for (Era era : expected) {
             List<Entry> inEra = HistoricalVersionCatalogue.entriesIn(era);

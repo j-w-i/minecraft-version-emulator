@@ -40,6 +40,7 @@ import org.junit.jupiter.api.Test;
  * two as well.
  */
 class VersionChronologyTest {
+    private static final int ERA_INDEV = 200_000;
     private static final int ERA_INFDEV = 300_000;
     private static final int ERA_ALPHA = 400_000;
     private static final int ERA_BETA = 500_000;
@@ -48,6 +49,7 @@ class VersionChronologyTest {
     @Test
     void everyDeclaredVersionSitsInsideItsOwnEra() {
         Map<String, Integer> eraBase = Map.of(
+            "indev", ERA_INDEV,
             "infdev", ERA_INFDEV,
             "alpha", ERA_ALPHA,
             "beta", ERA_BETA,

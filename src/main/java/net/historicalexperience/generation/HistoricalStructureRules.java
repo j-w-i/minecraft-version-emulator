@@ -158,6 +158,14 @@ public final class HistoricalStructureRules {
             + "predate 20100625-1917.";
 
     private static final Map<String, StructureRule> RULES = Map.ofEntries(
+        Map.entry("historical_experience:indev_latest",
+            noStructures("Indev 20100223",
+                "The oldest version this project offers, and finite. It predates the 20100625-1917 monster room "
+                    + "(a placed feature rather than a structure-set structure in any case), the Beta 1.8 "
+                    + "Pre-release's mineshafts, villages and strongholds, the Beta 1.9 Prerelease's nether fortress "
+                    + "and everything after them, so it placed no structure-set structure at all. The Indev house at "
+                    + "the spawn point is a PLACED SPAWN FEATURE of the finite level - Moderner Beta's "
+                    + "spawn_indev_house component - and is not affected by this rule.")),
         Map.entry("historical_experience:infdev_420",
             noStructures("Infdev 20100420", "It also predates the monster room by two months")),
         Map.entry("historical_experience:infdev_611",

@@ -1,0 +1,53 @@
+{
+  "status": "SUPERSEDED — independent SHA-1/size check resolved; see early-gameplay-audit.md and early_gameplay resources",
+  "correction20261015": {
+    "hashMetadata": "https://meta.celestia.sh/versions/v1/in-20100223.json",
+    "sha1": "801ce486bb7fd1b43a56bc5d226dfb1370c08678",
+    "bytes": 555633,
+    "verifiedBy": "scripts/extract-early-gameplay.py validates both hash and size before isolated reflection",
+    "scope": "The provenanceGap and provisional parsing below describe an earlier investigation, not a current restriction. Executable recipes and smelting now extracted independently; full gameplay fidelity remains open."
+  },
+  "originalStatus": "PROVISIONAL — artifact verified, registry extraction NOT complete",
+  "purpose": "Research record for Indev 20100223 block availability, which the owner asked for directly: 'Make sure you actually research indev's block availablility' and 'You could also extract from a jar...'.",
+  "artifact": {
+    "file": "in-20100223.jar",
+    "bytes": 555633,
+    "sha1ComputedFromDownload": "801ce486bb7fd1b43a56bc5d226dfb1370c08678",
+    "source": "https://vault.omniarchive.uk/archive/java/client-indev/in-20100223.jar",
+    "index": "https://vault.omniarchive.uk/archive/java/client-indev/index.html",
+    "retrieved": "2026-10-15",
+    "localPath": ".upstream/legacy-jars/in-20100223.jar",
+    "gitignored": true,
+    "provenanceGap": "The Vault index publishes NO checksums, so the hash above was computed from the downloaded file itself. The project's rule for these jars is 'the SHA-1 checked against an independently published per-version metadata document - not against the download itself' (see the provenance comment on HistoricalVersions.infdevTerrainOnly). Until that independent document is identified, this jar must NOT be used to gate block availability. The owner supplied such a document for the four Infdev jars; the same source is needed here.",
+    "classCount": 309,
+    "obfuscated": true,
+    "packageLayout": "net/minecraft/... (226 entries, single-letter class names), com/... (55), paulscode/... (26, the sound library). No default-package classes, so no readable block or item class names survive."
+  },
+  "extractionSoFar": {
+    "method": "javap -p -c over every class, ranking classes by the number of object constructions in <clinit>; the block registry is the one that builds ~70-90 constants.",
+    "candidates": [
+      { "class": "net.minecraft.a.a.b.x", "newObjectsInClinit": 72, "arrayFields": 7, "verdict": "most likely the BLOCK registry" },
+      { "class": "net.minecraft.a.b.i", "newObjectsInClinit": 67, "arrayFields": 1, "verdict": "most likely the ITEM registry" }
+    ],
+    "idsSeenProvisional": [1, 2, 3, 4, 7, 8, 12, 13, 15, 16, 17, 18, 19, 28, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 50, 52, 53, 54, 58, 60, 62, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 88],
+    "whyProvisional": "The ids came from a backward scan for the first integer push before each putstatic, which also picks up bookkeeping statics (0, 255 and 256 appeared for lookup-table fields) and misses constants whose id is not the first push.",
+    "secondPassStricter": {
+      "script": "scripts/extract-indev-blocks.ps1",
+      "method": "parses each constructor call in net.minecraft.a.a.b.x.<clinit> for its own arguments (walking back to the nearest 'new', taking the first two integer pushes as id and texture index, then reading the field from the following putstatic)",
+      "result": "45 constructor calls, 44 distinct ids",
+      "ids": [6, 7, 12, 13, 14, 15, 16, 18, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 45, 46, 47, 48, 49, 50, 51, 52, 53, 55, 56, 57, 59],
+      "verdict": "STILL NOT THE FULL REGISTRY. It agrees with the loose scan across the middle of the range but misses both ends - stone (1) and the planks/sapling family (5, 6) on one side, and everything above 59 on the other - because the registry builds many blocks through Subclass constructors whose descriptors are longer than the (II...) shape this pass accepts (fluids, steps, crops and the like). The union of the two passes is therefore also not the registry.",
+      "output": "research/indev-20100223-blocks.json"
+    },
+    "thirdPass": {
+      "method": "walk every `new` instruction in net.minecraft.a.a.b.x.<clinit> whose class is in the block package net/minecraft/a/a/b (36 classes), take the first two integer pushes after it as the block id and texture index, and read the field from the following putstatic",
+      "result": "58 constructions, 57 distinct ids, 27 of the block package's 36 classes used",
+      "ids": [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62],
+      "coherenceCheck": "The id/texture pairs match the era's documented block/texture layout exactly where they can be checked independently: 6 sapling texture 15, 7 bedrock 17, 12 sand 18, 13 gravel 19, 14/15/16 the three ores 32/33/34, and 10/11 the flowing lava pair with texture 255 (the animated/no-texture marker). That is the strongest available sign that the parse reads real registrations rather than bytecode noise - and it is why the earlier loose scan's list, which contained 0, 255 and 256, is not used.",
+      "stillMissing": "ids 1-5 (stone, grass, dirt, cobblestone, planks) and everything above 62. The first five are the most common blocks in the game, so their absence is a parse limitation rather than a fact: they are registered through a construction this pass does not follow, either because their `new` is not adjacent to the putstatic that stores them (an assignment chain) or because they are built by one of the nine block-package classes this pass never saw used. The tail above 62 is likely the Alpha-and-later blocks this build does not have plus the ones whose subclasses take longer constructor descriptors.",
+      "verdict": "STILL NOT AUTHORITATIVE. Roughly 57 of the era's registered ids are read, with independent corroboration for the ones that can be cross-checked, but stone itself is missing - so this cannot yet answer 'did Indev 20100223 have block X'."
+    },
+    "nextStep": "Close the gap in the parse (assignment chains and the nine unused block classes), then map ids to names through the era's documented id table. Indev stores no block NAME strings, so the id table is the only route from numbers to identities, and that mapping belongs in the research record with its own citation."
+  },
+  "gatingImpact": "None yet. No table in this project has been changed on the strength of this file, and research/indev-block-availability.json (the wiki sweep) remains marked INCOMPLETE and unusable. HistoricalBlockAvailability's Indev verdicts rest only on the sixteen boundaries whose own evidence dates them to Classic or earlier (and on diamond ore's introduction/withdrawal dates), which is what PROGRESS.md records."
+}

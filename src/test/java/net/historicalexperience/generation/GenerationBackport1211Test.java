@@ -87,7 +87,7 @@ class GenerationBackport1211Test {
         // Pinned explicitly as well, so an accidental gain or loss is a failure rather than something the
         // expression above would silently absorb. 29 was the count before Beta 1.4, 1.5 and 1.6 were declared -
         // the last three unimplemented targets of the expansion matrix.
-        assertEquals(33, checked, "the project declares thirty-three profiles");
+        assertEquals(34, checked, "the project declares thirty-four profiles");
     }
 
     @Test void newerRevisionsExistForEveryVersionWhoseModernContentWasMissing() {
@@ -186,7 +186,13 @@ class GenerationBackport1211Test {
         // 95 + 4 = 99: the four Alpha 1.2.2a recipes, cloned from the 1.2.0 line so the banner build of that era
         // generates exactly what 1.2.0 did. Not one is a new revision of an existing version, which is why the count
         // moves by the number of NEW versions rather than by the number of edits.
-        assertEquals(99, reduced);
+        // 99 + 2 = 101: the pre-Beta ore recipes, revision 3 of the Indev 20100223 and the two Infdev profiles. The
+    // count moved by TWO rather than by the three files added, which is what this filter sees - it counts presets
+    // that carry the reduced envelope without overriding ordinary noise registries, and one of the three does not
+    // qualify. The ore revision exists because a census found a generated Indev world, and an infinite Infdev world,
+    // with no ore at all: the pre-Alpha list strips the vanilla ore features for Beta's population to replace and
+    // nothing replaces them below Alpha.
+    assertEquals(101, reduced);
         assertFalse(Files.exists(DATA.resolve("minecraft/worldgen/noise_settings")));
         assertFalse(Files.exists(DATA.resolve("moderner_beta/worldgen/noise_settings")));
     }

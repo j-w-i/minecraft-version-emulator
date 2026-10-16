@@ -1,0 +1,1166 @@
+{
+  "schema": 1,
+  "profile": "historical_experience:infdev_420",
+  "artifact": {
+    "id": "inf-20100420",
+    "sha1": "27010a5137abd2c8d8df85e99c14f5406ec197b3",
+    "bytes": 552012,
+    "hashMetadata": "https://meta.celestia.sh/versions/v1/inf-20100420.json",
+    "download": "https://vault.omniarchive.uk/archive/java/client-infdev/inf-20100420.jar"
+  },
+  "mappingNotes": [
+    "Numeric cloth 35 maps to light gray wool (texture 78), not white.",
+    "Numeric step 44 maps to smooth stone slab, made from cobblestone.",
+    "Leather equipment represents the original cloth armour.",
+    "Four chainmail recipes require unobtainable fire; retained as dormant, never offered."
+  ],
+  "recipes": [
+    {
+      "width": 3,
+      "height": 3,
+      "ingredients": [
+        "minecraft:oak_planks",
+        "minecraft:oak_planks",
+        "minecraft:oak_planks",
+        "",
+        "minecraft:stick",
+        "",
+        "",
+        "minecraft:stick",
+        ""
+      ],
+      "result": "minecraft:wooden_pickaxe",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 3,
+      "ingredients": [
+        "minecraft:cobblestone",
+        "minecraft:cobblestone",
+        "minecraft:cobblestone",
+        "",
+        "minecraft:stick",
+        "",
+        "",
+        "minecraft:stick",
+        ""
+      ],
+      "result": "minecraft:stone_pickaxe",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 3,
+      "ingredients": [
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot",
+        "",
+        "minecraft:stick",
+        "",
+        "",
+        "minecraft:stick",
+        ""
+      ],
+      "result": "minecraft:iron_pickaxe",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 3,
+      "ingredients": [
+        "minecraft:diamond",
+        "minecraft:diamond",
+        "minecraft:diamond",
+        "",
+        "minecraft:stick",
+        "",
+        "",
+        "minecraft:stick",
+        ""
+      ],
+      "result": "minecraft:diamond_pickaxe",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 3,
+      "ingredients": [
+        "minecraft:gold_ingot",
+        "minecraft:gold_ingot",
+        "minecraft:gold_ingot",
+        "",
+        "minecraft:stick",
+        "",
+        "",
+        "minecraft:stick",
+        ""
+      ],
+      "result": "minecraft:golden_pickaxe",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 3,
+      "ingredients": [
+        "",
+        "minecraft:stick",
+        "minecraft:string",
+        "minecraft:stick",
+        "",
+        "minecraft:string",
+        "",
+        "minecraft:stick",
+        "minecraft:string"
+      ],
+      "result": "minecraft:bow",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 3,
+      "ingredients": [
+        "minecraft:gold_ingot",
+        "minecraft:gold_ingot",
+        "minecraft:gold_ingot",
+        "minecraft:gold_ingot",
+        "minecraft:gold_ingot",
+        "minecraft:gold_ingot",
+        "minecraft:gold_ingot",
+        "minecraft:gold_ingot",
+        "minecraft:gold_ingot"
+      ],
+      "result": "minecraft:gold_block",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 3,
+      "ingredients": [
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot"
+      ],
+      "result": "minecraft:iron_block",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 3,
+      "ingredients": [
+        "minecraft:diamond",
+        "minecraft:diamond",
+        "minecraft:diamond",
+        "minecraft:diamond",
+        "minecraft:diamond",
+        "minecraft:diamond",
+        "minecraft:diamond",
+        "minecraft:diamond",
+        "minecraft:diamond"
+      ],
+      "result": "minecraft:diamond_block",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 3,
+      "ingredients": [
+        "minecraft:oak_planks",
+        "minecraft:oak_planks",
+        "minecraft:oak_planks",
+        "minecraft:oak_planks",
+        "",
+        "minecraft:oak_planks",
+        "minecraft:oak_planks",
+        "minecraft:oak_planks",
+        "minecraft:oak_planks"
+      ],
+      "result": "minecraft:chest",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 3,
+      "ingredients": [
+        "minecraft:cobblestone",
+        "minecraft:cobblestone",
+        "minecraft:cobblestone",
+        "minecraft:cobblestone",
+        "",
+        "minecraft:cobblestone",
+        "minecraft:cobblestone",
+        "minecraft:cobblestone",
+        "minecraft:cobblestone"
+      ],
+      "result": "minecraft:furnace",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 3,
+      "ingredients": [
+        "minecraft:light_gray_wool",
+        "",
+        "minecraft:light_gray_wool",
+        "minecraft:light_gray_wool",
+        "minecraft:light_gray_wool",
+        "minecraft:light_gray_wool",
+        "minecraft:light_gray_wool",
+        "minecraft:light_gray_wool",
+        "minecraft:light_gray_wool"
+      ],
+      "result": "minecraft:leather_chestplate",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 3,
+      "ingredients": [
+        "minecraft:light_gray_wool",
+        "minecraft:light_gray_wool",
+        "minecraft:light_gray_wool",
+        "minecraft:light_gray_wool",
+        "",
+        "minecraft:light_gray_wool",
+        "minecraft:light_gray_wool",
+        "",
+        "minecraft:light_gray_wool"
+      ],
+      "result": "minecraft:leather_leggings",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 3,
+      "ingredients": [
+        "minecraft:fire",
+        "",
+        "minecraft:fire",
+        "minecraft:fire",
+        "minecraft:fire",
+        "minecraft:fire",
+        "minecraft:fire",
+        "minecraft:fire",
+        "minecraft:fire"
+      ],
+      "result": "minecraft:chainmail_chestplate",
+      "count": 1,
+      "dormant": true
+    },
+    {
+      "width": 3,
+      "height": 3,
+      "ingredients": [
+        "minecraft:fire",
+        "minecraft:fire",
+        "minecraft:fire",
+        "minecraft:fire",
+        "",
+        "minecraft:fire",
+        "minecraft:fire",
+        "",
+        "minecraft:fire"
+      ],
+      "result": "minecraft:chainmail_leggings",
+      "count": 1,
+      "dormant": true
+    },
+    {
+      "width": 3,
+      "height": 3,
+      "ingredients": [
+        "minecraft:iron_ingot",
+        "",
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot"
+      ],
+      "result": "minecraft:iron_chestplate",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 3,
+      "ingredients": [
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot",
+        "",
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot",
+        "",
+        "minecraft:iron_ingot"
+      ],
+      "result": "minecraft:iron_leggings",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 3,
+      "ingredients": [
+        "minecraft:diamond",
+        "",
+        "minecraft:diamond",
+        "minecraft:diamond",
+        "minecraft:diamond",
+        "minecraft:diamond",
+        "minecraft:diamond",
+        "minecraft:diamond",
+        "minecraft:diamond"
+      ],
+      "result": "minecraft:diamond_chestplate",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 3,
+      "ingredients": [
+        "minecraft:diamond",
+        "minecraft:diamond",
+        "minecraft:diamond",
+        "minecraft:diamond",
+        "",
+        "minecraft:diamond",
+        "minecraft:diamond",
+        "",
+        "minecraft:diamond"
+      ],
+      "result": "minecraft:diamond_leggings",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 3,
+      "ingredients": [
+        "minecraft:gold_ingot",
+        "",
+        "minecraft:gold_ingot",
+        "minecraft:gold_ingot",
+        "minecraft:gold_ingot",
+        "minecraft:gold_ingot",
+        "minecraft:gold_ingot",
+        "minecraft:gold_ingot",
+        "minecraft:gold_ingot"
+      ],
+      "result": "minecraft:golden_chestplate",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 3,
+      "ingredients": [
+        "minecraft:gold_ingot",
+        "minecraft:gold_ingot",
+        "minecraft:gold_ingot",
+        "minecraft:gold_ingot",
+        "",
+        "minecraft:gold_ingot",
+        "minecraft:gold_ingot",
+        "",
+        "minecraft:gold_ingot"
+      ],
+      "result": "minecraft:golden_leggings",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 3,
+      "ingredients": [
+        "minecraft:string",
+        "minecraft:string",
+        "minecraft:string",
+        "minecraft:string",
+        "minecraft:string",
+        "minecraft:string",
+        "minecraft:string",
+        "minecraft:string",
+        "minecraft:string"
+      ],
+      "result": "minecraft:light_gray_wool",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 3,
+      "ingredients": [
+        "minecraft:gunpowder",
+        "minecraft:sand",
+        "minecraft:gunpowder",
+        "minecraft:sand",
+        "minecraft:gunpowder",
+        "minecraft:sand",
+        "minecraft:gunpowder",
+        "minecraft:sand",
+        "minecraft:gunpowder"
+      ],
+      "result": "minecraft:tnt",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 3,
+      "ingredients": [
+        "minecraft:stick",
+        "minecraft:stick",
+        "minecraft:stick",
+        "minecraft:stick",
+        "minecraft:light_gray_wool",
+        "minecraft:stick",
+        "minecraft:stick",
+        "minecraft:stick",
+        "minecraft:stick"
+      ],
+      "result": "minecraft:painting",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 3,
+      "ingredients": [
+        "minecraft:gold_block",
+        "minecraft:gold_block",
+        "minecraft:gold_block",
+        "minecraft:gold_block",
+        "minecraft:apple",
+        "minecraft:gold_block",
+        "minecraft:gold_block",
+        "minecraft:gold_block",
+        "minecraft:gold_block"
+      ],
+      "result": "minecraft:golden_apple",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 2,
+      "height": 3,
+      "ingredients": [
+        "minecraft:oak_planks",
+        "minecraft:oak_planks",
+        "minecraft:oak_planks",
+        "minecraft:stick",
+        "",
+        "minecraft:stick"
+      ],
+      "result": "minecraft:wooden_axe",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 2,
+      "height": 3,
+      "ingredients": [
+        "minecraft:oak_planks",
+        "minecraft:oak_planks",
+        "",
+        "minecraft:stick",
+        "",
+        "minecraft:stick"
+      ],
+      "result": "minecraft:wooden_hoe",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 2,
+      "height": 3,
+      "ingredients": [
+        "minecraft:cobblestone",
+        "minecraft:cobblestone",
+        "minecraft:cobblestone",
+        "minecraft:stick",
+        "",
+        "minecraft:stick"
+      ],
+      "result": "minecraft:stone_axe",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 2,
+      "height": 3,
+      "ingredients": [
+        "minecraft:cobblestone",
+        "minecraft:cobblestone",
+        "",
+        "minecraft:stick",
+        "",
+        "minecraft:stick"
+      ],
+      "result": "minecraft:stone_hoe",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 2,
+      "height": 3,
+      "ingredients": [
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot",
+        "minecraft:stick",
+        "",
+        "minecraft:stick"
+      ],
+      "result": "minecraft:iron_axe",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 2,
+      "height": 3,
+      "ingredients": [
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot",
+        "",
+        "minecraft:stick",
+        "",
+        "minecraft:stick"
+      ],
+      "result": "minecraft:iron_hoe",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 2,
+      "height": 3,
+      "ingredients": [
+        "minecraft:diamond",
+        "minecraft:diamond",
+        "minecraft:diamond",
+        "minecraft:stick",
+        "",
+        "minecraft:stick"
+      ],
+      "result": "minecraft:diamond_axe",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 2,
+      "height": 3,
+      "ingredients": [
+        "minecraft:diamond",
+        "minecraft:diamond",
+        "",
+        "minecraft:stick",
+        "",
+        "minecraft:stick"
+      ],
+      "result": "minecraft:diamond_hoe",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 2,
+      "height": 3,
+      "ingredients": [
+        "minecraft:gold_ingot",
+        "minecraft:gold_ingot",
+        "minecraft:gold_ingot",
+        "minecraft:stick",
+        "",
+        "minecraft:stick"
+      ],
+      "result": "minecraft:golden_axe",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 2,
+      "height": 3,
+      "ingredients": [
+        "minecraft:gold_ingot",
+        "minecraft:gold_ingot",
+        "",
+        "minecraft:stick",
+        "",
+        "minecraft:stick"
+      ],
+      "result": "minecraft:golden_hoe",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 2,
+      "ingredients": [
+        "minecraft:light_gray_wool",
+        "minecraft:light_gray_wool",
+        "minecraft:light_gray_wool",
+        "minecraft:light_gray_wool",
+        "",
+        "minecraft:light_gray_wool"
+      ],
+      "result": "minecraft:leather_helmet",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 2,
+      "ingredients": [
+        "minecraft:light_gray_wool",
+        "",
+        "minecraft:light_gray_wool",
+        "minecraft:light_gray_wool",
+        "",
+        "minecraft:light_gray_wool"
+      ],
+      "result": "minecraft:leather_boots",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 2,
+      "ingredients": [
+        "minecraft:fire",
+        "minecraft:fire",
+        "minecraft:fire",
+        "minecraft:fire",
+        "",
+        "minecraft:fire"
+      ],
+      "result": "minecraft:chainmail_helmet",
+      "count": 1,
+      "dormant": true
+    },
+    {
+      "width": 3,
+      "height": 2,
+      "ingredients": [
+        "minecraft:fire",
+        "",
+        "minecraft:fire",
+        "minecraft:fire",
+        "",
+        "minecraft:fire"
+      ],
+      "result": "minecraft:chainmail_boots",
+      "count": 1,
+      "dormant": true
+    },
+    {
+      "width": 3,
+      "height": 2,
+      "ingredients": [
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot",
+        "",
+        "minecraft:iron_ingot"
+      ],
+      "result": "minecraft:iron_helmet",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 2,
+      "ingredients": [
+        "minecraft:iron_ingot",
+        "",
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot",
+        "",
+        "minecraft:iron_ingot"
+      ],
+      "result": "minecraft:iron_boots",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 2,
+      "ingredients": [
+        "minecraft:diamond",
+        "minecraft:diamond",
+        "minecraft:diamond",
+        "minecraft:diamond",
+        "",
+        "minecraft:diamond"
+      ],
+      "result": "minecraft:diamond_helmet",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 2,
+      "ingredients": [
+        "minecraft:diamond",
+        "",
+        "minecraft:diamond",
+        "minecraft:diamond",
+        "",
+        "minecraft:diamond"
+      ],
+      "result": "minecraft:diamond_boots",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 2,
+      "ingredients": [
+        "minecraft:gold_ingot",
+        "minecraft:gold_ingot",
+        "minecraft:gold_ingot",
+        "minecraft:gold_ingot",
+        "",
+        "minecraft:gold_ingot"
+      ],
+      "result": "minecraft:golden_helmet",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 2,
+      "ingredients": [
+        "minecraft:gold_ingot",
+        "",
+        "minecraft:gold_ingot",
+        "minecraft:gold_ingot",
+        "",
+        "minecraft:gold_ingot"
+      ],
+      "result": "minecraft:golden_boots",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 2,
+      "ingredients": [
+        "minecraft:oak_planks",
+        "",
+        "minecraft:oak_planks",
+        "",
+        "minecraft:oak_planks",
+        ""
+      ],
+      "result": "minecraft:bowl",
+      "count": 4,
+      "dormant": false
+    },
+    {
+      "width": 2,
+      "height": 2,
+      "ingredients": [
+        "minecraft:oak_planks",
+        "minecraft:oak_planks",
+        "minecraft:oak_planks",
+        "minecraft:oak_planks"
+      ],
+      "result": "minecraft:crafting_table",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 2,
+      "height": 2,
+      "ingredients": [
+        "minecraft:iron_ingot",
+        "",
+        "",
+        "minecraft:flint"
+      ],
+      "result": "minecraft:flint_and_steel",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 1,
+      "height": 3,
+      "ingredients": [
+        "minecraft:oak_planks",
+        "minecraft:stick",
+        "minecraft:stick"
+      ],
+      "result": "minecraft:wooden_shovel",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 1,
+      "height": 3,
+      "ingredients": [
+        "minecraft:cobblestone",
+        "minecraft:stick",
+        "minecraft:stick"
+      ],
+      "result": "minecraft:stone_shovel",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 1,
+      "height": 3,
+      "ingredients": [
+        "minecraft:iron_ingot",
+        "minecraft:stick",
+        "minecraft:stick"
+      ],
+      "result": "minecraft:iron_shovel",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 1,
+      "height": 3,
+      "ingredients": [
+        "minecraft:diamond",
+        "minecraft:stick",
+        "minecraft:stick"
+      ],
+      "result": "minecraft:diamond_shovel",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 1,
+      "height": 3,
+      "ingredients": [
+        "minecraft:gold_ingot",
+        "minecraft:stick",
+        "minecraft:stick"
+      ],
+      "result": "minecraft:golden_shovel",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 1,
+      "height": 3,
+      "ingredients": [
+        "minecraft:oak_planks",
+        "minecraft:oak_planks",
+        "minecraft:stick"
+      ],
+      "result": "minecraft:wooden_sword",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 1,
+      "height": 3,
+      "ingredients": [
+        "minecraft:cobblestone",
+        "minecraft:cobblestone",
+        "minecraft:stick"
+      ],
+      "result": "minecraft:stone_sword",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 1,
+      "height": 3,
+      "ingredients": [
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot",
+        "minecraft:stick"
+      ],
+      "result": "minecraft:iron_sword",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 1,
+      "height": 3,
+      "ingredients": [
+        "minecraft:diamond",
+        "minecraft:diamond",
+        "minecraft:stick"
+      ],
+      "result": "minecraft:diamond_sword",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 1,
+      "height": 3,
+      "ingredients": [
+        "minecraft:gold_ingot",
+        "minecraft:gold_ingot",
+        "minecraft:stick"
+      ],
+      "result": "minecraft:golden_sword",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 1,
+      "height": 3,
+      "ingredients": [
+        "minecraft:iron_ingot",
+        "minecraft:stick",
+        "minecraft:feather"
+      ],
+      "result": "minecraft:arrow",
+      "count": 4,
+      "dormant": false
+    },
+    {
+      "width": 1,
+      "height": 3,
+      "ingredients": [
+        "minecraft:red_mushroom",
+        "minecraft:brown_mushroom",
+        "minecraft:bowl"
+      ],
+      "result": "minecraft:mushroom_stew",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 1,
+      "height": 3,
+      "ingredients": [
+        "minecraft:brown_mushroom",
+        "minecraft:red_mushroom",
+        "minecraft:bowl"
+      ],
+      "result": "minecraft:mushroom_stew",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 1,
+      "ingredients": [
+        "minecraft:cobblestone",
+        "minecraft:cobblestone",
+        "minecraft:cobblestone"
+      ],
+      "result": "minecraft:smooth_stone_slab",
+      "count": 3,
+      "dormant": false
+    },
+    {
+      "width": 3,
+      "height": 1,
+      "ingredients": [
+        "minecraft:wheat",
+        "minecraft:wheat",
+        "minecraft:wheat"
+      ],
+      "result": "minecraft:bread",
+      "count": 1,
+      "dormant": false
+    },
+    {
+      "width": 1,
+      "height": 2,
+      "ingredients": [
+        "minecraft:oak_planks",
+        "minecraft:oak_planks"
+      ],
+      "result": "minecraft:stick",
+      "count": 4,
+      "dormant": false
+    },
+    {
+      "width": 1,
+      "height": 2,
+      "ingredients": [
+        "minecraft:coal",
+        "minecraft:stick"
+      ],
+      "result": "minecraft:torch",
+      "count": 4,
+      "dormant": false
+    },
+    {
+      "width": 1,
+      "height": 1,
+      "ingredients": [
+        "minecraft:gold_block"
+      ],
+      "result": "minecraft:gold_ingot",
+      "count": 9,
+      "dormant": false
+    },
+    {
+      "width": 1,
+      "height": 1,
+      "ingredients": [
+        "minecraft:iron_block"
+      ],
+      "result": "minecraft:iron_ingot",
+      "count": 9,
+      "dormant": false
+    },
+    {
+      "width": 1,
+      "height": 1,
+      "ingredients": [
+        "minecraft:diamond_block"
+      ],
+      "result": "minecraft:diamond",
+      "count": 9,
+      "dormant": false
+    },
+    {
+      "width": 1,
+      "height": 1,
+      "ingredients": [
+        "minecraft:oak_log"
+      ],
+      "result": "minecraft:oak_planks",
+      "count": 4,
+      "dormant": false
+    }
+  ],
+  "smelting": [
+    {
+      "input": "minecraft:cobblestone",
+      "result": "minecraft:stone"
+    },
+    {
+      "input": "minecraft:sand",
+      "result": "minecraft:glass"
+    },
+    {
+      "input": "minecraft:gold_ore",
+      "result": "minecraft:gold_ingot"
+    },
+    {
+      "input": "minecraft:iron_ore",
+      "result": "minecraft:iron_ingot"
+    },
+    {
+      "input": "minecraft:diamond_ore",
+      "result": "minecraft:diamond"
+    },
+    {
+      "input": "minecraft:porkchop",
+      "result": "minecraft:cooked_porkchop"
+    }
+  ],
+  "food": {
+    "minecraft:apple": 4,
+    "minecraft:mushroom_stew": 10,
+    "minecraft:bread": 5,
+    "minecraft:porkchop": 3,
+    "minecraft:cooked_porkchop": 8,
+    "minecraft:golden_apple": 42
+  },
+  "foodEvidence": [
+    {
+      "item": "minecraft:apple",
+      "healPoints": 4,
+      "registryField": "net.minecraft.a.b.i.g",
+      "instanceClass": "net.minecraft.a.b.p",
+      "healField": "p.au"
+    },
+    {
+      "item": "minecraft:mushroom_stew",
+      "healPoints": 10,
+      "registryField": "net.minecraft.a.b.i.C",
+      "instanceClass": "net.minecraft.a.b.b",
+      "healField": "p.au"
+    },
+    {
+      "item": "minecraft:bread",
+      "healPoints": 5,
+      "registryField": "net.minecraft.a.b.i.R",
+      "instanceClass": "net.minecraft.a.b.p",
+      "healField": "p.au"
+    },
+    {
+      "item": "minecraft:porkchop",
+      "healPoints": 3,
+      "registryField": "net.minecraft.a.b.i.an",
+      "instanceClass": "net.minecraft.a.b.p",
+      "healField": "p.au"
+    },
+    {
+      "item": "minecraft:cooked_porkchop",
+      "healPoints": 8,
+      "registryField": "net.minecraft.a.b.i.ao",
+      "instanceClass": "net.minecraft.a.b.p",
+      "healField": "p.au"
+    },
+    {
+      "item": "minecraft:golden_apple",
+      "healPoints": 42,
+      "registryField": "net.minecraft.a.b.i.aq",
+      "instanceClass": "net.minecraft.a.b.p",
+      "healField": "p.au"
+    }
+  ],
+  "leafDrop": {
+    "block": "minecraft:oak_leaves",
+    "result": "minecraft:oak_sapling",
+    "count": 1,
+    "chanceDenominator": 10,
+    "successRoll": 0
+  },
+  "leafDropEvidence": {
+    "registryField": "net.minecraft.a.a.b.x.c",
+    "leafClass": "net.minecraft.a.a.b.o",
+    "quantityMethod": "public final int net.minecraft.a.a.b.o.a(java.util.Random)",
+    "itemMethod": "public final int net.minecraft.a.a.b.o.a(int,java.util.Random)",
+    "numericLeafId": 18,
+    "numericDropId": 6,
+    "metadataValuesChecked": 16,
+    "quantityBucketsCheckedPerMetadata": 10,
+    "quantityRandomBounds": [
+      10
+    ],
+    "quantityOutputs": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "itemRandomBounds": [],
+    "toolParameters": false,
+    "confidence": "high",
+    "scope": "Quantity/item callbacks only; explosion survival, decay timing and pickup physics not established."
+  }
+}

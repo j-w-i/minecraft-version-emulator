@@ -92,28 +92,26 @@ class SpawnRestrictionSemanticsTest {
     // covers it; only the "find an example" half became vacuous.
 
     @Test
-    @DisplayName("the surviving Infdev build carries its extracted seven-mob set")
+    @DisplayName("the offered Infdev build allows six species, never the registered giant")
     void survivingInfdevSet() {
         assertEquals(HistoricalSpawnRules.INFDEV_20100420_AND_20100611_MOBS,
             HistoricalVersions.byId(INFDEV_611).orElseThrow().rules().allowedNaturalSpawns());
         assertTrue(HistoricalVersions.byId(INFDEV_611).orElseThrow().rules()
             .allowedNaturalSpawns().contains("minecraft:sheep"));
-        assertTrue(HistoricalVersions.byId(INFDEV_611).orElseThrow().rules()
-            .allowedNaturalSpawns().contains("minecraft:giant"));
+        assertFalse(HistoricalVersions.byId(INFDEV_611).orElseThrow().rules()
+            .allowedNaturalSpawns().contains("minecraft:giant"), "registered is not naturally spawning");
     }
 
     @Test
-    @DisplayName("the surviving Infdev builds have a VERIFIED absence of food")
-    void infdevFoodIsVerifiedAbsent() {
+    @DisplayName("the offered Infdev builds have six foods, despite the retracted zero-call-site audit")
+    void infdevFoodIsArtifactVerified() {
         for (String id : Set.of(INFDEV_611, "historical_experience:infdev_420")) {
             var version = HistoricalVersions.byId(id).orElseThrow();
-            assertTrue(version.rules().foodHealPoints().isEmpty(),
-                id + " has no food items at all, so its table must be empty");
+            assertEquals(6, version.rules().foodHealPoints().size());
+            assertEquals(42, version.rules().foodHealPoints().get("minecraft:golden_apple"));
             assertFalse(version.rules().hasHunger(), id + " predates hunger entirely");
-            // The evidence must record WHY it is empty, or a reader cannot tell this from an unfinished
-            // extraction - which is exactly the confusion the wording exists to prevent.
-            assertTrue(version.rules().evidence().contains("FOOD: verified ABSENT"),
-                id + " must state that the absence is measured rather than pending");
+            // Reflection extracts the registrations and six smelts; javap resolves food-class r's actual eat caller.
+            assertTrue(version.rules().evidence().contains("FOOD: six registered food instances"));
             assertTrue(version.rules().evidence().contains("Omniarchive"),
                 id + " must record its archive provenance");
         }

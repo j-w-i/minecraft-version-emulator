@@ -75,6 +75,7 @@ public final class HistoricalBlockAvailability {
 
     /** The declared versions oldest first; a unit test asserts this equals the version registry. */
     public static final List<String> CHRONOLOGY = List.of(
+        "historical_experience:indev_latest",
         "historical_experience:infdev_420",
         "historical_experience:infdev_611",
         "historical_experience:alpha_1_0_1",
@@ -155,84 +156,95 @@ public final class HistoricalBlockAvailability {
     }
 
     static {
+        // Boundary clamping, and what changed when Indev was declared.
+        //
+        // Sixteen block families below were introduced in Classic or earlier - bedrock, the stone-and-ore
+        // families, leaves and saplings, glass and sponge, TNT, grass block, obsidian - and this table cannot date
+        // a block earlier than the oldest version it declares, so their boundary was pinned to the then-oldest
+        // profile, Infdev 20100420. Indev 20100223 is now that oldest profile, and every one of those blocks
+        // existed in it, so they clamp to Indev instead. Two Indev-era rows moved with them: wheat/farmland (Indev
+        // 20100206-2034, before this build) and diamond ore, whose own history is "introduced Indev 0.31
+        // 20100128-2200, generation withdrawn in Infdev 20100227-1414 and restored 20100320" - this build sits
+        // between the introduction and the withdrawal, so it HAD diamond ore. The palette-derived halves of these
+        // evidence strings are unchanged and still name beta_1_7_3.
         // feature-timeline blocks: bedrock introduced Classic 0.0.12a; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
-        introduce("historical_experience:infdev_420", true,
+        introduce("historical_experience:indev_latest", true,
             "feature-timeline blocks: bedrock introduced Classic 0.0.12a; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:bedrock"});
         // feature-timeline blocks: introduced Classic 0.26 SURVIVAL TEST; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
-        introduce("historical_experience:infdev_420", true,
+        introduce("historical_experience:indev_latest", true,
             "feature-timeline blocks: introduced Classic 0.26 SURVIVAL TEST; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:bookshelf"});
         // feature-timeline blocks: these introduced Classic 0.0.14a; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
-        introduce("historical_experience:infdev_420", true,
+        introduce("historical_experience:indev_latest", true,
             "feature-timeline blocks: these introduced Classic 0.0.14a; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:coal_ore"});
         // feature-timeline blocks: diamond ore restored Infdev 20100320, before the earliest profile; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
-        introduce("historical_experience:infdev_420", true,
+        introduce("historical_experience:indev_latest", true,
             "feature-timeline blocks: diamond ore restored Infdev 20100320, before the earliest profile; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:diamond_ore"});
         // feature-timeline blocks: wheat crop / farmland introduced Indev 20100206-2034; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
-        introduce("historical_experience:infdev_420", true,
+        introduce("historical_experience:indev_latest", true,
             "feature-timeline blocks: wheat crop / farmland introduced Indev 20100206-2034; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:farmland"});
         // feature-timeline blocks: sponge and glass introduced Classic 0.0.19a; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
-        introduce("historical_experience:infdev_420", true,
+        introduce("historical_experience:indev_latest", true,
             "feature-timeline blocks: sponge and glass introduced Classic 0.0.19a; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:glass"});
         // feature-timeline blocks: these introduced Classic 0.0.14a; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
-        introduce("historical_experience:infdev_420", true,
+        introduce("historical_experience:indev_latest", true,
             "feature-timeline blocks: these introduced Classic 0.0.14a; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:gold_ore"});
         // feature-timeline blocks: "grass block (the dirt-with-grass top block)" introduced Pre-Classic; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
-        introduce("historical_experience:infdev_420", true,
+        introduce("historical_experience:indev_latest", true,
             "feature-timeline blocks: \"grass block (the dirt-with-grass top block)\" introduced Pre-Classic; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:grass_block"});
         // feature-timeline blocks: these introduced Classic 0.0.14a; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
-        introduce("historical_experience:infdev_420", true,
+        introduce("historical_experience:indev_latest", true,
             "feature-timeline blocks: these introduced Classic 0.0.14a; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:gravel",
                 "minecraft:iron_ore"});
         // feature-timeline blocks: introduced Classic 0.26 SURVIVAL TEST; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
-        introduce("historical_experience:infdev_420", true,
+        introduce("historical_experience:indev_latest", true,
             "feature-timeline blocks: introduced Classic 0.26 SURVIVAL TEST; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:mossy_cobblestone"});
         // feature-timeline blocks: leaves introduced Classic 0.0.14a; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
-        introduce("historical_experience:infdev_420", true,
+        introduce("historical_experience:indev_latest", true,
             "feature-timeline blocks: leaves introduced Classic 0.0.14a; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:oak_leaves"});
         // feature-timeline blocks: sapling introduced Pre-Classic rd-161348; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
-        introduce("historical_experience:infdev_420", true,
+        introduce("historical_experience:indev_latest", true,
             "feature-timeline blocks: sapling introduced Pre-Classic rd-161348; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:oak_sapling"});
         // feature-timeline blocks: obsidian exists from Classic 0.28, natural formation from Indev; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
-        introduce("historical_experience:infdev_420", true,
+        introduce("historical_experience:indev_latest", true,
             "feature-timeline blocks: obsidian exists from Classic 0.28, natural formation from Indev; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:obsidian"});
         // feature-timeline blocks: sponge and glass introduced Classic 0.0.19a; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
-        introduce("historical_experience:infdev_420", true,
+        introduce("historical_experience:indev_latest", true,
             "feature-timeline blocks: sponge and glass introduced Classic 0.0.19a; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:sponge"});
         // TNT is Classic 0.26 SURVIVAL TEST (feature-timeline mechanics: "punching TNT with an empty hand"); the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
-        introduce("historical_experience:infdev_420", true,
+        introduce("historical_experience:indev_latest", true,
             "TNT is Classic 0.26 SURVIVAL TEST (feature-timeline mechanics: \"punching TNT with an empty hand\"); the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:tnt"});
         // feature-timeline blocks: wheat crop / farmland introduced Indev 20100206-2034; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
-        introduce("historical_experience:infdev_420", true,
+        introduce("historical_experience:indev_latest", true,
             "feature-timeline blocks: wheat crop / farmland introduced Indev 20100206-2034; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:wheat"});

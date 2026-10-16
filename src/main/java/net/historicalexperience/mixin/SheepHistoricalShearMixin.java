@@ -102,7 +102,11 @@ public abstract class SheepHistoricalShearMixin {
             return;
         }
 
-        net.minecraft.world.level.ItemLike wool = SheepAccess.itemByDye().get(sheep.getColor());
+        String profile = sheep.level() instanceof net.minecraft.server.level.ServerLevel server
+            ? net.historicalexperience.gameplay.HistoricalProfileLookup.profileIdForLevel(server)
+            : HistoricalActiveSession.current();
+        net.minecraft.world.level.ItemLike wool = net.historicalexperience.gameplay.EarlyGameplayRecipes.supports(profile)
+            ? net.minecraft.world.item.Items.LIGHT_GRAY_WOOL : SheepAccess.itemByDye().get(sheep.getColor());
         if (wool == null) {
             return;
         }

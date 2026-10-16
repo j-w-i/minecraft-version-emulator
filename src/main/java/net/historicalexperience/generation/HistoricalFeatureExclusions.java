@@ -284,6 +284,54 @@ public final class HistoricalFeatureExclusions {
         "minecraft:ore_lapis", "minecraft:ore_lapis_buried",
         "minecraft:ore_dirt", "minecraft:ore_gravel");
 
+    /**
+     * The pre-Beta restrictions WITH the era's own ore features left in place.
+     *
+     * <p>A block census of a generated Indev 20100223 world found <b>no ore of any kind</b> in 673 chunks and 22
+     * million blocks, and the same census of an <b>infinite</b> Infdev 20100420 world found none either - 928,038
+     * stone blocks and not one coal, iron, gold or diamond. The finite level is therefore not the cause: the three
+     * pre-Beta profiles share the pre-Alpha revision list, that list excludes the vanilla ore features so that Beta's
+     * own population can replace them, and nothing replaces them below Alpha. The result was no ores at all, which is
+     * a fidelity gap rather than an anachronism - Indev had coal, iron and gold from Classic and diamond from Indev
+     * 0.31 20100128-2200, and both Infdev builds are after the 20100320 diamond restoration.
+     *
+     * <p>It is {@link #keepingVanillaOres} applied to {@link #INFDEV_WITHOUT_DUNGEONS} - the tool this project
+     * already uses for versions that place no ores of their own - with the ores no declared version could have had
+     * excluded again explicitly: redstone (Alpha v1.0.1), lapis (Alpha), copper (1.17), emerald (Release 1.3.1) and
+     * the three modern diamond shapes, leaving the plain diamond vein these builds had plus dirt and gravel. Moderner
+     * Beta stays the terrain authority: this is its own placement with this project's exclusions, and no era ore
+     * parameters are invented, because none have been extracted for the pre-Beta eras the way they have for Beta
+     * 1.7.3.
+     *
+     * <p>A METHOD rather than a field on purpose: it is built from {@link #INFDEV_WITHOUT_DUNGEONS}, declared further
+     * down the file, and a static field here would be an illegal forward reference.
+     */
+    public static List<Exclusion> preAlphaWithVanillaOres() {
+        return List.copyOf(
+            java.util.stream.Stream.concat(
+                keepingVanillaOres(INFDEV_WITHOUT_DUNGEONS).stream(),
+                java.util.stream.Stream.of(
+                    new Exclusion("minecraft:ore_redstone",
+                        "Redstone ore is Alpha v1.0.1 content; it postdates every pre-Beta profile"),
+                    new Exclusion("minecraft:ore_redstone_lower",
+                        "Redstone ore is Alpha v1.0.1 content; it postdates every pre-Beta profile"),
+                    new Exclusion("minecraft:ore_lapis",
+                        "Lapis ore arrives in Alpha; a pre-Beta world had none"),
+                    new Exclusion("minecraft:ore_lapis_buried",
+                        "Lapis ore arrives in Alpha; a pre-Beta world had none"),
+                    new Exclusion("minecraft:ore_copper",
+                        "Copper ore is 1.17 content"),
+                    new Exclusion("minecraft:ore_diamond_medium",
+                        "The medium diamond vein is modern shaping; Indev's diamond was a smaller blob"),
+                    new Exclusion("minecraft:ore_diamond_large",
+                        "The large diamond vein is modern shaping; Indev's diamond was a smaller blob"),
+                    new Exclusion("minecraft:ore_diamond_buried",
+                        "The buried diamond vein is modern shaping; Indev's diamond was a smaller blob"),
+                    new Exclusion("moderner_beta:ore_emerald_y95",
+                        "Emerald ore is Release 1.3.1 content; Moderner Beta places it through this feature")
+                )).toList());
+    }
+
     /** The same restrictions without the replacement bans, for versions that place no ores of their own. */
     private static List<Exclusion> keepingVanillaOres(List<Exclusion> exclusions) {
         return exclusions.stream()

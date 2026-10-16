@@ -516,6 +516,42 @@ public final class HistoricalVersions {
         // instantiates no mob at all, 325 constructs six from a nextInt(6) switch, and neither has any
         // food - so the work is not lost and can be reinstated if the provider is fixed. Until then,
         // offering them would mean offering a world that never loads.
+        // ---- Indev 20100223: the oldest version this build offers, and the only finite one ---------------
+        //
+        // Asked for by the owner. The earlier withdrawal note said Classic AND Indev do not generate; that verdict
+        // was measured on CLASSIC, which hangs on chunk (0,0) even from Moderner Beta's own preset. Indev is a
+        // different provider path and was re-measured as its own case - run/indevprobe.out shows it generating: spawn
+        // prepared in 1.25 s, biome moderner_beta:indev_normal, border 256 centred on the origin. Classic stays
+        // withdrawn. Rules start from Infdev's, as instructed, adjusted to Indev's own record.
+        versions.add(terrainOnlyWithRules(
+            "historical_experience:indev_latest", "Indev 20100223", "indev",
+            ERA_INDEV + 223,
+            "moderner_beta:indev",
+            new VersionRules(
+                true,
+                HistoricalSpawnRules.INDEV_20100223_MOBS,
+                HistoricalLootRules.INDEV_20100223_BY_ENTITY,
+                HistoricalFoodRules.INDEV_20100223_HEAL_POINTS,
+                false,
+                false,
+                false,
+                false,
+                "FINITE ERA, and the only one this project offers. Generation inherits the real upstream "
+                    + "moderner_beta:indev preset - provider moderner_beta:finite_2d, finite level 256x256x128, theme "
+                    + "normal, world border 256 centred on the origin with the ocean falloff, out-of-bounds biome "
+                    + "minecraft:the_void - with this project's overrides: deepslate off, cave biomes off, and the "
+                    + "preset's stronghold placement override REMOVED, because a stronghold at distance 0 would put "
+                    + "Release 1.0's structure in the middle of a 256-block island. The envelope is NOT taken from the "
+                    + "overworld_128 override the Infdev and Alpha presets use: this provider reads its own finite_2d "
+                    + "noise settings and its height comes from finite_level_properties. MOBS: the same seven as Infdev "
+                    + "(creeper, skeleton, spider, giant, zombie, pig, sheep), adopted from the next measured era "
+                    + "because no research row adds or removes an Indev species; mob armour and arm-swinging are "
+                    + "absent because the research removes both in Indev 20100202. DROPS: Indev 20100219's tables - "
+                    + "zombie 0-2 feathers, skeleton 0-2 arrows, pig 0-2 raw porkchops, spider 0-2 string; bones are "
+                    + "Beta 1.2, rotten flesh Beta 1.8. FOOD: this exact jar registers bread 5, stew 10, raw porkchop "
+                    + "3 and cooked porkchop 8. Neither Classic mushroom eating nor an apple registration is inherited "
+                    + "into this build. Exact crafting patterns/counts and six smelts are artifact-extracted. "
+                    + "SIMULATION: no hunger, no sprinting, no experience, no structures.")));
         versions.add(infdevTerrainOnly(
             "historical_experience:infdev_420", "Infdev 20100420", 420, "moderner_beta:infdev_420",
             HistoricalSpawnRules.INFDEV_20100420_AND_20100611_MOBS, true,
@@ -1173,6 +1209,30 @@ public final class HistoricalVersions {
     private static final Map<String, HistoricalVersion> BY_ID;
     private static final Map<String, HistoricalVersion> BY_ALIAS;
 
+    /**
+     * The declared profiles whose worlds are FINITE: a fixed-size level, and the world border that comes with it.
+     *
+     * <p>Indev 20100223 is the only one this build offers. Classic would belong here too but is not offered at all,
+     * because its Moderner Beta provider hangs during world creation while Indev's does not. Kept as data so an
+     * upgrade can ask the question without loading a world: see WorldGenSettingsAdvance's border release.
+     */
+    private static final Set<String> FINITE_PROFILES = Set.of("historical_experience:indev_latest");
+
+    /** Whether a profile id names a finite world. False for null, for an ordinary world and for every other era. */
+    public static boolean isFiniteWorld(String profileId) {
+        return profileId != null && FINITE_PROFILES.contains(profileId);
+    }
+
+    /** The same question for a generation-preset alias, which is what a journal and a level stem actually store. */
+    public static boolean isFinitePreset(String presetAlias) {
+        return byRevisionAlias(presetAlias).map(version -> isFiniteWorld(version.id())).orElse(false);
+    }
+
+    /** Every finite profile, so a test can assert the set is exactly the eras that were finite. */
+    public static Set<String> finiteProfiles() {
+        return FINITE_PROFILES;
+    }
+
     private HistoricalVersions() {
     }
 
@@ -1225,16 +1285,18 @@ public final class HistoricalVersions {
             + " ARCHIVE PROVENANCE: retrieved from Omniarchive Vault BETA with the SHA-1 checked against "
             + "an independently published per-version metadata document, because Mojang publishes no "
             + "Infdev build. " + mobEvidence
-            + " FOOD: verified ABSENT in this build - the health-restoration method exists and clamps at "
-            + "20, but it has zero call sites jar-wide, there are no constant-pool hits for any food "
-            + "item, and no hunger, saturation or exhaustion system exists at all. So an empty food "
-            + "table here is a measured fact rather than an unfinished extraction.";
+            + " FOOD: six registered food instances, proved by this build's item constructors, stew subclass, "
+            + "pig drop and six-entry smelting function; health restored directly (4/5/10/3/8/42). "
+            + "The previous zero-call-site conclusion was false: 20100611 r.a(stack,world,player) calls player.b(heal). "
+            + "LOOT: feather/arrow/string/gunpowder/raw pork, never modern bones, flesh, meat-on-fire or rare drops. "
+            + "CRAFTING: exact per-build patterns, ingredients and counts, not the Alpha allow-list. "
+            + "See research/early-gameplay-audit.md.";
         return terrainOnlyWithRules(id, displayName, "infdev", ERA_INFDEV + buildNumber, upstreamPreset,
             new VersionRules(
                 restrictsSpawns,
                 mobs,
-                java.util.Map.of(),
-                java.util.Map.of(),
+                HistoricalLootRules.INDEV_20100223_BY_ENTITY,
+                HistoricalFoodRules.INFDEV_HEAL_POINTS,
                 false,
                 false,
                 false,
@@ -1502,7 +1564,7 @@ public final class HistoricalVersions {
             era,
             chronology,
             rules,
-            List.of(
+            withPreBetaOreRevision(id, upstreamPreset, chronology, List.of(
                 new GenerationRevision(
                     0,
                     id,
@@ -1538,7 +1600,7 @@ public final class HistoricalVersions {
                     "modern content: the Release 1.2.1 desert well is excluded, and the monster room as well "
                         + "for the builds older than Infdev 20100625-1917",
                     revisionTwoExclusions,
-                    List.of())));
+                    List.of()))));
     }
 
     /**
@@ -1552,7 +1614,36 @@ public final class HistoricalVersions {
      *
      * <p>Same rules, same exclusion handling, one fewer revision.
      */
-    private static HistoricalVersion releaseTerrainOnlyWithRules(
+        /**
+     * Appends the pre-Beta ore revision (revision 3) when the version predates Alpha, and returns the list unchanged
+     * otherwise.
+     *
+     * <p>This exists because terrainOnlyWithRules is shared with the Alpha declarations. When the ore revision was
+     * first added to that list unconditionally, every Alpha profile gained an alias whose preset file did not exist -
+     * caught by Alpha12BiomeRuleTest before anything shipped - so the condition belongs here rather than in each
+     * caller. The three pre-Beta profiles (Indev 20100223 and both Infdev builds) share the pre-Alpha exclusion list,
+     * that list strips the vanilla ore features for Beta's population to replace, and nothing replaces them below
+     * Alpha: a census found a generated Indev world and an infinite Infdev world with no ore at all.
+     */
+    private static List<GenerationRevision> withPreBetaOreRevision(
+            String id, String upstreamPreset, int chronology, List<GenerationRevision> revisions) {
+        if (chronology >= ERA_ALPHA) {
+            return revisions;
+        }
+        List<GenerationRevision> withOres = new java.util.ArrayList<>(revisions);
+        withOres.add(new GenerationRevision(
+            3,
+            alias(id.substring(id.indexOf(':') + 1) + "_with_ores"),
+            upstreamPreset,
+            true,
+            "the pre-Beta ore population: Moderner Beta's own ore placement left enabled for the ores these builds "
+                + "had (coal, iron, gold, plain diamond, dirt and gravel), with redstone, lapis, copper, emerald and "
+                + "the modern diamond shapes excluded",
+            HistoricalFeatureExclusions.preAlphaWithVanillaOres(),
+            List.of()));
+        return List.copyOf(withOres);
+    }
+private static HistoricalVersion releaseTerrainOnlyWithRules(
         String id,
         String displayName,
         String era,

@@ -83,6 +83,11 @@ public final class HistoricalExperienceClient implements ClientModInitializer {
             net.historicalexperience.client.textures.TextureFirstRun::tick);
         net.historicalexperience.client.textures.TexturesProbe.register();
 
+        // A client that hangs on leaving a world writes nothing at all, which is how the owner's freeze left no
+        // evidence. This reports the stuck stacks once, if that ever happens again.
+        net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.START_CLIENT_TICK.register(
+            net.historicalexperience.client.LoadingHangWatchdog::tick);
+
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
             HistoricalClientRules.clearSyncedVersion();
             // The next world's sky light is unrelated to this one's.

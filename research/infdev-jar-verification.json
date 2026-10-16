@@ -1,0 +1,98 @@
+{
+  "status": "SUPERSEDED — zero-food conclusion disproved by executable food constructors and eat/heal call; read early-gameplay-audit.md",
+  "correction20261015": "The substring hits really were Applet/splash false positives, but that did NOT validate the separate zero-call-site claim. Both offered Infdev builds register six foods; June11 food class net.minecraft.a.b.r.a(stack,world,player) calls player.b(int). Artifact-matched extraction yields 69/72 crafting recipes and six smelts. Metadata is independently re-fetched from meta.celestia.sh, not trusted from this project's comments. Giants are never included in natural-spawn allow-lists by owner instruction. Historical investigation below retained to expose the mistaken inference.",
+  "originalStatus": "ARTIFACTS VERIFIED, and one recorded claim now in question",
+  "purpose": "Owner: 'Download the Infdev jars again to verify their feature gating as well as using minecrfa.wiki'. This records what re-downloading the four Infdev jars established, and the one discrepancy it exposed.",
+  "retrieved": "2026-10-15",
+  "source": "https://vault.omniarchive.uk/archive/java/client-infdev/ (Omniarchive Vault BETA)",
+  "localPath": ".upstream/legacy-jars/ (gitignored)",
+  "integrity": {
+    "method": "each jar re-downloaded and its SHA-1 and byte size compared against the values recorded in HistoricalVersions.infdevTerrainOnly's provenance comment, which the project states came from an independently published per-version metadata document rather than from the downloads",
+    "results": [
+      {
+        "file": "inf-20100227-1433.jar",
+        "bytes": 509103,
+        "sha1": "78ba00379a9c55e692a55c9b9464a2c7f46281a9",
+        "verdict": "MATCHES the recorded SHA-1 and size"
+      },
+      {
+        "file": "inf-20100325-1640.jar",
+        "bytes": 531352,
+        "sha1": "99da3b55b4db292faca59824e3ec76bf53a7eae6",
+        "verdict": "MATCHES"
+      },
+      {
+        "file": "inf-20100420.jar",
+        "bytes": 552012,
+        "sha1": "27010a5137abd2c8d8df85e99c14f5406ec197b3",
+        "verdict": "MATCHES"
+      },
+      {
+        "file": "inf-20100611.jar",
+        "bytes": 566417,
+        "sha1": "421318a554f17463a56a271d08e9597941d066d9",
+        "verdict": "MATCHES"
+      }
+    ],
+    "conclusion": "All four artifacts are byte-identical to the ones the project's Infdev profiles were built from, so every Infdev gating decision that cites these builds stands on the artifact it was measured from. This also shows the route that works: the SHA-1 list recorded in the code is a usable verification document for these four."
+  },
+  "gatingCheck": {
+    "method": "every .class entry of each jar decoded as ASCII and searched for food and drop item-name constants",
+    "needles": [
+      "apple",
+      "bread",
+      "porkchop",
+      "mushroom",
+      "wheat",
+      "feather",
+      "arrow"
+    ],
+    "results": [
+      {
+        "file": "inf-20100227-1433.jar",
+        "classes": 289,
+        "hits": [
+          "apple",
+          "mushroom",
+          "arrow"
+        ]
+      },
+      {
+        "file": "inf-20100325-1640.jar",
+        "classes": 301,
+        "hits": [
+          "apple",
+          "mushroom",
+          "arrow"
+        ]
+      },
+      {
+        "file": "inf-20100420.jar",
+        "classes": 309,
+        "hits": [
+          "apple",
+          "mushroom",
+          "arrow"
+        ]
+      },
+      {
+        "file": "inf-20100611.jar",
+        "classes": 320,
+        "hits": [
+          "apple",
+          "mushroom",
+          "arrow"
+        ]
+      }
+    ]
+  },
+  "discrepancy": {
+    "projectClaim": "HistoricalVersions.infdevTerrainOnly records for these builds: 'FOOD: verified ABSENT in this build - the health-restoration method exists and clamps at 20, but it has zero call sites jar-wide, there are no constant-pool hits for any food item, and no hunger, saturation or exhaustion system exists at all.'",
+    "whatTheArtifactsShow": "The constant pool of every one of the four builds DOES contain the strings 'apple' and 'mushroom' (and 'arrow'). The zero-hit half of that claim is therefore not reproducible as written.",
+    "whatThisDoesNotYetMean": "It does NOT follow that food worked in Infdev. The hits may be texture or resource names, or an item-name string for an item that has no eating behaviour - which is exactly what the other half of the claim (zero call sites to the heal method) describes. Changing the Infdev food table on a string hit alone would be the mirror of the mistake this project already made once, when a registry name was read as a behaviour.",
+    "nextStep": "Locate the class and field holding each string, read whether any eat path exists around it, and check minecraft.wiki's Infdev history for apples and mushrooms as edible items. Until then the empty Infdev food table stands as declared and this stays an open discrepancy rather than a correction.",
+    "RESOLVED": "RETRACTED, and the project claim stands. The hits were located by scanning each class for the needle and printing the bytes around it: \"apple\" appears only inside \"java/applet/Applet\" in net/minecraft/client/MinecraftApplet.class, and \"mushroom\" only inside a splash text - \"Try the mushroom stew!\" - in net/minecraft/client/q.class. Neither is a food registration, so the recorded claim of no constant-pool hits for any food item is not contradicted. The flag was my own scanning error: a naive substring search over class bytes matches ordinary English inside unrelated strings, and a needle has to be chosen knowing that (Applet contains apple).",
+    "lesson": "substring scans over class constant pools need needles that cannot occur inside another identifier, or a window printed around each hit. This one produced a false alarm against a correct claim."
+  },
+  "stillToDo": "The wiki cross-check the owner asked for, per gate rather than by string scan: the two declared Infdev builds' mob sets (the project reads creeper, skeleton, spider, giant, zombie, pig and sheep from the entity registry), their absence of structures, and their block availability, each against the artifact and the wiki."
+}

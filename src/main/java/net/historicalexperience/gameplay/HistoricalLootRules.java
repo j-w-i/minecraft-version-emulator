@@ -119,6 +119,40 @@ public final class HistoricalLootRules {
         .collect(java.util.stream.Collectors.toUnmodifiableMap(
             DropRule::entityTypeId, rule -> rule));
 
+    /**
+     * Indev 20100223's death drops, which are the Indev 20100219 tables.
+     *
+     * <p>Every row is a VERIFIED wiki row already recorded in {@code research/feature-timeline.json}:
+     * <i>"Zombies drop 0-2 feathers"</i>, <i>"Skeletons now drop arrows"</i>, <i>"Pigs now drop 0-2 raw
+     * porkchops instead of mushrooms"</i> and <i>"Spiders now drop 0-2 string"</i>, all dated 20100219, which
+     * precedes this build by four days. Bones are NOT here: they arrive in Beta 1.2. Nor is rotten flesh, which
+     * arrives in the Beta 1.8 Pre-release.
+     *
+     * <p>The counts are the model's {@code random.nextInt(bound)}, so a "0-2" row is a bound of 3 - the same
+     * convention {@link #BETA_1_7_3} uses for the same three-item range.
+     *
+     * <p>Sheep are deliberately absent. Their Indev behaviour is not a death drop: minecraft.wiki, Sheep,
+     * <i>"20100223: Sheep now drop only light gray cloth when hit"</i> - a punch drop whose colour changes in
+     * Infdev 20100624, which belongs with the punching hook rather than in this table.
+     */
+    public static final List<DropRule> INDEV_20100223 = List.of(
+        new DropRule("minecraft:creeper", "minecraft:gunpowder", 3,
+            "Indev/Infdev creeper drop selector returns gunpowder; shared death loop nextInt(3), no music discs"),
+        new DropRule("minecraft:zombie", "minecraft:feather", 3,
+            "wiki Zombie, 20100219: zombies drop 0-2 feathers (chosen because chickens did not exist yet)"),
+        new DropRule("minecraft:skeleton", "minecraft:arrow", 3,
+            "wiki Skeleton, 20100219: skeletons now drop arrows; bones arrive in Beta 1.2"),
+        new DropRule("minecraft:pig", "minecraft:porkchop", 3,
+            "wiki Pig, 20100219: pigs drop 0-2 raw porkchops instead of mushrooms"),
+        new DropRule("minecraft:spider", "minecraft:string", 3,
+            "wiki Spider, 20100219: spiders now drop 0-2 string")
+    );
+
+    /** Indev 20100223's drops keyed by entity type id. */
+    public static final Map<String, DropRule> INDEV_20100223_BY_ENTITY = INDEV_20100223.stream()
+        .collect(java.util.stream.Collectors.toUnmodifiableMap(
+            DropRule::entityTypeId, rule -> rule));
+
     private static final LongAdder REPLACED_DEATHS = new LongAdder();
     private static final LongAdder DROPPED_ITEMS = new LongAdder();
     private static final LongAdder SUPPRESSED_EXPERIENCE = new LongAdder();
@@ -140,6 +174,14 @@ public final class HistoricalLootRules {
     public static boolean suppressesExperience(String profileId) {
         return net.historicalexperience.version.HistoricalVersions.byId(profileId)
             .map(version -> !version.rules().awardsExperience())
+            .orElse(false);
+    }
+
+    /** Sheep meat arrived in Release 1.8; ordinary/unknown worlds must retain their own table. */
+    public static boolean usesLegacySheepDrops(String profileId) {
+        return profileId != null && net.historicalexperience.version.HistoricalVersions.byId(profileId)
+            .map(version -> version.chronology() < net.historicalexperience.version.HistoricalVersions.chronology(
+                net.historicalexperience.version.HistoricalVersions.ERA_RELEASE, 1, 8, 0))
             .orElse(false);
     }
 

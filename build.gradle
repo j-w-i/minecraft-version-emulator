@@ -310,6 +310,12 @@ loom {
                 vmArg "-Dhistorical_experience.generationProbe.token=${project.findProperty('probeToken') ?: ''}"
                 vmArg "-Dhistorical_experience.generationProbe.radius=${project.findProperty('probeRadius') ?: '3'}"
                 vmArg "-Dhistorical_experience.generationProbe.center=${project.findProperty('probeCenter') ?: '0'}"
+                if (project.hasProperty('probePrepareFiniteRepairFixture')) {
+                    vmArg '-Dhistorical_experience.generationProbe.prepareFiniteRepairFixture=true'
+                }
+                if (project.hasProperty('probeRepairFiniteEdge')) {
+                    vmArg '-Dhistorical_experience.generationProbe.repairFiniteEdge=true'
+                }
                 if (project.hasProperty('probeUpgradeTo')) {
                     vmArg "-Dhistorical_experience.generationProbe.upgradeTo=${project.findProperty('probeUpgradeTo')}"
                 }

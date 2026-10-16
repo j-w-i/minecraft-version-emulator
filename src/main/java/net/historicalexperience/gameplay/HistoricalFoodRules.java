@@ -167,6 +167,29 @@ public final class HistoricalFoodRules {
     public static final Map<String, Integer> ALPHA_1_1_2_HEAL_POINTS = ALPHA_1_1_2.stream()
         .collect(java.util.stream.Collectors.toUnmodifiableMap(FoodHeal::itemId, FoodHeal::healPoints));
 
+    /** Exact four registered foods in hash-verified in-20100223.jar, not inherited Classic mushroom behaviour.
+     * Item registry i: B=bowl-returning b(26,10), Q=p(41,5), am=p(63,3), an=p(64,8).
+     * Registry slot 260 is absent in this particular build; mushrooms are block items, not food-class instances.
+     * See research/early-gameplay-audit.md and the reproducible reflection extractor.
+     */
+    public static final List<FoodHeal> INDEV_20100223 = List.of(
+        new FoodHeal("minecraft:bread", "bread", 5, "in-20100223: i.Q = p(41,5)"),
+        new FoodHeal("minecraft:mushroom_stew", "mushroomStew", 10, "in-20100223: i.B = b(26,10)"),
+        new FoodHeal("minecraft:porkchop", "porkchopRaw", 3, "in-20100223: i.am = p(63,3)"),
+        new FoodHeal("minecraft:cooked_porkchop", "porkchopCooked", 8, "in-20100223: i.an = p(64,8)")
+    );
+
+    /** Both offered Infdev clients contain all six foods. The previous zero-call-site audit was incorrect.
+     * 20100420 uses food class p; 20100611 uses r, whose a(stack,world,player) calls player.b(heal).
+     * Golden apple identity is independently proved by the eight-gold-block crafting recipe, not a name search.
+     */
+    public static final Map<String, Integer> INFDEV_HEAL_POINTS =
+        EarlyGameplayRecipes.foodHealing("historical_experience:infdev_420");
+
+    /** Indev 20100223's heals keyed by modern item id. */
+    public static final Map<String, Integer> INDEV_20100223_HEAL_POINTS =
+        EarlyGameplayRecipes.foodHealing("historical_experience:indev_latest");
+
     private static final LongAdder HEALS_APPLIED = new LongAdder();
     private static final LongAdder HEALTH_RESTORED = new LongAdder();
     private static final LongAdder EAT_GATE_OVERRIDES = new LongAdder();

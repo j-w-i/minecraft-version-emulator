@@ -144,7 +144,9 @@ public final class BiomeCarryForward {
         if (storedBiome.equals(LATE_BETA_PLAINS)) {
             return null;
         }
-        if (storedBiome.equals(BETA_PLAINS) || storedBiome.equals(ALPHA_BIOME)) {
+        if (storedBiome.equals(BETA_PLAINS) || isCarriedPlaceholder(storedBiome)) {
+            // Every placeholder means the same thing here - a world whose generation predates biome weather - and
+            // this generation's plains is what such a world becomes. ALPHA_BIOME is one of them.
             return LATE_BETA_PLAINS;
         }
         String climate = betaClimateCounterpart(storedBiome, false);
@@ -168,7 +170,7 @@ public final class BiomeCarryForward {
             // Already the name this generation keeps for plains. Returning it would count as a change on every run.
             return null;
         }
-        if (storedBiome.equals(BETA_PLAINS) || storedBiome.equals(ALPHA_BIOME)) {
+        if (storedBiome.equals(BETA_PLAINS) || isCarriedPlaceholder(storedBiome)) {
             return LATE_BETA_PLAINS;
         }
         String climate = betaClimateCounterpart(storedBiome, true);
@@ -254,19 +256,32 @@ public final class BiomeCarryForward {
     }
 
     /**
-     * The pre-biome placeholder names, kept only so a test can assert that none of them is treated as a real biome.
+     * The pre-biome placeholder names: every biome a world can store whose generation predates biome weather.
      *
-     * <p>They all mean the same thing to this class: every one of them lives in a world whose generation predates biome
-     * weather, and a world can only reach a later generation by being upgraded into one. So the carry-forward does not
-     * need to know them individually - it only needs to know {@link #ALPHA_BIOME}, which is what a stored one of these
-     * becomes at an Alpha destination and what a stored Beta plains or later name becomes in the other direction.
+     * <p>They all mean the same thing to this class, so it does not need to know them individually - but it does need
+     * to RECOGNISE them, which is what this set is for. A stored one of these becomes {@link #ALPHA_BIOME} at an Alpha
+     * destination, {@link #BETA_PLAINS} at a Beta-plains one, and {@link #LATE_BETA_PLAINS} at a late beta or early
+     * release one. Leaving the set unused is what made an Indev world's biome survive into a Beta 1.8.1 world: the
+     * Indev and Infdev names reached the suffix lookup, were not recognised as renamed places, and answered null -
+     * which this class reads as "no change needed".
      */
-    private static final java.util.Set<String> PLACEHOLDERS = java.util.Set.of(
-        "moderner_beta:infdev_227", "moderner_beta:infdev_325", "moderner_beta:infdev_415",
+    private static final java.util.Set<String> PLACEHOLDERS = java.util.Set.of(        "moderner_beta:infdev_227", "moderner_beta:infdev_325", "moderner_beta:infdev_415",
         "moderner_beta:infdev_420", "moderner_beta:infdev_611", ALPHA_BIOME,
         "moderner_beta:alpha_winter", "moderner_beta:indev_normal", "moderner_beta:indev_hell",
         "moderner_beta:indev_paradise", "moderner_beta:indev_woods", "moderner_beta:classic_0_30",
         "moderner_beta:classic_0_0_14a_08", "moderner_beta:pe_plains");
+
+    /**
+     * Whether a stored placeholder is one the Java-line hierarchy carries into a later generation.
+     *
+     * <p>Every placeholder means "a world whose generation predates biome weather", but not every placeholder is this
+     * project's to rewrite. {@code moderner_beta:pe_*} are Pocket Edition provider names: they come from another
+     * edition's biome list, this project has no researched hierarchy for them, and guessing one would be inventing a
+     * mapping - so they are left exactly as stored, which the existing test pins.
+     */
+    private static boolean isCarriedPlaceholder(String storedBiome) {
+        return PLACEHOLDERS.contains(storedBiome) && !storedBiome.startsWith("moderner_beta:pe_");
+    }
 
     /** A stable label for the record, so a completed conversion is not repeated. */
     public static String recordLabel() {

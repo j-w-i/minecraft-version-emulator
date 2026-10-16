@@ -815,6 +815,7 @@ public final class GenerationVerification {
             var generator = level.getChunkSource().getGenerator();
             String alias = HistoricalFeatureExclusions.historicalAlias(generator);
             report.put("alias", alias);
+            report.put("earlyGameplay", EarlyGameplayVerification.verify(level));
             report.put("generator", generator.getClass().getName());
             report.put("levelMinY", level.getMinBuildHeight());
             report.put("levelHeight", level.getHeight());
@@ -951,6 +952,10 @@ public final class GenerationVerification {
             // replaced deaths beside two dropped feathers, which is the kind of self-contradicting evidence
             // this project keeps having to unpick.
             report.put("loot", net.historicalexperience.gameplay.HistoricalLootRules.diagnostics());
+            if (Boolean.getBoolean("historical_experience.generationProbe.prepareFiniteRepairFixture")) {
+                FiniteRepairFixtureVerification.prepare(level);
+            }
+            report.put("finiteRepairFixture", FiniteRepairFixtureVerification.verify(level));
             String upgradeTo = System.getProperty("historical_experience.generationProbe.upgradeTo");
             if (upgradeTo != null) {
                 // Take a flushed checkpoint before the operator path creates its verified backup.
@@ -964,6 +969,20 @@ public final class GenerationVerification {
                 report.put("loadedAliasAfterStaging", HistoricalFeatureExclusions.historicalAlias(
                     level.getChunkSource().getGenerator()));
                 if (commandResult != 1) throw new IllegalStateException("Upgrade command refused " + upgradeTo);
+            }
+            if (Boolean.getBoolean("historical_experience.generationProbe.repairFiniteEdge")) {
+                if (upgradeTo != null) throw new IllegalStateException("Repair and version advance must not interleave");
+                server.saveEverything(true, true, true);
+                var world = server.getWorldPath(LevelResource.ROOT);
+                boolean hadPlan = Files.exists(world.resolve(net.historicalexperience.world.upgrade.FiniteApronRelease.FILE_NAME));
+                int result = server.getCommands().getDispatcher().execute("hex repair-finite-edge", server.createCommandSourceStack());
+                boolean pending = net.historicalexperience.world.upgrade.FiniteEdgeRepair.pending(world);
+                boolean hasPlan = Files.exists(world.resolve(net.historicalexperience.world.upgrade.FiniteApronRelease.FILE_NAME));
+                report.put("finiteRepairCommandResult", result);
+                report.put("finiteRepairPendingAfterStage", pending);
+                report.put("finiteRepairPlanBeforeStage", hadPlan);
+                report.put("finiteRepairPlanAfterStage", hasPlan);
+                if (result != 1 || !pending || hadPlan || hasPlan) throw new IllegalStateException("Explicit old-world repair was not staged as intent only");
             }
             report.put("success", true);
         } catch (Throwable failure) {

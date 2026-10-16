@@ -291,6 +291,68 @@ public final class BiomeConversionRecord {
         }
     }
 
+    /** Withdraw only explicitly released synthetic chunks. Preserve every other field/bit and retain a hash-verified backup.
+     * Unlike the read-only convenience queries, a corrupt record FAILS this transaction rather than becoming empty.
+     * The caller retains its repair request until this atomic, idempotent write succeeds.
+     */
+    public static int forgetReleasedChunks(Path worldDirectory, java.util.Set<Long> released) throws IOException {
+        Path file = fileFor(worldDirectory);
+        if (!Files.exists(file, java.nio.file.LinkOption.NOFOLLOW_LINKS) || released.isEmpty()) return 0;
+        if (Files.isSymbolicLink(file)) throw new IOException("Biome conversion record must not be a symlink during repair");
+        byte[] original = Files.readAllBytes(file);
+        JsonObject root;
+        int removed = 0;
+        try {
+            root = JsonParser.parseString(new String(original, StandardCharsets.UTF_8)).getAsJsonObject();
+            if (!root.has("schema") || !java.util.Set.of("1", "2", "3").contains(root.get("schema").getAsString())) {
+                throw new IllegalArgumentException("Unsupported biome record schema");
+            }
+            if (!root.has("convertedChunks")) return 0;
+            var seen = new java.util.HashSet<Long>();
+            for (JsonElement entry : root.getAsJsonArray("convertedChunks")) {
+                JsonObject region = entry.getAsJsonObject();
+                String encoded = region.get("region").getAsString();
+                if (!encoded.matches("-?\\d+")) throw new IllegalArgumentException("Invalid biome region key");
+                long key = Long.parseLong(encoded);
+                if (!seen.add(key)) throw new IllegalArgumentException("Duplicate biome region key");
+                String mask = region.get("chunks").getAsString();
+                if (!mask.matches("[01]{1024}")) throw new IllegalArgumentException("Invalid biome region mask");
+                char[] next = mask.toCharArray();
+                int rx = (int) (key >> 32), rz = (int) key;
+                for (int slot = 0; slot < 1024; slot++) {
+                    long position = net.minecraft.world.level.ChunkPos.asLong(rx * 32 + slot % 32, rz * 32 + slot / 32);
+                    if (next[slot] == '1' && released.contains(position)) { next[slot] = '0'; removed++; }
+                }
+                region.addProperty("chunks", new String(next));
+            }
+        } catch (RuntimeException corrupt) {
+            throw new IOException("Cannot safely prune the biome conversion record; original retained", corrupt);
+        }
+        if (removed == 0) return 0;
+        String hash = WorldBackup.sha256(original);
+        Path directory = worldDirectory.resolve("historical_experience_finite_transition_backup");
+        Files.createDirectories(directory);
+        Path backup = directory.resolve("biome-conversion." + hash + ".before.json");
+        if (!Files.exists(backup)) forcedWrite(backup, original, true);
+        if (!WorldBackup.sha256(Files.readAllBytes(backup)).equals(hash)) throw new IOException("Biome record backup mismatch");
+        Path temporary = file.resolveSibling(file.getFileName() + ".finite-repair.tmp");
+        forcedWrite(temporary, (GSON.toJson(root) + "\n").getBytes(StandardCharsets.UTF_8), false);
+        Files.move(temporary, file, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+        return removed;
+    }
+
+    private static void forcedWrite(Path file, byte[] bytes, boolean createNew) throws IOException {
+        var options = createNew
+            ? java.util.Set.of(java.nio.file.StandardOpenOption.CREATE_NEW, java.nio.file.StandardOpenOption.WRITE)
+            : java.util.Set.of(java.nio.file.StandardOpenOption.CREATE, java.nio.file.StandardOpenOption.TRUNCATE_EXISTING,
+                java.nio.file.StandardOpenOption.WRITE);
+        try (var channel = java.nio.channels.FileChannel.open(file, options)) {
+            var buffer = java.nio.ByteBuffer.wrap(bytes);
+            while (buffer.hasRemaining()) channel.write(buffer);
+            channel.force(true);
+        }
+    }
+
     /** Whether a chunk existed before the conversion, by packed position. */
     public static boolean wasConverted(java.util.Set<Long> convertedChunks, long packedChunkPos) {
         return convertedChunks.contains(packedChunkPos);

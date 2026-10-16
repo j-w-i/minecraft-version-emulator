@@ -52,8 +52,15 @@ import java.util.Optional;
  * their own eras rather than hidden or renamed.
  */
 public final class HistoricalVersionCatalogue {
-    /** The eras the selector groups by. Infdev is included because the project implements two of them. */
+    /**
+     * The eras the selector groups by, oldest first. Indev and Infdev are both included because the project
+     * implements one Indev build and two Infdev builds; Classic is absent because it is not offered at all.
+     *
+     * <p>The base offsets are shared with {@code HistoricalVersions}, which is what makes a catalogue entry's
+     * chronology and a declared profile's chronology the same number rather than two schemes that agree by luck.
+     */
     public enum Era {
+        INDDEV("Indev", 200_000),
         INFDEV("Infdev", 300_000),
         ALPHA("Alpha", 400_000),
         BETA("Beta", 500_000),
@@ -228,6 +235,12 @@ public final class HistoricalVersionCatalogue {
         // their own names, rather than being hidden or renamed to fit a list they predate.
         // Infdev builds are dated, and the registry keys them as era + month*100 + day (20100420 -> 300_420),
         // so the year is not part of the ordering and must not be.
+        //
+        // Indev 20100223 is dated the same way (200_000 + 223 = 200_223) and is the oldest entry here. It is the
+        // project's only FINITE profile: 256x256x128 with the world border Moderner Beta's own indev preset ships.
+        entries.add(new Entry("historical_experience:indev_latest", "Indev 20100223", Era.INDDEV,
+            chronologyOf("historical_experience:indev_latest", Era.INDDEV, 0, 2, 23), Status.IMPLEMENTED, "", "",
+            false));
         entries.add(new Entry("historical_experience:infdev_420", "Infdev 20100420", Era.INFDEV,
             chronologyOf("historical_experience:infdev_420", Era.INFDEV, 0, 4, 20), Status.IMPLEMENTED, "", "", false));
         entries.add(new Entry("historical_experience:infdev_611", "Infdev 20100611", Era.INFDEV,
