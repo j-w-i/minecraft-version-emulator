@@ -2,7 +2,7 @@
 
 Target: the user's fork `https://github.com/j-w-i/Flashback`, local checkout `.upstream/flashback-j-w-i`, revision
 `076b96b9fa400212d3d75fa2239d0f3836cf085b`, version `0.43.6.1`, environment `client`
-(`src/main/resources/fabric.mod.json:16`). Machine-readable evidence: [flashback-api.json](<research/flashback-api.json>).
+(`src/main/resources/fabric.mod.json:16`). Machine-readable evidence: [flashback-api.json](<../research/flashback-api.json>).
 
 All line references below are inside `.upstream/flashback-j-w-i/`. Nothing in this document was executed; it is source reading.
 No fork code, jar, class or asset may be copied into this repository: `LICENSE.md:3-4` says "Do not redistribute. All rights

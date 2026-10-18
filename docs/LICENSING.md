@@ -2,7 +2,7 @@
 
 This document is the project's own account of **which licence covers what**, **why that licence was chosen**
 and **what has to be true before a build is published**. It is written to be checked against the repository, not
-taken on trust. The notices themselves are in [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md); the
+taken on trust. The notices themselves are in [`THIRD_PARTY_NOTICES.md`](../THIRD_PARTY_NOTICES.md); the
 file-by-file record of third-party material is in [`PROVENANCE.md`](PROVENANCE.md).
 
 ## 1. The project licence

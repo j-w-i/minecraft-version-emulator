@@ -123,7 +123,8 @@ public final class IndevMapProbe {
                 + generator.getChunkSettings().size());
             check(properties != null && "floating".equals(properties.type().getSerializedName())
                     && "hell".equals(properties.theme().getSerializedName())
-                    && properties.width() == 64 && properties.length() == 64 && properties.height() == 256,
+                    && properties.width() == 64 && properties.length() == 64
+                    && properties.height() == net.historicalexperience.worldgen.IndevMapSettings.PROVIDER_HEIGHT,
                 "the chosen type, theme and dimensions are stored in the loaded world: " + properties);
             apronSignature(client.getSingleplayerServer(), "hell floating deep small", 5, 0);
             check(biomeAt(client.getSingleplayerServer(), 0, 0).equals("moderner_beta:indev_hell"),
