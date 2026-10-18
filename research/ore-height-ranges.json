@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "topic": "Historical ore height ranges, and the measured defect where modern vanilla ore features ran in historical worlds",
+  "status": "PARENT_MEASURED",
+  "question": "Should diamond ore ever generate above y=15 in a historical world of this project?",
+  "answer": "No. Every version this project declares predates 1.18, and from Indev 0.31 20100128-2200 until 1.17 diamond ore was placed from y=0 to y=15 only. The vein cannot exceed y=15 either: the centre is at most origin+2 and the half-radius is under one block for these vein sizes, so floor(15 + 0.9375) = 15.",
+
+  "primaryEvidence": [
+    {
+      "what": "Beta 1.7.3 client, ore vein generator fl.a(World, Random, int, int, int)",
+      "where": "research/beta173-ore-vein-geometry.json",
+      "client": "https://launcher.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar",
+      "clientSha1": "43db9b498cb67058d2e12d394e6507722e71bb45",
+      "classFile": "fl.class",
+      "classSha1": "5ed3ca39bc7be250ca1e504b3fc70d28faed654c",
+      "reading": "axisY from = y + nextInt(3) - 2; radiusY = (sin(pi*i/size) + 1) * (nextDouble() * size / 16) + 1; bounds use floor(centre +- radius/2); strict ellipsoid test."
+    },
+    {
+      "what": "Beta 1.7.3 call-site parameters (per-ore size, attempts, origin height draw)",
+      "where": "research/beta173-ore-parameters-parent-reviewed.json",
+      "reading": {
+        "diamond": "size 7, 1 attempt per chunk, origin y uniform 0..15 (nextInt(16))",
+        "redstone": "size 7, 8 attempts, origin y 0..15",
+        "gold": "size 8, 2 attempts, origin y 0..31",
+        "iron": "size 8, 20 attempts, origin y 0..63",
+        "coal": "size 16, 20 attempts, origin y 0..127",
+        "lapis": "size 6, 1 attempt, origin y = nextInt(16) + nextInt(16) = 0..30",
+        "dirt": "size 32, 20 attempts, y 0..127",
+        "gravel": "size 32, 10 attempts, y 0..127"
+      }
+    },
+    {
+      "what": "Moderner Beta 5.0.0-alpha.4+1.21.1 ships the same historical placement as its own reduced-height override",
+      "where": "resourcepacks/reduced_height/data/minecraft/worldgen/placed_feature/ore_diamond.json inside moderner-beta-5.0.0-alpha.4+1.21.1-fabric.jar",
+      "reading": "feature moderner_beta:ore_diamond_old; count 1; in_square; height_range uniform above_bottom 0..15; biome. ore_diamond_buried, ore_diamond_large and ore_diamond_medium are set to no-ops with count 0. The configured feature is size 8. This is an independent upstream artifact agreeing with the client reading on the height range.",
+      "note": "The only disagreement with Beta 1.7.3's own client is vein size 8 versus 7, which does not move any block outside y=0..15."
+    }
+  ],
+
+  "defect": {
+    "summary": "Versions that do not place their own ore population left the 1.21.1 vanilla ore placed features running, and those use modern heights.",
+    "vanilla_1_21_1_ore_diamond": "count 7; height_range trapezoid above_bottom -80..80; in a 128-high historic world that is y=0..80",
+    "measured_before": {
+      "world": "run/verification/oreprobe-rel-before-1/world",
+      "profile": "historical_experience:release_1_2_5",
+      "revision": 1,
+      "preset": "historical_experience:release_1_2_5_no_modern_content",
+      "chunks": 1349,
+      "diamond_ore": "n=1795, y=1..72, 1180 above y=15",
+      "redstone_ore": "n=3700, y=1..30, 537 above y=15",
+      "lapis_ore": "n=2389, y=1..63, 1685 above y=30",
+      "gold_ore": "n=458, y=1..30",
+      "iron_ore": "n=7391, y=1..71",
+      "coal_ore": "n=12355, y=1..80"
+    },
+    "measured_control_correct": {
+      "world": "run/verification/oreprobe-before-1/world",
+      "profile": "historical_experience:beta_1_7_3",
+      "revision": 1,
+      "preset": "historical_experience:beta_1_7_3_content_preview_10",
+      "chunks": 1050,
+      "reading": "diamond y=1..15 (0 above 15), redstone 1..15, gold 1..31, lapis 1..30, iron 1..63 - the era population is in force, which is what proves the defect is the missing replacement rather than the vein shape."
+    }
+  },
+
+  "measurementTool": "scripts/ore-height-census.py <world-dir> - per-ore Y histogram read straight from the region files, so a claim about heights is judged by the blocks written rather than by the rules meant to write them."
+}

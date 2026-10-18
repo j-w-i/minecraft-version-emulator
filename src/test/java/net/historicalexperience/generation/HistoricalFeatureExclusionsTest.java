@@ -50,7 +50,7 @@ class HistoricalFeatureExclusionsTest {
     private static final String REVISION_5 = "historical_experience:beta_1_7_3_content_preview_5";
 
     @Test
-    @DisplayName("already-generated revisions select no restrictions, so their worlds do not change")
+    @DisplayName("already-generated revisions DECLARE no restrictions, so their stored recipe is unchanged")
     void earlierRevisionsKeepTheirRecordedRecipe() {
         for (String alias : List.of(
             HistoricalMarker.HISTORICAL_PRESET_ID, REVISION_1, REVISION_2, REVISION_3)) {

@@ -340,6 +340,99 @@ public final class HistoricalFeatureExclusions {
     }
 
     /**
+     * The exclusions a revision needs when it places its <b>own era ore population</b>.
+     *
+     * <h2>The defect this exists for</h2>
+     *
+     * <p>Measured on a fresh {@code release_1_2_5} world: diamond ore y=1..72, redstone y=1..30, lapis
+     * y=1..63, gold y=1..30, iron y=1..71 and coal y=1..80, because that revision kept vanilla's
+     * <b>modern</b> placed features - {@code ore_diamond} is {@code count 7, trapezoid -80..80} on the
+     * reduced 0..127 envelope - and placed no era population of its own. Historical truth for every
+     * version this project declares is diamond only y 0..15.
+     *
+     * <h2>Why EVERY vanilla ore feature is excluded, not only the ones the era had</h2>
+     *
+     * <p>A revision that runs the era population must switch off every vanilla ore placement, because
+     * otherwise the two double up. That is true for the ores the era had. It is <b>also</b> true for the
+     * ore features of ores the era did <i>not</i> have - vanilla's {@code ore_redstone} would otherwise
+     * put redstone in a pre-Alpha world, and {@code ore_lapis} lapis in a Beta 1.0 world - and those
+     * placements are exactly the modern-height ones the defect is about. The era population simply
+     * contains no rule for them, so excluding the feature removes them rather than replacing them.
+     *
+     * <p>{@code moderner_beta:ore_emerald_y95} is added whenever the era predates emerald ore (Release
+     * 1.3.1, 12w21a) and is not already banned by {@code base}: Moderner Beta adds it through its own
+     * biome features, and it is the only feature that places emerald on this runtime.
+     *
+     * <p>Derived from {@link #BETA_1_7_3_WITH_REPLACED_ORES} rather than retyped, so the list of
+     * features a replaced population must switch off cannot drift from the one Beta 1.7.3 already
+     * uses. Duplicates are not introduced: an entry already present in {@code base} is kept once.
+     *
+     * @param base       the revision's existing exclusions, which carry the era's other anachronisms
+     * @param hadEmerald whether emerald ore existed in the era; when false the Moderner Beta feature is
+     *                   excluded too
+     */
+    public static List<Exclusion> eraOreReplacement(List<Exclusion> base, boolean hadEmerald) {
+        List<Exclusion> result = new java.util.ArrayList<>(base);
+        Set<String> present = base.stream().map(Exclusion::featureId)
+            .collect(java.util.stream.Collectors.toSet());
+        for (Exclusion vanillaOre : vanillaOrePlacements()) {
+            if (present.add(vanillaOre.featureId())) {
+                result.add(vanillaOre);
+            }
+        }
+        if (!hadEmerald && present.add(EMERALD_PLACED_FEATURE)) {
+            result.add(new Exclusion(EMERALD_PLACED_FEATURE,
+                "Emerald ore is Release 1.3.1 (12w21a) content and this revision places the era's own "
+                    + "ore population, which contains no emerald; Moderner Beta places emerald through "
+                    + "this feature in its own biome builders"));
+        }
+        return List.copyOf(result);
+    }
+
+    /** The feature Moderner Beta uses to place emerald ore; there is no {@code minecraft:ore_emerald} here. */
+    private static final String EMERALD_PLACED_FEATURE = "moderner_beta:ore_emerald_y95";
+
+    /**
+     * The modern ore placed features the historical catch-all suppresses for a revision alias.
+     *
+     * <p>Why this exists: a revision created before ore placement existed records no ore population and
+     * no ore exclusions, and revisions are append-only, so such a world still ran vanilla 1.21.1's modern
+     * placements - measured as diamond ore up to y=72 on an old Release 1.2.5 revision. {@link #shouldSkip}
+     * applies this set in addition to the revision's stored list, keyed on the world being historical, so
+     * every old revision is covered without editing the recipe it recorded. A revision that already lists
+     * these ids is unaffected: the same features were being skipped before.
+     *
+     * <p>The ids are exactly the ones {@link #eraOreReplacement} switches off for a replaced population,
+     * plus Moderner Beta's emerald placement for a version that predates emerald ore. The era population
+     * the runtime fallback places contains no emerald rule, so an old revision must not leave the emerald
+     * feature running either.
+     *
+     * @param rawAlias the persisted historical recipe alias
+     * @return the feature ids the catch-all removes from that alias's worlds
+     */
+    public static Set<String> eraOreExclusionsForAlias(String rawAlias) {
+        Set<String> ids = new java.util.LinkedHashSet<>(REPLACED_BY_BETA_POPULATION);
+        if (!eraHasEmerald(rawAlias)) {
+            ids.add(EMERALD_PLACED_FEATURE);
+        }
+        return java.util.Collections.unmodifiableSet(ids);
+    }
+
+    /** Whether the version owning this alias had emerald ore; an unknown alias is treated as predating it. */
+    private static boolean eraHasEmerald(String rawAlias) {
+        return HistoricalVersions.byRevisionAlias(rawAlias)
+            .map(HistoricalVersions::eraHasEmeraldOre)
+            .orElse(false);
+    }
+
+    /** The vanilla ore placements a revision that places its own population must switch off. */
+    private static List<Exclusion> vanillaOrePlacements() {
+        return BETA_1_7_3_WITH_REPLACED_ORES.stream()
+            .filter(exclusion -> REPLACED_BY_BETA_POPULATION.contains(exclusion.featureId()))
+            .toList();
+    }
+
+    /**
      * Beta 1.7.3's restrictions plus the removal of the 1.13 aquatic plants.
      *
      * <p>Found by measurement, not by reading: judging every block a generated world contains against a
@@ -847,6 +940,14 @@ public final class HistoricalFeatureExclusions {
             SKIPPED.increment();
             return true;
         }
+        // Catch-all for the ore placements a historical era could not have made. Keyed on the world being
+        // historical rather than on the revision's stored list, because a revision created before ore
+        // placement existed records no ore exclusions at all and its stored data is append-only. A
+        // revision that already lists these ids is unaffected: the same features were skipped before.
+        if (isReplacedModernOre(level, feature, alias)) {
+            SKIPPED.increment();
+            return true;
+        }
         List<Exclusion> restrictions = runtimeExclusionsForAlias(alias);
         if (restrictions.isEmpty()) {
             return false;
@@ -869,6 +970,24 @@ public final class HistoricalFeatureExclusions {
             }
         }
         return false;
+    }
+
+    /**
+     * True when {@code feature} is one of the modern ore placements the historical catch-all removes.
+     *
+     * <p>The feature's own registry key is read from the live registry by identity
+     * ({@code getResourceKey(feature)}) rather than by parsing a name, so a same-named feature from
+     * another addon cannot be matched, and the comparison is a set lookup instead of a scan of the
+     * exclusion tables. The emerald placement is included only for a version that predates emerald ore.
+     */
+    private static boolean isReplacedModernOre(WorldGenLevel level, PlacedFeature feature, String alias) {
+        var key = level.registryAccess().registryOrThrow(Registries.PLACED_FEATURE).getResourceKey(feature);
+        if (key.isEmpty()) {
+            return false;
+        }
+        String featureId = key.get().location().toString();
+        return REPLACED_BY_BETA_POPULATION.contains(featureId)
+            || (EMERALD_PLACED_FEATURE.equals(featureId) && !eraHasEmerald(alias));
     }
 
     /**

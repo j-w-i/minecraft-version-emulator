@@ -101,6 +101,39 @@ public final class BetaOreRules {
         new OreRule("lapis", "minecraft:lapis_ore", 6, 1, 16, 16)
     );
 
+    /**
+     * An earlier era's own ore population: the verified Beta 1.7.3 population filtered to the ores that
+     * era actually had.
+     *
+     * <p>This exists because ore generation did not change between Alpha and Release 1.6.4 - the same
+     * vein shape and the same per-call-site parameters - so the only difference between those eras is
+     * <b>which</b> ores the population contained. Using the verified numbers for every era is
+     * therefore evidence, not invention: no size or attempt count here is new. The availability
+     * boundaries are the ones the block availability table already pins:
+     * <ul>
+     *   <li><b>redstone</b> - Alpha v1.0.1 (Seecret Friday Update 3). Absent from every pre-Alpha
+     *       profile, which is why Indev and both Infdev builds filter it out.</li>
+     *   <li><b>lapis</b> - Beta 1.2. Absent from Alpha and from Beta 1.0, present from Beta 1.2.</li>
+     *   <li><b>diamond</b> - no parameter is needed, because the availability table already records
+     *       that diamond ore was introduced in Indev 0.31 20100128-2200, withdrawn in Infdev
+     *       20100227-1414 and restored in 20100320, and that the earliest declared profile (Indev
+     *       20100223) sits between the introduction and the withdrawal. Every declared version
+     *       therefore had diamond ore, so it is never filtered. If a build in the withdrawal window
+     *       were ever declared, this comment is where the missing parameter would go.</li>
+     *   <li><b>dirt and gravel</b> - present in every declared era, and part of the same researched
+     *       population (20 attempts of size 32 and 10 of size 32).</li>
+     * </ul>
+     *
+     * @param hasRedstone whether the era had redstone ore (Alpha v1.0.1 and later)
+     * @param hasLapis    whether the era had lapis ore (Beta 1.2 and later)
+     */
+    public static List<OreRule> eraPopulation(boolean hasRedstone, boolean hasLapis) {
+        return BETA_1_7_3.stream()
+            .filter(rule -> hasRedstone || !"redstone".equals(rule.name()))
+            .filter(rule -> hasLapis || !"lapis".equals(rule.name()))
+            .toList();
+    }
+
     private static final LongAdder VEINS_ATTEMPTED = new LongAdder();
     private static final LongAdder BLOCKS_PLACED = new LongAdder();
     private static final Map<String, Integer> PLACED_BY_ORE = new ConcurrentHashMap<>();

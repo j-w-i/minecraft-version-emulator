@@ -191,7 +191,13 @@ class GenerationBackport1211Test {
     // qualify. The ore revision exists because a census found a generated Indev world, and an infinite Infdev world,
     // with no ore at all: the pre-Alpha list strips the vanilla ore features for Beta's population to replace and
     // nothing replaces them below Alpha.
-    assertEquals(101, reduced);
+    //
+    // 101 + 31 = 132 now: the era-ore revision of thirty-two versions. Two of those versions were NOT in the
+    // count's starting point - they already placed their own population - and every one of the thirty-two copies
+    // its predecessor's settings preset, so thirty-one of the new files carry the envelope (the Indev copy does
+    // not, for the same reason its predecessor does not). This count moves for the right reason: the measured
+    // defect was a Release 1.2.5 world with diamond at y=1..72, and the fix is one new recipe per version.
+    assertEquals(132, reduced);
         assertFalse(Files.exists(DATA.resolve("minecraft/worldgen/noise_settings")));
         assertFalse(Files.exists(DATA.resolve("moderner_beta/worldgen/noise_settings")));
     }

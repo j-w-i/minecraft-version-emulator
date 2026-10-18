@@ -17,6 +17,7 @@
  */
 package net.historicalexperience.generation;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -105,13 +106,18 @@ class LapisIntroductionBoundaryTest {
     }
 
     @Test
-    @DisplayName("FIXED: the thirteen profiles keep the vanilla ore features they place nothing to replace")
-    void oreLossIsFixedForEveryAffectedProfile() {
-        // This test replaced a pin that asserted the opposite and failed the moment the fix landed, which is what
-        // a pin is for. The defect it recorded: the ore bans in BETA_1_7_3_WITH_REPLACED_ORES propagated down the
-        // plant chain into the public revision of all six Beta 1.9 prereleases and all seven Release profiles,
-        // none of which place ores of their own, so they generated NOTHING - measured as {} for
-        // release_1_0_0, release_1_6_4 and beta_1_9_pre_1 in the matrix sweep.
+    @DisplayName("the thirteen profiles place their era's own ores and exclude every vanilla ore feature")
+    void affectedProfilesPlaceTheirOwnEraOres() {
+        // This assertion is the OPPOSITE of the one it replaced, and that is deliberate. The old pin
+        // required these profiles to place no ores of their own and keep vanilla's ore features. That was
+        // correct for the defect it recorded - they had inherited the ore bans and generated NOTHING,
+        // measured as {} for release_1_0_0, release_1_6_4 and beta_1_9_pre_1 - and then it became the next
+        // defect: keeping vanilla's modern features meant generating at MODERN heights. A fresh
+        // release_1_2_5 world measured diamond y=1..72, redstone y=1..30, lapis y=1..63, gold y=1..30,
+        // iron y=1..71 and coal y=1..80, where every declared version's historical truth is diamond y 0..15.
+        //
+        // So the fix is a NEW revision per version, and both halves are asserted: the era population is
+        // non-empty, and every vanilla ore feature it replaces is switched off.
         for (String id : new String[] {"historical_experience:beta_1_9_pre_1", "historical_experience:beta_1_9_pre_2",
                 "historical_experience:beta_1_9_pre_3", "historical_experience:beta_1_9_pre_4",
                 "historical_experience:beta_1_9_pre_5", "historical_experience:beta_1_9_pre_6",
@@ -122,11 +128,14 @@ class LapisIntroductionBoundaryTest {
             HistoricalVersion version = HistoricalVersions.byId(id)
                 .orElseThrow(() -> new AssertionError(id + " must still be declared"));
             HistoricalVersion.GenerationRevision latest = version.revisions().get(version.revisions().size() - 1);
-            assertFalse(latest.placesOwnOres(),
-                id + " places no ores of its own, which is why leaving the bans in place emptied the world");
-            assertTrue(excludedOreFeatures(latest.alias()).isEmpty(),
-                id + "'s public revision " + latest.alias() + " still excludes " + excludedOreFeatures(
-                    latest.alias()) + ", so it generates no ores at all");
+            assertTrue(latest.placesOwnOres(),
+                id + "'s public revision " + latest.alias() + " must place the era's own ore population, or vanilla's "
+                    + "modern placed features generate it at modern heights");
+            assertEquals(8, latest.orePopulation().size(),
+                id + " is at or after Beta 1.2 and before emerald, so its population is the full Beta 1.7.3 one");
+            assertTrue(excludedOreFeatures(latest.alias()).size() >= 6,
+                id + "'s public revision " + latest.alias() + " still leaves " + excludedOreFeatures(
+                    latest.alias()) + " unexcluded, so the modern feature would double up with the era population");
         }
     }
 

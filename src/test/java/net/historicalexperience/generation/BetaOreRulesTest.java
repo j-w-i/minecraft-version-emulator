@@ -70,8 +70,11 @@ class BetaOreRulesTest {
     }
 
     @Test
-    @DisplayName("only the newest revision places Beta ores, so older worlds keep their recipe")
-    void earlierRevisionsPlaceVanillaOres() {
+    @DisplayName("older revisions declare no population of their own; the runtime supplies the era fallback")
+    void earlierRevisionsDeclareNoPopulationOfTheirOwn() {
+        // These assertions are about the STORED recipe, which is append-only: the alias still declares no
+        // population. The runtime fallback that gives such a world its era ores is a code-level default and
+        // is pinned by OrePopulationInvariantTest, not by editing the recipe.
         assertEquals(List.of(), BetaOreRules.forAlias(REVISION_4));
         assertEquals(List.of(), BetaOreRules.forAlias(HistoricalMarker.HISTORICAL_PRESET_ID));
         assertFalse(BetaOreRules.forAlias(REVISION_5).isEmpty());

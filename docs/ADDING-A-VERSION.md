@@ -238,6 +238,53 @@ has researched ores; every other version leaves them modern and says so in its e
 `BetaOreRules.BETA_1_7_3` only as part of a deliberate "this version's ores were unchanged from 1.7.3"
 claim — that is exactly the claim Beta 1.8.1's revisions make (`HistoricalVersions.java:203-229`).
 
+#### The era population — use it, do not leave a version on vanilla's placement
+
+Leaving `orePopulation` empty does **not** mean "no ores": it means vanilla 1.21.1's modern placed
+features run, and those are the 1.18-era distributions. That is a measured defect, not a theory: a fresh
+`release_1_2_5` world generated diamond at y=1..72, redstone y=1..30, lapis y=1..63, gold y=1..30, iron
+y=1..71 and coal y=1..80. Every version this project declares predates 1.18, where diamond is y 0..15.
+
+So every declared version that predates the ore overhaul must end at a revision carrying
+`BetaOreRules.eraPopulation(hasRedstone, hasLapis)`, with
+`HistoricalFeatureExclusions.eraOreReplacement(previousExclusions, hadEmerald)` as its exclusion list.
+The helper method `HistoricalVersions.withEraOres` does both; it is applied at the end of the registry's
+static initialiser to every version whose newest revision does not already place its own population, and
+it skips Beta 1.7.3 and Beta 1.8.1 because they already do.
+
+The availability boundaries are the block availability table's, not invented here:
+
+| ore | boundary used by `withEraOres` |
+| --- | --- |
+| diamond | every declared version (restored Infdev 20100320, before every declared profile) |
+| redstone | Alpha v1.0.1 (`REDSTONE_ORE_ADDED`) |
+| lapis | Beta 1.2 (`LAPIS_ORE_ADDED`) |
+| emerald | excluded before Release 1.3.1 (`EMERALD_ORE_ADDED`); kept from Release 1.3, which IS the 1.3.1 stable baseline |
+
+Never write new vein sizes or attempt counts: ore generation was unchanged across this range, so the
+only per-version question is which ores existed. `EraOreRevisionTest` asserts every rule in every
+population is byte-for-byte a verified Beta 1.7.3 rule, and that all 17 modern vanilla ore features are
+excluded wherever an era population runs.
+
+#### Older revisions: a code-level default, never an edited recipe
+
+Revisions are append-only, so a revision created before ore placement existed still records an empty
+`orePopulation` and no ore exclusions, and a world recorded on one of them must not be rewritten. Two
+code-level defaults cover those worlds without touching stored data:
+
+* `BetaOrePlacement.populationForAlias(alias)` returns the revision's declared population when it is
+  non-empty, and otherwise `HistoricalVersions.eraOrePopulation(version)` - the same derivation
+  `withEraOres` stores, so a new revision and an old one cannot disagree about which ores an era had.
+  `placeForChunk` places that resolved population.
+* `HistoricalFeatureExclusions.shouldSkip` additionally skips the 17 modern `minecraft:ore_*` placements
+  `eraOreReplacement` uses, plus `moderner_beta:ore_emerald_y95` before the emerald boundary, for every
+  historical world whether or not the revision records them. A revision that already excludes them is
+  unaffected; nothing is placed twice.
+
+`OrePopulationInvariantTest` replaces the former temporary audit: it asserts every declared revision has a
+non-empty effective population containing diamond and that each revision's effective exclusion set follows
+the emerald boundary, and it fails if either default is removed.
+
 ### Step 6 — write one settings preset JSON per revision alias
 
 **Directory:** `src/main/resources/data/historical_experience/moderner_beta/settings_preset/<alias path>.json`.

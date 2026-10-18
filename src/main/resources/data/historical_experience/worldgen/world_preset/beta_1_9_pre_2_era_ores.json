@@ -1,0 +1,43 @@
+{
+  "dimensions": {
+    "minecraft:overworld": {
+      "type": "historical_experience:beta_1_7_3_overworld",
+      "generator": {
+        "type": "moderner_beta:moderner_beta",
+        "biome_source": {
+          "type": "moderner_beta:moderner_beta",
+          "cave_provider_settings": {
+            "moderner_beta:preset": "historical_experience:beta_1_9_pre_2_era_ores"
+          },
+          "provider_settings": {
+            "moderner_beta:preset": "historical_experience:beta_1_9_pre_2_era_ores"
+          }
+        },
+        "provider_settings": {
+          "moderner_beta:preset": "historical_experience:beta_1_9_pre_2_era_ores"
+        }
+      }
+    },
+    "minecraft:the_end": {
+      "type": "minecraft:the_end",
+      "generator": {
+        "type": "minecraft:noise",
+        "biome_source": {
+          "type": "minecraft:the_end"
+        },
+        "settings": "minecraft:end"
+      }
+    },
+    "minecraft:the_nether": {
+      "type": "minecraft:the_nether",
+      "generator": {
+        "type": "minecraft:noise",
+        "biome_source": {
+          "type": "minecraft:fixed",
+          "biome": "minecraft:nether_wastes"
+        },
+        "settings": "minecraft:nether"
+      }
+    }
+  }
+}

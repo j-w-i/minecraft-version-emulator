@@ -59,6 +59,22 @@ public final class HistoricalVersions {
     public static final int ERA_BETA = 500_000;
     public static final int ERA_RELEASE = 600_000;
 
+    /*
+     * Availability boundaries for the ores an era's own population contains, on this registry's own
+     * chronology scale. They are used to derive each version's population from the verified Beta 1.7.3
+     * one ({@link BetaOreRules#eraPopulation}) rather than to type out a per-version ore table.
+     */
+    /** Redstone ore arrived in Alpha v1.0.1 (Seecret Friday Update 3). */
+    private static final int REDSTONE_ORE_ADDED = chronology(ERA_ALPHA, 1, 0, 1);
+    /** Lapis ore arrived in Beta 1.2. */
+    private static final int LAPIS_ORE_ADDED = chronology(ERA_BETA, 1, 2, 0);
+    /**
+     * Emerald ore arrived in Release 1.3.1 (12w21a). This project's Release 1.3 profile IS that stable
+     * baseline, so 1.3 is the earliest declared version that has it - the same boundary the block
+     * availability table pins, and the same one the emerald exclusion test asserts.
+     */
+    private static final int EMERALD_ORE_ADDED = chronology(ERA_RELEASE, 1, 3, 0);
+
     /**
      * Sortable chronology key: {@code eraOffset + major * 1000 + minor * 100 + patch}.
      *
@@ -1183,6 +1199,25 @@ public final class HistoricalVersions {
         // The resources, the create-world entries and the world-preset tag entries were removed with the
         // declarations: half-offered is worse than absent.
 
+        // ---- The era ore population, for every version that does not already place its own ----------
+        //
+        // Applied at the END, over the finished list, on purpose: a version's newest revision is whatever
+        // the declarations above produced (the _no_sandstone, _beta_plains, _with_ores and
+        // _no_modern_content aliases), and the era-ore revision must inherit from THAT revision rather than
+        // from a guessed one. Doing it here also covers Alpha v1.2.2a, which is a renamed clone of 1.2.0:
+        // both get their own era-ore revision, named for their own id, inheriting the same biome settings.
+        //
+        // Beta 1.7.3 and Beta 1.8.1 are skipped because they already place a population of their own; a
+        // second one would double their ores. Every other declared version - the six Beta 1.9
+        // prereleases, the seven Release profiles, Beta 1.0 to 1.6, the ten Alpha builds and the three
+        // pre-Beta builds - gained nothing but vanilla's modern placement before this.
+        for (int index = 0; index < versions.size(); index++) {
+            HistoricalVersion version = versions.get(index);
+            if (!version.latestRevision().placesOwnOres()) {
+                versions.set(index, withEraOres(version));
+            }
+        }
+
         ALL = List.copyOf(versions);
 
         // Self-checks: two versions may never share a profile id or a recipe alias, because both are
@@ -1473,6 +1508,88 @@ public final class HistoricalVersions {
             previous.orePopulation()));
         return new HistoricalVersion(base.id(), base.displayName(), base.era(), base.chronology(), base.rules(),
             List.copyOf(revisions));
+    }
+
+    /**
+     * Whether this version's era had redstone ore, by the same chronology boundary {@link #withEraOres}
+     * derives it from. Public because the runtime ore fallback must use the SAME answer as the stored
+     * revision, not a second copy of the boundary.
+     */
+    public static boolean eraHasRedstoneOre(HistoricalVersion version) {
+        return version.chronology() >= REDSTONE_ORE_ADDED;
+    }
+
+    /** Whether this version's era had lapis ore (Beta 1.2 onward), on the same boundary as the revisions. */
+    public static boolean eraHasLapisOre(HistoricalVersion version) {
+        return version.chronology() >= LAPIS_ORE_ADDED;
+    }
+
+    /**
+     * Whether this version's era had emerald ore. The boundary is Release 1.3, the stable baseline the
+     * project's Release 1.3 profile represents; every earlier declared version predates 12w21a.
+     */
+    public static boolean eraHasEmeraldOre(HistoricalVersion version) {
+        return version.chronology() >= EMERALD_ORE_ADDED;
+    }
+
+    /**
+     * The era population for a version: the verified Beta 1.7.3 population filtered to the ores that era
+     * had.
+     *
+     * <p>This is the single derivation. {@link #withEraOres} stores its result in a revision, and the
+     * runtime fallback used by an older revision that declares no population calls the same method - so
+     * an old world and a newly created one cannot disagree about which ores an era had.
+     */
+    public static List<BetaOreRules.OreRule> eraOrePopulation(HistoricalVersion version) {
+        return BetaOreRules.eraPopulation(eraHasRedstoneOre(version), eraHasLapisOre(version));
+    }
+
+    /**
+     * Appends the <b>era ore</b> revision: the version's own ore population, with the modern vanilla ore
+     * features switched off.
+     *
+     * <h2>The defect this fixes</h2>
+     *
+     * <p>A historical world whose version placed no population of its own was filled entirely by
+     * vanilla 1.21.1's modern placed features, so it generated at modern heights. Measured on a fresh
+     * {@code release_1_2_5} world: diamond y=1..72 (1,180 of 1,795 above y=15), redstone y=1..30, lapis
+     * y=1..63, gold y=1..30, iron y=1..71 and coal y=1..80. Every version this project declares predates
+     * the 1.18 ore overhaul, and the verified Beta 1.7.3 population puts diamond at y 0..15.
+     *
+     * <h2>Why a new revision, and why a shared derivation</h2>
+     *
+     * <p>Revisions are append-only. The thirteen profiles that were measured with no ores at all
+     * ({@code _no_modern_content}) and the pre-Beta {@code _with_ores} revisions are published aliases,
+     * so their exclusions and populations cannot be edited: a world recorded against one has to keep
+     * generating what it recorded. This appends one revision per version instead, and because a new
+     * world selects the newest revision, a newly created world picks it up with no further change.
+     *
+     * <p>The population is the verified Beta 1.7.3 one filtered to the ores the era had. It is NOT a new
+     * set of numbers: ore generation did not change across this range, so the only question per version
+     * is availability, and the boundaries are the block availability table's own (redstone Alpha
+     * v1.0.1, lapis Beta 1.2, emerald Release 1.3.1). Diamond needs no boundary here because every
+     * declared version is after its Infdev 20100320 restoration - see
+     * {@link BetaOreRules#eraPopulation}.
+     */
+    private static HistoricalVersion withEraOres(HistoricalVersion base) {
+        List<HistoricalVersion.GenerationRevision> revisions = new java.util.ArrayList<>(base.revisions());
+        HistoricalVersion.GenerationRevision previous = revisions.get(revisions.size() - 1);
+        boolean emerald = eraHasEmeraldOre(base);
+        List<BetaOreRules.OreRule> population = eraOrePopulation(base);
+        revisions.add(new HistoricalVersion.GenerationRevision(
+            revisions.size(),
+            alias(base.id().substring(base.id().indexOf(':') + 1) + "_era_ores"),
+            previous.foundation(),
+            true,
+            "the era's own ore population: the verified Beta 1.7.3 vein shape, sizes and attempt counts, "
+                + "filtered to the ores this version had (redstone from Alpha v1.0.1, lapis from Beta 1.2, "
+                + "diamond and dirt/gravel throughout, no emerald before Release 1.3.1), with every "
+                + "modern vanilla ore placed feature excluded so the modern-height distributions cannot "
+                + "run. Fixes measured diamond y=1..72 in a Release 1.2.5 world",
+            HistoricalFeatureExclusions.eraOreReplacement(previous.excludedPlacedFeatures(), emerald),
+            population));
+        return new HistoricalVersion(base.id(), base.displayName(), base.era(), base.chronology(),
+            base.rules(), List.copyOf(revisions));
     }
 
     /**

@@ -1,0 +1,23 @@
+{
+  "chunkSettings": {
+    "moderner_beta:preset": "moderner_beta:beta_1_9_pre_3",
+    "moderner_beta:deepslate_generation": {
+      "enabled": false
+    },
+    "moderner_beta:noise_generator_settings": "moderner_beta:overworld_128",
+    "moderner_beta:noise_settings": {
+      "height": 128,
+      "min_y": 0,
+      "size_horizontal": 1,
+      "size_vertical": 2
+    }
+  },
+  "biomeSettings": {
+    "moderner_beta:preset": "moderner_beta:beta_1_9_pre_3"
+  },
+  "caveBiomeSettings": {
+    "moderner_beta:preset": "moderner_beta:beta_1_9_pre_3",
+    "moderner_beta:provider": "moderner_beta:single",
+    "moderner_beta:single_biome": "moderner_beta:late_beta_taiga"
+  }
+}

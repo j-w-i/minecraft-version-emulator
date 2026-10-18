@@ -57,8 +57,14 @@ class Alpha12BiomeRuleTest {
     void alpha12TakesBetaElevenBiomes() throws IOException {
         HistoricalVersion alpha12 = HistoricalVersions.byId("historical_experience:alpha_1_2_0").orElseThrow();
         HistoricalVersion.GenerationRevision newest = alpha12.revisions().get(alpha12.revisions().size() - 1);
-        assertEquals("historical_experience:alpha_1_2_0_beta_plains", newest.alias(),
+        // The newest revision is now the era-ore one, which is what a newly created world selects. It must
+        // still carry the Beta 1.1 biome settings: it is derived from `_beta_plains`, and the whole point of
+        // the derivation is that adding an ore population cannot silently undo the biome rule.
+        assertEquals("historical_experience:alpha_1_2_0_era_ores", newest.alias(),
             "the newest Alpha 1.2.0 revision is the one a new world selects");
+        assertEquals("historical_experience:alpha_1_2_0_beta_plains",
+            alpha12.revisions().get(alpha12.revisions().size() - 2).alias(),
+            "the era-ore revision is appended to the biome revision, not instead of it");
 
         var json = com.google.gson.JsonParser.parseString(presetJson(newest.alias())).getAsJsonObject();
         assertEquals("moderner_beta:beta_1_1_02",

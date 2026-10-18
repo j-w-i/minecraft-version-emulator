@@ -1,3 +1,26 @@
+# Current work — 2026-10-19 / Ore heights, part 2: the fix now covers EVERY revision, not just new worlds
+
+The first pass fixed only each version's newest revision, so a world recorded on an older alias still generated modern ore heights (an audit found **64 of 138 revisions** unprotected: `beta_1_7_3` previews 1-4, every Beta 1.9 prerelease, every Release revision 0 and 1, `indev_latest` 0 and 3). Two code-level defaults close that without editing any stored revision data:
+
+- **`BetaOrePlacement.populationForAlias`**: a revision's declared population still wins; an EMPTY one now falls back to the version's era population instead of placing nothing.
+- **`HistoricalFeatureExclusions.shouldSkip`**: every historical world now skips the 17 modern `minecraft:ore_*` features (plus Moderner Beta's emerald before Release 1.3.1), in addition to the per-revision exclusions.
+
+Measured on OLD revisions that were previously unprotected: `beta_1_7_3_content_preview_4` diamond y=1..15, `release_1_2_5_no_modern_content` diamond y=1..15. Release/Alpha/Indev/Beta current revisions unchanged and correct; ordinary world still runs vanilla features (diamond + deepslate diamond present, lapis to y=63). `TemporaryOreAuditTest` became the permanent `OrePopulationInvariantTest` (every revision's effective population is non-empty and contains diamond; emerald follows its boundary; removing the fallback makes it fail). Build green, **728 tests, 0 failures**.
+
+**What this does NOT do:** chunks already generated keep the ore they were generated with. The project's rule is that upgrades affect future chunks only, so nothing is rewritten retroactively.
+# Current work — 2026-10-19 / Ore heights: diamonds (and every other ore) were generating at modern heights
+
+Owner report: "Diamonds shouldn't spawn above y level 15". **Confirmed, measured, and fixed.**
+
+**Measured before** (`scripts/ore-height-census.py`, new, reads the saved region files): a FRESH `release_1_2_5` world, 1349 chunks — diamond **y=1..72, 1180 of 1795 above y=15**; redstone y=1..30; lapis y=1..63; gold y=1..30; iron y=1..71; coal y=1..80. A fresh `beta_1_7_3` world was already correct (diamond 1..15), which located the fault precisely: versions that place no ore population of their own were left running 1.21.1's vanilla ore features, whose `ore_diamond` is `trapezoid above_bottom -80..80` — up to y=80 in a 128-high historical world.
+
+**Historical truth** (`research/ore-height-ranges.json`, new): every declared version predates 1.18, where diamond was placed at y 0..15 only — and the vein cannot exceed 15 either (centre ≤ origin+2, half-radius < 1). Two independent sources agree: the hash-verified Beta 1.7.3 client (`research/beta173-ore-parameters-parent-reviewed.json`: diamond size 7, 1 attempt, `nextInt(16)`) and Moderner Beta's own `reduced_height` override (size 8, `height_range uniform above_bottom 0..15`, count 1).
+
+**Fix:** every version that placed no own population now ends at a new append-only `<version>_era_ores` revision carrying `BetaOreRules.eraPopulation(hasRedstone, hasLapis)` (the verified 1.7.3 rules *filtered* to the ores the era had — no new sizes or counts) and `HistoricalFeatureExclusions.eraOreReplacement(...)` (all 17 modern `minecraft:ore_*` plus Moderner Beta's emerald where it did not exist). 32 settings + 32 world presets added; each version's public preset retargeted, so **new** worlds are correct.
+
+**Measured after:** release_1_2_5 diamond y=1..15 (0 above 15), redstone 1..15, gold 1..30, lapis 1..30, iron 1..63; alpha_1_2_0 diamond 0..15 with no lapis; indev diamond 2..15 with no redstone/lapis/emerald; beta_1_7_3 unchanged. Control with vanilla features intact: diamond 0..70, 1155 above y=15 — ordinary worlds unaffected. Build green, **724 tests, 0 failures**.
+
+**Existing worlds are not retroactively changed** (append-only rule): a world records its revision, so an already-created world keeps its chunks. New worlds are correct; an upgrade onto `<version>_era_ores` fixes future chunks only.
 # Current work — 2026-10-19 / Survival Test removed, codebase cleaned
 
 - **Removed Classic Survival Test** (commit `Remove Classic Survival Test`): the `survival_test_030` profile, presets, gameplay rules, mixins, HUD/screens, probes, verification harnesses, docs and research data. The complete pre-removal tree is preserved on branch **`archive/survival-test`** (one snapshot commit, because that work had never been committed). Kept because they are not Survival Test specific: the region chunk census/contents/diff scripts, the opt-in `ChunkBlockContentCompareTest`, the Indev probe's `PROVIDER_HEIGHT` assertion, and two relative-link fixes in `docs/FLASHBACK_INTEGRATION.md` and `docs/LICENSING.md`.

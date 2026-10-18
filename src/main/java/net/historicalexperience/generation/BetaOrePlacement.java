@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.generation;
 
+import java.util.List;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -55,6 +57,32 @@ public final class BetaOrePlacement {
     }
 
     /**
+     * The ore rules this persisted revision alias places.
+     *
+     * <p>A revision's own declared population always wins. Only when it declares none - which is every
+     * revision created before ore placement existed - does the version's era population apply. This is a
+     * code-level default rather than an edit to those revisions' stored data: revisions are append-only,
+     * so the fix for an old world has to live in the fallback, not in the recipe it recorded.
+     *
+     * <p>The era population is {@link net.historicalexperience.version.HistoricalVersions#eraOrePopulation},
+     * the same derivation the newest {@code _era_ores} revision stores, so an old revision and a current
+     * one cannot disagree about which ores an era had.
+     *
+     * @param rawAlias the generator's persisted historical preset alias
+     * @return the declared population, or the version's era population, or an empty list for an alias no
+     *         declared version owns
+     */
+    public static List<BetaOreRules.OreRule> populationForAlias(String rawAlias) {
+        List<BetaOreRules.OreRule> declared = BetaOreRules.forAlias(rawAlias);
+        if (!declared.isEmpty()) {
+            return declared;
+        }
+        return net.historicalexperience.version.HistoricalVersions.byRevisionAlias(rawAlias)
+            .map(net.historicalexperience.version.HistoricalVersions::eraOrePopulation)
+            .orElse(List.of());
+    }
+
+    /**
      * Places the ores selected by this generator's revision into one chunk, if any.
      *
      * @return the number of vein blocks written
@@ -64,7 +92,7 @@ public final class BetaOrePlacement {
         if (alias == null) {
             return 0;
         }
-        var rules = BetaOreRules.forAlias(alias);
+        var rules = populationForAlias(alias);
         if (rules.isEmpty()) {
             return 0;
         }

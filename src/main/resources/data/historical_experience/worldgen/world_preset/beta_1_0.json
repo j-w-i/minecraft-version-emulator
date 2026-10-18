@@ -7,14 +7,14 @@
         "biome_source": {
           "type": "moderner_beta:moderner_beta",
           "cave_provider_settings": {
-            "moderner_beta:preset": "historical_experience:beta_1_0_no_sandstone"
+            "moderner_beta:preset": "historical_experience:beta_1_0_era_ores"
           },
           "provider_settings": {
-            "moderner_beta:preset": "historical_experience:beta_1_0_no_sandstone"
+            "moderner_beta:preset": "historical_experience:beta_1_0_era_ores"
           }
         },
         "provider_settings": {
-          "moderner_beta:preset": "historical_experience:beta_1_0_no_sandstone"
+          "moderner_beta:preset": "historical_experience:beta_1_0_era_ores"
         }
       }
     },
