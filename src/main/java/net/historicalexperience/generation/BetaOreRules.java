@@ -24,7 +24,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.LongAdder;
 
-import net.historicalexperience.HistoricalMarker;
 
 /**
  * Which ores a historical generation revision places, with the parameters and height ranges that

@@ -23,7 +23,6 @@ import java.nio.file.Path;
 import net.historicalexperience.world.metadata.HistoricalMetadata;
 import net.historicalexperience.world.metadata.HistoricalMetadataStore;
 import net.historicalexperience.world.metadata.MetadataException;
-import net.historicalexperience.world.metadata.MetadataJson;
 
 /**
  * Finishes or discards an upgrade that was interrupted, so an upgrade is restart-safe.

@@ -24,7 +24,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.LongAdder;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Direct food healing for versions that had no hunger system.

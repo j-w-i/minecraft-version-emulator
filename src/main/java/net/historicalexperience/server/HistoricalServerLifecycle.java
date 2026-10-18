@@ -29,8 +29,6 @@ import net.historicalexperience.integration.modernerbeta.ModernerBetaAdapter;
 import net.historicalexperience.profile.HistoricalProfiles;
 import net.historicalexperience.gameplay.HistoricalProfileLookup;
 import net.historicalexperience.world.HistoricalWorldState;
-import net.historicalexperience.version.HistoricalVersion;
-import net.historicalexperience.version.HistoricalVersions;
 import net.historicalexperience.world.metadata.HistoricalIdentifier;
 import net.historicalexperience.world.metadata.HistoricalMetadata;
 import net.historicalexperience.world.metadata.HistoricalMetadataStore;

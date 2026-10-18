@@ -1,3 +1,8 @@
+# Current work — 2026-10-19 / Survival Test removed, codebase cleaned
+
+- **Removed Classic Survival Test** (commit `Remove Classic Survival Test`): the `survival_test_030` profile, presets, gameplay rules, mixins, HUD/screens, probes, verification harnesses, docs and research data. The complete pre-removal tree is preserved on branch **`archive/survival-test`** (one snapshot commit, because that work had never been committed). Kept because they are not Survival Test specific: the region chunk census/contents/diff scripts, the opt-in `ChunkBlockContentCompareTest`, the Indev probe's `PROVIDER_HEIGHT` assertion, and two relative-link fixes in `docs/FLASHBACK_INTEGRATION.md` and `docs/LICENSING.md`.
+- **Refactor** (next commit): deleted 67 one-shot patch/port/fix scripts that nothing references (their results are already in the source), one orphaned extractor, three unreferenced classes (`ReplayProbe`, `ModernerBetaGeneratorIdentity`, `ModernerBetaSettingsAccess`), 27 unused imports, and normalised three CRLF source files to LF.
+- Verified: build green, **719 tests, 0 failures, 2 skipped**. Not done: the ~570 inline fully-qualified `net.historicalexperience.*` references (mostly in `GenerationVerification`) are left as they are; converting them to imports is mechanical but wide.
 **First measurement, and it corrects an assumption.** The run reached the first world and printed
 `[hex-indev] APRON hell floating deep small chunk 5,0 column 88,8 minY=0 maxY=128 = 0-127 minecraft:air`: for a
 **Deep Small (64x64)** Hell/Floating world, a column well outside the footprint is **pure air**, and the level's own

@@ -24,7 +24,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Set;
 import java.util.stream.Collectors;
-import net.historicalexperience.HistoricalMarker;
 import org.junit.jupiter.api.Test;
 
 class GenerationBackport1211Test {

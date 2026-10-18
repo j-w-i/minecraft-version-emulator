@@ -14,7 +14,6 @@
  */
 package net.historicalexperience.mixin;
 
-import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.world.level.block.CocoaBlock;
 import net.minecraft.world.level.block.state.BlockState;

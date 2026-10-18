@@ -18,7 +18,6 @@
 package net.historicalexperience.client.version;
 
 import java.util.List;
-import java.util.Optional;
 
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.historicalexperience.client.indev.IndevMapApplication;
@@ -30,8 +29,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.worldselection.CreateWorldScreen;
 import net.minecraft.client.gui.screens.worldselection.WorldCreationUiState;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.level.levelgen.presets.WorldPreset;
 
 /**
  * Adds historical version selection to the create-world screen.

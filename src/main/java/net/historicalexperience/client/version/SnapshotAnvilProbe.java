@@ -14,7 +14,6 @@ import net.historicalexperience.gameplay.HistoricalCreativeGrants;
 import net.historicalexperience.mixin.CreativeScreenProbeAccess;
 import net.historicalexperience.server.*;
 import net.historicalexperience.version.HistoricalVersionCatalogue;
-import net.historicalexperience.version.HistoricalSnapshotPatches;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Screenshot;
 import net.minecraft.client.gui.components.ObjectSelectionList;

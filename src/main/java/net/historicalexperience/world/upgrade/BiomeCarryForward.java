@@ -17,7 +17,6 @@
  */
 package net.historicalexperience.world.upgrade;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 import net.historicalexperience.version.HistoricalVersion;
 import net.historicalexperience.version.HistoricalVersions;

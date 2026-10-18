@@ -25,7 +25,6 @@ import net.historicalexperience.version.HistoricalVersionCatalogue;
 import net.historicalexperience.version.VersionOverview;
 import net.historicalexperience.version.HistoricalVersionCatalogue.Entry;
 import net.historicalexperience.version.HistoricalVersionCatalogue.Era;
-import net.historicalexperience.version.HistoricalVersionCatalogue.Status;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;

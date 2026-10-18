@@ -17,8 +17,6 @@ package net.historicalexperience.mixin;
 import net.historicalexperience.gameplay.HistoricalActiveSession;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.historicalexperience.gameplay.HistoricalSwordBlocking;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
