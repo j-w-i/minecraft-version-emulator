@@ -1,3 +1,29 @@
+# Current work — 2026-10-21 / Gap 18: the client mixin is verified in a real client
+
+The debug-overlay mixin (audit A-06, no coordinates before Alpha v1.2.3) was unit-tested but unverified: a dedicated
+server never loads `DebugScreenOverlay`, so the boot check that caught the invalid dragon injection could not see it.
+
+The project already had the right tool: `ClientMixinCheck` (`-PclientMixinCheck=<class>`) forces a named client class to
+load on the first tick with a screen present; an invalid injection makes the load itself throw, so loading IS the test.
+Run:
+
+`./gradlew runClientQuickPlay -PtitleStart -PnoFlashback=true -PclientMixinCheck=net.minecraft.client.gui.components.DebugScreenOverlay`
+
+Result, from the client's own log:
+
+`[Render thread/INFO] (historical_experience/client-mixin-check) CLIENTMIXINCHECK loaded net.minecraft.client.gui.components.DebugScreenOverlay (DebugScreenOverlay) - its mixins applied`
+
+So the third and last verification route is now in use for client code: unit test for the logic, class-load probe for
+mixin application, server boot for server-side behaviour. What remains unproven for this item is only the in-game
+APPEARANCE (F3 pressed in a historical world), which the class-load probe does not exercise.
+
+Operational note: the probe command killed the client at the end and the tool runner reported a job error while doing
+so; the log was already complete and no game process was left running. Next time I will stop the game JVM from a
+separate call so the harness does not lose the result.
+
+**Evidence:** client log line above; `./gradlew cleanTest test` - **802 tests, 0 failures**; docs status board updated.
+
+---
 # Current work — 2026-10-21 / Gap 17: all five 256-height revisions are runtime-verified and accepted
 
 The previous round accepted Release 1.2.5 only. This round ran the same probe for the other four builds:

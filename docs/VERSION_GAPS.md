@@ -61,7 +61,7 @@ The full evidence for every finding stays in the four era documents:
 
 | Item | What is missing |
 | --- | --- |
-| Client mixins (debug coordinates, and any presentation-only hook) | A client launch: a dedicated server never loads those classes |
+| Client mixin BEHAVIOUR (not application) | `-PclientMixinCheck` has now proven the debug-overlay mixin APPLIES in a real client (`CLIENTMIXINCHECK loaded DebugScreenOverlay ... its mixins applied`), and the filtering is unit-tested; what is still unproven is the in-game appearance with F3 pressed in a historical world |
 | Mixin-application claims generally | A dedicated-server boot is the check, and it has already caught two real defects the tests could not (an invalid injection on a void method, and a wrong descriptor) |
 
 ## What is checked and correct (do not re-audit)
