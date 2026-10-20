@@ -172,12 +172,18 @@ class VersionFactsTest {
     }
 
     private static String food(HistoricalVersion version) {
+        // Two different questions, and conflating them once produced a wrong audit finding: the DECLARED table is what
+        // the version's rules record, while the EFFECTIVE healing is what the food hook applies. A no-hunger version
+        // with an empty declared table still heals, because researchedHeal falls back to the pre-1.8 table on purpose.
         if (HistoricalFoodRules.healsFoodDirectly(version.id())) {
-            var heals = HistoricalFoodRules.healPoints(version.id());
-            return heals.size() + " direct heals: " + heals;
+            return HistoricalFoodRules.healPoints(version.id()).size() + " declared direct heals: "
+                + HistoricalFoodRules.healPoints(version.id());
         }
-        return HistoricalFoodRules.hasHunger(version.id())
-            ? "hunger values only (see BETA_FOOD_HUNGER_VALUES)" : "none (no hunger, no heal table)";
+        if (!HistoricalFoodRules.hasHunger(version.id())) {
+            return "no declared heal table; EFFECTIVE healing falls back to the pre-1.8 table ("
+                + HistoricalFoodRules.BETA_1_7_3_HEAL_POINTS.size() + " items, see researchedHeal) - eating heals";
+        }
+        return "hunger values only (see BETA_FOOD_HUNGER_VALUES); eating does not heal directly";
     }
 
     private static String enchantments(HistoricalVersion version) {
@@ -191,10 +197,17 @@ class VersionFactsTest {
     }
 
     private static String crafting(HistoricalVersion version) {
+        // TWO different gates, and probing only the first once produced a wrong audit finding: isRefused(.., blockId)
+        // also asks the block-availability table whether the RESULT BLOCK is anachronistic, and the in-game call site
+        // always passes a block id for a block item. Passing null measured only the item allow-list, so a Release 1.3
+        // world looked as if it could craft hoppers when the block gate refuses them. Probe both and report both.
         List<String> refused = new ArrayList<>();
+        List<String> refusedAsBlock = new ArrayList<>();
         for (String id : new TreeSet<>(HistoricalCraftingEra.allowListed())) {
             if (HistoricalCraftingEra.isRefused(version.id(), id, null)) {
                 refused.add(id.substring("minecraft:".length()));
+            } else if (HistoricalCraftingEra.isRefused(version.id(), id, id)) {
+                refusedAsBlock.add(id.substring("minecraft:".length()));
             }
         }
         int allowListed = HistoricalCraftingEra.allowListed().size();
@@ -202,8 +215,10 @@ class VersionFactsTest {
             ? "; REMOVED-RECIPE recipes supplied: " + RemovedRecipes.all().stream()
                 .map(RemovedRecipes.Removed::result).toList()
             : "";
-        return allowListed + " allow-listed ids, " + refused.size() + " refused in this version"
-            + (refused.isEmpty() ? "" : ": " + refused) + removed;
+        return allowListed + " allow-listed ids, " + refused.size() + " refused by the item gate"
+            + (refused.isEmpty() ? "" : ": " + refused)
+            + ", " + refusedAsBlock.size() + " refused by the BLOCK-DATE gate"
+            + (refusedAsBlock.isEmpty() ? "" : ": " + refusedAsBlock) + removed;
     }
 
     private static String structures(HistoricalVersion version) {

@@ -1,3 +1,53 @@
+# Current work — 2026-10-21 / Per-version fidelity audit: every declared version, every domain
+
+Owner request: *"Run some deep research and figure out if there is ANYTHING missing per version, be as in depth as
+possible."* Done as four era audits plus a generated fact sheet, merged into [docs/VERSION_GAPS.md](<docs/VERSION_GAPS.md>).
+
+**Method.** The ACTUAL side is generated from the live APIs into [research/version-facts.md](<research/version-facts.md>)
+by `VersionFactsTest` (HEX_DOCS_UPDATE=1), so nothing is compared against prose. The EXPECTED side is minecraft.wiki
+per-version history (raw pages, quote + URL per row) plus the project's own research artefacts. Four parallel era
+audits cover all 34 profiles: [Indev/Infdev/Alpha](<research/gaps/indev-infdev-alpha.md>) (20 cross-version rows + 13
+versions), [Beta 1.0–1.7](<research/gaps/beta-1.0-1.7.md>) (135 rows), [Beta 1.8–1.9pre](<research/gaps/beta-1.8-1.9pre.md>)
+(71 gaps + 91 checked-and-matched), [Release 1.0–1.6.4](<research/gaps/release.md>) (138 rows).
+
+**The five findings that matter most** (full list and evidence in the audit):
+
+1. **Mob drops are modern in 29 of 34 versions.** Only Indev, both Infdev builds, Beta 1.7.3 and Beta 1.8.1 declare
+   drop tables; everywhere else a zombie drops rotten flesh (Beta 1.8 content) instead of feather. minecraft.wiki,
+   Zombie: "1.8 (Pre-release) — Zombies now drop 0-2 rotten flesh instead of 0-2 feathers"; "20100219 — Zombies now drop
+   0–2 feathers". Largest player-visible error in the project.
+2. **Release 1.2.5–1.5 cannot craft their own era's blocks.** The block-availability table dates genuine
+   1.2.1/1.3.1/1.4.2/1.5 content to Release 1.6.4, and `HistoricalRecipeGate` refuses it: a 1.3 world cannot craft an
+   ender chest, 1.4 cannot craft an anvil or beacon, 1.5 cannot craft a hopper, comparator or quartz. **Direction
+   corrected**: my first reading used `isRefused(version, item, null)`, which tests only the item allow-list and gave
+   the opposite answer; the game passes the result block. `VersionFactsTest` now probes both gates.
+3. **Every Release world from 1.2.5 is 128 blocks tall.** All Release presets use
+   `historical_experience:beta_1_7_3_overworld` (height 128, min_y 0); 1.2 raised the limit to 256. Release 1.0/1.1 are
+   correctly 128.
+4. **Golden apples are uncraftable before Beta 1.8 and use the wrong recipe afterwards.** Allow-listed only from
+   `beta_1_8_1` although added in Infdev 20100227; the recipe is 8 gold *ingots* (1.9) where it should be 8 gold blocks
+   (to Release 1.1) then 8 gold nuggets. Effects are wrong for 1.1–1.6.4 too. Same class as the enchanted-apple fix.
+5. **The Pre2/Pre3 boundary is shifted by one prerelease in both directions** (breeding/potions/discs/dragon late;
+   nether bricks/gold nuggets/glistering melon/splash potions early), a structural error behind many rows.
+
+Also: mob AI is modern beyond 13 gates; recipe ingredients/counts are modern wherever a removed recipe is not supplied;
+geared mobs stop at 1.6.4 so 1.4/1.5 never have them; the dragon exists from Pre4 instead of Pre6; XP curve and enchanting
+caps are modern; no hardcore gate.
+
+**A retraction, recorded because the method matters.** I first reported "eating does nothing in Beta 1.0–1.6" from the
+facts file. Wrong: the file showed the *declared* heal table, while `HistoricalFoodHelper.researchedHeal` deliberately
+falls back to the pre-1.8 table. The facts sheet now prints declared and effective separately, and the audit records the
+retraction rather than quietly deleting it.
+
+**Verification.** `./gradlew test` — **132 suites, 758 tests, 0 failures**. Nothing in this entry changed gameplay; it is
+research plus the facts generator. The audit separates [verified here] from era-audit findings, and two era-audit
+coverage-matrix cells (anvil/beacon refused in 1.4/1.5) were checked and found wrong, which is why the status markers
+exist.
+
+**What I did not do:** none of the gaps are fixed yet. The audit's backlog ranks them; the first three are
+crafting/drop data that the existing mechanisms can express.
+
+---
 # Current work — 2026-10-21 / Enchanted golden apples are craftable again in Release 1.3 to 1.8
 
 Owner report: **"Why can't I craft egaps in 1.3.1 when they were added, crafting was removed in 1.9 no?"** The owner is
