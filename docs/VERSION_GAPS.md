@@ -30,6 +30,7 @@ The full evidence for every finding stays in the four era documents:
 | cake | Healed nothing before hunger | 3 health per slice in Beta 1.2–1.7.3 through two redirects inside vanilla's own `CakeBlock.eat` | `CakeSliceHealTest` |
 | Beta damage bug | Damage one point low in Beta 1.5–1.7.3 | +1 to player melee attacks unless moving upwards, through one shared hook | `BetaDamageBugTest` |
 | redstone lamp | Refused in Release 1.2.5 although it is 1.2.1 content | Dated to Release 1.2.5 (wiki 12w07a) | `ReleaseGearedMobsAndToolsTest` |
+| **creeper discs** | A skeleton-killed creeper dropped no disc (and modern discs would have been wrong) | `HistoricalDiscDrops` picks from the version's eligible set (13/cat from v1.0.14; all but \"11\" from Release 1.1; plus \"11\"/\"wait\" from Release 1.5), and a kill hook adds it when the killer is a skeleton. **Runtime-verified**: skeleton-killed creeper dropped Gunpowder **and** Music Disc 13; a non-skeleton kill dropped Gunpowder only | `CreeperDiscDropTest`, RCON probe |
 | **no-drop mobs** | A ghast dropped the modern tear and gunpowder in Alpha and Beta even though ghast tears are Beta 1.9 Pre1 content | `HistoricalLootRules.dropsNothing` answers "this mob dropped nothing" separately from "no rule"; ghast drops nothing before Pre1. **Runtime-verified**: killed ghast in a Beta 1.7.3 world left no item entity, while a zombie killed in the same world dropped a feather | `NoDropEntitiesTest`, RCON probe |
 
 ## Open, with the reason
@@ -50,7 +51,7 @@ The full evidence for every finding stays in the four era documents:
 | Item | What would be needed |
 | --- | --- |
 | **Pre3 end-portal-frame item form** (flat filled-frame sprite, empty tooltip) | The texture system routes assets from dependency packs per version; it cannot serve a **mod-authored** per-version item model. Half-doing the tooltip alone would leave the visible half wrong, and the item is creative-only in Pre3, so it is recorded rather than half-implemented |
-| Conditional second drops with a probability (creeper/skeleton music discs) | The extra-pool mechanism expresses a second item but not a conditional probability with a player-kill requirement |
+| Conditional/random drops in general | The disc rule is now a dedicated mechanism (`HistoricalDiscDrops` + one kill hook); a future conditional drop needs the same treatment rather than a data row |
 | Potion strengths and brewing recipes | Needs a per-potion effect table per version; nothing in the corpus maps to modern potion components yet |
 | Achievements | Modern advancements cannot be mapped onto the era's achievement list without a designed table |
 | Boats, maps, signs, block-break delay | Each needs its own mechanic study; the audit recorded the deltas but not their rules |

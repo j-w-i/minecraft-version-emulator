@@ -89,7 +89,8 @@
     "common.PortalShapeHistoricalNetherMixin",
     "common.NetherPortalBlockHistoricalNetherMixin",
     "common.LivingEntityHistoricalDamageBugMixin",
-    "common.CakeBlockHistoricalHealMixin"
+    "common.CakeBlockHistoricalHealMixin",
+    "common.LivingEntityHistoricalDiscDropMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,3 +1,29 @@
+# Current work — 2026-10-21 / Gap 20: the creeper's conditional music-disc drop
+
+The last loot shape that was missing was a CONDITIONAL drop: a disc only when a skeleton kills the creeper, from a set
+that grows over time. The wiki's Creeper history gave three exact rows, and one of them corrected an assumption I would
+have made: "v1.0.14 Added music discs '13' and 'cat', which are dropped by creepers shot by skeletons"; "1.1 (11w50a)
+Creepers now drop all music discs, except for '11'"; "1.4.4 (1.4.3) Creepers now drop music discs '11' and 'wait'". So:
+
+- v1.0.14 through Release 1.0: 13 and cat only;
+- Release 1.1 through the 1.4 profile (1.4.2, before 1.4.3): ten discs, excluding "11";
+- Release 1.5 and 1.6.4: twelve, adding "11" and "wait".
+
+`HistoricalDiscDrops` is pure and unit-tested (window, sets, random pick); one shared mixin injects at the tail of
+`LivingEntity.die` and adds the disc when the source's entity is a Skeleton and the world is a server level. The disc is
+ADDITIVE to gunpowder - the rows do not say so explicitly, but the runtime probe confirms vanilla's extra-pool shape.
+
+**Runtime evidence** in a Beta 1.7.3 world (RCON): a creeper killed with
+`/damage ... minecraft:mob_attack by <skeleton>` dropped `minecraft:gunpowder` **and** `minecraft:music_disc_13`; a
+creeper killed with `minecraft:player_attack` dropped `minecraft:gunpowder` only.
+
+**Evidence:** `./gradlew cleanTest test` - **808 tests, 0 failures**; server booted with no mixin errors; docs status
+board updated; golden, matrix and facts regenerated.
+
+**Still open:** potion effect tables, achievements, the Pre3 item form, slab counts/substitution, boats/maps/signs,
+pre-1.9 AI, hardcore gate, and the evidence-missing list.
+
+---
 # Current work — 2026-10-21 / Gap 19: "dropped nothing" is now expressible, and runtime-proven
 
 The audit listed the ghast as dropping modern items in Alpha and Beta. Checking the project's own build records changed

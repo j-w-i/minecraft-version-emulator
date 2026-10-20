@@ -133,6 +133,18 @@ public enum Feature {
         + "upwards (a floating-point bug, not a design choice), fixed in the Beta 1.8 Pre-release. The same builds "
         + "raised unarmed damage from 1 to 2, which the extra point reproduces without a second rule."),
 
+    /**
+     * A creeper shot by a skeleton drops a music disc.
+     *
+     * <p>minecraft.wiki, Creeper history: "v1.0.14 Added music discs '13' and 'cat', which are dropped by creepers shot
+     * by skeletons"; "1.1 (11w50a) Creepers now drop all music discs, except for '11'"; "1.4.4 (1.4.3) Creepers now
+     * drop music discs '11' and 'wait'". So the eligible set grows in three steps, which
+     * {@code HistoricalDiscDrops} expresses; this feature only says the drop exists.
+     */
+    CREEPER_DISC_DROPS(Domain.MOBS, FeatureWindow.from(Milestones.ALPHA_1_0_14),
+        "A creeper killed by a skeleton drops a music disc: '13' and 'cat' from Alpha v1.0.14, every disc except '11' "
+        + "from Release 1.1, and '11' plus 'wait' from Release 1.4.3."),
+
     /** No attack cooldown. */
     NO_ATTACK_COOLDOWN(Domain.COMBAT, FeatureWindow.allDeclared(),
         "The 1.9 attack cooldown: attacks are always at full strength. Every declared version predates Release 1.9, so the window is every declared version. Upstream tweak: DISABLE_ATTACK_COOLDOWN."),
