@@ -91,20 +91,55 @@ public final class HistoricalLootRules {
      */
     public static final List<DropRule> BETA_1_8_1 = List.of(
         new DropRule("minecraft:zombie", "minecraft:rotten_flesh", 3,
-            "PROVISIONAL: rotten flesh arrives with hunger in Beta 1.8"),
-        // 2, not 1. The model expresses a count as random.nextInt(bound), so a bound of 1 can only ever
-        // produce zero and the mob would never drop anything - which is exactly what the first measured
-        // run showed as chicken={}. Beta 1.8's chicken dropped one raw chicken, which this model cannot
-        // express exactly; 2 means 0 or 1 and is the closest it gets until the count carries a minimum.
+            "artifact: b1.8 zombie drop path; wiki 1.8 Pre-release: 0-2 rotten flesh instead of feathers"),
         new DropRule("minecraft:chicken", "minecraft:chicken", 2,
-            "PROVISIONAL: raw chicken arrives in Beta 1.8, verified present in its item registry; the "
-                + "count is 0 or 1 because the model expresses random.nextInt(bound) and cannot yet "
-                + "express a guaranteed single item"),
+            "artifact: class ni drop path references raw chicken; quantity 0-1 (the 1.8 count is not decoded)"),
         new DropRule("minecraft:spider", "minecraft:string", 3,
-            "PROVISIONAL: primary drop only; Beta 1.8's spider eye is not expressed by this model"),
+            "artifact: b1.8 spider drop path; string 0-2, with the spider eye as a second pool below"),
         new DropRule("minecraft:cow", "minecraft:beef", 4,
-            "PROVISIONAL: raw beef arrives in Beta 1.8; exact count distribution unverified")
+            "artifact: class py drop path references raw beef; quantity from the modern table"),
+        new DropRule("minecraft:pig", "minecraft:porkchop", 3,
+            "artifact: class mx references raw/cooked porkchop; 0-2, cooked when on fire (Beta 1.5)"),
+        new DropRule("minecraft:skeleton", "minecraft:arrow", 3,
+            "artifact: b1.8 skeleton drops arrows, with bones as a second pool below"),
+        new DropRule("minecraft:creeper", "minecraft:gunpowder", 3,
+            "artifact: b1.8 creeper drop selector is gunpowder"),
+        new DropRule("minecraft:zombified_piglin", "minecraft:cooked_porkchop", 2,
+            "artifact: class adn references porkchopCooked and rottenFlesh; 0-1 each")
     );
+
+    /**
+     * The SECOND item a Beta 1.8.1 mob drops, which the one-item rule cannot express.
+     *
+     * <p>Every row is artifact-verified in {@code research/historical-features.json}: the b1.8 client's classes
+     * reference two drop fields per mob where the wiki says two items drop. Kept separate from {@link DropRule} so the
+     * pre-1.8 single-item model stays untouched and a version can have no second pool at all.
+     */
+    public record ExtraDrop(String entityTypeId, String itemId, int maxExclusiveCount, boolean smeltsOnFire) {
+    }
+
+    /** Beta 1.8.1's second pools: feathers, leather, spider eye, bones, rotten flesh. */
+    public static final Map<String, List<ExtraDrop>> BETA_1_8_1_EXTRA = Map.of(
+        "minecraft:chicken", List.of(new ExtraDrop("minecraft:chicken", "minecraft:feather", 3, false)),
+        "minecraft:cow", List.of(new ExtraDrop("minecraft:cow", "minecraft:leather", 3, false)),
+        "minecraft:spider", List.of(new ExtraDrop("minecraft:spider", "minecraft:spider_eye", 2, false)),
+        "minecraft:skeleton", List.of(new ExtraDrop("minecraft:skeleton", "minecraft:bone", 3, false)),
+        "minecraft:zombified_piglin",
+            List.of(new ExtraDrop("minecraft:zombified_piglin", "minecraft:rotten_flesh", 2, false))
+    );
+
+    /** The second pools a version declares for an entity, or empty. */
+    public static List<ExtraDrop> extraFor(String profileId, String entityTypeId) {
+        if (profileId != null && profileId.endsWith(":beta_1_8_1")) {
+            return BETA_1_8_1_EXTRA.getOrDefault(entityTypeId, List.of());
+        }
+        return List.of();
+    }
+
+    /** Every version with a second pool, for reports and tests. */
+    public static Set<String> versionsWithExtraDrops() {
+        return Set.of("historical_experience:beta_1_8_1");
+    }
 
     /** Beta 1.7.3's drops keyed by entity type id. */
     public static final Map<String, DropRule> BETA_1_7_3_BY_ENTITY = BETA_1_7_3.stream()

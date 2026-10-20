@@ -1,3 +1,35 @@
+# Current work — 2026-10-21 / Gap 3: golden apple recipes and a thorough Beta 1.8.1 drop pass
+
+Owner asked for thoroughness after the 1.8 drop defect, on the fair grounds that one found-by-testing bug means
+others may be unlooked-for. This entry records what was checked, not only what was changed.
+
+**Golden apple recipes (audit G6/G4).** `RemovedRecipes` now carries a window per recipe instead of one for the class,
+and two historical golden-apple shapes are supplied: 8 **gold blocks** + apple for `[Infdev 20100420, Release 1.1)`,
+8 **gold nuggets** + apple for `[Release 1.1, Release 1.9)`. The item is allow-listed from Infdev (it had been dated
+Beta 1.8, making it uncraftable in every Beta world); the modern 8-ingot recipe is refused wherever a supplied shape
+replaces it, so the player cannot use anachronistic ingredients. Two new features
+(`GOLDEN_APPLE_GOLD_BLOCK_RECIPE`, `GOLDEN_APPLE_GOLD_NUGGET_RECIPE`) are described in `FeatureBoundaryTest`; the facts
+sheet now reports replaced recipes separately from refusals.
+
+**Beta 1.8.1 drops, re-derived from `research/historical-features.json`** (all six mob entries are artifact-verified
+against the b1.8 client, not guessed):
+- zombie 0-2 rotten flesh; pigman 0-1 cooked porkchop + 0-1 rotten flesh; pig 0-2 porkchop (cooked on fire);
+  chicken 0-2 feathers + raw chicken (cooked on fire); cow 0-2 leather + raw beef/steak; spider string + spider eye;
+  skeleton arrows + bones; creeper gunpowder.
+- The model was one item per mob, so the second items could not be expressed at all. Added `ExtraDrop` pools (a
+  second loot pool with its own count and burn flag) and filled all five: chicken/feather, cow/leather,
+  spider/spider_eye, skeleton/bone, pigman/rotten_flesh. Burn substitution is now version-aware (pork from Beta 1.5,
+  beef and chicken from Beta 1.8).
+- The 1.8.1 primary table gained pig, skeleton, creeper and pigman rows; previously they fell through to vanilla.
+
+**Checked and found still open (not guessed):** the exact 1.8 quantities for chicken raw-chicken/feathers and cow
+beef/leather are wiki-sourced or modern placeholders (the corpus says so itself); sheep shearing quantity is 2-4 and
+this model still builds a 0-1 table for it (needs its own builder); ghast tears and squid ink sacs have no 1.8 rule yet.
+
+**Evidence:** `./gradlew test` — **771 tests, 0 failures**. Golden, matrix and facts regenerated; licence headers
+re-applied.
+
+---
 # Current work — 2026-10-21 / Gap implementation 2: block dates (G3) and the chicken/cow meat defect
 
 **Owner-reported defect fixed.** "Chickens don't drop meat nor do cows in Beta 1.8.1" was real and the cause was a

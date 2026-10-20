@@ -62,10 +62,18 @@ class EnchantedGoldenAppleCraftingTest {
         assertTrue(RemovedRecipes.appliesTo(P + "release_1_5"));
         assertTrue(RemovedRecipes.appliesTo(P + "release_1_6_4"));
 
-        assertFalse(RemovedRecipes.appliesTo(P + "release_1_2_5"), "before 12w21a there is only one apple tier");
-        assertFalse(RemovedRecipes.appliesTo(P + "beta_1_9_pre_3"));
-        assertFalse(RemovedRecipes.appliesTo(P + "beta_1_8_1"));
-        assertFalse(RemovedRecipes.appliesTo(P + "infdev_420"));
+        // appliesTo() asks whether ANY removed recipe applies, and the plain golden apple is one from Infdev
+        // onwards, so the question about the second apple tier has to name the item.
+        assertFalse(RemovedRecipes.replacesModernRecipe(P + "release_1_2_5", "minecraft:enchanted_golden_apple"),
+            "before 12w21a there is only one apple tier");
+        assertFalse(RemovedRecipes.replacesModernRecipe(P + "beta_1_9_pre_3", "minecraft:enchanted_golden_apple"));
+        assertFalse(RemovedRecipes.replacesModernRecipe(P + "beta_1_8_1", "minecraft:enchanted_golden_apple"));
+        assertFalse(RemovedRecipes.replacesModernRecipe(P + "infdev_420", "minecraft:enchanted_golden_apple"));
+        // ...while the plain golden apple's own two shapes apply across the same range.
+        assertTrue(RemovedRecipes.replacesModernRecipe(P + "beta_1_8_1", "minecraft:golden_apple"),
+            "Beta 1.8.1 crafted the golden apple from gold blocks");
+        assertTrue(RemovedRecipes.replacesModernRecipe(P + "release_1_5", "minecraft:golden_apple"),
+            "Release 1.5 crafted it from gold nuggets");
         assertFalse(RemovedRecipes.appliesTo(null), "an ordinary world gets no historical recipe");
         assertFalse(RemovedRecipes.appliesTo("moderner_beta:beta"));
         assertFalse(RemovedRecipes.appliesTo("example:not_a_version"));

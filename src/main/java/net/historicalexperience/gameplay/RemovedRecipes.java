@@ -78,8 +78,12 @@ public final class RemovedRecipes {
      * @param ingredients row-major; empty string is an empty slot
      * @param result      the item produced
      * @param count       how many
+     * @param window      the feature whose window decides whether this version had the recipe; one entry per recipe
+     *                    rather than one for the class, because the golden apple has two historical shapes and the
+     *                    enchanted one a third
      */
-    public record Removed(String id, int width, int height, List<String> ingredients, String result, int count) {
+    public record Removed(String id, int width, int height, List<String> ingredients, String result, int count,
+            Feature window, boolean refuseModernRecipe) {
         public Removed {
             ingredients = List.copyOf(ingredients);
             if (ingredients.size() != width * height) {
@@ -107,16 +111,58 @@ public final class RemovedRecipes {
             "minecraft:gold_block", "minecraft:gold_block", "minecraft:gold_block",
             "minecraft:gold_block", "minecraft:apple", "minecraft:gold_block",
             "minecraft:gold_block", "minecraft:gold_block", "minecraft:gold_block"),
-        "minecraft:enchanted_golden_apple", 1);
+        "minecraft:enchanted_golden_apple", 1, Feature.LEGACY_ENCHANTED_GOLDEN_APPLE, false);
+
+    /** The golden apple's pre-Release-1.1 shape: eight blocks of gold around an apple. */
+    public static final Removed GOLDEN_APPLE_GOLD_BLOCK = new Removed(
+        "golden_apple_from_gold_block",
+        3, 3,
+        List.of(
+            "minecraft:gold_block", "minecraft:gold_block", "minecraft:gold_block",
+            "minecraft:gold_block", "minecraft:apple", "minecraft:gold_block",
+            "minecraft:gold_block", "minecraft:gold_block", "minecraft:gold_block"),
+        "minecraft:golden_apple", 1, Feature.GOLDEN_APPLE_GOLD_BLOCK_RECIPE, true);
+
+    /** The golden apple's Release 1.1 through 1.8 shape: eight gold nuggets around an apple. */
+    public static final Removed GOLDEN_APPLE_GOLD_NUGGET = new Removed(
+        "golden_apple_from_gold_nugget",
+        3, 3,
+        List.of(
+            "minecraft:gold_nugget", "minecraft:gold_nugget", "minecraft:gold_nugget",
+            "minecraft:gold_nugget", "minecraft:apple", "minecraft:gold_nugget",
+            "minecraft:gold_nugget", "minecraft:gold_nugget", "minecraft:gold_nugget"),
+        "minecraft:golden_apple", 1, Feature.GOLDEN_APPLE_GOLD_NUGGET_RECIPE, true);
 
     /** Every removed recipe, for tests and reports. */
     public static List<Removed> all() {
-        return List.of(ENCHANTED_GOLDEN_APPLE);
+        return List.of(ENCHANTED_GOLDEN_APPLE, GOLDEN_APPLE_GOLD_BLOCK, GOLDEN_APPLE_GOLD_NUGGET);
     }
 
     /** Whether this version had any removed recipe at all. */
     public static boolean appliesTo(String versionId) {
-        return Features.active(Feature.LEGACY_ENCHANTED_GOLDEN_APPLE, versionId);
+        for (Removed recipe : all()) {
+            if (Features.active(recipe.window(), versionId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * True when this version's own recipe for {@code itemId} is one the modern registry no longer has, so vanilla's
+     * recipe for the same result must be refused rather than left as a second, anachronistic way to make it.
+     */
+    public static boolean replacesModernRecipe(String versionId, String itemId) {
+        if (itemId == null) {
+            return false;
+        }
+        for (Removed recipe : all()) {
+            if (recipe.refuseModernRecipe() && recipe.result().equals(itemId)
+                    && Features.active(recipe.window(), versionId)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -138,6 +184,9 @@ public final class RemovedRecipes {
         String path = versionId.substring(versionId.indexOf(':') + 1);
         var out = new java.util.ArrayList<RecipeHolder<CraftingRecipe>>();
         for (Removed recipe : all()) {
+            if (!Features.active(recipe.window(), versionId)) {
+                continue;
+            }
             var ingredients = NonNullList.<Ingredient>create();
             for (String id : recipe.ingredients()) {
                 ingredients.add(id.isEmpty() ? Ingredient.EMPTY : Ingredient.of(item(id)));

@@ -5980,7 +5980,7 @@ gameplay.HistoricalCraftingEra.firstVersion(minecraft:glowstone)|-=historical_ex
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:gold_block)|-=null
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:gold_ingot)|-=null
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:gold_nugget)|-=historical_experience:beta_1_9_pre_3
-gameplay.HistoricalCraftingEra.firstVersion(minecraft:golden_apple)|-=historical_experience:beta_1_8_1
+gameplay.HistoricalCraftingEra.firstVersion(minecraft:golden_apple)|-=historical_experience:infdev_420
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:golden_axe)|-=null
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:golden_boots)|-=null
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:golden_carrot)|-=historical_experience:release_1_4
@@ -6520,7 +6520,7 @@ gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:glowstone)|*=FFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:gold_block)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:gold_ingot)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:gold_nugget)|*=TTTTFFFFFFFFTTTTTTTTTTTTFFFTTTTTTTFFF
-gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:golden_apple)|*=TFFFFFFFFFFFTFFTTTTTTTTTFFFTTTTTTTFFF
+gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:golden_apple)|*=TTTTTTTTTTTTTFFTTTTTTTTTTTTTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:golden_axe)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:golden_boots)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:golden_carrot)|*=TTTTTTTTTTTFTTTTTTTTTTTTTFFTTTTTTTFFF
@@ -6791,7 +6791,7 @@ gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:glowstone)|*=FFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:gold_block)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:gold_ingot)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:gold_nugget)|*=TTTTFFFFFFFFTTTTTTTTTTTTFFFTTTTTTTFFF
-gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:golden_apple)|*=TFFFFFFFFFFFTFFTTTTTTTTTFFFTTTTTTTFFF
+gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:golden_apple)|*=TTTTTTTTTTTTTFFTTTTTTTTTTTTTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:golden_axe)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:golden_boots)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:golden_carrot)|*=TTTTTTTTTTTFTTTTTTTTTTTTTFFTTTTTTTFFF
@@ -8491,7 +8491,7 @@ gameplay.HistoricalLootRules.usesLegacySheepDrops|moderner_beta:beta=false
 gameplay.HistoricalLootRules.usesLegacySheepDrops|example:not_a_version=false
 gameplay.HistoricalLootRules.restrictedProfiles()|-={historical_experience:alpha,historical_experience:alpha_1_0_1,historical_experience:alpha_1_0_11,historical_experience:alpha_1_0_14,historical_experience:alpha_1_0_17,historical_experience:alpha_1_0_4,historical_experience:alpha_1_0_6,historical_experience:alpha_1_1_0,historical_experience:alpha_1_2_0,historical_experience:alpha_1_2_2a,historical_experience:beta_1_0,historical_experience:beta_1_2,historical_experience:beta_1_3,historical_experience:beta_1_4,historical_experience:beta_1_5,historical_experience:beta_1_6,historical_experience:beta_1_7_3,historical_experience:beta_1_8_1,historical_experience:indev_latest,historical_experience:infdev_420,historical_experience:infdev_611,historical_experience:release_1_3}
 gameplay.HistoricalLootRules.forEntity(minecraft:zombie)|historical_experience:beta_1_7_3=minecraft:zombie->minecraft:feather bound=3 evidenceLen=59
-gameplay.HistoricalLootRules.forEntity(minecraft:zombie)|historical_experience:beta_1_8_1=minecraft:zombie->minecraft:rotten_flesh bound=3 evidenceLen=57
+gameplay.HistoricalLootRules.forEntity(minecraft:zombie)|historical_experience:beta_1_8_1=minecraft:zombie->minecraft:rotten_flesh bound=3 evidenceLen=91
 gameplay.HistoricalLootRules.forEntity(minecraft:zombie)|historical_experience:beta_1_9_pre_1=none
 gameplay.HistoricalLootRules.forEntity(minecraft:zombie)|historical_experience:beta_1_9_pre_2=none
 gameplay.HistoricalLootRules.forEntity(minecraft:zombie)|historical_experience:beta_1_9_pre_4=none
@@ -8528,7 +8528,7 @@ gameplay.HistoricalLootRules.forEntity(minecraft:zombie)|null=none
 gameplay.HistoricalLootRules.forEntity(minecraft:zombie)|moderner_beta:beta=none
 gameplay.HistoricalLootRules.forEntity(minecraft:zombie)|example:not_a_version=none
 gameplay.HistoricalLootRules.forEntity(minecraft:chicken)|historical_experience:beta_1_7_3=minecraft:chicken->minecraft:feather bound=3 evidenceLen=70
-gameplay.HistoricalLootRules.forEntity(minecraft:chicken)|historical_experience:beta_1_8_1=minecraft:chicken->minecraft:chicken bound=2 evidenceLen=202
+gameplay.HistoricalLootRules.forEntity(minecraft:chicken)|historical_experience:beta_1_8_1=minecraft:chicken->minecraft:chicken bound=2 evidenceLen=96
 gameplay.HistoricalLootRules.forEntity(minecraft:chicken)|historical_experience:beta_1_9_pre_1=none
 gameplay.HistoricalLootRules.forEntity(minecraft:chicken)|historical_experience:beta_1_9_pre_2=none
 gameplay.HistoricalLootRules.forEntity(minecraft:chicken)|historical_experience:beta_1_9_pre_4=none
@@ -8565,7 +8565,7 @@ gameplay.HistoricalLootRules.forEntity(minecraft:chicken)|null=none
 gameplay.HistoricalLootRules.forEntity(minecraft:chicken)|moderner_beta:beta=none
 gameplay.HistoricalLootRules.forEntity(minecraft:chicken)|example:not_a_version=none
 gameplay.HistoricalLootRules.forEntity(minecraft:spider)|historical_experience:beta_1_7_3=minecraft:spider->minecraft:string bound=3 evidenceLen=58
-gameplay.HistoricalLootRules.forEntity(minecraft:spider)|historical_experience:beta_1_8_1=minecraft:spider->minecraft:string bound=3 evidenceLen=84
+gameplay.HistoricalLootRules.forEntity(minecraft:spider)|historical_experience:beta_1_8_1=minecraft:spider->minecraft:string bound=3 evidenceLen=87
 gameplay.HistoricalLootRules.forEntity(minecraft:spider)|historical_experience:beta_1_9_pre_1=none
 gameplay.HistoricalLootRules.forEntity(minecraft:spider)|historical_experience:beta_1_9_pre_2=none
 gameplay.HistoricalLootRules.forEntity(minecraft:spider)|historical_experience:beta_1_9_pre_4=none
@@ -8602,7 +8602,7 @@ gameplay.HistoricalLootRules.forEntity(minecraft:spider)|null=none
 gameplay.HistoricalLootRules.forEntity(minecraft:spider)|moderner_beta:beta=none
 gameplay.HistoricalLootRules.forEntity(minecraft:spider)|example:not_a_version=none
 gameplay.HistoricalLootRules.forEntity(minecraft:cow)|historical_experience:beta_1_7_3=minecraft:cow->minecraft:leather bound=3 evidenceLen=60
-gameplay.HistoricalLootRules.forEntity(minecraft:cow)|historical_experience:beta_1_8_1=minecraft:cow->minecraft:beef bound=4 evidenceLen=78
+gameplay.HistoricalLootRules.forEntity(minecraft:cow)|historical_experience:beta_1_8_1=minecraft:cow->minecraft:beef bound=4 evidenceLen=80
 gameplay.HistoricalLootRules.forEntity(minecraft:cow)|historical_experience:beta_1_9_pre_1=none
 gameplay.HistoricalLootRules.forEntity(minecraft:cow)|historical_experience:beta_1_9_pre_2=none
 gameplay.HistoricalLootRules.forEntity(minecraft:cow)|historical_experience:beta_1_9_pre_4=none
@@ -8639,7 +8639,7 @@ gameplay.HistoricalLootRules.forEntity(minecraft:cow)|null=none
 gameplay.HistoricalLootRules.forEntity(minecraft:cow)|moderner_beta:beta=none
 gameplay.HistoricalLootRules.forEntity(minecraft:cow)|example:not_a_version=none
 gameplay.HistoricalLootRules.forEntity(minecraft:creeper)|historical_experience:beta_1_7_3=minecraft:creeper->minecraft:gunpowder bound=3 evidenceLen=75
-gameplay.HistoricalLootRules.forEntity(minecraft:creeper)|historical_experience:beta_1_8_1=none
+gameplay.HistoricalLootRules.forEntity(minecraft:creeper)|historical_experience:beta_1_8_1=minecraft:creeper->minecraft:gunpowder bound=3 evidenceLen=49
 gameplay.HistoricalLootRules.forEntity(minecraft:creeper)|historical_experience:beta_1_9_pre_1=none
 gameplay.HistoricalLootRules.forEntity(minecraft:creeper)|historical_experience:beta_1_9_pre_2=none
 gameplay.HistoricalLootRules.forEntity(minecraft:creeper)|historical_experience:beta_1_9_pre_4=none
@@ -8676,7 +8676,7 @@ gameplay.HistoricalLootRules.forEntity(minecraft:creeper)|null=none
 gameplay.HistoricalLootRules.forEntity(minecraft:creeper)|moderner_beta:beta=none
 gameplay.HistoricalLootRules.forEntity(minecraft:creeper)|example:not_a_version=none
 gameplay.HistoricalLootRules.forEntity(minecraft:skeleton)|historical_experience:beta_1_7_3=minecraft:skeleton->minecraft:arrow bound=3 evidenceLen=93
-gameplay.HistoricalLootRules.forEntity(minecraft:skeleton)|historical_experience:beta_1_8_1=none
+gameplay.HistoricalLootRules.forEntity(minecraft:skeleton)|historical_experience:beta_1_8_1=minecraft:skeleton->minecraft:arrow bound=3 evidenceLen=71
 gameplay.HistoricalLootRules.forEntity(minecraft:skeleton)|historical_experience:beta_1_9_pre_1=none
 gameplay.HistoricalLootRules.forEntity(minecraft:skeleton)|historical_experience:beta_1_9_pre_2=none
 gameplay.HistoricalLootRules.forEntity(minecraft:skeleton)|historical_experience:beta_1_9_pre_4=none
@@ -8713,7 +8713,7 @@ gameplay.HistoricalLootRules.forEntity(minecraft:skeleton)|null=none
 gameplay.HistoricalLootRules.forEntity(minecraft:skeleton)|moderner_beta:beta=none
 gameplay.HistoricalLootRules.forEntity(minecraft:skeleton)|example:not_a_version=none
 gameplay.HistoricalLootRules.forEntity(minecraft:pig)|historical_experience:beta_1_7_3=minecraft:pig->minecraft:porkchop bound=3 evidenceLen=65
-gameplay.HistoricalLootRules.forEntity(minecraft:pig)|historical_experience:beta_1_8_1=none
+gameplay.HistoricalLootRules.forEntity(minecraft:pig)|historical_experience:beta_1_8_1=minecraft:pig->minecraft:porkchop bound=3 evidenceLen=86
 gameplay.HistoricalLootRules.forEntity(minecraft:pig)|historical_experience:beta_1_9_pre_1=none
 gameplay.HistoricalLootRules.forEntity(minecraft:pig)|historical_experience:beta_1_9_pre_2=none
 gameplay.HistoricalLootRules.forEntity(minecraft:pig)|historical_experience:beta_1_9_pre_4=none
@@ -11274,7 +11274,7 @@ version.HistoricalVersion.era|historical_experience:beta_1_8_1=beta
 version.HistoricalVersion.chronology|historical_experience:beta_1_8_1=501801
 version.VersionRules.restrictsSpawns|historical_experience:beta_1_8_1=true
 version.VersionRules.allowedNaturalSpawns|historical_experience:beta_1_8_1={minecraft:cave_spider,minecraft:chicken,minecraft:cow,minecraft:creeper,minecraft:enderman,minecraft:ghast,minecraft:pig,minecraft:sheep,minecraft:silverfish,minecraft:skeleton,minecraft:slime,minecraft:spider,minecraft:squid,minecraft:wolf,minecraft:zombie,minecraft:zombified_piglin}
-version.VersionRules.mobDrops|historical_experience:beta_1_8_1={minecraft:chicken=minecraft:chicken->minecraft:chicken bound=2 evidenceLen=202,minecraft:cow=minecraft:cow->minecraft:beef bound=4 evidenceLen=78,minecraft:spider=minecraft:spider->minecraft:string bound=3 evidenceLen=84,minecraft:zombie=minecraft:zombie->minecraft:rotten_flesh bound=3 evidenceLen=57}
+version.VersionRules.mobDrops|historical_experience:beta_1_8_1={minecraft:chicken=minecraft:chicken->minecraft:chicken bound=2 evidenceLen=96,minecraft:cow=minecraft:cow->minecraft:beef bound=4 evidenceLen=80,minecraft:creeper=minecraft:creeper->minecraft:gunpowder bound=3 evidenceLen=49,minecraft:pig=minecraft:pig->minecraft:porkchop bound=3 evidenceLen=86,minecraft:skeleton=minecraft:skeleton->minecraft:arrow bound=3 evidenceLen=71,minecraft:spider=minecraft:spider->minecraft:string bound=3 evidenceLen=87,minecraft:zombie=minecraft:zombie->minecraft:rotten_flesh bound=3 evidenceLen=91,minecraft:zombified_piglin=minecraft:zombified_piglin->minecraft:cooked_porkchop bound=2 evidenceLen=71}
 version.VersionRules.replacesLoot|historical_experience:beta_1_8_1=true
 version.VersionRules.foodHealPoints|historical_experience:beta_1_8_1={}
 version.VersionRules.awardsExperience|historical_experience:beta_1_8_1=true

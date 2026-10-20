@@ -233,6 +233,25 @@ public enum Feature {
     /** Beta critical hit formula. */
     BETA_CRITICAL_HIT_FORMULA(Domain.COMBAT, FeatureWindow.between(Milestones.BETA_1_8, Milestones.RELEASE_1_6_4),
         "Critical hits use the Beta 1.8 formula rather than the flat +50%. The formula changed in the 1.6/1.7 era per research/historical-features.json; Release 1.6.4 is the proxy."),
+    /**
+     * The golden apple's <b>gold-block</b> recipe, which modern Minecraft no longer has.
+     *
+     * <p>minecraft.wiki, Golden Apple, Java Edition history: the item was added in Infdev 20100227 with the recipe
+     * "8 gold blocks + apple"; Release 1.1 changed it to eight gold nuggets (the wiki row is "The recipe now uses
+     * gold nuggets instead of gold blocks"), and 1.9 changed it again to eight gold ingots, which is the modern
+     * recipe. So the two historical shapes both have to be supplied - see {@code RemovedRecipes}.
+     */
+    GOLDEN_APPLE_GOLD_BLOCK_RECIPE(Domain.PLAYER,
+        FeatureWindow.between(Milestones.INFDEV_20100420, Milestones.RELEASE_1_1),
+        "The golden apple is crafted from eight blocks of gold and an apple. minecraft.wiki, Golden Apple: added "
+        + "Infdev 20100227 with that recipe; Release 1.1 replaced the gold blocks with gold nuggets."),
+
+    /** The golden apple's <b>gold-nugget</b> recipe, which modern Minecraft no longer has. */
+    GOLDEN_APPLE_GOLD_NUGGET_RECIPE(Domain.PLAYER,
+        FeatureWindow.between(Milestones.RELEASE_1_1, Milestones.RELEASE_1_9),
+        "The golden apple is crafted from eight gold nuggets and an apple. minecraft.wiki, Golden Apple: Release 1.1 "
+        + "changed the recipe to gold nuggets; 1.9 changed it to gold ingots, which is the modern recipe."),
+
     /** Beta golden apple. */
     BETA_GOLDEN_APPLE(Domain.PLAYER, FeatureWindow.between(Milestones.BETA_1_8, Milestones.RELEASE_1_1),
         "The golden apple is the pre-Release-1.1 item: 10 hunger, always edible, Regeneration for 30 seconds. Release 1.1 remade it; the boundary is Release 1.1 itself, which is declared."),

@@ -180,26 +180,45 @@ public final class HistoricalMobLootHelper {
      */
     private static LootTable eraTable(RegistryAccess registries, EntityType<?> entityType,
             net.historicalexperience.version.DropRule rule, String profile) {
+        var extras = HistoricalLootRules.extraFor(profile, entityType.builtInRegistryHolder().key().location().toString());
         String key = profile + "|" + entityType.builtInRegistryHolder().key().location() + "|" + rule.itemId()
-            + "|" + rule.maxExclusiveCount();
+            + "|" + rule.maxExclusiveCount() + "|" + extras.size();
         return ERA_TABLES.computeIfAbsent(key, ignored -> {
             var declared = net.historicalexperience.version.HistoricalVersions.byId(profile).orElse(null);
             boolean bones = declared != null
                 && !declared.isBefore(net.historicalexperience.version.Milestones.BETA_1_2)
-                && rule.itemId().equals("minecraft:arrow");
+                && rule.itemId().equals("minecraft:arrow")
+                && extras.isEmpty();
             if (bones) {
                 return makeSkeletonTable(registries);
             }
-            boolean smelts = declared != null
-                && !declared.isBefore(net.historicalexperience.version.Milestones.BETA_1_5)
-                && rule.itemId().equals("minecraft:porkchop");
-            if (smelts) {
-                return makePorkTable(registries);
+            var builder = LootTable.lootTable();
+            addToTable(builder, registries, item(rule.itemId()), rule.maxExclusiveCount() - 1,
+                smeltsInEra(declared, rule.itemId()));
+            for (var extra : extras) {
+                addToTable(builder, registries, item(extra.itemId()), extra.maxExclusiveCount() - 1,
+                    extra.smeltsOnFire());
             }
-            var item = net.minecraft.core.registries.BuiltInRegistries.ITEM.get(
-                net.minecraft.resources.ResourceLocation.parse(rule.itemId()));
-            return makeTable(registries, item, rule.maxExclusiveCount() - 1);
+            return builder.build();
         });
+    }
+
+    /** The burn substitution: pork from Beta 1.5, beef and chicken from Beta 1.8. */
+    private static boolean smeltsInEra(net.historicalexperience.version.HistoricalVersion declared, String itemId) {
+        if (declared == null) {
+            return false;
+        }
+        return switch (itemId) {
+            case "minecraft:porkchop" -> !declared.isBefore(net.historicalexperience.version.Milestones.BETA_1_5);
+            case "minecraft:beef", "minecraft:chicken" ->
+                !declared.isBefore(net.historicalexperience.version.Milestones.BETA_1_8);
+            default -> false;
+        };
+    }
+
+    private static net.minecraft.world.item.Item item(String id) {
+        return net.minecraft.core.registries.BuiltInRegistries.ITEM.get(
+            net.minecraft.resources.ResourceLocation.parse(id));
     }
 
     /**

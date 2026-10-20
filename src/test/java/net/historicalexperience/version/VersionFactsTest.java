@@ -207,7 +207,8 @@ class VersionFactsTest {
         List<String> refused = new ArrayList<>();
         List<String> refusedAsBlock = new ArrayList<>();
         for (String id : new TreeSet<>(HistoricalCraftingEra.allowListed())) {
-            if (HistoricalCraftingEra.isRefused(version.id(), id, null)) {
+            if (HistoricalCraftingEra.isRefused(version.id(), id, null)
+                    && !RemovedRecipes.replacesModernRecipe(version.id(), id)) {
                 refused.add(id.substring("minecraft:".length()));
             } else if (HistoricalCraftingEra.isRefused(version.id(), id, id)) {
                 refusedAsBlock.add(id.substring("minecraft:".length()));

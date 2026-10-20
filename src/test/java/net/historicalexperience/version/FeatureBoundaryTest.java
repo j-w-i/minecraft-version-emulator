@@ -135,6 +135,11 @@ class FeatureBoundaryTest {
         BETWEEN.put(Feature.LEGACY_TOOLTIP_BOX, new String[] {P + "beta_1_0", P + "beta_1_9_pre_2"});
         BETWEEN.put(Feature.OLD_FOLIAGE_COLOUR_MAP, new String[] {P + "alpha_1_2_0", P + "beta_1_2"});
         BETWEEN.put(Feature.BETA_GOLDEN_APPLE, new String[] {P + "beta_1_8_1", P + "release_1_1"});
+        // The golden apple's two historical recipes: gold blocks until Release 1.1, gold nuggets until 1.9.
+        BETWEEN.put(Feature.GOLDEN_APPLE_GOLD_BLOCK_RECIPE, new String[] {P + "infdev_420", P + "release_1_1"});
+        // No declared version is at or after Release 1.9, so the nugget window is "from Release 1.1" for
+        // every declared version; the enchanted apple is described the same way for the same reason.
+        FROM.put(Feature.GOLDEN_APPLE_GOLD_NUGGET_RECIPE, P + "release_1_1");
         // The stance outlives the reduction: Prerelease 1 and 2 still have the reduction, Prerelease 3 does not.
         BETWEEN.put(Feature.SWORD_BLOCK_FALL_PROTECTION, new String[] {P + "beta_1_8_1", P + "beta_1_9_pre_3"});
 

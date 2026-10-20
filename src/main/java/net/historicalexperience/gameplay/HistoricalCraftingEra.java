@@ -142,7 +142,7 @@ public final class HistoricalCraftingEra {
         // ---- Beta 1.8 (palette: absent in 1.7.3, present in 1.8.1) ----------------------------------------
         from("beta_1_8_1", "stone_bricks", "chiseled_stone_bricks", "stone_brick_stairs", "stone_brick_slab",
             "brick_stairs", "brick_slab", "iron_bars", "glass_pane", "melon", "oak_fence_gate", "melon_seeds",
-            "pumpkin_seeds", "pumpkin_pie", "golden_apple");
+            "pumpkin_seeds", "pumpkin_pie");
 
         // ---- Beta 1.9 prereleases (palette: absent in 1.8.1, present in Pre3) -----------------------------
         from("beta_1_9_pre_3", "enchanting_table", "cauldron", "brewing_stand", "nether_bricks",
@@ -151,6 +151,11 @@ public final class HistoricalCraftingEra {
         // declared build that also has brewing, so it is used.
         from("beta_1_9_pre_3", "glass_bottle", "blaze_powder", "fermented_spider_eye", "glistering_melon_slice",
             "magma_cream", "ender_eye", "gold_nugget", "fire_charge");
+
+        // The golden apple is Infdev content (added 20100227, after this project's Indev profile), so it is
+        // available from the oldest Infdev build. It used to be dated Beta 1.8 here, which made it uncraftable
+        // in every Beta world even though the era crafted it.
+        from("infdev_420", "golden_apple");
 
         // ---- Release 1.2: the other woods' planks ---------------------------------------------------------
         from("release_1_2_5", "spruce_planks", "birch_planks", "jungle_planks");
@@ -355,6 +360,11 @@ public final class HistoricalCraftingEra {
         }
         if (EarlyGameplayRecipes.supports(versionId)) {
             return !EarlyGameplayRecipes.canCraftResult(versionId, itemId);
+        }
+        if (RemovedRecipes.replacesModernRecipe(versionId, itemId)) {
+            // The version's own shape is supplied by RemovedRecipes; leaving the 1.21.1 recipe in place as well
+            // would let the player craft the item from ingredients the build never used.
+            return true;
         }
         if (!EXISTED_BY_1_6_4.containsKey(itemId)) {
             // Not in the 1.6.4 client, therefore in no declared version.
