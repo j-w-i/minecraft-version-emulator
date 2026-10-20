@@ -32,7 +32,7 @@ public final class HistoricalEquipmentRefresh {
 
     /** Recomputes the entity's equipment-derived attributes, if it is one this build can refresh. */
     public static void refresh(LivingEntity entity) {
-        if (entity instanceof net.historicalexperience.mixin.LivingEntityEquipmentInvoker invoker) {
+        if (entity instanceof net.historicalexperience.mixin.common.LivingEntityEquipmentInvoker invoker) {
             try {
                 invoker.invokeCollectEquipmentChanges();
             } catch (RuntimeException e) {

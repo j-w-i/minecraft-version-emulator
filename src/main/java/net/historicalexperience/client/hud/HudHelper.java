@@ -26,7 +26,7 @@ import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalPlayerRules;
-import net.historicalexperience.mixin.GuiAccess;
+import net.historicalexperience.mixin.client.GuiAccess;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;

@@ -15,7 +15,7 @@
 package net.historicalexperience.client;
 
 import net.historicalexperience.client.lighting.HistoricalWorldTweaks;
-import net.historicalexperience.mixin.ImageButtonHistoricalSpritesAccess;
+import net.historicalexperience.mixin.client.ImageButtonHistoricalSpritesAccess;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;

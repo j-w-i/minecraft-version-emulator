@@ -19,7 +19,7 @@ import net.historicalexperience.version.Features;
 import net.historicalexperience.version.Feature;
 
 import net.historicalexperience.client.HistoricalClientRules;
-import net.historicalexperience.mixin.LevelRendererHistoricalStarsAccess;
+import net.historicalexperience.mixin.client.LevelRendererHistoricalStarsAccess;
 import net.historicalexperience.version.HistoricalVersion;
 import net.minecraft.client.Minecraft;
 

@@ -11,7 +11,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.historicalexperience.client.HistoricalClientRules;
 import net.historicalexperience.gameplay.HistoricalCreativeGrants;
-import net.historicalexperience.mixin.CreativeScreenProbeAccess;
+import net.historicalexperience.mixin.client.CreativeScreenProbeAccess;
 import net.historicalexperience.server.*;
 import net.historicalexperience.version.HistoricalVersionCatalogue;
 import net.minecraft.client.Minecraft;

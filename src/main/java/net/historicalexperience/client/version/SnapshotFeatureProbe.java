@@ -10,7 +10,7 @@ import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.client.screen.v1.Screens;
 import net.historicalexperience.client.*;
 import net.historicalexperience.gameplay.HistoricalCreativeGrants;
-import net.historicalexperience.mixin.ContainerScreenAccess;
+import net.historicalexperience.mixin.client.ContainerScreenAccess;
 import net.historicalexperience.server.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Screenshot;

@@ -82,10 +82,12 @@ class HistoricalLootWiring1211Test {
         }
 
         Set<String> onDisk;
-        try (var files = Files.list(MIXIN_DIR)) {
-            onDisk = files.map(path -> path.getFileName().toString())
-                .filter(name -> name.endsWith(".java"))
-                .map(name -> name.substring(0, name.length() - ".java".length()))
+        // Walk, not list: mixins live in side sub-packages (mixin/client, mixin/common) and each json entry is the
+        // dotted path below the config's "package", so the comparison is against that same dotted name.
+        try (var files = Files.walk(MIXIN_DIR)) {
+            onDisk = files.filter(path -> path.toString().endsWith(".java"))
+                .map(path -> MIXIN_DIR.relativize(path).toString().replace('\\', '/'))
+                .map(name -> name.substring(0, name.length() - ".java".length()).replace('/', '.'))
                 .collect(Collectors.toCollection(LinkedHashSet::new));
         }
 
@@ -100,7 +102,7 @@ class HistoricalLootWiring1211Test {
             + "the game refuse to start: " + missing);
 
         // The loot mixin specifically: it is the one this test was written for.
-        assertTrue(registered.contains("LivingEntityHistoricalLootMixin"),
+        assertTrue(registered.contains("common.LivingEntityHistoricalLootMixin"),
             "the mob-drop tables are dead code again unless this mixin is registered");
     }
 

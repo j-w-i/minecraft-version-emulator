@@ -109,7 +109,7 @@ class HistoricalWeatherTest {
         // And each handler must name one of those two methods, so the annotation and the target cannot drift.
         // Counting methods would be the wrong check: the mixin also declares the two @Shadow setters, so a count
         // measures the class shape rather than the thing that can break.
-        var mixin = Class.forName("net.historicalexperience.mixin.ServerLevelHistoricalWeatherMixin");
+        var mixin = Class.forName("net.historicalexperience.mixin.common.ServerLevelHistoricalWeatherMixin");
         java.util.List<String> named = new java.util.ArrayList<>();
         for (var method : mixin.getDeclaredMethods()) {
             var inject = method.getAnnotation(org.spongepowered.asm.mixin.injection.Inject.class);

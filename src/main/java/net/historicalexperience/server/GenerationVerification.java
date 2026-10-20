@@ -702,7 +702,7 @@ public final class GenerationVerification {
                             .unwrap().forEach(data -> offered.add(
                                 net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE
                                     .getKey(data.type).toString()));
-                        var live = net.historicalexperience.mixin.NaturalSpawnerProbeAccessor.invokeMobsAt(
+                        var live = net.historicalexperience.mixin.common.NaturalSpawnerProbeAccessor.invokeMobsAt(
                             level, level.structureManager(), generator,
                             net.minecraft.world.entity.MobCategory.CREATURE, pos, biome);
                         live.unwrap().forEach(data -> afterFilter.add(
@@ -747,7 +747,7 @@ public final class GenerationVerification {
                 for (int y : new int[] {32, 64, 96}) {
                     var pos = new BlockPos(x * 16 + 8, y, z * 16 + 8);
                     for (var category : net.minecraft.world.entity.MobCategory.values()) {
-                        var live = net.historicalexperience.mixin.NaturalSpawnerProbeAccessor.invokeMobsAt(
+                        var live = net.historicalexperience.mixin.common.NaturalSpawnerProbeAccessor.invokeMobsAt(
                             level, level.structureManager(), generator, category, pos, level.getBiome(pos));
                         for (var entry : live.unwrap()) {
                             String id = net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(entry.type).toString();

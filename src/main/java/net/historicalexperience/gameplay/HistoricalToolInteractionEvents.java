@@ -20,8 +20,8 @@ import net.historicalexperience.version.Feature;
 
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
-import net.historicalexperience.mixin.AxeAccess;
-import net.historicalexperience.mixin.ShovelAccess;
+import net.historicalexperience.mixin.common.AxeAccess;
+import net.historicalexperience.mixin.common.ShovelAccess;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;

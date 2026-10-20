@@ -19,7 +19,7 @@ import net.historicalexperience.version.ActiveVersion;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
-import net.historicalexperience.mixin.SheepAccess;
+import net.historicalexperience.mixin.common.SheepAccess;
 import net.minecraft.Util;
 import net.minecraft.advancements.critereon.EntityFlagsPredicate;
 import net.minecraft.advancements.critereon.EntityPredicate;

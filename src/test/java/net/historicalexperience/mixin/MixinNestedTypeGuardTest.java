@@ -41,7 +41,7 @@ import org.junit.jupiter.api.Test;
  * and then the first container click in a Beta 1.2 world died:
  *
  * <pre>
- * IllegalClassLoadError: net.historicalexperience.mixin.ContainerHistoricalFoodStackMixin$HistoricalFoodStackLimit
+ * IllegalClassLoadError: net.historicalexperience.mixin.common.ContainerHistoricalFoodStackMixin$HistoricalFoodStackLimit
  * is in a defined mixin package net.historicalexperience.mixin.* owned by historical_experience.mixins.json and
  * cannot be referenced directly
  * </pre>

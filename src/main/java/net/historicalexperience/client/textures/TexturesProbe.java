@@ -319,7 +319,7 @@ public final class TexturesProbe {
             return "not a container screen";
         }
         net.minecraft.world.inventory.Slot slot =
-            ((net.historicalexperience.mixin.ContainerScreenAccess) screen).historicalExperience$hoveredSlot();
+            ((net.historicalexperience.mixin.client.ContainerScreenAccess) screen).historicalExperience$hoveredSlot();
         return slot == null ? "none" : ("slot " + slot.getContainerSlot() + " item=" + slot.getItem().getItem());
     }
 
@@ -345,9 +345,9 @@ public final class TexturesProbe {
         }
         // Slot coordinates are in GUI space; the window wants real pixels, so scale by the GUI factor.
         double scale = client.getWindow().getGuiScale();
-        double windowX = (((net.historicalexperience.mixin.ContainerScreenAccess) screen).historicalExperience$leftPos()
+        double windowX = (((net.historicalexperience.mixin.client.ContainerScreenAccess) screen).historicalExperience$leftPos()
             + slot.x + 8) * scale;
-        double windowY = (((net.historicalexperience.mixin.ContainerScreenAccess) screen).historicalExperience$topPos()
+        double windowY = (((net.historicalexperience.mixin.client.ContainerScreenAccess) screen).historicalExperience$topPos()
             + slot.y + 8) * scale;
         // The window's framebuffer is the screenshot's coordinate space only when nothing is offset, so convert from
         // GUI space to window space and let GLFW place the cursor there.

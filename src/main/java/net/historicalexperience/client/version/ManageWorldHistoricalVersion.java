@@ -24,7 +24,7 @@ import java.util.Optional;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.client.screen.v1.Screens;
 import net.historicalexperience.client.config.HistoricalDeveloperMode;
-import net.historicalexperience.mixin.WorldListEntryAccessor;
+import net.historicalexperience.mixin.client.WorldListEntryAccessor;
 import net.historicalexperience.server.HistoricalUpgradeService;
 import net.historicalexperience.version.HistoricalVersionCatalogue;
 import net.minecraft.client.Minecraft;
