@@ -19,7 +19,7 @@
 
 **Drops:** zombie -> feather (0..2); spider -> string (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 4 declared direct heals: {minecraft:porkchop=3, minecraft:mushroom_stew=10, minecraft:cooked_porkchop=8, minecraft:bread=5}
+**Food:** 4 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:bread=5, minecraft:porkchop=3, minecraft:mushroom_stew=10}
 
 **Enchantments:** none
 
@@ -47,7 +47,7 @@
 
 **Drops:** zombie -> feather (0..2); spider -> string (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5}
+**Food:** 6 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42}
 
 **Enchantments:** none
 
@@ -75,7 +75,7 @@
 
 **Drops:** zombie -> feather (0..2); spider -> string (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5}
+**Food:** 6 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42}
 
 **Enchantments:** none
 
@@ -103,7 +103,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5}
+**Food:** 6 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42}
 
 **Enchantments:** none
 
@@ -131,7 +131,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5}
+**Food:** 6 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42}
 
 **Enchantments:** none
 
@@ -159,7 +159,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5}
+**Food:** 6 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42}
 
 **Enchantments:** none
 
@@ -187,7 +187,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5}
+**Food:** 6 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42}
 
 **Enchantments:** none
 
@@ -215,7 +215,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5}
+**Food:** 6 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42}
 
 **Enchantments:** none
 
@@ -243,7 +243,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5}
+**Food:** 6 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42}
 
 **Enchantments:** none
 
@@ -271,7 +271,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5}
+**Food:** 6 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42}
 
 **Enchantments:** none
 
@@ -299,7 +299,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5}
+**Food:** 6 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42}
 
 **Enchantments:** none
 
@@ -327,7 +327,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5}
+**Food:** 6 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42}
 
 **Enchantments:** none
 
@@ -355,7 +355,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5}
+**Food:** 6 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42}
 
 **Enchantments:** none
 
@@ -551,7 +551,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 9 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:bread=5, minecraft:mushroom_stew=10, minecraft:cooked_cod=5, minecraft:cod=2, minecraft:apple=4, minecraft:golden_apple=42, minecraft:porkchop=3, minecraft:cookie=1}
+**Food:** 9 declared direct heals: {minecraft:cod=2, minecraft:apple=4, minecraft:golden_apple=42, minecraft:porkchop=3, minecraft:cookie=1, minecraft:cooked_porkchop=8, minecraft:bread=5, minecraft:mushroom_stew=10, minecraft:cooked_cod=5}
 
 **Enchantments:** none
 
@@ -611,11 +611,11 @@
 
 **Enchantments:** none
 
-**Crafting:** 268 allow-listed ids, 90 refused by the item gate: [activator_rail, anvil, beacon, birch_slab, birch_stairs, black_carpet, black_terracotta, blaze_powder, blue_carpet, blue_terracotta, brewing_stand, brown_carpet, brown_terracotta, carrot_on_a_stick, cauldron, chiseled_quartz_block, coal_block, cobblestone_wall, comparator, cyan_carpet, cyan_terracotta, daylight_detector, dropper, emerald, emerald_block, enchanted_golden_apple, enchanting_table, ender_chest, ender_eye, fermented_spider_eye, fire_charge, firework_rocket, flower_pot, glass_bottle, glistering_melon_slice, gold_nugget, golden_carrot, gray_carpet, gray_terracotta, green_carpet, green_terracotta, hay_block, heavy_weighted_pressure_plate, hopper, hopper_minecart, item_frame, jungle_slab, jungle_stairs, lead, light_blue_carpet, light_blue_terracotta, light_gray_carpet, light_gray_terracotta, light_weighted_pressure_plate, lime_carpet, lime_terracotta, magenta_carpet, magenta_terracotta, magma_cream, mossy_cobblestone_wall, nether_brick_fence, nether_brick_slab, nether_brick_stairs, nether_bricks, oak_button, orange_carpet, orange_terracotta, pink_carpet, pink_terracotta, purple_carpet, purple_terracotta, quartz_block, quartz_pillar, quartz_slab, quartz_stairs, red_carpet, red_terracotta, redstone_block, redstone_lamp, sandstone_stairs, spruce_slab, spruce_stairs, tnt_minecart, trapped_chest, tripwire_hook, white_carpet, white_terracotta, writable_book, yellow_carpet, yellow_terracotta], 1 refused by the BLOCK-DATE gate: [golden_apple]; REMOVED-RECIPE recipes supplied: [minecraft:enchanted_golden_apple, minecraft:golden_apple, minecraft:golden_apple, minecraft:arrow, minecraft:white_wool, minecraft:leather_helmet, minecraft:leather_chestplate, minecraft:leather_leggings, minecraft:leather_boots]
+**Crafting:** 268 allow-listed ids, 86 refused by the item gate: [activator_rail, anvil, beacon, birch_slab, birch_stairs, black_carpet, black_terracotta, blaze_powder, blue_carpet, blue_terracotta, brewing_stand, brown_carpet, brown_terracotta, carrot_on_a_stick, cauldron, chiseled_quartz_block, coal_block, cobblestone_wall, comparator, cyan_carpet, cyan_terracotta, daylight_detector, dropper, emerald, emerald_block, enchanted_golden_apple, enchanting_table, ender_chest, ender_eye, fermented_spider_eye, fire_charge, firework_rocket, flower_pot, glass_bottle, glistering_melon_slice, golden_carrot, gray_carpet, gray_terracotta, green_carpet, green_terracotta, hay_block, heavy_weighted_pressure_plate, hopper, hopper_minecart, item_frame, jungle_slab, jungle_stairs, lead, light_blue_carpet, light_blue_terracotta, light_gray_carpet, light_gray_terracotta, light_weighted_pressure_plate, lime_carpet, lime_terracotta, magenta_carpet, magenta_terracotta, magma_cream, mossy_cobblestone_wall, nether_brick_slab, oak_button, orange_carpet, orange_terracotta, pink_carpet, pink_terracotta, purple_carpet, purple_terracotta, quartz_block, quartz_pillar, quartz_slab, quartz_stairs, red_carpet, red_terracotta, redstone_block, redstone_lamp, sandstone_stairs, spruce_slab, spruce_stairs, tnt_minecart, trapped_chest, tripwire_hook, white_carpet, white_terracotta, writable_book, yellow_carpet, yellow_terracotta], 1 refused by the BLOCK-DATE gate: [golden_apple]; REMOVED-RECIPE recipes supplied: [minecraft:enchanted_golden_apple, minecraft:golden_apple, minecraft:golden_apple, minecraft:arrow, minecraft:white_wool, minecraft:leather_helmet, minecraft:leather_chestplate, minecraft:leather_leggings, minecraft:leather_boots]
 
 **Structures:** restricted to [historical_experience:historical_village, minecraft:fortress, minecraft:mineshaft, minecraft:stronghold]
 
-**Blocks judged anachronistic:** 28 recorded anachronistic, 0 unknown of 145: [activator_rail, anvil, beacon, brewing_stand, carrots, coal_block, cobblestone_wall, cocoa, command_block, comparator, daylight_detector, dropper, emerald_block, emerald_ore, end_portal_frame, end_stone, ender_chest, flower_pot, hay_block, hopper, nether_wart, potatoes, quartz_block, sandstone_stairs, terracotta, tripwire, white_carpet, white_terracotta]
+**Blocks judged anachronistic:** 27 recorded anachronistic, 0 unknown of 145: [activator_rail, anvil, beacon, brewing_stand, carrots, coal_block, cobblestone_wall, cocoa, command_block, comparator, daylight_detector, dropper, emerald_block, emerald_ore, end_portal_frame, end_stone, ender_chest, flower_pot, hay_block, hopper, potatoes, quartz_block, sandstone_stairs, terracotta, tripwire, white_carpet, white_terracotta]
 
 **Visual profile:** textures vanilla+programmer_art+continuation+golden_days_base|xp_bar_never_golden_days,cobblestone_programmer_art,mossy_cobblestone_programmer_art,ender_eyes_never_golden_days,ender_chest_never_golden_days,chest_not_golden_days_after_1_8_1; stars BETA; tooltips LEGACY; label shown; old lighting false; smooth lighting false; lighting tweaks false; fog false; chest false, ender chest false; sky NONE null; colormaps grass+foliage_new; cloud height 128.0
 
@@ -627,7 +627,7 @@
 - rules: hunger, sprinting, experience, structures, 20 spawns allowed, drops modern, no direct food healing
 - evidence: Potions and status effects, brewing ingredients (glass bottles, spider eyes, blaze powder, fermented spider eye, magma cream), nine music discs, hardcore mode, animal breeding with wheat, and combining equally damaged tools to repair. The Pre1 XP-on-jump bug is removed and held-jump auto-repeat is restored. Adds NO mob: breeding changes how existing mobs are made, not which exist, so the spawn set is shared with Pre1 as a statement about the research. Breeding and tool repair are not implemented yet; the cauldron exists in code without an assigned block id in this build and is not obtainable, which is recorded rather than faked. Terrain comes from beta_1_9_pre_3, the only Beta 1.9 terrain Moderner Beta ships.
 
-**Features active (44):** `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `INSTANT_BONE_MEAL`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `OLD_SWORD_BLOCKING`, `BETA_EXHAUSTION_COSTS`, `BETA_REGENERATION`, `BETA_SPRINT_JUMP_EXHAUSTION`, `BETA_FOOD_HUNGER_VALUES`, `BETA_CRITICAL_HIT_FORMULA`, `GOLDEN_APPLE_GOLD_BLOCK_RECIPE`, `BETA_GOLDEN_APPLE`, `OLD_SWORD_DAMAGE`, `SWORD_BLOCK_FALL_PROTECTION`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_BREWING`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `NO_OFFHAND`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `BETA_STARS`, `LEFT_CLICK_USE`, `OLD_CREATIVE_MENU`, `NO_ATTRIBUTE_TOOLTIPS`, `VERSION_LABEL`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
+**Features active (42):** `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `INSTANT_BONE_MEAL`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `OLD_SWORD_BLOCKING`, `BETA_EXHAUSTION_COSTS`, `BETA_REGENERATION`, `BETA_SPRINT_JUMP_EXHAUSTION`, `BETA_FOOD_HUNGER_VALUES`, `BETA_CRITICAL_HIT_FORMULA`, `GOLDEN_APPLE_GOLD_BLOCK_RECIPE`, `BETA_GOLDEN_APPLE`, `OLD_SWORD_DAMAGE`, `SWORD_BLOCK_FALL_PROTECTION`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_BREWING`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `NO_OFFHAND`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `BETA_STARS`, `LEFT_CLICK_USE`, `OLD_CREATIVE_MENU`, `NO_ATTRIBUTE_TOOLTIPS`, `VERSION_LABEL`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
 
 **Generation recipes:** `historical_experience:beta_1_9_pre_2` (rev 0, from moderner_beta:beta_1_9_pre_3, 15 exclusions, 0 ore rules); `historical_experience:beta_1_9_pre_2_no_modern_content` (rev 1, from moderner_beta:beta_1_9_pre_3, 35 exclusions, 0 ore rules, experimental); `historical_experience:beta_1_9_pre_2_era_ores` (rev 2, from moderner_beta:beta_1_9_pre_3, 52 exclusions, 8 ore rules, experimental)
 
@@ -639,11 +639,11 @@
 
 **Enchantments:** none
 
-**Crafting:** 268 allow-listed ids, 90 refused by the item gate: [activator_rail, anvil, beacon, birch_slab, birch_stairs, black_carpet, black_terracotta, blaze_powder, blue_carpet, blue_terracotta, brewing_stand, brown_carpet, brown_terracotta, carrot_on_a_stick, cauldron, chiseled_quartz_block, coal_block, cobblestone_wall, comparator, cyan_carpet, cyan_terracotta, daylight_detector, dropper, emerald, emerald_block, enchanted_golden_apple, enchanting_table, ender_chest, ender_eye, fermented_spider_eye, fire_charge, firework_rocket, flower_pot, glass_bottle, glistering_melon_slice, gold_nugget, golden_carrot, gray_carpet, gray_terracotta, green_carpet, green_terracotta, hay_block, heavy_weighted_pressure_plate, hopper, hopper_minecart, item_frame, jungle_slab, jungle_stairs, lead, light_blue_carpet, light_blue_terracotta, light_gray_carpet, light_gray_terracotta, light_weighted_pressure_plate, lime_carpet, lime_terracotta, magenta_carpet, magenta_terracotta, magma_cream, mossy_cobblestone_wall, nether_brick_fence, nether_brick_slab, nether_brick_stairs, nether_bricks, oak_button, orange_carpet, orange_terracotta, pink_carpet, pink_terracotta, purple_carpet, purple_terracotta, quartz_block, quartz_pillar, quartz_slab, quartz_stairs, red_carpet, red_terracotta, redstone_block, redstone_lamp, sandstone_stairs, spruce_slab, spruce_stairs, tnt_minecart, trapped_chest, tripwire_hook, white_carpet, white_terracotta, writable_book, yellow_carpet, yellow_terracotta], 1 refused by the BLOCK-DATE gate: [golden_apple]; REMOVED-RECIPE recipes supplied: [minecraft:enchanted_golden_apple, minecraft:golden_apple, minecraft:golden_apple, minecraft:arrow, minecraft:white_wool, minecraft:leather_helmet, minecraft:leather_chestplate, minecraft:leather_leggings, minecraft:leather_boots]
+**Crafting:** 268 allow-listed ids, 82 refused by the item gate: [activator_rail, anvil, beacon, birch_slab, birch_stairs, black_carpet, black_terracotta, blue_carpet, blue_terracotta, brewing_stand, brown_carpet, brown_terracotta, carrot_on_a_stick, cauldron, chiseled_quartz_block, coal_block, cobblestone_wall, comparator, cyan_carpet, cyan_terracotta, daylight_detector, dropper, emerald, emerald_block, enchanted_golden_apple, enchanting_table, ender_chest, ender_eye, fire_charge, firework_rocket, flower_pot, glistering_melon_slice, golden_carrot, gray_carpet, gray_terracotta, green_carpet, green_terracotta, hay_block, heavy_weighted_pressure_plate, hopper, hopper_minecart, item_frame, jungle_slab, jungle_stairs, lead, light_blue_carpet, light_blue_terracotta, light_gray_carpet, light_gray_terracotta, light_weighted_pressure_plate, lime_carpet, lime_terracotta, magenta_carpet, magenta_terracotta, mossy_cobblestone_wall, nether_brick_slab, oak_button, orange_carpet, orange_terracotta, pink_carpet, pink_terracotta, purple_carpet, purple_terracotta, quartz_block, quartz_pillar, quartz_slab, quartz_stairs, red_carpet, red_terracotta, redstone_block, redstone_lamp, sandstone_stairs, spruce_slab, spruce_stairs, tnt_minecart, trapped_chest, tripwire_hook, white_carpet, white_terracotta, writable_book, yellow_carpet, yellow_terracotta], 1 refused by the BLOCK-DATE gate: [golden_apple]; REMOVED-RECIPE recipes supplied: [minecraft:enchanted_golden_apple, minecraft:golden_apple, minecraft:golden_apple, minecraft:arrow, minecraft:white_wool, minecraft:leather_helmet, minecraft:leather_chestplate, minecraft:leather_leggings, minecraft:leather_boots]
 
 **Structures:** restricted to [historical_experience:historical_village, minecraft:fortress, minecraft:mineshaft, minecraft:stronghold]
 
-**Blocks judged anachronistic:** 28 recorded anachronistic, 0 unknown of 145: [activator_rail, anvil, beacon, brewing_stand, carrots, coal_block, cobblestone_wall, cocoa, command_block, comparator, daylight_detector, dropper, emerald_block, emerald_ore, end_portal_frame, end_stone, ender_chest, flower_pot, hay_block, hopper, nether_wart, potatoes, quartz_block, sandstone_stairs, terracotta, tripwire, white_carpet, white_terracotta]
+**Blocks judged anachronistic:** 27 recorded anachronistic, 0 unknown of 145: [activator_rail, anvil, beacon, brewing_stand, carrots, coal_block, cobblestone_wall, cocoa, command_block, comparator, daylight_detector, dropper, emerald_block, emerald_ore, end_portal_frame, end_stone, ender_chest, flower_pot, hay_block, hopper, potatoes, quartz_block, sandstone_stairs, terracotta, tripwire, white_carpet, white_terracotta]
 
 **Visual profile:** textures vanilla+programmer_art+continuation+golden_days_base|xp_bar_never_golden_days,cobblestone_programmer_art,mossy_cobblestone_programmer_art,ender_eyes_never_golden_days,ender_chest_never_golden_days,chest_not_golden_days_after_1_8_1; stars BETA; tooltips MODERN; label shown; old lighting false; smooth lighting false; lighting tweaks false; fog false; chest false, ender chest false; sky NONE null; colormaps grass+foliage_new; cloud height 128.0
 
@@ -671,7 +671,7 @@
 
 **Structures:** restricted to [historical_experience:historical_village, minecraft:fortress, minecraft:mineshaft, minecraft:stronghold]
 
-**Blocks judged anachronistic:** 26 recorded anachronistic, 0 unknown of 145: [activator_rail, anvil, beacon, carrots, coal_block, cobblestone_wall, cocoa, command_block, comparator, daylight_detector, dropper, emerald_block, emerald_ore, end_stone, ender_chest, flower_pot, hay_block, hopper, nether_wart, potatoes, quartz_block, sandstone_stairs, terracotta, tripwire, white_carpet, white_terracotta]
+**Blocks judged anachronistic:** 25 recorded anachronistic, 0 unknown of 145: [activator_rail, anvil, beacon, carrots, coal_block, cobblestone_wall, cocoa, command_block, comparator, daylight_detector, dropper, emerald_block, emerald_ore, end_stone, ender_chest, flower_pot, hay_block, hopper, potatoes, quartz_block, sandstone_stairs, terracotta, tripwire, white_carpet, white_terracotta]
 
 **Visual profile:** textures vanilla+programmer_art+continuation+golden_days_base|xp_bar_never_golden_days,cobblestone_programmer_art,mossy_cobblestone_programmer_art,ender_eyes_never_golden_days,ender_chest_never_golden_days,chest_not_golden_days_after_1_8_1; stars BETA; tooltips MODERN; label shown; old lighting false; smooth lighting false; lighting tweaks false; fog false; chest false, ender chest false; sky NONE null; colormaps grass+foliage_new; cloud height 128.0
 
@@ -699,7 +699,7 @@
 
 **Structures:** restricted to [historical_experience:historical_village, minecraft:fortress, minecraft:mineshaft, minecraft:stronghold]
 
-**Blocks judged anachronistic:** 26 recorded anachronistic, 0 unknown of 145: [activator_rail, anvil, beacon, carrots, coal_block, cobblestone_wall, cocoa, command_block, comparator, daylight_detector, dropper, emerald_block, emerald_ore, end_stone, ender_chest, flower_pot, hay_block, hopper, nether_wart, potatoes, quartz_block, sandstone_stairs, terracotta, tripwire, white_carpet, white_terracotta]
+**Blocks judged anachronistic:** 24 recorded anachronistic, 0 unknown of 145: [activator_rail, anvil, beacon, carrots, coal_block, cobblestone_wall, cocoa, command_block, comparator, daylight_detector, dropper, emerald_block, emerald_ore, ender_chest, flower_pot, hay_block, hopper, potatoes, quartz_block, sandstone_stairs, terracotta, tripwire, white_carpet, white_terracotta]
 
 **Visual profile:** textures vanilla+programmer_art+continuation+golden_days_base|xp_bar_never_golden_days,cobblestone_programmer_art,mossy_cobblestone_programmer_art,ender_eyes_never_golden_days,end_portal_frame_not_golden_days_from_pre4,ender_chest_never_golden_days,chest_not_golden_days_after_1_8_1; stars BETA; tooltips MODERN; label hidden; old lighting false; smooth lighting false; lighting tweaks false; fog false; chest false, ender chest false; sky NONE null; colormaps grass+foliage_new; cloud height 128.0
 
@@ -727,7 +727,7 @@
 
 **Structures:** restricted to [historical_experience:historical_village, minecraft:fortress, minecraft:mineshaft, minecraft:stronghold]
 
-**Blocks judged anachronistic:** 26 recorded anachronistic, 0 unknown of 145: [activator_rail, anvil, beacon, carrots, coal_block, cobblestone_wall, cocoa, command_block, comparator, daylight_detector, dropper, emerald_block, emerald_ore, end_stone, ender_chest, flower_pot, hay_block, hopper, nether_wart, potatoes, quartz_block, sandstone_stairs, terracotta, tripwire, white_carpet, white_terracotta]
+**Blocks judged anachronistic:** 24 recorded anachronistic, 0 unknown of 145: [activator_rail, anvil, beacon, carrots, coal_block, cobblestone_wall, cocoa, command_block, comparator, daylight_detector, dropper, emerald_block, emerald_ore, ender_chest, flower_pot, hay_block, hopper, potatoes, quartz_block, sandstone_stairs, terracotta, tripwire, white_carpet, white_terracotta]
 
 **Visual profile:** textures vanilla+programmer_art+continuation+golden_days_base|xp_bar_never_golden_days,cobblestone_programmer_art,mossy_cobblestone_programmer_art,ender_eyes_never_golden_days,end_portal_frame_not_golden_days_from_pre4,ender_chest_never_golden_days,chest_not_golden_days_after_1_8_1; stars BETA; tooltips MODERN; label shown; old lighting false; smooth lighting false; lighting tweaks false; fog false; chest false, ender chest false; sky NONE null; colormaps grass+foliage_new; cloud height 128.0
 
@@ -755,7 +755,7 @@
 
 **Structures:** restricted to [historical_experience:historical_village, minecraft:fortress, minecraft:mineshaft, minecraft:stronghold]
 
-**Blocks judged anachronistic:** 26 recorded anachronistic, 0 unknown of 145: [activator_rail, anvil, beacon, carrots, coal_block, cobblestone_wall, cocoa, command_block, comparator, daylight_detector, dropper, emerald_block, emerald_ore, end_stone, ender_chest, flower_pot, hay_block, hopper, nether_wart, potatoes, quartz_block, sandstone_stairs, terracotta, tripwire, white_carpet, white_terracotta]
+**Blocks judged anachronistic:** 24 recorded anachronistic, 0 unknown of 145: [activator_rail, anvil, beacon, carrots, coal_block, cobblestone_wall, cocoa, command_block, comparator, daylight_detector, dropper, emerald_block, emerald_ore, ender_chest, flower_pot, hay_block, hopper, potatoes, quartz_block, sandstone_stairs, terracotta, tripwire, white_carpet, white_terracotta]
 
 **Visual profile:** textures vanilla+programmer_art+continuation+golden_days_base|xp_bar_never_golden_days,cobblestone_programmer_art,mossy_cobblestone_programmer_art,ender_eyes_never_golden_days,end_portal_frame_not_golden_days_from_pre4,ender_chest_never_golden_days,chest_not_golden_days_after_1_8_1; stars BETA; tooltips MODERN; label shown; old lighting false; smooth lighting false; lighting tweaks false; fog false; chest false, ender chest false; sky NONE null; colormaps grass+foliage_new; cloud height 128.0
 

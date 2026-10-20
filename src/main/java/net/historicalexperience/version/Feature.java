@@ -69,7 +69,7 @@ public enum Feature {
                         + "Indev 20100219 and bones from Beta 1.2, with the bow as a separate later behaviour. "
                         + "Upstream tweak: OLD_SKELETON_DROPS."),
     /** No animal breeding. */
-    NO_ANIMAL_BREEDING(Domain.MOBS, FeatureWindow.before(Milestones.BETA_1_9_PRE_3),
+    NO_ANIMAL_BREEDING(Domain.MOBS, FeatureWindow.before(Milestones.BETA_1_9_PRE_2),
         "Animal breeding AND tempting arrive together in Beta 1.9 Prerelease 2, so Beta 1.8.1 had "
                         + "neither. Baby animals are Beta 1.9 Prerelease 3. Upstream tweaks: DISABLE_ANIMAL_BREEDING, "
                         + "DISABLE_ANIMAL_TEMPTING, DISABLE_BABY_ANIMAL_SPAWNING. This is a PORT: an earlier note here "
@@ -77,8 +77,10 @@ public enum Feature {
                         + "200-row subset of the research and the timeline itself names the tweak under the feature "
                         + "'animal breeding'."),
     /** No animal tempting. */
-    NO_ANIMAL_TEMPTING(Domain.MOBS, FeatureWindow.before(Milestones.BETA_1_9_PRE_3),
-        "Animals following a player who holds food arrives with breeding. Gated at Beta 1.9 Prerelease 3 exactly like breeding, although the evidence dates tempting to Prerelease 2: the boundary is preserved as the code had it. Upstream tweak: DISABLE_ANIMAL_TEMPTING."),
+    NO_ANIMAL_TEMPTING(Domain.MOBS, FeatureWindow.before(Milestones.BETA_1_9_PRE_2),
+        "Animals following a player who holds food arrives with breeding in Beta 1.9 Prerelease 2. The audit "
+        + "corrected this window: it was gated at Prerelease 3 although its own evidence dated tempting to Prerelease 2. "
+        + "Upstream tweak: DISABLE_ANIMAL_TEMPTING."),
     /** No baby animals. */
     NO_BABY_ANIMALS(Domain.MOBS, FeatureWindow.before(Milestones.BETA_1_9_PRE_3),
         "Baby animals arrive in Beta 1.9 Prerelease 3, so Prerelease 3 itself has them. Upstream tweak: DISABLE_BABY_ANIMAL_SPAWNING."),

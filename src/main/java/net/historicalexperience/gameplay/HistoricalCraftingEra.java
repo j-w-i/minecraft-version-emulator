@@ -145,12 +145,21 @@ public final class HistoricalCraftingEra {
             "pumpkin_seeds", "pumpkin_pie");
 
         // ---- Beta 1.9 prereleases (palette: absent in 1.8.1, present in Pre3) -----------------------------
-        from("beta_1_9_pre_3", "enchanting_table", "cauldron", "brewing_stand", "nether_bricks",
-            "nether_brick_stairs", "nether_brick_fence");
-        // BOUNDED ONLY: items with no palette. All are certainly later than Beta 1.8.1; Pre3 is the earliest
-        // declared build that also has brewing, so it is used.
-        from("beta_1_9_pre_3", "glass_bottle", "blaze_powder", "fermented_spider_eye", "glistering_melon_slice",
-            "magma_cream", "ender_eye", "gold_nugget", "fire_charge");
+        // Beta 1.9 Prerelease 1: nether bricks and their stairs/fences, per research/version-transitions.json
+        // ("nether bricks, nether brick stairs and fences"), which also lists gold nuggets. The audit found these
+        // dated a boundary too late because the palette first sees the NAMES in Pre3's extraction.
+        from("beta_1_9_pre_1", "nether_bricks", "nether_brick_stairs", "nether_brick_fence", "gold_nugget");
+        // Beta 1.9 Prerelease 2: the potion system's ingredients, per the transitions entry (cauldron prototype,
+        // "glass bottles, spider eyes, blaze powder, fermented spider eye, magma cream", "potion/status-effect
+        // system", and animal breeding). Only the stand itself is Pre3.
+        from("beta_1_9_pre_2", "glass_bottle", "blaze_powder", "fermented_spider_eye", "magma_cream");
+        // Spider eyes are NOT here: they are a mob drop with no recipe, so the allow-list (which is a list of
+        // recipe results) cannot carry them. Beta 1.9 drops them from spiders through the modern loot path.
+        // Beta 1.9 Prerelease 3: the enchanting table, the cauldron as a real block, the brewing stand, and the
+        // End-related items (eye of ender), plus the glistering melon and fire charge whose dates the audit could
+        // not move to Pre2 on the evidence it had.
+        from("beta_1_9_pre_3", "enchanting_table", "cauldron", "brewing_stand", "glistering_melon_slice",
+            "ender_eye", "fire_charge");
 
         // The golden apple is Infdev content (added 20100227, after this project's Indev profile), so it is
         // available from the oldest Infdev build. It used to be dated Beta 1.8 here, which made it uncraftable

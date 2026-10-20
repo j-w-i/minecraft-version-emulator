@@ -68,8 +68,8 @@ class FeatureBoundaryTest {
         BEFORE.put(Feature.OLD_SKELETON_DROPS, P + "release_1_2_5");
         // Breeding, tempting and baby animals share Prerelease 3 in the code even though the evidence dates the
         // first two to Prerelease 2. Preserved, and recorded in the feature's evidence.
-        BEFORE.put(Feature.NO_ANIMAL_BREEDING, P + "beta_1_9_pre_3");
-        BEFORE.put(Feature.NO_ANIMAL_TEMPTING, P + "beta_1_9_pre_3");
+        BEFORE.put(Feature.NO_ANIMAL_BREEDING, P + "beta_1_9_pre_2");
+        BEFORE.put(Feature.NO_ANIMAL_TEMPTING, P + "beta_1_9_pre_2");
         BEFORE.put(Feature.NO_BABY_ANIMALS, P + "beta_1_9_pre_3");
         // Release 1.4.2 and 1.6.2 are not declared; Release 1.6.4 is the proxy for all four.
         for (Feature f : List.of(Feature.NO_MONSTER_ITEM_PICKUP, Feature.NO_MONSTER_GEAR, Feature.NO_MONSTER_ENCHANTS,
@@ -225,7 +225,8 @@ class FeatureBoundaryTest {
         }
         assertFalse(Features.active(Feature.NO_MONSTER_SUN_AVOIDANCE, P + "release_1_2_5"));
         assertFalse(Features.active(Feature.NO_ANIMAL_PANIC, P + "beta_1_8_1"), "Beta 1.8.1 introduced panic");
-        assertFalse(Features.active(Feature.NO_ANIMAL_BREEDING, P + "beta_1_9_pre_3"));
+        assertFalse(Features.active(Feature.NO_ANIMAL_BREEDING, P + "beta_1_9_pre_2"),
+            "Prerelease 2 introduced breeding");
     }
 
     @Test

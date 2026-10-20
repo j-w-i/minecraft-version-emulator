@@ -1,3 +1,35 @@
+# Current work — 2026-10-21 / Gap 8: the Pre2/Pre3 boundary shift (audit G11)
+
+The Adventure era audit called this "one structural error behind many rows": several behaviours were gated at
+Prerelease 3 although the project's own `research/version-transitions.json` says Prerelease 2, and several Pre1 items
+were dated Pre3 because Pre3 is the first palette that contains their names.
+
+**Animal breeding and tempting moved to Prerelease 2.** The transitions entry for Pre2 says "animal breeding using wheat
+for cows, mooshrooms, sheep, pigs and chickens"; the window had always ended at Pre3, and the feature's own evidence
+string admitted the disagreement ("the boundary is preserved as the code had it"). Per the architecture contract,
+correcting a preserved disagreement is a deliberate change with its own golden diff - this is that change. Pre2 and
+everything after now have breeding; Beta 1.8.1 and Pre1 do not. `NO_ANIMAL_TEMPTING` moved with it, as its evidence
+always said it should.
+
+**Pre1's own additions are craftable in Pre1**: nether bricks, nether brick stairs and fences, and gold nuggets. They
+were dated Pre3 (palette first sighting). **Pre2's potion ingredients** - glass bottles, blaze powder, fermented spider
+eye, magma cream - are craftable in Pre2; only the brewing stand itself stays Pre3, which is what the transitions rows
+say. Spider eyes are deliberately NOT in the allow-list: they are a mob drop with no recipe, and the allow-list is a
+list of recipe results (a test enforces that, and caught the first version of this change).
+
+**Two block dates corrected** in the generator: nether wart is Pre1 content and end stone is Pre4 content, both of
+which the table had dated Release 1.0 - the same two misdates the era audit reported, and both were being judged
+anachronistic in the very builds that added them.
+
+**Evidence:** `./gradlew test` — **788 tests, 0 failures**. `Pre2Pre3BoundaryTest` pins the windows, the craftability
+direction on both sides of every boundary, and the two block dates. Golden, matrix and facts regenerated.
+
+**Still open in this item:** the Pre2 cauldron-based brewing prototype (the modern game needs a stand, so no brewing
+is possible in Pre2 even though the potion system and its ingredients are there - recorded rather than faked); the
+first Pre2 music discs; glistering melon and fire charge, whose dates the audit could not move to Pre2 on its evidence;
+splash potions; and the dragon's Pre4-vs-Pre6 boundary (audit G10), which is a separate item.
+
+---
 # Current work — 2026-10-21 / Gap 7: 256-height Release worlds (audit G8)
 
 minecraft.wiki, Java Edition 1.2.1 (12w07a): the build limit was raised from 128 to 256. Every Release preset in this

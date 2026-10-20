@@ -33,7 +33,7 @@ Oldest first. *Rules* are the version's own data (hunger, sprinting, experience,
 | `historical_experience:beta_1_7_3` | BETA | 501703 | 11 | no hunger, no sprinting, no experience, no structures, 8 drop rules, 9 food heals | 49 of 87 | 13 allowed |
 | `historical_experience:beta_1_8_1` | BETA | 501801 | 3 | hunger, sprinting, experience, structures, 8 drop rules | 45 of 87 | 16 allowed |
 | `historical_experience:beta_1_9_pre_1` | BETA | 501901 | 3 | hunger, sprinting, experience, structures | 46 of 87 | 20 allowed |
-| `historical_experience:beta_1_9_pre_2` | BETA | 501902 | 3 | hunger, sprinting, experience, structures | 44 of 87 | 20 allowed |
+| `historical_experience:beta_1_9_pre_2` | BETA | 501902 | 3 | hunger, sprinting, experience, structures | 42 of 87 | 20 allowed |
 | `historical_experience:beta_1_9_pre_3` | BETA | 501903 | 3 | hunger, sprinting, experience, structures | 39 of 87 | 20 allowed |
 | `historical_experience:beta_1_9_pre_4` | BETA | 501904 | 3 | hunger, sprinting, experience, structures | 34 of 87 | 20 allowed |
 | `historical_experience:beta_1_9_pre_5` | BETA | 501905 | 3 | hunger, sprinting, experience, structures | 34 of 87 | 20 allowed |
@@ -57,8 +57,8 @@ Oldest first. *Rules* are the version's own data (hunger, sprinting, experience,
 | `NO_ANIMAL_PANIC` | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | | | | | | | | | | | | | | |
 | `NO_MONSTER_SUN_AVOIDANCE` | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | | | | | |
 | `OLD_SKELETON_DROPS` | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | | | | | |
-| `NO_ANIMAL_BREEDING` | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | | | | | | | | | | | |
-| `NO_ANIMAL_TEMPTING` | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | | | | | | | | | | | |
+| `NO_ANIMAL_BREEDING` | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | | | | | | | | | | | | |
+| `NO_ANIMAL_TEMPTING` | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | | | | | | | | | | | | |
 | `NO_BABY_ANIMALS` | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | | | | | | | | | | | |
 | `NO_MONSTER_ITEM_PICKUP` | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | |
 | `NO_MONSTER_GEAR` | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | |
@@ -151,8 +151,8 @@ Active when any window contains the version. `[from, until)` is half-open; `exac
 | `NO_ANIMAL_PANIC` | MOBS | [-inf, Beta 1.8) | Animals fleeing when attacked is the Beta 1.8 Pre-release (feature-timeline mechanics row "animals fleeing when attacked (panic)"), so Infdev, Alpha and Beta 1.7.3 had no panic response and every later declared version did. Upstream tweak: DISABLE_ANIMAL_PANIC. |
 | `NO_MONSTER_SUN_AVOIDANCE` | MOBS | [-inf, Release 1.2.5) | Monsters BURNING in daylight is Indev 20100213 - in range everywhere - but the goal that makes them run for shade is Release 1.2.1 (12w04a). Upstream tweak: DISABLE_MONSTER_AVOID_SUN. |
 | `OLD_SKELETON_DROPS` | MOBS | [-inf, Release 1.2.5) | A skeleton dropping its bow is Release 1.2.1 (12w06a, 8.5%): the timeline records arrows from Indev 20100219 and bones from Beta 1.2, with the bow as a separate later behaviour. Upstream tweak: OLD_SKELETON_DROPS. |
-| `NO_ANIMAL_BREEDING` | MOBS | [-inf, Beta 1.9 Prerelease 3) | Animal breeding AND tempting arrive together in Beta 1.9 Prerelease 2, so Beta 1.8.1 had neither. Baby animals are Beta 1.9 Prerelease 3. Upstream tweaks: DISABLE_ANIMAL_BREEDING, DISABLE_ANIMAL_TEMPTING, DISABLE_BABY_ANIMAL_SPAWNING. This is a PORT: an earlier note here called it a project rule after a worklist search found nothing, but the worklist is a 200-row subset of the research and the timeline itself names the tweak under the feature 'animal breeding'. |
-| `NO_ANIMAL_TEMPTING` | MOBS | [-inf, Beta 1.9 Prerelease 3) | Animals following a player who holds food arrives with breeding. Gated at Beta 1.9 Prerelease 3 exactly like breeding, although the evidence dates tempting to Prerelease 2: the boundary is preserved as the code had it. Upstream tweak: DISABLE_ANIMAL_TEMPTING. |
+| `NO_ANIMAL_BREEDING` | MOBS | [-inf, Beta 1.9 Prerelease 2) | Animal breeding AND tempting arrive together in Beta 1.9 Prerelease 2, so Beta 1.8.1 had neither. Baby animals are Beta 1.9 Prerelease 3. Upstream tweaks: DISABLE_ANIMAL_BREEDING, DISABLE_ANIMAL_TEMPTING, DISABLE_BABY_ANIMAL_SPAWNING. This is a PORT: an earlier note here called it a project rule after a worklist search found nothing, but the worklist is a 200-row subset of the research and the timeline itself names the tweak under the feature 'animal breeding'. |
+| `NO_ANIMAL_TEMPTING` | MOBS | [-inf, Beta 1.9 Prerelease 2) | Animals following a player who holds food arrives with breeding in Beta 1.9 Prerelease 2. The audit corrected this window: it was gated at Prerelease 3 although its own evidence dated tempting to Prerelease 2. Upstream tweak: DISABLE_ANIMAL_TEMPTING. |
 | `NO_BABY_ANIMALS` | MOBS | [-inf, Beta 1.9 Prerelease 3) | Baby animals arrive in Beta 1.9 Prerelease 3, so Prerelease 3 itself has them. Upstream tweak: DISABLE_BABY_ANIMAL_SPAWNING. |
 | `NO_MONSTER_ITEM_PICKUP` | MOBS | [-inf, Release 1.6.4) | Monsters picking dropped items up is 1.4.2 (12w32a/12w34b). Every declared version before Release 1.6.4 predates it; Release 1.6.4 does not. Upstream tweak: DISABLE_MONSTER_ITEM_PICKUP. |
 | `NO_MONSTER_GEAR` | MOBS | [-inf, Release 1.6.4) | Mobs spawning with armour and weapons is 1.4.2 as well, having existed before Indev 20100202 and been removed. Upstream tweak: DISABLE_MONSTER_ITEM_SPAWN. |

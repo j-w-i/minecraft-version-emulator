@@ -254,9 +254,9 @@ TIMELINE = [
     (['minecraft:brown_mushroom_block', 'minecraft:red_mushroom_block'], 'historical_experience:beta_1_8_1',
      'giant mushrooms and their cap blocks arrive with the Beta 1.8 Adventure Update; recorded because no '
      'extracted palette recovers a mushroom-cap name, so a palette-only rule would say UNKNOWN forever'),
-    (['minecraft:nether_wart'], 'historical_experience:release_1_0_0',
+    (['minecraft:nether_wart'], 'historical_experience:beta_1_9_pre_1',
      'feature-timeline blocks: nether wart introduced Beta 1.9 Prerelease (Release 1.0.0)'),
-    (['minecraft:end_stone'], 'historical_experience:release_1_0_0',
+    (['minecraft:end_stone'], 'historical_experience:beta_1_9_pre_4',
      'feature-timeline blocks: end stone introduced Beta 1.9 Prerelease (Release 1.0.0)'),
     # Emerald is Release 1.3.1 (12w21a), and this project's Release 1.3 profile IS that build: the research
     # labels it "Release 1.3 (stable baseline 1.3.1)" in version-transitions.json. So the earliest declared

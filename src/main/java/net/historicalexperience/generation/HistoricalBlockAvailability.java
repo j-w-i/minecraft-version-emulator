@@ -637,6 +637,11 @@ public final class HistoricalBlockAvailability {
             "feature-timeline blocks: lily pads introduced Beta 1.9 Prerelease 1 (the palette-derived date was pre3, which is the only Beta 1.9 palette extracted and therefore the latest such date, not the earliest); the palette-derived boundary was beta_1_9_pre_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:lily_pad"});
+        // feature-timeline: feature-timeline blocks: nether wart introduced Beta 1.9 Prerelease (Release 1.0.0)
+        introduce("historical_experience:beta_1_9_pre_1", true,
+            "feature-timeline: feature-timeline blocks: nether wart introduced Beta 1.9 Prerelease (Release 1.0.0)",
+            new String[] {
+                "minecraft:nether_wart"});
         // feature-timeline: feature-timeline blocks: brewing stand introduced Beta 1.9 Prerelease 3 (brewing listed at 30 seconds; a reduced set of 25 potions and 31 combinations)
         introduce("historical_experience:beta_1_9_pre_3", true,
             "feature-timeline: feature-timeline blocks: brewing stand introduced Beta 1.9 Prerelease 3 (brewing listed at 30 seconds; a reduced set of 25 potions and 31 combinations)",
@@ -648,15 +653,10 @@ public final class HistoricalBlockAvailability {
             new String[] {
                 "minecraft:end_portal_frame"});
         // feature-timeline: feature-timeline blocks: end stone introduced Beta 1.9 Prerelease (Release 1.0.0)
-        introduce("historical_experience:release_1_0_0", true,
+        introduce("historical_experience:beta_1_9_pre_4", true,
             "feature-timeline: feature-timeline blocks: end stone introduced Beta 1.9 Prerelease (Release 1.0.0)",
             new String[] {
                 "minecraft:end_stone"});
-        // feature-timeline: feature-timeline blocks: nether wart introduced Beta 1.9 Prerelease (Release 1.0.0)
-        introduce("historical_experience:release_1_0_0", true,
-            "feature-timeline: feature-timeline blocks: nether wart introduced Beta 1.9 Prerelease (Release 1.0.0)",
-            new String[] {
-                "minecraft:nether_wart"});
         // feature-timeline: version-transitions Release 1.3: tripwire hook and wire; ender chest; cocoa pods/beans become naturally available
         introduce("historical_experience:release_1_3", true,
             "feature-timeline: version-transitions Release 1.3: tripwire hook and wire; ender chest; cocoa pods/beans become naturally available",
