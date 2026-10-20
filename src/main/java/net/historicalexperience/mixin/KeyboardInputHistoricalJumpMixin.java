@@ -18,7 +18,7 @@
 package net.historicalexperience.mixin;
 
 import net.historicalexperience.client.input.HistoricalJumpInput;
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.client.player.Input;
 import net.minecraft.client.player.KeyboardInput;
@@ -57,7 +57,7 @@ public abstract class KeyboardInputHistoricalJumpMixin {
             CallbackInfo callback) {
         Input input = (Input) (Object) this;
 
-        if (!HistoricalGameplayTweaks.jumpRequiresFreshPress(HistoricalActiveSession.current())) {
+        if (!HistoricalGameplayTweaks.jumpRequiresFreshPress(ActiveVersion.current())) {
             // Every other version, and every ordinary world, keeps vanilla's held-jump repeat.
             HistoricalJumpInput.allowNextPress();
             return;

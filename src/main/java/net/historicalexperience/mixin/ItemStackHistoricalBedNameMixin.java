@@ -18,7 +18,7 @@
 package net.historicalexperience.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalCraftingEra;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -47,7 +47,7 @@ public abstract class ItemStackHistoricalBedNameMixin {
             return original;
         }
         String itemId = BuiltInRegistries.ITEM.getKey(self.getItem()).toString();
-        if (!HistoricalCraftingEra.showsPlainBedName(HistoricalActiveSession.current(), itemId)) {
+        if (!HistoricalCraftingEra.showsPlainBedName(ActiveVersion.current(), itemId)) {
             return original;
         }
         // This project's own key rather than the game's: modern Minecraft has a name per bed colour and no generic

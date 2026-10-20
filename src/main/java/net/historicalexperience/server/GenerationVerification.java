@@ -177,7 +177,7 @@ public final class GenerationVerification {
      */
     private static Map<String, Object> craftingProbe(MinecraftServer server) {
         Map<String, Object> out = new LinkedHashMap<>();
-        String versionId = net.historicalexperience.gameplay.HistoricalActiveSession.current();
+        String versionId = net.historicalexperience.version.ActiveVersion.current();
         out.put("version", versionId);
         net.minecraft.world.level.Level level = server.overworld();
         var manager = server.getRecipeManager();
@@ -264,7 +264,7 @@ public final class GenerationVerification {
             net.minecraft.world.item.Items.STONE_SHOVEL, net.minecraft.world.item.Items.IRON_SHOVEL,
             net.minecraft.world.item.Items.DIAMOND_SHOVEL, net.minecraft.world.item.Items.NETHERITE_SHOVEL);
 
-        String versionId = net.historicalexperience.gameplay.HistoricalActiveSession.current();
+        String versionId = net.historicalexperience.version.ActiveVersion.current();
         boolean beforeNerf = net.historicalexperience.gameplay.HistoricalGameplayTweaks
             .swordDamageBeforeReleaseOnePointZero(versionId);
         out.put("sessionVersion", String.valueOf(versionId));
@@ -876,7 +876,7 @@ public final class GenerationVerification {
             // damage values, the 1.9 cooldown and sweep - is inert without it, so a probe that does not set
             // it measures the modern game and reports success.
             if (versionId != null) {
-                net.historicalexperience.gameplay.HistoricalActiveSession.set(versionId);
+                net.historicalexperience.version.ActiveVersion.set(versionId);
             }
             if (versionId != null) {
                 sampledBlocks.forEach((id, count) -> {

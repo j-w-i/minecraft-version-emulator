@@ -32,13 +32,13 @@ final class EarlyPlayerGameplayVerification {
 
     static Map<String, Object> verify(ServerLevel level, String profile) {
         if (!Boolean.getBoolean("historical_experience.generationProbe")) throw new IllegalStateException("Probe only");
-        String previous = net.historicalexperience.gameplay.HistoricalActiveSession.current();
+        String previous = net.historicalexperience.version.ActiveVersion.current();
         try {
             // A real join binds this context via HistoricalVersionSync. This player is deliberately not joined.
-            net.historicalexperience.gameplay.HistoricalActiveSession.set(profile);
+            net.historicalexperience.version.ActiveVersion.set(profile);
             return verifyBound(level, profile);
         } finally {
-            net.historicalexperience.gameplay.HistoricalActiveSession.set(previous);
+            net.historicalexperience.version.ActiveVersion.set(previous);
         }
     }
 

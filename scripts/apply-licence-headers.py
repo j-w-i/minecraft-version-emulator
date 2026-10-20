@@ -116,7 +116,7 @@ NT_FILES = [
     "main/java/net/historicalexperience/client/tooltip/HistoricalTooltips.java",
     "main/java/net/historicalexperience/mixin/AbstractContainerScreenHistoricalTooltipMixin.java",
     "main/java/net/historicalexperience/mixin/TooltipRenderUtilHistoricalMixin.java",
-    "main/java/net/historicalexperience/gameplay/HistoricalActiveSession.java",
+    "main/java/net/historicalexperience/version/ActiveVersion.java",
     "main/java/net/historicalexperience/gameplay/HistoricalDamageValues.java",
     "main/java/net/historicalexperience/gameplay/HistoricalFarmingInteractionEvents.java",
     "main/java/net/historicalexperience/gameplay/HistoricalFoodHelper.java",

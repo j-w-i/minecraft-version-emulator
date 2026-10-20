@@ -17,7 +17,7 @@
  */
 package net.historicalexperience.mixin;
 
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -49,7 +49,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  *
  * <h2>Server only, and why that is not a style choice</h2>
  *
- * <p>{@code HistoricalActiveSession} is set on the client as well as the server, so without the
+ * <p>{@code ActiveVersion} is set on the client as well as the server, so without the
  * {@link ServerPlayer} test this would also run locally and call {@code giveExperiencePoints} on a client-side
  * player, which fights the server's authoritative value instead of predicting it. The server owns the grant; the
  * client is told.
@@ -68,7 +68,7 @@ public abstract class PlayerHistoricalJumpExperienceMixin {
         if (!((Object) this instanceof ServerPlayer serverPlayer)) {
             return;
         }
-        int experience = HistoricalGameplayTweaks.jumpExperienceBug(HistoricalActiveSession.current(),
+        int experience = HistoricalGameplayTweaks.jumpExperienceBug(ActiveVersion.current(),
             serverPlayer.getRandom());
         // 0 means the gate did not apply; the caller is the only place that can tell a legitimate zero from an
         // inapplicable gate, so it acts on the amount rather than re-reading the gate.

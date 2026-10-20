@@ -134,7 +134,7 @@ public final class HistoricalUpgradeService {
         // cooldown and sweep, sprinting beyond the server - read the active session rather than a level, so a
         // session that was never set makes them silently inert. Reporting it turns "the fix did not work" into
         // an answerable question.
-        String session = net.historicalexperience.gameplay.HistoricalActiveSession.current();
+        String session = net.historicalexperience.version.ActiveVersion.current();
         details.add("active session: " + (session == null
             ? "<NONE - session-gated behaviour is inert in this process>"
             : session));
@@ -144,7 +144,7 @@ public final class HistoricalUpgradeService {
                 + " sweepSuppressed="
                 + net.historicalexperience.gameplay.HistoricalGameplayTweaks.appliesTo("sweep", session)
                 + " oldDamageValues="
-                + net.historicalexperience.gameplay.HistoricalActiveSession.isHistorical());
+                + net.historicalexperience.version.ActiveVersion.isHistorical());
         }
         net.historicalexperience.gameplay.HistoricalCombatDiagnostics.report()
             .forEach((name, value) -> details.add("combat hook counter: " + name + "=" + value));

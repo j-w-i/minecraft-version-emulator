@@ -15,7 +15,7 @@
 package net.historicalexperience.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.PathfinderMob;
@@ -44,7 +44,7 @@ public abstract class TemptGoalHistoricalMixin {
     @ModifyReturnValue(method = "shouldFollow", at = @At("RETURN"))
     private boolean historicalExperience$modifyShouldFollow(boolean shouldFollow) {
         if (this.mob instanceof AgeableMob
-            && HistoricalGameplayTweaks.appliesTo("tempting", HistoricalActiveSession.current())) {
+            && HistoricalGameplayTweaks.appliesTo("tempting", ActiveVersion.current())) {
             return false;
         }
         return shouldFollow;

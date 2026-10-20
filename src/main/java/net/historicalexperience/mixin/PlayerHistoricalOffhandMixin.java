@@ -17,7 +17,7 @@
  */
 package net.historicalexperience.mixin;
 
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
@@ -51,7 +51,7 @@ public abstract class PlayerHistoricalOffhandMixin {
     @Inject(method = "setItemSlot", at = @At("HEAD"), cancellable = true)
     private void historicalExperience$refuseOffhandWrite(EquipmentSlot slot, ItemStack stack, CallbackInfo callback) {
         if (slot == EquipmentSlot.OFFHAND
-                && HistoricalGameplayTweaks.offhandUnavailable(HistoricalActiveSession.current())) {
+                && HistoricalGameplayTweaks.offhandUnavailable(ActiveVersion.current())) {
             callback.cancel();
         }
     }

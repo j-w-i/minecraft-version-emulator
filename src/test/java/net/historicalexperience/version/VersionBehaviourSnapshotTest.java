@@ -50,7 +50,7 @@ import net.historicalexperience.client.lighting.HistoricalStars;
 import net.historicalexperience.client.lighting.HistoricalWorldTweaks;
 import net.historicalexperience.client.textures.HistoricalTextureRules;
 import net.historicalexperience.client.tooltip.HistoricalTooltips;
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalCraftingEra;
 import net.historicalexperience.gameplay.HistoricalCreativeCatalog;
 import net.historicalexperience.gameplay.HistoricalCreativeRules;
@@ -261,7 +261,7 @@ class VersionBehaviourSnapshotTest {
 
     /** The no-argument predicates that read the process-wide active session. */
     private static void gameplayTweaksSession(List<String> L) {
-        if (!loadable(L, "net.historicalexperience.gameplay.HistoricalActiveSession")
+        if (!loadable(L, "net.historicalexperience.version.ActiveVersion")
             || !loadable(L, "net.historicalexperience.gameplay.HistoricalGameplayTweaks")) {
             return;
         }
@@ -283,33 +283,33 @@ class VersionBehaviourSnapshotTest {
         predicates.put("invincibleBow", () -> HistoricalGameplayTweaks.invincibleBow());
         predicates.put("jumpExperienceBug(seed=42)",
             () -> HistoricalGameplayTweaks.jumpExperienceBug(RandomSource.create(42L)));
-        predicates.put("HistoricalActiveSession.current", () -> HistoricalActiveSession.current());
-        predicates.put("HistoricalActiveSession.isHistorical", () -> HistoricalActiveSession.isHistorical());
+        predicates.put("HistoricalActiveSession.current", () -> ActiveVersion.current());
+        predicates.put("HistoricalActiveSession.isHistorical", () -> ActiveVersion.isHistorical());
 
         for (Map.Entry<String, Supplier<Object>> predicate : predicates.entrySet()) {
             Supplier<Object> body = predicate.getValue();
             for (String id : INPUTS) {
                 probe(L, d + predicate.getKey() + "()[session]|" + label(id), () -> {
                     try {
-                        HistoricalActiveSession.set(id);
+                        ActiveVersion.set(id);
                         return body.get();
                     } finally {
-                        HistoricalActiveSession.clear();
+                        ActiveVersion.clear();
                     }
                 });
             }
             probe(L, d + predicate.getKey() + "()[session]|<no-session>", () -> {
-                HistoricalActiveSession.clear();
+                ActiveVersion.clear();
                 return body.get();
             });
         }
         // A blank id is documented to mean "no historical world".
         probe(L, d + "HistoricalActiveSession.current()[set(blank)]|<blank>", () -> {
             try {
-                HistoricalActiveSession.set("  ");
-                return HistoricalActiveSession.current();
+                ActiveVersion.set("  ");
+                return ActiveVersion.current();
             } finally {
-                HistoricalActiveSession.clear();
+                ActiveVersion.clear();
             }
         });
     }

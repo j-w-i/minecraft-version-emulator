@@ -18,7 +18,7 @@
 package net.historicalexperience.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalToolDurability;
 import net.minecraft.core.component.DataComponentHolder;
 import net.minecraft.core.component.DataComponentType;
@@ -61,7 +61,7 @@ public interface DataComponentHolderHistoricalToolDurabilityMixin {
         }
 
         String itemId = BuiltInRegistries.ITEM.getKey(itemStack.getItem()).toString();
-        Integer era = HistoricalToolDurability.durabilityFor(HistoricalActiveSession.current(), itemId);
+        Integer era = HistoricalToolDurability.durabilityFor(ActiveVersion.current(), itemId);
 
         return era == null ? value : (T) era;
     }

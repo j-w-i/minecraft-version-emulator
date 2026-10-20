@@ -14,6 +14,8 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.ActiveVersion;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
@@ -167,7 +169,7 @@ public final class HistoricalMobLootHelper {
         EntityType<?> entityType = entity.getType();
 
         String profile = entity.level() instanceof net.minecraft.server.level.ServerLevel server
-            ? HistoricalProfileLookup.profileIdForLevel(server) : HistoricalActiveSession.current();
+            ? HistoricalProfileLookup.profileIdForLevel(server) : ActiveVersion.current();
         if (EarlyGameplayRecipes.supports(profile)) {
             // The old clients roll nextInt(3) of their one selected item: no looting, on-fire smelting,
             // music disc condition, bones, rare equipment, or sheep death wool. Sheep yield cloth when punched.

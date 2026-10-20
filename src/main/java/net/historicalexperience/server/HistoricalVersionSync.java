@@ -26,7 +26,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 
 /**
@@ -81,7 +81,7 @@ public final class HistoricalVersionSync {
             String versionId = HistoricalProfileLookup.profileIdForLevel(server.overworld());
             // The server owns enforcement, so the session holder is set here too: gates that cannot see a
             // level (an item's attack damage, for one) read it instead.
-            HistoricalActiveSession.set(versionId);
+            ActiveVersion.set(versionId);
             // Recompute the attributes NOW that the version is known. The equipment pass that applies a held
             // item's attack damage already ran, before this, with the modern values; without this the era's
             // damage never takes effect until the player happens to switch items.
@@ -93,6 +93,6 @@ public final class HistoricalVersionSync {
             ServerPlayNetworking.send(handler.player, new ActiveVersionPayload(HistoricalSnapshotRuntime.selectionId(server, versionId)));
         });
 
-        ServerLifecycleEvents.SERVER_STOPPED.register(server -> HistoricalActiveSession.clear());
+        ServerLifecycleEvents.SERVER_STOPPED.register(server -> ActiveVersion.clear());
     }
 }

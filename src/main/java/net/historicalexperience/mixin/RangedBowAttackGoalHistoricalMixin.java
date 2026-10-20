@@ -14,7 +14,7 @@
  */
 package net.historicalexperience.mixin;
 
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.RangedBowAttackGoal;
@@ -44,7 +44,7 @@ public abstract class RangedBowAttackGoalHistoricalMixin {
             target = "Lnet/minecraft/world/entity/ai/control/MoveControl;strafe(FF)V"))
     private void historicalExperience$noStrafingBeforeBetaOneEight(MoveControl control, float forward,
             float sideways) {
-        if (!HistoricalGameplayTweaks.appliesTo("skeletonStrafing", HistoricalActiveSession.current())) {
+        if (!HistoricalGameplayTweaks.appliesTo("skeletonStrafing", ActiveVersion.current())) {
             control.strafe(forward, sideways);
         }
     }

@@ -19,7 +19,7 @@ package net.historicalexperience.mixin;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import java.util.List;
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalEnchanting;
 import net.minecraft.client.gui.screens.inventory.EnchantmentScreen;
 import net.minecraft.network.chat.Component;
@@ -60,7 +60,7 @@ public abstract class EnchantmentScreenHistoricalMixin {
 
     @Inject(method = "init", at = @At("TAIL"))
     private void historicalExperience$hideLapisSlot(CallbackInfo callback) {
-        if (!HistoricalEnchanting.usesOldTableRules(HistoricalActiveSession.current())) {
+        if (!HistoricalEnchanting.usesOldTableRules(ActiveVersion.current())) {
             return;
         }
         EnchantmentScreen self = (EnchantmentScreen) (Object) this;
@@ -99,6 +99,6 @@ public abstract class EnchantmentScreenHistoricalMixin {
                 + "Lnet/minecraft/client/gui/Font;Ljava/util/List;II)V"))
     private boolean historicalExperience$noPreviewAndNoLapis(net.minecraft.client.gui.GuiGraphics graphics,
             net.minecraft.client.gui.Font font, List<Component> lines, int mouseX, int mouseY) {
-        return !HistoricalEnchanting.usesOldTableRules(HistoricalActiveSession.current());
+        return !HistoricalEnchanting.usesOldTableRules(ActiveVersion.current());
     }
 }

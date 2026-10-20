@@ -14,7 +14,7 @@
  */
 package net.historicalexperience.mixin;
 
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.historicalexperience.gameplay.HistoricalSwordBlocking;
 import net.minecraft.world.entity.LivingEntity;
@@ -90,7 +90,7 @@ public abstract class LivingEntityHistoricalSwordBlockingMixin {
         // itself went in 1.9, so Beta 1.9 Prerelease 3 has the stance without the reduction.
         if ((Object) this instanceof Player player
             && HistoricalSwordBlocking.isBlocking(player)
-            && HistoricalGameplayTweaks.blockFallDamageReductionEnabled(HistoricalActiveSession.current())) {
+            && HistoricalGameplayTweaks.blockFallDamageReductionEnabled(ActiveVersion.current())) {
             return multiplier * HistoricalSwordBlocking.damageMultiplier();
         }
         return multiplier;

@@ -14,7 +14,7 @@
  */
 package net.historicalexperience.mixin;
 
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.historicalexperience.gameplay.HistoricalPlayerRules;
 import net.minecraft.world.entity.LivingEntity;
@@ -50,7 +50,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 public abstract class LivingEntityHistoricalMovementMixin {
     @ModifyVariable(argsOnly = true, method = "setSprinting", at = @At("HEAD"))
     private boolean historicalExperience$modifySprintingFlag(boolean sprinting) {
-        String session = HistoricalActiveSession.current();
+        String session = ActiveVersion.current();
         boolean canSprint = HistoricalPlayerRules.allowsSprinting(session);
         boolean canSwim = !HistoricalGameplayTweaks.appliesTo("swim", session);
 

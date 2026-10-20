@@ -14,7 +14,7 @@
  */
 package net.historicalexperience.mixin;
 
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.item.ItemStack;
@@ -45,7 +45,7 @@ public abstract class AnimalHistoricalBreedingMixin {
         // The session, not the level: this rule is server-side AI today, but a level-based question is the exact
         // shape that silently switched sprinting and sword blocking off on the client, and "this one is
         // server-only" is a judgement that can stop being true without anyone noticing.
-        if (HistoricalGameplayTweaks.appliesTo("breeding", HistoricalActiveSession.current())) {
+        if (HistoricalGameplayTweaks.appliesTo("breeding", ActiveVersion.current())) {
             return false;
         }
         return animal.isFood(stack);

@@ -17,7 +17,7 @@
  */
 package net.historicalexperience.mixin;
 
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalEnchanting;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -88,13 +88,13 @@ public abstract class EnchantmentMenuHistoricalEnchantingMixin implements Enchan
         cancellable = true)
     private void historicalExperience$clickForThisVersion(Player player, int id,
             CallbackInfoReturnable<Boolean> callback) {
-        if (HistoricalGameplayTweaks.enchantingDisabled(HistoricalActiveSession.current())) {
+        if (HistoricalGameplayTweaks.enchantingDisabled(ActiveVersion.current())) {
             // Before Prerelease 3 there is no usable table. false is what vanilla returns when a click does nothing,
             // so the client shows no enchantment and no level is taken.
             callback.setReturnValue(false);
             return;
         }
-        if (!HistoricalEnchanting.usesOldTableRules(HistoricalActiveSession.current())) {
+        if (!HistoricalEnchanting.usesOldTableRules(ActiveVersion.current())) {
             // An ordinary world, and every version from Release 1.8 on: vanilla's own click runs untouched.
             return;
         }
@@ -159,7 +159,7 @@ public abstract class EnchantmentMenuHistoricalEnchantingMixin implements Enchan
      */
     @Inject(method = "getGoldCount", at = @At("HEAD"), cancellable = true)
     private void historicalExperience$lapisIsNotACost(CallbackInfoReturnable<Integer> callback) {
-        if (HistoricalEnchanting.usesOldTableRules(HistoricalActiveSession.current())) {
+        if (HistoricalEnchanting.usesOldTableRules(ActiveVersion.current())) {
             int highest = 0;
             for (int cost : ((EnchantmentMenu) (Object) this).costs) {
                 highest = Math.max(highest, cost);

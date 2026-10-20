@@ -15,7 +15,7 @@
 package net.historicalexperience.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalPlayerRules;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -49,7 +49,7 @@ public abstract class LivingEntityHistoricalHungerEffectMixin {
     @ModifyReturnValue(method = "canBeAffected", at = @At("RETURN"))
     private boolean historicalExperience$preventHungerEffect(boolean canBeAffected,
             MobEffectInstance effectInstance) {
-        String session = HistoricalActiveSession.current();
+        String session = ActiveVersion.current();
 
         if (effectInstance.getEffect() == MobEffects.HUNGER
             && session != null

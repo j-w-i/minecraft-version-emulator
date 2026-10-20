@@ -16,7 +16,7 @@ package net.historicalexperience.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.mojang.datafixers.util.Pair;
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
@@ -51,7 +51,7 @@ public abstract class InventoryShieldSlotMixin {
     @ModifyReturnValue(method = "getNoItemIcon", at = @At("RETURN"), require = 1)
     private Pair<ResourceLocation, ResourceLocation> historicalExperience$noEmptyShieldIcon(
             Pair<ResourceLocation, ResourceLocation> original) {
-        if (HistoricalGameplayTweaks.offhandUnavailable(HistoricalActiveSession.current())
+        if (HistoricalGameplayTweaks.offhandUnavailable(ActiveVersion.current())
                 && !historicalExperience$inCreativeMode()) {
             return null;
         }

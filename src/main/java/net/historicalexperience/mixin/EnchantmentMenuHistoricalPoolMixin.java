@@ -18,7 +18,7 @@
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import java.util.List;
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalEnchanting;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.core.RegistryAccess;
@@ -48,7 +48,7 @@ public abstract class EnchantmentMenuHistoricalPoolMixin {
         if (rolled == null || rolled.isEmpty()) {
             return rolled;
         }
-        String versionId = HistoricalActiveSession.current();
+        String versionId = ActiveVersion.current();
         if (versionId == null) {
             return rolled;
         }

@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.ActiveVersion;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -40,12 +42,12 @@ class PerVersionFoodHealTest {
 
     @AfterEach
     void clearSession() {
-        HistoricalActiveSession.clear();
+        ActiveVersion.clear();
     }
 
     @Test
     void alphaDoesNotHealFoodThatDidNotExistYet() {
-        HistoricalActiveSession.set(ALPHA);
+        ActiveVersion.set(ALPHA);
 
         assertNull(HistoricalFoodHelper.researchedHeal("minecraft:cod"),
             "raw fish arrives in Alpha 1.2.0, so an Alpha v1.1.2_01 world must not heal by its figure");
@@ -59,7 +61,7 @@ class PerVersionFoodHealTest {
 
     @Test
     void alphaStillHealsTheFoodItDidHave() {
-        HistoricalActiveSession.set(ALPHA);
+        ActiveVersion.set(ALPHA);
 
         assertEquals(4, HistoricalFoodHelper.researchedHeal("minecraft:apple"));
         assertEquals(5, HistoricalFoodHelper.researchedHeal("minecraft:bread"));
@@ -70,7 +72,7 @@ class PerVersionFoodHealTest {
 
     @Test
     void betaOnePointSevenPointThreeStillHealsItsOwnFullTable() {
-        HistoricalActiveSession.set(BETA_1_7_3);
+        ActiveVersion.set(BETA_1_7_3);
 
         assertEquals(2, HistoricalFoodHelper.researchedHeal("minecraft:cod"),
             "Beta 1.7.3 does have fish, and its figure comes from the client jar");
@@ -84,7 +86,7 @@ class PerVersionFoodHealTest {
     void anUnresearchedVersionFallsBackRatherThanAnsweringWithModernNutrition() {
         // Infdev declares no researched heals at all. The fallback keeps its behaviour as it was rather than
         // silently becoming modern, which would be an equally unevidenced answer.
-        HistoricalActiveSession.set("historical_experience:infdev_420");
+        ActiveVersion.set("historical_experience:infdev_420");
 
         assertEquals(4, HistoricalFoodHelper.researchedHeal("minecraft:apple"),
             "the pre-1.8 table is the documented fallback for a version whose heals were never researched");

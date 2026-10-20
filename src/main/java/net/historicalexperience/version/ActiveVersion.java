@@ -2,18 +2,15 @@
  * Minecraft Historical Experience
  * Copyright (C) 2026 Minecraft Historical Experience contributors
  *
- * This program is free software: you can redistribute it and/or modify it under the
- * terms of the GNU Lesser General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later version.
+ * Contains material copied or adapted from Nostalgic Tweaks
+ * (https://github.com/Nostalgica-Reverie/Nostalgic-Tweaks), Copyright (C) Adrenix and
+ * Nostalgic Tweaks contributors, licensed LGPL-3.0-only, and MODIFIED for this project.
+ * The upstream file or tweak this class came from is named in its documentation comment.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
- * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+ * This file is part of a work distributed under the GNU Lesser General Public License,
+ * version 3. See LICENSE and THIRD_PARTY_NOTICES.md.
  *
- * You should have received a copy of the GNU Lesser General Public License along with
- * this program. If not, see <https://www.gnu.org/licenses/>.
- *
- * SPDX-License-Identifier: LGPL-3.0-or-later
+ * SPDX-License-Identifier: LGPL-3.0-or-later AND LGPL-3.0-only
  */
 package net.historicalexperience.version;
 

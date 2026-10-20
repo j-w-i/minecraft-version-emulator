@@ -17,7 +17,7 @@ package net.historicalexperience.mixin;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import java.util.List;
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -56,7 +56,7 @@ public abstract class PlayerHistoricalCombatMixin {
     /** Upstream: {@code nt_combat_player$onAttack}. */
     @Inject(method = "attack", at = @At("HEAD"))
     private void historicalExperience$resetAttackStrengthTicker(Entity target, CallbackInfo callback) {
-        if (!HistoricalGameplayTweaks.appliesTo("cooldown", HistoricalActiveSession.current())) {
+        if (!HistoricalGameplayTweaks.appliesTo("cooldown", ActiveVersion.current())) {
             return;
         }
         Player self = (Player) (Object) this;
@@ -67,7 +67,7 @@ public abstract class PlayerHistoricalCombatMixin {
     /** Upstream: {@code nt_combat_player$modifyAttackStrengthScale}. */
     @ModifyReturnValue(method = "getAttackStrengthScale", at = @At("RETURN"))
     private float historicalExperience$modifyAttackStrengthScale(float attackStrengthScale) {
-        if (HistoricalGameplayTweaks.appliesTo("cooldown", HistoricalActiveSession.current())) {
+        if (HistoricalGameplayTweaks.appliesTo("cooldown", ActiveVersion.current())) {
             return 1.0F;
         }
         return attackStrengthScale;
@@ -78,7 +78,7 @@ public abstract class PlayerHistoricalCombatMixin {
         at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/entity/player/Player;onClimbable()Z"))
     private boolean historicalExperience$modifyCriticalHitAttack(boolean isOnClimbable) {
-        return HistoricalGameplayTweaks.appliesTo("criticalHit", HistoricalActiveSession.current())
+        return HistoricalGameplayTweaks.appliesTo("criticalHit", ActiveVersion.current())
             || isOnClimbable;
     }
 
@@ -89,7 +89,7 @@ public abstract class PlayerHistoricalCombatMixin {
                 + "Lnet/minecraft/world/phys/AABB;)Ljava/util/List;"))
     private List<LivingEntity> historicalExperience$modifyListOfSweepAttacks(
             List<LivingEntity> listOfSweepAttacks) {
-        if (HistoricalGameplayTweaks.appliesTo("sweep", HistoricalActiveSession.current())) {
+        if (HistoricalGameplayTweaks.appliesTo("sweep", ActiveVersion.current())) {
             net.historicalexperience.gameplay.HistoricalCombatDiagnostics.recordSweepCancel();
             return List.of();
         }

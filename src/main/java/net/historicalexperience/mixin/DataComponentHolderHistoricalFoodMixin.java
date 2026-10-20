@@ -15,7 +15,7 @@
 package net.historicalexperience.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalFoodHelper;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.core.component.DataComponentHolder;
@@ -54,7 +54,7 @@ public interface DataComponentHolderHistoricalFoodMixin {
             return value;
         }
 
-        String versionId = HistoricalActiveSession.current();
+        String versionId = ActiveVersion.current();
 
         // The golden apple changes in two ways, so it is handled first: 10 hunger instead of 4, and its effect
         // list is the Beta 1.8 one rather than the modern one.

@@ -34,7 +34,7 @@ new = '''    }
      * matter how correct its mixin is.
      */
     private static void reportClientState(String cause) {
-        String session = net.historicalexperience.gameplay.HistoricalActiveSession.current();
+        String session = net.historicalexperience.version.ActiveVersion.current();
 
         LOGGER.info("[hex] client state after {}: session={} hungerBarHidden={} experienceBarHidden={}",
             cause,

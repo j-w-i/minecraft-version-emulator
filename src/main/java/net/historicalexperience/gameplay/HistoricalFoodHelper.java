@@ -14,6 +14,8 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.ActiveVersion;
+
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ItemStack;
 
@@ -142,7 +144,7 @@ public final class HistoricalFoodHelper {
      */
     public static Integer researchedHeal(String itemId) {
         var version = net.historicalexperience.version.HistoricalVersions
-            .byId(HistoricalActiveSession.current())
+            .byId(ActiveVersion.current())
             .orElse(null);
 
         if (version != null) {
@@ -168,7 +170,7 @@ public final class HistoricalFoodHelper {
 
     /** Whether this item is eaten instantly in the active version. */
     public static boolean isInstantaneousEdible(ItemStack stack) {
-        String session = HistoricalActiveSession.current();
+        String session = ActiveVersion.current();
 
         if (session == null || !HistoricalPlayerRules.suppressesHungerTick(session)) {
             return false;

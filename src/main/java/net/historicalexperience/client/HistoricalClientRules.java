@@ -18,7 +18,7 @@
 package net.historicalexperience.client;
 
 import net.historicalexperience.gameplay.HistoricalProfileLookup;
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.version.HistoricalVersion;
 import net.historicalexperience.version.HistoricalVersions;
 import net.minecraft.client.Minecraft;
@@ -52,14 +52,14 @@ public final class HistoricalClientRules {
         syncedVersionId = net.historicalexperience.version.HistoricalSnapshotPatches.baseProfileForSelection(versionId).orElse(null);
         net.historicalexperience.server.HistoricalSnapshotRuntime.setClientSelection(versionId);
         // Snapshot quirks are separate: all existing gameplay tables still receive the parent's profile.
-        HistoricalActiveSession.set(syncedVersionId);
+        ActiveVersion.set(syncedVersionId);
     }
 
     /** Forgets a pushed version, so a client that leaves a server stops applying that server's rules. */
     public static void clearSyncedVersion() {
         syncedVersionId = null;
         net.historicalexperience.server.HistoricalSnapshotRuntime.setClientSelection(null);
-        HistoricalActiveSession.clear();
+        ActiveVersion.clear();
     }
 
     /** Exact snapshot identity, if selected; this must never be inferred from the parent's release alone. */

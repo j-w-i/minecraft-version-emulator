@@ -14,6 +14,8 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.ActiveVersion;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -128,7 +130,7 @@ public final class HistoricalDamageValues {
 
     /** Whether this version's old damage values are in force and this item has one. */
     public static boolean isApplicable(ItemStack stack) {
-        return HistoricalActiveSession.isHistorical() && kindOf(stack) != null;
+        return ActiveVersion.isHistorical() && kindOf(stack) != null;
     }
 
     /**
@@ -174,7 +176,7 @@ public final class HistoricalDamageValues {
     private static float eraAttackDamage(TieredItem tieredItem) {
         float tierBonus = tieredItem.getTier().getAttackDamageBonus();
         boolean beforeSwordNerf = HistoricalGameplayTweaks.swordDamageBeforeReleaseOnePointZero(
-            HistoricalActiveSession.current());
+            ActiveVersion.current());
         LAST_TIER_BONUS = tierBonus;
         LAST_SWORD_PRE_NERF = beforeSwordNerf;
         LAST_TIER_NAME = String.valueOf(tieredItem.getTier());

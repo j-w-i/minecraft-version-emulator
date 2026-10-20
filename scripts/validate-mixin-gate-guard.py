@@ -16,7 +16,7 @@ samples = [
     ('the sprint bug shape',
      'HistoricalGameplayTweaks.monsterAvoidSunDisabled(mob.level())', True),
     ('a correct session call',
-     'HistoricalGameplayTweaks.appliesTo("breeding", HistoricalActiveSession.current())', False),
+     'HistoricalGameplayTweaks.appliesTo("breeding", ActiveVersion.current())', False),
     ('a correct session call with whitespace',
      'HistoricalGameplayTweaks.experienceOrbSpawnDisabled( level )', False),
 ]

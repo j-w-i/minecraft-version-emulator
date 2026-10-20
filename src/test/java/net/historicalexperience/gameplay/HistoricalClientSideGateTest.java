@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.ActiveVersion;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -49,13 +51,13 @@ class HistoricalClientSideGateTest {
         String blocking = read("HistoricalSwordBlocking.java");
         String canBlock = blocking.substring(blocking.indexOf("public static boolean canBlock"));
 
-        assertTrue(canBlock.contains("HistoricalActiveSession.current()"),
+        assertTrue(canBlock.contains("ActiveVersion.current()"),
             "canBlock must ask the active session: it is asked on the client, where a level-based question "
                 + "always answers false and the block becomes invisible");
         assertFalse(canBlock.contains("player.level()"),
             "canBlock must not ask the player's level: a client's level is a ClientLevel, so this is the exact "
                 + "line that made the block animation fail to play");
-        assertTrue(blocking.contains("HistoricalActiveSession"),
+        assertTrue(blocking.contains("ActiveVersion"),
             "the session must be referenced at all");
     }
 

@@ -17,7 +17,7 @@
  */
 package net.historicalexperience.mixin;
 
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -81,7 +81,7 @@ public abstract class SheepHistoricalShearMixin {
             return;
         }
 
-        if (!HistoricalGameplayTweaks.appliesTo("punchShear", HistoricalActiveSession.current())) {
+        if (!HistoricalGameplayTweaks.appliesTo("punchShear", ActiveVersion.current())) {
             return;
         }
 
@@ -104,7 +104,7 @@ public abstract class SheepHistoricalShearMixin {
 
         String profile = sheep.level() instanceof net.minecraft.server.level.ServerLevel server
             ? net.historicalexperience.gameplay.HistoricalProfileLookup.profileIdForLevel(server)
-            : HistoricalActiveSession.current();
+            : ActiveVersion.current();
         net.minecraft.world.level.ItemLike wool = net.historicalexperience.gameplay.EarlyGameplayRecipes.supports(profile)
             ? net.minecraft.world.item.Items.LIGHT_GRAY_WOOL : SheepAccess.itemByDye().get(sheep.getColor());
         if (wool == null) {

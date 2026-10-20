@@ -21,7 +21,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.historicalexperience.client.hud.HudHelper;
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.historicalexperience.gameplay.HistoricalSwordBlocking;
 import net.minecraft.client.Minecraft;
@@ -51,7 +51,7 @@ public final class HistoricalClientDiagnostics {
                 FabricClientCommandSource source = context.getSource();
                 Minecraft minecraft = Minecraft.getInstance();
 
-                String session = HistoricalActiveSession.current();
+                String session = ActiveVersion.current();
                 source.sendFeedback(Component.literal("[hex] client session: "
                     + (session == null ? "<NONE - client-side rules are inert in this process>" : session)));
 

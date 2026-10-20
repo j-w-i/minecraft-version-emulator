@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.ActiveVersion;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -69,12 +71,12 @@ class OreSelfDropTest {
      * afterwards. That is the same state a joining player would produce.
      */
     private static boolean answersTrueFor(String versionId) {
-        String previous = HistoricalActiveSession.current();
+        String previous = ActiveVersion.current();
         try {
-            HistoricalActiveSession.set(versionId);
+            ActiveVersion.set(versionId);
             return HistoricalGameplayTweaks.oreDropsAsBlocks();
         } finally {
-            HistoricalActiveSession.set(previous);
+            ActiveVersion.set(previous);
         }
     }
 }

@@ -17,7 +17,7 @@
  */
 package net.historicalexperience.mixin;
 
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.world.food.FoodData;
 import org.spongepowered.asm.mixin.Mixin;
@@ -74,6 +74,6 @@ public abstract class FoodDataHistoricalRegenerationMixin {
 
     /** Whether the active version regenerates the Beta 1.8 way. */
     private static boolean usesBetaRegeneration() {
-        return HistoricalGameplayTweaks.betaRegenerationModel(HistoricalActiveSession.current());
+        return HistoricalGameplayTweaks.betaRegenerationModel(ActiveVersion.current());
     }
 }

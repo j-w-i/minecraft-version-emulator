@@ -14,6 +14,8 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.ActiveVersion;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -520,7 +522,7 @@ public final class HistoricalGameplayTweaks {
      *
      * <p>Needed because the answer has to hold on the CLIENT too: a client's player level is a ClientLevel, so a
      * level-based question returns null there and the rule switches itself off on the side that draws the block.
-     * {@code HistoricalActiveSession} is set on both sides, which is what client-visible rules must ask.
+     * {@code ActiveVersion} is set on both sides, which is what client-visible rules must ask.
      */
     public static boolean swordBlockingEnabled(String versionId) {
         return isDeclaredVersion(versionId)
@@ -596,7 +598,7 @@ public final class HistoricalGameplayTweaks {
      * flag defaulting to off; here the version decides.
      */
     public static boolean oreDropsAsBlocks() {
-        return isDeclaredVersion(HistoricalActiveSession.current());
+        return isDeclaredVersion(ActiveVersion.current());
     }
 
     /**
@@ -1024,7 +1026,7 @@ public final class HistoricalGameplayTweaks {
      * stronghold portal in every world.
      */
     public static boolean endPortalFrameExplodes() {
-        return appliesTo("endPortalFrameExplodes", HistoricalActiveSession.current());
+        return appliesTo("endPortalFrameExplodes", ActiveVersion.current());
     }
 
     /**
@@ -1036,7 +1038,7 @@ public final class HistoricalGameplayTweaks {
      * "an old behaviour to add" would invert it.
      */
     public static boolean silkySpawnerDrops() {
-        return appliesTo("silkySpawners", HistoricalActiveSession.current());
+        return appliesTo("silkySpawners", ActiveVersion.current());
     }
 
     /**
@@ -1047,7 +1049,7 @@ public final class HistoricalGameplayTweaks {
      * the safe direction, because the other answer would brighten a block in every ordinary world.
      */
     public static boolean endPortalFrameLightFifteen() {
-        return appliesTo("endPortalFrameLightFifteen", HistoricalActiveSession.current());
+        return appliesTo("endPortalFrameLightFifteen", ActiveVersion.current());
     }
 
     /**
@@ -1058,7 +1060,7 @@ public final class HistoricalGameplayTweaks {
      * number lives with the block rule and the gate stays a yes/no question like every other gate in this class.
      */
     public static boolean snowballSurplus() {
-        return appliesTo("snowballSurplus", HistoricalActiveSession.current());
+        return appliesTo("snowballSurplus", ActiveVersion.current());
     }
 
     /**
@@ -1074,7 +1076,7 @@ public final class HistoricalGameplayTweaks {
      * by name. What changed is only where the yes/no comes from - upstream a config flag, here the world's version.
      */
     public static boolean noToolShaping() {
-        return appliesTo("noToolShaping", HistoricalActiveSession.current());
+        return appliesTo("noToolShaping", ActiveVersion.current());
     }
 
     /**
@@ -1086,37 +1088,37 @@ public final class HistoricalGameplayTweaks {
      * supply at once.
      */
     public static boolean instantAir() {
-        return appliesTo("instantAir", HistoricalActiveSession.current());
+        return appliesTo("instantAir", ActiveVersion.current());
     }
 
     /** Whether one bone meal fully grows a plant (before the Release 1.5 nerf). */
     public static boolean instantBonemeal() {
-        return appliesTo("instantBonemeal", HistoricalActiveSession.current());
+        return appliesTo("instantBonemeal", ActiveVersion.current());
     }
 
     /** Whether hitting TNT primes it (before Beta 1.7). */
     public static boolean punchTnt() {
-        return appliesTo("punchTnt", HistoricalActiveSession.current());
+        return appliesTo("punchTnt", ActiveVersion.current());
     }
 
     /** Whether a hoe on grass can throw wheat seeds (before Beta 1.6 Test Build 3). */
     public static boolean grassSeeds() {
-        return appliesTo("grassSeeds", HistoricalActiveSession.current());
+        return appliesTo("grassSeeds", ActiveVersion.current());
     }
 
     /** Whether fishing yields only raw fish (every declared version; changed in 1.7.2). */
     public static boolean oldFishingLoot() {
-        return appliesTo("oldFishingLoot", HistoricalActiveSession.current());
+        return appliesTo("oldFishingLoot", ActiveVersion.current());
     }
 
     /** Whether a successful catch grants no experience (before 1.4.2). */
     public static boolean noFishingExperience() {
-        return appliesTo("noFishingExperience", HistoricalActiveSession.current());
+        return appliesTo("noFishingExperience", ActiveVersion.current());
     }
 
     /** Whether a bow fires the moment it is used rather than after being charged - pre-Beta-1.8 only. */
     public static boolean instantBow() {
-        return appliesTo("instantBow", HistoricalActiveSession.current());
+        return appliesTo("instantBow", ActiveVersion.current());
     }
 
     /**
@@ -1133,7 +1135,7 @@ public final class HistoricalGameplayTweaks {
 
     /** Whether a bow takes no durability from being fired - pre-Beta-1.8 only. */
     public static boolean invincibleBow() {
-        return appliesTo("invincibleBow", HistoricalActiveSession.current());
+        return appliesTo("invincibleBow", ActiveVersion.current());
     }
 
     /**
@@ -1146,7 +1148,7 @@ public final class HistoricalGameplayTweaks {
      * caller that forgot to check the gate first.
      */
     public static int jumpExperienceBug(net.minecraft.util.RandomSource random) {
-        return jumpExperienceBug(HistoricalActiveSession.current(), random);
+        return jumpExperienceBug(ActiveVersion.current(), random);
     }
 
     /**

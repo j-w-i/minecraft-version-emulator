@@ -21,7 +21,7 @@ new = '''            report.put("judgedVersionId", versionId);
             // damage values, the 1.9 cooldown and sweep - is inert without it, so a probe that does not set
             // it measures the modern game and reports success.
             if (versionId != null) {
-                net.historicalexperience.gameplay.HistoricalActiveSession.set(versionId);
+                net.historicalexperience.version.ActiveVersion.set(versionId);
             }'''
 assert old in text, 'session anchor not found'
 text = text.replace(old, new, 1)

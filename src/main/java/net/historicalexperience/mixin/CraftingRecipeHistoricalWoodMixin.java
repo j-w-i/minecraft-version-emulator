@@ -18,7 +18,7 @@
 package net.historicalexperience.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalCraftingEra;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.ItemStack;
@@ -54,7 +54,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class CraftingRecipeHistoricalWoodMixin {
     @ModifyReturnValue(method = "assemble", at = @At("RETURN"), require = 1)
     private ItemStack historicalExperience$substituteTheWood(ItemStack assembled) {
-        String versionId = HistoricalActiveSession.current();
+        String versionId = ActiveVersion.current();
         if (versionId == null || assembled.isEmpty()) {
             return assembled;
         }

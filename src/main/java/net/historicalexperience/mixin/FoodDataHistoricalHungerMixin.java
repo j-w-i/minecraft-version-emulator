@@ -14,7 +14,7 @@
  */
 package net.historicalexperience.mixin;
 
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalPlayerRules;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
@@ -74,7 +74,7 @@ public abstract class FoodDataHistoricalHungerMixin {
 
     /** Whether this world's version had no hunger. */
     private static boolean hungerDisabled() {
-        String session = HistoricalActiveSession.current();
+        String session = ActiveVersion.current();
         return session != null && HistoricalPlayerRules.suppressesHungerTick(session);
     }
 }

@@ -19,7 +19,7 @@ package net.historicalexperience.mixin;
 
 import java.util.List;
 
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -70,7 +70,7 @@ public abstract class ItemStackHistoricalEnchantedTooltipMixin {
             net.minecraft.world.item.Item.TooltipContext context,
             net.minecraft.world.entity.player.Player player, net.minecraft.world.item.TooltipFlag flag,
             CallbackInfoReturnable<List<Component>> callback) {
-        if (!HistoricalGameplayTweaks.placeholderEnchantmentTooltip(HistoricalActiveSession.current())) {
+        if (!HistoricalGameplayTweaks.placeholderEnchantmentTooltip(ActiveVersion.current())) {
             return;
         }
         if (!((Object) this instanceof ItemStack stack) || !stack.isEnchanted()) {

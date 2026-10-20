@@ -2,7 +2,7 @@
 package net.historicalexperience.mixin;
 
 import net.historicalexperience.gameplay.EarlyGameplayRecipes;
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalFoodRules;
 import net.historicalexperience.gameplay.HistoricalProfileLookup;
 import net.minecraft.core.component.DataComponents;
@@ -31,7 +31,7 @@ public abstract class ItemHistoricalEarlyFoodMixin {
     private void historicalExperience$onlyRegisteredFood(Level level, Player player, InteractionHand hand,
             CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir) {
         String profile = level instanceof ServerLevel server ? HistoricalProfileLookup.profileIdForLevel(server)
-            : HistoricalActiveSession.current();
+            : ActiveVersion.current();
         ItemStack stack = (ItemStack) (Object) this;
         if (!EarlyGameplayRecipes.supports(profile) || !stack.has(DataComponents.FOOD)) return;
         if (HistoricalFoodRules.healPointsFor(profile, BuiltInRegistries.ITEM.getKey(stack.getItem()).toString()).isEmpty()) {

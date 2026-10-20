@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.ActiveVersion;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -41,7 +43,7 @@ class OrdinaryWorldPortalAndFoodTest {
 
     @AfterEach
     void clearSession() {
-        HistoricalActiveSession.clear();
+        ActiveVersion.clear();
     }
 
     @Test
@@ -57,17 +59,17 @@ class OrdinaryWorldPortalAndFoodTest {
     @DisplayName("the session a mixin actually reads gives the same answer, including after leaving a historical world")
     void sessionPathMatches() {
         // No session at all: a freshly started game or an ordinary world.
-        HistoricalActiveSession.clear();
-        assertTrue(HistoricalGameplayTweaks.netherAvailable(HistoricalActiveSession.current()));
-        assertTrue(HistoricalGameplayTweaks.foodStacks(HistoricalActiveSession.current()));
+        ActiveVersion.clear();
+        assertTrue(HistoricalGameplayTweaks.netherAvailable(ActiveVersion.current()));
+        assertTrue(HistoricalGameplayTweaks.foodStacks(ActiveVersion.current()));
 
         // Historical world, then back to ordinary (disconnect and rejoin): nothing may leak.
-        HistoricalActiveSession.set("historical_experience:alpha_1_0_1");
-        assertFalse(HistoricalGameplayTweaks.netherAvailable(HistoricalActiveSession.current()));
-        assertFalse(HistoricalGameplayTweaks.foodStacks(HistoricalActiveSession.current()));
-        HistoricalActiveSession.set(null);
-        assertTrue(HistoricalGameplayTweaks.netherAvailable(HistoricalActiveSession.current()));
-        assertTrue(HistoricalGameplayTweaks.foodStacks(HistoricalActiveSession.current()));
+        ActiveVersion.set("historical_experience:alpha_1_0_1");
+        assertFalse(HistoricalGameplayTweaks.netherAvailable(ActiveVersion.current()));
+        assertFalse(HistoricalGameplayTweaks.foodStacks(ActiveVersion.current()));
+        ActiveVersion.set(null);
+        assertTrue(HistoricalGameplayTweaks.netherAvailable(ActiveVersion.current()));
+        assertTrue(HistoricalGameplayTweaks.foodStacks(ActiveVersion.current()));
     }
 
     @Test

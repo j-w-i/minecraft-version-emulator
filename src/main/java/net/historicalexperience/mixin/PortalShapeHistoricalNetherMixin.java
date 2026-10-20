@@ -17,7 +17,7 @@
  */
 package net.historicalexperience.mixin;
 
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -51,7 +51,7 @@ public abstract class PortalShapeHistoricalNetherMixin {
     @Inject(method = "findEmptyPortalShape", at = @At("HEAD"), cancellable = true)
     private static void historicalExperience$refusePortalFrame(LevelAccessor level, BlockPos pos, Direction.Axis axis,
             CallbackInfoReturnable<java.util.Optional<PortalShape>> callback) {
-        if (!HistoricalGameplayTweaks.netherAvailable(HistoricalActiveSession.current())) {
+        if (!HistoricalGameplayTweaks.netherAvailable(ActiveVersion.current())) {
             callback.setReturnValue(java.util.Optional.empty());
         }
     }

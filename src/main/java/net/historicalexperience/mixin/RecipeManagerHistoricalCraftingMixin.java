@@ -20,7 +20,7 @@ package net.historicalexperience.mixin;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import java.util.Optional;
 import java.util.List;
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalCraftingEra;
 import net.historicalexperience.gameplay.HistoricalRecipeGate;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -78,7 +78,7 @@ public abstract class RecipeManagerHistoricalCraftingMixin {
                 org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable<Optional<RecipeHolder<T>>> cir) {
         String version = level instanceof net.minecraft.server.level.ServerLevel server
             ? net.historicalexperience.gameplay.HistoricalProfileLookup.profileIdForLevel(server)
-            : HistoricalActiveSession.current();
+            : ActiveVersion.current();
         if (!net.historicalexperience.gameplay.EarlyGameplayRecipes.supports(version)) return;
         if (type == RecipeType.CRAFTING && input instanceof net.minecraft.world.item.crafting.CraftingInput crafting) {
             cir.setReturnValue((Optional) net.historicalexperience.gameplay.EarlyRecipeLookup.find(version, crafting, level));
@@ -97,7 +97,7 @@ public abstract class RecipeManagerHistoricalCraftingMixin {
                 org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable<List<RecipeHolder<T>>> cir) {
         String version = level instanceof net.minecraft.server.level.ServerLevel server
             ? net.historicalexperience.gameplay.HistoricalProfileLookup.profileIdForLevel(server)
-            : HistoricalActiveSession.current();
+            : ActiveVersion.current();
         if (!net.historicalexperience.gameplay.EarlyGameplayRecipes.supports(version)) return;
         if (type == RecipeType.CRAFTING && input instanceof net.minecraft.world.item.crafting.CraftingInput crafting) {
             cir.setReturnValue((List) net.historicalexperience.gameplay.EarlyRecipeLookup.find(version, crafting, level).stream()
@@ -115,7 +115,7 @@ public abstract class RecipeManagerHistoricalCraftingMixin {
                 RecipeType<T> type, I input, Level level) {
         String version = level instanceof net.minecraft.server.level.ServerLevel server
             ? net.historicalexperience.gameplay.HistoricalProfileLookup.profileIdForLevel(server)
-            : HistoricalActiveSession.current();
+            : ActiveVersion.current();
         if (!net.historicalexperience.gameplay.EarlyGameplayRecipes.supports(version)) return found;
         if (type == RecipeType.CRAFTING) return found;
         if (type != RecipeType.SMELTING) return new java.util.ArrayList<>();
@@ -143,7 +143,7 @@ public abstract class RecipeManagerHistoricalCraftingMixin {
                 Optional<RecipeHolder<T>> found, RecipeType<T> type, I input, Level level, RecipeHolder<T> previous) {
         String versionId = level instanceof net.minecraft.server.level.ServerLevel server
             ? net.historicalexperience.gameplay.HistoricalProfileLookup.profileIdForLevel(server)
-            : HistoricalActiveSession.current();
+            : ActiveVersion.current();
         if (net.historicalexperience.gameplay.EarlyGameplayRecipes.supports(versionId)) {
             if (type == RecipeType.CRAFTING) return found; // Already chosen from the exact early table.
             if (type != RecipeType.SMELTING || found.isEmpty() || input.size() != 1) return Optional.empty();

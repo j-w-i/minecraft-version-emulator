@@ -14,7 +14,7 @@
  */
 package net.historicalexperience.mixin;
 
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
@@ -59,12 +59,12 @@ public abstract class PlayerHistoricalExhaustionMixin {
     /** Upstream has no equivalent. A sprint jump: 0.8 before Release 1.6.4, modern from it. */
     @ModifyConstant(method = "jumpFromGround", constant = @Constant(floatValue = 0.2F))
     private float historicalExperience$sprintJumpExhaustion(float exhaustion) {
-        return HistoricalGameplayTweaks.betaSprintJumpExhaustion(HistoricalActiveSession.current())
+        return HistoricalGameplayTweaks.betaSprintJumpExhaustion(ActiveVersion.current())
             ? 0.8F
             : exhaustion;
     }
 
     private static boolean exhaustsLikeBeta() {
-        return HistoricalGameplayTweaks.betaExhaustionCosts(HistoricalActiveSession.current());
+        return HistoricalGameplayTweaks.betaExhaustionCosts(ActiveVersion.current());
     }
 }

@@ -107,7 +107,7 @@ work, and each now carries the plain project header.
 | `gameplay/HistoricalToolInteractionEvents.java` | NT `helper/gameplay/InteractionHelper.java`, `listener/common/InteractionListener.java` | Direct port; predicates upstream's verbatim | LGPL-3.0-only | As above |
 | `gameplay/HistoricalLeftClickEvents.java` | NT `listener/common/InteractionListener.onLeftClickBlock` | Ported | LGPL-3.0-only | As above |
 | `gameplay/HistoricalFarmingInteractionEvents.java` | NT `listener/common/InteractionListener.java` | Ported | LGPL-3.0-only | As above |
-| `gameplay/HistoricalActiveSession.java` | NT config-flag mechanism | Adapted: version gate replaces the flag | LGPL-3.0-only | As above |
+| `version/ActiveVersion.java` (formerly `gameplay/HistoricalActiveSession.java`; moved and renamed by the architecture refactor, header preserved) | NT config-flag mechanism | Adapted: version gate replaces the flag; now also publishes the resolved `FeatureSet` | LGPL-3.0-only | As above |
 
 ### Mixins
 

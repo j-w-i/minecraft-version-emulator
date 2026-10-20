@@ -20,7 +20,7 @@ import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalPlayerRules;
 import net.historicalexperience.mixin.GuiAccess;
 import net.minecraft.client.Minecraft;
@@ -85,13 +85,13 @@ public final class HudHelper {
 
     /** Whether this world's version had no hunger, so the modern bar must not be shown. */
     public static boolean hideHungerBar() {
-        String session = HistoricalActiveSession.current();
+        String session = ActiveVersion.current();
         return session != null && HistoricalPlayerRules.suppressesHungerTick(session);
     }
 
     /** Whether this world's version awarded no experience, so its bar must not be shown. */
     public static boolean hideExperienceBar() {
-        String session = HistoricalActiveSession.current();
+        String session = ActiveVersion.current();
         return session != null && net.historicalexperience.gameplay.HistoricalLootRules.suppressesExperience(session);
     }
 
@@ -103,7 +103,7 @@ public final class HudHelper {
      * number. See {@code HistoricalGameplayTweaks.experienceLevelShown} for the source of that boundary.
      */
     public static boolean hideExperienceLevel() {
-        String session = HistoricalActiveSession.current();
+        String session = ActiveVersion.current();
         return session != null
             && !net.historicalexperience.gameplay.HistoricalGameplayTweaks.experienceLevelShown(session);
     }

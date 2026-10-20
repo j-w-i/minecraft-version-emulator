@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: LGPL-3.0-or-later */
 package net.historicalexperience.mixin;
 
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalEarlyMenuRules;
 import net.historicalexperience.gameplay.HistoricalProfileLookup;
 import net.minecraft.server.level.ServerLevel;
@@ -30,7 +30,7 @@ public abstract class GrindstoneMenuHistoricalEarlyMixin {
     private void historicalExperience$denyEarlyResult(CallbackInfo ci) {
         Level level = historicalExperience$menuLevel;
         if (level == null) return;
-        String profile = level instanceof ServerLevel server ? HistoricalProfileLookup.profileIdForLevel(server) : HistoricalActiveSession.current();
+        String profile = level instanceof ServerLevel server ? HistoricalProfileLookup.profileIdForLevel(server) : ActiveVersion.current();
         if (!HistoricalEarlyMenuRules.blocksResult(profile, "grindstone")) return;
         var menu = (AbstractContainerMenu) (Object) this;
         menu.getSlot(GrindstoneMenu.RESULT_SLOT).set(ItemStack.EMPTY);

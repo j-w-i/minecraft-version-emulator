@@ -15,7 +15,7 @@
 package net.historicalexperience.mixin;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -56,7 +56,7 @@ public abstract class MobHistoricalCustomLootMixin {
                 + "Lnet/minecraft/world/item/ItemStack;)Lnet/minecraft/world/entity/item/ItemEntity;"))
     private boolean historicalExperience$shouldDropCustomDeathLoot(Mob mob, ItemStack itemStack) {
         if (mob.getType() == EntityType.SKELETON
-            && HistoricalGameplayTweaks.appliesTo("customDeathLoot", HistoricalActiveSession.current())) {
+            && HistoricalGameplayTweaks.appliesTo("customDeathLoot", ActiveVersion.current())) {
             return false;
         }
         return true;

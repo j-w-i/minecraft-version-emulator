@@ -17,7 +17,7 @@
  */
 package net.historicalexperience.mixin;
 
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.minecraft.client.gui.components.toasts.RecipeToast;
 import net.minecraft.client.gui.components.toasts.ToastComponent;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -57,14 +57,14 @@ public abstract class RecipeToastHistoricalMixin {
     @Inject(method = "addOrUpdate", at = @At("HEAD"), cancellable = true, require = 1)
     private static void historicalExperience$noRecipeBanner(ToastComponent toasts, RecipeHolder<?> recipe,
             CallbackInfo callback) {
-        if (HistoricalActiveSession.current() != null) {
+        if (ActiveVersion.current() != null) {
             callback.cancel();
         }
     }
 
     @Inject(method = "addItem", at = @At("HEAD"), cancellable = true, require = 1)
     private void historicalExperience$noRecipeBannerItem(RecipeHolder<?> recipe, CallbackInfo callback) {
-        if (HistoricalActiveSession.current() != null) {
+        if (ActiveVersion.current() != null) {
             callback.cancel();
         }
     }

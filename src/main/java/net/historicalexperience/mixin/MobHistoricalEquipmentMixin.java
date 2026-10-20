@@ -15,7 +15,7 @@
 package net.historicalexperience.mixin;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
@@ -64,7 +64,7 @@ public abstract class MobHistoricalEquipmentMixin {
 
         for (EquipmentSlot slot : EquipmentSlot.values()) {
             if (slot.isArmor()
-                && HistoricalGameplayTweaks.appliesTo("monsterGear", HistoricalActiveSession.current())) {
+                && HistoricalGameplayTweaks.appliesTo("monsterGear", ActiveVersion.current())) {
                 this.setItemSlot(slot, ItemStack.EMPTY);
             }
         }
@@ -81,7 +81,7 @@ public abstract class MobHistoricalEquipmentMixin {
     private boolean historicalExperience$shouldEnchantWeapon(Mob mob, ServerLevelAccessor level,
             RandomSource random, DifficultyInstance difficulty) {
         if (mob instanceof Monster) {
-            return !HistoricalGameplayTweaks.appliesTo("monsterEnchant", HistoricalActiveSession.current());
+            return !HistoricalGameplayTweaks.appliesTo("monsterEnchant", ActiveVersion.current());
         }
         return true;
     }
@@ -97,7 +97,7 @@ public abstract class MobHistoricalEquipmentMixin {
     private boolean historicalExperience$shouldEnchantArmor(Mob mob, ServerLevelAccessor level,
             RandomSource random, EquipmentSlot slot, DifficultyInstance difficulty) {
         if (mob instanceof Monster) {
-            return !HistoricalGameplayTweaks.appliesTo("monsterEnchant", HistoricalActiveSession.current());
+            return !HistoricalGameplayTweaks.appliesTo("monsterEnchant", ActiveVersion.current());
         }
         return true;
     }

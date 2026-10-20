@@ -7,7 +7,7 @@ import net.historicalexperience.gameplay.HistoricalCreativeRules;
 import net.historicalexperience.server.HistoricalSnapshotRuntime;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalEarlyMenuRules;
 import net.historicalexperience.gameplay.HistoricalProfileLookup;
 import net.minecraft.server.level.ServerLevel;
@@ -42,7 +42,7 @@ public abstract class AnvilMenuHistoricalEarlyMixin {
     private void historicalExperience$denyEarlyResult(CallbackInfo ci) {
         Level level = historicalExperience$menuLevel;
         if (level == null) return; // Constructor's empty-input initialization, before our level binding.
-        String profile = level instanceof ServerLevel server ? HistoricalProfileLookup.profileIdForLevel(server) : HistoricalActiveSession.current();
+        String profile = level instanceof ServerLevel server ? HistoricalProfileLookup.profileIdForLevel(server) : ActiveVersion.current();
         var menu = (AbstractContainerMenu) (Object) this;
         String patch = level instanceof ServerLevel server ? HistoricalSnapshotRuntime.activePatchId(server) : HistoricalSnapshotRuntime.clientPatchId();
         boolean stackedBook = HistoricalCreativeRules.rejectsStackedBookTarget(patch,

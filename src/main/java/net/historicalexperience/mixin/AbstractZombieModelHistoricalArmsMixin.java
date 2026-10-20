@@ -14,7 +14,7 @@
  */
 package net.historicalexperience.mixin;
 
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.client.model.AbstractZombieModel;
 import org.spongepowered.asm.mixin.Mixin;
@@ -57,7 +57,7 @@ public abstract class AbstractZombieModelHistoricalArmsMixin {
             target = "Lnet/minecraft/client/model/AnimationUtils;animateZombieArms("
                 + "Lnet/minecraft/client/model/geom/ModelPart;Lnet/minecraft/client/model/geom/ModelPart;ZFF)V"))
     private boolean historicalExperience$setIsZombieAggressive(boolean isAggressive) {
-        if (HistoricalGameplayTweaks.appliesTo("mobArms", HistoricalActiveSession.current())) {
+        if (HistoricalGameplayTweaks.appliesTo("mobArms", ActiveVersion.current())) {
             return false;
         }
         return isAggressive;
@@ -72,7 +72,7 @@ public abstract class AbstractZombieModelHistoricalArmsMixin {
             target = "Lnet/minecraft/client/model/AnimationUtils;animateZombieArms("
                 + "Lnet/minecraft/client/model/geom/ModelPart;Lnet/minecraft/client/model/geom/ModelPart;ZFF)V"))
     private float historicalExperience$setZombieAttackTime(float attackTime) {
-        if (HistoricalGameplayTweaks.appliesTo("mobArms", HistoricalActiveSession.current())) {
+        if (HistoricalGameplayTweaks.appliesTo("mobArms", ActiveVersion.current())) {
             return 0.0F;
         }
         return attackTime;

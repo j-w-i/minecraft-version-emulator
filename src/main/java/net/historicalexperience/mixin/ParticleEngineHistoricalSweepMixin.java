@@ -15,7 +15,7 @@
 package net.historicalexperience.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleEngine;
@@ -61,7 +61,7 @@ public abstract class ParticleEngineHistoricalSweepMixin {
             return null;
         }
 
-        if (!HistoricalGameplayTweaks.appliesTo("sweep", HistoricalActiveSession.current())) {
+        if (!HistoricalGameplayTweaks.appliesTo("sweep", ActiveVersion.current())) {
             return particle;
         }
 

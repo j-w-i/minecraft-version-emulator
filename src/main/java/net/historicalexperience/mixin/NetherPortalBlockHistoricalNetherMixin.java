@@ -17,7 +17,7 @@
  */
 package net.historicalexperience.mixin;
 
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -47,7 +47,7 @@ public abstract class NetherPortalBlockHistoricalNetherMixin {
     @Inject(method = "entityInside", at = @At("HEAD"), cancellable = true)
     private void historicalExperience$refusePortalTravel(BlockState state, Level level, BlockPos pos, Entity entity,
             CallbackInfo callback) {
-        if (!HistoricalGameplayTweaks.netherAvailable(HistoricalActiveSession.current())) {
+        if (!HistoricalGameplayTweaks.netherAvailable(ActiveVersion.current())) {
             callback.cancel();
         }
     }

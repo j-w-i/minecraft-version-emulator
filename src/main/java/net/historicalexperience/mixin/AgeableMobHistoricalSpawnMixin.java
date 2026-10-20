@@ -15,7 +15,7 @@
 package net.historicalexperience.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.world.entity.AgeableMob;
 import org.spongepowered.asm.mixin.Mixin;
@@ -42,7 +42,7 @@ public abstract class AgeableMobHistoricalSpawnMixin {
             value = "INVOKE",
             target = "Lnet/minecraft/world/entity/AgeableMob$AgeableMobGroupData;isShouldSpawnBaby()Z"))
     private boolean historicalExperience$modifyShouldSpawnBaby(boolean shouldSpawnBaby) {
-        return !HistoricalGameplayTweaks.appliesTo("babyAnimal", HistoricalActiveSession.current())
+        return !HistoricalGameplayTweaks.appliesTo("babyAnimal", ActiveVersion.current())
             && shouldSpawnBaby;
     }
 }

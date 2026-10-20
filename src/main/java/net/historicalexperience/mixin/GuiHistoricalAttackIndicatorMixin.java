@@ -15,7 +15,7 @@
 package net.historicalexperience.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.client.AttackIndicatorStatus;
 import net.minecraft.client.gui.Gui;
@@ -62,7 +62,7 @@ public abstract class GuiHistoricalAttackIndicatorMixin {
             value = "INVOKE",
             target = "Lnet/minecraft/client/OptionInstance;get()Ljava/lang/Object;"))
     private <T> T historicalExperience$modifyCrosshairAttackIndicator(T indicatorStatus) {
-        if (HistoricalGameplayTweaks.appliesTo("cooldown", HistoricalActiveSession.current())) {
+        if (HistoricalGameplayTweaks.appliesTo("cooldown", ActiveVersion.current())) {
             return (T) AttackIndicatorStatus.OFF;
         }
         return indicatorStatus;

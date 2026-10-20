@@ -18,7 +18,7 @@
 package net.historicalexperience.server;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.historicalexperience.gameplay.HistoricalActiveSession;
+import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalEnchanting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
@@ -92,12 +92,12 @@ public final class EnchantingVerification {
             for (String version : new String[] {"historical_experience:beta_1_9_pre_3",
                 "historical_experience:beta_1_9_pre_4", "historical_experience:release_1_0_0",
                 "historical_experience:release_1_6_4"}) {
-                HistoricalActiveSession.set(version);
+                ActiveVersion.set(version);
                 probe(level, player, version);
             }
-            HistoricalActiveSession.set(null);
+            ActiveVersion.set(null);
             probe(level, player, "ordinary world");
-            HistoricalActiveSession.clear();
+            ActiveVersion.clear();
         } catch (ReflectiveOperationException | RuntimeException failure) {
             LOGGER.error("ENCHANTPROBE failed", failure);
         }
@@ -247,7 +247,7 @@ public final class EnchantingVerification {
                 }
             }
         }
-        LOGGER.info("ENCHANTPROBE {}: active={} oldRules={}{}", label, HistoricalActiveSession.current(),
-            HistoricalEnchanting.usesOldTableRules(HistoricalActiveSession.current()), offers);
+        LOGGER.info("ENCHANTPROBE {}: active={} oldRules={}{}", label, ActiveVersion.current(),
+            HistoricalEnchanting.usesOldTableRules(ActiveVersion.current()), offers);
     }
 }
