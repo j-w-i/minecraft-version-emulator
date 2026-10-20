@@ -53,7 +53,7 @@ public abstract class MenuHistoricalFoodStackMixin {
         target = "Lnet/minecraft/world/item/ItemStack;getMaxStackSize()I"))
     private int historicalExperience$capFoodMerge(ItemStack stack) {
         return net.historicalexperience.gameplay.HistoricalFoodStackLimit.foodDoesNotStack(stack)
-            ? 1
+            ? net.historicalexperience.gameplay.HistoricalFoodStackLimit.historicalStackLimit(stack)
             : stack.getMaxStackSize();
     }
 
@@ -70,7 +70,7 @@ public abstract class MenuHistoricalFoodStackMixin {
         target = "Lnet/minecraft/world/item/ItemStack;getMaxStackSize()I"))
     private static int historicalExperience$capQuickReplace(ItemStack stack) {
         return net.historicalexperience.gameplay.HistoricalFoodStackLimit.foodDoesNotStack(stack)
-            ? 1
+            ? net.historicalexperience.gameplay.HistoricalFoodStackLimit.historicalStackLimit(stack)
             : stack.getMaxStackSize();
     }
 
@@ -78,7 +78,7 @@ public abstract class MenuHistoricalFoodStackMixin {
         target = "Lnet/minecraft/world/item/ItemStack;getMaxStackSize()I"))
     private static int historicalExperience$capQuickCraftPlaceCount(ItemStack stack) {
         return net.historicalexperience.gameplay.HistoricalFoodStackLimit.foodDoesNotStack(stack)
-            ? 1
+            ? net.historicalexperience.gameplay.HistoricalFoodStackLimit.historicalStackLimit(stack)
             : stack.getMaxStackSize();
     }
 }

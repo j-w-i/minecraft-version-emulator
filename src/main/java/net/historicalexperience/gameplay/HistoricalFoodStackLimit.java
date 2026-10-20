@@ -59,6 +59,20 @@ public final class HistoricalFoodStackLimit {
     private HistoricalFoodStackLimit() {
     }
 
+    /**
+     * The stack limit to apply when {@link #foodDoesNotStack} says this stack is limited: 8 for a cookie in the
+     * Beta 1.4-1.7.3 window, 1 for every other limited food.
+     *
+     * <p>Only called from inside the limited branch, so the fallback is the unstackable case.
+     */
+    public static int historicalStackLimit(ItemStack stack) {
+        if (stack != null && stack.is(net.minecraft.world.item.Items.COOKIE)
+                && Features.active(Feature.COOKIE_STACKS_EIGHT)) {
+            return 8;
+        }
+        return 1;
+    }
+
     /** True when this stack is food and the active version predates Beta 1.8. */
     public static boolean foodDoesNotStack(ItemStack stack) {
         return Features.active(Feature.UNSTACKABLE_FOOD)

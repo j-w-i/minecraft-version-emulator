@@ -64,6 +64,9 @@ public final class Milestones {
     public static final Milestone INFDEV_20100420 = Milestone.ofKey(300_420, "Infdev 20100420");
     public static final Milestone BETA_1_0 = Milestone.of(Era.BETA, 1, 0, 0, "Beta 1.0");
     public static final Milestone BETA_1_3 = Milestone.of(Era.BETA, 1, 3, 0, "Beta 1.3");
+    /** Beta 1.4: cookies, and wolves. */
+    public static final Milestone BETA_1_4 = Milestone.of(Era.BETA, 1, 4, 0, "Beta 1.4");
+
     public static final Milestone BETA_1_5 = Milestone.of(Era.BETA, 1, 5, 0, "Beta 1.5");
     /** Beta 1.6.5 stopped drawing the version label. Not declared: the next declared build is Beta 1.7.3. */
     public static final Milestone BETA_1_6_5 = Milestone.of(Era.BETA, 1, 6, 5, "Beta 1.6.5");

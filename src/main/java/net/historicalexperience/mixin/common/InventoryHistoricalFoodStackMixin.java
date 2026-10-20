@@ -44,7 +44,7 @@ public abstract class InventoryHistoricalFoodStackMixin {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getMaxStackSize()I"))
     private int historicalExperience$capReturnedFoodMerge(ItemStack stack) {
         return net.historicalexperience.gameplay.HistoricalFoodStackLimit.foodDoesNotStack(stack)
-            ? 1
+            ? net.historicalexperience.gameplay.HistoricalFoodStackLimit.historicalStackLimit(stack)
             : stack.getMaxStackSize();
     }
 }

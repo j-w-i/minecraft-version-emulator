@@ -64,14 +64,14 @@ public abstract class SlotHistoricalFoodStackMixin {
     private void historicalExperience$limitFoodStack(CallbackInfoReturnable<Integer> callback) {
         Slot self = (Slot) (Object) this;
         if (historicalExperience$foodDoesNotStack(self.getItem())) {
-            callback.setReturnValue(1);
+            callback.setReturnValue(HistoricalFoodStackLimit.historicalStackLimit(self.getItem()));
         }
     }
 
     @Inject(method = "getMaxStackSize(Lnet/minecraft/world/item/ItemStack;)I", at = @At("HEAD"), cancellable = true)
     private void historicalExperience$limitFoodStackFor(ItemStack stack, CallbackInfoReturnable<Integer> callback) {
         if (historicalExperience$foodDoesNotStack(stack)) {
-            callback.setReturnValue(1);
+            callback.setReturnValue(HistoricalFoodStackLimit.historicalStackLimit(stack));
         }
     }
 

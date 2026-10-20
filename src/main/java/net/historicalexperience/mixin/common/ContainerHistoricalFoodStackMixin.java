@@ -64,7 +64,7 @@ public interface ContainerHistoricalFoodStackMixin {
         cancellable = true)
     default void historicalExperience$limitFoodStack(ItemStack stack, CallbackInfoReturnable<Integer> callback) {
         if (net.historicalexperience.gameplay.HistoricalFoodStackLimit.foodDoesNotStack(stack)) {
-            callback.setReturnValue(1);
+            callback.setReturnValue(net.historicalexperience.gameplay.HistoricalFoodStackLimit.historicalStackLimit(stack));
         }
     }
 }

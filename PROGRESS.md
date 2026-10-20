@@ -1,3 +1,27 @@
+# Current work — 2026-10-21 / Gap 11: cookies stack to 8 (Beta 1.4-1.7.3)
+
+Before Beta 1.8 no food stacks - but the cookie is the documented exception: a Beta 1.7.3 cookie is the same item in a
+dedicated subclass whose only purpose is a stack size of 8 (`research/beta173-food-healing.json`: "Beta cookie saved in
+the `qk` subclass purely to raise stack size to 8"; `research/infdev-registries.json` shows the constructor's last
+argument as 8). The project's blanket "food does not stack" cap made a Beta 1.4-1.7.3 cookie unstackable.
+
+Implemented as feature `COOKIE_STACKS_EIGHT` `[Beta 1.4, Beta 1.8.1)` plus `HistoricalFoodStackLimit.historicalStackLimit`,
+which returns 8 for a cookie in that window and 1 for every other limited food; all six call sites (container, slot,
+menu's four paths, inventory) now ask it, so the four hooks cannot disagree - the reason that helper exists in the first
+place. New `BETA_1_4` milestone.
+
+`CookieStackLimitTest` pins the window and the actual limits on a bootstrapped registry: cookie 8 at Beta 1.7.3, 1 at
+Beta 1.3, 1 for bread, 1 in an ordinary world.
+
+**Evidence:** `./gradlew test` - **796 tests, 0 failures**. Golden, matrix and facts regenerated. The first pass was
+committed only after the compiler and the tests caught two of my own mistakes: the milestone name did not exist, and the
+slot mixin's no-argument method has no `stack` variable.
+
+**Still open:** the player damage +1 bug (Beta 1.5-1.7.3, wiki quote already recorded in the timeline), cake healing,
+potion strengths, XP curve/sources, achievements, block-break delay, boats, maps, signs, the F3 overlay, the stone-slab
+substitution, slab/ladder/plate counts, `redstone_lamp` in 1.2.5, and the Pre3 frame item form.
+
+---
 # Current work — 2026-10-21 / Gap 10: geared monsters from Release 1.4, compass/clock dates (G9, A-10)
 
 **G9 - geared monsters.** Armour, weapons, item pickup and spawn enchantments for monsters all arrive in Release 1.4.2

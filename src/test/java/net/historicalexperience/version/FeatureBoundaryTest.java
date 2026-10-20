@@ -71,6 +71,7 @@ class FeatureBoundaryTest {
         BEFORE.put(Feature.NO_ANIMAL_BREEDING, P + "beta_1_9_pre_2");
         BEFORE.put(Feature.NO_ENDER_DRAGON, P + "beta_1_9_pre_6");
         BETWEEN.put(Feature.END_FRAME_EYE_REPAIR, new String[] {P + "beta_1_9_pre_3", P + "beta_1_9_pre_4"});
+        BETWEEN.put(Feature.COOKIE_STACKS_EIGHT, new String[] {P + "beta_1_4", P + "beta_1_8_1"});
         BEFORE.put(Feature.NO_ANIMAL_TEMPTING, P + "beta_1_9_pre_2");
         BEFORE.put(Feature.NO_BABY_ANIMALS, P + "beta_1_9_pre_3");
         // Release 1.4.2 is not declared, but Release 1.4 IS its stable baseline, so it is the boundary rather than

@@ -107,6 +107,18 @@ public enum Feature {
                         + "zombies spawning naturally\"), proxied by Release 1.6.4 as the only declared version "
                         + "after it. Baby zombified piglins share the same date and the same hook. Upstream "
                         + "tweaks: DISABLE_BABY_ZOMBIE_SPAWN, DISABLE_BABY_PIGLIN_SPAWN."),
+    /**
+     * Cookies stack to 8 while every other food stacks to 1, from Beta 1.4 (cookies) to Beta 1.8 (all food stacks).
+     *
+     * <p>research/beta173-food-healing.json, from the Beta 1.7.3 client: "Beta cookie saved in the {@code qk}
+     * subclass purely to raise stack size to 8", and research/infdev-registries.json records the cookie constructor's
+     * fourth argument as its stack size, 8. So the exception is a property of the cookie, not of food in general.
+     */
+    COOKIE_STACKS_EIGHT(Domain.ITEMS, FeatureWindow.between(Milestones.BETA_1_4, Milestones.BETA_1_8_1),
+        "Cookies stack to 8 while other food does not stack. minecraft.wiki, Cookie history: cookies added in Beta "
+        + "1.4 and stacking to 8; Beta 1.8 made all food stack to 64. The Beta 1.7.3 client implements the cookie as "
+        + "a dedicated item subclass whose only purpose is that stack size."),
+
     /** No attack cooldown. */
     NO_ATTACK_COOLDOWN(Domain.COMBAT, FeatureWindow.allDeclared(),
         "The 1.9 attack cooldown: attacks are always at full strength. Every declared version predates Release 1.9, so the window is every declared version. Upstream tweak: DISABLE_ATTACK_COOLDOWN."),
