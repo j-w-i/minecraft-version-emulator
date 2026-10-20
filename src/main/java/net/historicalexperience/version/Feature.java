@@ -233,6 +233,17 @@ public enum Feature {
         "Instant Health heals 6 and Regeneration ticks every 25 base before Release 1.6.1 (minecraft.wiki: nerfed by "
         + "33% and 50% respectively in 1.6.1)."),
 
+    /**
+     * A cake has six slices, not the modern seven.
+     *
+     * <p>minecraft.wiki, Cake history: Beta 1.8 Pre-release "Cake now restores 12 hunger and its slice restores 2";
+     * 14w27a "Cake slices available when eating cakes have been increased from 6 to 7, restoring 14 in total." 14w27a
+     * is a Release 1.8 snapshot and no declared version reaches it, so every declared build has six slices.
+     */
+    CAKE_SIX_SLICES(Domain.PLAYER, FeatureWindow.allDeclared(),
+        "Cakes have six slices (12 hunger at 2 each, or 18 health at 3 each before hunger); the seventh slice is "
+        + "14w27a, a Release 1.8 snapshot no declared build reaches."),
+
     /** No attack cooldown. */
     NO_ATTACK_COOLDOWN(Domain.COMBAT, FeatureWindow.allDeclared(),
         "The 1.9 attack cooldown: attacks are always at full strength. Every declared version predates Release 1.9, so the window is every declared version. Upstream tweak: DISABLE_ATTACK_COOLDOWN."),

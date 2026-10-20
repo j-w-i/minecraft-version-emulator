@@ -174,7 +174,7 @@ class FeatureBoundaryTest {
 
         ALL_DECLARED.addAll(List.of(Feature.NO_ATTACK_COOLDOWN, Feature.NO_SWEEP_ATTACK, Feature.NO_SWIMMING,
             Feature.OLD_ZOMBIE_ARMS, Feature.NO_TOOL_SHAPING, Feature.OLD_FISHING_LOOT, Feature.ORE_DROPS_AS_BLOCKS,
-            Feature.NO_OFFHAND, Feature.NO_RECIPE_BOOK, Feature.NO_NETHER_ENDERMEN, Feature.ORIGINAL_DRAGON_FIGHT));
+            Feature.NO_OFFHAND, Feature.NO_RECIPE_BOOK, Feature.NO_NETHER_ENDERMEN, Feature.ORIGINAL_DRAGON_FIGHT, Feature.CAKE_SIX_SLICES));
     }
 
     private static int key(String id) {

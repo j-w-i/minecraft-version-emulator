@@ -213,6 +213,12 @@ public final class HistoricalFoodRules {
         return !hasHunger(versionId);
     }
 
+    /** The maximum BITES value a cake may reach: 5 gives six slices, the modern 6 gives seven. */
+    public static int cakeBitesMax(String versionId) {
+        return net.historicalexperience.version.Features.active(
+            net.historicalexperience.version.Feature.CAKE_SIX_SLICES, versionId) ? 5 : 6;
+    }
+
     /** The health a cake slice restores directly, or zero in versions with hunger. */
     public static float cakeSliceHeal(String versionId) {
         return net.historicalexperience.version.Features.active(

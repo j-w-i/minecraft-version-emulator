@@ -1,3 +1,31 @@
+# Current work — 2026-10-21 / Gap 29: six-slice cakes, and the cake-hunger conflict closed
+
+Boats were investigated first and left alone: the historical delta is break-on-impact-at-speed physics plus a
+drop change, and `Boat.remove(RemovalReason)` does not say WHY the boat was removed (player break versus fall damage), so
+the 12w27a "player break drops the item instead of planks" half cannot be expressed without a break-cause hook. That is
+recorded as needing its own slice rather than approximated.
+
+Cake, from the same investigation, is fully sourced by two wiki rows:
+
+- Beta 1.8 Pre-release: "Cake now restores 12 hunger and its slice restores 2";
+- 14w27a: "Cake slices available when eating cakes have been increased from 6 to 7, restoring 14 in total."
+
+14w27a is a Release 1.8 snapshot and no declared build reaches it, so **every declared cake has six slices**:
+
+- `CAKE_SIX_SLICES` (`allDeclared` - a deviation from modern in every declared version) and
+  `HistoricalFoodRules.cakeBitesMax` (5 bites = six slices, vs modern 6 = seven).
+- One constant override in the bite comparison inside `CakeBlock.eat`. **The blockstate range is NOT changed**: only the
+  comparison moves, so a cake saved with a higher bite value in an existing world stays valid.
+- The totals then agree with the wiki on both sides of hunger: 6 x 3 = 18 health before Beta 1.8 (the direct-heal path
+  already implemented) and 6 x 2 = 12 hunger after it.
+- **The cake-hunger conflict (2 vs 3) is CLOSED:** the wiki states 2 per slice for the hunger era, which modern
+  vanilla already is, so no hunger override was ever needed - only the slice count was wrong.
+- Mixin application client-verified: `CLIENTMIXINCHECK loaded CakeBlock ... its mixins applied`.
+
+**Evidence:** `./gradlew cleanTest test` - **825 tests, 0 failures**; `CakeSlicesTest` pins the six-slice window, the
+ordinary-world seventh bite and both whole-cake totals; golden, matrix and facts regenerated.
+
+---
 # Current work — 2026-10-21 / Consolidation: HEAD verified, and the status board now describes the routes honestly
 
 Before spending the remaining rounds on the last blocked items, HEAD was re-verified end to end:
