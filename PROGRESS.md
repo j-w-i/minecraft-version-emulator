@@ -1,3 +1,36 @@
+# Current work — 2026-10-21 / A reverted experiment: the 1.4.2 potion gate does not fire, and is not shipped
+
+Tried to implement a sourced rule: Night Vision and Invisibility are Release 1.4.2 additions (minecraft.wiki: brewed from a
+golden carrot / fermented spider eye), so a Release 1.0-1.3 brewing stand must not produce them. The evidence is solid;
+the implementation is not.
+
+Three hooks, all measured on dedicated probe worlds with a brewing stand loaded over RCON:
+
+1. `PotionBrewing.hasMix` at RETURN - the client class-load probe said "its mixins applied", yet a Release 1.3 world brewed
+   Night Vision exactly like 1.6.4.
+2. the same hook plus `System.out` and then an slf4j logger - **no debug line appeared** in the task output or in
+   `run/logs/latest.log`, so the handler was not running, whatever the application probe claimed.
+3. `BrewingStandBlockEntity.doBrew` (the hook the pre-Pre3 no-brewing rule uses), resolving the profile from the LEVEL
+   after finding that the server-wide note is still empty on a world's first boot - still brewed Night Vision in 1.3.
+
+**Reverted everything** (feature, helper, mixin, test, config entry) rather than leave an unverified rule in the tree.
+828 tests, 0 failures after the revert.
+
+What this cost and what it taught:
+
+- **A class-load probe proves transformation, not execution.** That distinction is exactly what the client probe was
+  assumed to cover; it is now written into the handoff section of the status board.
+- **Console logging is not a reliable way to prove a server mixin runs.** The working hooks were proved through observable
+  game state (BrewTime, health, block drops) - the next attempt at this rule needs a counter surfaced through `/hex
+  status`, which is the project's existing pattern (`cooldownHookCalls`, `orbsRefused`, `damageHookRewrites`).
+- **First boot has no server-wide profile.** The hardcore gate's fallback and this round's `doBrew` fix both learned that;
+  the level resolver is the reliable source before the world state is established.
+- A JSON trailing comma turned the removal into a silent `JsonNull` for one test - fixed, and the mixin-consistency test
+  caught it.
+
+Recorded in the status board as an open mechanism gap with those specifics.
+
+---
 # Current work — 2026-10-21 / Runtime round 2: both potion strengths measured, with a control
 
 Last round measured the brew clock. This round measured the two constants the potion-strength mixins change, and the one
