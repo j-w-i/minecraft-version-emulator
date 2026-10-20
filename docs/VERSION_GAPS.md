@@ -90,7 +90,7 @@ what it can actually see:
 
 | Route | Proves | Evidence in this tree |
 | --- | --- | --- |
-| Unit tests | the decision logic: windows, dates, filters, loot sets, constants | 156 suites, **823 tests, 0 failures** |
+| Unit tests | the decision logic: windows, dates, filters, loot sets, constants | 159 suites, **828 tests, 0 failures** |
 | Dedicated server boot | server-side mixin APPLICATION and world behaviour | boots to `Done (~2.7s)` with zero mixin errors; two real defects were caught this way that the tests could not see (an invalid injection descriptor on a void method, and a null `overworld()` at `SERVER_STARTING`) |
 | RCON probes on real worlds | player-visible outcomes: build limits, drops, hardcore, brewing | `scripts/verify-release-height.ps1` (five builds, 0..255 with y=256/-1 out of world); ghast dropped nothing with a zombie/feather control; a skeleton-killed creeper dropped Gunpowder + Disc 13 while a player kill dropped Gunpowder only; hardcore read `effective=false` in Beta 1.7.3 and `true` in Release 1.6.4; a brewing stand's `BrewTime` counted down from 600 in a Release 1.0 world and from 400 in Release 1.6.4; Instant Health healed +6 in Release 1.5 vs +4 in 1.6.4, Regeneration +5 vs +2 over six seconds, and Instant Damage stayed -6 in both |
 | Client class-load probes | client-side mixin application (`CLIENTMIXINCHECK`) | debug overlay, achievements, block-break delay, brewing stand, regeneration and instant-health effect classes all report "its mixins applied" |

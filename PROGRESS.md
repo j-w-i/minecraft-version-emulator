@@ -1,3 +1,37 @@
+# Current work — 2026-10-21 / Closing the audit-implementation goal: what is done, and what is recorded instead
+
+The goal was to implement every gap the four era audits found, with a test and a citation each, and to record - not
+guess - anything unknown. That is the state of this tree.
+
+**Verified at this HEAD**
+
+- `./gradlew cleanTest test` - **159 suites, 828 tests, 0 failures**;
+- dedicated server boots to `Done (2.776s)` with zero mixin errors;
+- a plain client launch reaches world initialisation with no mixin errors;
+- golden snapshot, version matrix and fact sheet regenerated and matching;
+- working tree clean at `b98acf0`.
+
+**Implemented across the goal** (each row in `docs/VERSION_GAPS.md` names its test and quotes its evidence): the missing
+era drop tables and the 1.8.1 second-pool drops; the Release 1.2.5-1.5 block-date misattribution; the golden-apple,
+arrow, wool, slab/ladder/sign/bucket/pressure-plate/stone-slab recipe set; the five Release 256-height revisions; the
+Pre2/Pre3 boundary; dragon suppression and Pre3 eye-of-ender frame fill; Alpha cloth armour; cookie stacks, beta damage
+bug, cake slice healing and six-slice cakes, creeper disc drops, ghast no-drop, hardcore and achievement gates, debug
+coordinate suppression, block-break delay, boat drop behaviour, brewing time and the pre-1.6.1 potion strengths (with a
+measured control proving Instant Damage was untouched), and the new server-wide profile context that made the
+stateless-effect rules possible.
+
+**Recorded instead, with the reason and the next step**: armour/damage formulas, spawn weights and pre-1.9 AI, the
+pre-1.3.1 XP curve, the 1.6.x crit formula, cake-hunger-era disagreements (closed), glistering melon/fire charge dates,
+the Pre3 frame's item form, pre-1.4 maps, boat physics, achievement lists above Beta 1.5, per-version potion recipes -
+and the Night Vision/Invisibility brew gate, whose hook is now proven to run with a counter (`brewGateCalls=1`,
+`noProfile=0`, `nightVision=0`) and whose remaining suspect is written down.
+
+Nothing in this tree is a guessed historical value presented as fact; where a number had to be assumed (the pre-Beta-1.3
+pressure-plate output), the assumption is in the code, the docs and the test.
+
+**Where to pick up:** `docs/VERSION_GAPS.md` - "Open, with the reason" and "Where to continue".
+
+---
 # Current work — 2026-10-21 / The counter answered the potion-gate question, and the answer is "not yet"
 
 The status board said the next attempt needed a `/hex` counter rather than console logging. Added one to
