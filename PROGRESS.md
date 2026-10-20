@@ -1,3 +1,25 @@
+# Current work — 2026-10-21 / Gap tracking: the audit document becomes a status board
+
+After fifteen implementation slices, docs/VERSION_GAPS.md still presented every audit finding as open and carried a
+stale backlog. Rewritten as a status board:
+
+- an **Implemented** table (17 rows) naming what changed, what was wrong, and the test that pins each one;
+- **Open, with the reason** split into three honest classes: evidence missing (armour formulas, spawn weights, the
+  pre-1.3.1 XP curve, the 1.6.x crit formula, cake hunger, glistering melon/fire charge), mechanism missing (the Pre3
+  frame item form, "no drop" and conditional second drops, potion tables, achievements, boats/maps/signs/block-break
+  delay, slab counts and substitution, AI), and **verified only by unit test** (the 256-height revisions, client
+  mixins, mixin application generally);
+- a "checked and correct" section so the same ground is not re-audited;
+- the full evidence remains in research/gaps/, which this document links rather than duplicates.
+
+**Why the Pre3 frame item form was not implemented this round.** The tooltip half is easy, but the visible half is a
+flat filled-frame ITEM model. The texture system routes assets from pinned dependency packs per version and has no way
+to serve a mod-authored per-version model, and the frame item is creative-only in Pre3, so a tooltip-only change would
+marry a correct tooltip to a wrong sprite. It is recorded under "mechanism missing" instead of half-done.
+
+**Evidence:** `./gradlew test` - **802 tests, 0 failures**.
+
+---
 # Current work — 2026-10-21 / Gap 15: no coordinates on the debug overlay before Alpha v1.2.3 (A-06)
 
 minecraft.wiki, Debug screen history (raw wikitext, fetched 2026-10-21): "v1.2.3: The coordinates have been added to the
