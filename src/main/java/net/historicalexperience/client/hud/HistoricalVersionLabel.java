@@ -16,8 +16,13 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */package net.historicalexperience.client.hud;
 
+import net.historicalexperience.version.Era;
+
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.historicalexperience.version.HistoricalVersion;
-import net.historicalexperience.version.HistoricalVersions;
 
 /**
  * Whether a historical version drew its name in the top-left corner of the screen, and what the text said.
@@ -45,18 +50,6 @@ import net.historicalexperience.version.HistoricalVersions;
  * Classic 0.0.2a and not removed until Beta 1.6.5.
  */
 public final class HistoricalVersionLabel {
-    /** Beta 1.6.5, the first build that stopped drawing it. No profile sits exactly here; the next one is Beta 1.7.3. */
-    static final int REMOVED_IN_BETA_1_6_5 = HistoricalVersions.chronology(HistoricalVersions.ERA_BETA, 1, 6, 5);
-
-    /** Beta 1.8, where it came back. */
-    static final int RESTORED_IN_BETA_1_8 = HistoricalVersions.chronology(HistoricalVersions.ERA_BETA, 1, 8, 0);
-
-    /** Beta 1.9 Prerelease 4 took it away again. */
-    static final int REMOVED_IN_PRERELEASE_4 = HistoricalVersions.chronology(HistoricalVersions.ERA_BETA, 1, 9, 4);
-
-    /** Beta 1.9 Prerelease 5 restored it. */
-    static final int RESTORED_IN_PRERELEASE_5 = HistoricalVersions.chronology(HistoricalVersions.ERA_BETA, 1, 9, 5);
-
     private HistoricalVersionLabel() {
     }
 
@@ -65,14 +58,7 @@ public final class HistoricalVersionLabel {
         if (version == null) {
             return false;
         }
-        int chronology = version.chronology();
-        if (chronology < REMOVED_IN_BETA_1_6_5) {
-            return true;
-        }
-        if (chronology >= RESTORED_IN_BETA_1_8 && chronology < REMOVED_IN_PRERELEASE_4) {
-            return true;
-        }
-        return chronology >= RESTORED_IN_PRERELEASE_5 && chronology < HistoricalVersions.ERA_RELEASE;
+        return Features.active(Feature.VERSION_LABEL, version);
     }
 
     /**
@@ -80,10 +66,10 @@ public final class HistoricalVersionLabel {
      * historical display names.
      */
     public static String textFor(HistoricalVersion version) {
-        if ("indev".equals(version.era())) {
+        if (version.family() == Era.INDEV) {
             return "Minecraft Indev";
         }
-        if (version.chronology() < HistoricalVersions.ERA_ALPHA) {
+        if (version.family() == Era.INFDEV) {
             return "Minecraft Infdev";
         }
         return "Minecraft " + version.displayName();

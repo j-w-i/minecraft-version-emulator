@@ -17,6 +17,12 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Milestones;
+
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -560,7 +566,7 @@ public final class HistoricalSpawnRules {
      * 16w20a's published change list - no declared build is near it, so no jar here can be scanned for it. It
      * affects only the Nether, and Overworld endermen spawning is untouched by construction.
      */
-    public static final int NETHER_ENDERMAN_CHRONOLOGY = 602_000;
+    public static final int NETHER_ENDERMAN_CHRONOLOGY = Milestones.RELEASE_1_10.key();
 
     /**
      * True when endermen may spawn naturally <b>in the Nether</b> for this gameplay profile.
@@ -569,8 +575,9 @@ public final class HistoricalSpawnRules {
      * does not declare answers false as well: an unknown world must not acquire a Nether mob it never had.
      */
     public static boolean netherEndermenAllowed(String profileId) {
+        // An unknown profile answers false: an unknown world must not acquire a Nether mob it never had.
         return net.historicalexperience.version.HistoricalVersions.byId(profileId)
-            .map(version -> version.chronology() >= NETHER_ENDERMAN_CHRONOLOGY)
+            .map(version -> !Features.active(Feature.NO_NETHER_ENDERMEN, version))
             .orElse(false);
     }
 

@@ -39,6 +39,10 @@ public final class Milestones {
     public static final Milestone BETA_1_7_3 = Milestone.of(Era.BETA, 1, 7, 3, "Beta 1.7.3");
     /** Beta 1.8, the Adventure Update. Not a declared build: Beta 1.8.1 is, and sorts just after it. */
     public static final Milestone BETA_1_8 = Milestone.of(Era.BETA, 1, 8, 0, "Beta 1.8");
+    /** Beta 1.8.1, the first declared build of the Adventure Update. */
+    public static final Milestone BETA_1_8_1 = Milestone.of(Era.BETA, 1, 8, 1, "Beta 1.8.1");
+    /** Beta 1.7, where the cobblestone texture changed. Beta 1.7.3 is the declared build; this is the release itself. */
+    public static final Milestone BETA_1_7 = Milestone.of(Era.BETA, 1, 7, 0, "Beta 1.7");
     public static final Milestone BETA_1_9_PRE_3 = Milestone.of(Era.BETA, 1, 9, 3, "Beta 1.9 Prerelease 3");
     public static final Milestone BETA_1_9_PRE_4 = Milestone.of(Era.BETA, 1, 9, 4, "Beta 1.9 Prerelease 4");
     public static final Milestone RELEASE_1_1 = Milestone.of(Era.RELEASE, 1, 1, 0, "Release 1.1");
@@ -48,4 +52,27 @@ public final class Milestones {
     public static final Milestone RELEASE_1_6_4 = Milestone.of(Era.RELEASE, 1, 6, 4, "Release 1.6.4");
     /** Release 1.9, the combat update that added the offhand. Newer than every declared build. */
     public static final Milestone RELEASE_1_9 = Milestone.of(Era.RELEASE, 1, 9, 0, "Release 1.9");
+
+    /** The oldest declared Infdev build; the start of the era this project's flat-sky rule covers. */
+    public static final Milestone INFDEV_20100420 = Milestone.ofKey(300_420, "Infdev 20100420");
+    public static final Milestone BETA_1_0 = Milestone.of(Era.BETA, 1, 0, 0, "Beta 1.0");
+    public static final Milestone BETA_1_3 = Milestone.of(Era.BETA, 1, 3, 0, "Beta 1.3");
+    public static final Milestone BETA_1_5 = Milestone.of(Era.BETA, 1, 5, 0, "Beta 1.5");
+    /** Beta 1.6.5 stopped drawing the version label. Not declared: the next declared build is Beta 1.7.3. */
+    public static final Milestone BETA_1_6_5 = Milestone.of(Era.BETA, 1, 6, 5, "Beta 1.6.5");
+    public static final Milestone BETA_1_9_PRE_1 = Milestone.of(Era.BETA, 1, 9, 1, "Beta 1.9 Prerelease 1");
+    public static final Milestone BETA_1_9_PRE_2 = Milestone.of(Era.BETA, 1, 9, 2, "Beta 1.9 Prerelease 2");
+    public static final Milestone BETA_1_9_PRE_5 = Milestone.of(Era.BETA, 1, 9, 5, "Beta 1.9 Prerelease 5");
+    public static final Milestone RELEASE_1_0 = Milestone.of(Era.RELEASE, 1, 0, 0, "Release 1.0");
+    public static final Milestone RELEASE_1_3 = Milestone.of(Era.RELEASE, 1, 3, 0, "Release 1.3");
+    /** The Pretty Scary Update, released as 1.4.2. Not declared: Release 1.4 is the nearest declared build. */
+    public static final Milestone RELEASE_1_4_2 = Milestone.of(Era.RELEASE, 1, 4, 2, "Release 1.4.2");
+    /** The attribute system. Not declared: Release 1.6.4 is the nearest declared build. */
+    public static final Milestone RELEASE_1_6_1 = Milestone.of(Era.RELEASE, 1, 6, 1, "Release 1.6.1");
+    public static final Milestone RELEASE_1_7_2 = Milestone.of(Era.RELEASE, 1, 7, 2, "Release 1.7.2");
+    public static final Milestone RELEASE_1_8 = Milestone.of(Era.RELEASE, 1, 8, 0, "Release 1.8");
+    /** The 16w20a snapshot lands in 1.10; the first release in which endermen spawn in the Nether. */
+    public static final Milestone RELEASE_1_10 = Milestone.of(Era.RELEASE, 1, 10, 0, "Release 1.10");
+    /** The first key of the Release family: the upper bound of everything Alpha and Beta. */
+    public static final Milestone START_OF_RELEASE = Milestone.ofKey(Era.RELEASE.base(), "start of the Release family");
 }

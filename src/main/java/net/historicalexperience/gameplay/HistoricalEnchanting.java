@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Milestones;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -53,12 +55,10 @@ import net.minecraft.world.item.enchantment.Enchantments;
  */
 public final class HistoricalEnchanting {
     /** Where the pre-1.8 table's rules stop: Release 1.8 (14w02a) is the overhaul. */
-    public static final int MODERN_ENCHANTING_FROM =
-        HistoricalVersions.chronology(HistoricalVersions.ERA_RELEASE, 1, 8, 0);
+    public static final int MODERN_ENCHANTING_FROM = Milestones.RELEASE_1_8.key();
 
     /** Release 1.4.2 (12w50a), where Thorns arrives. */
-    public static final int THORNS_FROM =
-        HistoricalVersions.chronology(HistoricalVersions.ERA_RELEASE, 1, 4, 2);
+    public static final int THORNS_FROM = Milestones.RELEASE_1_4_2.key();
 
     private static final Map<ResourceKey<Enchantment>, Integer> INTRODUCED = new LinkedHashMap<>();
 
@@ -69,20 +69,18 @@ public final class HistoricalEnchanting {
     }
 
     static {
-        int prereleaseFour = HistoricalVersions
-            .byId("historical_experience:beta_1_9_pre_3").orElseThrow().chronology() + 1;
-        at(prereleaseFour,
+        at(Milestones.BETA_1_9_PRE_4.key(),
             Enchantments.AQUA_AFFINITY, Enchantments.BANE_OF_ARTHROPODS, Enchantments.BLAST_PROTECTION,
             Enchantments.EFFICIENCY, Enchantments.FEATHER_FALLING, Enchantments.FIRE_ASPECT,
             Enchantments.FIRE_PROTECTION, Enchantments.FORTUNE, Enchantments.KNOCKBACK, Enchantments.LOOTING,
             Enchantments.PROJECTILE_PROTECTION, Enchantments.PROTECTION, Enchantments.RESPIRATION,
             Enchantments.SHARPNESS, Enchantments.SILK_TOUCH, Enchantments.SMITE, Enchantments.UNBREAKING);
-        at(HistoricalVersions.chronology(HistoricalVersions.ERA_RELEASE, 1, 1, 0),
+        at(Milestones.RELEASE_1_1.key(),
             Enchantments.FLAME, Enchantments.INFINITY, Enchantments.POWER, Enchantments.PUNCH);
         at(THORNS_FROM, Enchantments.THORNS);
         // Release 1.7.2 adds Luck of the Sea and Lure, which no declared profile reaches; listed so the boundary is
         // stated rather than implied by their absence.
-        at(HistoricalVersions.chronology(HistoricalVersions.ERA_RELEASE, 1, 7, 2),
+        at(Milestones.RELEASE_1_7_2.key(),
             Enchantments.LUCK_OF_THE_SEA, Enchantments.LURE);
     }
 
@@ -125,8 +123,7 @@ public final class HistoricalEnchanting {
 
     /** The enchantments that arrived in Beta 1.9 Prerelease 4, as a set, for tests. */
     public static Set<ResourceKey<Enchantment>> prereleaseFourEnchantments() {
-        int prereleaseFour = HistoricalVersions
-            .byId("historical_experience:beta_1_9_pre_3").orElseThrow().chronology() + 1;
+        int prereleaseFour = Milestones.BETA_1_9_PRE_4.key();
         return INTRODUCED.entrySet().stream()
             .filter(entry -> entry.getValue() == prereleaseFour)
             .map(Map.Entry::getKey)

@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.client.textures;
 
+import net.historicalexperience.version.Milestones;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -76,27 +78,27 @@ public final class HistoricalTextureRules {
      * Halloween Update that introduced biome-based weather and the colour maps.
      */
     public static final int GOLDEN_DAYS_ALPHA_END =
-        HistoricalVersions.chronology(HistoricalVersions.ERA_ALPHA, 1, 2, 0);
+        Milestones.ALPHA_1_2_0.key();
 
     /** One step after Release 1.2.5: Golden Days Base is layered for everything before this. */
     public static final int GOLDEN_DAYS_BASE_END =
-        HistoricalVersions.chronology(HistoricalVersions.ERA_RELEASE, 1, 2, 5) + 1;
+        Milestones.RELEASE_1_2_5.after().key();
 
     /** Beta 1.7, where the cobblestone texture changed. Beta 1.6.x is before it. */
     public static final int COBBLESTONE_CHANGE =
-        HistoricalVersions.chronology(HistoricalVersions.ERA_BETA, 1, 7, 0);
+        Milestones.BETA_1_7.key();
 
     /** Beta 1.8, where the mossy cobblestone texture changed. Beta 1.7.x is before it. */
     public static final int MOSSY_COBBLESTONE_CHANGE =
-        HistoricalVersions.chronology(HistoricalVersions.ERA_BETA, 1, 8, 0);
+        Milestones.BETA_1_8.key();
 
     /** Beta 1.9 Prerelease 4, where the End portal frame was redrawn in dark green and yellow. */
     public static final int END_PORTAL_FRAME_REDRAW =
-        HistoricalVersions.chronology(HistoricalVersions.ERA_BETA, 1, 9, 4);
+        Milestones.BETA_1_9_PRE_4.key();
 
     /** One step after Beta 1.8.1: the Golden Days chest is used up to and including 1.8.1, and not after it. */
     public static final int GOLDEN_DAYS_CHEST_END =
-        HistoricalVersions.chronology(HistoricalVersions.ERA_BETA, 1, 8, 1) + 1;
+        Milestones.BETA_1_8_1.after().key();
 
     private static final String MINECRAFT = "minecraft";
 

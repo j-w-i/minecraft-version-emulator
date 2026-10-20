@@ -14,10 +14,13 @@
  */
 package net.historicalexperience.client.lighting;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import java.util.concurrent.ConcurrentLinkedDeque;
 import net.historicalexperience.client.HistoricalClientRules;
 import net.historicalexperience.version.HistoricalVersion;
-import net.historicalexperience.version.HistoricalVersions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -57,9 +60,6 @@ import net.minecraft.world.level.chunk.status.ChunkStatus;
  * resolved once per client tick and published through a volatile field instead.
  */
 public final class HistoricalOldLighting {
-    /** The first build with the new lighting engine; the old one ends before it. */
-    private static final String FIRST_NEW_LIGHTING_BUILD = "historical_experience:beta_1_8_1";
-
     private static final String TOGGLE_KEY = "oldLighting";
 
     /** Sections handed back to the renderer per tick; the "round robin" itself. */
@@ -81,12 +81,7 @@ public final class HistoricalOldLighting {
 
     /** Whether the round-robin engine belongs to this version: every declared build older than Beta 1.8.1. */
     public static boolean availableFor(HistoricalVersion version) {
-        if (version == null) {
-            return false;
-        }
-        return HistoricalVersions.byId(FIRST_NEW_LIGHTING_BUILD)
-            .map(first -> version.chronology() < first.chronology())
-            .orElse(false);
+        return Features.active(Feature.OLD_LIGHTING_ENGINE, version);
     }
 
     /** Whether the old round-robin engine should be used for the client's current version. */

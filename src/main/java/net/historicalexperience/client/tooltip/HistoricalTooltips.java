@@ -14,9 +14,12 @@
  */
 package net.historicalexperience.client.tooltip;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.historicalexperience.client.HistoricalClientRules;
 import net.historicalexperience.version.HistoricalVersion;
-import net.historicalexperience.version.HistoricalVersions;
 
 /**
  * When tooltips exist, and which shape they have, for the active historical version.
@@ -45,28 +48,6 @@ public final class HistoricalTooltips {
      */
     public static final int LEGACY_BACKGROUND = 0xC0000000;
 
-    /** Where tooltips begin: the owner's "tooltips were added in Beta 1.0". */
-    private static final int TOOLTIPS_ADDED = HistoricalVersions.chronology(HistoricalVersions.ERA_BETA, 1, 0, 0);
-
-    /** Where the legacy box ends: "modern tooltips from Beta 1.9 Pre-release 2". */
-    private static final int MODERN_TOOLTIPS_FROM =
-        HistoricalVersions.chronology(HistoricalVersions.ERA_BETA, 1, 9, 2);
-
-    /**
-     * Where the item tooltip gained its attribute block (Attack Damage, Speed, and later the hand header).
-     *
-     * <p>Verified against the clients themselves rather than from memory: {@code generic.attackDamage},
-     * {@code attribute.modifier.plus.0} and the {@code attribute.name.*} family are absent from Beta 1.7.3 and
-     * Release 1.5 - searched across every class and lang file - and present in Release 1.6.1 and 1.6.4. The attribute
-     * system shipped in Release 1.6.1, and with it the numbers started being printed.
-     *
-     * <p>The {@code When in Main Hand:} header is later still and belongs to neither: {@code item.modifiers.*} is in
-     * no language file of 1.6.4, 1.7.10 or 1.8.9, and first appears in 1.9 (as {@code When in main hand:}, lower
-     * case). So for everything this project emulates, gating this one boundary removes the header as well.
-     */
-    private static final int ATTRIBUTE_TOOLTIPS_FROM =
-        HistoricalVersions.chronology(HistoricalVersions.ERA_RELEASE, 1, 6, 1);
-
     private HistoricalTooltips() {
     }
 
@@ -82,10 +63,10 @@ public final class HistoricalTooltips {
 
     /** The era for a chronology key. */
     public static Era eraFor(int chronology) {
-        if (chronology < TOOLTIPS_ADDED) {
+        if (Features.activeAt(Feature.NO_ITEM_TOOLTIPS, chronology)) {
             return Era.ABSENT;
         }
-        return chronology < MODERN_TOOLTIPS_FROM ? Era.LEGACY : Era.MODERN;
+        return Features.activeAt(Feature.LEGACY_TOOLTIP_BOX, chronology) ? Era.LEGACY : Era.MODERN;
     }
 
     /** The era for the client's active version; {@link Era#MODERN} (hands off) when nothing is active. */
@@ -117,6 +98,6 @@ public final class HistoricalTooltips {
 
     /** Whether a version shows the attribute block. An ordinary world has no version and is left alone. */
     public static boolean showsAttributeTooltip(HistoricalVersion version) {
-        return version == null || version.chronology() >= ATTRIBUTE_TOOLTIPS_FROM;
+        return !Features.active(Feature.NO_ATTRIBUTE_TOOLTIPS, version);
     }
 }

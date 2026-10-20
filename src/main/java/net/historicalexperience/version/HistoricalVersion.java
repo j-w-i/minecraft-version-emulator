@@ -95,6 +95,11 @@ public record HistoricalVersion(
         }
     }
 
+    /** The historical family this version belongs to, derived from its chronology key. */
+    public Era family() {
+        return Era.of(this.chronology);
+    }
+
     /** The newest revision, which is the one a newly created world of this version uses. */
     public GenerationRevision latestRevision() {
         return revisions().get(revisions().size() - 1);

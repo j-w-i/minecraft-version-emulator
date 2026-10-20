@@ -14,10 +14,13 @@
  */
 package net.historicalexperience.mixin;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.historicalexperience.client.HistoricalClientRules;
 import net.historicalexperience.client.lighting.HistoricalOldLighting;
-import net.historicalexperience.version.HistoricalVersions;
 import net.minecraft.client.Minecraft;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -60,9 +63,6 @@ import org.spongepowered.asm.mixin.injection.At;
  */
 @Mixin(Minecraft.class)
 public abstract class MinecraftHistoricalSmoothLightingMixin {
-    /** The first build with smooth lighting, so every earlier one answers false below. */
-    private static final String FIRST_SMOOTH_LIGHTING_BUILD = "historical_experience:beta_1_3";
-
     @ModifyReturnValue(method = "useAmbientOcclusion", at = @At("RETURN"), require = 1)
     private static boolean historicalExperience$disableSmoothLighting(boolean useAmbientOcclusion) {
         var version = HistoricalClientRules.activeVersion();
@@ -70,10 +70,7 @@ public abstract class MinecraftHistoricalSmoothLightingMixin {
             // Unknown is not "yes": an unknown version leaves the player's own setting alone.
             return useAmbientOcclusion;
         }
-        boolean beforeSmooth = HistoricalVersions.byId(FIRST_SMOOTH_LIGHTING_BUILD)
-            .map(first -> version.chronology() < first.chronology())
-            .orElse(false);
-        if (beforeSmooth) {
+        if (Features.active(Feature.NO_SMOOTH_LIGHTING, version)) {
             // Before Beta 1.3 there was no smooth lighting, so while the historical lighting engine is ON the setting
             // is answered false whatever the player chose. The option itself is left alone rather than forced, so a
             // player who set it keeps their preference for the next world they open.

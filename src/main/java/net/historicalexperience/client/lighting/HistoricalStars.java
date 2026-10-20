@@ -14,10 +14,13 @@
  */
 package net.historicalexperience.client.lighting;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.historicalexperience.client.HistoricalClientRules;
 import net.historicalexperience.mixin.LevelRendererHistoricalStarsAccess;
 import net.historicalexperience.version.HistoricalVersion;
-import net.historicalexperience.version.HistoricalVersions;
 import net.minecraft.client.Minecraft;
 
 /**
@@ -41,15 +44,10 @@ public final class HistoricalStars {
         if (version == null) {
             return Style.MODERN;
         }
-        var dimmer = HistoricalVersions.byId("historical_experience:beta_1_5").orElse(null);
-        var smaller = HistoricalVersions.byId("historical_experience:release_1_3").orElse(null);
-        if (dimmer == null || smaller == null) {
-            return Style.MODERN;
-        }
-        if (version.chronology() < dimmer.chronology()) {
+        if (Features.active(Feature.ALPHA_STARS, version)) {
             return Style.ALPHA;
         }
-        return version.chronology() < smaller.chronology() ? Style.BETA : Style.MODERN;
+        return Features.active(Feature.BETA_STARS, version) ? Style.BETA : Style.MODERN;
     }
 
     public static Style style() {

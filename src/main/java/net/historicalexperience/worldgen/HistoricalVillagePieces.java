@@ -1200,7 +1200,7 @@ public final class HistoricalVillagePieces {
             String version = versionId == null ? "" : versionId;
             boolean horseArmour = net.historicalexperience.version.HistoricalVersions.byId(version)
                 .map(entry -> entry.chronology()
-                    >= net.historicalexperience.version.HistoricalVersions.chronology(600_000, 1, 6, 1))
+                    >= net.historicalexperience.version.Milestones.RELEASE_1_6_1.key())
                 .orElse(false);
             return horseArmour ? BLACKSMITH_LOOT_TABLE : BLACKSMITH_LOOT_TABLE_EARLY;
         }

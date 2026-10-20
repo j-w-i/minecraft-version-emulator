@@ -29,6 +29,8 @@
  */
 package net.historicalexperience.worldgen;
 
+import net.historicalexperience.version.Milestones;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -90,7 +92,7 @@ import net.historicalexperience.version.HistoricalVersions;
  */
 public final class HistoricalVillageRules {
     /** Beta 1.8.1's chronology key: villages exist at or after this, and nowhere before it. */
-    public static final int BETA_1_8_1_CHRONOLOGY = HistoricalVersions.chronology(500_000, 1, 8, 1);
+    public static final int BETA_1_8_1_CHRONOLOGY = Milestones.BETA_1_8_1.key();
 
     /**
      * Beta 1.9 Prerelease 1's chronology: when villages became INHABITED.
@@ -99,7 +101,7 @@ public final class HistoricalVillageRules {
      * boundary is what allows the two builds to differ, and it is why the village generator must spawn its villagers
      * CONDITIONALLY rather than either never or always.
      */
-    public static final int BETA_1_9_PRE_1_CHRONOLOGY = HistoricalVersions.chronology(500_000, 1, 9, 1);
+    public static final int BETA_1_9_PRE_1_CHRONOLOGY = Milestones.BETA_1_9_PRE_1.key();
 
     /**
      * Release 1.3's chronology: when villages gained TRADING, and therefore professions.
@@ -108,7 +110,7 @@ public final class HistoricalVillageRules {
      * world should contain. This existed as a gap rather than a gate until now - villagers were placed correctly and
      * simply had no profession, which was right by omission for 1.0-1.2 and wrong for 1.3 and later.
      */
-    public static final int RELEASE_1_3_CHRONOLOGY = HistoricalVersions.chronology(600_000, 1, 3, 0);
+    public static final int RELEASE_1_3_CHRONOLOGY = Milestones.RELEASE_1_3.key();
 
     /**
      * The professions Release 1.3 actually had: farmer, librarian, priest, blacksmith and butcher.
@@ -131,7 +133,7 @@ public final class HistoricalVillageRules {
         "minecraft:butcher");
 
     /** Beta 1.9 Prerelease 3's chronology key: the first version with villagers, and a brewing stand. */
-    public static final int BETA_1_9_PRE_3_CHRONOLOGY = HistoricalVersions.chronology(500_000, 1, 9, 3);
+    public static final int BETA_1_9_PRE_3_CHRONOLOGY = Milestones.BETA_1_9_PRE_3.key();
 
     /** The evidence clause every answer here is derived from, so a report can quote one string. */
     public static final String EVIDENCE =

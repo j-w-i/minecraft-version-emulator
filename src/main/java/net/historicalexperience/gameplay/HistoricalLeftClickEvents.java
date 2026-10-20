@@ -14,6 +14,10 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.historicalexperience.version.HistoricalVersion;
 import net.historicalexperience.version.HistoricalVersions;
@@ -39,8 +43,6 @@ import net.minecraft.world.phys.Vec3;
  * owner-specified left-click behaviour ends, not an unreleased 1.4.0 build.
  */
 public final class HistoricalLeftClickEvents {
-    private static final String FIRST_WITHOUT_LEFT_CLICK = "historical_experience:release_1_4";
-
     private HistoricalLeftClickEvents() {
     }
 
@@ -74,8 +76,6 @@ public final class HistoricalLeftClickEvents {
     }
 
     public static boolean availableFor(HistoricalVersion version) {
-        return version != null && HistoricalVersions.byId(FIRST_WITHOUT_LEFT_CLICK)
-            .map(first -> version.chronology() < first.chronology())
-            .orElse(false);
+        return Features.active(Feature.LEFT_CLICK_USE, version);
     }
 }

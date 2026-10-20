@@ -17,12 +17,15 @@
  */
 package net.historicalexperience.client.colour;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.GZIPInputStream;
 import net.historicalexperience.client.HistoricalClientRules;
 import net.historicalexperience.version.HistoricalVersion;
-import net.historicalexperience.version.HistoricalVersions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,14 +67,6 @@ public final class HistoricalColormaps {
     /** Fallback when the era's table cannot be read: the game's own is kept, which is the safe direction. */
     private static final Logger LOGGER = LoggerFactory.getLogger("historical_experience/colormaps");
 
-    /** First declared profile after Alpha 1.2.x: the newer foliage map applies from here. */
-    private static final int FOLIAGE_CHANGE_CHRONOLOGY =
-        HistoricalVersions.chronology(HistoricalVersions.ERA_BETA, 1, 2, 0);
-
-    /** The first version whose client actually consulted a colour map. */
-    private static final int COLOURMAP_START_CHRONOLOGY =
-        HistoricalVersions.chronology(HistoricalVersions.ERA_ALPHA, 1, 2, 0);
-
     private static final String GRASS = "assets/historical_experience/colormap/grass_alpha_1_2_to_release_1_0.bin.gz";
     private static final String FOLIAGE_OLD =
         "assets/historical_experience/colormap/foliage_alpha_1_2_to_beta_1_0.bin.gz";
@@ -98,7 +93,7 @@ public final class HistoricalColormaps {
      * @param chronology the active version's chronology key
      */
     public static int[] grassFor(int chronology) {
-        if (chronology < COLOURMAP_START_CHRONOLOGY) {
+        if (Features.activeAt(Feature.NO_COLOUR_MAPS, chronology)) {
             return null;
         }
         return ensureLoaded() ? grass : null;
@@ -106,13 +101,13 @@ public final class HistoricalColormaps {
 
     /** The foliage table for the active version, or {@code null} when the game's own table should stand. */
     public static int[] foliageFor(int chronology) {
-        if (chronology < COLOURMAP_START_CHRONOLOGY) {
+        if (Features.activeAt(Feature.NO_COLOUR_MAPS, chronology)) {
             return null;
         }
         if (!ensureLoaded()) {
             return null;
         }
-        return chronology < FOLIAGE_CHANGE_CHRONOLOGY ? foliageOld : foliageNew;
+        return Features.activeAt(Feature.OLD_FOLIAGE_COLOUR_MAP, chronology) ? foliageOld : foliageNew;
     }
 
     /** The table the game should use right now for {@code kind}, or {@code null} to keep what it loaded. */
@@ -186,10 +181,10 @@ public final class HistoricalColormaps {
      * versions share a name, which is what keeps a version change from forcing a reload when nothing visible changed.
      */
     public static String eraSignatureFor(int chronology) {
-        if (chronology < COLOURMAP_START_CHRONOLOGY || !ensureLoaded() || grass == null) {
+        if (Features.activeAt(Feature.NO_COLOUR_MAPS, chronology) || !ensureLoaded() || grass == null) {
             return "none";
         }
-        return chronology < FOLIAGE_CHANGE_CHRONOLOGY ? "grass+foliage_old" : "grass+foliage_new";
+        return Features.activeAt(Feature.OLD_FOLIAGE_COLOUR_MAP, chronology) ? "grass+foliage_old" : "grass+foliage_new";
     }
 
     /** The signature for the client's current version, or {@code none} when no historical world is active. */

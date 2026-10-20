@@ -16,7 +16,10 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */package net.historicalexperience.gameplay;
 
-import net.historicalexperience.version.HistoricalVersions;
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.boss.enderdragon.phases.EnderDragonPhase;
 
@@ -36,16 +39,6 @@ import net.minecraft.world.entity.boss.enderdragon.phases.EnderDragonPhase;
  * <p>Where the dragon first appears is a separate, earlier boundary (Beta 1.9 Prerelease 6) and is not decided here.
  */
 public final class HistoricalDragonFight {
-    /** Release 1.9, where the fight was revamped. No declared profile reaches it. */
-    public static final int REVAMP_CHRONOLOGY = HistoricalVersions.chronology(HistoricalVersions.ERA_RELEASE, 1, 9, 0);
-
-    /**
-     * Release 1.4, where the dragon's bar stopped being captioned "Boss health". Release 1.4.2 (12w34b) replaced the
-     * hard-coded caption with the entity's own name; the 1.4 profile here stands for that build.
-     */
-    public static final int BOSS_HEALTH_CAPTION_END =
-        HistoricalVersions.chronology(HistoricalVersions.ERA_RELEASE, 1, 4, 0);
-
     /** What the original client wrote over the dragon's health bar. */
     public static final String BOSS_HEALTH_CAPTION = "Boss health";
 
@@ -85,8 +78,7 @@ public final class HistoricalDragonFight {
         if (versionId == null) {
             return null;
         }
-        var version = HistoricalVersions.byId(versionId).orElse(null);
-        return version != null && version.chronology() < BOSS_HEALTH_CAPTION_END ? BOSS_HEALTH_CAPTION : null;
+        return Features.active(Feature.BOSS_HEALTH_CAPTION, versionId) ? BOSS_HEALTH_CAPTION : null;
     }
 
     /** Whether a profile id gets the original fight. An ordinary world (null or unknown) keeps the modern one. */
@@ -94,8 +86,7 @@ public final class HistoricalDragonFight {
         if (versionId == null) {
             return false;
         }
-        var version = HistoricalVersions.byId(versionId).orElse(null);
-        return version != null && version.chronology() < REVAMP_CHRONOLOGY;
+        return Features.active(Feature.ORIGINAL_DRAGON_FIGHT, versionId);
     }
 
     /**

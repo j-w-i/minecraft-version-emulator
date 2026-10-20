@@ -37,6 +37,20 @@ public enum Era {
         this.base = base;
     }
 
+    /**
+     * The family a chronology key belongs to: the era with the greatest base not above it. A key below every base
+     * (nothing declared is) falls into {@link #INDEV}.
+     */
+    public static Era of(int chronology) {
+        Era found = INDEV;
+        for (Era era : values()) {
+            if (chronology >= era.base) {
+                found = era;
+            }
+        }
+        return found;
+    }
+
     /** The first chronology key of this era. */
     public int base() {
         return this.base;

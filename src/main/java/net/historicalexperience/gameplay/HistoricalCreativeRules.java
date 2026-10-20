@@ -1,6 +1,10 @@
 /* SPDX-License-Identifier: LGPL-3.0-or-later */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.historicalexperience.version.HistoricalSnapshotPatches;
 import net.historicalexperience.version.HistoricalVersions;
 
@@ -18,9 +22,7 @@ public final class HistoricalCreativeRules {
         var version = HistoricalSnapshotPatches.baseProfileForSelection(selectionId)
             .flatMap(HistoricalVersions::byId).orElse(null);
         if (version == null) return false;
-        int first = HistoricalVersions.chronology(HistoricalVersions.ERA_BETA, 1, 8, 1);
-        int replaced = HistoricalVersions.chronology(HistoricalVersions.ERA_RELEASE, 1, 3, 0);
-        return version.chronology() >= first && version.chronology() < replaced;
+        return Features.active(Feature.OLD_CREATIVE_MENU, version);
     }
 
     public static boolean hasCreativeShortcut(String snapshotPatchId) {

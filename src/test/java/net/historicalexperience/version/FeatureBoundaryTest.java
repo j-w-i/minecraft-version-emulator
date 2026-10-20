@@ -52,6 +52,8 @@ class FeatureBoundaryTest {
     private static final Map<Feature, String[]> BETWEEN = new EnumMap<>(Feature.class);
     /** Features that apply to every declared version (the real boundary lies beyond the newest). */
     private static final EnumSet<Feature> ALL_DECLARED = EnumSet.noneOf(Feature.class);
+    /** Features with several windows, each checked by its own test. */
+    private static final EnumSet<Feature> MULTI = EnumSet.noneOf(Feature.class);
 
     static {
         // The goal-based mob AI and the Adventure Update's mob behaviour: before Beta 1.8, which is not declared;
@@ -89,10 +91,25 @@ class FeatureBoundaryTest {
         BEFORE.put(Feature.NO_SNEAKING, P + "alpha_1_1_0");
         BEFORE.put(Feature.NO_NETHER, P + "alpha_1_2_0");
         // No declared version has an offhand: the boundary is Release 1.9, above the newest declared build.
+        BEFORE.put(Feature.OLD_LIGHTING_ENGINE, P + "beta_1_8_1");
+        BEFORE.put(Feature.OLD_FOG, P + "beta_1_8_1");
+        BEFORE.put(Feature.LOW_CLOUDS, P + "beta_1_8_1");
+        BEFORE.put(Feature.OLD_CHEST_MODEL, P + "beta_1_8_1");
+        BEFORE.put(Feature.FLAT_DROPPED_ITEMS, P + "release_1_5");
+        BEFORE.put(Feature.ALPHA_STARS, P + "beta_1_5");
+        BEFORE.put(Feature.NO_SMOOTH_LIGHTING, P + "beta_1_3");
+        BEFORE.put(Feature.NO_WEATHER, P + "beta_1_5");
+        BEFORE.put(Feature.LEFT_CLICK_USE, P + "release_1_4");
+        BEFORE.put(Feature.NO_ITEM_TOOLTIPS, P + "beta_1_0");
+        BEFORE.put(Feature.NO_COLOUR_MAPS, P + "alpha_1_2_0");
+        BEFORE.put(Feature.BOSS_HEALTH_CAPTION, P + "release_1_4");
+        // Release 1.6.1 is the attribute system, not declared; Release 1.6.4 is the first declared build at or past it.
+        BEFORE.put(Feature.NO_ATTRIBUTE_TOOLTIPS, P + "release_1_6_4");
 
         FROM.put(Feature.OLD_SWORD_BLOCKING, P + "beta_1_8_1");
         FROM.put(Feature.BETA_EXHAUSTION_COSTS, P + "beta_1_8_1");
         FROM.put(Feature.BETA_REGENERATION, P + "beta_1_8_1");
+        FROM.put(Feature.OLD_ENDER_CHEST_MODEL, P + "release_1_3");
 
         EXACTLY.put(Feature.END_PORTAL_FRAME_EXPLODES, P + "beta_1_9_pre_3");
         EXACTLY.put(Feature.END_PORTAL_FRAME_LIGHT_15, P + "beta_1_9_pre_3");
@@ -106,13 +123,22 @@ class FeatureBoundaryTest {
         BETWEEN.put(Feature.BETA_SPRINT_JUMP_EXHAUSTION, new String[] {P + "beta_1_8_1", P + "release_1_6_4"});
         BETWEEN.put(Feature.BETA_FOOD_HUNGER_VALUES, new String[] {P + "beta_1_8_1", P + "release_1_6_4"});
         BETWEEN.put(Feature.BETA_CRITICAL_HIT_FORMULA, new String[] {P + "beta_1_8_1", P + "release_1_6_4"});
+        BETWEEN.put(Feature.OLD_SMOOTH_LIGHTING, new String[] {P + "beta_1_3", P + "beta_1_8_1"});
+        BETWEEN.put(Feature.FLAT_SKY_COLOUR, new String[] {P + "infdev_420", P + "beta_1_8_1"});
+        BETWEEN.put(Feature.BETA_STARS, new String[] {P + "beta_1_5", P + "release_1_3"});
+        BETWEEN.put(Feature.OLD_CREATIVE_MENU, new String[] {P + "beta_1_8_1", P + "release_1_3"});
+        BETWEEN.put(Feature.LEGACY_TOOLTIP_BOX, new String[] {P + "beta_1_0", P + "beta_1_9_pre_2"});
+        BETWEEN.put(Feature.OLD_FOLIAGE_COLOUR_MAP, new String[] {P + "alpha_1_2_0", P + "beta_1_2"});
         BETWEEN.put(Feature.BETA_GOLDEN_APPLE, new String[] {P + "beta_1_8_1", P + "release_1_1"});
         // The stance outlives the reduction: Prerelease 1 and 2 still have the reduction, Prerelease 3 does not.
         BETWEEN.put(Feature.SWORD_BLOCK_FALL_PROTECTION, new String[] {P + "beta_1_8_1", P + "beta_1_9_pre_3"});
 
+        // The version label appears, disappears and reappears, so no single boundary describes it.
+        MULTI.add(Feature.VERSION_LABEL);
+
         ALL_DECLARED.addAll(List.of(Feature.NO_ATTACK_COOLDOWN, Feature.NO_SWEEP_ATTACK, Feature.NO_SWIMMING,
             Feature.OLD_ZOMBIE_ARMS, Feature.NO_TOOL_SHAPING, Feature.OLD_FISHING_LOOT, Feature.ORE_DROPS_AS_BLOCKS,
-            Feature.NO_OFFHAND));
+            Feature.NO_OFFHAND, Feature.NO_RECIPE_BOOK, Feature.NO_NETHER_ENDERMEN, Feature.ORIGINAL_DRAGON_FIGHT));
     }
 
     private static int key(String id) {
@@ -125,7 +151,7 @@ class FeatureBoundaryTest {
         EnumSet<Feature> described = EnumSet.noneOf(Feature.class);
         List<Feature> duplicates = new ArrayList<>();
         for (EnumSet<Feature> group : List.of(EnumSet.copyOf(BEFORE.keySet()), EnumSet.copyOf(FROM.keySet()),
-            EnumSet.copyOf(EXACTLY.keySet()), EnumSet.copyOf(BETWEEN.keySet()), EnumSet.copyOf(ALL_DECLARED))) {
+            EnumSet.copyOf(EXACTLY.keySet()), EnumSet.copyOf(BETWEEN.keySet()), EnumSet.copyOf(ALL_DECLARED), EnumSet.copyOf(MULTI))) {
             for (Feature feature : group) {
                 if (!described.add(feature)) {
                     duplicates.add(feature);
@@ -155,6 +181,20 @@ class FeatureBoundaryTest {
     private static void check(List<String> wrong, Feature feature, HistoricalVersion version, boolean expected) {
         if (Features.active(feature, version) != expected) {
             wrong.add(feature + " on " + version.id() + " expected " + expected);
+        }
+    }
+
+    @Test
+    @DisplayName("the version label appears, disappears and reappears at the builds the clients record")
+    void versionLabelFollowsTheClients() {
+        // Always drawn through Beta 1.6; gone in 1.6.5 (so Beta 1.7.3 has none); back in Beta 1.8; gone again in
+        // Prerelease 4; back in Prerelease 5; gone in the release.
+        for (String shown : List.of("infdev_420", "alpha", "alpha_1_2_2a", "beta_1_0", "beta_1_6", "beta_1_8_1",
+            "beta_1_9_pre_1", "beta_1_9_pre_3", "beta_1_9_pre_5", "beta_1_9_pre_6")) {
+            assertTrue(Features.active(Feature.VERSION_LABEL, P + shown), shown + " draws the label");
+        }
+        for (String hidden : List.of("beta_1_7_3", "beta_1_9_pre_4", "release_1_0_0", "release_1_6_4")) {
+            assertFalse(Features.active(Feature.VERSION_LABEL, P + hidden), hidden + " does not draw the label");
         }
     }
 

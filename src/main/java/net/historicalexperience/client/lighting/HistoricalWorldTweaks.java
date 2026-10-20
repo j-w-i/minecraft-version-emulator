@@ -14,9 +14,12 @@
  */
 package net.historicalexperience.client.lighting;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.historicalexperience.client.HistoricalClientRules;
 import net.historicalexperience.version.HistoricalVersion;
-import net.historicalexperience.version.HistoricalVersions;
 
 /**
  * The sky, cloud and item-rendering toggles from the owner's list, with the boundary each one actually has.
@@ -57,14 +60,6 @@ public final class HistoricalWorldTweaks {
     private static final String ITEM_2D_KEY = "old2dItems";
     private static final String RECIPE_BOOK_KEY = "disableRecipeBook";
     private static final String SKY_KEY = "oldUniversalSky";
-
-
-    /** The Beta 1.8-era boundary at which the cloud height rose from 108 to 128. */
-    private static final String FIRST_NEW_LIGHTING_BUILD = "historical_experience:beta_1_8_1";
-
-    /** The declared profile that already has the 3D spinning item; the one before it is the last 2D one. */
-    private static final String FIRST_THREE_D_ITEM_BUILD = "historical_experience:release_1_5";
-
     private HistoricalWorldTweaks() {
     }
 
@@ -76,19 +71,10 @@ public final class HistoricalWorldTweaks {
         HistoricalClientOptions.set(key, value);
     }
 
-    private static boolean earlierThan(HistoricalVersion version, String build) {
-        if (version == null) {
-            return false;
-        }
-        return HistoricalVersions.byId(build)
-            .map(boundary -> version.chronology() < boundary.chronology())
-            .orElse(false);
-    }
-
     // ---- Cloud height: 108 before Beta 1.8, then 128 throughout the historical catalogue ------------------
 
     public static boolean availableForCloudHeight(HistoricalVersion version) {
-        return earlierThan(version, FIRST_NEW_LIGHTING_BUILD);
+        return Features.active(Feature.LOW_CLOUDS, version);
     }
 
     /**
@@ -104,13 +90,13 @@ public final class HistoricalWorldTweaks {
         if (Float.isNaN(original) || version == null) {
             return original;
         }
-        return earlierThan(version, FIRST_NEW_LIGHTING_BUILD) ? 108.0F : 128.0F;
+        return Features.active(Feature.LOW_CLOUDS, version) ? 108.0F : 128.0F;
     }
 
     // ---- 2D dropped items: through Release 1.4; the 3D model arrived during 1.4.x -------------------------
 
     public static boolean availableFor2dItems(HistoricalVersion version) {
-        return earlierThan(version, FIRST_THREE_D_ITEM_BUILD);
+        return Features.active(Feature.FLAT_DROPPED_ITEMS, version);
     }
 
     /** Whether dropped items are drawn as flat sprites rather than the 3D spinning model. */
@@ -167,17 +153,6 @@ public final class HistoricalWorldTweaks {
          */
         TEMPERATURE
     }
-
-    /** The first declared Beta build. */
-    private static final String FIRST_BETA_BUILD = "historical_experience:beta_1_0";
-
-    /**
-     * The build that replaced the sky this hook serves: Beta 1.8.1. Used as the window's end again after the
-     * 2026-10-15 revert - the 2026-10-14 change had extended the window to Beta 1.9, where the flat colour had
-     * never been applied either.
-     */
-    private static final String FIRST_FLAT_SKY_ENDS = "historical_experience:beta_1_8_1";
-
     /**
      * Which sky the era used, as this project draws it.
      *
@@ -210,22 +185,9 @@ public final class HistoricalWorldTweaks {
         if (version == null) {
             return SkyEra.NONE;
         }
-        HistoricalVersion infdev = HistoricalVersions.byId("historical_experience:infdev_420").orElse(null);
-        HistoricalVersion beta = HistoricalVersions.byId(FIRST_BETA_BUILD).orElse(null);
-        HistoricalVersion ends = HistoricalVersions.byId(FIRST_FLAT_SKY_ENDS).orElse(null);
-        if (infdev == null || beta == null || ends == null) {
-            // A registry that cannot resolve its own boundary constants must not guess a colour.
-            return SkyEra.NONE;
-        }
-        int when = version.chronology();
-        if (when < infdev.chronology() || when >= ends.chronology()) {
-            // Nothing is declared before Infdev, and Beta 1.8.1 onward already draws its own correct sky.
-            return SkyEra.NONE;
-        }
-        return switch (version.era()) {
-            case "infdev", "alpha", "beta" -> SkyEra.FLAT;
-            default -> SkyEra.NONE;
-        };
+        // Nothing is declared before Infdev, and Beta 1.8.1 onward already draws its own correct sky: the window
+        // is [Infdev 20100420, Beta 1.8), and inside it every family this project declares draws the flat colour.
+        return Features.active(Feature.FLAT_SKY_COLOUR, version) ? SkyEra.FLAT : SkyEra.NONE;
     }
 
     /**
@@ -239,9 +201,9 @@ public final class HistoricalWorldTweaks {
         if (skyEra(version) != SkyEra.FLAT) {
             return null;
         }
-        return switch (version.era()) {
-            case "infdev" -> HistoricalSkyColours.INFDEV;
-            case "beta" -> HistoricalSkyColours.BETA_FLAT;
+        return switch (version.family()) {
+            case INFDEV -> HistoricalSkyColours.INFDEV;
+            case BETA -> HistoricalSkyColours.BETA_FLAT;
             default -> HistoricalSkyColours.ALPHA;
         };
     }

@@ -14,9 +14,12 @@
  */
 package net.historicalexperience.client.lighting;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.historicalexperience.client.HistoricalClientRules;
 import net.historicalexperience.version.HistoricalVersion;
-import net.historicalexperience.version.HistoricalVersions;
 
 /**
  * Direct port of NT helper/candy/level/fog/OverworldFogRenderer's
@@ -39,8 +42,7 @@ public final class HistoricalFogTweaks {
     }
 
     public static boolean beforeBeta18(HistoricalVersion version) {
-        return version != null && HistoricalVersions.byId("historical_experience:beta_1_8_1")
-            .map(boundary -> version.chronology() < boundary.chronology()).orElse(false);
+        return Features.active(Feature.OLD_FOG, version);
     }
 
     public static int farPlane(int renderDistance) {

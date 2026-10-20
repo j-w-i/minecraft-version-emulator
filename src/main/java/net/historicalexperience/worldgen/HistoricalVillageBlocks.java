@@ -27,6 +27,8 @@
  */
 package net.historicalexperience.worldgen;
 
+import net.historicalexperience.version.Milestones;
+
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -284,7 +286,7 @@ public final class HistoricalVillageBlocks {
         // of the port's shape, so the answer is computed even though it is false everywhere today.
         HistoricalVersion version = HistoricalVersions.byId(versionId).orElseThrow(
             () -> new IllegalArgumentException("unknown historical version " + versionId));
-        return version.chronology() >= HistoricalVersions.chronology(600_000, 1, 9, 0);
+        return version.chronology() >= Milestones.RELEASE_1_9.key();
     }
 
     /**

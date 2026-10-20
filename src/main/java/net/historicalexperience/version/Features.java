@@ -61,6 +61,17 @@ public final class Features {
     }
 
     /**
+     * Whether the feature is active at a bare position on the timeline, for rules that are keyed by chronology and
+     * are asked about builds that are not declared (the texture engine, and tests of a boundary one key either side).
+     *
+     * <p>Only key-based windows can answer: an {@link FeatureWindow.Exact} window names a build, not a position, and
+     * is never active here. Prefer the named-version forms whenever a version is at hand.
+     */
+    public static boolean activeAt(Feature feature, int chronology) {
+        return feature.appliesTo(null, chronology);
+    }
+
+    /**
      * The resolved features of a version id. Unknown ids resolve to {@link FeatureSet#NONE} and are not cached, so an
      * arbitrary string cannot grow the cache.
      */

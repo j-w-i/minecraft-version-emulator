@@ -14,15 +14,16 @@
  */
 package net.historicalexperience.client.lighting;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.historicalexperience.client.HistoricalClientRules;
 import net.historicalexperience.client.lighting.HistoricalOldLighting;
 import net.historicalexperience.version.HistoricalVersion;
-import net.historicalexperience.version.HistoricalVersions;
 
 /** Version gates for NT's separate leaves and water lighting effects. */
-public final class HistoricalLightingTweaks {
-    private static final String FIRST_NEW_LIGHTING_BUILD = "historical_experience:beta_1_8_1";
-    private static final String LEAVES_KEY = "oldLeavesLighting";
+public final class HistoricalLightingTweaks {    private static final String LEAVES_KEY = "oldLeavesLighting";
     private static final String WATER_KEY = "oldWaterLighting";
 
     /** NT world_lighting/BlockStateBaseMixin's water absorption, not an implementation by itself. */
@@ -72,9 +73,7 @@ public final class HistoricalLightingTweaks {
     }
 
     public static boolean availableFor(HistoricalVersion version) {
-        return version != null && HistoricalVersions.byId(FIRST_NEW_LIGHTING_BUILD)
-            .map(first -> version.chronology() < first.chronology())
-            .orElse(false);
+        return Features.active(Feature.OLD_LIGHTING_ENGINE, version);
     }
 
     private static boolean beforeNewEngine() {

@@ -14,6 +14,10 @@
  */
 package net.historicalexperience.client.lighting;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,7 +25,6 @@ import java.util.Properties;
 import net.fabricmc.loader.api.FabricLoader;
 import net.historicalexperience.client.HistoricalClientRules;
 import net.historicalexperience.version.HistoricalVersion;
-import net.historicalexperience.version.HistoricalVersions;
 
 /**
  * The Beta 1.3–1.7.3 smooth lighting engine, which Beta 1.8 replaced, and its toggle.
@@ -62,12 +65,6 @@ import net.historicalexperience.version.HistoricalVersions;
  * <i>offered</i>; the toggle decides whether it is <i>used</i>.
  */
 public final class HistoricalSmoothLighting {
-    /** The build that introduced the smooth lighting engine, so the window opens here. */
-    private static final String FIRST_SMOOTH_LIGHTING_BUILD = "historical_experience:beta_1_3";
-
-    /** The build that replaced it, so the window closes before this one. */
-    private static final String FIRST_NEW_LIGHTING_BUILD = "historical_experience:beta_1_8_1";
-
     /** Shares the client options file with the classic engine's toggle; a different key. */
     private static final String TOGGLE_FILE = "historical_experience-client.properties";
     private static final String TOGGLE_KEY = "oldSmoothLighting";
@@ -84,16 +81,7 @@ public final class HistoricalSmoothLighting {
      * server believed another.
      */
     public static boolean availableFor(HistoricalVersion version) {
-        if (version == null) {
-            return false;
-        }
-        var first = HistoricalVersions.byId(FIRST_SMOOTH_LIGHTING_BUILD).orElse(null);
-        var replaced = HistoricalVersions.byId(FIRST_NEW_LIGHTING_BUILD).orElse(null);
-        if (first == null || replaced == null) {
-            // A registry that cannot resolve its own boundary constants must not guess a window.
-            return false;
-        }
-        return version.chronology() >= first.chronology() && version.chronology() < replaced.chronology();
+        return Features.active(Feature.OLD_SMOOTH_LIGHTING, version);
     }
 
     /**

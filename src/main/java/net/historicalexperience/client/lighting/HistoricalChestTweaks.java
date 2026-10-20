@@ -14,9 +14,12 @@
  */
 package net.historicalexperience.client.lighting;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.historicalexperience.client.HistoricalClientRules;
 import net.historicalexperience.version.HistoricalVersion;
-import net.historicalexperience.version.HistoricalVersions;
 
 /**
  * The old chest and ender chest: their versions, and the toggles for them.
@@ -39,34 +42,17 @@ import net.historicalexperience.version.HistoricalVersions;
 public final class HistoricalChestTweaks {
     private static final String CHEST_KEY = "oldChest";
     private static final String ENDER_CHEST_KEY = "oldEnderChest";
-
-    /** The chest model was redone here, so the cube belongs to the builds below it. */
-    private static final String FIRST_ENTITY_CHEST_BUILD = "historical_experience:beta_1_8_1";
-
-    /** Ender chests were added here. */
-    private static final String FIRST_ENDER_CHEST_BUILD = "historical_experience:release_1_3";
-
     private HistoricalChestTweaks() {
     }
 
     /** The old cube chest belongs to every declared build before Beta 1.8. */
     public static boolean availableForChest(HistoricalVersion version) {
-        if (version == null) {
-            return false;
-        }
-        return HistoricalVersions.byId(FIRST_ENTITY_CHEST_BUILD)
-            .map(first -> version.chronology() < first.chronology())
-            .orElse(false);
+        return Features.active(Feature.OLD_CHEST_MODEL, version);
     }
 
     /** An old ender chest belongs to Release 1.3.1 onwards, since that is when the block existed. */
     public static boolean availableForEnderChest(HistoricalVersion version) {
-        if (version == null) {
-            return false;
-        }
-        return HistoricalVersions.byId(FIRST_ENDER_CHEST_BUILD)
-            .map(first -> version.chronology() >= first.chronology())
-            .orElse(false);
+        return Features.active(Feature.OLD_ENDER_CHEST_MODEL, version);
     }
 
     /** Whether the old chest block model is wanted in the active client world. */

@@ -369,8 +369,8 @@ class VersionBehaviourSnapshotTest {
         String d = "gameplay.HistoricalDragonFight.";
         perId(L, d + "bossBarCaption", id -> HistoricalDragonFight.bossBarCaption(id));
         perId(L, d + "originalFight", id -> HistoricalDragonFight.originalFight(id));
-        probe(L, d + "constants()|-", () -> "REVAMP_CHRONOLOGY=" + HistoricalDragonFight.REVAMP_CHRONOLOGY
-            + " BOSS_HEALTH_CAPTION_END=" + HistoricalDragonFight.BOSS_HEALTH_CAPTION_END
+        probe(L, d + "constants()|-", () -> "REVAMP_CHRONOLOGY=" + Milestones.RELEASE_1_9.key()
+            + " BOSS_HEALTH_CAPTION_END=" + Milestones.RELEASE_1_4.key()
             + " caption=" + HistoricalDragonFight.BOSS_HEALTH_CAPTION);
         for (double distance : new double[] {0.0, 10.0, 48.0, 100.0, 400.0}) {
             probe(L, d + "aimHeightAbove(" + distance + ")|-", () -> HistoricalDragonFight.aimHeightAbove(distance));

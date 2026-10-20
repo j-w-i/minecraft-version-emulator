@@ -17,6 +17,10 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.historicalexperience.version.HistoricalVersion;
 import net.historicalexperience.version.HistoricalVersions;
 import net.minecraft.server.level.ServerLevel;
@@ -50,9 +54,6 @@ import net.minecraft.server.level.ServerLevel;
  * being right.
  */
 public final class HistoricalWeather {
-    /** The first declared build with weather; the last without it is Beta 1.4. */
-    private static final String FIRST_WEATHER_BUILD = "historical_experience:beta_1_5";
-
     private HistoricalWeather() {
     }
 
@@ -62,9 +63,7 @@ public final class HistoricalWeather {
             // An unresolvable version is not a licence to change the weather; leave the world as it is.
             return true;
         }
-        return HistoricalVersions.byId(FIRST_WEATHER_BUILD)
-            .map(first -> version.chronology() >= first.chronology())
-            .orElse(true);
+        return !Features.active(Feature.NO_WEATHER, version);
     }
 
     /** Whether weather exists in the world's version, resolved from the level's own generator metadata. */

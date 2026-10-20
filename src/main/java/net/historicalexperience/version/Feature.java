@@ -274,7 +274,89 @@ public enum Feature {
         "The offhand slot arrived in Release 1.9; the newest declared version is Release 1.6.4, so no declared version has an offhand."),
     /** F4 portal key. */
     F4_PORTAL_KEY(Domain.PLAYER, FeatureWindow.exactly("historical_experience:alpha_1_2_2a"),
-        "Pressing F4 rebuilds a lit Nether portal in Alpha v1.2.2a ONLY. Both clients were hash-checked and decompiled: Alpha 1.2.0 has no F4 case, Alpha 1.2.2a calls the portal builder. An exact build, not a floor.");
+        "Pressing F4 rebuilds a lit Nether portal in Alpha v1.2.2a ONLY. Both clients were hash-checked and decompiled: Alpha 1.2.0 has no F4 case, Alpha 1.2.2a calls the portal builder. An exact build, not a floor."),
+
+    // ---- Presentation, world and menu differences ------------------------------------------------------------
+    // These were version arithmetic repeated in a dozen client classes, each with its own copy of the Beta 1.8 build
+    // id. They are windows like the gameplay ones above, so the same table answers them. A feature says WHEN a
+    // difference holds; the client class that owns the rendering still decides HOW, and a user toggle is still a
+    // separate condition that this table does not know about.
+
+    /** The round-robin lighting engine of the pre-Beta-1.8 clients. */
+    OLD_LIGHTING_ENGINE(Domain.RENDERING, FeatureWindow.before(Milestones.BETA_1_8),
+        "Round-robin lighting belongs to every declared build older than the Adventure Update. Ported from Nostalgic Tweaks' OLD_LIGHTING; the leaves and water light options are gated on the same boundary."),
+    /** The 1.3 to 1.7.3 smooth lighting engine. */
+    OLD_SMOOTH_LIGHTING(Domain.RENDERING, FeatureWindow.between(Milestones.BETA_1_3, Milestones.BETA_1_8),
+        "Smooth lighting was introduced in Beta 1.3 and replaced by the new lighting in Beta 1.8. The version decides whether the engine is offered; the user toggle decides whether it is used."),
+    /** No smooth lighting at all. */
+    NO_SMOOTH_LIGHTING(Domain.RENDERING, FeatureWindow.before(Milestones.BETA_1_3),
+        "Smooth lighting did not exist before Beta 1.3. While the historical lighting engine is on, the ambient-occlusion setting is answered false whatever the player chose."),
+    /** Fixed-distance fog and the old sunrise fog. */
+    OLD_FOG(Domain.RENDERING, FeatureWindow.before(Milestones.BETA_1_8),
+        "The fog of every declared build before Beta 1.8. Ported from Nostalgic Tweaks' old fog tweaks."),
+    /** Clouds drawn at 108 instead of 128. */
+    LOW_CLOUDS(Domain.RENDERING, FeatureWindow.before(Milestones.BETA_1_8),
+        "The cloud height rose from 108 to 128 in the Adventure Update."),
+    /** The cube chest model. */
+    OLD_CHEST_MODEL(Domain.RENDERING, FeatureWindow.before(Milestones.BETA_1_8),
+        "The chest model was redone in Beta 1.8; the cube belongs to the builds below it."),
+    /** The Release 1.3 ender chest model. */
+    OLD_ENDER_CHEST_MODEL(Domain.RENDERING, FeatureWindow.from(Milestones.RELEASE_1_3),
+        "Ender chests were added in Release 1.3.1, so the old model exists from there; the window has no upper end because the redesign is above every declared build."),
+    /** Dropped items drawn as flat sprites. */
+    FLAT_DROPPED_ITEMS(Domain.RENDERING, FeatureWindow.before(Milestones.RELEASE_1_5),
+        "The 3D spinning dropped item arrived during 1.4.x; Release 1.5 is the first declared build that has it."),
+    /** No recipe book. */
+    NO_RECIPE_BOOK(Domain.RENDERING, FeatureWindow.allDeclared(),
+        "The recipe book was added in 1.12, which every declared version predates."),
+    /** A flat sky colour. */
+    FLAT_SKY_COLOUR(Domain.RENDERING, FeatureWindow.between(Milestones.INFDEV_20100420, Milestones.BETA_1_8),
+        "From Infdev 20100420 up to, but not including, Beta 1.8.1 the sky is drawn as a flat colour (the 2026-10-15 owner revert of the temperature sky). Nothing is declared before Infdev, and Beta 1.8.1 onward draws its own correct sky."),
+    /** The Alpha star field. */
+    ALPHA_STARS(Domain.RENDERING, FeatureWindow.before(Milestones.BETA_1_5),
+        "Stars before Beta 1.5 are the Alpha field."),
+    /** The Beta star field. */
+    BETA_STARS(Domain.RENDERING, FeatureWindow.between(Milestones.BETA_1_5, Milestones.RELEASE_1_3),
+        "Beta 1.5 dimmed the stars; Release 1.3 made them smaller, which the modern field already is."),
+    /** No weather. */
+    NO_WEATHER(Domain.WORLD, FeatureWindow.before(Milestones.BETA_1_5),
+        "Weather first exists in Beta 1.5; the last build without it is Beta 1.4."),
+    /** Left click uses doors, levers and buttons. */
+    LEFT_CLICK_USE(Domain.PLAYER, FeatureWindow.before(Milestones.RELEASE_1_4),
+        "Left-clicking activated doors, trapdoors, fence gates, levers and buttons until the Pretty Scary Update (1.4.2). Release 1.4 stands for that build in this project, so the window ends at it."),
+    /** The old creative inventory menu. */
+    OLD_CREATIVE_MENU(Domain.PLAYER, FeatureWindow.between(Milestones.BETA_1_8_1, Milestones.RELEASE_1_3),
+        "The single-page creative menu runs from Beta 1.8.1 through the 1.2 line; Release 1.3's family uses the tabbed 1.3.1 layout (12w21b)."),
+    /** No item tooltips at all. */
+    NO_ITEM_TOOLTIPS(Domain.RENDERING, FeatureWindow.before(Milestones.BETA_1_0),
+        "Item tooltips were added in Beta 1.0 (the owner's correction)."),
+    /** The flat black tooltip box. */
+    LEGACY_TOOLTIP_BOX(Domain.RENDERING, FeatureWindow.between(Milestones.BETA_1_0, Milestones.BETA_1_9_PRE_2),
+        "Beta 1.0 through Beta 1.9 Prerelease 1 draw the flat black box; modern tooltips begin at Prerelease 2."),
+    /** No attribute block on item tooltips. */
+    NO_ATTRIBUTE_TOOLTIPS(Domain.RENDERING, FeatureWindow.before(Milestones.RELEASE_1_6_1),
+        "The attribute block (Attack Damage, Speed) shipped with the attribute system in Release 1.6.1; verified against the clients: absent from Beta 1.7.3 and Release 1.5, present in 1.6.1 and 1.6.4. The 'When in Main Hand' header is later still, so gating this boundary removes it too."),
+    /** The corner version label on the plain game screen. */
+    VERSION_LABEL(Domain.RENDERING,
+        "Read from the hash-verified clients by disassembling the class that draws the F3 text. Always drawn through Beta 1.6; removed in Beta 1.6.5; restored in Beta 1.8; removed in Beta 1.9 Prerelease 4; restored in Prerelease 5; removed by the release. Prerelease 6 is treated like Prerelease 5, the wiki records no change at 6.",
+        FeatureWindow.before(Milestones.BETA_1_6_5),
+        FeatureWindow.between(Milestones.BETA_1_8, Milestones.BETA_1_9_PRE_4),
+        FeatureWindow.between(Milestones.BETA_1_9_PRE_5, Milestones.START_OF_RELEASE)),
+    /** No colour maps. */
+    NO_COLOUR_MAPS(Domain.RENDERING, FeatureWindow.before(Milestones.ALPHA_1_2_0),
+        "The first client to consult a grass or foliage colour map is Alpha 1.2.0, the Halloween Update."),
+    /** The first foliage colour map. */
+    OLD_FOLIAGE_COLOUR_MAP(Domain.RENDERING, FeatureWindow.between(Milestones.ALPHA_1_2_0, Milestones.BETA_1_2),
+        "The foliage map changed in Beta 1.2; Alpha 1.2.0 through Beta 1.0 use the earlier one."),
+    /** The dragon's bar is captioned 'Boss health'. */
+    BOSS_HEALTH_CAPTION(Domain.COMBAT, FeatureWindow.before(Milestones.RELEASE_1_4),
+        "Beta 1.9 Prerelease 6 added the bar with a hard-coded 'Boss health' string; the 1.0, 1.2.5 and 1.3.2 jars contain it and the 1.4.2, 1.4.7 and 1.5 jars do not. The wiki records the change at 12w34b; the Release 1.4 profile stands for that build."),
+    /** The original ender dragon fight. */
+    ORIGINAL_DRAGON_FIGHT(Domain.COMBAT, FeatureWindow.before(Milestones.RELEASE_1_9),
+        "The fight was revamped in Release 1.9, above every declared build."),
+    /** Endermen do not spawn in the Nether. */
+    NO_NETHER_ENDERMEN(Domain.MOBS, FeatureWindow.before(Milestones.RELEASE_1_10),
+        "Endermen spawn in the Nether from the 1.10 snapshot 16w20a. A dimension boundary, not a mob boundary: the enderman itself arrived in Beta 1.8.1 and is Overworld content from then on. The boundary rests on the published change list, no declared build is near it.");
 
     /** The system a feature belongs to, for documentation and for the generated version matrix. */
     public enum Domain {
@@ -286,8 +368,13 @@ public enum Feature {
     private final String evidence;
 
     Feature(Domain domain, FeatureWindow window, String evidence) {
+        this(domain, evidence, window);
+    }
+
+    /** A feature with several windows: it appears, disappears and reappears. Active when any window contains. */
+    Feature(Domain domain, String evidence, FeatureWindow... windows) {
         this.domain = domain;
-        this.windows = List.of(window);
+        this.windows = List.of(windows);
         this.evidence = evidence;
     }
 

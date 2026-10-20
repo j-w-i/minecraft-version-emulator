@@ -16,6 +16,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Milestones;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -51,7 +53,7 @@ class HistoricalDragonFightTest {
     @Test
     @DisplayName("the boundary is Release 1.9 itself")
     void boundary() {
-        assertTrue(HistoricalDragonFight.REVAMP_CHRONOLOGY
+        assertTrue(Milestones.RELEASE_1_9.key()
             > HistoricalVersions.byId("historical_experience:release_1_6_4").orElseThrow().chronology());
     }
 
