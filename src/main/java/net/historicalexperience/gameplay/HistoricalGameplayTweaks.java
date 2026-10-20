@@ -794,7 +794,11 @@ public final class HistoricalGameplayTweaks {
      */
     public static boolean netherAvailable(String versionId) {
         var version = HistoricalVersions.byId(versionId).orElse(null);
-        return version != null && version.chronology() >= ALPHA_1_2_0_CHRONOLOGY;
+        // A world with no declared historical version has the modern Nether. This used to answer false for
+        // null, and the portal mixins cancel on false, so an ORDINARY world could neither light nor use a
+        // portal (HistoricalVersionSync sets the session to null for ordinary worlds). Same rule as
+        // functionalEnchanting and sneakingAvailable: no version means "this build has nothing to say".
+        return version == null || version.chronology() >= ALPHA_1_2_0_CHRONOLOGY;
     }
 
     /**
@@ -809,7 +813,9 @@ public final class HistoricalGameplayTweaks {
      */
     public static boolean foodStacks(String versionId) {
         var version = HistoricalVersions.byId(versionId).orElse(null);
-        return version != null && version.chronology() >= BETA_1_8_CHRONOLOGY;
+        // Modern answer for a world with no declared version; see netherAvailable. The caller caps FOOD stacks
+        // at one when this is false, which used to include every ordinary world.
+        return version == null || version.chronology() >= BETA_1_8_CHRONOLOGY;
     }
 
     /**

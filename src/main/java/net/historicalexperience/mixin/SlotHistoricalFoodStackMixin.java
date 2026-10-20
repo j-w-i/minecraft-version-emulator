@@ -17,9 +17,7 @@
  */
 package net.historicalexperience.mixin;
 
-import net.historicalexperience.gameplay.HistoricalActiveSession;
-import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
-import net.minecraft.core.component.DataComponents;
+import net.historicalexperience.gameplay.HistoricalFoodStackLimit;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -85,9 +83,7 @@ public abstract class SlotHistoricalFoodStackMixin {
      * code: modern vanilla already keeps both at one.
      */
     private boolean historicalExperience$foodDoesNotStack(ItemStack stack) {
-        return !HistoricalGameplayTweaks.foodStacks(HistoricalActiveSession.current())
-            && stack != null
-            && !stack.isEmpty()
-            && stack.has(DataComponents.FOOD);
+        // One definition, shared with the container, menu and inventory hooks, so the four paths cannot disagree.
+        return HistoricalFoodStackLimit.foodDoesNotStack(stack);
     }
 }

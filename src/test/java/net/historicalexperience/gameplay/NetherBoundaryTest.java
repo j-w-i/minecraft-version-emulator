@@ -83,7 +83,11 @@ class NetherBoundaryTest {
                 > HistoricalVersions.byId("historical_experience:alpha").orElseThrow().chronology(),
             "Alpha v1.1.2_01 must sit below the Nether boundary");
 
-        assertFalse(HistoricalGameplayTweaks.netherAvailable(null),
+        // The portal mixins cancel when this is false and the session is null in an ordinary world, so the
+        // answer for "no historical version" MUST be true or the gate would disable portals in every ordinary world.
+        assertTrue(HistoricalGameplayTweaks.netherAvailable(null),
             "an ordinary world is not a historical version and this gate must not touch it");
+        assertTrue(HistoricalGameplayTweaks.netherAvailable("moderner_beta:beta"));
+        assertTrue(HistoricalGameplayTweaks.netherAvailable("example:not_a_version"));
     }
 }
