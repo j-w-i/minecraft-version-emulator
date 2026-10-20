@@ -14,7 +14,8 @@
  * this program. If not, see <https://www.gnu.org/licenses/>.
  *
  * SPDX-License-Identifier: LGPL-3.0-or-later
- */package net.historicalexperience.mixin;
+ */
+package net.historicalexperience.mixin.common;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.historicalexperience.gameplay.HistoricalDragonFight;

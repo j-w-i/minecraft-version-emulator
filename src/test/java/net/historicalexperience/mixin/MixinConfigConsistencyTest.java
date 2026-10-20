@@ -110,6 +110,27 @@ class MixinConfigConsistencyTest {
     }
 
     @Test
+    @DisplayName("each mixin file declares the package its directory implies, or Mixin cannot find it at all")
+    void packageStatementsMatchTheDirectories() throws IOException {
+        List<String> offenders = new ArrayList<>();
+        try (Stream<Path> files = Files.walk(MIXINS)) {
+            for (Path file : files.filter(path -> path.toString().endsWith(".java")).toList()) {
+                String relative = MIXINS.relativize(file).toString().replace('\\', '/');
+                String dotted = relative.substring(0, relative.length() - ".java".length()).replace('/', '.');
+                int lastDot = dotted.lastIndexOf('.');
+                String expected = "package net.historicalexperience.mixin." + dotted.substring(0, lastDot) + ";";
+                String body = Files.readString(file, StandardCharsets.UTF_8);
+                // The package statement may sit on the same line as the end of the licence comment; search, do not line-match.
+                if (!body.contains(expected)) {
+                    offenders.add(relative + " does not declare " + expected);
+                }
+            }
+        }
+        assertTrue(offenders.isEmpty(), "a mixin whose package does not match its directory is not found by the "
+            + "transformer, which is a startup crash with required:true: " + offenders);
+    }
+
+    @Test
     @DisplayName("the order of mixins sharing an instruction is preserved, because that order is the apply order")
     void overlappingMixinsKeepTheirOrder() throws IOException {
         List<String> common = arrays().get("mixins");

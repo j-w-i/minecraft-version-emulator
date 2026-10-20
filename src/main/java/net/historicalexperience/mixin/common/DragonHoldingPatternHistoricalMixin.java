@@ -14,7 +14,8 @@
  * this program. If not, see <https://www.gnu.org/licenses/>.
  *
  * SPDX-License-Identifier: LGPL-3.0-or-later
- */package net.historicalexperience.mixin;
+ */
+package net.historicalexperience.mixin.common;
 
 import net.historicalexperience.gameplay.HistoricalDragonFight;
 import net.minecraft.server.level.ServerLevel;
