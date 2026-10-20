@@ -19,7 +19,7 @@
 
 **Drops:** zombie -> feather (0..2); spider -> string (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 4 declared direct heals: {minecraft:mushroom_stew=10, minecraft:cooked_porkchop=8, minecraft:bread=5, minecraft:porkchop=3}
+**Food:** 4 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:bread=5, minecraft:porkchop=3, minecraft:mushroom_stew=10}
 
 **Enchantments:** none
 
@@ -47,7 +47,7 @@
 
 **Drops:** zombie -> feather (0..2); spider -> string (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3}
 
 **Enchantments:** none
 
@@ -75,7 +75,7 @@
 
 **Drops:** zombie -> feather (0..2); spider -> string (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3}
 
 **Enchantments:** none
 
@@ -103,7 +103,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3}
 
 **Enchantments:** none
 
@@ -131,7 +131,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3}
 
 **Enchantments:** none
 
@@ -159,7 +159,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3}
 
 **Enchantments:** none
 
@@ -187,7 +187,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3}
 
 **Enchantments:** none
 
@@ -215,7 +215,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3}
 
 **Enchantments:** none
 
@@ -243,7 +243,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3}
 
 **Enchantments:** none
 
@@ -271,7 +271,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3}
 
 **Enchantments:** none
 
@@ -299,7 +299,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3}
 
 **Enchantments:** none
 
@@ -327,7 +327,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3}
 
 **Enchantments:** none
 
@@ -355,7 +355,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3}
 
 **Enchantments:** none
 
@@ -403,7 +403,7 @@
 - rules: no hunger, no sprinting, no experience, no structures, 11 spawns allowed, 8 drop rules, no direct food healing
 - evidence: Charcoal, note blocks, dyes and coloured wool, sugar, dispensers, bone and bone meal, sandstone, birch and spruce logs and leaves, cake, and lapis lazuli with its block and ore. The squid arrive, with 10 health and an ink sac, no sounds yet, and milkable in this build - which is recorded as a quirk rather than reproduced. Sugar cane is renamed from reeds and the crafting table from workbench; tool durability rises across the board, wood 33 to 59, stone 65 to 131, iron 129 to 250, diamond 1025 to 1561; skeletons start dropping bones; spiders climb walls; sheep can be dyed; bone meal fertilises saplings and wheat. World generation adds birch trees to forests, replaces oak with spruce in taiga, and introduces lapis ore - whose frequency and height were adjusted in Beta 1.2_02, which must NOT be backdated into this build. Cocoa beans and brown wool are registry content obtainable only by external tools here, so they are recorded rather than given a survival route. IMPLEMENTED: the tool durability table this entry used to record as missing is applied by HistoricalToolDurability, so wood 33, stone 65, iron 129 and diamond 1025 hold for every declared version older than this one and this build itself gets the raised values.
 
-**Features active (56):** `NO_SKELETON_STRAFING`, `NO_CRITICAL_HITS`, `NO_ANIMAL_PANIC`, `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `PUNCH_SHEARS`, `INSTANT_BOW`, `ARROW_SPEED`, `INVINCIBLE_BOW`, `INSTANT_AIR`, `INSTANT_BONE_MEAL`, `PUNCH_TNT`, `GRASS_SEEDS`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `GOLDEN_APPLE_GOLD_BLOCK_RECIPE`, `WOOL_NINE_STRING_RECIPE`, `OLD_SWORD_DAMAGE`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_BREWING`, `NO_ENDER_DRAGON`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `UNSTACKABLE_FOOD`, `NO_OFFHAND`, `OLD_LIGHTING_ENGINE`, `NO_SMOOTH_LIGHTING`, `OLD_FOG`, `LOW_CLOUDS`, `OLD_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `FLAT_SKY_COLOUR`, `ALPHA_STARS`, `NO_WEATHER`, `LEFT_CLICK_USE`, `LEGACY_TOOLTIP_BOX`, `NO_ATTRIBUTE_TOOLTIPS`, `VERSION_LABEL`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
+**Features active (57):** `NO_SKELETON_STRAFING`, `NO_CRITICAL_HITS`, `NO_ANIMAL_PANIC`, `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `PUNCH_SHEARS`, `INSTANT_BOW`, `ARROW_SPEED`, `INVINCIBLE_BOW`, `INSTANT_AIR`, `INSTANT_BONE_MEAL`, `PUNCH_TNT`, `GRASS_SEEDS`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `GOLDEN_APPLE_GOLD_BLOCK_RECIPE`, `WOOL_NINE_STRING_RECIPE`, `OLD_SWORD_DAMAGE`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_BREWING`, `NO_ENDER_DRAGON`, `CAKE_SLICE_HEALS`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `UNSTACKABLE_FOOD`, `NO_OFFHAND`, `OLD_LIGHTING_ENGINE`, `NO_SMOOTH_LIGHTING`, `OLD_FOG`, `LOW_CLOUDS`, `OLD_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `FLAT_SKY_COLOUR`, `ALPHA_STARS`, `NO_WEATHER`, `LEFT_CLICK_USE`, `LEGACY_TOOLTIP_BOX`, `NO_ATTRIBUTE_TOOLTIPS`, `VERSION_LABEL`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
 
 **Generation recipes:** `historical_experience:beta_1_2` (rev 0, from moderner_beta:beta, 15 exclusions, 0 ore rules); `historical_experience:beta_1_2_no_grass` (rev 1, from moderner_beta:beta, 54 exclusions, 0 ore rules, experimental); `historical_experience:beta_1_2_no_modern_content` (rev 2, from moderner_beta:beta, 15 exclusions, 0 ore rules, experimental); `historical_experience:beta_1_2_historical_envelope` (rev 3, from moderner_beta:beta, 15 exclusions, 0 ore rules, experimental); `historical_experience:beta_1_2_no_sandstone` (rev 4, from moderner_beta:beta, 15 exclusions, 0 ore rules, experimental); `historical_experience:beta_1_2_era_ores` (rev 5, from moderner_beta:beta, 33 exclusions, 8 ore rules, experimental)
 
@@ -431,7 +431,7 @@
 - rules: no hunger, no sprinting, no experience, no structures, 12 spawns allowed, 8 drop rules, no direct food healing
 - evidence: Beds with sleeping and time skip, redstone repeaters, cobblestone, wood and sandstone slabs, a smooth stone slab that is present but unobtainable, the 'Skull on Fire' painting, world seed and name selection with multiple world slots, and a smooth-lighting engine. Sandstone now generates under naturally generated sand; the grassland/sand biome boundary Beta 1.0 left misaligned is FIXED here; stone slabs move to the stone recipe and double slabs drop two; the stone pressure plate recipe drops from three materials to two; gunpowder is renamed from sulphur; powered redstone dust darkens with distance from its source; and squid swim in 3D instead of sitting on the bottom, and can no longer be milked - a Beta 1.2 quirk this build REMOVES. SLIMES SPAWN AGAIN, having been removed from the spawning code in Alpha 1.2.0. Bed respawn-point reset is explicitly NOT in this build; it arrives bugged in Beta 1.4.
 
-**Features active (56):** `NO_SKELETON_STRAFING`, `NO_CRITICAL_HITS`, `NO_ANIMAL_PANIC`, `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `PUNCH_SHEARS`, `INSTANT_BOW`, `ARROW_SPEED`, `INVINCIBLE_BOW`, `INSTANT_AIR`, `INSTANT_BONE_MEAL`, `PUNCH_TNT`, `GRASS_SEEDS`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `GOLDEN_APPLE_GOLD_BLOCK_RECIPE`, `WOOL_NINE_STRING_RECIPE`, `OLD_SWORD_DAMAGE`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_BREWING`, `NO_ENDER_DRAGON`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `UNSTACKABLE_FOOD`, `NO_OFFHAND`, `OLD_LIGHTING_ENGINE`, `OLD_SMOOTH_LIGHTING`, `OLD_FOG`, `LOW_CLOUDS`, `OLD_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `FLAT_SKY_COLOUR`, `ALPHA_STARS`, `NO_WEATHER`, `LEFT_CLICK_USE`, `LEGACY_TOOLTIP_BOX`, `NO_ATTRIBUTE_TOOLTIPS`, `VERSION_LABEL`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
+**Features active (57):** `NO_SKELETON_STRAFING`, `NO_CRITICAL_HITS`, `NO_ANIMAL_PANIC`, `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `PUNCH_SHEARS`, `INSTANT_BOW`, `ARROW_SPEED`, `INVINCIBLE_BOW`, `INSTANT_AIR`, `INSTANT_BONE_MEAL`, `PUNCH_TNT`, `GRASS_SEEDS`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `GOLDEN_APPLE_GOLD_BLOCK_RECIPE`, `WOOL_NINE_STRING_RECIPE`, `OLD_SWORD_DAMAGE`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_BREWING`, `NO_ENDER_DRAGON`, `CAKE_SLICE_HEALS`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `UNSTACKABLE_FOOD`, `NO_OFFHAND`, `OLD_LIGHTING_ENGINE`, `OLD_SMOOTH_LIGHTING`, `OLD_FOG`, `LOW_CLOUDS`, `OLD_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `FLAT_SKY_COLOUR`, `ALPHA_STARS`, `NO_WEATHER`, `LEFT_CLICK_USE`, `LEGACY_TOOLTIP_BOX`, `NO_ATTRIBUTE_TOOLTIPS`, `VERSION_LABEL`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
 
 **Generation recipes:** `historical_experience:beta_1_3` (rev 0, from moderner_beta:beta, 15 exclusions, 0 ore rules); `historical_experience:beta_1_3_no_grass` (rev 1, from moderner_beta:beta, 54 exclusions, 0 ore rules, experimental); `historical_experience:beta_1_3_no_modern_content` (rev 2, from moderner_beta:beta, 15 exclusions, 0 ore rules, experimental); `historical_experience:beta_1_3_historical_envelope` (rev 3, from moderner_beta:beta, 15 exclusions, 0 ore rules, experimental); `historical_experience:beta_1_3_era_ores` (rev 4, from moderner_beta:beta, 33 exclusions, 8 ore rules, experimental)
 
@@ -459,7 +459,7 @@
 - rules: no hunger, no sprinting, no experience, structures, 13 spawns allowed, 8 drop rules, no direct food healing
 - evidence: Adds the WOLF - neutral, common in taiga, 10 health, tamed with bones at a 1/3 chance per bone, defending its owner and going angry when the owner or the owner's wolves are hit, its tail showing health, feedable raw pork, and DROPPING NOTHING when killed. Also cookies (healing 1 health and stacking to 8, the first stackable food), the April Fools locked chest, bed spawn-position reset - added here but BUGGED, only applying on 'Leave bed' and only working for multiplayer - partly implemented achievement infrastructure, the E inventory key, a changeable GUI scale, faster wheat growth, spiders no longer trampling crops, spider sounds REMOVED, the zombie/spider one-block-above damage bug fixed, and ladders holding position while sneaking. NO terrain generator change.
 
-**Features active (57):** `NO_SKELETON_STRAFING`, `NO_CRITICAL_HITS`, `NO_ANIMAL_PANIC`, `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `COOKIE_STACKS_EIGHT`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `PUNCH_SHEARS`, `INSTANT_BOW`, `ARROW_SPEED`, `INVINCIBLE_BOW`, `INSTANT_AIR`, `INSTANT_BONE_MEAL`, `PUNCH_TNT`, `GRASS_SEEDS`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `GOLDEN_APPLE_GOLD_BLOCK_RECIPE`, `WOOL_NINE_STRING_RECIPE`, `OLD_SWORD_DAMAGE`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_BREWING`, `NO_ENDER_DRAGON`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `UNSTACKABLE_FOOD`, `NO_OFFHAND`, `OLD_LIGHTING_ENGINE`, `OLD_SMOOTH_LIGHTING`, `OLD_FOG`, `LOW_CLOUDS`, `OLD_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `FLAT_SKY_COLOUR`, `ALPHA_STARS`, `NO_WEATHER`, `LEFT_CLICK_USE`, `LEGACY_TOOLTIP_BOX`, `NO_ATTRIBUTE_TOOLTIPS`, `VERSION_LABEL`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
+**Features active (58):** `NO_SKELETON_STRAFING`, `NO_CRITICAL_HITS`, `NO_ANIMAL_PANIC`, `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `COOKIE_STACKS_EIGHT`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `PUNCH_SHEARS`, `INSTANT_BOW`, `ARROW_SPEED`, `INVINCIBLE_BOW`, `INSTANT_AIR`, `INSTANT_BONE_MEAL`, `PUNCH_TNT`, `GRASS_SEEDS`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `GOLDEN_APPLE_GOLD_BLOCK_RECIPE`, `WOOL_NINE_STRING_RECIPE`, `OLD_SWORD_DAMAGE`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_BREWING`, `NO_ENDER_DRAGON`, `CAKE_SLICE_HEALS`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `UNSTACKABLE_FOOD`, `NO_OFFHAND`, `OLD_LIGHTING_ENGINE`, `OLD_SMOOTH_LIGHTING`, `OLD_FOG`, `LOW_CLOUDS`, `OLD_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `FLAT_SKY_COLOUR`, `ALPHA_STARS`, `NO_WEATHER`, `LEFT_CLICK_USE`, `LEGACY_TOOLTIP_BOX`, `NO_ATTRIBUTE_TOOLTIPS`, `VERSION_LABEL`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
 
 **Generation recipes:** `historical_experience:beta_1_4` (rev 0, from moderner_beta:beta, 15 exclusions, 0 ore rules); `historical_experience:beta_1_4_no_grass` (rev 1, from moderner_beta:beta, 54 exclusions, 0 ore rules, experimental); `historical_experience:beta_1_4_no_modern_content` (rev 2, from moderner_beta:beta, 15 exclusions, 0 ore rules, experimental); `historical_experience:beta_1_4_era_ores` (rev 3, from moderner_beta:beta, 33 exclusions, 8 ore rules, experimental)
 
@@ -487,7 +487,7 @@
 - rules: no hunger, no sprinting, no experience, structures, 13 spawns allowed, 8 drop rules, no direct food healing
 - evidence: Adds WEATHER - natural rain, snowfall and thunderstorms with their own sounds - plus birch and spruce saplings, detector rails, powered rails that need redstone and accelerate minecarts, cobweb (present but obtainable only by inventory editing, slowing players and mobs and dropping string when broken with a sword), and sixteen achievements and statistics with their UI. Unarmed damage rises 1 -> 2 health points; saplings smelt 0.5 items each; redstone wire can be placed on snow; the ladder recipe yields 2; lightning creates fire and turns struck pigs into zombie pigmen and struck creepers into charged creepers; wolves become more common outside taiga and forest. NO mob is added and there is NO new base generator.
 
-**Features active (57):** `NO_SKELETON_STRAFING`, `NO_CRITICAL_HITS`, `NO_ANIMAL_PANIC`, `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `COOKIE_STACKS_EIGHT`, `BETA_DAMAGE_BUG`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `PUNCH_SHEARS`, `INSTANT_BOW`, `ARROW_SPEED`, `INVINCIBLE_BOW`, `INSTANT_AIR`, `INSTANT_BONE_MEAL`, `PUNCH_TNT`, `GRASS_SEEDS`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `GOLDEN_APPLE_GOLD_BLOCK_RECIPE`, `WOOL_NINE_STRING_RECIPE`, `OLD_SWORD_DAMAGE`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_BREWING`, `NO_ENDER_DRAGON`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `UNSTACKABLE_FOOD`, `NO_OFFHAND`, `OLD_LIGHTING_ENGINE`, `OLD_SMOOTH_LIGHTING`, `OLD_FOG`, `LOW_CLOUDS`, `OLD_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `FLAT_SKY_COLOUR`, `BETA_STARS`, `LEFT_CLICK_USE`, `LEGACY_TOOLTIP_BOX`, `NO_ATTRIBUTE_TOOLTIPS`, `VERSION_LABEL`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
+**Features active (58):** `NO_SKELETON_STRAFING`, `NO_CRITICAL_HITS`, `NO_ANIMAL_PANIC`, `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `COOKIE_STACKS_EIGHT`, `BETA_DAMAGE_BUG`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `PUNCH_SHEARS`, `INSTANT_BOW`, `ARROW_SPEED`, `INVINCIBLE_BOW`, `INSTANT_AIR`, `INSTANT_BONE_MEAL`, `PUNCH_TNT`, `GRASS_SEEDS`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `GOLDEN_APPLE_GOLD_BLOCK_RECIPE`, `WOOL_NINE_STRING_RECIPE`, `OLD_SWORD_DAMAGE`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_BREWING`, `NO_ENDER_DRAGON`, `CAKE_SLICE_HEALS`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `UNSTACKABLE_FOOD`, `NO_OFFHAND`, `OLD_LIGHTING_ENGINE`, `OLD_SMOOTH_LIGHTING`, `OLD_FOG`, `LOW_CLOUDS`, `OLD_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `FLAT_SKY_COLOUR`, `BETA_STARS`, `LEFT_CLICK_USE`, `LEGACY_TOOLTIP_BOX`, `NO_ATTRIBUTE_TOOLTIPS`, `VERSION_LABEL`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
 
 **Generation recipes:** `historical_experience:beta_1_5` (rev 0, from moderner_beta:beta, 15 exclusions, 0 ore rules); `historical_experience:beta_1_5_no_grass` (rev 1, from moderner_beta:beta, 54 exclusions, 0 ore rules, experimental); `historical_experience:beta_1_5_no_modern_content` (rev 2, from moderner_beta:beta, 15 exclusions, 0 ore rules, experimental); `historical_experience:beta_1_5_era_ores` (rev 3, from moderner_beta:beta, 33 exclusions, 8 ore rules, experimental)
 
@@ -515,7 +515,7 @@
 - rules: no hunger, no sprinting, no experience, structures, 13 spawns allowed, 8 drop rules, no direct food healing
 - evidence: Adds the map item, the wooden trapdoor, dead bush (deserts only, placeable only on sand), and SHORT GRASS AND FERNS as naturally generated vegetation - grass patches on most grassy-soil biomes, ferns only in swamps and rainforests. Also Nether support in multiplayer with the view-distance and allow-nether server properties, and grass/foliage colour-map files that exist but are initially not read. A bed placed in the Nether EXPLODES; fire spread is severely slowed and no longer spreads infinitely; ice regenerates without snow; mushrooms spread slowly; below a layer of source blocks water no longer behaves as source; the player dismounts from a boat or minecart entering a portal, fixing the portal-ride crash; the ten-tick missed-swing cooldown is REMOVED; and public Beta 1.6 fixes the ore-generation quadrant bias that made some ores at least 50% more common to the south-east. NO mob is added and there is NO new base generator. The unreleased Test Build 3's randomised vegetation and its clay x=z coordinate defect are NOT this build.
 
-**Features active (56):** `NO_SKELETON_STRAFING`, `NO_CRITICAL_HITS`, `NO_ANIMAL_PANIC`, `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `COOKIE_STACKS_EIGHT`, `BETA_DAMAGE_BUG`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `PUNCH_SHEARS`, `INSTANT_BOW`, `ARROW_SPEED`, `INVINCIBLE_BOW`, `INSTANT_AIR`, `INSTANT_BONE_MEAL`, `PUNCH_TNT`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `GOLDEN_APPLE_GOLD_BLOCK_RECIPE`, `WOOL_NINE_STRING_RECIPE`, `OLD_SWORD_DAMAGE`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_BREWING`, `NO_ENDER_DRAGON`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `UNSTACKABLE_FOOD`, `NO_OFFHAND`, `OLD_LIGHTING_ENGINE`, `OLD_SMOOTH_LIGHTING`, `OLD_FOG`, `LOW_CLOUDS`, `OLD_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `FLAT_SKY_COLOUR`, `BETA_STARS`, `LEFT_CLICK_USE`, `LEGACY_TOOLTIP_BOX`, `NO_ATTRIBUTE_TOOLTIPS`, `VERSION_LABEL`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
+**Features active (57):** `NO_SKELETON_STRAFING`, `NO_CRITICAL_HITS`, `NO_ANIMAL_PANIC`, `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `COOKIE_STACKS_EIGHT`, `BETA_DAMAGE_BUG`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `PUNCH_SHEARS`, `INSTANT_BOW`, `ARROW_SPEED`, `INVINCIBLE_BOW`, `INSTANT_AIR`, `INSTANT_BONE_MEAL`, `PUNCH_TNT`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `GOLDEN_APPLE_GOLD_BLOCK_RECIPE`, `WOOL_NINE_STRING_RECIPE`, `OLD_SWORD_DAMAGE`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_BREWING`, `NO_ENDER_DRAGON`, `CAKE_SLICE_HEALS`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `UNSTACKABLE_FOOD`, `NO_OFFHAND`, `OLD_LIGHTING_ENGINE`, `OLD_SMOOTH_LIGHTING`, `OLD_FOG`, `LOW_CLOUDS`, `OLD_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `FLAT_SKY_COLOUR`, `BETA_STARS`, `LEFT_CLICK_USE`, `LEGACY_TOOLTIP_BOX`, `NO_ATTRIBUTE_TOOLTIPS`, `VERSION_LABEL`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
 
 **Generation recipes:** `historical_experience:beta_1_6` (rev 0, from moderner_beta:beta, 15 exclusions, 0 ore rules); `historical_experience:beta_1_6_no_modern_content` (rev 1, from moderner_beta:beta, 15 exclusions, 0 ore rules, experimental); `historical_experience:beta_1_6_era_ores` (rev 2, from moderner_beta:beta, 33 exclusions, 8 ore rules, experimental)
 
@@ -543,7 +543,7 @@
 - rules: no hunger, no sprinting, no experience, no structures, 13 spawns allowed, 8 drop rules, 9 direct food heals
 - evidence: Entity registry, item registry and ore parameters/vein verified from the b1.7.3 client (sha1 43db9b498cb67058d2e12d394e6507722e71bb45); see research/beta173-entity-types.json, research/beta173-ore-parameters-parent-reviewed.json and research/beta173-ore-vein-geometry.json
 
-**Features active (52):** `NO_SKELETON_STRAFING`, `NO_CRITICAL_HITS`, `NO_ANIMAL_PANIC`, `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `COOKIE_STACKS_EIGHT`, `BETA_DAMAGE_BUG`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `INSTANT_BOW`, `ARROW_SPEED`, `INVINCIBLE_BOW`, `INSTANT_AIR`, `INSTANT_BONE_MEAL`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `GOLDEN_APPLE_GOLD_BLOCK_RECIPE`, `OLD_SWORD_DAMAGE`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_BREWING`, `NO_ENDER_DRAGON`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `UNSTACKABLE_FOOD`, `NO_OFFHAND`, `OLD_LIGHTING_ENGINE`, `OLD_SMOOTH_LIGHTING`, `OLD_FOG`, `LOW_CLOUDS`, `OLD_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `FLAT_SKY_COLOUR`, `BETA_STARS`, `LEFT_CLICK_USE`, `LEGACY_TOOLTIP_BOX`, `NO_ATTRIBUTE_TOOLTIPS`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
+**Features active (53):** `NO_SKELETON_STRAFING`, `NO_CRITICAL_HITS`, `NO_ANIMAL_PANIC`, `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `COOKIE_STACKS_EIGHT`, `BETA_DAMAGE_BUG`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `INSTANT_BOW`, `ARROW_SPEED`, `INVINCIBLE_BOW`, `INSTANT_AIR`, `INSTANT_BONE_MEAL`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `GOLDEN_APPLE_GOLD_BLOCK_RECIPE`, `OLD_SWORD_DAMAGE`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_BREWING`, `NO_ENDER_DRAGON`, `CAKE_SLICE_HEALS`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `UNSTACKABLE_FOOD`, `NO_OFFHAND`, `OLD_LIGHTING_ENGINE`, `OLD_SMOOTH_LIGHTING`, `OLD_FOG`, `LOW_CLOUDS`, `OLD_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `FLAT_SKY_COLOUR`, `BETA_STARS`, `LEFT_CLICK_USE`, `LEGACY_TOOLTIP_BOX`, `NO_ATTRIBUTE_TOOLTIPS`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
 
 **Generation recipes:** `historical_experience:beta_1_7_3` (rev 0, from moderner_beta:beta, 0 exclusions, 0 ore rules); `historical_experience:beta_1_7_3_content_preview_1` (rev 1, from moderner_beta:beta, 0 exclusions, 0 ore rules, experimental); `historical_experience:beta_1_7_3_content_preview_2` (rev 2, from moderner_beta:beta, 0 exclusions, 0 ore rules, experimental); `historical_experience:beta_1_7_3_content_preview_3` (rev 3, from moderner_beta:beta, 0 exclusions, 0 ore rules, experimental); `historical_experience:beta_1_7_3_content_preview_4` (rev 4, from moderner_beta:beta, 15 exclusions, 0 ore rules, experimental); `historical_experience:beta_1_7_3_content_preview_5` (rev 5, from moderner_beta:beta, 33 exclusions, 8 ore rules, experimental); `historical_experience:beta_1_7_3_content_preview_6` (rev 6, from moderner_beta:beta, 33 exclusions, 8 ore rules, experimental); `historical_experience:beta_1_7_3_content_preview_7` (rev 7, from moderner_beta:beta, 43 exclusions, 8 ore rules, experimental); `historical_experience:beta_1_7_3_content_preview_8` (rev 8, from moderner_beta:beta, 46 exclusions, 8 ore rules, experimental); `historical_experience:beta_1_7_3_content_preview_9` (rev 9, from moderner_beta:beta, 53 exclusions, 8 ore rules, experimental); `historical_experience:beta_1_7_3_content_preview_10` (rev 10, from moderner_beta:beta, 54 exclusions, 8 ore rules, experimental)
 
@@ -551,7 +551,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 9 declared direct heals: {minecraft:mushroom_stew=10, minecraft:cooked_cod=5, minecraft:cod=2, minecraft:apple=4, minecraft:golden_apple=42, minecraft:porkchop=3, minecraft:cookie=1, minecraft:cooked_porkchop=8, minecraft:bread=5}
+**Food:** 9 declared direct heals: {minecraft:apple=4, minecraft:golden_apple=42, minecraft:porkchop=3, minecraft:cookie=1, minecraft:cooked_porkchop=8, minecraft:bread=5, minecraft:mushroom_stew=10, minecraft:cooked_cod=5, minecraft:cod=2}
 
 **Enchantments:** none
 

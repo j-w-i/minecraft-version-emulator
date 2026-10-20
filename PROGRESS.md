@@ -1,3 +1,25 @@
+# Current work — 2026-10-21 / Gap 13: cake heals 3 per slice before hunger (Beta 1.2-1.7.3)
+
+research/minecraft-version-history.md: "Beta 1.2 cake (3 health per slice, 18 for the whole cake)". Cake is the only
+pre-hunger food whose heal happens through a BLOCK interaction, so the item-food heal table could not cover it and a
+Beta 1.2-1.7.3 cake restored nothing.
+
+- Feature `CAKE_SLICE_HEALS` `[Beta 1.2, Beta 1.8.1)` and `HistoricalFoodRules.cakeSliceHeal` (3.0F, pure and tested).
+- One shared mixin, `CakeBlockHistoricalHealMixin`, with two redirects inside vanilla's own `CakeBlock.eat` so the bites
+  count, eating sound, block-state update and statistic stay vanilla's: `Player.canEat` is bypassed (no hunger bar to be
+  full) and `FoodData.eat` becomes `player.heal(3)`. Both redirect targets were read from the mapped class with javap
+  before being written, and the mixin applies - verified by a dedicated server boot, `Done (2.663s)`, no mixin errors.
+
+**Why the boot matters here specifically:** redirect injection points are only validated when the target class loads,
+and `CakeBlock` loads through the block registry at server start. That is the same check that caught the invalid dragon
+injection last round.
+
+**Evidence:** `./gradlew test` - **799 tests, 0 failures**; golden, matrix and facts regenerated.
+
+**Still open:** potion strengths, XP curve/sources, achievements, block-break delay, boats, maps, signs, the F3 overlay,
+the stone-slab substitution, slab/ladder/plate counts, `redstone_lamp` in 1.2.5, and the Pre3 frame item form.
+
+---
 # Current work — 2026-10-21 / Gap 12: the Beta 1.5 damage bug, and a runtime-verified correction
 
 **The damage bug is implemented.** research/feature-timeline.json, Java Edition history: Beta 1.5 "All attacks from

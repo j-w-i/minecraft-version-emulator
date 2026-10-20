@@ -359,6 +359,17 @@ public enum Feature {
         "Eye of ender placement works from Beta 1.9 Prerelease 3, while the portal block has no function until "
         + "Prerelease 4."),
 
+    /**
+     * A cake slice restores 3 health directly, because there is no hunger to fill.
+     *
+     * <p>research/minecraft-version-history.md: "Beta 1.2 cake (3 health per slice, 18 for the whole cake)". Cake is
+     * the one pre-hunger food whose heal came from a BLOCK interaction rather than from eating an item, which is why
+     * the item-food heal table could not cover it and a Beta 1.2-1.7.3 cake restored nothing.
+     */
+    CAKE_SLICE_HEALS(Domain.PLAYER, FeatureWindow.between(Milestones.BETA_1_2, Milestones.BETA_1_8_1),
+        "A cake slice heals 3 health (18 for the whole cake), because these builds have no hunger bar. Cake arrives "
+        + "in Beta 1.2 and food starts filling hunger in Beta 1.8."),
+
     /** Inert end portal. */
     INERT_END_PORTAL(Domain.BLOCKS, FeatureWindow.before(Milestones.BETA_1_9_PRE_4),
         "The End portal does nothing when completed before Beta 1.9 Prerelease 4: Prerelease 3 adds the frame and eye of ender but the portal block has no function."),

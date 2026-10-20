@@ -213,6 +213,12 @@ public final class HistoricalFoodRules {
         return !hasHunger(versionId);
     }
 
+    /** The health a cake slice restores directly, or zero in versions with hunger. */
+    public static float cakeSliceHeal(String versionId) {
+        return net.historicalexperience.version.Features.active(
+            net.historicalexperience.version.Feature.CAKE_SLICE_HEALS, versionId) ? 3.0F : 0.0F;
+    }
+
     /** The health a version's food restored directly, or empty when it is not a direct-healing food. */
     public static Optional<Integer> healPointsFor(String versionId, String itemId) {
         if (versionId == null || itemId == null) {
