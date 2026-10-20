@@ -1,3 +1,37 @@
+# Current work — 2026-10-21 / Gap implementation 2: block dates (G3) and the chicken/cow meat defect
+
+**Owner-reported defect fixed.** "Chickens don't drop meat nor do cows in Beta 1.8.1" was real and the cause was a
+cache, not the table: `HistoricalMobLootHelper` built ONE global table per entity type from Beta 1.7.3's items and
+looked it up by entity type alone. So a 1.8.1 chicken resolved to the 1.7.3 feather table and a 1.8.1 cow to leather,
+regardless of the version's own rule — raw chicken and beef never dropped. The helper now builds from the **version's
+own rule** (`eraTable`, keyed by profile+entity), keeping the two special shapes (bones join arrows from Beta 1.2, pork
+smelts on fire from Beta 1.5). `EraDropItemTest` pins Beta 1.8.1 → raw chicken / beef / rotten flesh while Beta 1.7.3
+and Alpha keep feathers and leather, and Release profiles still invent no rule.
+
+**Audit G3 fixed at its source.** The block-availability generator dated genuine Release 1.2.1/1.3.1/1.4.2/1.5 content
+to Release 1.6.4 because 1.6.4 was the first *extracted palette* to register those names — the project has no extracted
+1.3/1.4/1.5 pages, so palette evidence could not tell them apart. The one big 1.6.4 `TIMELINE` entry is now four
+entries sourced from `research/version-transitions.json`: 1.3 (ender chest, tripwire, cocoa), 1.4 (anvil, beacon,
+cobblestone wall, flower pot, command block, carrots, potatoes), 1.5 (hopper, dropper, comparator, daylight detector,
+activator rail, quartz), 1.6 (hay bale, coal block, slab). Consequences: a Release 1.3 world can craft an ender chest,
+1.4 an anvil or beacon, 1.5 a hopper or comparator — all of which the gate refused before. `ReleaseBlockDatesTest`
+pins each date and its "not before" neighbour.
+
+**Two generator defects exposed and fixed on the way.** Re-running the generator dropped `indev_latest` and
+`alpha_1_2_2a` from the chronology (they have no extracted palette but are declared versions), which failed the
+registry-agreement test; and adding Indev to the chronology revealed that pre-Classic/Classic blocks were dated to
+Infdev, so the Indev profile was judged anachronistic for grass, bedrock, ores, leaves, saplings, glass, TNT, obsidian
+and farmland. Those are now dated to `indev_latest` (diamond ore stays Infdev: it was restored 20100320, after Indev).
+
+**Evidence:** `./gradlew test` — **135 suites, 769 tests, 0 failures**. Golden diff reviewed: block-boundary lines and
+the drop-rule lines only. `VERSION_MATRIX.md` and `version-facts.md` regenerated. `scripts/apply-licence-headers.py`
+run because the generator does not emit the SPDX header it used to carry.
+
+**Still open from G3:** `redstone_lamp` (1.2.1) is refused in Release 1.2.5 by the item allow-list and needs its own
+sourced date; `oak_slab` remains dated 1.6.4 although the slab block is Beta 1.3; the 1.6 bucket's evidence is the
+palette, not the release list, for hay/coal.
+
+---
 # Current work — 2026-10-21 / Gap implementation 1: mob drop tables (audit G1), wired
 
 Owner instruction: implement everything the four era audits found. Goal `goal-93bd997b`, backlog in

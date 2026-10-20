@@ -156,17 +156,6 @@ public final class HistoricalBlockAvailability {
     }
 
     static {
-        // Boundary clamping, and what changed when Indev was declared.
-        //
-        // Sixteen block families below were introduced in Classic or earlier - bedrock, the stone-and-ore
-        // families, leaves and saplings, glass and sponge, TNT, grass block, obsidian - and this table cannot date
-        // a block earlier than the oldest version it declares, so their boundary was pinned to the then-oldest
-        // profile, Infdev 20100420. Indev 20100223 is now that oldest profile, and every one of those blocks
-        // existed in it, so they clamp to Indev instead. Two Indev-era rows moved with them: wheat/farmland (Indev
-        // 20100206-2034, before this build) and diamond ore, whose own history is "introduced Indev 0.31
-        // 20100128-2200, generation withdrawn in Infdev 20100227-1414 and restored 20100320" - this build sits
-        // between the introduction and the withdrawal, so it HAD diamond ore. The palette-derived halves of these
-        // evidence strings are unchanged and still name beta_1_7_3.
         // feature-timeline blocks: bedrock introduced Classic 0.0.12a; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
         introduce("historical_experience:indev_latest", true,
             "feature-timeline blocks: bedrock introduced Classic 0.0.12a; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
@@ -182,11 +171,6 @@ public final class HistoricalBlockAvailability {
             "feature-timeline blocks: these introduced Classic 0.0.14a; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:coal_ore"});
-        // feature-timeline blocks: diamond ore restored Infdev 20100320, before the earliest profile; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
-        introduce("historical_experience:indev_latest", true,
-            "feature-timeline blocks: diamond ore restored Infdev 20100320, before the earliest profile; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
-            new String[] {
-                "minecraft:diamond_ore"});
         // feature-timeline blocks: wheat crop / farmland introduced Indev 20100206-2034; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
         introduce("historical_experience:indev_latest", true,
             "feature-timeline blocks: wheat crop / farmland introduced Indev 20100206-2034; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
@@ -248,6 +232,11 @@ public final class HistoricalBlockAvailability {
             "feature-timeline blocks: wheat crop / farmland introduced Indev 20100206-2034; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:wheat"});
+        // feature-timeline blocks: diamond ore restored Infdev 20100320, before the earliest profile; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
+        introduce("historical_experience:infdev_420", true,
+            "feature-timeline blocks: diamond ore restored Infdev 20100320, before the earliest profile; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
+            new String[] {
+                "minecraft:diamond_ore"});
         // feature-timeline blocks: redstone ore introduced Alpha v1.0.1 (Seecret Friday Update 3); the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
         introduce("historical_experience:alpha_1_0_1", true,
             "feature-timeline blocks: redstone ore introduced Alpha v1.0.1 (Seecret Friday Update 3); the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
@@ -320,9 +309,9 @@ public final class HistoricalBlockAvailability {
                 "minecraft:light_gray_bed",
                 "minecraft:lime_bed",
                 "minecraft:magenta_bed"});
-        // the 1.6.4 palette is the first of the extracted sets to register these, matching Release 1.6.1/1.6.2; the palette-derived boundary was beta_1_3 and the earlier of the two is used so a block a version did have is not deleted
+        // the 1.6.4 palette is the first of the extracted sets to register these; the 1.6 additions are stained clay, carpets, hay bales and coal blocks (version-transitions Release 1.6); the palette-derived boundary was beta_1_3 and the earlier of the two is used so a block a version did have is not deleted
         introduce("historical_experience:beta_1_3", true,
-            "the 1.6.4 palette is the first of the extracted sets to register these, matching Release 1.6.1/1.6.2; the palette-derived boundary was beta_1_3 and the earlier of the two is used so a block a version did have is not deleted",
+            "the 1.6.4 palette is the first of the extracted sets to register these; the 1.6 additions are stained clay, carpets, hay bales and coal blocks (version-transitions Release 1.6); the palette-derived boundary was beta_1_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:oak_slab"});
         // feature-timeline: feature-timeline blocks: beds, redstone repeaters and the cobblestone, wood and sandstone slabs all introduced Beta 1.3; the smooth stone slab is present in that build but explicitly unobtainable
@@ -668,6 +657,11 @@ public final class HistoricalBlockAvailability {
             "feature-timeline: feature-timeline blocks: nether wart introduced Beta 1.9 Prerelease (Release 1.0.0)",
             new String[] {
                 "minecraft:nether_wart"});
+        // feature-timeline: version-transitions Release 1.3: tripwire hook and wire; ender chest; cocoa pods/beans become naturally available
+        introduce("historical_experience:release_1_3", true,
+            "feature-timeline: version-transitions Release 1.3: tripwire hook and wire; ender chest; cocoa pods/beans become naturally available",
+            new String[] {
+                "minecraft:cocoa"});
         // feature-timeline: feature-timeline blocks: emerald ore introduced Release 1.3.1 (12w21a), and this project's Release 1.3 profile is the 1.3.1 stable baseline as version-transitions.json labels it, so emerald belongs there; Release 1.0, 1.1 and 1.2.5 predate it
         introduce("historical_experience:release_1_3", true,
             "feature-timeline: feature-timeline blocks: emerald ore introduced Release 1.3.1 (12w21a), and this project's Release 1.3 profile is the 1.3.1 stable baseline as version-transitions.json labels it, so emerald belongs there; Release 1.0, 1.1 and 1.2.5 predate it",
@@ -678,28 +672,47 @@ public final class HistoricalBlockAvailability {
             "feature-timeline blocks: emerald ore introduced Release 1.3.1 (12w21a), and this project's Release 1.3 profile is the 1.3.1 stable baseline as version-transitions.json labels it, so emerald belongs there; Release 1.0, 1.1 and 1.2.5 predate it; the palette-derived boundary was release_1_6_4 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:emerald_ore"});
-        // feature-timeline: the 1.6.4 palette is the first of the extracted sets to register these, matching Release 1.6.1/1.6.2
-        introduce("historical_experience:release_1_6_4", true,
-            "feature-timeline: the 1.6.4 palette is the first of the extracted sets to register these, matching Release 1.6.1/1.6.2",
+        // feature-timeline: version-transitions Release 1.3: tripwire hook and wire; ender chest; cocoa pods/beans become naturally available
+        introduce("historical_experience:release_1_3", true,
+            "feature-timeline: version-transitions Release 1.3: tripwire hook and wire; ender chest; cocoa pods/beans become naturally available",
             new String[] {
-                "minecraft:activator_rail",
+                "minecraft:ender_chest",
+                "minecraft:tripwire"});
+        // feature-timeline: version-transitions Release 1.4: anvil; item frame, flower pot, cobblestone and mossy cobblestone walls; carrots and potatoes; command block; beacon
+        introduce("historical_experience:release_1_4", true,
+            "feature-timeline: version-transitions Release 1.4: anvil; item frame, flower pot, cobblestone and mossy cobblestone walls; carrots and potatoes; command block; beacon",
+            new String[] {
                 "minecraft:anvil",
                 "minecraft:beacon",
-                "minecraft:carrots",
-                "minecraft:coal_block",
-                "minecraft:cobblestone_wall",
-                "minecraft:cocoa",
+                "minecraft:carrots"});
+        // version-transitions Release 1.4: anvil; item frame, flower pot, cobblestone and mossy cobblestone walls; carrots and potatoes; command block; beacon; the palette-derived boundary was release_1_6_4 and the earlier of the two is used so a block a version did have is not deleted
+        introduce("historical_experience:release_1_4", true,
+            "version-transitions Release 1.4: anvil; item frame, flower pot, cobblestone and mossy cobblestone walls; carrots and potatoes; command block; beacon; the palette-derived boundary was release_1_6_4 and the earlier of the two is used so a block a version did have is not deleted",
+            new String[] {
+                "minecraft:cobblestone_wall"});
+        // feature-timeline: version-transitions Release 1.4: anvil; item frame, flower pot, cobblestone and mossy cobblestone walls; carrots and potatoes; command block; beacon
+        introduce("historical_experience:release_1_4", true,
+            "feature-timeline: version-transitions Release 1.4: anvil; item frame, flower pot, cobblestone and mossy cobblestone walls; carrots and potatoes; command block; beacon",
+            new String[] {
                 "minecraft:command_block",
+                "minecraft:flower_pot",
+                "minecraft:potatoes"});
+        // feature-timeline: version-transitions Release 1.5 (The Redstone Update): comparator, hopper, dropper, trapped chest, weighted pressure plates, daylight sensor, redstone block, Nether quartz, activator rail
+        introduce("historical_experience:release_1_5", true,
+            "feature-timeline: version-transitions Release 1.5 (The Redstone Update): comparator, hopper, dropper, trapped chest, weighted pressure plates, daylight sensor, redstone block, Nether quartz, activator rail",
+            new String[] {
+                "minecraft:activator_rail",
                 "minecraft:comparator",
                 "minecraft:daylight_detector",
                 "minecraft:dropper",
-                "minecraft:ender_chest",
-                "minecraft:flower_pot",
-                "minecraft:hay_block",
                 "minecraft:hopper",
-                "minecraft:potatoes",
-                "minecraft:quartz_block",
-                "minecraft:tripwire"});
+                "minecraft:quartz_block"});
+        // feature-timeline: the 1.6.4 palette is the first of the extracted sets to register these; the 1.6 additions are stained clay, carpets, hay bales and coal blocks (version-transitions Release 1.6)
+        introduce("historical_experience:release_1_6_4", true,
+            "feature-timeline: the 1.6.4 palette is the first of the extracted sets to register these; the 1.6 additions are stained clay, carpets, hay bales and coal blocks (version-transitions Release 1.6)",
+            new String[] {
+                "minecraft:coal_block",
+                "minecraft:hay_block"});
         // first appears in the release_1_6_4 extracted palette as "stairsSandStone" (the reviewed mapping name)
         introduce("historical_experience:release_1_6_4", false,
             "first appears in the release_1_6_4 extracted palette as \"stairsSandStone\" (the reviewed mapping name)",

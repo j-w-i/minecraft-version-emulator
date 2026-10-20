@@ -25,6 +25,7 @@ OUTPUT = ROOT / 'src/main/java/net/historicalexperience/generation/HistoricalBlo
 
 # Oldest first. Asserted against the version registry by a unit test, so this order cannot silently drift.
 CHRONOLOGY = [
+    'historical_experience:indev_latest',
     'historical_experience:infdev_420',
     'historical_experience:infdev_611',
     'historical_experience:alpha_1_0_1',
@@ -36,6 +37,7 @@ CHRONOLOGY = [
     'historical_experience:alpha_1_1_0',
     'historical_experience:alpha',
     'historical_experience:alpha_1_2_0',
+    'historical_experience:alpha_1_2_2a',
     'historical_experience:beta_1_0',
     'historical_experience:beta_1_2',
     'historical_experience:beta_1_3',
@@ -125,26 +127,25 @@ ALIASES = {
 # is the earliest DECLARED version that had the block, plus the evidence, transcribed from
 # research/feature-timeline.json (blocks and mobs rows) and research/version-boundaries.json.
 TIMELINE = [
-    (['minecraft:grass_block'], 'historical_experience:infdev_420',
+    (['minecraft:grass_block'], 'historical_experience:indev_latest',
      'feature-timeline blocks: "grass block (the dirt-with-grass top block)" introduced Pre-Classic'),
-    (['minecraft:bedrock'], 'historical_experience:infdev_420',
+    (['minecraft:bedrock'], 'historical_experience:indev_latest',
      'feature-timeline blocks: bedrock introduced Classic 0.0.12a'),
-    (['minecraft:coal_ore', 'minecraft:iron_ore', 'minecraft:gold_ore', 'minecraft:gravel'],
-     'historical_experience:infdev_420',
+    (['minecraft:coal_ore', 'minecraft:iron_ore', 'minecraft:gold_ore', 'minecraft:gravel'], 'historical_experience:indev_latest',
      'feature-timeline blocks: these introduced Classic 0.0.14a'),
-    (['minecraft:oak_leaves'], 'historical_experience:infdev_420',
+    (['minecraft:oak_leaves'], 'historical_experience:indev_latest',
      'feature-timeline blocks: leaves introduced Classic 0.0.14a'),
-    (['minecraft:oak_sapling'], 'historical_experience:infdev_420',
+    (['minecraft:oak_sapling'], 'historical_experience:indev_latest',
      'feature-timeline blocks: sapling introduced Pre-Classic rd-161348'),
-    (['minecraft:sponge', 'minecraft:glass'], 'historical_experience:infdev_420',
+    (['minecraft:sponge', 'minecraft:glass'], 'historical_experience:indev_latest',
      'feature-timeline blocks: sponge and glass introduced Classic 0.0.19a'),
-    (['minecraft:mossy_cobblestone', 'minecraft:bookshelf'], 'historical_experience:infdev_420',
+    (['minecraft:mossy_cobblestone', 'minecraft:bookshelf'], 'historical_experience:indev_latest',
      'feature-timeline blocks: introduced Classic 0.26 SURVIVAL TEST'),
-    (['minecraft:stone_bricks' if False else 'minecraft:tnt'], 'historical_experience:infdev_420',
+    (['minecraft:stone_bricks' if False else 'minecraft:tnt'], 'historical_experience:indev_latest',
      'TNT is Classic 0.26 SURVIVAL TEST (feature-timeline mechanics: "punching TNT with an empty hand")'),
-    (['minecraft:obsidian'], 'historical_experience:infdev_420',
+    (['minecraft:obsidian'], 'historical_experience:indev_latest',
      'feature-timeline blocks: obsidian exists from Classic 0.28, natural formation from Indev'),
-    (['minecraft:farmland', 'minecraft:wheat'], 'historical_experience:infdev_420',
+    (['minecraft:farmland', 'minecraft:wheat'], 'historical_experience:indev_latest',
      'feature-timeline blocks: wheat crop / farmland introduced Indev 20100206-2034'),
     (['minecraft:diamond_ore'], 'historical_experience:infdev_420',
      'feature-timeline blocks: diamond ore restored Infdev 20100320, before the earliest profile'),
@@ -266,13 +267,27 @@ TIMELINE = [
      "feature-timeline blocks: emerald ore introduced Release 1.3.1 (12w21a), and this project's Release 1.3 "
      'profile is the 1.3.1 stable baseline as version-transitions.json labels it, so emerald belongs there; '
      'Release 1.0, 1.1 and 1.2.5 predate it'),
-    (['minecraft:ender_chest', 'minecraft:anvil', 'minecraft:beacon', 'minecraft:hopper',
-      'minecraft:dropper', 'minecraft:comparator', 'minecraft:daylight_detector', 'minecraft:quartz_block',
-      'minecraft:hay_block', 'minecraft:activator_rail', 'minecraft:command_block', 'minecraft:cocoa',
-      'minecraft:tripwire', 'minecraft:cobblestone_wall', 'minecraft:flower_pot', 'minecraft:carrots',
-      'minecraft:potatoes', 'minecraft:coal_block', 'minecraft:wooden_slab' if False else 'minecraft:oak_slab'],
-     'historical_experience:release_1_6_4',
-     'the 1.6.4 palette is the first of the extracted sets to register these, matching Release 1.6.1/1.6.2'),
+    # The block below used to date every block here to Release 1.6.4, because the 1.6.4 extraction is the first
+    # PALETTE to register them - the project has no extracted 1.3/1.4/1.5 pages, so the palette evidence could not
+    # tell those releases apart. The 2026-10-21 version audit (G3) showed the consequence: the crafting gate, which
+    # trusts a TIMELINE boundary, refused an ender chest in a Release 1.3 world, an anvil and beacon in Release 1.4,
+    # and the whole Redstone Update in Release 1.5. Each release's own additions are recorded in
+    # research/version-transitions.json, which is the source used here, so the date is the release that added the
+    # block rather than the first palette that happened to be extracted.
+    (['minecraft:tripwire', 'minecraft:ender_chest', 'minecraft:cocoa'], 'historical_experience:release_1_3',
+     'version-transitions Release 1.3: tripwire hook and wire; ender chest; cocoa pods/beans become naturally '
+     'available'),
+    (['minecraft:anvil', 'minecraft:beacon', 'minecraft:cobblestone_wall', 'minecraft:flower_pot',
+      'minecraft:command_block', 'minecraft:carrots', 'minecraft:potatoes'], 'historical_experience:release_1_4',
+     'version-transitions Release 1.4: anvil; item frame, flower pot, cobblestone and mossy cobblestone walls; '
+     'carrots and potatoes; command block; beacon'),
+    (['minecraft:hopper', 'minecraft:dropper', 'minecraft:comparator', 'minecraft:daylight_detector',
+      'minecraft:activator_rail', 'minecraft:quartz_block'], 'historical_experience:release_1_5',
+     'version-transitions Release 1.5 (The Redstone Update): comparator, hopper, dropper, trapped chest, weighted '
+     'pressure plates, daylight sensor, redstone block, Nether quartz, activator rail'),
+    (['minecraft:hay_block', 'minecraft:coal_block', 'minecraft:oak_slab'], 'historical_experience:release_1_6_4',
+     'the 1.6.4 palette is the first of the extracted sets to register these; the 1.6 additions are stained clay, '
+     'carpets, hay bales and coal blocks (version-transitions Release 1.6)'),
 ]
 
 

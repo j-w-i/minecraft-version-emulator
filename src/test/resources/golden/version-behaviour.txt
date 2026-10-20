@@ -5102,9 +5102,9 @@ gameplay.HistoricalCreativeCatalog.potionAvailable(splash=true)(other:custom)|*=
 gameplay.HistoricalCreativeCatalog.potionAvailable(splash=true)(null)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFTTTFF
 generation.HistoricalBlockAvailability.CHRONOLOGY|-=[historical_experience:indev_latest,historical_experience:infdev_420,historical_experience:infdev_611,historical_experience:alpha_1_0_1,historical_experience:alpha_1_0_4,historical_experience:alpha_1_0_6,historical_experience:alpha_1_0_11,historical_experience:alpha_1_0_14,historical_experience:alpha_1_0_17,historical_experience:alpha_1_1_0,historical_experience:alpha,historical_experience:alpha_1_2_0,historical_experience:alpha_1_2_2a,historical_experience:beta_1_0,historical_experience:beta_1_2,historical_experience:beta_1_3,historical_experience:beta_1_4,historical_experience:beta_1_5,historical_experience:beta_1_6,historical_experience:beta_1_7_3,historical_experience:beta_1_8_1,historical_experience:beta_1_9_pre_1,historical_experience:beta_1_9_pre_2,historical_experience:beta_1_9_pre_3,historical_experience:beta_1_9_pre_4,historical_experience:beta_1_9_pre_5,historical_experience:beta_1_9_pre_6,historical_experience:release_1_0_0,historical_experience:release_1_1,historical_experience:release_1_2_5,historical_experience:release_1_3,historical_experience:release_1_4,historical_experience:release_1_5,historical_experience:release_1_6_4]
 generation.HistoricalBlockAvailability.size()|-=145
-generation.HistoricalBlockAvailability.boundaryFor(minecraft:activator_rail)|-=version=historical_experience:release_1_6_4 timeline=true evidenceLen=118
-generation.HistoricalBlockAvailability.boundaryFor(minecraft:anvil)|-=version=historical_experience:release_1_6_4 timeline=true evidenceLen=118
-generation.HistoricalBlockAvailability.boundaryFor(minecraft:beacon)|-=version=historical_experience:release_1_6_4 timeline=true evidenceLen=118
+generation.HistoricalBlockAvailability.boundaryFor(minecraft:activator_rail)|-=version=historical_experience:release_1_5 timeline=true evidenceLen=205
+generation.HistoricalBlockAvailability.boundaryFor(minecraft:anvil)|-=version=historical_experience:release_1_4 timeline=true evidenceLen=166
+generation.HistoricalBlockAvailability.boundaryFor(minecraft:beacon)|-=version=historical_experience:release_1_4 timeline=true evidenceLen=166
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:bedrock)|-=version=historical_experience:indev_latest timeline=true evidenceLen=184
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:black_bed)|-=version=historical_experience:beta_1_3 timeline=true evidenceLen=213
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:blue_bed)|-=version=historical_experience:beta_1_3 timeline=true evidenceLen=213
@@ -5117,39 +5117,39 @@ generation.HistoricalBlockAvailability.boundaryFor(minecraft:brown_mushroom)|-=v
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:brown_mushroom_block)|-=version=historical_experience:beta_1_8_1 timeline=true evidenceLen=214
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:cactus)|-=version=historical_experience:alpha_1_0_6 timeline=true evidenceLen=180
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:cake)|-=version=historical_experience:beta_1_2 timeline=true evidenceLen=325
-generation.HistoricalBlockAvailability.boundaryFor(minecraft:carrots)|-=version=historical_experience:release_1_6_4 timeline=true evidenceLen=118
+generation.HistoricalBlockAvailability.boundaryFor(minecraft:carrots)|-=version=historical_experience:release_1_4 timeline=true evidenceLen=166
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:chest)|-=version=historical_experience:beta_1_7_3 timeline=false evidenceLen=88
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:clay)|-=version=historical_experience:alpha_1_0_11 timeline=true evidenceLen=200
-generation.HistoricalBlockAvailability.boundaryFor(minecraft:coal_block)|-=version=historical_experience:release_1_6_4 timeline=true evidenceLen=118
+generation.HistoricalBlockAvailability.boundaryFor(minecraft:coal_block)|-=version=historical_experience:release_1_6_4 timeline=true evidenceLen=194
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:coal_ore)|-=version=historical_experience:indev_latest timeline=true evidenceLen=182
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:cobblestone)|-=version=historical_experience:beta_1_7_3 timeline=false evidenceLen=93
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:cobblestone_slab)|-=version=historical_experience:beta_1_3 timeline=true evidenceLen=213
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:cobblestone_stairs)|-=version=historical_experience:beta_1_7_3 timeline=false evidenceLen=94
-generation.HistoricalBlockAvailability.boundaryFor(minecraft:cobblestone_wall)|-=version=historical_experience:release_1_6_4 timeline=true evidenceLen=118
+generation.HistoricalBlockAvailability.boundaryFor(minecraft:cobblestone_wall)|-=version=historical_experience:release_1_4 timeline=true evidenceLen=276
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:cobweb)|-=version=historical_experience:beta_1_5 timeline=true evidenceLen=385
-generation.HistoricalBlockAvailability.boundaryFor(minecraft:cocoa)|-=version=historical_experience:release_1_6_4 timeline=true evidenceLen=118
-generation.HistoricalBlockAvailability.boundaryFor(minecraft:command_block)|-=version=historical_experience:release_1_6_4 timeline=true evidenceLen=118
-generation.HistoricalBlockAvailability.boundaryFor(minecraft:comparator)|-=version=historical_experience:release_1_6_4 timeline=true evidenceLen=118
+generation.HistoricalBlockAvailability.boundaryFor(minecraft:cocoa)|-=version=historical_experience:release_1_3 timeline=true evidenceLen=131
+generation.HistoricalBlockAvailability.boundaryFor(minecraft:command_block)|-=version=historical_experience:release_1_4 timeline=true evidenceLen=166
+generation.HistoricalBlockAvailability.boundaryFor(minecraft:comparator)|-=version=historical_experience:release_1_5 timeline=true evidenceLen=205
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:crafting_table)|-=version=historical_experience:beta_1_7_3 timeline=false evidenceLen=92
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:cyan_bed)|-=version=historical_experience:beta_1_3 timeline=true evidenceLen=213
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:dandelion)|-=version=historical_experience:beta_1_7_3 timeline=false evidenceLen=89
-generation.HistoricalBlockAvailability.boundaryFor(minecraft:daylight_detector)|-=version=historical_experience:release_1_6_4 timeline=true evidenceLen=118
+generation.HistoricalBlockAvailability.boundaryFor(minecraft:daylight_detector)|-=version=historical_experience:release_1_5 timeline=true evidenceLen=205
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:dead_bush)|-=version=historical_experience:beta_1_6 timeline=true evidenceLen=433
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:detector_rail)|-=version=historical_experience:beta_1_5 timeline=true evidenceLen=282
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:diamond_block)|-=version=historical_experience:beta_1_7_3 timeline=false evidenceLen=95
-generation.HistoricalBlockAvailability.boundaryFor(minecraft:diamond_ore)|-=version=historical_experience:indev_latest timeline=true evidenceLen=215
+generation.HistoricalBlockAvailability.boundaryFor(minecraft:diamond_ore)|-=version=historical_experience:infdev_420 timeline=true evidenceLen=215
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:dirt)|-=version=historical_experience:beta_1_7_3 timeline=false evidenceLen=87
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:dispenser)|-=version=historical_experience:beta_1_7_3 timeline=false evidenceLen=92
-generation.HistoricalBlockAvailability.boundaryFor(minecraft:dropper)|-=version=historical_experience:release_1_6_4 timeline=true evidenceLen=118
+generation.HistoricalBlockAvailability.boundaryFor(minecraft:dropper)|-=version=historical_experience:release_1_5 timeline=true evidenceLen=205
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:emerald_block)|-=version=historical_experience:release_1_3 timeline=true evidenceLen=260
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:emerald_ore)|-=version=historical_experience:release_1_3 timeline=true evidenceLen=370
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:end_portal_frame)|-=version=historical_experience:beta_1_9_pre_3 timeline=false evidenceLen=163
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:end_stone)|-=version=historical_experience:release_1_0_0 timeline=true evidenceLen=99
-generation.HistoricalBlockAvailability.boundaryFor(minecraft:ender_chest)|-=version=historical_experience:release_1_6_4 timeline=true evidenceLen=118
+generation.HistoricalBlockAvailability.boundaryFor(minecraft:ender_chest)|-=version=historical_experience:release_1_3 timeline=true evidenceLen=131
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:farmland)|-=version=historical_experience:indev_latest timeline=true evidenceLen=202
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:fern)|-=version=historical_experience:beta_1_6 timeline=true evidenceLen=326
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:fire)|-=version=historical_experience:beta_1_7_3 timeline=false evidenceLen=87
-generation.HistoricalBlockAvailability.boundaryFor(minecraft:flower_pot)|-=version=historical_experience:release_1_6_4 timeline=true evidenceLen=118
+generation.HistoricalBlockAvailability.boundaryFor(minecraft:flower_pot)|-=version=historical_experience:release_1_4 timeline=true evidenceLen=166
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:furnace)|-=version=historical_experience:beta_1_7_3 timeline=false evidenceLen=90
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:glass)|-=version=historical_experience:indev_latest timeline=true evidenceLen=193
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:glass_pane)|-=version=historical_experience:beta_1_8_1 timeline=false evidenceLen=92
@@ -5160,8 +5160,8 @@ generation.HistoricalBlockAvailability.boundaryFor(minecraft:grass_block)|-=vers
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:gravel)|-=version=historical_experience:indev_latest timeline=true evidenceLen=182
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:gray_bed)|-=version=historical_experience:beta_1_3 timeline=true evidenceLen=213
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:green_bed)|-=version=historical_experience:beta_1_3 timeline=true evidenceLen=213
-generation.HistoricalBlockAvailability.boundaryFor(minecraft:hay_block)|-=version=historical_experience:release_1_6_4 timeline=true evidenceLen=118
-generation.HistoricalBlockAvailability.boundaryFor(minecraft:hopper)|-=version=historical_experience:release_1_6_4 timeline=true evidenceLen=118
+generation.HistoricalBlockAvailability.boundaryFor(minecraft:hay_block)|-=version=historical_experience:release_1_6_4 timeline=true evidenceLen=194
+generation.HistoricalBlockAvailability.boundaryFor(minecraft:hopper)|-=version=historical_experience:release_1_5 timeline=true evidenceLen=205
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:ice)|-=version=historical_experience:alpha_1_0_4 timeline=true evidenceLen=202
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:infested_stone)|-=version=historical_experience:beta_1_8_1 timeline=true evidenceLen=323
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:iron_bars)|-=version=historical_experience:beta_1_8_1 timeline=false evidenceLen=92
@@ -5195,7 +5195,7 @@ generation.HistoricalBlockAvailability.boundaryFor(minecraft:oak_log)|-=version=
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:oak_planks)|-=version=historical_experience:beta_1_7_3 timeline=false evidenceLen=87
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:oak_sapling)|-=version=historical_experience:indev_latest timeline=true evidenceLen=190
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:oak_sign)|-=version=historical_experience:beta_1_7_3 timeline=false evidenceLen=87
-generation.HistoricalBlockAvailability.boundaryFor(minecraft:oak_slab)|-=version=historical_experience:beta_1_3 timeline=true evidenceLen=223
+generation.HistoricalBlockAvailability.boundaryFor(minecraft:oak_slab)|-=version=historical_experience:beta_1_3 timeline=true evidenceLen=299
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:oak_stairs)|-=version=historical_experience:beta_1_7_3 timeline=false evidenceLen=93
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:oak_trapdoor)|-=version=historical_experience:beta_1_7_3 timeline=false evidenceLen=91
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:obsidian)|-=version=historical_experience:indev_latest timeline=true evidenceLen=213
@@ -5203,12 +5203,12 @@ generation.HistoricalBlockAvailability.boundaryFor(minecraft:orange_bed)|-=versi
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:pink_bed)|-=version=historical_experience:beta_1_3 timeline=true evidenceLen=213
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:piston)|-=version=historical_experience:beta_1_7_3 timeline=true evidenceLen=208
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:poppy)|-=version=historical_experience:beta_1_7_3 timeline=false evidenceLen=87
-generation.HistoricalBlockAvailability.boundaryFor(minecraft:potatoes)|-=version=historical_experience:release_1_6_4 timeline=true evidenceLen=118
+generation.HistoricalBlockAvailability.boundaryFor(minecraft:potatoes)|-=version=historical_experience:release_1_4 timeline=true evidenceLen=166
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:powered_rail)|-=version=historical_experience:beta_1_5 timeline=true evidenceLen=282
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:pumpkin)|-=version=historical_experience:alpha_1_2_0 timeline=true evidenceLen=242
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:pumpkin_stem)|-=version=historical_experience:beta_1_8_1 timeline=false evidenceLen=94
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:purple_bed)|-=version=historical_experience:beta_1_3 timeline=true evidenceLen=213
-generation.HistoricalBlockAvailability.boundaryFor(minecraft:quartz_block)|-=version=historical_experience:release_1_6_4 timeline=true evidenceLen=118
+generation.HistoricalBlockAvailability.boundaryFor(minecraft:quartz_block)|-=version=historical_experience:release_1_5 timeline=true evidenceLen=205
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:rail)|-=version=historical_experience:beta_1_7_3 timeline=false evidenceLen=87
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:red_bed)|-=version=historical_experience:beta_1_3 timeline=true evidenceLen=213
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:red_mushroom_block)|-=version=historical_experience:beta_1_8_1 timeline=true evidenceLen=214
@@ -5237,7 +5237,7 @@ generation.HistoricalBlockAvailability.boundaryFor(minecraft:sugar_cane)|-=versi
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:terracotta)|-=version=historical_experience:release_1_6_4 timeline=false evidenceLen=98
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:tnt)|-=version=historical_experience:indev_latest timeline=true evidenceLen=222
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:torch)|-=version=historical_experience:beta_1_7_3 timeline=false evidenceLen=88
-generation.HistoricalBlockAvailability.boundaryFor(minecraft:tripwire)|-=version=historical_experience:release_1_6_4 timeline=true evidenceLen=118
+generation.HistoricalBlockAvailability.boundaryFor(minecraft:tripwire)|-=version=historical_experience:release_1_3 timeline=true evidenceLen=131
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:vine)|-=version=historical_experience:beta_1_8_1 timeline=true evidenceLen=188
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:wall_torch)|-=version=historical_experience:beta_1_7_3 timeline=false evidenceLen=237
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:water)|-=version=historical_experience:beta_1_7_3 timeline=false evidenceLen=88
@@ -5248,9 +5248,9 @@ generation.HistoricalBlockAvailability.boundaryFor(minecraft:white_terracotta)|-
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:white_wool)|-=version=historical_experience:beta_1_7_3 timeline=false evidenceLen=88
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:yellow_bed)|-=version=historical_experience:beta_1_3 timeline=true evidenceLen=213
 generation.HistoricalBlockAvailability.judge.inputs|*=historical_experience:beta_1_7_3 historical_experience:beta_1_8_1 historical_experience:beta_1_9_pre_1 historical_experience:beta_1_9_pre_2 historical_experience:beta_1_9_pre_4 historical_experience:beta_1_9_pre_5 historical_experience:beta_1_9_pre_6 historical_experience:beta_1_9_pre_3 historical_experience:release_1_0_0 historical_experience:release_1_1 historical_experience:release_1_2_5 historical_experience:release_1_6_4 historical_experience:indev_latest historical_experience:infdev_420 historical_experience:infdev_611 historical_experience:alpha_1_0_1 historical_experience:alpha_1_0_4 historical_experience:alpha_1_0_6 historical_experience:alpha_1_0_11 historical_experience:alpha_1_0_14 historical_experience:alpha_1_0_17 historical_experience:alpha_1_1_0 historical_experience:alpha_1_2_0 historical_experience:alpha_1_2_2a historical_experience:release_1_3 historical_experience:release_1_4 historical_experience:release_1_5 historical_experience:beta_1_0 historical_experience:beta_1_2 historical_experience:beta_1_3 historical_experience:beta_1_4 historical_experience:beta_1_5 historical_experience:beta_1_6 historical_experience:alpha null moderner_beta:beta example:not_a_version
-generation.HistoricalBlockAvailability.judge(minecraft:activator_rail)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
-generation.HistoricalBlockAvailability.judge(minecraft:anvil)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
-generation.HistoricalBlockAvailability.judge(minecraft:beacon)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
+generation.HistoricalBlockAvailability.judge(minecraft:activator_rail)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
+generation.HistoricalBlockAvailability.judge(minecraft:anvil)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
+generation.HistoricalBlockAvailability.judge(minecraft:beacon)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:bedrock)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:black_bed)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ANA,ANA,ALL,ALL,ALL,ALL,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:blue_bed)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ANA,ANA,ALL,ALL,ALL,ALL,ANA,UNK,UNK,UNK
@@ -5263,7 +5263,7 @@ generation.HistoricalBlockAvailability.judge(minecraft:brown_mushroom)|*=ALL,ALL
 generation.HistoricalBlockAvailability.judge(minecraft:brown_mushroom_block)|*=ANA,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:cactus)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:cake)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ANA,ALL,ALL,ALL,ALL,ALL,ANA,UNK,UNK,UNK
-generation.HistoricalBlockAvailability.judge(minecraft:carrots)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
+generation.HistoricalBlockAvailability.judge(minecraft:carrots)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:chest)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:clay)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:coal_block)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
@@ -5271,31 +5271,31 @@ generation.HistoricalBlockAvailability.judge(minecraft:coal_ore)|*=ALL,ALL,ALL,A
 generation.HistoricalBlockAvailability.judge(minecraft:cobblestone)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:cobblestone_slab)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ANA,ANA,ALL,ALL,ALL,ALL,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:cobblestone_stairs)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK
-generation.HistoricalBlockAvailability.judge(minecraft:cobblestone_wall)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
+generation.HistoricalBlockAvailability.judge(minecraft:cobblestone_wall)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:cobweb)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ALL,ALL,ANA,UNK,UNK,UNK
-generation.HistoricalBlockAvailability.judge(minecraft:cocoa)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
-generation.HistoricalBlockAvailability.judge(minecraft:command_block)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
-generation.HistoricalBlockAvailability.judge(minecraft:comparator)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
+generation.HistoricalBlockAvailability.judge(minecraft:cocoa)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
+generation.HistoricalBlockAvailability.judge(minecraft:command_block)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
+generation.HistoricalBlockAvailability.judge(minecraft:comparator)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:crafting_table)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:cyan_bed)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ANA,ANA,ALL,ALL,ALL,ALL,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:dandelion)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK
-generation.HistoricalBlockAvailability.judge(minecraft:daylight_detector)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
+generation.HistoricalBlockAvailability.judge(minecraft:daylight_detector)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:dead_bush)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ALL,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:detector_rail)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ALL,ALL,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:diamond_block)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK
-generation.HistoricalBlockAvailability.judge(minecraft:diamond_ore)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK
+generation.HistoricalBlockAvailability.judge(minecraft:diamond_ore)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:dirt)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:dispenser)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK
-generation.HistoricalBlockAvailability.judge(minecraft:dropper)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
+generation.HistoricalBlockAvailability.judge(minecraft:dropper)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:emerald_block)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:emerald_ore)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:end_portal_frame)|*=ANA,ANA,ANA,ANA,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:end_stone)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
-generation.HistoricalBlockAvailability.judge(minecraft:ender_chest)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
+generation.HistoricalBlockAvailability.judge(minecraft:ender_chest)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:farmland)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:fern)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ALL,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:fire)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK
-generation.HistoricalBlockAvailability.judge(minecraft:flower_pot)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
+generation.HistoricalBlockAvailability.judge(minecraft:flower_pot)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:furnace)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:glass)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:glass_pane)|*=ANA,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK
@@ -5307,7 +5307,7 @@ generation.HistoricalBlockAvailability.judge(minecraft:gravel)|*=ALL,ALL,ALL,ALL
 generation.HistoricalBlockAvailability.judge(minecraft:gray_bed)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ANA,ANA,ALL,ALL,ALL,ALL,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:green_bed)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ANA,ANA,ALL,ALL,ALL,ALL,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:hay_block)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
-generation.HistoricalBlockAvailability.judge(minecraft:hopper)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
+generation.HistoricalBlockAvailability.judge(minecraft:hopper)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:ice)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:infested_stone)|*=ANA,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:iron_bars)|*=ANA,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK
@@ -5349,12 +5349,12 @@ generation.HistoricalBlockAvailability.judge(minecraft:orange_bed)|*=ALL,ALL,ALL
 generation.HistoricalBlockAvailability.judge(minecraft:pink_bed)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ANA,ANA,ALL,ALL,ALL,ALL,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:piston)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:poppy)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK
-generation.HistoricalBlockAvailability.judge(minecraft:potatoes)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
+generation.HistoricalBlockAvailability.judge(minecraft:potatoes)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:powered_rail)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ALL,ALL,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:pumpkin)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:pumpkin_stem)|*=ANA,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:purple_bed)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ANA,ANA,ALL,ALL,ALL,ALL,ANA,UNK,UNK,UNK
-generation.HistoricalBlockAvailability.judge(minecraft:quartz_block)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
+generation.HistoricalBlockAvailability.judge(minecraft:quartz_block)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:rail)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:red_bed)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ANA,ANA,ALL,ALL,ALL,ALL,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:red_mushroom_block)|*=ANA,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
@@ -5383,7 +5383,7 @@ generation.HistoricalBlockAvailability.judge(minecraft:sugar_cane)|*=ALL,ALL,ALL
 generation.HistoricalBlockAvailability.judge(minecraft:terracotta)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,ANA,ANA,ANA,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:tnt)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:torch)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK
-generation.HistoricalBlockAvailability.judge(minecraft:tripwire)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
+generation.HistoricalBlockAvailability.judge(minecraft:tripwire)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:vine)|*=ANA,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:wall_torch)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:water)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK
@@ -6698,10 +6698,10 @@ gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:yellow_dye)|*=FFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:yellow_terracotta)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTTTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:yellow_wool)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTFFFFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item).inputs|*=historical_experience:beta_1_7_3 historical_experience:beta_1_8_1 historical_experience:beta_1_9_pre_1 historical_experience:beta_1_9_pre_2 historical_experience:beta_1_9_pre_4 historical_experience:beta_1_9_pre_5 historical_experience:beta_1_9_pre_6 historical_experience:beta_1_9_pre_3 historical_experience:release_1_0_0 historical_experience:release_1_1 historical_experience:release_1_2_5 historical_experience:release_1_6_4 historical_experience:indev_latest historical_experience:infdev_420 historical_experience:infdev_611 historical_experience:alpha_1_0_1 historical_experience:alpha_1_0_4 historical_experience:alpha_1_0_6 historical_experience:alpha_1_0_11 historical_experience:alpha_1_0_14 historical_experience:alpha_1_0_17 historical_experience:alpha_1_1_0 historical_experience:alpha_1_2_0 historical_experience:alpha_1_2_2a historical_experience:release_1_3 historical_experience:release_1_4 historical_experience:release_1_5 historical_experience:beta_1_0 historical_experience:beta_1_2 historical_experience:beta_1_3 historical_experience:beta_1_4 historical_experience:beta_1_5 historical_experience:beta_1_6 historical_experience:alpha null moderner_beta:beta example:not_a_version
-gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:activator_rail)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTTTTTTTTTFFF
-gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:anvil)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTTTTTTTTTFFF
+gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:activator_rail)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTFTTTTTTTFFF
+gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:anvil)|*=TTTTTTTTTTTFTTTTTTTTTTTTTFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:arrow)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:beacon)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTTTTTTTTTFFF
+gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:beacon)|*=TTTTTTTTTTTFTTTTTTTTTTTTTFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:birch_planks)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:birch_slab)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:birch_stairs)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
@@ -6745,8 +6745,8 @@ gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:coal)|*=FFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:coal_block)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTTTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:cobblestone_slab)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTFFFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:cobblestone_stairs)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
-gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:cobblestone_wall)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTTTTTTTTTFFF
-gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:comparator)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTTTTTTTTTFFF
+gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:cobblestone_wall)|*=TTTTTTTTTTTFTTTTTTTTTTTTTFFTTTTTTTFFF
+gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:comparator)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:compass)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:cookie)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTTFFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:crafting_table)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
@@ -6755,7 +6755,7 @@ gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:cyan_carpet)|*=TT
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:cyan_dye)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTFFFFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:cyan_terracotta)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTTTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:cyan_wool)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTFFFFFTFFF
-gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:daylight_detector)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTTTTTTTTTFFF
+gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:daylight_detector)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:detector_rail)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTTTFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:diamond)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:diamond_axe)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
@@ -6769,19 +6769,19 @@ gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:diamond_pickaxe)|
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:diamond_shovel)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:diamond_sword)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:dispenser)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTFFFFFTFFF
-gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:dropper)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTTTTTTTTTFFF
+gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:dropper)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:emerald)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:emerald_block)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:enchanted_golden_apple)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:enchanting_table)|*=TTTTFFFFFFFFTTTTTTTTTTTTFFFTTTTTTTFFF
-gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:ender_chest)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTTTTTTTTTFFF
+gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:ender_chest)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:ender_eye)|*=TTTTFFFFFFFFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:fermented_spider_eye)|*=TTTTFFFFFFFFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:fire_charge)|*=TTTTFFFFFFFFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:firework_rocket)|*=TTTTTTTTTTTFTTTTTTTTTTTTTFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:fishing_rod)|*=FFFFFFFFFFFFTTTTTTTTTTFFFFFFFFFFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:flint_and_steel)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:flower_pot)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTTTTTTTTTFFF
+gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:flower_pot)|*=TTTTTTTTTTTFTTTTTTTTTTTTTFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:furnace)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:furnace_minecart)|*=FFFFFFFFFFFFTTTTTTTFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:glass_bottle)|*=TTTTFFFFFFFFTTTTTTTTTTTTFFFTTTTTTTFFF
@@ -6814,7 +6814,7 @@ gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:green_terracotta)
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:green_wool)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTFFFFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:hay_block)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTTTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:heavy_weighted_pressure_plate)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
-gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:hopper)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTTTTTTTTTFFF
+gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:hopper)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:hopper_minecart)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:iron_axe)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:iron_bars)|*=TFFFFFFFFFFFTTTTTTTTTTTTFFFTTTTTTTFFF
@@ -6910,7 +6910,7 @@ gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:purple_carpet)|*=
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:purple_dye)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTFFFFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:purple_terracotta)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTTTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:purple_wool)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTFFFFFTFFF
-gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:quartz_block)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTTTTTTTTTFFF
+gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:quartz_block)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:quartz_pillar)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:quartz_slab)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:quartz_stairs)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF

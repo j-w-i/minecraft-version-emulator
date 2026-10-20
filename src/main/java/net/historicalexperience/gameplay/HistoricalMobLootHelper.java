@@ -159,6 +159,49 @@ public final class HistoricalMobLootHelper {
         new EntityLoot(EntityType.BOGGED, arrowBone);
     }
 
+    /** Era tables built from a version's own rule, keyed by profile and entity so a 1.7.3 answer never serves 1.8.1. */
+    private static final Map<String, LootTable> ERA_TABLES = new java.util.concurrent.ConcurrentHashMap<>();
+
+    /**
+     * The item a version's rule names for an entity, as an id, without touching a registry.
+     *
+     * <p>Exists so the version-dependent choice can be tested directly: the defect this replaced was that the
+     * table cache ignored the version, so a test has to be able to ask "which item for this version" without a
+     * running level.
+     */
+    public static String eraItemId(String profile, String entityTypeId) {
+        return HistoricalLootRules.forEntity(profile, entityTypeId)
+            .map(net.historicalexperience.version.DropRule::itemId).orElse(null);
+    }
+
+    /**
+     * Builds the table for one version's rule, keeping the two special shapes the old global map had: bones join
+     * arrows once Beta 1.2 added them, and pork smelts on fire once Beta 1.5 added that.
+     */
+    private static LootTable eraTable(RegistryAccess registries, EntityType<?> entityType,
+            net.historicalexperience.version.DropRule rule, String profile) {
+        String key = profile + "|" + entityType.builtInRegistryHolder().key().location() + "|" + rule.itemId()
+            + "|" + rule.maxExclusiveCount();
+        return ERA_TABLES.computeIfAbsent(key, ignored -> {
+            var declared = net.historicalexperience.version.HistoricalVersions.byId(profile).orElse(null);
+            boolean bones = declared != null
+                && !declared.isBefore(net.historicalexperience.version.Milestones.BETA_1_2)
+                && rule.itemId().equals("minecraft:arrow");
+            if (bones) {
+                return makeSkeletonTable(registries);
+            }
+            boolean smelts = declared != null
+                && !declared.isBefore(net.historicalexperience.version.Milestones.BETA_1_5)
+                && rule.itemId().equals("minecraft:porkchop");
+            if (smelts) {
+                return makePorkTable(registries);
+            }
+            var item = net.minecraft.core.registries.BuiltInRegistries.ITEM.get(
+                net.minecraft.resources.ResourceLocation.parse(rule.itemId()));
+            return makeTable(registries, item, rule.maxExclusiveCount() - 1);
+        });
+    }
+
     /**
      * Upstream: {@code getTable}. The entity's era table when the active version has one for it, otherwise the
      * table it was going to use anyway.
@@ -196,6 +239,14 @@ public final class HistoricalMobLootHelper {
                 return WOOL_TABLE.apply(sheepRegistries, SheepAccess.itemByDye().get(sheep.getColor()));
             }
             return LootTable.EMPTY;
+        }
+
+        // The version's OWN rule decides the item. The global LOOT_MAP below is built once from Beta 1.7.3's
+        // tables, so using it here made Beta 1.8.1's chicken and cow resolve to the 1.7.3 feather and leather
+        // tables: the Adventure Update's raw chicken and beef never dropped. Keyed lookup is per version.
+        var eraRule = HistoricalLootRules.forEntity(profile, entityTypeId);
+        if (eraRule.isPresent()) {
+            return eraTable(entity.level().registryAccess(), entityType, eraRule.get(), profile);
         }
 
         if (!HistoricalLootRules.hasOldDrops(entity.level(), entityTypeId)) {
