@@ -17,6 +17,10 @@
  */
 package net.historicalexperience.mixin.common;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalToolDurability;
@@ -60,6 +64,12 @@ public interface DataComponentHolderHistoricalToolDurabilityMixin {
             return value;
         }
 
+        // Ask whether ANY version predates Beta 1.2 before building the item id: this handler runs on every
+        // MAX_DAMAGE read of every stack, in every world including ordinary ones, and the id costs a registry
+        // lookup plus a string.
+        if (!Features.active(Feature.OLD_TOOL_DURABILITY)) {
+            return value;
+        }
         String itemId = BuiltInRegistries.ITEM.getKey(itemStack.getItem()).toString();
         Integer era = HistoricalToolDurability.durabilityFor(ActiveVersion.current(), itemId);
 

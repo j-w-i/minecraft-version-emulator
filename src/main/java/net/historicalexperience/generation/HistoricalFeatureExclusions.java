@@ -1040,6 +1040,12 @@ public final class HistoricalFeatureExclusions {
         if (level == null || state == null) {
             return false;
         }
+        // The generator decides first: an ordinary world has no historical alias, and this runs on a worldgen
+        // worker thread for EVERY block write, so nothing may be built before the cheap question is answered.
+        String activeAlias = activeHistoricalAlias(level);
+        if (activeAlias == null) {
+            return false;
+        }
         String blockId = BuiltInRegistries.BLOCK.getKey(state.getBlock()).toString();
         // Every block this veto is ASKED about, bounded, because a refusal count alone cannot tell "the veto said
         // no" apart from "the veto was never asked". A Beta 1.0 world was found generating lapis ore and sandstone
@@ -1049,7 +1055,7 @@ public final class HistoricalFeatureExclusions {
             SEEN_BLOCK_IDS.add(blockId);
         }
         VETO_INVOCATIONS.increment();
-        return isAnachronisticForActiveVersion(level, blockId);
+        return isAnachronisticForAlias(activeAlias, blockId);
     }
 
     /** How many block writes this veto has been asked about since process start. */
@@ -1073,21 +1079,25 @@ public final class HistoricalFeatureExclusions {
      * inspect at the call site.
      */
     public static boolean shouldSuppressVines(WorldGenLevel level) {
-        return level != null && isAnachronisticForActiveVersion(level, "minecraft:vine");
+        if (level == null) {
+            return false;
+        }
+        String alias = activeHistoricalAlias(level);
+        return alias != null && isAnachronisticForAlias(alias, "minecraft:vine");
     }
 
-    private static boolean isAnachronisticForActiveVersion(WorldGenLevel level, String blockId) {
-        ChunkGenerator generator;
+    /** The historical alias a world-generation level is running, or null for an ordinary world. */
+    private static String activeHistoricalAlias(WorldGenLevel level) {
         try {
-            generator = level.getLevel().getChunkSource().getGenerator();
+            ChunkGenerator generator = level.getLevel().getChunkSource().getGenerator();
+            return activeAlias(generator);
         } catch (RuntimeException e) {
             // A level that cannot produce a generator is not a historical world we can judge.
-            return false;
+            return null;
         }
-        String alias = activeAlias(generator);
-        if (alias == null) {
-            return false;
-        }
+    }
+
+    private static boolean isAnachronisticForAlias(String alias, String blockId) {
         String versionId = HistoricalVersions.byRevisionAlias(alias)
             .map(HistoricalVersion::id)
             .orElse(alias);
