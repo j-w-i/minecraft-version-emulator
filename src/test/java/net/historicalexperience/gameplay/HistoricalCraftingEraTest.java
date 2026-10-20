@@ -126,7 +126,7 @@ class HistoricalCraftingEraTest {
         }
         // What Alpha genuinely had is still there.
         for (String old : List.of("oak_planks", "stick", "crafting_table", "chest", "furnace", "torch", "wooden_sword",
-                "iron_pickaxe", "diamond_chestplate", "bow", "ladder", "oak_door", "tnt", "rail", "minecart",
+                "iron_pickaxe", "diamond_chestplate", "bow", "oak_door", "tnt", "rail", "minecart",
                 "bucket", "flint_and_steel")) {
             assertTrue(craftable.contains(old), old + " must stay craftable in Alpha 1.0.1");
         }
@@ -135,6 +135,10 @@ class HistoricalCraftingEraTest {
         // this test walks. A player can still craft arrows - just with the era's ingredients.
         assertTrue(RemovedRecipes.replacesModernRecipe(ALPHA, "minecraft:arrow"),
             "Alpha 1.0.1 crafts the iron-tip arrow");
+        // The ladder is out of the vanilla sweep for the same reason: the era's two-ladder shape is supplied by
+        // RemovedRecipes and the modern three-ladder recipe is refused.
+        assertTrue(RemovedRecipes.replacesModernRecipe(ALPHA, "minecraft:ladder"),
+            "Alpha 1.0.1 crafts two ladders per recipe");
     }
 
     @Test

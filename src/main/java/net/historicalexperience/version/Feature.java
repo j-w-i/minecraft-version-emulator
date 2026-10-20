@@ -188,6 +188,18 @@ public enum Feature {
         "Empty buckets do not stack; they stack to 16 from Release 1.3.1 (minecraft.wiki: 'Empty buckets: Stack up to "
         + "16 now')."),
 
+    /**
+     * Slab and ladder recipes yield three slabs and two ladders, not six and three.
+     *
+     * <p>minecraft.wiki, Java Edition 1.2.1: "Crafting recipe for slabs now yields 6 instead of 3"; "Ladders: ...
+     * Crafting recipe now yields 3 ladders instead of 2". So every declared build before Release 1.2.5 (this
+     * project's profile for the 1.2.1 line) crafts the smaller counts.
+     */
+    LEGACY_SLAB_LADDER_COUNTS(Domain.PLAYER, FeatureWindow.before(Milestones.RELEASE_1_2_5),
+        "Slab recipes yield 3 and the ladder recipe yields 2 before Release 1.2.1 (minecraft.wiki: 'slabs now "
+        + "yields 6 instead of 3', '3 ladders instead of 2'); Release 1.2.5 is the 1.2.1 baseline and has the larger "
+        + "counts."),
+
     /** No attack cooldown. */
     NO_ATTACK_COOLDOWN(Domain.COMBAT, FeatureWindow.allDeclared(),
         "The 1.9 attack cooldown: attacks are always at full strength. Every declared version predates Release 1.9, so the window is every declared version. Upstream tweak: DISABLE_ATTACK_COOLDOWN."),

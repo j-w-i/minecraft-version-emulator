@@ -181,11 +181,30 @@ public final class RemovedRecipes {
             "", "minecraft:stick", ""),
         "minecraft:oak_sign", 1, Feature.SIGN_RECIPE_ONE, true);
 
-    /** Every removed recipe, for tests and reports. */
+    /** Slab and ladder shapes before Release 1.2.1, when the recipes yielded three slabs and two ladders. */
+    public static final List<Removed> LEGACY_COUNTS = List.of(
+        new Removed("oak_slab_from_three_planks", 3, 1,
+            List.of("minecraft:oak_planks", "minecraft:oak_planks", "minecraft:oak_planks"),
+            "minecraft:oak_slab", 3, Feature.LEGACY_SLAB_LADDER_COUNTS, true),
+        new Removed("cobblestone_slab_from_three_cobblestone", 3, 1,
+            List.of("minecraft:cobblestone", "minecraft:cobblestone", "minecraft:cobblestone"),
+            "minecraft:cobblestone_slab", 3, Feature.LEGACY_SLAB_LADDER_COUNTS, true),
+        new Removed("sandstone_slab_from_three_sandstone", 3, 1,
+            List.of("minecraft:sandstone", "minecraft:sandstone", "minecraft:sandstone"),
+            "minecraft:sandstone_slab", 3, Feature.LEGACY_SLAB_LADDER_COUNTS, true),
+        new Removed("ladder_from_seven_sticks_two", 3, 3,
+            List.of(
+                "minecraft:stick", "", "minecraft:stick",
+                "minecraft:stick", "minecraft:stick", "minecraft:stick",
+                "minecraft:stick", "", "minecraft:stick"),
+            "minecraft:ladder", 2, Feature.LEGACY_SLAB_LADDER_COUNTS, true));
+
+    /** Every removed recipe, for tests and reports. */    /** Every removed recipe, for tests and reports. */
     public static List<Removed> all() {
         var all = new java.util.ArrayList<Removed>(List.of(ENCHANTED_GOLDEN_APPLE, GOLDEN_APPLE_GOLD_BLOCK,
             GOLDEN_APPLE_GOLD_NUGGET, ARROW_IRON_TIP, WOOL_FROM_NINE_STRING, SIGN_ONE));
         all.addAll(CLOTH_ARMOUR);
+        all.addAll(LEGACY_COUNTS);
         return List.copyOf(all);
     }
 

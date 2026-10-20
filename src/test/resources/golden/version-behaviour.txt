@@ -6472,7 +6472,7 @@ gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:clay)|*=FFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:clock)|*=FFFFFFFFFFFFTTTTTTTTTTFFFFFFFFFFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:coal)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:coal_block)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTTTTTTTTTFFF
-gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:cobblestone_slab)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTFFFFTFFF
+gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:cobblestone_slab)|*=TTTTTTTTTTFFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:cobblestone_stairs)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:cobblestone_wall)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:comparator)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
@@ -6564,7 +6564,7 @@ gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:jukebox)|*=FFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:jungle_planks)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:jungle_slab)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:jungle_stairs)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
-gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:ladder)|*=FFFFFFFFFFFFTTFFFFFFFFFFFFFFFFFFFFFFF
+gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:ladder)|*=TTTTTTTTTTFFTTFTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:lapis_block)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTFFFFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:lapis_lazuli)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTFFFFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:lead)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTTTTTTTTTFFF
@@ -6615,7 +6615,7 @@ gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:oak_fence_gate)|*
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:oak_planks)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:oak_pressure_plate)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:oak_sign)|*=TTTTTTTTTTTFTTFTTTTTTTTTFFFTTTTTTTFFF
-gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:oak_slab)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTFFFFTFFF
+gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:oak_slab)|*=TTTTTTTTTTFFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:oak_stairs)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:oak_trapdoor)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTTTTFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:orange_bed)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTFFFFTFFF
@@ -6655,7 +6655,7 @@ gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:redstone_lamp)|*=
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:redstone_torch)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:repeater)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTFFFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:sandstone)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTFFFFFTFFF
-gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:sandstone_slab)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTFFFFTFFF
+gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:sandstone_slab)|*=TTTTTTTTTTFFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:sandstone_stairs)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:shears)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:snow_block)|*=FFFFFFFFFFFFTTTTFFFFFFFFFFFFFFFFFFFFF
@@ -6743,7 +6743,7 @@ gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:clay)|*=FFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:clock)|*=FFFFFFFFFFFFTTTTTTTTTTFFFFFFFFFFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:coal)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:coal_block)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTTTTTTTTTFFF
-gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:cobblestone_slab)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTFFFFTFFF
+gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:cobblestone_slab)|*=TTTTTTTTTTFFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:cobblestone_stairs)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:cobblestone_wall)|*=TTTTTTTTTTTFTTTTTTTTTTTTTFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:comparator)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTFTTTTTTTFFF
@@ -6835,7 +6835,7 @@ gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:jukebox)|*=FFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:jungle_planks)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:jungle_slab)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:jungle_stairs)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
-gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:ladder)|*=FFFFFFFFFFFFTTFFFFFFFFFFFFFFFFFFFFFFF
+gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:ladder)|*=TTTTTTTTTTFFTTFTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:lapis_block)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTFFFFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:lapis_lazuli)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTFFFFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:lead)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTTTTTTTTTFFF
@@ -6886,7 +6886,7 @@ gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:oak_fence_gate)|*
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:oak_planks)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:oak_pressure_plate)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:oak_sign)|*=TTTTTTTTTTTFTTFTTTTTTTTTFFFTTTTTTTFFF
-gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:oak_slab)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTFFFFTFFF
+gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:oak_slab)|*=TTTTTTTTTTFFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:oak_stairs)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:oak_trapdoor)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTTTTFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:orange_bed)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTFFFFTFFF
@@ -6926,7 +6926,7 @@ gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:redstone_lamp)|*=
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:redstone_torch)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:repeater)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTFFFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:sandstone)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTFFFFFTFFF
-gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:sandstone_slab)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTFFFFTFFF
+gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:sandstone_slab)|*=TTTTTTTTTTFFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:sandstone_stairs)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:shears)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:snow_block)|*=FFFFFFFFFFFFTTTTFFFFFFFFFFFFFFFFFFFFF

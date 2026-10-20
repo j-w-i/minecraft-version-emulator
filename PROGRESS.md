@@ -1,3 +1,26 @@
+# Current work — 2026-10-21 / Gap 24: slab and ladder output counts before Release 1.2.1
+
+This was on the "count changes could not be sourced" list, but the Release audit's own row (X-09) carries the wiki
+line: minecraft.wiki, Java Edition 1.2.1 - "Crafting recipe for slabs now yields 6 instead of 3"; "Ladders: ...
+Crafting recipe now yields 3 ladders instead of 2". Since this project's Release 1.2.5 profile IS the 1.2.1 baseline,
+every declared build before it crafted three slabs and two ladders.
+
+- Feature `LEGACY_SLAB_LADDER_COUNTS` `before(Release 1.2.5)`.
+- Four supplied recipes behind it: oak, cobblestone and sandstone slabs (three blocks in a row -> three slabs) and the
+  ladder's seven-stick shape -> two ladders. The modern recipes are refused in the window, so the game has exactly one
+  answer per version rather than both.
+- One existing test updated deliberately: its "Alpha can still craft" sweep expected the vanilla ladder recipe, which is
+  now refused in favour of the supplied shape - the same treatment the arrow got, with the reason stated in the test.
+
+**Evidence:** `./gradlew cleanTest test` - **814 tests, 0 failures**; `SlabLadderCountsTest` pins the window, the counts,
+the ingredients and the refusal on both sides of 1.2.5; golden, matrix and facts regenerated.
+
+**Recorded instead of guessed:** the pressure-plate count row (1.3: "require only two planks/stone") does not state the
+pre-change OUTPUT, so it stays open; the stone-slab item substitution remains open for the substituted-result path;
+boats and maps need mechanic work (boat break-on-land and the single pre-1.4 map item), and block-break delay still needs
+its rule read.
+
+---
 # Current work — 2026-10-21 / Gap 23: signs and buckets before Release 1.3.1
 
 Two sourced rows from the Release audit, both with the wiki line quoted in the code:
