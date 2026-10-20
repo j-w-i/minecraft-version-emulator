@@ -42,7 +42,7 @@ client-class warnings, and loads the existing Beta 1.7.3 test world at its recor
 | S5 | Client rendering, weather, left-click, creative, tooltips, label, colour maps, dragon fight and Nether endermen become windows; 27 more features declared once; literals become `Milestones` | golden unchanged |
 | S6 | `HistoricalVersions` 1,912 → 195 lines, lookups only; declarations move to `legacy/LegacyCatalog`; catalogue `Era` → `Group` | golden changed by 3 name-only lines |
 | S7 | Four client mixins reclassified; mixins split into `mixin/client` and `mixin/common` with json order preserved; the boot caught 8 package statements missed by the move (they sat on the licence comment's closing line) | dedicated-server boot above |
-| S8 | Documentation: ARCHITECTURE rewritten (the old 26.3 contract preserved in `docs/audit/`), VERSION_SYSTEM, ADDING_VERSIONS, ADDING_FEATURES, generated VERSION_MATRIX, AGENTS.md contract | `VersionMatrixTest` fails on a stale matrix |
+| S8 | 22 probe/verification classes move to `verification/`; a lint rule keeps them out of shipped behaviour | suite + boot |\n| S8b | Documentation: ARCHITECTURE rewritten (the old 26.3 contract preserved in `docs/audit/`), VERSION_SYSTEM, ADDING_VERSIONS, ADDING_FEATURES, generated VERSION_MATRIX, AGENTS.md contract | `VersionMatrixTest` fails on a stale matrix |
 
 New enforcement, all in the normal test run: `ArchitectureLintTest` (no chronology comparisons or era arithmetic
 outside the model; the model does not depend on its consumers), `MixinConfigConsistencyTest` (common mixins are
@@ -69,9 +69,11 @@ disagreement is now written down in the feature's evidence string instead of bei
    wanted, it is `!Features.active(Feature.NO_ENCHANTING, id)` **and** a decision about what an unknown version means.
 3. **No session before the first player joins.** The session is set on JOIN, so session-gated rules do not apply to
    spawns during chunk generation; worldgen rules correctly resolve from the generator instead. Recorded, not changed.
-4. **Probe/verification classes still live in `server/` and `client/`** (22 classes) rather than a `verification`
-   package; the probe mixins are still on the production `ServerLevel.addEntity` path. The review's recommendation
-   (gate only the probe mixin, move the plain classes) is not implemented.
+4. ~~Probe/verification classes still live in `server/` and `client/`~~ - **done**: 22 classes moved to
+   `verification/` (client ones under `verification/client`), with a lint rule that only the two entrypoints and the probe
+   mixin may reference them. **Still open**: the probe mixin (`ServerLevelHistoricalMobDropProbeMixin`) remains on the
+   production `ServerLevel.addEntity` path; the review's recommendation was to gate it behind the same property that arms
+   the probe, which needs a mixin config plugin and was not done.
 5. **Licence header drift is pre-existing and unfixed**: `python scripts/apply-licence-headers.py --check` reports 72
    files whose header is the short one-line form rather than the full boilerplate (e.g. `server/EarlyMobDropCapture.java`,
    untouched since `b69f03f`). `LicenceComplianceTest` passes. Fixing it changes licence claims across 72 files, so it

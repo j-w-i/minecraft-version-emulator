@@ -15,7 +15,20 @@
  *
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
-package net.historicalexperience.client.textures;
+package net.historicalexperience.verification.client;
+
+import net.historicalexperience.client.colour.HistoricalColormaps;
+import net.historicalexperience.client.config.HistoricalConfigScreen;
+import net.historicalexperience.client.textures.HistoricalTextureConfig;
+import net.historicalexperience.client.textures.HistoricalTextureService;
+import net.historicalexperience.client.textures.TextureSetupScreen;
+import net.historicalexperience.client.textures.TextureSource;
+import net.historicalexperience.client.textures.TexturesConfigScreen;
+import net.historicalexperience.mixin.client.ContainerScreenAccess;
+import net.historicalexperience.server.HistoricalUpgradeService;
+import net.historicalexperience.version.Era;
+
+import net.historicalexperience.verification.client.TexturesProbe;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

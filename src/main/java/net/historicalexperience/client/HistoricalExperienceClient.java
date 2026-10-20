@@ -17,6 +17,15 @@
  */
 package net.historicalexperience.client;
 
+import net.historicalexperience.verification.client.ScreenProbe;
+import net.historicalexperience.verification.client.SnapshotFeatureProbe;
+import net.historicalexperience.verification.client.SnapshotAnvilProbe;
+import net.historicalexperience.verification.client.IndevMapProbe;
+import net.historicalexperience.verification.client.NtVisualProbe;
+import net.historicalexperience.verification.client.NtStarsProbe;
+import net.historicalexperience.verification.client.ClientMixinCheck;
+import net.historicalexperience.verification.client.TexturesProbe;
+
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -61,10 +70,10 @@ public final class HistoricalExperienceClient implements ClientModInitializer {
         net.historicalexperience.client.version.CreateWorldHistoricalVersion.register();
         net.historicalexperience.client.version.ManageWorldHistoricalVersion.register();
         // Gated on a system property; inert unless a verification run asks for it.
-        net.historicalexperience.client.version.ScreenProbe.register();
-        net.historicalexperience.client.version.SnapshotFeatureProbe.register();
-        net.historicalexperience.client.version.SnapshotAnvilProbe.register();
-        net.historicalexperience.client.indev.IndevMapProbe.registerIfRequested();
+        net.historicalexperience.verification.client.ScreenProbe.register();
+        net.historicalexperience.verification.client.SnapshotFeatureProbe.register();
+        net.historicalexperience.verification.client.SnapshotAnvilProbe.register();
+        net.historicalexperience.verification.client.IndevMapProbe.registerIfRequested();
         NtVisualProbe.register();
         ClientMixinCheck.registerIfRequested();
         // Alpha v1.2.2a's F4: the raw key, as that client read it, rather than a rebindable control.
@@ -85,7 +94,7 @@ public final class HistoricalExperienceClient implements ClientModInitializer {
             net.historicalexperience.client.textures.HistoricalTextureService::tick);
         net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.START_CLIENT_TICK.register(
             net.historicalexperience.client.textures.TextureFirstRun::tick);
-        net.historicalexperience.client.textures.TexturesProbe.register();
+        net.historicalexperience.verification.client.TexturesProbe.register();
 
         // A client that hangs on leaving a world writes nothing at all, which is how the owner's freeze left no
         // evidence. This reports the stuck stacks once, if that ever happens again.

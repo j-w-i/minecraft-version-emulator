@@ -1,5 +1,14 @@
 /* SPDX-License-Identifier: LGPL-3.0-or-later */
-package net.historicalexperience.client.version;
+package net.historicalexperience.verification.client;
+
+import net.historicalexperience.client.LegacyCreativeScreen;
+import net.historicalexperience.client.version.CreateWorldHistoricalVersion;
+import net.historicalexperience.client.version.HistoricalVersionScreen;
+import net.historicalexperience.server.HistoricalServerLifecycle;
+import net.historicalexperience.server.HistoricalSnapshotRuntime;
+import net.historicalexperience.version.HistoricalSnapshotPatches;
+
+import net.historicalexperience.verification.client.SnapshotFeatureProbe;
 
 import com.google.gson.GsonBuilder;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;

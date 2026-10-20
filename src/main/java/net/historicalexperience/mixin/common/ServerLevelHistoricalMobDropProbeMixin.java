@@ -1,7 +1,9 @@
 /* SPDX-License-Identifier: LGPL-3.0-or-later */
 package net.historicalexperience.mixin.common;
 
-import net.historicalexperience.server.EarlyMobDropCapture;
+import net.historicalexperience.verification.EarlyMobDropCapture;
+
+import net.historicalexperience.verification.EarlyMobDropCapture;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;

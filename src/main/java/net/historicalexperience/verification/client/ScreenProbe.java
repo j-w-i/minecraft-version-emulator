@@ -15,7 +15,11 @@
  *
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
-package net.historicalexperience.client.version;
+package net.historicalexperience.verification.client;
+
+import net.historicalexperience.client.version.HistoricalVersionScreen;
+
+import net.historicalexperience.verification.client.ScreenProbe;
 
 import java.io.File;
 import java.nio.file.Files;

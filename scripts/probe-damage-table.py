@@ -11,7 +11,7 @@ probe that measures nothing is worse than no probe.
 import pathlib
 
 root = pathlib.Path(__file__).resolve().parents[1]
-path = root / 'src/main/java/net/historicalexperience/server/GenerationVerification.java'
+path = root / 'src/main/java/net/historicalexperience/verification/GenerationVerification.java'
 text = path.read_text(encoding='utf-8')
 
 # 1. Act as a joined player would, so session-gated rules are live while measuring.

@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.verification.GenerationVerification;
+
 import net.historicalexperience.version.Milestones;
 
 import net.historicalexperience.version.Features;

@@ -1,5 +1,11 @@
 /* SPDX-License-Identifier: LGPL-3.0-or-later */
-package net.historicalexperience.server;
+package net.historicalexperience.verification;
+
+import net.historicalexperience.worldgen.HistoricalVillagePieces;
+import net.historicalexperience.worldgen.HistoricalVillageResidents;
+import net.historicalexperience.worldgen.HistoricalVillageRules;
+import net.historicalexperience.worldgen.HistoricalVillageStructure;
+import net.historicalexperience.worldgen.HistoricalVillageTypes;
 
 import java.util.*;
 import net.historicalexperience.worldgen.*;

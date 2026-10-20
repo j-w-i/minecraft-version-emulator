@@ -17,6 +17,11 @@
  */
 package net.historicalexperience;
 
+import net.historicalexperience.verification.GenerationVerification;
+import net.historicalexperience.verification.VillageVerification;
+import net.historicalexperience.verification.DragonFightVerification;
+import net.historicalexperience.verification.EnchantingVerification;
+
 import net.fabricmc.api.ModInitializer;
 import net.historicalexperience.server.HistoricalCommand;
 import net.historicalexperience.gameplay.HistoricalSwordBlockingEvents;
@@ -42,16 +47,16 @@ public final class HistoricalExperienceMod implements ModInitializer {
             HistoricalExperience.MOD_ID);
         HistoricalServerLifecycle.register();
         net.historicalexperience.generation.FiniteTransitionRuntime.register();
-        net.historicalexperience.server.GenerationVerification.registerIfRequested();
+        net.historicalexperience.verification.GenerationVerification.registerIfRequested();
         // The historical village's structure type and piece type. Registered here rather than through a
         // mixin or a loader-specific event bus: both are ordinary 1.21.1 registries, still open during a
         // Fabric mod initialiser. The piece type matters in particular - it is the id saved into every
         // chunk's structure data, so a world with a village resolves its pieces through this registration.
         // See HistoricalVillageTypes.
         net.historicalexperience.worldgen.HistoricalVillageTypes.register();
-        net.historicalexperience.server.VillageVerification.registerIfRequested();
-        net.historicalexperience.server.DragonFightVerification.registerIfRequested();
-        net.historicalexperience.server.EnchantingVerification.registerIfRequested();
+        net.historicalexperience.verification.VillageVerification.registerIfRequested();
+        net.historicalexperience.verification.DragonFightVerification.registerIfRequested();
+        net.historicalexperience.verification.EnchantingVerification.registerIfRequested();
         HistoricalCommand.register();
         // Tells a joining client which version it is in. Without this, every client-side rule would work
         // in single-player and silently do nothing on a server, because the client has no world metadata

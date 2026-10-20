@@ -15,7 +15,10 @@
  *
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
-package net.historicalexperience.client;
+package net.historicalexperience.verification.client;
+
+import net.historicalexperience.client.HistoricalClientRules;
+import net.historicalexperience.client.lighting.HistoricalSkyColours;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

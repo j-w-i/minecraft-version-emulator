@@ -15,7 +15,7 @@
  *
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
-package net.historicalexperience.server;
+package net.historicalexperience.verification;
 
 import java.util.List;
 import java.util.Objects;

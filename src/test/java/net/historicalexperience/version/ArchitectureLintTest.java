@@ -17,6 +17,10 @@
  */
 package net.historicalexperience.version;
 
+import net.historicalexperience.verification.client.SnapshotAnvilProbe;
+import net.historicalexperience.verification.client.IndevMapProbe;
+import net.historicalexperience.verification.client.TexturesProbe;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
@@ -148,6 +152,31 @@ class ArchitectureLintTest {
         }
         assertTrue(offenders.isEmpty(),
             "the version model must not import gameplay, generation, client or server: " + offenders);
+    }
+
+    /**
+     * Source files allowed to reach the verification harnesses: the two entrypoints that register them and the probe
+     * mixin that reports captured entities to them. Nothing in the shipped behaviour may depend on a probe.
+     */
+    private static final Set<String> VERIFICATION_CALLERS = Set.of(
+        "HistoricalExperienceMod.java", "HistoricalExperienceClient.java", "ServerLevelHistoricalMobDropProbeMixin.java");
+
+    @Test
+    @DisplayName("probes stay behind their flags: only the entrypoints and the probe mixin reach the verification package")
+    void verificationIsIsolated() throws IOException {
+        List<String> offenders = new ArrayList<>();
+        for (Path file : sources()) {
+            String relative = MAIN.relativize(file).toString().replace('\\', '/');
+            if (relative.startsWith("verification/") || VERIFICATION_CALLERS.contains(file.getFileName().toString())) {
+                continue;
+            }
+            if (Files.readString(file, StandardCharsets.UTF_8).contains("net.historicalexperience.verification")) {
+                offenders.add(relative);
+            }
+        }
+        assertTrue(offenders.isEmpty(),
+            "only the entrypoints and the probe mixin may reference verification code, so a probe can never become "
+                + "part of shipped behaviour: " + offenders);
     }
 
     private static List<Path> sources() throws IOException {

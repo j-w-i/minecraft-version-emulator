@@ -1,5 +1,10 @@
 /* SPDX-License-Identifier: LGPL-3.0-or-later */
-package net.historicalexperience.client.indev;
+package net.historicalexperience.verification.client;
+
+import net.historicalexperience.client.version.IndevMapSettingsScreen;
+
+import net.historicalexperience.verification.client.SnapshotFeatureProbe;
+import net.historicalexperience.verification.client.IndevMapProbe;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,7 +17,7 @@ import mod.bluestaggo.modernerbeta.settings.SettingsComponentTypes;
 import mod.bluestaggo.modernerbeta.settings.component.FiniteLevelProperties;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.historicalexperience.client.version.IndevMapSelection;
-import net.historicalexperience.client.version.SnapshotFeatureProbe;
+import net.historicalexperience.verification.client.SnapshotFeatureProbe;
 import net.historicalexperience.version.HistoricalVersionCatalogue;
 import net.historicalexperience.server.HistoricalServerLifecycle;
 import net.historicalexperience.worldgen.IndevMapSettings;
@@ -95,7 +100,7 @@ public final class IndevMapProbe {
                 var result = new LinkedHashMap<String, Object>();
                 result.put("passed", passed);
                 result.put("run", stamp);
-                result.put("checks", net.historicalexperience.client.version.SnapshotFeatureProbe.checks());
+                result.put("checks", net.historicalexperience.verification.client.SnapshotFeatureProbe.checks());
                 result.put("failure", failure == null ? null : failure.toString());
                 Files.writeString(root.resolve("indev-probe-" + stamp + ".json"),
                     new GsonBuilder().setPrettyPrinting().create().toJson(result));

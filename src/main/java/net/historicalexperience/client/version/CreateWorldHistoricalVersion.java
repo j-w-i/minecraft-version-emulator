@@ -64,7 +64,7 @@ public final class CreateWorldHistoricalVersion {
      * 310px against vanilla's 308 and the owner could see the extra 2px sticking out past Cancel. Matching the
      * width is what makes both edges agree, and it is asserted against the real buttons.
      */
-    static final int ROW_WIDTH = Button.DEFAULT_WIDTH * 2 + Button.DEFAULT_SPACING;
+    public static final int ROW_WIDTH = Button.DEFAULT_WIDTH * 2 + Button.DEFAULT_SPACING;
     static final int ROW_HEIGHT = Button.DEFAULT_HEIGHT;
 
     /**
@@ -73,7 +73,8 @@ public final class CreateWorldHistoricalVersion {
      * gap between Create New World and Cancel.
      */
     static final int TOGGLE_WIDTH = 40;
-    static final int ROW_GAP = Button.DEFAULT_SPACING;
+    /** The gap between the version button and its toggle; public so the screen probe can assert the layout. */
+    public static final int ROW_GAP = Button.DEFAULT_SPACING;
 
     private static final int BUTTON_WIDTH = ROW_WIDTH - TOGGLE_WIDTH - ROW_GAP;
 

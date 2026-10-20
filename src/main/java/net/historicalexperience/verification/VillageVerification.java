@@ -29,7 +29,9 @@
  * (https://github.com/MaxTechnik3796/old_villages, pinned revision 7578013ec061303982539fac7606df67577ffb26,
  * MIT as declared in its gradle.properties; that checkout ships no LICENSE file).
  */
-package net.historicalexperience.server;
+package net.historicalexperience.verification;
+
+import net.historicalexperience.generation.HistoricalFeatureExclusions;
 
 import java.nio.file.Files;
 import java.util.LinkedHashMap;

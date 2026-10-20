@@ -81,6 +81,7 @@ net.historicalexperience
 ├── world/            persistence: metadata, upgrades, journal, recovery, backup
 ├── server/           lifecycle, commands, networking
 ├── client/           presentation only: rendering, lighting, textures, HUD, screens, input, colour maps
+├── verification/     probe harnesses and the in-game checks; verification/client for the client ones
 └── mixin/            Fabric integration points, split by side: mixin/client/**, mixin/common/**
 ```
 
@@ -89,7 +90,7 @@ Dependency rules (enforced):
 * `legacy` imports `version` and the data owners.
 * `gameplay`, `generation`, `worldgen`, `world`, `server`, `client` import `version` - never `legacy`.
 * No class outside `mixin` imports a mixin class, **except** `@Accessor`/`@Invoker` interfaces (loadable by design).
-* No non-client, non-mixin class imports `net.minecraft.client`.
+* No non-client, non-mixin class imports `net.minecraft.client`.\n* Only the two entrypoints and the probe mixin reference `verification`; a probe can never become shipped behaviour.
 * A mixin in the **common** list touches no client class.
 * Each mixin's `package` matches its directory, because Mixin resolves json entries as `package + entry` and a mismatch
   is a startup crash.

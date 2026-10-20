@@ -15,7 +15,14 @@
  *
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
-package net.historicalexperience.server;
+package net.historicalexperience.verification;
+
+import net.historicalexperience.gameplay.HistoricalChestLoot;
+import net.historicalexperience.gameplay.HistoricalItemAvailability;
+import net.historicalexperience.gameplay.HistoricalPortalSpawn;
+import net.historicalexperience.gameplay.HistoricalProfileLookup;
+import net.historicalexperience.version.Feature;
+import net.historicalexperience.version.Features;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.historicalexperience.version.ActiveVersion;

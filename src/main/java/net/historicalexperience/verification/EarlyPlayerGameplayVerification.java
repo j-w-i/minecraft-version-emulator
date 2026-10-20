@@ -1,5 +1,7 @@
 /* SPDX-License-Identifier: LGPL-3.0-or-later */
-package net.historicalexperience.server;
+package net.historicalexperience.verification;
+
+import net.historicalexperience.version.ActiveVersion;
 
 import com.mojang.authlib.GameProfile;
 import java.util.LinkedHashMap;

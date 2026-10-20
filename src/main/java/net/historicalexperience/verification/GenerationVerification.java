@@ -15,7 +15,25 @@
  *
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
-package net.historicalexperience.server;
+package net.historicalexperience.verification;
+
+import net.historicalexperience.gameplay.HistoricalCombatDiagnostics;
+import net.historicalexperience.gameplay.HistoricalDamageValues;
+import net.historicalexperience.gameplay.HistoricalLootRules;
+import net.historicalexperience.gameplay.HistoricalRecipeGate;
+import net.historicalexperience.generation.HistoricalBlockAvailability;
+import net.historicalexperience.generation.HistoricalBlockContent;
+import net.historicalexperience.mixin.client.GuiAccess;
+import net.historicalexperience.mixin.common.NaturalSpawnerProbeAccessor;
+import net.historicalexperience.mixin.common.SheepAccess;
+import net.historicalexperience.server.HistoricalUpgradeService;
+import net.historicalexperience.version.ActiveVersion;
+import net.historicalexperience.version.HistoricalVersion;
+import net.historicalexperience.version.HistoricalVersions;
+import net.historicalexperience.world.upgrade.FiniteApronRelease;
+import net.historicalexperience.world.upgrade.FiniteEdgeRepair;
+import net.historicalexperience.worldgen.HistoricalVillagePieces;
+import net.historicalexperience.worldgen.HistoricalVillageStructure;
 
 import net.historicalexperience.version.Features;
 

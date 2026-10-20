@@ -1,7 +1,16 @@
 /* SPDX-License-Identifier: LGPL-3.0-or-later */
-package net.historicalexperience.client.version;
+package net.historicalexperience.verification.client;
 
-import static net.historicalexperience.client.version.SnapshotFeatureProbe.*;
+import net.historicalexperience.client.version.CreateWorldHistoricalVersion;
+import net.historicalexperience.gameplay.HistoricalEarlyMenuRules;
+import net.historicalexperience.gameplay.HistoricalProfileLookup;
+import net.historicalexperience.server.HistoricalServerLifecycle;
+import net.historicalexperience.server.SnapshotCreativeRequest;
+
+import net.historicalexperience.verification.VillageResidentAcceptance;
+import net.historicalexperience.verification.client.SnapshotAnvilProbe;
+
+import static net.historicalexperience.verification.client.SnapshotFeatureProbe.*;
 import com.google.gson.GsonBuilder;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import java.nio.file.*;
@@ -76,13 +85,13 @@ public final class SnapshotAnvilProbe {
                 });
                 if (villageOnly) {
                     if (selection.endsWith("release_1_1") || selection.endsWith("beta_1_8_1")) {
-                        var natural = call(server, () -> net.historicalexperience.server.VillageResidentAcceptance.generateNatural(server, selection));
+                        var natural = call(server, () -> net.historicalexperience.verification.VillageResidentAcceptance.generateNatural(server, selection));
                         CHECKS.add(natural.description());
                         Thread.sleep(2000);
                         await(() -> call(server, () -> natural.count() == natural.expected()), 30);
                         check(call(server, () -> natural.count()) == natural.expected(), natural.description() + " actual loaded villager count=" + natural.expected());
                     }
-                    CHECKS.addAll(call(server, () -> net.historicalexperience.server.VillageResidentAcceptance.run(server, selection)));
+                    CHECKS.addAll(call(server, () -> net.historicalexperience.verification.VillageResidentAcceptance.run(server, selection)));
                     disconnect(client, suffix);
                     continue;
                 }
