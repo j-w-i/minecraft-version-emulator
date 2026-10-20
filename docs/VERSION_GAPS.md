@@ -137,11 +137,12 @@ flow exposes it for historical profiles was not executed.
 
 Full evidence in each era document. The ranked lists there are by player impact, not row count.
 
-**Indev, Infdev, Alpha** — modern drops in all ten Alpha profiles; **no craftable armour at all in Alpha
+**Indev, Infdev, Alpha** — modern drops in all ten Alpha profiles; **no craftable cloth/leather armour in Alpha
 1.0.1/1.0.4/1.0.6** (armour was cloth until 1.0.8 and cows do not exist until then, so only the leather recipe is
-offered); modern pathfinding AI; sheep death wool; the modern F3 overlay with coordinates (added Alpha v1.2.3); compass
+offered; iron/gold/diamond armour are still craftable); modern pathfinding AI; sheep death wool; the modern F3 overlay with coordinates (added Alpha v1.2.3); compass
 and clock too early; the stone-slab substitution; arrow recipe; 9-vs-4-string wool; leaf sapling 10% vs 5%, leaf
-stick/apple drops (1.14/1.1 content); spider jockeys before 1.0.17; no audio gating.
+stick/apple drops (1.14/1.1 content) and **leaf decay at 1.2.0/1.2.2a, where leaves did not decay until v1.2.3**;
+spider jockeys before 1.0.17; no audio gating at all.
 
 **Beta 1.0 – 1.7.3** — modern drops; slime spawning in Beta 1.0 although disabled from Alpha 1.2.0 to Beta 1.3; player
 damage one point low in 1.5–1.7.3; cookies not stackable and cake inert; golden apples uncraftable; pre-1.6 fire spread,
@@ -179,7 +180,7 @@ villages in 1.0/1.1, 128-height, and the 1.6.1 saturation-costing regeneration n
 | 4 | **G8** 256-height dimension types for Release 1.2.5+ as new revisions | world is visibly half-height | presets/dimension types |
 | 5 | **G11** Pre2/Pre3 boundary shift | one structural error behind many rows | `Feature` windows |
 | 6 | **G10** dragon spawn from Pre6; eye-of-ender frame repair at Pre3 | End content is wrong by three prereleases | dragon/ender-eye mixins |
-| 7 | **A-14** cloth armour / no leather in Alpha 1.0.1–1.0.6; **G5** spawn weights and pre-1.9 AI | early-survival and "feel" | early recipes, spawner research |
+| 7 | **A-14** cloth/leather armour missing in Alpha 1.0.1–1.0.6 (other tiers craftable); **G5** spawn weights and pre-1.9 AI | early-survival and "feel" | early recipes, spawner research |
 | 8 | **G7** date the 51 unknown blocks; reconcile creative/crafting tables | keeps the guards honest | generators + tables |
 
 ## 5. Outstanding verification

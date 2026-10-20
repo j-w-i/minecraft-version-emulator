@@ -83,7 +83,7 @@ per-version sections below do *not* repeat.
 | **A-11** | blocks + crafting / stone slab | Stone slabs have existed since "0.26 SURVIVAL TEST Added stone (now smooth stone) slabs" with the recipe "20100130 … 3 slabs from 3 cobblestone" [W16]; Beta 1.3 changes only the recipe ("Stone slabs are now crafted from 3 stone") and 1.2.1 changes the count [W16]. The era block is the modern **`smooth_stone_slab`** ("1.14 … Stone slabs had been renamed to smooth stone slabs") [W16]. | facts: `smooth_stone_slab` appears in **"Blocks judged anachronistic"** for every one of the 13 profiles (e.g. Alpha 1.0.1 records 75 anachronistic including `smooth_stone_slab`), because `HistoricalBlockAvailability` dates it to Beta 1.3 [W22]. At the same time `HistoricalCraftingEra` allow-lists **`stone_slab`** as "always" — and in 1.21.1 `stone_slab` is the *Release 1.14* block with a 3-stone→6 recipe. Net effect in an Alpha world: the era slab (`smooth_stone_slab`) is refused and the 1.14 slab (`stone_slab`) is craftable with the wrong ingredient and count. The Indev artifact table gets this right (`smooth_stone_slab` ×3 from 3 cobblestone) [W22], which is how the contradiction is visible. | EXTRA + MISSING | MED | verified | all 10 Alpha |
 | **A-12** | crafting / arrows | "Arrows: The tip in crafting is now made from flint rather than iron ingots" — Alpha v1.0.14 [W6]. Before it the recipe was iron ingot + stick + feather → 4 arrows (the Indev artifact table records exactly that) [W22]. | facts: no arrow-recipe line; code: the vanilla 1.21.1 flint recipe is allowed in every Alpha profile (`arrow` is "always" on the craft allow-list and no early table applies) [W22]. Flint obtainable from gravel in all these builds, so the difference is material cost: 1 flint instead of 1 iron ingot per 4 arrows. | WRONG | MED | verified | Alpha v1.0.1–v1.0.11 |
 | **A-13** | crafting / wool | "Indev 20100201-0025: Light gray cloth can now be crafted using nine string"; the recipe is still 9 string in Alpha, "1.6.6 The crafting recipe of wool has been changed, reducing the amount of string required from 9 to 4 pieces" [W17]. | facts: `white_wool` is craftable in every Alpha profile; code: the vanilla 4-string→1-wool recipe is permitted (`white_wool` on the allow-list, no recipe-id or block override) [W22]. So Alpha worlds get wool at less than half the historical string cost. (Indev/Infdev early tables use the artifact recipe: 9 string → 1 light gray wool [W22].) | WRONG | LOW | verified | all 10 Alpha |
-| **A-14** | crafting / armour progression | "Alpha v1.0.8: The crafting recipe of cloth/leather armor has been changed from cloth to leather" [W17]. Before 1.0.8 armour was made from cloth (light gray wool; the Indev artifact recipes show the exact cloth patterns) [W22], and **cows do not exist before Alpha v1.0.8** (facts: Alpha 1.0.1/1.0.4/1.0.6 spawn sets exclude `minecraft:cow`; feature-timeline "mob: cow | in=Alpha v1.0.8" [W20]). | facts: 1.0.1/1.0.4/1.0.6 have `NO_ANIMAL_BREEDING` etc. and a cow-free spawn set, and their crafting is modern-recipe-based; code: leather armour recipes are `always` on the allow-list and the **modern leather patterns** are what craft. Leather has no legit source in those three builds, so armour is **uncraftable**, and cloth armour (the actual route) does not exist. | MISSING | HIGH | verified | Alpha v1.0.1, v1.0.4, v1.0.6 |
+| **A-14** | crafting / armour progression | "Alpha v1.0.8: The crafting recipe of cloth/leather armor has been changed from cloth to leather" [W17]. Before 1.0.8 armour was made from cloth (light gray wool; the Indev artifact recipes show the exact cloth patterns) [W22], and **cows do not exist before Alpha v1.0.8** (facts: Alpha 1.0.1/1.0.4/1.0.6 spawn sets exclude `minecraft:cow`; feature-timeline row "mob: cow", introduced Alpha v1.0.8 [W20]). | facts: 1.0.1/1.0.4/1.0.6 have `NO_ANIMAL_BREEDING` etc. and a cow-free spawn set, and their crafting is modern-recipe-based; code: leather armour recipes are `always` on the allow-list and the **modern leather patterns** are what craft. Leather has no legit source in those three builds, so that armour tier is **uncraftable**, and cloth armour (the actual route) does not exist. | MISSING | HIGH | verified | Alpha v1.0.1, v1.0.4, v1.0.6 |
 | **A-15** | blocks / leaf loot | Sticks from leaves are Release 1.14: "1.14 18w43a Leaves now have a small chance to drop sticks when decaying" [W18]; apples from leaves are Release 1.1: "1.1 11w48a Oak leaves now have a 1/200 chance of dropping an apple" [W18]. | The early leaf-drop replacement (`LootTableHistoricalEarlyLeavesMixin`) only fires for Indev/Infdev, where it cancels the modern roll and emits the artifact's single 10 %-sapling result [W22]. All ten Alpha profiles therefore keep the **modern** oak-leaf table: 5 % sapling + 2 % 1–2 sticks + 0.5 % apple. Sticks and apples are EXTRA in every Alpha build; the sapling chance is correct from 1.0.6 and wrong before it (A-16). | EXTRA | LOW | verified | all 10 Alpha |
 | **A-16** | blocks / leaf sapling chance | "Alpha v1.0.6: Leaves … Now have a 1⁄20 (5%) chance of dropping a sapling instead of 1⁄10 (10%)" [W4] — so 1.0.1 and 1.0.4 drop saplings at 10 %. | facts: no sapling-chance line for Alpha; runtime is the modern 5 % oak-leaf sapling roll (A-15). | WRONG | LOW | verified | Alpha v1.0.1, v1.0.4 |
 | **A-17** | mobs / spider jockeys | "Alpha v1.0.17 … Spider jockeys: The first jockey to be added into the game" [W7]. Before that build a skeleton could not ride a spider. | 1.21.1 spawns spider jockeys (skeleton riding a spider) from its ordinary spider spawn path for every profile; nothing gates jockeys. | EXTRA | LOW | inferred | Indev 20100223, Infdev 20100420, Infdev 20100611, Alpha v1.0.1–v1.0.14 |
@@ -222,7 +222,7 @@ no breeding/gear/XP [W20]); movement (no sprint, no sneak, swimming exists [W20]
 blocking; old sword damage); health (no hunger/regen [W20 Food]; 4 direct heals; instant eating); XP/enchant/
 brew (absent); inventory (armour unstackable W11, food unstackable, no offhand); world (no weather [W21], no
 Nether [W1], no structures — monster rooms are Infdev 20100625 [W20], day/night 20 min [W15], finite island);
-visuals (textures/lighting/fog/sky/stars; label); UI (tooltips absent before Beta 1.0 [W20 owner-corrected
+visuals (textures/lighting/fog/sky/stars; label); UI (tooltips absent before Beta 1.0 [W22
 `NO_ITEM_TOOLTIPS`], no recipe book).
 
 ### 5.2 Infdev 20100420 (`historical_experience:infdev_420`)
@@ -232,8 +232,9 @@ heals (bread 5, apple 4, stew 10, golden apple 42, cooked porkchop 8, porkchop 3
 hunger/sprint/XP/structures; clouds 108; flat sky; no colour maps; no weather.
 **Cross-version rows that apply:** A-03, A-04, A-05, A-06, A-07, A-08, A-09, A-17, A-19.
 
-No version-specific gap rows were found. The build is *before* ladders/doors (Infdev 20100607 [W20 Door]) and
-before minecarts (Infdev 20100618 [W20 Minecart booster evidence]), so the early artifact tables' exclusion of
+No version-specific gap rows were found. The build is *before* ladders/doors (the feature-timeline
+"left-click to open a door" row dates wooden doors to Infdev 20100607, https://minecraft.wiki/w/Door) and
+before minecarts (Infdev 20100618 [W20 Minecart booster]), so the early artifact tables' exclusion of
 those recipes is correct; its big-tree saplings [W12] are what modern saplings do; and its debug-screen delta
 ("All"/"Counted", W12) is subsumed by A-06. The only open item is whether the level-generator change of this
 build ("much less mountainous… more hills and plains", W12) is what `moderner_beta:infdev_420` actually
@@ -451,7 +452,7 @@ Quoted from that file so it is clear these are deliberately excluded from the ro
 Ranked by what a player actually experiences in a survival playthrough of these builds, not by row count.
 
 1. **A-01 — mob drops are the modern 1.21.1 tables across every Alpha profile (HIGH, verified).** Zombies
-   drop rotten flesh instead of feathers (feathers are the era's arrow-and-bed currency), skeletons drop bones
+   drop rotten flesh instead of feathers (feathers are the era's arrow-making material), skeletons drop bones
    (Beta 1.2) and spiders drop eyes and chickens drop meat (Beta 1.8), cows drop beef, and creeper/skeleton
    kills can produce any modern music disc. This is the single largest content error in the era: it changes
    early-game progression and makes "old Minecraft" feel like modern Minecraft with old textures.
@@ -462,8 +463,8 @@ Ranked by what a player actually experiences in a survival playthrough of these 
 3. **A-03 — modern goal-based pathfinding AI (HIGH, verified).** Zombies and skeletons navigate obstacles and
    chase through terrain in builds that had simple AI; the 1.2.1 AI improvement is the documented boundary.
    This changes combat, mob farms and shelter behaviour in every one of the 13 profiles.
-4. **A-02 — sheep drop wool on death (MED, verified).** In these builds wool came from punching/shearing a
-   sheep; killing it yielded nothing (Beta 1.7 adds the death wool). Wool is doubled up here, which undercuts
+4. **A-02 — sheep drop wool on death (MED, verified).** In these builds wool came from punching a sheep;
+   killing it yielded nothing (Beta 1.7 adds the death wool). Wool is doubled up here, which undercuts
    the era's wool economy and makes beds/books/paintings easier.
 5. **A-06 — the modern F3 debug overlay, including coordinates, in all 13 versions (MED, verified).**
    Coordinates were only added in Alpha v1.2.3, and before v1.1.1 the debug screen was an options toggle rather
