@@ -70,6 +70,8 @@ public final class Milestones {
     public static final Milestone BETA_1_9_PRE_1 = Milestone.of(Era.BETA, 1, 9, 1, "Beta 1.9 Prerelease 1");
     public static final Milestone BETA_1_9_PRE_2 = Milestone.of(Era.BETA, 1, 9, 2, "Beta 1.9 Prerelease 2");
     public static final Milestone BETA_1_9_PRE_5 = Milestone.of(Era.BETA, 1, 9, 5, "Beta 1.9 Prerelease 5");
+    /** Beta 1.9 Prerelease 6: the Ender Dragon arrives. */
+    public static final Milestone BETA_1_9_PRE_6 = Milestone.of(Era.BETA, 1, 9, 6, "Beta 1.9 Prerelease 6");
     public static final Milestone RELEASE_1_0 = Milestone.of(Era.RELEASE, 1, 0, 0, "Release 1.0");
     public static final Milestone RELEASE_1_3 = Milestone.of(Era.RELEASE, 1, 3, 0, "Release 1.3");
     /** The Pretty Scary Update, released as 1.4.2. Not declared: Release 1.4 is the nearest declared build. */

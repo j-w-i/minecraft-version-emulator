@@ -69,6 +69,8 @@ class FeatureBoundaryTest {
         // Breeding, tempting and baby animals share Prerelease 3 in the code even though the evidence dates the
         // first two to Prerelease 2. Preserved, and recorded in the feature's evidence.
         BEFORE.put(Feature.NO_ANIMAL_BREEDING, P + "beta_1_9_pre_2");
+        BEFORE.put(Feature.NO_ENDER_DRAGON, P + "beta_1_9_pre_6");
+        BETWEEN.put(Feature.END_FRAME_EYE_REPAIR, new String[] {P + "beta_1_9_pre_3", P + "beta_1_9_pre_4"});
         BEFORE.put(Feature.NO_ANIMAL_TEMPTING, P + "beta_1_9_pre_2");
         BEFORE.put(Feature.NO_BABY_ANIMALS, P + "beta_1_9_pre_3");
         // Release 1.4.2 and 1.6.2 are not declared; Release 1.6.4 is the proxy for all four.

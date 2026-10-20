@@ -1,3 +1,40 @@
+# Current work — 2026-10-21 / Gap 9: the End's boundaries, and the Pre3 frame's art
+
+**Both End boundaries implemented (audit G10):**
+
+- **No Ender Dragon before Prerelease 6.** New feature `NO_ENDER_DRAGON` (`before` Pre6), and
+  `HistoricalDragonFight.noDragon` gates `EndDragonFight.findOrCreateDragon` to null before it. The mixin's target was
+  found in the mapped jar, not guessed. Pre4 and Pre5 now have the End they actually had: the central island and the
+  obsidian pillars, no boss and no boss bar. Pre6 keeps its milestone.
+- **Prerelease 3 fills frames but opens nothing.** New feature `END_FRAME_EYE_REPAIR` (Pre3 only). The eye of ender is
+  placed on the frame, consumed, sounded and the frame's `HAS_EYE` state set - and no portal logic runs, which is the
+  wiki's "nothing further occurs". Before Pre3 the eye still does nothing (`INERT_END_PORTAL`), and from Pre4 vanilla
+  completes the portal normally. New `BETA_1_9_PRE_6` milestone.
+
+**Owner question: were the Pre3 frame's texture and models copied over?** No - and deliberately so, because nothing
+had to be. The project already routes the pre-redraw frame art for every version **before Pre4**: the
+`END_PORTAL_FRAME_AFTER_REDRAW` rule serves four textures AND two models from the pinned Golden Days pack, and
+`Beta_1_9_pre_3` is inside that window. Checked rather than assumed, because "already routed" is not "correct for a
+placed eye":
+
+- vanilla 1.21.1's `blockstates/end_portal_frame.json` maps `eye=true` to `block/end_portal_frame_filled`, and that is
+  exactly one of the two models the rule routes - which is why the eye shows the era's art when placed;
+- the pinned pack's contents were verified by downloading it and matching the recorded SHA-512, so the models and the
+  eye texture are known present rather than hoped for;
+- the texture test now asserts **every** frame asset (textures and both models) resolves to Golden Days at Pre3, not
+  just the side texture, and to vanilla from Pre4.
+
+The packs are All Rights Reserved and are fetched on the player's own machine from their official distribution point;
+copying their files into this repository is not something the project may do, which is another reason the existing
+routing is the right mechanism.
+
+**Not done:** the Pre3 **item form** - the wiki says the frame item was a flat texture of the filled frame with an empty
+tooltip, which is an item-model/tooltip change and remains recorded as open. And the placed-eye appearance has not been
+checked in a running client, only proven at the resource-selection level.
+
+**Evidence:** `./gradlew test` — **792 tests, 0 failures**. Golden, matrix and facts regenerated.
+
+---
 # Current work — 2026-10-21 / Gap 8: the Pre2/Pre3 boundary shift (audit G11)
 
 The Adventure era audit called this "one structural error behind many rows": several behaviours were gated at

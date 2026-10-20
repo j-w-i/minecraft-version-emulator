@@ -46,6 +46,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class EndDragonFightHistoricalMixin {
     @Shadow @Final private ServerLevel level;
 
+    /**
+     * No dragon before Beta 1.9 Prerelease 6. {@code findOrCreateDragon} is what the fight calls when the End has no
+     * dragon yet; returning null leaves the dimension generated and empty, which is what Pre4 and Pre5 were.
+     */
+    @Inject(method = "findOrCreateDragon", at = @At("HEAD"), cancellable = true)
+    private void historicalExperience$noDragonBeforePre6(
+            org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable<
+                net.minecraft.world.entity.boss.enderdragon.EnderDragon> callback) {
+        if (HistoricalDragonFight.noDragon(this.level)) {
+            callback.setReturnValue(null);
+        }
+    }
+
     @Inject(method = "spawnNewGateway()V", at = @At("HEAD"), cancellable = true)
     private void historicalExperience$noGateway(CallbackInfo callback) {
         if (HistoricalDragonFight.originalFight(this.level)) {

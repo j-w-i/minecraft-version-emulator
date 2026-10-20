@@ -54,6 +54,20 @@ public final class HistoricalDragonFight {
         return Math.min(10.0D, 0.4000000059604645D + horizontalDistance / 80.0D - 1.0D);
     }
 
+    /**
+     * True when this world's version predates the dragon: Beta 1.9 Prerelease 4 and 5 have the End but no dragon.
+     *
+     * <p>The class comment used to say this boundary was "not decided here"; the 2026-10-21 audit found that in fact
+     * nothing decided it anywhere, so Pre4 and Pre5 spawned a live dragon. This is the decision.
+     */
+    public static boolean noDragon(ServerLevel level) {
+        if (level == null || level.getServer() == null) {
+            return false;
+        }
+        String profile = HistoricalProfileLookup.profileIdForLevel(level.getServer().overworld());
+        return Features.active(Feature.NO_ENDER_DRAGON, profile);
+    }
+
     /** The original dragon's vertical steering gain: it added {@code verticalError * 0.1} to its vertical speed. */
     public static final double ORIGINAL_VERTICAL_GAIN = 0.10000000149011612D;
 

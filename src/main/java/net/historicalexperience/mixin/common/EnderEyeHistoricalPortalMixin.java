@@ -54,6 +54,26 @@ public abstract class EnderEyeHistoricalPortalMixin {
     @Inject(method = "useOn", at = @At("HEAD"), cancellable = true)
     private void historicalExperience$refusePortalCompletion(UseOnContext context,
             CallbackInfoReturnable<InteractionResult> callback) {
+        if (Features.active(Feature.END_FRAME_EYE_REPAIR)) {
+            // Prerelease 3: the eye goes in and nothing further happens. Vanilla's useOn would fill the frame AND,
+            // if the ring completed, light the portal - so the fill is reproduced here without the activation.
+            net.minecraft.world.level.Level level = context.getLevel();
+            net.minecraft.core.BlockPos pos = context.getClickedPos();
+            net.minecraft.world.level.block.state.BlockState state = level.getBlockState(pos);
+            if (state.is(net.minecraft.world.level.block.Blocks.END_PORTAL_FRAME)
+                    && !state.getValue(net.minecraft.world.level.block.EndPortalFrameBlock.HAS_EYE)) {
+                level.setBlock(pos, state.setValue(net.minecraft.world.level.block.EndPortalFrameBlock.HAS_EYE, true), 3);
+                level.playSound(null, pos, net.minecraft.sounds.SoundEvents.END_PORTAL_FRAME_FILL,
+                    net.minecraft.sounds.SoundSource.BLOCKS, 1.0F, 1.0F);
+                net.minecraft.world.entity.player.Player player = context.getPlayer();
+                if (player == null || !player.getAbilities().instabuild) {
+                    context.getItemInHand().shrink(1);
+                }
+                callback.setReturnValue(InteractionResult.sidedSuccess(level.isClientSide()));
+                return;
+            }
+        }
+
         if (Features.active(Feature.INERT_END_PORTAL)) {
             callback.setReturnValue(InteractionResult.PASS);
         }

@@ -312,6 +312,24 @@ public enum Feature {
     /** No brewing. */
     NO_BREWING(Domain.ITEMS, FeatureWindow.before(Milestones.BETA_1_9_PRE_3),
         "Brewing is functional from Beta 1.9 Prerelease 3. Prerelease 2 carries a cauldron-based prototype with no ordinary block id."),
+    /** The Ender Dragon does not exist yet: Beta 1.9 Prerelease 4 and 5 have the End, the island and the pillars. */
+    NO_ENDER_DRAGON(Domain.COMBAT, FeatureWindow.before(Milestones.BETA_1_9_PRE_6),
+        "The Ender Dragon arrives in Beta 1.9 Prerelease 6. minecraft.wiki, Ender Dragon history: added in Beta 1.9 "
+        + "Prerelease 6, and the End itself arrived in Prerelease 4 with the central island and the obsidian pillars, "
+        + "so Pre4 and Pre5 have an empty End. The era audit found no spawn suppression existed, so both builds had a "
+        + "live dragon and Pre6 lost its milestone."),
+
+    /**
+     * Prerelease 3's End frame behaviour: an eye of ender CAN be placed into a frame, and nothing further happens.
+     *
+     * <p>minecraft.wiki, End Portal Frame history: the frame and eye of ender are Prerelease 3; the portal itself
+     * does not function until Prerelease 4. So the eye is consumed and the frame fills, and a completed ring stays
+     * inert - which is what "nothing further occurs" describes.
+     */
+    END_FRAME_EYE_REPAIR(Domain.BLOCKS, FeatureWindow.between(Milestones.BETA_1_9_PRE_3, Milestones.BETA_1_9_PRE_4),
+        "Eye of ender placement works from Beta 1.9 Prerelease 3, while the portal block has no function until "
+        + "Prerelease 4."),
+
     /** Inert end portal. */
     INERT_END_PORTAL(Domain.BLOCKS, FeatureWindow.before(Milestones.BETA_1_9_PRE_4),
         "The End portal does nothing when completed before Beta 1.9 Prerelease 4: Prerelease 3 adds the frame and eye of ender but the portal block has no function."),

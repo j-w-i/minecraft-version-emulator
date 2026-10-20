@@ -340,6 +340,15 @@ class HistoricalTextureRulesTest {
         String side = "textures/block/end_portal_frame_side.png";
         assertEquals(TextureSource.GOLDEN_DAYS_BASE,
             HistoricalTextureRules.planFor(at("beta_1_9_pre_3")).winner(ALL_INSTALLED, MC, side));
+        // Every frame asset, not only the side texture: the four textures AND both models. The filled model matters
+        // because vanilla's own blockstate maps eye=true to block/end_portal_frame_filled, which is why placing an eye
+        // in a Pre3 frame shows the pre-redraw art - verified against the pinned pack's contents and the 1.21.1
+        // client's blockstates/end_portal_frame.json, and pinned here so a future edit to the path set cannot drop it.
+        var pre3 = HistoricalTextureRules.planFor(at("beta_1_9_pre_3"));
+        for (String path : HistoricalTextureRules.END_PORTAL_FRAME_PATHS) {
+            assertEquals(TextureSource.GOLDEN_DAYS_BASE, pre3.winner(ALL_INSTALLED, MC, path),
+                "Prerelease 3 must draw the frame from Golden Days: " + path);
+        }
         for (String id : new String[] {"beta_1_9_pre_4", "beta_1_9_pre_6", "release_1_0_0", "release_1_2_5"}) {
             var plan = HistoricalTextureRules.planFor(at(id));
             assertFalse(plan.serves(TextureSource.GOLDEN_DAYS_BASE, MC, side), id);
