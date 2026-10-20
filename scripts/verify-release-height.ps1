@@ -35,7 +35,7 @@ param(
     [string] $LevelType = 'historical_experience:release_1_2_5',
     [int] $ExpectedMinY = 0,
     [int] $ExpectedMaxY = 255,
-    [string] $WorldName = 'heightprobe',
+    [string] $WorldName = '',
     [int] $RconPort = 25575
 )
 
@@ -43,7 +43,10 @@ $ErrorActionPreference = 'Stop'
 $repo = Split-Path $PSScriptRoot -Parent
 $properties = Join-Path $repo 'run/server.properties'
 $backup = "$properties.bak"
-$log = Join-Path $repo 'run/heightprobe-server.log'
+# One world and one log per probed build, so the evidence for each acceptance cannot overwrite another's.
+$slug = ($LevelType -replace '[^A-Za-z0-9]+', '-').Trim('-').ToLowerInvariant()
+if (-not $WorldName) { $WorldName = "heightprobe-$slug" }
+$log = Join-Path $repo "run/heightprobe-$slug.log"
 
 if (-not (Test-Path $properties)) { throw "No run/server.properties; start the server once first." }
 Copy-Item $properties $backup -Force

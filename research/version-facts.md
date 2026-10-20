@@ -19,7 +19,7 @@
 
 **Drops:** zombie -> feather (0..2); spider -> string (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 4 declared direct heals: {minecraft:porkchop=3, minecraft:bread=5, minecraft:cooked_porkchop=8, minecraft:mushroom_stew=10}
+**Food:** 4 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:mushroom_stew=10, minecraft:porkchop=3, minecraft:bread=5}
 
 **Enchantments:** none
 
@@ -47,7 +47,7 @@
 
 **Drops:** zombie -> feather (0..2); spider -> string (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4, minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -75,7 +75,7 @@
 
 **Drops:** zombie -> feather (0..2); spider -> string (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4, minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -103,7 +103,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4, minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -131,7 +131,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4, minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -159,7 +159,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4, minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -187,7 +187,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4, minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -215,7 +215,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4, minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -243,7 +243,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4, minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -271,7 +271,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4, minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -299,7 +299,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4, minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -327,7 +327,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4, minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -355,7 +355,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4, minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -551,7 +551,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 9 declared direct heals: {minecraft:mushroom_stew=10, minecraft:bread=5, minecraft:cooked_porkchop=8, minecraft:cookie=1, minecraft:porkchop=3, minecraft:apple=4, minecraft:golden_apple=42, minecraft:cod=2, minecraft:cooked_cod=5}
+**Food:** 9 declared direct heals: {minecraft:cookie=1, minecraft:porkchop=3, minecraft:apple=4, minecraft:golden_apple=42, minecraft:cod=2, minecraft:cooked_cod=5, minecraft:mushroom_stew=10, minecraft:bread=5, minecraft:cooked_porkchop=8}
 
 **Enchantments:** none
 
@@ -853,7 +853,7 @@
 
 **Features active (31):** `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `INSTANT_BONE_MEAL`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `OLD_SWORD_BLOCKING`, `BETA_EXHAUSTION_COSTS`, `BETA_REGENERATION`, `BETA_SPRINT_JUMP_EXHAUSTION`, `BETA_FOOD_HUNGER_VALUES`, `BETA_CRITICAL_HIT_FORMULA`, `GOLDEN_APPLE_REGEN_ONE`, `GOLDEN_APPLE_GOLD_NUGGET_RECIPE`, `NO_OFFHAND`, `LEGACY_ENCHANTED_GOLDEN_APPLE`, `OLD_ENDER_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `LEFT_CLICK_USE`, `NO_ATTRIBUTE_TOOLTIPS`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
 
-**Generation recipes:** `historical_experience:release_1_3` (rev 0, from moderner_beta:release_1_2_5, 15 exclusions, 0 ore rules); `historical_experience:release_1_3_no_modern_content` (rev 1, from moderner_beta:release_1_2_5, 33 exclusions, 0 ore rules, experimental); `historical_experience:release_1_3_era_ores` (rev 2, from moderner_beta:release_1_2_5, 50 exclusions, 8 ore rules, experimental); `historical_experience:release_1_3_height_256` (rev 3, from moderner_beta:release_1_2_5, 50 exclusions, 8 ore rules, experimental)
+**Generation recipes:** `historical_experience:release_1_3` (rev 0, from moderner_beta:release_1_2_5, 15 exclusions, 0 ore rules); `historical_experience:release_1_3_no_modern_content` (rev 1, from moderner_beta:release_1_2_5, 33 exclusions, 0 ore rules, experimental); `historical_experience:release_1_3_era_ores` (rev 2, from moderner_beta:release_1_2_5, 50 exclusions, 8 ore rules, experimental); `historical_experience:release_1_3_height_256` (rev 3, from moderner_beta:release_1_2_5, 50 exclusions, 8 ore rules)
 
 **Spawns:** 22 allowed: [minecraft:blaze, minecraft:cave_spider, minecraft:chicken, minecraft:cow, minecraft:creeper, minecraft:enderman, minecraft:ghast, minecraft:iron_golem, minecraft:magma_cube, minecraft:mooshroom, minecraft:ocelot, minecraft:pig, minecraft:sheep, minecraft:silverfish, minecraft:skeleton, minecraft:slime, minecraft:spider, minecraft:squid, minecraft:villager, minecraft:wolf, minecraft:zombie, minecraft:zombified_piglin]
 
@@ -881,7 +881,7 @@
 
 **Features active (25):** `NO_BABY_ZOMBIES`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `INSTANT_BONE_MEAL`, `ORE_DROPS_AS_BLOCKS`, `OLD_SWORD_BLOCKING`, `BETA_EXHAUSTION_COSTS`, `BETA_REGENERATION`, `BETA_SPRINT_JUMP_EXHAUSTION`, `BETA_FOOD_HUNGER_VALUES`, `BETA_CRITICAL_HIT_FORMULA`, `GOLDEN_APPLE_REGEN_ONE`, `GOLDEN_APPLE_GOLD_NUGGET_RECIPE`, `NO_OFFHAND`, `LEGACY_ENCHANTED_GOLDEN_APPLE`, `OLD_ENDER_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `NO_ATTRIBUTE_TOOLTIPS`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
 
-**Generation recipes:** `historical_experience:release_1_4` (rev 0, from moderner_beta:release_1_2_5, 15 exclusions, 0 ore rules); `historical_experience:release_1_4_no_modern_content` (rev 1, from moderner_beta:release_1_2_5, 33 exclusions, 0 ore rules, experimental); `historical_experience:release_1_4_era_ores` (rev 2, from moderner_beta:release_1_2_5, 50 exclusions, 8 ore rules, experimental); `historical_experience:release_1_4_height_256` (rev 3, from moderner_beta:release_1_2_5, 50 exclusions, 8 ore rules, experimental)
+**Generation recipes:** `historical_experience:release_1_4` (rev 0, from moderner_beta:release_1_2_5, 15 exclusions, 0 ore rules); `historical_experience:release_1_4_no_modern_content` (rev 1, from moderner_beta:release_1_2_5, 33 exclusions, 0 ore rules, experimental); `historical_experience:release_1_4_era_ores` (rev 2, from moderner_beta:release_1_2_5, 50 exclusions, 8 ore rules, experimental); `historical_experience:release_1_4_height_256` (rev 3, from moderner_beta:release_1_2_5, 50 exclusions, 8 ore rules)
 
 **Spawns:** 26 allowed: [minecraft:bat, minecraft:blaze, minecraft:cave_spider, minecraft:chicken, minecraft:cow, minecraft:creeper, minecraft:enderman, minecraft:ghast, minecraft:iron_golem, minecraft:magma_cube, minecraft:mooshroom, minecraft:ocelot, minecraft:pig, minecraft:sheep, minecraft:silverfish, minecraft:skeleton, minecraft:slime, minecraft:spider, minecraft:squid, minecraft:villager, minecraft:witch, minecraft:wither_skeleton, minecraft:wolf, minecraft:zombie, minecraft:zombie_villager, minecraft:zombified_piglin]
 
@@ -909,7 +909,7 @@
 
 **Features active (23):** `NO_BABY_ZOMBIES`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `ORE_DROPS_AS_BLOCKS`, `OLD_SWORD_BLOCKING`, `BETA_EXHAUSTION_COSTS`, `BETA_REGENERATION`, `BETA_SPRINT_JUMP_EXHAUSTION`, `BETA_FOOD_HUNGER_VALUES`, `BETA_CRITICAL_HIT_FORMULA`, `GOLDEN_APPLE_REGEN_ONE`, `GOLDEN_APPLE_GOLD_NUGGET_RECIPE`, `NO_OFFHAND`, `LEGACY_ENCHANTED_GOLDEN_APPLE`, `OLD_ENDER_CHEST_MODEL`, `NO_RECIPE_BOOK`, `NO_ATTRIBUTE_TOOLTIPS`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
 
-**Generation recipes:** `historical_experience:release_1_5` (rev 0, from moderner_beta:release_1_2_5, 15 exclusions, 0 ore rules); `historical_experience:release_1_5_no_modern_content` (rev 1, from moderner_beta:release_1_2_5, 32 exclusions, 0 ore rules, experimental); `historical_experience:release_1_5_era_ores` (rev 2, from moderner_beta:release_1_2_5, 49 exclusions, 8 ore rules, experimental); `historical_experience:release_1_5_height_256` (rev 3, from moderner_beta:release_1_2_5, 49 exclusions, 8 ore rules, experimental)
+**Generation recipes:** `historical_experience:release_1_5` (rev 0, from moderner_beta:release_1_2_5, 15 exclusions, 0 ore rules); `historical_experience:release_1_5_no_modern_content` (rev 1, from moderner_beta:release_1_2_5, 32 exclusions, 0 ore rules, experimental); `historical_experience:release_1_5_era_ores` (rev 2, from moderner_beta:release_1_2_5, 49 exclusions, 8 ore rules, experimental); `historical_experience:release_1_5_height_256` (rev 3, from moderner_beta:release_1_2_5, 49 exclusions, 8 ore rules)
 
 **Spawns:** 26 allowed: [minecraft:bat, minecraft:blaze, minecraft:cave_spider, minecraft:chicken, minecraft:cow, minecraft:creeper, minecraft:enderman, minecraft:ghast, minecraft:iron_golem, minecraft:magma_cube, minecraft:mooshroom, minecraft:ocelot, minecraft:pig, minecraft:sheep, minecraft:silverfish, minecraft:skeleton, minecraft:slime, minecraft:spider, minecraft:squid, minecraft:villager, minecraft:witch, minecraft:wither_skeleton, minecraft:wolf, minecraft:zombie, minecraft:zombie_villager, minecraft:zombified_piglin]
 
@@ -937,7 +937,7 @@
 
 **Features active (19):** `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `ORE_DROPS_AS_BLOCKS`, `OLD_SWORD_BLOCKING`, `BETA_EXHAUSTION_COSTS`, `BETA_REGENERATION`, `GOLDEN_APPLE_SIX_ONE_EFFECTS`, `GOLDEN_APPLE_GOLD_NUGGET_RECIPE`, `NO_OFFHAND`, `LEGACY_ENCHANTED_GOLDEN_APPLE`, `ENCHANTED_GOLDEN_APPLE_ABSORPTION`, `OLD_ENDER_CHEST_MODEL`, `NO_RECIPE_BOOK`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
 
-**Generation recipes:** `historical_experience:release_1_6_4` (rev 0, from moderner_beta:release_1_6_4, 15 exclusions, 0 ore rules); `historical_experience:release_1_6_4_no_modern_content` (rev 1, from moderner_beta:release_1_6_4, 32 exclusions, 0 ore rules, experimental); `historical_experience:release_1_6_4_era_ores` (rev 2, from moderner_beta:release_1_6_4, 49 exclusions, 8 ore rules, experimental); `historical_experience:release_1_6_4_height_256` (rev 3, from moderner_beta:release_1_6_4, 49 exclusions, 8 ore rules, experimental)
+**Generation recipes:** `historical_experience:release_1_6_4` (rev 0, from moderner_beta:release_1_6_4, 15 exclusions, 0 ore rules); `historical_experience:release_1_6_4_no_modern_content` (rev 1, from moderner_beta:release_1_6_4, 32 exclusions, 0 ore rules, experimental); `historical_experience:release_1_6_4_era_ores` (rev 2, from moderner_beta:release_1_6_4, 49 exclusions, 8 ore rules, experimental); `historical_experience:release_1_6_4_height_256` (rev 3, from moderner_beta:release_1_6_4, 49 exclusions, 8 ore rules)
 
 **Spawns:** 28 allowed: [minecraft:bat, minecraft:blaze, minecraft:cave_spider, minecraft:chicken, minecraft:cow, minecraft:creeper, minecraft:donkey, minecraft:enderman, minecraft:ghast, minecraft:horse, minecraft:iron_golem, minecraft:magma_cube, minecraft:mooshroom, minecraft:ocelot, minecraft:pig, minecraft:sheep, minecraft:silverfish, minecraft:skeleton, minecraft:slime, minecraft:spider, minecraft:squid, minecraft:villager, minecraft:witch, minecraft:wither_skeleton, minecraft:wolf, minecraft:zombie, minecraft:zombie_villager, minecraft:zombified_piglin]
 

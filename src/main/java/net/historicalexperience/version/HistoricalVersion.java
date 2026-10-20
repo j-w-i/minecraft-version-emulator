@@ -130,10 +130,15 @@ public record HistoricalVersion(
      *
      * <p>Deliberately a small, explicit, reviewed list rather than a judgement inside the constructor. An alias joins
      * it when a dedicated server has generated a world on it and the probe named in its evidence passed; the list is
-     * what a reviewer checks, so accepting a revision is a visible act.
+     * what a reviewer checks, so accepting a revision is a visible act. All five 256-height revisions joined it after
+     * `scripts/verify-release-height.ps1` reported 0..255 buildable and y=256/y=-1 out of world for each build.
      */
     public static final java.util.Set<String> ACCEPTED_REVISIONS = java.util.Set.of(
-        "historical_experience:release_1_2_5_height_256");
+        "historical_experience:release_1_2_5_height_256",
+        "historical_experience:release_1_3_height_256",
+        "historical_experience:release_1_4_height_256",
+        "historical_experience:release_1_5_height_256",
+        "historical_experience:release_1_6_4_height_256");
 
     /** All owned recipe aliases of this version. */
     public Set<String> revisionAliases() {

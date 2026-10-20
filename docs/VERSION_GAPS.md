@@ -20,7 +20,7 @@ The full evidence for every finding stays in the four era documents:
 | **A-12** arrows | Modern flint recipe in every Alpha build | Iron-tip recipe `[v1.0.1, v1.0.14)` with the modern one refused | `ArrowAndWoolRecipeTest` |
 | **A-13** wool | Four-string recipe throughout Alpha and Beta | Nine-string recipe `[v1.0.1, Beta 1.7)` | `ArrowAndWoolRecipeTest` |
 | **A-14** cloth armour | v1.0.1/1.0.4/1.0.6 had **no craftable armour** (leather needs cows, which do not exist yet) | Four wool armour recipes `[v1.0.1, v1.0.8)`, leather shapes refused | `ClothArmourTest` |
-| **G8** Release height | Every Release world was 128 tall; 1.2.1 raised the limit to 256 | New 0..256 dimension type plus an appended `_height_256` generation revision for 1.2.5/1.3/1.4/1.5/1.6.4, wired through settings mirrors and world presets; 1.0/1.1 stay 128. **Release 1.2.5's revision is ACCEPTED after a runtime probe** (`scripts/verify-release-height.ps1`: y=0..255 buildable, y=256 and y=-1 out of world, and `/hex status` naming the revision in all three generator slots); the other four stay experimental until probed the same way | `ReleaseHeightTest`, `scripts/verify-release-height.ps1` |
+| **G8** Release height | Every Release world was 128 tall; 1.2.1 raised the limit to 256 | New 0..256 dimension type plus an appended `_height_256` generation revision for 1.2.5/1.3/1.4/1.5/1.6.4, wired through settings mirrors and world presets; 1.0/1.1 stay 128. **all five revisions are ACCEPTED after runtime probes** (`scripts/verify-release-height.ps1`, run per build: y=0/y=1/y=255 buildable and y=256/y=-1 out of world, with `/hex status` naming the height revision in all three generator slots) | `ReleaseHeightTest`, `scripts/verify-release-height.ps1` |
 | **G9** geared mobs | Gates proxied by 1.6.4, so 1.4/1.5 had no geared monsters | Windows end at Release 1.4 (the 1.4.2 baseline); baby zombies keep their correct 1.6.2 proxy | `ReleaseGearedMobsAndToolsTest` |
 | **G10** End | Dragon existed from Pre4; Pre3 could not place eyes at all | No dragon before Pre6; Pre3 fills frames without opening the portal | `EndBoundariesTest` |
 | **G11** Pre2/Pre3 shift | Breeding/tempting gated at Pre3; Pre1/Pre2 content dated Pre3; nether wart/end stone dated Release 1.0 | Breeding and tempting to Pre2; Pre1's blocks and Pre2's potion ingredients to their builds; nether wart Pre1, end stone Pre4 | `Pre2Pre3BoundaryTest` |
@@ -61,7 +61,6 @@ The full evidence for every finding stays in the four era documents:
 
 | Item | What is missing |
 | --- | --- |
-| The other four 256-height revisions (1.3, 1.4, 1.5, 1.6.4) | The same probe run on each; Release 1.2.5 is already accepted and verified |
 | Client mixins (debug coordinates, and any presentation-only hook) | A client launch: a dedicated server never loads those classes |
 | Mixin-application claims generally | A dedicated-server boot is the check, and it has already caught two real defects the tests could not (an invalid injection on a void method, and a wrong descriptor) |
 

@@ -1,3 +1,30 @@
+# Current work — 2026-10-21 / Gap 17: all five 256-height revisions are runtime-verified and accepted
+
+The previous round accepted Release 1.2.5 only. This round ran the same probe for the other four builds:
+
+| Build probed | Result |
+| --- | --- |
+| Release 1.3 | PASS 0..255 (y=0/1/255 changed, y=256 and y=-1 out of world) |
+| Release 1.4 | PASS 0..255 |
+| Release 1.5 | PASS 0..255 |
+| Release 1.6.4 | PASS 0..255 |
+
+Each ran `scripts/verify-release-height.ps1 -LevelType historical_experience:<build>`, which boots a dedicated server on
+that build's world preset, force-loads a chunk and asks the server itself. `HistoricalVersion.ACCEPTED_REVISIONS` now
+holds all five height aliases and the `_height_256` revisions are no longer marked experimental.
+
+The script was also improved: it derives a per-build world and log name from the level type, so one build's evidence
+cannot overwrite another's (`run/heightprobe-<slug>.log`). The 1.5 and 1.6.4 probes were run after that improvement and
+have per-build logs; 1.2.5/1.3/1.4 used the single log path before it, and the script reproduces any of them on demand.
+
+**Evidence:** `./gradlew cleanTest test` - **802 tests, 0 failures**; probes exit 0 with PASS transcripts; golden, matrix
+and facts regenerated; `run/server.properties` restored by the script each time.
+
+**Still open:** client-launch verification for the client mixins; and the status board's evidence-missing /
+mechanism-missing lists (armour formulas, spawn weights, XP curve, potions, achievements, Pre3 item form, slab counts,
+boats/maps/signs, AI).
+
+---
 # Current work — 2026-10-21 / Gap 16: the 256-height revision is VERIFIED at runtime, and acceptance becomes expressible
 
 The audit item G8 was implemented a few rounds ago but only unit-tested. This round generated a real world on it and
