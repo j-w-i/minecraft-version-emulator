@@ -73,11 +73,14 @@ class FeatureBoundaryTest {
         BETWEEN.put(Feature.END_FRAME_EYE_REPAIR, new String[] {P + "beta_1_9_pre_3", P + "beta_1_9_pre_4"});
         BEFORE.put(Feature.NO_ANIMAL_TEMPTING, P + "beta_1_9_pre_2");
         BEFORE.put(Feature.NO_BABY_ANIMALS, P + "beta_1_9_pre_3");
-        // Release 1.4.2 and 1.6.2 are not declared; Release 1.6.4 is the proxy for all four.
-        for (Feature f : List.of(Feature.NO_MONSTER_ITEM_PICKUP, Feature.NO_MONSTER_GEAR, Feature.NO_MONSTER_ENCHANTS,
-            Feature.NO_BABY_ZOMBIES)) {
-            BEFORE.put(f, P + "release_1_6_4");
+        // Release 1.4.2 is not declared, but Release 1.4 IS its stable baseline, so it is the boundary rather than
+        // Release 1.6.4 - the audit found the old proxy left 1.4 and 1.5 without geared monsters.
+        for (Feature f : List.of(Feature.NO_MONSTER_ITEM_PICKUP, Feature.NO_MONSTER_GEAR,
+            Feature.NO_MONSTER_ENCHANTS)) {
+            BEFORE.put(f, P + "release_1_4");
         }
+        // Baby zombies are Release 1.6.2, which is not declared; Release 1.6.4 is the only declared build after it.
+        BEFORE.put(Feature.NO_BABY_ZOMBIES, P + "release_1_6_4");
         BEFORE.put(Feature.PUNCH_SHEARS, P + "beta_1_7_3");
         BEFORE.put(Feature.PUNCH_TNT, P + "beta_1_7_3");
         BEFORE.put(Feature.OLD_TOOL_DURABILITY, P + "beta_1_2");

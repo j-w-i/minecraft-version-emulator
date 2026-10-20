@@ -85,18 +85,21 @@ public enum Feature {
     NO_BABY_ANIMALS(Domain.MOBS, FeatureWindow.before(Milestones.BETA_1_9_PRE_3),
         "Baby animals arrive in Beta 1.9 Prerelease 3, so Prerelease 3 itself has them. Upstream tweak: DISABLE_BABY_ANIMAL_SPAWNING."),
     /** No monster item pickup. */
-    NO_MONSTER_ITEM_PICKUP(Domain.MOBS, FeatureWindow.before(Milestones.RELEASE_1_6_4),
-        "Monsters picking dropped items up is 1.4.2 (12w32a/12w34b). Every declared version before "
-                        + "Release 1.6.4 predates it; Release 1.6.4 does not. Upstream tweak: "
+    NO_MONSTER_ITEM_PICKUP(Domain.MOBS, FeatureWindow.before(Milestones.RELEASE_1_4),
+        "Monsters picking dropped items up is 1.4.2 (12w32a/12w34b), and this project's Release 1.4 profile IS the "
+                        + "1.4.2 stable baseline, so Release 1.4 and later keep it. It used to be proxied by Release 1.6.4, "
+                        + "which the 2026-10-21 audit found left Release 1.4 and 1.5 without it. Upstream tweak: "
                         + "DISABLE_MONSTER_ITEM_PICKUP."),
     /** No monster gear. */
-    NO_MONSTER_GEAR(Domain.MOBS, FeatureWindow.before(Milestones.RELEASE_1_6_4),
-        "Mobs spawning with armour and weapons is 1.4.2 as well, having existed before Indev "
-                        + "20100202 and been removed. Upstream tweak: DISABLE_MONSTER_ITEM_SPAWN."),
+    NO_MONSTER_GEAR(Domain.MOBS, FeatureWindow.before(Milestones.RELEASE_1_4),
+        "Mobs spawning with armour and weapons is 1.4.2, having existed before Indev 20100202 and been removed; "
+                        + "this project's Release 1.4 profile is that baseline. Upstream tweak: "
+                        + "DISABLE_MONSTER_ITEM_SPAWN."),
     /** No monster enchants. */
-    NO_MONSTER_ENCHANTS(Domain.MOBS, FeatureWindow.before(Milestones.RELEASE_1_6_4),
+    NO_MONSTER_ENCHANTS(Domain.MOBS, FeatureWindow.before(Milestones.RELEASE_1_4),
         "Mobs spawning with enchanted gear is Release 1.4.2 (12w32a), the same boundary as the armour "
-                        + "and weapons themselves, proxied by Release 1.6.4. Upstream tweak: "
+                        + "and weapons themselves; the Release 1.4 profile is that baseline, not the old Release 1.6.4 proxy. "
+                        + "Upstream tweak: "
                         + "DISABLE_MONSTER_ENCHANT_SPAWN."),
     /** No baby zombies. */
     NO_BABY_ZOMBIES(Domain.MOBS, FeatureWindow.before(Milestones.RELEASE_1_6_4),

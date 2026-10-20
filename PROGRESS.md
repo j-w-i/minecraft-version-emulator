@@ -1,3 +1,25 @@
+# Current work — 2026-10-21 / Gap 10: geared monsters from Release 1.4, compass/clock dates (G9, A-10)
+
+**G9 - geared monsters.** Armour, weapons, item pickup and spawn enchantments for monsters all arrive in Release 1.4.2
+(12w32a), and this project's Release 1.4 profile IS the 1.4.2 stable baseline. The three gates were proxied by Release
+1.6.4, so Release 1.4 and 1.5 spawned ungeared monsters while 1.6.4 stood in for a boundary it is not. Windows moved to
+`before(RELEASE_1_4)`, evidence strings rewritten to say so (they still described the old proxy), and the boundary test
+corrected. Baby zombies are a different boundary - Release 1.6.2, whose only declared successor is 1.6.4 - so that prox
+is correct and was left alone; the test now asserts the two cases separately.
+
+**A-10 - compass and clock.** Both sat in the allow-list's `always()`, so they were craftable from Alpha v1.0.1, while
+the project's own creative catalogue dates compass to Alpha v1.1.0 and clock to Alpha v1.2.0. Moved out of `always()`
+to `from("alpha_1_1_0", "compass")` and `from("alpha_1_2_0", "clock")`, so the two tables now agree.
+
+**Evidence:** `./gradlew test` - **794 tests, 0 failures**. `ReleaseGearedMobsAndToolsTest` pins both boundary
+directions and the three crafting dates; golden, matrix and facts regenerated.
+
+**Still open from the audits' Release-era list:** the player damage +1 bug in Beta 1.5-1.7.3, cookie stacking from Beta
+1.4, cake healing, potion strengths, the XP curve and its sources, achievements as modern advancements, block-break
+delay, boats, maps, signs, the F3 overlay, the stone-slab item substitution, slab/ladder/plate output counts,
+`redstone_lamp` in Release 1.2.5, and the Pre3 item form of the End portal frame.
+
+---
 # Current work — 2026-10-21 / Gap 9: the End's boundaries, and the Pre3 frame's art
 
 **Both End boundaries implemented (audit G10):**

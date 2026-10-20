@@ -42,8 +42,8 @@ Oldest first. *Rules* are the version's own data (hunger, sprinting, experience,
 | `historical_experience:release_1_1` | RELEASE | 601100 | 3 | hunger, sprinting, experience, structures | 33 of 89 | 20 allowed |
 | `historical_experience:release_1_2_5` | RELEASE | 601205 | 4 | hunger, sprinting, experience, structures | 31 of 89 | 22 allowed |
 | `historical_experience:release_1_3` | RELEASE | 601300 | 4 | hunger, sprinting, experience, structures, 8 drop rules | 31 of 89 | 22 allowed |
-| `historical_experience:release_1_4` | RELEASE | 601400 | 4 | hunger, sprinting, experience, structures | 28 of 89 | 26 allowed |
-| `historical_experience:release_1_5` | RELEASE | 601500 | 4 | hunger, sprinting, experience, structures | 26 of 89 | 26 allowed |
+| `historical_experience:release_1_4` | RELEASE | 601400 | 4 | hunger, sprinting, experience, structures | 25 of 89 | 26 allowed |
+| `historical_experience:release_1_5` | RELEASE | 601500 | 4 | hunger, sprinting, experience, structures | 23 of 89 | 26 allowed |
 | `historical_experience:release_1_6_4` | RELEASE | 601604 | 4 | hunger, sprinting, experience, structures | 19 of 89 | 28 allowed |
 
 ## 2. Which features apply where
@@ -60,9 +60,9 @@ Oldest first. *Rules* are the version's own data (hunger, sprinting, experience,
 | `NO_ANIMAL_BREEDING` | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | | | | | | | | | | | | |
 | `NO_ANIMAL_TEMPTING` | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | | | | | | | | | | | | |
 | `NO_BABY_ANIMALS` | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | | | | | | | | | | | |
-| `NO_MONSTER_ITEM_PICKUP` | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | |
-| `NO_MONSTER_GEAR` | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | |
-| `NO_MONSTER_ENCHANTS` | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | |
+| `NO_MONSTER_ITEM_PICKUP` | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | | | |
+| `NO_MONSTER_GEAR` | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | | | |
+| `NO_MONSTER_ENCHANTS` | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | | | |
 | `NO_BABY_ZOMBIES` | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | |
 | `NO_ATTACK_COOLDOWN` | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # |
 | `NO_SWEEP_ATTACK` | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # |
@@ -156,9 +156,9 @@ Active when any window contains the version. `[from, until)` is half-open; `exac
 | `NO_ANIMAL_BREEDING` | MOBS | [-inf, Beta 1.9 Prerelease 2) | Animal breeding AND tempting arrive together in Beta 1.9 Prerelease 2, so Beta 1.8.1 had neither. Baby animals are Beta 1.9 Prerelease 3. Upstream tweaks: DISABLE_ANIMAL_BREEDING, DISABLE_ANIMAL_TEMPTING, DISABLE_BABY_ANIMAL_SPAWNING. This is a PORT: an earlier note here called it a project rule after a worklist search found nothing, but the worklist is a 200-row subset of the research and the timeline itself names the tweak under the feature 'animal breeding'. |
 | `NO_ANIMAL_TEMPTING` | MOBS | [-inf, Beta 1.9 Prerelease 2) | Animals following a player who holds food arrives with breeding in Beta 1.9 Prerelease 2. The audit corrected this window: it was gated at Prerelease 3 although its own evidence dated tempting to Prerelease 2. Upstream tweak: DISABLE_ANIMAL_TEMPTING. |
 | `NO_BABY_ANIMALS` | MOBS | [-inf, Beta 1.9 Prerelease 3) | Baby animals arrive in Beta 1.9 Prerelease 3, so Prerelease 3 itself has them. Upstream tweak: DISABLE_BABY_ANIMAL_SPAWNING. |
-| `NO_MONSTER_ITEM_PICKUP` | MOBS | [-inf, Release 1.6.4) | Monsters picking dropped items up is 1.4.2 (12w32a/12w34b). Every declared version before Release 1.6.4 predates it; Release 1.6.4 does not. Upstream tweak: DISABLE_MONSTER_ITEM_PICKUP. |
-| `NO_MONSTER_GEAR` | MOBS | [-inf, Release 1.6.4) | Mobs spawning with armour and weapons is 1.4.2 as well, having existed before Indev 20100202 and been removed. Upstream tweak: DISABLE_MONSTER_ITEM_SPAWN. |
-| `NO_MONSTER_ENCHANTS` | MOBS | [-inf, Release 1.6.4) | Mobs spawning with enchanted gear is Release 1.4.2 (12w32a), the same boundary as the armour and weapons themselves, proxied by Release 1.6.4. Upstream tweak: DISABLE_MONSTER_ENCHANT_SPAWN. |
+| `NO_MONSTER_ITEM_PICKUP` | MOBS | [-inf, Release 1.4) | Monsters picking dropped items up is 1.4.2 (12w32a/12w34b), and this project's Release 1.4 profile IS the 1.4.2 stable baseline, so Release 1.4 and later keep it. It used to be proxied by Release 1.6.4, which the 2026-10-21 audit found left Release 1.4 and 1.5 without it. Upstream tweak: DISABLE_MONSTER_ITEM_PICKUP. |
+| `NO_MONSTER_GEAR` | MOBS | [-inf, Release 1.4) | Mobs spawning with armour and weapons is 1.4.2, having existed before Indev 20100202 and been removed; this project's Release 1.4 profile is that baseline. Upstream tweak: DISABLE_MONSTER_ITEM_SPAWN. |
+| `NO_MONSTER_ENCHANTS` | MOBS | [-inf, Release 1.4) | Mobs spawning with enchanted gear is Release 1.4.2 (12w32a), the same boundary as the armour and weapons themselves; the Release 1.4 profile is that baseline, not the old Release 1.6.4 proxy. Upstream tweak: DISABLE_MONSTER_ENCHANT_SPAWN. |
 | `NO_BABY_ZOMBIES` | MOBS | [-inf, Release 1.6.4) | Baby zombies spawning naturally is Release 1.6.2 (feature-timeline mechanics row "baby zombies spawning naturally"), proxied by Release 1.6.4 as the only declared version after it. Baby zombified piglins share the same date and the same hook. Upstream tweaks: DISABLE_BABY_ZOMBIE_SPAWN, DISABLE_BABY_PIGLIN_SPAWN. |
 | `NO_ATTACK_COOLDOWN` | COMBAT | all declared | The 1.9 attack cooldown: attacks are always at full strength. Every declared version predates Release 1.9, so the window is every declared version. Upstream tweak: DISABLE_ATTACK_COOLDOWN. |
 | `NO_SWEEP_ATTACK` | COMBAT | all declared | The 1.9 sweep attack: hitting one target never damages the ones beside it. Every declared version predates Release 1.9. |

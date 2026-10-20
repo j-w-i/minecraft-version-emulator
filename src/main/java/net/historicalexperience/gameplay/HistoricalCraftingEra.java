@@ -95,7 +95,7 @@ public final class HistoricalCraftingEra {
         // ---- Present in every declared build (Classic/Indev/Infdev content) --------------------------------
         always("oak_planks", "stick", "crafting_table", "chest", "furnace", "torch", "ladder", "oak_door",
             "oak_stairs", "cobblestone_stairs", "oak_fence", "oak_sign", "tnt", "stone_slab", "bookshelf",
-            "compass", "clock", "painting", "bow", "arrow", "bucket", "bowl", "mushroom_stew", "bread",
+            "painting", "bow", "arrow", "bucket", "bowl", "mushroom_stew", "bread",
             "flint_and_steel", "coal", "diamond", "iron_ingot", "gold_ingot", "redstone", "white_wool",
             "diamond_block", "iron_block", "gold_block");
         for (String tier : List.of("wooden", "stone", "iron", "golden", "diamond")) {
@@ -114,6 +114,10 @@ public final class HistoricalCraftingEra {
         from("alpha_1_0_1", "minecart", "iron_door", "lever", "stone_button", "stone_pressure_plate", "oak_pressure_plate",
             "redstone_torch", "rail");
         from("alpha_1_0_4", "snow_block");
+        // Compass is Alpha 1.1.0 and clock is Alpha 1.2.0: the creative catalogue already dates them that way, and
+        // they used to sit in always(), so both were craftable from Alpha 1.0.1 (audit A-10).
+        from("alpha_1_1_0", "compass");
+        from("alpha_1_2_0", "clock");
         from("alpha_1_0_6", "oak_boat");
         from("alpha_1_0_11", "paper", "book", "clay", "bricks");
         from("alpha_1_0_14", "jukebox", "chest_minecart", "furnace_minecart");
