@@ -1,3 +1,24 @@
+# Current work — 2026-10-21 / Runtime round 2: both potion strengths measured, with a control
+
+Last round measured the brew clock. This round measured the two constants the potion-strength mixins change, and the one
+they must not, using a cow as a readable health bar (`/data get entity ... Health`), no player needed:
+
+| Probe | Release 1.5 (gated) | Release 1.6.4 (modern) | wiki expectation |
+| --- | --- | --- | --- |
+| Cow at 2 HP + Instant Health I | **8 HP** (+6) | **6 HP** (+4) | 6 before 1.6.1, 4 after |
+| Cow at 2 HP, Regeneration I, six seconds | **7 HP** (+5) | **4 HP** (+2) | 25-tick vs 50-tick base |
+| Cow at 10 HP + Instant Damage I (control) | **4 HP** (-6) | **4 HP** (-6) | unchanged by the nerf |
+
+The control matters more than the other two: the class shares its health (4) and damage (6) constants, and the whole
+point of targeting only the 4 was to leave Instant Damage alone. It did.
+
+Two probe mistakes were mine and are recorded in the previous entry's spirit: the instant-health cattle had to be
+summoned with `NoAI:1b` and a fixed `Health:2.0f` so nothing else moved it, and an early attempt reused a world whose cow
+had already healed, which read as "no change" until the entity was replaced.
+
+Status board and its verification table updated. No code changed; tree clean.
+
+---
 # Current work — 2026-10-21 / Runtime round: the brew-time hook measured on a real server
 
 The newest hooks are mostly not probeable without a scripted player (boat break, cake eating, pressure-plate crafting), but
