@@ -1,3 +1,31 @@
+# Current work — 2026-10-21 / Runtime round: the brew-time hook measured on a real server
+
+The newest hooks are mostly not probeable without a scripted player (boat break, cake eating, pressure-plate crafting), but
+the brewing stand is: its remaining brew ticks are block data.
+
+Probe, over RCON against dedicated servers created from each build's world preset:
+
+1. `setblock 0 100 0 minecraft:brewing_stand`, force-load the chunk;
+2. two `potion[potion_contents={potion:"minecraft:water"}]` in slots 0 and 1, `nether_wart` in slot 3, `blaze_powder` in
+   slot 4 (fuel - without it `BrewTime` never leaves 0, which the first attempt proved);
+3. read `/data get block 0 100 0 BrewTime` at two seconds and six seconds.
+
+Result:
+
+| World | 2 s | 6 s | clock |
+| --- | --- | --- | --- |
+| Release 1.0.0 | **559** | 477 | 600 ticks (30 s) |
+| Release 1.6.4 | **360** | 278 | 400 ticks (20 s) |
+
+Both decrease by 40 ticks per two seconds, and the starting values are the ones the mixin selects, so the 30-second
+pre-Release-1.1 brew time is now measured rather than only unit-tested. Two probe mistakes were mine and are worth
+recording: the first run omitted fuel (`BrewTime` 0), and the second wrote escaped quotes into the item NBT
+(`potion_contents={potion:\"minecraft:water\"}`), so the bottles never went in - the command's own reply ("Replaced a slot
+with [Water Bottle]") is what confirmed the fix.
+
+Status board and its verification table updated with the measurement. No code changed.
+
+---
 # Current work — 2026-10-21 / Test-and-docs audit: every "implemented" row is backed, and the handoff is written down
 
 With the last implementable audit item shipped, this round audited the records themselves rather than adding features:
