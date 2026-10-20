@@ -17,6 +17,10 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -50,17 +54,17 @@ class OffhandBoundaryTest {
     @Test
     void everyDeclaredVersionRefusesTheOffhand() {
         for (HistoricalVersion version : HistoricalVersions.all()) {
-            assertTrue(HistoricalGameplayTweaks.offhandUnavailable(version.id()),
+            assertTrue(Features.active(Feature.NO_OFFHAND, version.id()),
                 version.id() + " (" + version.displayName() + ") predates Release 1.9, so it must have no offhand");
         }
     }
 
     @Test
     void anOrdinaryWorldKeepsItsOffhand() {
-        assertFalse(HistoricalGameplayTweaks.offhandUnavailable(null),
+        assertFalse(Features.active(Feature.NO_OFFHAND, (String) null),
             "a world with no historical metadata is an ordinary world, and removing its offhand would break "
                 + "vanilla play rather than emulate a version");
-        assertFalse(HistoricalGameplayTweaks.offhandUnavailable("historical_experience:no_such_version"),
+        assertFalse(Features.active(Feature.NO_OFFHAND, "historical_experience:no_such_version"),
             "an unresolvable version is not a claim about the offhand");
     }
 

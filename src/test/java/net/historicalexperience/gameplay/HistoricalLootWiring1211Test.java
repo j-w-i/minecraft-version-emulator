@@ -17,6 +17,10 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.historicalexperience.version.DropRule;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -178,30 +182,30 @@ class HistoricalLootWiring1211Test {
         // The boundary is Prerelease 3, corrected by the owner after this rule was first written against the
         // Experience article's History table, which files the same sentence under Prerelease 4. See the long note on
         // HistoricalGameplayTweaks.experienceLevelShown.
-        assertFalse(HistoricalGameplayTweaks.experienceLevelShown("historical_experience:beta_1_8_1"),
+        assertFalse(!Features.active(Feature.HIDDEN_XP_LEVEL, "historical_experience:beta_1_8_1"),
             "Beta 1.8.1 drew the bar and no number");
-        assertFalse(HistoricalGameplayTweaks.experienceLevelShown("historical_experience:beta_1_9_pre_1"),
+        assertFalse(!Features.active(Feature.HIDDEN_XP_LEVEL, "historical_experience:beta_1_9_pre_1"),
             "Prerelease 1 is the build the owner was playing when they reported this");
-        assertFalse(HistoricalGameplayTweaks.experienceLevelShown("historical_experience:beta_1_9_pre_2"));
-        assertTrue(HistoricalGameplayTweaks.experienceLevelShown("historical_experience:beta_1_9_pre_3"),
+        assertFalse(!Features.active(Feature.HIDDEN_XP_LEVEL, "historical_experience:beta_1_9_pre_2"));
+        assertTrue(!Features.active(Feature.HIDDEN_XP_LEVEL, "historical_experience:beta_1_9_pre_3"),
             "Prerelease 3 is where the version page and the owner both put the number");
-        assertTrue(HistoricalGameplayTweaks.experienceLevelShown("historical_experience:beta_1_9_pre_4"));
-        assertTrue(HistoricalGameplayTweaks.experienceLevelShown("historical_experience:beta_1_9_pre_5"));
-        assertTrue(HistoricalGameplayTweaks.experienceLevelShown("historical_experience:release_1_0_0"));
-        assertTrue(HistoricalGameplayTweaks.experienceLevelShown("historical_experience:release_1_6_4"));
+        assertTrue(!Features.active(Feature.HIDDEN_XP_LEVEL, "historical_experience:beta_1_9_pre_4"));
+        assertTrue(!Features.active(Feature.HIDDEN_XP_LEVEL, "historical_experience:beta_1_9_pre_5"));
+        assertTrue(!Features.active(Feature.HIDDEN_XP_LEVEL, "historical_experience:release_1_0_0"));
+        assertTrue(!Features.active(Feature.HIDDEN_XP_LEVEL, "historical_experience:release_1_6_4"));
 
         // Positive predicate, so the modern answer for a world with no historical rules - see the convention on
         // HistoricalGameplayTweaks.functionalEnchanting. Getting this backwards is what switched four features off
         // in ordinary worlds.
-        assertTrue(HistoricalGameplayTweaks.experienceLevelShown(null),
+        assertTrue(!Features.active(Feature.HIDDEN_XP_LEVEL, (String) null),
             "an ordinary world must keep the number");
-        assertTrue(HistoricalGameplayTweaks.experienceLevelShown("moderner_beta:beta"));
-        assertTrue(HistoricalGameplayTweaks.experienceLevelShown("historical_experience:no_such_version"));
+        assertTrue(!Features.active(Feature.HIDDEN_XP_LEVEL, "moderner_beta:beta"));
+        assertTrue(!Features.active(Feature.HIDDEN_XP_LEVEL, "historical_experience:no_such_version"));
 
         // And the two boundaries are independent: the versions that had no experience at all have neither.
         for (String version : new String[] {"historical_experience:beta_1_7_3", "historical_experience:alpha"}) {
             assertTrue(HistoricalLootRules.suppressesExperience(version));
-            assertFalse(HistoricalGameplayTweaks.experienceLevelShown(version),
+            assertFalse(!Features.active(Feature.HIDDEN_XP_LEVEL, version),
                 version + " had no bar and no number");
         }
     }

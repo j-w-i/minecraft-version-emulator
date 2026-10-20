@@ -17,6 +17,10 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -54,7 +58,7 @@ class HistoricalDamageValuesTest {
         // figures and every declared build before it takes the pre-nerf ones.
         for (var version : HistoricalVersions.all()) {
             String id = version.id();
-            boolean beforeNerf = HistoricalGameplayTweaks.swordDamageBeforeReleaseOnePointZero(id);
+            boolean beforeNerf = Features.active(Feature.OLD_SWORD_DAMAGE, id);
             boolean atOrAfterPre3 = id.equals("historical_experience:beta_1_9_pre_3")
                 || version.chronology() > HistoricalGameplayTweaks
                     .swordDamageBeforeReleaseBoundaryChronology();
@@ -78,9 +82,9 @@ class HistoricalDamageValuesTest {
             .swordDamageBeforeReleaseOnePointZero("historical_experience:beta_1_9_pre_4"));
         assertFalse(HistoricalGameplayTweaks
             .swordDamageBeforeReleaseOnePointZero("historical_experience:release_1_6_4"));
-        assertFalse(HistoricalGameplayTweaks.swordDamageBeforeReleaseOnePointZero(null),
+        assertFalse(Features.active(Feature.OLD_SWORD_DAMAGE, (String) null),
             "an unknown world must never be given an era value");
-        assertFalse(HistoricalGameplayTweaks.swordDamageBeforeReleaseOnePointZero("example:not_a_version"));
+        assertFalse(Features.active(Feature.OLD_SWORD_DAMAGE, "example:not_a_version"));
     }
 
     @Test

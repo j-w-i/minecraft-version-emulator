@@ -17,6 +17,10 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -46,7 +50,7 @@ class EnchantingBoundaryTest {
             "historical_experience:beta_1_7_3",
             "historical_experience:beta_1_8_1",
             BETA_1_9_PRE_3)) {
-            assertFalse(HistoricalGameplayTweaks.functionalEnchanting(version),
+            assertFalse(!Features.active(Feature.NO_REAL_ENCHANTING, version),
                 version + " predates functional enchanting; Beta 1.9 Prerelease 3 has the table's interface and "
                     + "no enchantments, which is exactly the state this asserts");
         }
@@ -56,7 +60,7 @@ class EnchantingBoundaryTest {
             "historical_experience:release_1_1",
             "historical_experience:release_1_2_5",
             "historical_experience:release_1_6_4")) {
-            assertTrue(HistoricalGameplayTweaks.functionalEnchanting(version),
+            assertTrue(!Features.active(Feature.NO_REAL_ENCHANTING, version),
                 version + " is Prerelease 4 or later, where enchanting applies enchantments and spends levels");
         }
     }
@@ -70,7 +74,7 @@ class EnchantingBoundaryTest {
 
         // The two gates are deliberately not the same gate: Prerelease 3 has the block without the function.
         assertTrue(HistoricalGameplayTweaks.enchantingTableExists(BETA_1_9_PRE_3)
-                && !HistoricalGameplayTweaks.functionalEnchanting(BETA_1_9_PRE_3),
+                && Features.active(Feature.NO_REAL_ENCHANTING, BETA_1_9_PRE_3),
             "Prerelease 3 must be the version where the table exists and does nothing");
     }
 
@@ -92,12 +96,12 @@ class EnchantingBoundaryTest {
         // nothing" when it is true - so an ordinary world's enchanting table was inert. A null session or an
         // undeclared version is a world with no historical rules; the modern answer is the only safe one. The
         // version-specific boundaries below are unaffected.
-        assertTrue(HistoricalGameplayTweaks.functionalEnchanting(null),
+        assertTrue(!Features.active(Feature.NO_REAL_ENCHANTING, (String) null),
             "an ordinary world must keep a working enchanting table");
-        assertTrue(HistoricalGameplayTweaks.functionalEnchanting("historical_experience:no_such_version"));
-        assertFalse(HistoricalGameplayTweaks.enchantingDisabled(null),
+        assertTrue(!Features.active(Feature.NO_REAL_ENCHANTING, "historical_experience:no_such_version"));
+        assertFalse(Features.active(Feature.NO_ENCHANTING, (String) null),
             "nothing is disabled in a world with no historical version");
-        assertFalse(HistoricalGameplayTweaks.enchantingDisabled("historical_experience:no_such_version"));
+        assertFalse(Features.active(Feature.NO_ENCHANTING, "historical_experience:no_such_version"));
         // `enchantingTableExists` is a different question - whether the BLOCK is obtainable - and is left as it was.
         assertFalse(HistoricalGameplayTweaks.enchantingTableExists(null));
     }

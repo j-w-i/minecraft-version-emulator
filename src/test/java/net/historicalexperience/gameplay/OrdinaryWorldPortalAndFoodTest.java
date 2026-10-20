@@ -17,6 +17,10 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.historicalexperience.version.ActiveVersion;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -50,8 +54,8 @@ class OrdinaryWorldPortalAndFoodTest {
     @DisplayName("an ordinary world keeps the modern Nether and stackable food")
     void ordinaryWorldsKeepTheModernAnswers() {
         for (String ordinary : ORDINARY) {
-            assertTrue(HistoricalGameplayTweaks.netherAvailable(ordinary), "Nether for " + ordinary);
-            assertTrue(HistoricalGameplayTweaks.foodStacks(ordinary), "food stacking for " + ordinary);
+            assertTrue(!Features.active(Feature.NO_NETHER, ordinary), "Nether for " + ordinary);
+            assertTrue(!Features.active(Feature.UNSTACKABLE_FOOD, ordinary), "food stacking for " + ordinary);
         }
     }
 
@@ -60,16 +64,16 @@ class OrdinaryWorldPortalAndFoodTest {
     void sessionPathMatches() {
         // No session at all: a freshly started game or an ordinary world.
         ActiveVersion.clear();
-        assertTrue(HistoricalGameplayTweaks.netherAvailable(ActiveVersion.current()));
-        assertTrue(HistoricalGameplayTweaks.foodStacks(ActiveVersion.current()));
+        assertTrue(!Features.active(Feature.NO_NETHER));
+        assertTrue(!Features.active(Feature.UNSTACKABLE_FOOD));
 
         // Historical world, then back to ordinary (disconnect and rejoin): nothing may leak.
         ActiveVersion.set("historical_experience:alpha_1_0_1");
-        assertFalse(HistoricalGameplayTweaks.netherAvailable(ActiveVersion.current()));
-        assertFalse(HistoricalGameplayTweaks.foodStacks(ActiveVersion.current()));
+        assertFalse(!Features.active(Feature.NO_NETHER));
+        assertFalse(!Features.active(Feature.UNSTACKABLE_FOOD));
         ActiveVersion.set(null);
-        assertTrue(HistoricalGameplayTweaks.netherAvailable(ActiveVersion.current()));
-        assertTrue(HistoricalGameplayTweaks.foodStacks(ActiveVersion.current()));
+        assertTrue(!Features.active(Feature.NO_NETHER));
+        assertTrue(!Features.active(Feature.UNSTACKABLE_FOOD));
     }
 
     @Test
@@ -77,9 +81,9 @@ class OrdinaryWorldPortalAndFoodTest {
     void declaredVersionsAreUnchanged() {
         for (HistoricalVersion version : HistoricalVersions.all()) {
             assertEquals(version.chronology() >= HistoricalGameplayTweaks.netherBoundaryChronology(),
-                HistoricalGameplayTweaks.netherAvailable(version.id()), "Nether on " + version.id());
+                !Features.active(Feature.NO_NETHER, version.id()), "Nether on " + version.id());
             assertEquals(version.chronology() >= HistoricalGameplayTweaks.preBeta18BoundaryChronology(),
-                HistoricalGameplayTweaks.foodStacks(version.id()), "food stacking on " + version.id());
+                !Features.active(Feature.UNSTACKABLE_FOOD, version.id()), "food stacking on " + version.id());
         }
     }
 }

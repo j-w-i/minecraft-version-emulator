@@ -17,6 +17,10 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -58,15 +62,15 @@ class BlockFallDamageBoundaryTest {
     void theStanceOutlivesTheReduction() {
         String preReleaseThree = "historical_experience:beta_1_9_pre_3";
 
-        assertTrue(HistoricalGameplayTweaks.swordBlockingEnabled(preReleaseThree),
+        assertTrue(Features.active(Feature.OLD_SWORD_BLOCKING, preReleaseThree),
             "Beta 1.9 Prerelease 3 still has the sword block stance");
-        assertFalse(HistoricalGameplayTweaks.blockFallDamageReductionEnabled(preReleaseThree),
+        assertFalse(Features.active(Feature.SWORD_BLOCK_FALL_PROTECTION, preReleaseThree),
             "but not the fall damage reduction, which was removed in Beta 1.9 Prerelease");
     }
 
     @Test
     void ordinaryVersionsGetNeither() {
-        assertFalse(HistoricalGameplayTweaks.blockFallDamageReductionEnabled(null));
-        assertFalse(HistoricalGameplayTweaks.blockFallDamageReductionEnabled("minecraft:overworld"));
+        assertFalse(Features.active(Feature.SWORD_BLOCK_FALL_PROTECTION, (String) null));
+        assertFalse(Features.active(Feature.SWORD_BLOCK_FALL_PROTECTION, "minecraft:overworld"));
     }
 }

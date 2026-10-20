@@ -17,6 +17,10 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.historicalexperience.version.ActiveVersion;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -74,7 +78,7 @@ class OreSelfDropTest {
         String previous = ActiveVersion.current();
         try {
             ActiveVersion.set(versionId);
-            return HistoricalGameplayTweaks.oreDropsAsBlocks();
+            return Features.active(Feature.ORE_DROPS_AS_BLOCKS);
         } finally {
             ActiveVersion.set(previous);
         }

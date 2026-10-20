@@ -17,6 +17,10 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -39,23 +43,23 @@ class PrereleaseProgressionTest {
 
     @Test
     void brewingWorksFromPrereleaseThreeButNotInBetaOnePointEight() {
-        assertFalse(HistoricalGameplayTweaks.functionalBrewing(BETA_1_8_1),
+        assertFalse(!Features.active(Feature.NO_BREWING, BETA_1_8_1),
             "Beta 1.8 has no brewing at all; a stand that brews there is an anachronism");
-        assertTrue(HistoricalGameplayTweaks.functionalBrewing(BETA_1_9_PRE_3),
+        assertTrue(!Features.active(Feature.NO_BREWING, BETA_1_9_PRE_3),
             "Prerelease 3 is the first functional brewing: stand-based, thirty seconds, 25 potions");
 
         for (String preHunger : new String[] {
             "historical_experience:alpha", "historical_experience:beta_1_7_3"}) {
-            assertFalse(HistoricalGameplayTweaks.functionalBrewing(preHunger),
+            assertFalse(!Features.active(Feature.NO_BREWING, preHunger),
                 preHunger + " predates potions entirely");
         }
     }
 
     @Test
     void theEndPortalWorksFromPrereleaseFourButNotAtPrereleaseThree() {
-        assertFalse(HistoricalGameplayTweaks.endPortalFunctional(BETA_1_9_PRE_3),
+        assertFalse(!Features.active(Feature.INERT_END_PORTAL, BETA_1_9_PRE_3),
             "Prerelease 3 adds the portal room, the eye and the frames, and the portal block does nothing");
-        assertFalse(HistoricalGameplayTweaks.endPortalFunctional(BETA_1_8_1),
+        assertFalse(!Features.active(Feature.INERT_END_PORTAL, BETA_1_8_1),
             "Beta 1.8 strongholds have no portal room at all");
 
         for (String release : new String[] {
@@ -63,7 +67,7 @@ class PrereleaseProgressionTest {
             "historical_experience:release_1_1",
             "historical_experience:release_1_2_5",
             "historical_experience:release_1_6_4"}) {
-            assertTrue(HistoricalGameplayTweaks.endPortalFunctional(release),
+            assertTrue(!Features.active(Feature.INERT_END_PORTAL, release),
                 release + " is past Prerelease 4, where the portal activates");
         }
     }
@@ -71,8 +75,8 @@ class PrereleaseProgressionTest {
     @Test
     void theTwoBoundariesAreNotTheSameBoundary() {
         // This is the whole point of the pair: one build where brewing is real and the portal is not.
-        assertTrue(HistoricalGameplayTweaks.functionalBrewing(BETA_1_9_PRE_3)
-                && !HistoricalGameplayTweaks.endPortalFunctional(BETA_1_9_PRE_3),
+        assertTrue(!Features.active(Feature.NO_BREWING, BETA_1_9_PRE_3)
+                && Features.active(Feature.INERT_END_PORTAL, BETA_1_9_PRE_3),
             "Prerelease 3 must be the build where brewing works and the End portal does not. Collapsing these two "
                 + "gates would either give Prerelease 3 a working End or take Prerelease 3's brewing away");
     }
@@ -84,14 +88,14 @@ class PrereleaseProgressionTest {
         // (the brewing stand returns early; the eye of ender returns PASS). They used to answer false for a version
         // they did not know, which switched brewing off and made the eye of ender inert in every ordinary world. See
         // SneakingBoundaryTest for the owner's report of the same defect.
-        assertTrue(HistoricalGameplayTweaks.functionalBrewing(null),
+        assertTrue(!Features.active(Feature.NO_BREWING, (String) null),
             "an ordinary world must keep vanilla brewing");
-        assertTrue(HistoricalGameplayTweaks.endPortalFunctional(null),
+        assertTrue(!Features.active(Feature.INERT_END_PORTAL, (String) null),
             "an ordinary world must keep a working End portal");
-        assertTrue(HistoricalGameplayTweaks.functionalBrewing("historical_experience:no_such_version"));
-        assertTrue(HistoricalGameplayTweaks.endPortalFunctional("historical_experience:no_such_version"));
+        assertTrue(!Features.active(Feature.NO_BREWING, "historical_experience:no_such_version"));
+        assertTrue(!Features.active(Feature.INERT_END_PORTAL, "historical_experience:no_such_version"));
         // And the real boundaries are untouched.
-        assertFalse(HistoricalGameplayTweaks.functionalBrewing("historical_experience:beta_1_8_1"));
-        assertFalse(HistoricalGameplayTweaks.endPortalFunctional("historical_experience:beta_1_9_pre_3"));
+        assertFalse(!Features.active(Feature.NO_BREWING, "historical_experience:beta_1_8_1"));
+        assertFalse(!Features.active(Feature.INERT_END_PORTAL, "historical_experience:beta_1_9_pre_3"));
     }
 }

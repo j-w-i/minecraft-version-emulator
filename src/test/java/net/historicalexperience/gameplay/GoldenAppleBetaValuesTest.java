@@ -17,6 +17,10 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -61,12 +65,12 @@ class GoldenAppleBetaValuesTest {
         };
 
         for (String version : beforeTheChange) {
-            assertTrue(HistoricalGameplayTweaks.betaGoldenApple(version),
+            assertTrue(Features.active(Feature.BETA_GOLDEN_APPLE, version),
                 version + " predates Release 1.1, so it carries the 10-hunger regenerating form");
         }
 
         for (String version : afterTheChange) {
-            assertFalse(HistoricalGameplayTweaks.betaGoldenApple(version),
+            assertFalse(Features.active(Feature.BETA_GOLDEN_APPLE, version),
                 version + " is Release 1.1 or later, where the golden apple is the 4-hunger form");
         }
     }
@@ -81,7 +85,7 @@ class GoldenAppleBetaValuesTest {
             "historical_experience:beta_1_7_3",
             "historical_experience:infdev_420"
         }) {
-            assertFalse(HistoricalGameplayTweaks.betaGoldenApple(version),
+            assertFalse(Features.active(Feature.BETA_GOLDEN_APPLE, version),
                 version + " has no hunger meter, so the Beta 1.8 golden apple does not apply to it");
         }
     }

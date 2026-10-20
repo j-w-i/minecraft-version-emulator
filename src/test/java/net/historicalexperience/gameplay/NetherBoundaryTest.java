@@ -17,6 +17,10 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -48,7 +52,7 @@ class NetherBoundaryTest {
             "historical_experience:alpha_1_0_1",
             "historical_experience:alpha_1_0_4",
             "historical_experience:alpha_1_0_6"}) {
-            assertFalse(HistoricalGameplayTweaks.netherAvailable(id),
+            assertFalse(!Features.active(Feature.NO_NETHER, id),
                 id + " predates Alpha 1.2.0, so no portal may be lit and no travel may happen there");
         }
     }
@@ -57,7 +61,7 @@ class NetherBoundaryTest {
     void theDeclaredAlphaProfileAlsoHasNoNether() {
         // Alpha v1.1.2_01 is BELOW the boundary, which is the case a reader is most likely to get wrong: the Alpha
         // profile is the newest declared Alpha build and still predates the Halloween Update by one build.
-        assertFalse(HistoricalGameplayTweaks.netherAvailable("historical_experience:alpha"),
+        assertFalse(!Features.active(Feature.NO_NETHER, "historical_experience:alpha"),
             "Alpha v1.1.2_01 predates Alpha 1.2.0 and must have no Nether");
     }
 
@@ -67,7 +71,7 @@ class NetherBoundaryTest {
             if (version.chronology() < 500_000) {
                 continue;
             }
-            assertTrue(HistoricalGameplayTweaks.netherAvailable(version.id()),
+            assertTrue(!Features.active(Feature.NO_NETHER, version.id()),
                 version.id() + " is after Alpha 1.2.0 and must have the Nether");
         }
     }
@@ -85,9 +89,9 @@ class NetherBoundaryTest {
 
         // The portal mixins cancel when this is false and the session is null in an ordinary world, so the
         // answer for "no historical version" MUST be true or the gate would disable portals in every ordinary world.
-        assertTrue(HistoricalGameplayTweaks.netherAvailable(null),
+        assertTrue(!Features.active(Feature.NO_NETHER, (String) null),
             "an ordinary world is not a historical version and this gate must not touch it");
-        assertTrue(HistoricalGameplayTweaks.netherAvailable("moderner_beta:beta"));
-        assertTrue(HistoricalGameplayTweaks.netherAvailable("example:not_a_version"));
+        assertTrue(!Features.active(Feature.NO_NETHER, "moderner_beta:beta"));
+        assertTrue(!Features.active(Feature.NO_NETHER, "example:not_a_version"));
     }
 }

@@ -17,6 +17,10 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -111,7 +115,7 @@ class HistoricalPortalSpawnTest {
     void onlyTheOneBuildHasTheKey() {
         for (HistoricalVersion version : HistoricalVersions.all()) {
             boolean expected = "historical_experience:alpha_1_2_2a".equals(version.id());
-            assertEquals(expected, HistoricalGameplayTweaks.f4SpawnsPortal(version.id()),
+            assertEquals(expected, Features.active(Feature.F4_PORTAL_KEY, version.id()),
                 version.id() + ": the F4 portal key belongs to exactly one declared build");
         }
         assertEquals(HistoricalVersions.byId("historical_experience:alpha_1_2_2a").orElseThrow().chronology(),
@@ -122,20 +126,20 @@ class HistoricalPortalSpawnTest {
     @Test
     @DisplayName("an ordinary world and an unknown id never have the key")
     void ordinaryWorldHasNoKey() {
-        assertFalse(HistoricalGameplayTweaks.f4SpawnsPortal(null));
-        assertFalse(HistoricalGameplayTweaks.f4SpawnsPortal("historical_experience:no_such_version"));
-        assertFalse(HistoricalGameplayTweaks.f4SpawnsPortal("minecraft:overworld"),
+        assertFalse(Features.active(Feature.F4_PORTAL_KEY, (String) null));
+        assertFalse(Features.active(Feature.F4_PORTAL_KEY, "historical_experience:no_such_version"));
+        assertFalse(Features.active(Feature.F4_PORTAL_KEY, "minecraft:overworld"),
             "a non-historical id must not answer true");
     }
 
     @Test
     @DisplayName("Alpha 1.2.0 does NOT have it, which is the whole reason this build exists")
     void alpha120DoesNotHaveTheKey() {
-        assertFalse(HistoricalGameplayTweaks.f4SpawnsPortal("historical_experience:alpha_1_2_0"),
+        assertFalse(Features.active(Feature.F4_PORTAL_KEY, "historical_experience:alpha_1_2_0"),
             "Alpha 1.2.0's client has no F4 case; only 1.2.2a does");
-        assertTrue(HistoricalGameplayTweaks.f4SpawnsPortal("historical_experience:alpha_1_2_2a"));
+        assertTrue(Features.active(Feature.F4_PORTAL_KEY, "historical_experience:alpha_1_2_2a"));
         // The Nether is a wider boundary than this key, and the two must not be conflated.
-        assertTrue(HistoricalGameplayTweaks.netherAvailable("historical_experience:alpha_1_2_0"),
+        assertTrue(!Features.active(Feature.NO_NETHER, "historical_experience:alpha_1_2_0"),
             "1.2.0 has the Nether; it just has no F4 key");
         assertTrue(HistoricalGameplayTweaks.f4PortalBoundaryChronology()
             > HistoricalGameplayTweaks.netherBoundaryChronology(),

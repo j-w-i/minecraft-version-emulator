@@ -17,6 +17,10 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -43,7 +47,7 @@ class SneakingBoundaryTest {
         for (String id : new String[] {
             "historical_experience:alpha_1_0_1",
             "historical_experience:alpha_1_0_4"}) {
-            assertFalse(HistoricalGameplayTweaks.sneakingAvailable(id),
+            assertFalse(!Features.active(Feature.NO_SNEAKING, id),
                 id + " predates Alpha 1.1.0, so the crouch must do nothing there");
         }
     }
@@ -52,7 +56,7 @@ class SneakingBoundaryTest {
     void theDeclaredAlphaProfileHasSneaking() {
         // Alpha v1.1.2_01 is past the boundary, which is what makes this a boundary rather than a blanket refusal
         // for the whole era.
-        assertTrue(HistoricalGameplayTweaks.sneakingAvailable("historical_experience:alpha"),
+        assertTrue(!Features.active(Feature.NO_SNEAKING, "historical_experience:alpha"),
             "Alpha v1.1.2_01 is after Alpha 1.1.0 and must be able to sneak");
     }
 
@@ -76,11 +80,11 @@ class SneakingBoundaryTest {
         // predicate is false, so "false" for an ordinary world means the player cannot crouch there at all. A null
         // session, or a version id this build does not declare, is a world with no historical rules; the modern
         // answer is the only safe one.
-        assertTrue(HistoricalGameplayTweaks.sneakingAvailable(null),
+        assertTrue(!Features.active(Feature.NO_SNEAKING, (String) null),
             "an ordinary world must keep vanilla sneaking");
-        assertTrue(HistoricalGameplayTweaks.sneakingAvailable("historical_experience:no_such_version"),
+        assertTrue(!Features.active(Feature.NO_SNEAKING, "historical_experience:no_such_version"),
             "an undeclared version is not a historical world either, so it keeps vanilla sneaking");
         // The gate still refuses inside the versions that really had no crouch.
-        assertFalse(HistoricalGameplayTweaks.sneakingAvailable("historical_experience:alpha_1_0_1"));
+        assertFalse(!Features.active(Feature.NO_SNEAKING, "historical_experience:alpha_1_0_1"));
     }
 }

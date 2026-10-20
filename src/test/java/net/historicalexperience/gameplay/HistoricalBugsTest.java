@@ -17,6 +17,10 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -50,7 +54,7 @@ class HistoricalBugsTest {
     void endPortalFramesExplodeOnlyInPreThree() {
         int applying = 0;
         for (var version : HistoricalVersions.all()) {
-            if (HistoricalGameplayTweaks.appliesTo("endPortalFrameExplodes", version.id())) {
+            if (Features.active(Feature.END_PORTAL_FRAME_EXPLODES, version.id())) {
                 assertEquals(PRE_3, version.id(),
                     "only Beta 1.9 Pre3 allowed this; Pre4 fixed it, so " + version.id() + " must not");
                 applying++;
@@ -61,10 +65,10 @@ class HistoricalBugsTest {
                 + "unreachable; if it is more than 1 then a boundary expression has leaked it into neighbouring "
                 + "prereleases, which is the mistake this test exists to catch");
 
-        assertTrue(HistoricalGameplayTweaks.appliesTo("endPortalFrameExplodes", PRE_3));
-        assertFalse(HistoricalGameplayTweaks.appliesTo("endPortalFrameExplodes", PRE_1));
-        assertFalse(HistoricalGameplayTweaks.appliesTo("endPortalFrameExplodes", "historical_experience:beta_1_9_pre_4"));
-        assertFalse(HistoricalGameplayTweaks.appliesTo("endPortalFrameExplodes", "historical_experience:release_1_0_0"));
+        assertTrue(Features.active(Feature.END_PORTAL_FRAME_EXPLODES, PRE_3));
+        assertFalse(Features.active(Feature.END_PORTAL_FRAME_EXPLODES, PRE_1));
+        assertFalse(Features.active(Feature.END_PORTAL_FRAME_EXPLODES, "historical_experience:beta_1_9_pre_4"));
+        assertFalse(Features.active(Feature.END_PORTAL_FRAME_EXPLODES, "historical_experience:release_1_0_0"));
     }
 
     @Test
@@ -72,7 +76,7 @@ class HistoricalBugsTest {
     void jumpExperienceOnlyInPreOne() {
         int applying = 0;
         for (var version : HistoricalVersions.all()) {
-            if (HistoricalGameplayTweaks.appliesTo("jumpExperienceBug", version.id())) {
+            if (Features.active(Feature.JUMP_EXPERIENCE_BUG, version.id())) {
                 assertEquals(PRE_1, version.id(),
                     "only Beta 1.9 Pre1 had the jump-experience bug; Pre2 removed it, so " + version.id()
                         + " must not");
@@ -87,7 +91,7 @@ class HistoricalBugsTest {
     void silkTouchSpawnerDropsOnlyInPreFour() {
         int applying = 0;
         for (var version : HistoricalVersions.all()) {
-            if (HistoricalGameplayTweaks.appliesTo("silkySpawners", version.id())) {
+            if (Features.active(Feature.SILKY_SPAWNERS, version.id())) {
                 assertEquals("historical_experience:beta_1_9_pre_4", version.id(),
                     "Pre4 is the only declared build that drops the spawner; Pre5 removed it, so " + version.id()
                         + " must not");
@@ -99,10 +103,10 @@ class HistoricalBugsTest {
                 + "than one means an equality has been widened into a range, which is how one prerelease's bug "
                 + "leaks into its neighbours");
 
-        assertTrue(HistoricalGameplayTweaks.appliesTo("silkySpawners", "historical_experience:beta_1_9_pre_4"));
-        assertFalse(HistoricalGameplayTweaks.appliesTo("silkySpawners", "historical_experience:beta_1_9_pre_3"),
+        assertTrue(Features.active(Feature.SILKY_SPAWNERS, "historical_experience:beta_1_9_pre_4"));
+        assertFalse(Features.active(Feature.SILKY_SPAWNERS, "historical_experience:beta_1_9_pre_3"),
             "Pre3 had no Silk Touch drop");
-        assertFalse(HistoricalGameplayTweaks.appliesTo("silkySpawners", "historical_experience:beta_1_9_pre_5"),
+        assertFalse(Features.active(Feature.SILKY_SPAWNERS, "historical_experience:beta_1_9_pre_5"),
             "Pre5 removed it");
     }
 
@@ -117,7 +121,7 @@ class HistoricalBugsTest {
         // a pure function of the version, so the version-keyed table fully determines when a spawner is dropped.
         // The runtime block-drop probe observes the rest through the public getDrops entry point.
         boolean anySpawnerDroppingVersion = HistoricalVersions.all().stream()
-            .anyMatch(version -> HistoricalGameplayTweaks.appliesTo("silkySpawners", version.id()));
+            .anyMatch(version -> Features.active(Feature.SILKY_SPAWNERS, version.id()));
         assertTrue(anySpawnerDroppingVersion,
             "if no declared build drops a spawner then the hook is dead code and the owner's spawner question has "
                 + "no in-range answer at all");
@@ -132,7 +136,7 @@ class HistoricalBugsTest {
         // adding a behaviour. Asserted against the registry rather than a list so a new build cannot slip in.
         for (var version : HistoricalVersions.all()) {
             boolean pre4 = version.id().equals("historical_experience:beta_1_9_pre_4");
-            assertEquals(pre4, HistoricalGameplayTweaks.appliesTo("silkySpawners", version.id()),
+            assertEquals(pre4, Features.active(Feature.SILKY_SPAWNERS, version.id()),
                 "silkySpawners must be true for Pre4 alone, not for " + version.id());
         }
     }
@@ -142,7 +146,7 @@ class HistoricalBugsTest {
     void endPortalFrameLightOnlyInPreThree() {
         int applying = 0;
         for (var version : HistoricalVersions.all()) {
-            if (HistoricalGameplayTweaks.appliesTo("endPortalFrameLightFifteen", version.id())) {
+            if (Features.active(Feature.END_PORTAL_FRAME_LIGHT_15, version.id())) {
                 assertEquals(PRE_3, version.id(),
                     "Pre3 is the only declared build whose frame emitted light 15; Pre4 lowered it to 1, so "
                         + version.id() + " must not");
@@ -152,10 +156,10 @@ class HistoricalBugsTest {
         assertEquals(1, applying,
             "exactly one declared build had the light-15 frame. Zero makes the hook dead code; more than one means "
                 + "the equality was widened into a range, which would brighten frames in builds that never had it");
-        assertFalse(HistoricalGameplayTweaks.appliesTo("endPortalFrameLightFifteen", PRE_1),
+        assertFalse(Features.active(Feature.END_PORTAL_FRAME_LIGHT_15, PRE_1),
             "Pre1 predates the block's Pre3 quirks entirely");
         assertFalse(
-            HistoricalGameplayTweaks.appliesTo("endPortalFrameLightFifteen", "historical_experience:beta_1_9_pre_4"),
+            Features.active(Feature.END_PORTAL_FRAME_LIGHT_15, "historical_experience:beta_1_9_pre_4"),
             "Pre4 lowered it to 1");
     }
 
@@ -164,7 +168,7 @@ class HistoricalBugsTest {
     void snowballSurplusOnlyInAlphaOneZeroSix() {
         int applying = 0;
         for (var version : HistoricalVersions.all()) {
-            if (HistoricalGameplayTweaks.appliesTo("snowballSurplus", version.id())) {
+            if (Features.active(Feature.SNOWBALL_SURPLUS, version.id())) {
                 assertEquals("historical_experience:alpha_1_0_6", version.id(),
                     "only Alpha 1.0.6 is documented as returning more snowballs than the recipe costs; "
                         + version.id() + " must not");
@@ -175,8 +179,8 @@ class HistoricalBugsTest {
             "exactly one declared build had the surplus. The research never established the fix boundary, so the "
                 + "gate is deliberately equality on the documented build - a range invented from one data point "
                 + "would hand one build's bug to its neighbours");
-        assertFalse(HistoricalGameplayTweaks.appliesTo("snowballSurplus", "historical_experience:alpha_1_0_4"));
-        assertFalse(HistoricalGameplayTweaks.appliesTo("snowballSurplus", "historical_experience:alpha_1_0_11"));
+        assertFalse(Features.active(Feature.SNOWBALL_SURPLUS, "historical_experience:alpha_1_0_4"));
+        assertFalse(Features.active(Feature.SNOWBALL_SURPLUS, "historical_experience:alpha_1_0_11"));
     }
 
     @Test
@@ -230,16 +234,16 @@ class HistoricalBugsTest {
         // The same wiki entry that carries the payout carries this: Java Edition Beta 1.9-pre1, "Jumping":
         // "Continuous jumping by holding down the jump key is no longer possible." Both halves are one build, and
         // our research records Pre2 as the build that restored held-jump auto-repeat.
-        assertTrue(HistoricalGameplayTweaks.jumpRequiresFreshPress(PRE_1),
+        assertTrue(Features.active(Feature.JUMP_EXPERIENCE_BUG, PRE_1),
             "Prerelease 1 is the build the owner reported and the wiki describes");
-        assertFalse(HistoricalGameplayTweaks.jumpRequiresFreshPress("historical_experience:beta_1_9_pre_2"),
+        assertFalse(Features.active(Feature.JUMP_EXPERIENCE_BUG, "historical_experience:beta_1_9_pre_2"),
             "Pre2 restored held-jump auto-repeat, so the key may be held there");
-        assertFalse(HistoricalGameplayTweaks.jumpRequiresFreshPress("historical_experience:beta_1_8_1"));
-        assertFalse(HistoricalGameplayTweaks.jumpRequiresFreshPress("historical_experience:release_1_6_4"));
+        assertFalse(Features.active(Feature.JUMP_EXPERIENCE_BUG, "historical_experience:beta_1_8_1"));
+        assertFalse(Features.active(Feature.JUMP_EXPERIENCE_BUG, "historical_experience:release_1_6_4"));
         // An ordinary world, and a version this build does not declare, keep vanilla's held-jump repeat. This is the
         // same null rule as the four predicates fixed in the same round: false here means "modern behaviour", and the
         // input hook reads it that way.
-        assertFalse(HistoricalGameplayTweaks.jumpRequiresFreshPress(null));
-        assertFalse(HistoricalGameplayTweaks.jumpRequiresFreshPress("historical_experience:no_such_version"));
+        assertFalse(Features.active(Feature.JUMP_EXPERIENCE_BUG, (String) null));
+        assertFalse(Features.active(Feature.JUMP_EXPERIENCE_BUG, "historical_experience:no_such_version"));
     }
 }
