@@ -8,10 +8,11 @@ what the result is: [docs/ARCHITECTURE.md](<docs/ARCHITECTURE.md>), [docs/VERSIO
 [docs/VERSION_MATRIX.md](<docs/VERSION_MATRIX.md>) (generated), [docs/ADDING_VERSIONS.md](<docs/ADDING_VERSIONS.md>),
 [docs/ADDING_FEATURES.md](<docs/ADDING_FEATURES.md>).
 
-**Verified end state:** `./gradlew test` — **129 suites, 748 tests, 0 failures**. A dedicated server boots to
-`Done (2.736s)`, applies 145 mixins from the new layout with **0** `was not found`, **0** `PREPARE` failures and **0**
-client-class warnings, and loads the existing Beta 1.7.3 test world at its recorded revision 10
-([log](<logs/refactor-s7-server-boot.log>)).
+**Verified end state:** `./gradlew test` - **129 suites, 749 tests, 0 failures** (the count includes the new golden
+snapshot, boundary, lint and matrix tests). A dedicated server boots to `Done (2.689s)` on the final tree, applies all
+145 mixins from the new layout with **0** `was not found`, **0** `PREPARE` failures and **0** client-class warnings, and
+loads the existing Beta 1.7.3 test world at its recorded revision 10
+([final boot log](<logs/refactor-final-server-boot.log>)).
 
 ## What was found (evidence in the audits)
 
@@ -61,7 +62,7 @@ disagreement is now written down in the feature's evidence string instead of bei
   `nether_wart`, `end_stone`, `ender_pearl`, `sandstone_stairs`, `carrots` and `short_grass`. That is research to
   settle, not refactoring to hide.
 
-## Open items (recorded, not fixed)
+## Final consolidation\n\n- **Dead code removed** (37 unreferenced members the debt audit listed: unused client setters, diagnostic recorders,\n  redundant accessors) across 24 files. The golden snapshot is unchanged, so nothing live depended on them.\n- **Two hot-path orderings fixed**: the `MAX_DAMAGE` handler and the per-block generation veto now ask the cheap question\n  before building an item or block id, so ordinary worlds stop paying a registry lookup and a string per component read\n  and per block write.\n- **Probe/verification classes moved** out of `server/` and `client/` into `verification/` (22 classes), with a lint rule\n  that only the two entrypoints and the probe mixin may reference them.\n\n## Open items (recorded, not fixed)
 
 1. **Four dating tables disagree** (above). Choose the sourced date per id, or state which table is authoritative and
    why. `HistoricalBlockAvailability`, `HistoricalItemAvailability`, `HistoricalCreativeCatalog`, `HistoricalCraftingEra`.
