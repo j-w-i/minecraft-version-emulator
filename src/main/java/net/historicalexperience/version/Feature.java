@@ -260,6 +260,15 @@ public enum Feature {
         + "with Absorption lasting 1:30; 13w25a 'Absorption from golden apples now lasts 2:00'. Those snapshots ship "
         + "in Release 1.6.1, so Release 1.6.4 is the declared build that has them."),
 
+    /**
+     * The <b>cloth</b> armour recipes, which modern Minecraft no longer has: before Alpha v1.0.8 the leather-armour
+     * items were crafted from cloth (wool), and cows - the source of leather - did not exist yet.
+     */
+    CLOTH_ARMOUR_RECIPE(Domain.PLAYER, FeatureWindow.between(Milestones.ALPHA_1_0_1, Milestones.ALPHA_1_0_8),
+        "Armour is crafted from cloth (wool), not leather. minecraft.wiki, Alpha v1.0.8: 'The crafting recipe of "
+        + "cloth/leather armor has been changed from cloth to leather'; cows, the leather source, also arrive in "
+        + "v1.0.8."),
+
     /** The arrow's <b>iron-tip</b> recipe, which modern Minecraft no longer has. */
     ARROW_IRON_TIP_RECIPE(Domain.PLAYER, FeatureWindow.between(Milestones.ALPHA_1_0_1, Milestones.ALPHA_1_0_14),
         "Arrows are crafted with an iron ingot tip rather than flint. minecraft.wiki, Arrow history, Alpha v1.0.14: "

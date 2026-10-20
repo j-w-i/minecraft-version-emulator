@@ -150,10 +150,33 @@ public final class RemovedRecipes {
             "minecraft:string", "minecraft:string", "minecraft:string"),
         "minecraft:white_wool", 1, Feature.WOOL_NINE_STRING_RECIPE, true);
 
+    /** The four cloth-armour recipes of Alpha v1.0.1-v1.0.6, in the vanilla armour patterns but from wool. */
+    public static final List<Removed> CLOTH_ARMOUR = List.of(
+        new Removed("leather_helmet_from_cloth", 3, 2,
+            List.of("minecraft:white_wool", "minecraft:white_wool", "minecraft:white_wool",
+                "minecraft:white_wool", "", "minecraft:white_wool"),
+            "minecraft:leather_helmet", 1, Feature.CLOTH_ARMOUR_RECIPE, true),
+        new Removed("leather_chestplate_from_cloth", 3, 3,
+            List.of("minecraft:white_wool", "", "minecraft:white_wool",
+                "minecraft:white_wool", "minecraft:white_wool", "minecraft:white_wool",
+                "minecraft:white_wool", "minecraft:white_wool", "minecraft:white_wool"),
+            "minecraft:leather_chestplate", 1, Feature.CLOTH_ARMOUR_RECIPE, true),
+        new Removed("leather_leggings_from_cloth", 3, 3,
+            List.of("minecraft:white_wool", "minecraft:white_wool", "minecraft:white_wool",
+                "minecraft:white_wool", "", "minecraft:white_wool",
+                "minecraft:white_wool", "", "minecraft:white_wool"),
+            "minecraft:leather_leggings", 1, Feature.CLOTH_ARMOUR_RECIPE, true),
+        new Removed("leather_boots_from_cloth", 3, 2,
+            List.of("minecraft:white_wool", "", "minecraft:white_wool",
+                "minecraft:white_wool", "", "minecraft:white_wool"),
+            "minecraft:leather_boots", 1, Feature.CLOTH_ARMOUR_RECIPE, true));
+
     /** Every removed recipe, for tests and reports. */
     public static List<Removed> all() {
-        return List.of(ENCHANTED_GOLDEN_APPLE, GOLDEN_APPLE_GOLD_BLOCK, GOLDEN_APPLE_GOLD_NUGGET,
-            ARROW_IRON_TIP, WOOL_FROM_NINE_STRING);
+        var all = new java.util.ArrayList<Removed>(List.of(ENCHANTED_GOLDEN_APPLE, GOLDEN_APPLE_GOLD_BLOCK,
+            GOLDEN_APPLE_GOLD_NUGGET, ARROW_IRON_TIP, WOOL_FROM_NINE_STRING));
+        all.addAll(CLOTH_ARMOUR);
+        return List.copyOf(all);
     }
 
     /** Whether this version had any removed recipe at all. */

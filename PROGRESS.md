@@ -1,3 +1,30 @@
+# Current work — 2026-10-21 / Gap 6: Alpha cloth armour (audit A-14)
+
+Audit finding: in Alpha v1.0.1, v1.0.4 and v1.0.6 the only armour recipes are the modern **leather** ones, but leather
+has no legitimate source there - cows arrive in Alpha v1.0.8, the same build that changes the armour recipe. Those
+three builds therefore had no craftable armour at all, while the era's actual armour was **cloth** (wool) in the four
+vanilla patterns.
+
+Implemented as four `RemovedRecipes` entries behind a new `CLOTH_ARMOUR_RECIPE` window `[Alpha v1.0.1, Alpha v1.0.8)`,
+citing minecraft.wiki, Alpha v1.0.8: "The crafting recipe of cloth/leather armor has been changed from cloth to
+leather". Each recipe produces the same item tier (leather helmet/chestplate/leggings/boots) from white wool in the
+standard armour shape, with `refuseModernRecipe = true` so the modern leather shape is refused in that window; from
+v1.0.11 the leather recipe is the real one again. New milestone `ALPHA_1_0_8`.
+
+This composes with the previous round: wool is now craftable in those builds from nine string (`WOOL_NINE_STRING_RECIPE`),
+so the cloth-armour route is actually reachable in survival - string from spiders, wool from string, armour from wool.
+
+**Evidence:** `./gradlew test` — **780 tests, 0 failures**. Golden, matrix and facts regenerated. `ClothArmourTest` pins
+the window, the shapes and the gate.
+
+**Counts deferred, with the evidence state recorded:** I fetched the wiki Slab, Ladder and Pressure Plate pages for the
+output-count changes. The Pressure Plate page has a clean row for 1.3 ("now require only two wood planks/stone to
+craft; previous versions required three"), but neither it nor the other two pages states the pre-change *output*
+quantity unambiguously enough to encode, and the audit's own numbers ("slabs 6 not 3, ladders 3 not 2, plates 2 not 3")
+are not backed by a row I could reproduce. Those stay recorded as open rather than guessed; the stone-slab item
+substitution is likewise still open.
+
+---
 # Current work — 2026-10-21 / Gap 5: golden apple effects, Release eras
 
 The recipes were fixed in an earlier round; the effects were still modern. Took the values from minecraft.wiki's
