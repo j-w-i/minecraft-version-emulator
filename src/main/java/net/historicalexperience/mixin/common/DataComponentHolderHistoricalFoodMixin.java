@@ -77,6 +77,34 @@ public interface DataComponentHolderHistoricalFoodMixin {
                 java.util.List.of(new FoodProperties.PossibleEffect(regeneration, 1.0F)));
         }
 
+        // Release 1.0-1.5: 4 hunger (which the modern item already has) and the slowed Regeneration, with no
+        // Absorption. Only the effect list differs from modern.
+        if (itemStack.is(net.minecraft.world.item.Items.GOLDEN_APPLE)
+            && Features.active(Feature.GOLDEN_APPLE_REGEN_ONE, versionId)) {
+            var release = java.util.List.of(new FoodProperties.PossibleEffect(
+                new net.minecraft.world.effect.MobEffectInstance(
+                    net.minecraft.world.effect.MobEffects.REGENERATION,
+                    HistoricalFoodHelper.goldenAppleReleaseRegenerationTicks(),
+                    HistoricalFoodHelper.goldenAppleReleaseRegenerationAmplifier()), 1.0F));
+            return (T) new FoodProperties(food.nutrition(), food.saturation(), food.canAlwaysEat(),
+                food.eatSeconds(), food.usingConvertsTo(), release);
+        }
+
+        // Release 1.6.1+: Regeneration II for 10 s plus Absorption I for 2:00 (the 13w23b-13w25a snapshot set).
+        if (itemStack.is(net.minecraft.world.item.Items.GOLDEN_APPLE)
+            && Features.active(Feature.GOLDEN_APPLE_SIX_ONE_EFFECTS, versionId)) {
+            var sixOne = java.util.List.of(
+                new FoodProperties.PossibleEffect(new net.minecraft.world.effect.MobEffectInstance(
+                    net.minecraft.world.effect.MobEffects.REGENERATION,
+                    HistoricalFoodHelper.goldenAppleSixOneRegenerationTicks(),
+                    HistoricalFoodHelper.goldenAppleSixOneRegenerationAmplifier()), 1.0F),
+                new FoodProperties.PossibleEffect(new net.minecraft.world.effect.MobEffectInstance(
+                    net.minecraft.world.effect.MobEffects.ABSORPTION,
+                    HistoricalFoodHelper.goldenAppleSixOneAbsorptionTicks(), 0), 1.0F));
+            return (T) new FoodProperties(food.nutrition(), food.saturation(), food.canAlwaysEat(),
+                food.eatSeconds(), food.usingConvertsTo(), sixOne);
+        }
+
         // The second tier of the golden apple - the item 1.13 renamed the enchanted golden apple. Its effects are the
         // 1.3.1 set, with 13w24b's Absorption and Regeneration V from Release 1.6.1. It is 4 hunger, which is what the
         // modern item already has, so only the effect list differs.

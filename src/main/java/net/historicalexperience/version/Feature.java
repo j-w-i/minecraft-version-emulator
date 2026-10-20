@@ -246,6 +246,20 @@ public enum Feature {
         "The golden apple is crafted from eight blocks of gold and an apple. minecraft.wiki, Golden Apple: added "
         + "Infdev 20100227 with that recipe; Release 1.1 replaced the gold blocks with gold nuggets."),
 
+    /** Release 1.0's golden apple: 4 hunger and the slowed-down Regeneration, with no Absorption at all. */
+    GOLDEN_APPLE_REGEN_ONE(Domain.PLAYER, FeatureWindow.between(Milestones.RELEASE_1_0, Milestones.RELEASE_1_6_1),
+        "Golden apples restore 4 hunger and give 5 seconds of Regeneration at amplifier 0. minecraft.wiki, Golden "
+        + "Apple history, Release: 'Golden apples have been changed, so that they now restore 4 hunger and give only "
+        + "5 seconds of Regeneration. The Regeneration effect of golden apples has been slowed down.'"),
+
+    /** Release 1.6.1's golden apple: Regeneration II for 10 s and Absorption for 2:00. */
+    GOLDEN_APPLE_SIX_ONE_EFFECTS(Domain.PLAYER,
+        FeatureWindow.between(Milestones.RELEASE_1_6_1, Milestones.RELEASE_1_9),
+        "Golden apples give Regeneration II for 10 seconds plus Absorption I for 2 minutes. minecraft.wiki, Golden "
+        + "Apple history: 13w23b 'Health Boost for 1:30 and Regeneration II for 0:10'; 13w24b replaced Health Boost "
+        + "with Absorption lasting 1:30; 13w25a 'Absorption from golden apples now lasts 2:00'. Those snapshots ship "
+        + "in Release 1.6.1, so Release 1.6.4 is the declared build that has them."),
+
     /** The arrow's <b>iron-tip</b> recipe, which modern Minecraft no longer has. */
     ARROW_IRON_TIP_RECIPE(Domain.PLAYER, FeatureWindow.between(Milestones.ALPHA_1_0_1, Milestones.ALPHA_1_0_14),
         "Arrows are crafted with an iron ingot tip rather than flint. minecraft.wiki, Arrow history, Alpha v1.0.14: "

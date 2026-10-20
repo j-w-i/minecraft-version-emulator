@@ -1,3 +1,29 @@
+# Current work — 2026-10-21 / Gap 5: golden apple effects, Release eras
+
+The recipes were fixed in an earlier round; the effects were still modern. Took the values from minecraft.wiki's
+Golden Apple history rows directly (fetched raw, 2026-10-21), because the repo's own notes and the era audit disagreed
+on the duration (4 s vs 5 s vs 10 s):
+
+- **Release (1.0) - 1.5**: 4 hunger and **Regeneration for 5 seconds at amplifier 0**, with no Absorption. Wiki:
+  "Golden apples have been changed, so that they now restore 4 hunger and give only 5 seconds of Regeneration. The
+  Regeneration effect of golden apples has been slowed down." New feature `GOLDEN_APPLE_REGEN_ONE`.
+- **Release 1.6.4**: **Regeneration II for 0:10 plus Absorption I for 2:00**. Wiki rows: 13w23b "Health Boost for 1:30
+  and Regeneration II for 0:10", 13w24b replaced Health Boost with Absorption lasting 1:30, 13w25a "Absorption from
+  golden apples now lasts 2:00"; those snapshots ship in 1.6.1. New feature `GOLDEN_APPLE_SIX_ONE_EFFECTS`.
+- Beta 1.8.1's 10-hunger / 30-second form is untouched, and both new windows are inactive in ordinary worlds.
+
+The mixin rebuilds the food component through the record's accessors, so saturation, eat time and the conversion stack
+are carried across; only nutrition and effects differ. `GoldenAppleEffectsTest` pins the windows and the tick/amplifier
+values. Two new features are described in `FeatureBoundaryTest` (the 1.6.1 window is written as FROM release_1_6_4
+because 1.6.1 is not itself a declared version).
+
+**Evidence:** `./gradlew test` — **777 tests, 0 failures**. Golden, matrix and facts regenerated.
+
+**Open in this item:** the golden apple's *saturation* for Release 1.0-1.5 is the modern value (4 hunger matches, the
+saturation modifier is unverified - recorded, not guessed); Health Boost's brief 13w23b-only existence is not modelled
+because it shipped in no declared build.
+
+---
 # Current work — 2026-10-21 / Gap 4: arrow and wool recipes (audit A-12, A-13)
 
 Two more recipes modern Minecraft no longer has, both with their own window and both refusing the modern shape so it

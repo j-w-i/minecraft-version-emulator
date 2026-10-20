@@ -142,6 +142,9 @@ class FeatureBoundaryTest {
         FROM.put(Feature.GOLDEN_APPLE_GOLD_NUGGET_RECIPE, P + "release_1_1");
         BETWEEN.put(Feature.ARROW_IRON_TIP_RECIPE, new String[] {P + "alpha_1_0_1", P + "alpha_1_0_14"});
         BETWEEN.put(Feature.WOOL_NINE_STRING_RECIPE, new String[] {P + "alpha_1_0_1", P + "beta_1_7_3"});
+        BETWEEN.put(Feature.GOLDEN_APPLE_REGEN_ONE, new String[] {P + "release_1_0_0", P + "release_1_6_4"});
+        // Release 1.6.1 is not a declared version, so for declared builds this is "from the 1.6.4 proxy".
+        FROM.put(Feature.GOLDEN_APPLE_SIX_ONE_EFFECTS, P + "release_1_6_4");
         // The stance outlives the reduction: Prerelease 1 and 2 still have the reduction, Prerelease 3 does not.
         BETWEEN.put(Feature.SWORD_BLOCK_FALL_PROTECTION, new String[] {P + "beta_1_8_1", P + "beta_1_9_pre_3"});
 

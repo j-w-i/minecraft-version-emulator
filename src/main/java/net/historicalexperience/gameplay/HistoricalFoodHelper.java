@@ -118,6 +118,36 @@ public final class HistoricalFoodHelper {
         return GOLDEN_APPLE_BETA_REGENERATION_AMPLIFIER;
     }
 
+    // ---- The golden apple's Release-era effects ---------------------------------------------------------
+    // minecraft.wiki, Golden Apple history: Release "restore 4 hunger and give only 5 seconds of Regeneration. The
+    // Regeneration effect of golden apples has been slowed down." (slowed = amplifier 0); 13w23b Regeneration II
+    // for 0:10 plus Health Boost, 13w24b Absorption for 1:30, 13w25a Absorption for 2:00, all shipping in 1.6.1.
+
+    /** Release 1.0-1.5: Regeneration I for 5 seconds. */
+    public static int goldenAppleReleaseRegenerationTicks() {
+        return 100;
+    }
+
+    /** Release 1.0-1.5: amplifier 0 - the history says the effect was slowed down. */
+    public static int goldenAppleReleaseRegenerationAmplifier() {
+        return 0;
+    }
+
+    /** Release 1.6.1+: Regeneration II for 10 seconds. */
+    public static int goldenAppleSixOneRegenerationTicks() {
+        return 200;
+    }
+
+    /** Release 1.6.1+: Regeneration II, i.e. amplifier 1. */
+    public static int goldenAppleSixOneRegenerationAmplifier() {
+        return 1;
+    }
+
+    /** Release 1.6.1+: Absorption I for 2:00 (13w25a). */
+    public static int goldenAppleSixOneAbsorptionTicks() {
+        return 2400;
+    }
+
     // ---- The second-tier golden apple (the modern "enchanted golden apple"), 1.3.1 to 1.8 ---------------
     //
     // minecraft.wiki, Enchanted Golden Apple, Java Edition history:
