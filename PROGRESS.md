@@ -8,8 +8,8 @@ what the result is: [docs/ARCHITECTURE.md](<docs/ARCHITECTURE.md>), [docs/VERSIO
 [docs/VERSION_MATRIX.md](<docs/VERSION_MATRIX.md>) (generated), [docs/ADDING_VERSIONS.md](<docs/ADDING_VERSIONS.md>),
 [docs/ADDING_FEATURES.md](<docs/ADDING_FEATURES.md>).
 
-**Verified end state:** `./gradlew test` - **129 suites, 749 tests, 0 failures** (the count includes the new golden
-snapshot, boundary, lint and matrix tests). A dedicated server boots to `Done (2.689s)` on the final tree, applies all
+**Verified end state:** `./gradlew cleanTest test` - **130 suites, 751 tests, 0 failures** (the count includes the new
+golden snapshot, boundary, lint, matrix and mixin-reference tests). A dedicated server boots to `Done (2.689s)` on the final tree, applies all
 145 mixins from the new layout with **0** `was not found`, **0** `PREPARE` failures and **0** client-class warnings, and
 loads the existing Beta 1.7.3 test world at its recorded revision 10
 ([final boot log](<logs/refactor-final-server-boot.log>)).
