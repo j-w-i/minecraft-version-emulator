@@ -50,7 +50,7 @@ class BlockFallDamageBoundaryTest {
     @Test
     void onlyBeta181FallsInsideTheWindow() {
         List<String> inside = DECLARED.stream()
-            .filter(HistoricalGameplayTweaks::blockFallDamageReductionEnabled)
+            .filter(id -> Features.active(Feature.SWORD_BLOCK_FALL_PROTECTION, id))
             .toList();
 
         assertTrue(inside.equals(List.of("historical_experience:beta_1_8_1")),

@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Milestones;
+
 import net.historicalexperience.version.Features;
 
 import net.historicalexperience.version.Feature;
@@ -80,9 +82,9 @@ class OrdinaryWorldPortalAndFoodTest {
     @DisplayName("every declared version still answers exactly as before")
     void declaredVersionsAreUnchanged() {
         for (HistoricalVersion version : HistoricalVersions.all()) {
-            assertEquals(version.chronology() >= HistoricalGameplayTweaks.netherBoundaryChronology(),
+            assertEquals(version.chronology() >= Milestones.ALPHA_1_2_0.key(),
                 !Features.active(Feature.NO_NETHER, version.id()), "Nether on " + version.id());
-            assertEquals(version.chronology() >= HistoricalGameplayTweaks.preBeta18BoundaryChronology(),
+            assertEquals(version.chronology() >= Milestones.BETA_1_8.key(),
                 !Features.active(Feature.UNSTACKABLE_FOOD, version.id()), "food stacking on " + version.id());
         }
     }

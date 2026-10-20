@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Milestones;
+
 import net.historicalexperience.version.Features;
 
 import net.historicalexperience.version.Feature;
@@ -60,28 +62,20 @@ class HistoricalDamageValuesTest {
             String id = version.id();
             boolean beforeNerf = Features.active(Feature.OLD_SWORD_DAMAGE, id);
             boolean atOrAfterPre3 = id.equals("historical_experience:beta_1_9_pre_3")
-                || version.chronology() > HistoricalGameplayTweaks
-                    .swordDamageBeforeReleaseBoundaryChronology();
+                || version.chronology() > Milestones.BETA_1_9_PRE_3.key();
             assertFalse(beforeNerf && atOrAfterPre3,
                 id + " is at or after the nerf and must not ask for the pre-nerf sword totals");
         }
 
         // Named cases, so a registry reshuffle cannot quietly move the boundary.
-        assertTrue(HistoricalGameplayTweaks
-            .swordDamageBeforeReleaseOnePointZero("historical_experience:beta_1_8_1"));
-        assertTrue(HistoricalGameplayTweaks
-            .swordDamageBeforeReleaseOnePointZero("historical_experience:beta_1_7_3"));
-        assertTrue(HistoricalGameplayTweaks
-            .swordDamageBeforeReleaseOnePointZero("historical_experience:alpha"));
-        assertTrue(HistoricalGameplayTweaks
-            .swordDamageBeforeReleaseOnePointZero("historical_experience:infdev_420"));
-        assertFalse(HistoricalGameplayTweaks
-            .swordDamageBeforeReleaseOnePointZero("historical_experience:beta_1_9_pre_3"),
+        assertTrue(Features.active(Feature.OLD_SWORD_DAMAGE, "historical_experience:beta_1_8_1"));
+        assertTrue(Features.active(Feature.OLD_SWORD_DAMAGE, "historical_experience:beta_1_7_3"));
+        assertTrue(Features.active(Feature.OLD_SWORD_DAMAGE, "historical_experience:alpha"));
+        assertTrue(Features.active(Feature.OLD_SWORD_DAMAGE, "historical_experience:infdev_420"));
+        assertFalse(Features.active(Feature.OLD_SWORD_DAMAGE, "historical_experience:beta_1_9_pre_3"),
             "Pre3 is the nerf itself, so it takes the post-nerf totals");
-        assertFalse(HistoricalGameplayTweaks
-            .swordDamageBeforeReleaseOnePointZero("historical_experience:beta_1_9_pre_4"));
-        assertFalse(HistoricalGameplayTweaks
-            .swordDamageBeforeReleaseOnePointZero("historical_experience:release_1_6_4"));
+        assertFalse(Features.active(Feature.OLD_SWORD_DAMAGE, "historical_experience:beta_1_9_pre_4"));
+        assertFalse(Features.active(Feature.OLD_SWORD_DAMAGE, "historical_experience:release_1_6_4"));
         assertFalse(Features.active(Feature.OLD_SWORD_DAMAGE, (String) null),
             "an unknown world must never be given an era value");
         assertFalse(Features.active(Feature.OLD_SWORD_DAMAGE, "example:not_a_version"));

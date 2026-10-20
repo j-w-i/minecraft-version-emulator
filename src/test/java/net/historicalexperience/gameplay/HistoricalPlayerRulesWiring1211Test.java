@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Milestones;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -46,7 +48,7 @@ class HistoricalPlayerRulesWiring1211Test {
     /** The versions before the Beta 1.8 Pre-release, which is where hunger and sprinting both arrive. */
     private static final List<String> BEFORE_BETA_1_8 = HistoricalVersions.all().stream()
         .filter(version -> version.chronology()
-            < HistoricalGameplayTweaks.preBeta18BoundaryChronology())
+            < Milestones.BETA_1_8.key())
         .map(net.historicalexperience.version.HistoricalVersion::id)
         .toList();
 

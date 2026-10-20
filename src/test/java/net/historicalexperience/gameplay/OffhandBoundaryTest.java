@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Milestones;
+
 import net.historicalexperience.version.Features;
 
 import net.historicalexperience.version.Feature;
@@ -71,11 +73,11 @@ class OffhandBoundaryTest {
     @Test
     void theBoundaryLiteralFollowsTheRegistrarsOwnNumbering() {
         assertEquals(HistoricalVersions.chronology(ERA_RELEASE, 1, 9, 0),
-            HistoricalGameplayTweaks.offhandBoundaryChronology(),
+            Milestones.RELEASE_1_9.key(),
             "the offhand arrives in Release 1.9, which is outside the declared matrix, so the boundary is a literal "
                 + "tied to the registry's scheme. This asserts it cannot drift into gating the wrong release");
 
-        assertTrue(HistoricalGameplayTweaks.offhandBoundaryChronology()
+        assertTrue(Milestones.RELEASE_1_9.key()
                 > HistoricalVersions.byId("historical_experience:release_1_6_4").orElseThrow().chronology(),
             "Release 1.6.4, the newest version supported, must sit below the offhand boundary - which is why every "
                 + "declared version refuses it");

@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Milestones;
+
 import net.historicalexperience.version.Features;
 
 import net.historicalexperience.version.Feature;
@@ -63,11 +65,11 @@ class SneakingBoundaryTest {
     @Test
     void theBoundaryLiteralFollowsTheRegistrarsOwnNumbering() {
         assertEquals(HistoricalVersions.chronology(ERA_ALPHA, 1, 1, 0),
-            HistoricalGameplayTweaks.sneakingBoundaryChronology(),
+            Milestones.ALPHA_1_1_0.key(),
             "the boundary is a literal because Alpha 1.1.0 is not declared yet. This ties it to the registry's "
                 + "scheme so it cannot drift into gating the wrong build");
 
-        assertTrue(HistoricalGameplayTweaks.sneakingBoundaryChronology()
+        assertTrue(Milestones.ALPHA_1_1_0.key()
                 > HistoricalVersions.chronology(ERA_ALPHA, 1, 0, 17),
             "Alpha 1.0.17 must be below the sneak boundary: sneaking arrives in 1.1.0, after every 1.0.x build");
     }

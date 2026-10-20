@@ -136,8 +136,8 @@ public final class EnchantingVerification {
         }
         LOGGER.info("PORTALPROBE written={} obsidian={} portal={} other={} axisCorrect={} versionHasKey={} others={}",
             written, obsidian, portal, other, axisSet,
-            net.historicalexperience.gameplay.HistoricalGameplayTweaks
-                .f4SpawnsPortal(net.historicalexperience.gameplay.HistoricalProfileLookup.profileIdForLevel(level)),
+            net.historicalexperience.version.Features.active(net.historicalexperience.version.Feature.F4_PORTAL_KEY,
+                net.historicalexperience.gameplay.HistoricalProfileLookup.profileIdForLevel(level)),
             others);
     }
 

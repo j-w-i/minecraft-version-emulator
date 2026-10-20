@@ -194,71 +194,91 @@ class VersionBehaviourSnapshotTest {
         return L;
     }
 
-    // ---- 1. gameplay.HistoricalGameplayTweaks ------------------------------------------------------------
+    // ---- 1. gameplay rules, probed through the feature table -----------------------------------------------
+    //
+    // These lines were first captured from the string gates and predicates of HistoricalGameplayTweaks. That class
+    // no longer answers them: each is now a Feature. The line NAMES are unchanged, so the golden file still pins the
+    // original answers; the polarity of the old predicate is applied here so a positive predicate such as
+    // `netherAvailable` is still reported as it always was.
 
-    private static void gameplayTweaks(List<String> L) {
-        String c = "net.historicalexperience.gameplay.HistoricalGameplayTweaks";
-        if (!loadable(L, c)) {
-            return;
-        }
-        String d = "gameplay.HistoricalGameplayTweaks.";
-        for (String gate : GATES) {
-            perId(L, d + "appliesTo(" + gate + ")", id -> HistoricalGameplayTweaks.appliesTo(gate, id));
-        }
-        probe(L, d + "appliesTo(bogusGate)|x", () -> HistoricalGameplayTweaks.appliesTo("bogusGate", "x"));
-        probe(L, d + "gateNames()|-", () -> HistoricalGameplayTweaks.gateNames());
-        probe(L, d + "documentedGates()|-", () -> HistoricalGameplayTweaks.documentedGates());
-        for (String gate : HistoricalGameplayTweaks.documentedGates()) {
-            probe(L, d + "evidenceFor(" + gate + ").length|-", () -> HistoricalGameplayTweaks.evidenceFor(gate).length());
-        }
-        probe(L, d + "evidenceFor(unknown)|-", () -> HistoricalGameplayTweaks.evidenceFor("unknown"));
+    /** Old gate name -> the feature that replaced it. */
+    private static final Map<String, Feature> GATE_FEATURE = new LinkedHashMap<>();
 
-        perId(L, d + "preBeta18", id -> HistoricalGameplayTweaks.preBeta18(id));
-        perId(L, d + "swordBlockingEnabled", id -> HistoricalGameplayTweaks.swordBlockingEnabled(id));
-        perId(L, d + "betaExhaustionCosts", id -> HistoricalGameplayTweaks.betaExhaustionCosts(id));
-        perId(L, d + "betaSprintJumpExhaustion", id -> HistoricalGameplayTweaks.betaSprintJumpExhaustion(id));
-        perId(L, d + "functionalEnchanting", id -> HistoricalGameplayTweaks.functionalEnchanting(id));
-        perId(L, d + "enchantingDisabled", id -> HistoricalGameplayTweaks.enchantingDisabled(id));
-        perId(L, d + "placeholderEnchantmentTooltip", id -> HistoricalGameplayTweaks.placeholderEnchantmentTooltip(id));
-        perId(L, d + "f4SpawnsPortal", id -> HistoricalGameplayTweaks.f4SpawnsPortal(id));
-        perId(L, d + "netherAvailable", id -> HistoricalGameplayTweaks.netherAvailable(id));
-        perId(L, d + "foodStacks", id -> HistoricalGameplayTweaks.foodStacks(id));
-        perId(L, d + "offhandUnavailable", id -> HistoricalGameplayTweaks.offhandUnavailable(id));
-        perId(L, d + "experienceLevelShown", id -> HistoricalGameplayTweaks.experienceLevelShown(id));
-        perId(L, d + "sneakingAvailable", id -> HistoricalGameplayTweaks.sneakingAvailable(id));
-        perId(L, d + "functionalBrewing", id -> HistoricalGameplayTweaks.functionalBrewing(id));
-        perId(L, d + "endPortalFunctional", id -> HistoricalGameplayTweaks.endPortalFunctional(id));
-        perId(L, d + "enchantingTableExists", id -> HistoricalGameplayTweaks.enchantingTableExists(id));
-        perId(L, d + "betaGoldenApple", id -> HistoricalGameplayTweaks.betaGoldenApple(id));
-        perId(L, d + "betaFoodHungerValues", id -> HistoricalGameplayTweaks.betaFoodHungerValues(id));
-        perId(L, d + "betaRegenerationModel", id -> HistoricalGameplayTweaks.betaRegenerationModel(id));
-        perId(L, d + "betaCriticalHitFormula", id -> HistoricalGameplayTweaks.betaCriticalHitFormula(id));
-        perId(L, d + "swordDamageBeforeReleaseOnePointZero",
-            id -> HistoricalGameplayTweaks.swordDamageBeforeReleaseOnePointZero(id));
-        perId(L, d + "blockFallDamageReductionEnabled",
-            id -> HistoricalGameplayTweaks.blockFallDamageReductionEnabled(id));
-        perId(L, d + "jumpRequiresFreshPress", id -> HistoricalGameplayTweaks.jumpRequiresFreshPress(id));
-        perId(L, d + "jumpExperienceBug(seed=42)",
-            id -> HistoricalGameplayTweaks.jumpExperienceBug(id, RandomSource.create(42L)));
-
-        for (String boundary : Arrays.asList(P + "beta_1_2", P + "beta_1_7_3", P + "beta_1_8_1", P + "release_1_4",
-            P + "release_1_6_4", "example:not_a_version", null)) {
-            perId(L, d + "olderThanVersion(boundary=" + boundary + ")",
-                id -> HistoricalGameplayTweaks.olderThanVersion(id, boundary));
-        }
-
-        probe(L, d + "preBeta18BoundaryChronology()|-", () -> HistoricalGameplayTweaks.preBeta18BoundaryChronology());
-        probe(L, d + "sneakingBoundaryChronology()|-", () -> HistoricalGameplayTweaks.sneakingBoundaryChronology());
-        probe(L, d + "offhandBoundaryChronology()|-", () -> HistoricalGameplayTweaks.offhandBoundaryChronology());
-        probe(L, d + "netherBoundaryChronology()|-", () -> HistoricalGameplayTweaks.netherBoundaryChronology());
-        probe(L, d + "f4PortalBoundaryChronology()|-", () -> HistoricalGameplayTweaks.f4PortalBoundaryChronology());
-        probe(L, d + "functionalEnchantingBoundaryChronology()|-",
-            () -> HistoricalGameplayTweaks.functionalEnchantingBoundaryChronology());
-        probe(L, d + "swordDamageBeforeReleaseBoundaryChronology()|-",
-            () -> HistoricalGameplayTweaks.swordDamageBeforeReleaseBoundaryChronology());
-        probe(L, d + "eraArrowSpeedPercent()|-", () -> HistoricalGameplayTweaks.eraArrowSpeedPercent());
+    static {
+        GATE_FEATURE.put("skeletonStrafing", Feature.NO_SKELETON_STRAFING);
+        GATE_FEATURE.put("criticalHit", Feature.NO_CRITICAL_HITS);
+        GATE_FEATURE.put("panic", Feature.NO_ANIMAL_PANIC);
+        GATE_FEATURE.put("avoidSun", Feature.NO_MONSTER_SUN_AVOIDANCE);
+        GATE_FEATURE.put("customDeathLoot", Feature.OLD_SKELETON_DROPS);
+        GATE_FEATURE.put("breeding", Feature.NO_ANIMAL_BREEDING);
+        GATE_FEATURE.put("tempting", Feature.NO_ANIMAL_TEMPTING);
+        GATE_FEATURE.put("babyAnimal", Feature.NO_BABY_ANIMALS);
+        GATE_FEATURE.put("itemPickup", Feature.NO_MONSTER_ITEM_PICKUP);
+        GATE_FEATURE.put("monsterGear", Feature.NO_MONSTER_GEAR);
+        GATE_FEATURE.put("monsterEnchant", Feature.NO_MONSTER_ENCHANTS);
+        GATE_FEATURE.put("babyZombie", Feature.NO_BABY_ZOMBIES);
+        GATE_FEATURE.put("cooldown", Feature.NO_ATTACK_COOLDOWN);
+        GATE_FEATURE.put("sweep", Feature.NO_SWEEP_ATTACK);
+        GATE_FEATURE.put("swim", Feature.NO_SWIMMING);
+        GATE_FEATURE.put("punchShear", Feature.PUNCH_SHEARS);
+        GATE_FEATURE.put("toolDurability", Feature.OLD_TOOL_DURABILITY);
+        GATE_FEATURE.put("mobArms", Feature.OLD_ZOMBIE_ARMS);
+        GATE_FEATURE.put("endPortalFrameExplodes", Feature.END_PORTAL_FRAME_EXPLODES);
+        GATE_FEATURE.put("jumpExperienceBug", Feature.JUMP_EXPERIENCE_BUG);
+        GATE_FEATURE.put("silkySpawners", Feature.SILKY_SPAWNERS);
+        GATE_FEATURE.put("endPortalFrameLightFifteen", Feature.END_PORTAL_FRAME_LIGHT_15);
+        GATE_FEATURE.put("snowballSurplus", Feature.SNOWBALL_SURPLUS);
+        GATE_FEATURE.put("noToolShaping", Feature.NO_TOOL_SHAPING);
+        GATE_FEATURE.put("instantBow", Feature.INSTANT_BOW);
+        GATE_FEATURE.put("arrowSpeed", Feature.ARROW_SPEED);
+        GATE_FEATURE.put("invincibleBow", Feature.INVINCIBLE_BOW);
+        GATE_FEATURE.put("instantAir", Feature.INSTANT_AIR);
+        GATE_FEATURE.put("instantBonemeal", Feature.INSTANT_BONE_MEAL);
+        GATE_FEATURE.put("punchTnt", Feature.PUNCH_TNT);
+        GATE_FEATURE.put("grassSeeds", Feature.GRASS_SEEDS);
+        GATE_FEATURE.put("oldFishingLoot", Feature.OLD_FISHING_LOOT);
+        GATE_FEATURE.put("noFishingExperience", Feature.NO_FISHING_EXPERIENCE);
     }
 
+    private static void gameplayTweaks(List<String> L) {
+        String d = "gameplay.HistoricalGameplayTweaks.";
+        for (String gate : GATES) {
+            Feature feature = GATE_FEATURE.get(gate);
+            if (feature == null) {
+                throw new AssertionError("gate " + gate + " has no replacement feature");
+            }
+            perId(L, d + "appliesTo(" + gate + ")", id -> Features.active(feature, id));
+        }
+
+        perId(L, d + "swordBlockingEnabled", id -> Features.active(Feature.OLD_SWORD_BLOCKING, id));
+        perId(L, d + "betaExhaustionCosts", id -> Features.active(Feature.BETA_EXHAUSTION_COSTS, id));
+        perId(L, d + "betaSprintJumpExhaustion", id -> Features.active(Feature.BETA_SPRINT_JUMP_EXHAUSTION, id));
+        perId(L, d + "functionalEnchanting", id -> !Features.active(Feature.NO_REAL_ENCHANTING, id));
+        perId(L, d + "enchantingDisabled", id -> Features.active(Feature.NO_ENCHANTING, id));
+        perId(L, d + "placeholderEnchantmentTooltip", id -> Features.active(Feature.ENCHANTING_PLACEHOLDER, id));
+        perId(L, d + "f4SpawnsPortal", id -> Features.active(Feature.F4_PORTAL_KEY, id));
+        perId(L, d + "netherAvailable", id -> !Features.active(Feature.NO_NETHER, id));
+        perId(L, d + "foodStacks", id -> !Features.active(Feature.UNSTACKABLE_FOOD, id));
+        perId(L, d + "offhandUnavailable", id -> Features.active(Feature.NO_OFFHAND, id));
+        perId(L, d + "experienceLevelShown", id -> !Features.active(Feature.HIDDEN_XP_LEVEL, id));
+        perId(L, d + "sneakingAvailable", id -> !Features.active(Feature.NO_SNEAKING, id));
+        perId(L, d + "functionalBrewing", id -> !Features.active(Feature.NO_BREWING, id));
+        perId(L, d + "endPortalFunctional", id -> !Features.active(Feature.INERT_END_PORTAL, id));
+        perId(L, d + "betaGoldenApple", id -> Features.active(Feature.BETA_GOLDEN_APPLE, id));
+        perId(L, d + "betaFoodHungerValues", id -> Features.active(Feature.BETA_FOOD_HUNGER_VALUES, id));
+        perId(L, d + "betaRegenerationModel", id -> Features.active(Feature.BETA_REGENERATION, id));
+        perId(L, d + "betaCriticalHitFormula", id -> Features.active(Feature.BETA_CRITICAL_HIT_FORMULA, id));
+        perId(L, d + "swordDamageBeforeReleaseOnePointZero", id -> Features.active(Feature.OLD_SWORD_DAMAGE, id));
+        perId(L, d + "blockFallDamageReductionEnabled",
+            id -> Features.active(Feature.SWORD_BLOCK_FALL_PROTECTION, id));
+        perId(L, d + "jumpRequiresFreshPress", id -> Features.active(Feature.JUMP_EXPERIENCE_BUG, id));
+
+        if (loadable(L, "net.historicalexperience.gameplay.HistoricalGameplayTweaks")) {
+            perId(L, d + "jumpExperienceBug(seed=42)",
+                id -> HistoricalGameplayTweaks.jumpExperienceBug(id, RandomSource.create(42L)));
+            probe(L, d + "eraArrowSpeedPercent()|-", () -> HistoricalGameplayTweaks.eraArrowSpeedPercent());
+        }
+    }
     /** The no-argument predicates that read the process-wide active session. */
     private static void gameplayTweaksSession(List<String> L) {
         if (!loadable(L, "net.historicalexperience.version.ActiveVersion")
@@ -267,21 +287,20 @@ class VersionBehaviourSnapshotTest {
         }
         String d = "gameplay.HistoricalGameplayTweaks.";
         Map<String, Supplier<Object>> predicates = new LinkedHashMap<>();
-        predicates.put("oreDropsAsBlocks", () -> HistoricalGameplayTweaks.oreDropsAsBlocks());
-        predicates.put("endPortalFrameExplodes", () -> HistoricalGameplayTweaks.endPortalFrameExplodes());
-        predicates.put("silkySpawnerDrops", () -> HistoricalGameplayTweaks.silkySpawnerDrops());
-        predicates.put("endPortalFrameLightFifteen", () -> HistoricalGameplayTweaks.endPortalFrameLightFifteen());
-        predicates.put("snowballSurplus", () -> HistoricalGameplayTweaks.snowballSurplus());
-        predicates.put("noToolShaping", () -> HistoricalGameplayTweaks.noToolShaping());
-        predicates.put("instantAir", () -> HistoricalGameplayTweaks.instantAir());
-        predicates.put("instantBonemeal", () -> HistoricalGameplayTweaks.instantBonemeal());
-        predicates.put("punchTnt", () -> HistoricalGameplayTweaks.punchTnt());
-        predicates.put("grassSeeds", () -> HistoricalGameplayTweaks.grassSeeds());
-        predicates.put("oldFishingLoot", () -> HistoricalGameplayTweaks.oldFishingLoot());
-        predicates.put("noFishingExperience", () -> HistoricalGameplayTweaks.noFishingExperience());
-        predicates.put("instantBow", () -> HistoricalGameplayTweaks.instantBow());
-        predicates.put("invincibleBow", () -> HistoricalGameplayTweaks.invincibleBow());
-        predicates.put("jumpExperienceBug(seed=42)",
+        predicates.put("oreDropsAsBlocks", () -> Features.active(Feature.ORE_DROPS_AS_BLOCKS));
+        predicates.put("endPortalFrameExplodes", () -> Features.active(Feature.END_PORTAL_FRAME_EXPLODES));
+        predicates.put("silkySpawnerDrops", () -> Features.active(Feature.SILKY_SPAWNERS));
+        predicates.put("endPortalFrameLightFifteen", () -> Features.active(Feature.END_PORTAL_FRAME_LIGHT_15));
+        predicates.put("snowballSurplus", () -> Features.active(Feature.SNOWBALL_SURPLUS));
+        predicates.put("noToolShaping", () -> Features.active(Feature.NO_TOOL_SHAPING));
+        predicates.put("instantAir", () -> Features.active(Feature.INSTANT_AIR));
+        predicates.put("instantBonemeal", () -> Features.active(Feature.INSTANT_BONE_MEAL));
+        predicates.put("punchTnt", () -> Features.active(Feature.PUNCH_TNT));
+        predicates.put("grassSeeds", () -> Features.active(Feature.GRASS_SEEDS));
+        predicates.put("oldFishingLoot", () -> Features.active(Feature.OLD_FISHING_LOOT));
+        predicates.put("noFishingExperience", () -> Features.active(Feature.NO_FISHING_EXPERIENCE));
+        predicates.put("instantBow", () -> Features.active(Feature.INSTANT_BOW));
+        predicates.put("invincibleBow", () -> Features.active(Feature.INVINCIBLE_BOW));        predicates.put("jumpExperienceBug(seed=42)",
             () -> HistoricalGameplayTweaks.jumpExperienceBug(RandomSource.create(42L)));
         predicates.put("HistoricalActiveSession.current", () -> ActiveVersion.current());
         predicates.put("HistoricalActiveSession.isHistorical", () -> ActiveVersion.isHistorical());

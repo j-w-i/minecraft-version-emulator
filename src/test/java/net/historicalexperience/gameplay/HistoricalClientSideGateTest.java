@@ -65,14 +65,18 @@ class HistoricalClientSideGateTest {
 
     @Test
     void versionBoundariesAreAskableWithoutALevel() throws Exception {
-        String tweaks = read("HistoricalGameplayTweaks.java");
+        // The feature facade has a session form and a named-version form and NO level form, so a rule cannot ask a
+        // gate about a level at all - the defect this test's other cases guard against is unrepresentable.
+        Path version = Path.of("src/main/java/net/historicalexperience/version/Features.java");
+        String facade = Files.readString(version);
 
-        assertTrue(tweaks.contains("public static boolean swordBlockingEnabled(String versionId)"),
-            "a version-id overload must exist so a rule can ask about a version rather than a level");
-        assertTrue(tweaks.contains("return swordBlockingEnabled(versionOf(level));"),
-            "the level overload must delegate to the version overload, so there is still only one boundary");
+        assertTrue(facade.contains("public static boolean active(Feature feature)"),
+            "the session form must exist: it answers on both sides");
+        assertTrue(facade.contains("public static boolean active(Feature feature, String versionId)"),
+            "a version-id form must exist so a rule can ask about a version rather than a level");
+        assertFalse(facade.contains("Level"),
+            "the facade must not accept a level: a client level resolves to nothing and switches the rule off");
     }
-
     @Test
     void noMixinAsksAVersionGateAboutALevel() throws Exception {
         java.util.List<String> offenders = new java.util.ArrayList<>();

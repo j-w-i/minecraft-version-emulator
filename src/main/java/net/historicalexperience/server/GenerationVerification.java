@@ -269,8 +269,8 @@ public final class GenerationVerification {
             net.minecraft.world.item.Items.DIAMOND_SHOVEL, net.minecraft.world.item.Items.NETHERITE_SHOVEL);
 
         String versionId = net.historicalexperience.version.ActiveVersion.current();
-        boolean beforeNerf = net.historicalexperience.gameplay.HistoricalGameplayTweaks
-            .swordDamageBeforeReleaseOnePointZero(versionId);
+        boolean beforeNerf = net.historicalexperience.version.Features.active(
+            net.historicalexperience.version.Feature.OLD_SWORD_DAMAGE, versionId);
         out.put("sessionVersion", String.valueOf(versionId));
         out.put("swordPreNerfFigures", beforeNerf);
 

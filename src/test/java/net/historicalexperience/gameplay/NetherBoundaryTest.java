@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Milestones;
+
 import net.historicalexperience.version.Features;
 
 import net.historicalexperience.version.Feature;
@@ -79,11 +81,11 @@ class NetherBoundaryTest {
     @Test
     void theBoundaryLiteralFollowsTheRegistrarsOwnNumbering() {
         assertEquals(HistoricalVersions.chronology(ERA_ALPHA, 1, 2, 0),
-            HistoricalGameplayTweaks.netherBoundaryChronology(),
+            Milestones.ALPHA_1_2_0.key(),
             "the Nether arrives in Alpha 1.2.0, a target that is not declared yet, so the boundary is a literal tied "
                 + "to the registry's scheme");
 
-        assertTrue(HistoricalGameplayTweaks.netherBoundaryChronology()
+        assertTrue(Milestones.ALPHA_1_2_0.key()
                 > HistoricalVersions.byId("historical_experience:alpha").orElseThrow().chronology(),
             "Alpha v1.1.2_01 must sit below the Nether boundary");
 

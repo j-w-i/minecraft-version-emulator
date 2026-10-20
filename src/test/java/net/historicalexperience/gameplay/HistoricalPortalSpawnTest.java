@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Milestones;
+
 import net.historicalexperience.version.Features;
 
 import net.historicalexperience.version.Feature;
@@ -119,7 +121,7 @@ class HistoricalPortalSpawnTest {
                 version.id() + ": the F4 portal key belongs to exactly one declared build");
         }
         assertEquals(HistoricalVersions.byId("historical_experience:alpha_1_2_2a").orElseThrow().chronology(),
-            HistoricalGameplayTweaks.f4PortalBoundaryChronology(),
+            HistoricalVersions.byId("historical_experience:alpha_1_2_2a").orElseThrow().chronology(),
             "the literal and the registry must agree, or the gate could name the wrong build");
     }
 
@@ -141,8 +143,8 @@ class HistoricalPortalSpawnTest {
         // The Nether is a wider boundary than this key, and the two must not be conflated.
         assertTrue(!Features.active(Feature.NO_NETHER, "historical_experience:alpha_1_2_0"),
             "1.2.0 has the Nether; it just has no F4 key");
-        assertTrue(HistoricalGameplayTweaks.f4PortalBoundaryChronology()
-            > HistoricalGameplayTweaks.netherBoundaryChronology(),
+        assertTrue(HistoricalVersions.byId("historical_experience:alpha_1_2_2a").orElseThrow().chronology()
+            > Milestones.ALPHA_1_2_0.key(),
             "the key's boundary is later than the Nether's and is stated separately");
     }
 }

@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Milestones;
+
 import net.historicalexperience.version.Features;
 
 import net.historicalexperience.version.Feature;
@@ -67,13 +69,13 @@ class EnchantingBoundaryTest {
 
     @Test
     void theTableExistsFromPrereleaseThreeButNotBefore() {
-        assertFalse(HistoricalGameplayTweaks.enchantingTableExists("historical_experience:beta_1_8_1"),
+        assertTrue(Features.active(Feature.NO_ENCHANTING, "historical_experience:beta_1_8_1"),
             "Beta 1.8 has no enchanting table, only an unspendable experience bar");
-        assertTrue(HistoricalGameplayTweaks.enchantingTableExists(BETA_1_9_PRE_3),
+        assertFalse(Features.active(Feature.NO_ENCHANTING, BETA_1_9_PRE_3),
             "Prerelease 3 is where the table and its interface arrive");
 
         // The two gates are deliberately not the same gate: Prerelease 3 has the block without the function.
-        assertTrue(HistoricalGameplayTweaks.enchantingTableExists(BETA_1_9_PRE_3)
+        assertTrue(!Features.active(Feature.NO_ENCHANTING, BETA_1_9_PRE_3)
                 && Features.active(Feature.NO_REAL_ENCHANTING, BETA_1_9_PRE_3),
             "Prerelease 3 must be the version where the table exists and does nothing");
     }
@@ -82,7 +84,7 @@ class EnchantingBoundaryTest {
     void theNumericBoundaryFollowsTheRegistrarsOwnNumbering() {
         int prereleaseThree = HistoricalVersions.byId(BETA_1_9_PRE_3).orElseThrow().chronology();
 
-        assertEquals(prereleaseThree + 1, HistoricalGameplayTweaks.functionalEnchantingBoundaryChronology(),
+        assertEquals(prereleaseThree + 1, Milestones.BETA_1_9_PRE_4.key(),
             "the boundary is written as a literal because Beta 1.9 Prerelease 4 is not declared yet. This test ties "
                 + "it to the registry's numbering scheme, so that a literal which drifts silently - era offset, "
                 + "major, minor or patch - fails here instead of quietly gating the wrong build");
@@ -102,7 +104,5 @@ class EnchantingBoundaryTest {
         assertFalse(Features.active(Feature.NO_ENCHANTING, (String) null),
             "nothing is disabled in a world with no historical version");
         assertFalse(Features.active(Feature.NO_ENCHANTING, "historical_experience:no_such_version"));
-        // `enchantingTableExists` is a different question - whether the BLOCK is obtainable - and is left as it was.
-        assertFalse(HistoricalGameplayTweaks.enchantingTableExists(null));
     }
 }
