@@ -1,3 +1,25 @@
+# Current work — 2026-10-21 / Gap 14: the redstone lamp is Release 1.2.1 content
+
+minecraft.wiki, Redstone Lamp history (raw wikitext, fetched 2026-10-21): "1.2.1 (12w07a) Added redstone lamps". The
+project's Release 1.2.5 profile is that line, so the lamp belongs there. It was in the Release 1.3+ bucket, so a
+Release 1.2.5 world refused it while the creative catalogue already dated it correctly - the exact internal contradiction
+the audit reported.
+
+Moved to `from("release_1_2_5", "redstone_lamp")`, with the wiki row quoted in the code. Release 1.1 still refuses it,
+1.2.5 and later allow it; pinned in `ReleaseGearedMobsAndToolsTest`.
+
+**Checked while here, and deliberately not changed:** the audit's A-11/A-13 slab items. The facts sheet shows no slab
+being refused in Beta 1.3 - the block-date gate does not currently reject `oak_slab` there - so the remaining slab
+issues are the OUTPUT COUNT and the `smooth_stone_slab` substitution, exactly the two I could not source well enough
+earlier. They stay recorded as open rather than guessed, and `oak_slab`'s 1.6.4 date in the block table is noted as
+inconsistent with that but has no observed effect today.
+
+**Evidence:** `./gradlew test` - **800 tests, 0 failures**; golden, matrix and facts regenerated.
+
+**Still open:** potion strengths, XP curve/sources, achievements, block-break delay, boats, maps, signs, the F3 overlay,
+stone-slab substitution, slab/ladder/plate output counts, and the Pre3 frame item form.
+
+---
 # Current work — 2026-10-21 / Gap 13: cake heals 3 per slice before hunger (Beta 1.2-1.7.3)
 
 research/minecraft-version-history.md: "Beta 1.2 cake (3 health per slice, 18 for the whole cake)". Cake is the only

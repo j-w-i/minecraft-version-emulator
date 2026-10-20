@@ -170,7 +170,11 @@ public final class HistoricalCraftingEra {
         // in every Beta world even though the era crafted it.
         from("infdev_420", "golden_apple");
 
-        // ---- Release 1.2: the other woods' planks ---------------------------------------------------------
+        // ---- Release 1.2: the redstone lamp and the other woods' planks ------------------------------------
+        // minecraft.wiki, Redstone Lamp history: "1.2.1 (12w07a) Added redstone lamps". Release 1.2.1 is the build
+        // this project's Release 1.2.5 profile stands for, so the lamp is craftable there and not a release later
+        // (the audit found it refused in 1.2.5 while the creative catalogue already dated it correctly).
+        from("release_1_2_5", "redstone_lamp");
         from("release_1_2_5", "spruce_planks", "birch_planks", "jungle_planks");
 
         // ---- Release 1.3+ ---------------------------------------------------------------------------------
@@ -184,7 +188,7 @@ public final class HistoricalCraftingEra {
             "light_weighted_pressure_plate", "heavy_weighted_pressure_plate", "trapped_chest", "hopper", "dropper",
             "comparator", "daylight_detector", "activator_rail", "hopper_minecart", "tnt_minecart", "quartz_block",
             "chiseled_quartz_block", "quartz_pillar", "quartz_slab", "quartz_stairs", "nether_brick_slab",
-            "redstone_lamp", "oak_button");
+            "oak_button");
         // STATED: the anvil is 1.4.2 (12w41a); the others are 1.4.x items with no palette, dated to the Release 1.4
         // profile as the earliest that could have them.
         from("release_1_4", "anvil", "item_frame", "carrot_on_a_stick", "golden_carrot", "firework_rocket", "beacon");

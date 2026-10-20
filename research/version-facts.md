@@ -19,7 +19,7 @@
 
 **Drops:** zombie -> feather (0..2); spider -> string (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 4 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:bread=5, minecraft:porkchop=3, minecraft:mushroom_stew=10}
+**Food:** 4 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:mushroom_stew=10, minecraft:porkchop=3, minecraft:bread=5}
 
 **Enchantments:** none
 
@@ -47,7 +47,7 @@
 
 **Drops:** zombie -> feather (0..2); spider -> string (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -75,7 +75,7 @@
 
 **Drops:** zombie -> feather (0..2); spider -> string (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -103,7 +103,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -131,7 +131,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -159,7 +159,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -187,7 +187,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -215,7 +215,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -243,7 +243,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -271,7 +271,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -299,7 +299,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -327,7 +327,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -355,7 +355,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -551,7 +551,7 @@
 
 **Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 9 declared direct heals: {minecraft:apple=4, minecraft:golden_apple=42, minecraft:porkchop=3, minecraft:cookie=1, minecraft:cooked_porkchop=8, minecraft:bread=5, minecraft:mushroom_stew=10, minecraft:cooked_cod=5, minecraft:cod=2}
+**Food:** 9 declared direct heals: {minecraft:cookie=1, minecraft:porkchop=3, minecraft:apple=4, minecraft:golden_apple=42, minecraft:cod=2, minecraft:cooked_cod=5, minecraft:mushroom_stew=10, minecraft:bread=5, minecraft:cooked_porkchop=8}
 
 **Enchantments:** none
 
@@ -835,7 +835,7 @@
 
 **Enchantments:** 21: [aqua_affinity, bane_of_arthropods, blast_protection, efficiency, feather_falling, fire_aspect, fire_protection, flame, fortune, infinity, knockback, looting, power, projectile_protection, protection, punch, respiration, sharpness, silk_touch, smite, unbreaking]
 
-**Crafting:** 268 allow-listed ids, 76 refused by the item gate: [activator_rail, anvil, beacon, birch_slab, birch_stairs, black_carpet, black_terracotta, blue_carpet, blue_terracotta, brown_carpet, brown_terracotta, carrot_on_a_stick, chiseled_quartz_block, coal_block, cobblestone_wall, comparator, cyan_carpet, cyan_terracotta, daylight_detector, dropper, emerald, emerald_block, enchanted_golden_apple, ender_chest, firework_rocket, flower_pot, golden_carrot, gray_carpet, gray_terracotta, green_carpet, green_terracotta, hay_block, heavy_weighted_pressure_plate, hopper, hopper_minecart, item_frame, jungle_slab, jungle_stairs, lead, light_blue_carpet, light_blue_terracotta, light_gray_carpet, light_gray_terracotta, light_weighted_pressure_plate, lime_carpet, lime_terracotta, magenta_carpet, magenta_terracotta, mossy_cobblestone_wall, nether_brick_slab, oak_button, orange_carpet, orange_terracotta, pink_carpet, pink_terracotta, purple_carpet, purple_terracotta, quartz_block, quartz_pillar, quartz_slab, quartz_stairs, red_carpet, red_terracotta, redstone_block, redstone_lamp, sandstone_stairs, spruce_slab, spruce_stairs, tnt_minecart, trapped_chest, tripwire_hook, white_carpet, white_terracotta, writable_book, yellow_carpet, yellow_terracotta], 1 refused by the BLOCK-DATE gate: [golden_apple]; REMOVED-RECIPE recipes supplied: [minecraft:enchanted_golden_apple, minecraft:golden_apple, minecraft:golden_apple, minecraft:arrow, minecraft:white_wool, minecraft:leather_helmet, minecraft:leather_chestplate, minecraft:leather_leggings, minecraft:leather_boots]
+**Crafting:** 268 allow-listed ids, 75 refused by the item gate: [activator_rail, anvil, beacon, birch_slab, birch_stairs, black_carpet, black_terracotta, blue_carpet, blue_terracotta, brown_carpet, brown_terracotta, carrot_on_a_stick, chiseled_quartz_block, coal_block, cobblestone_wall, comparator, cyan_carpet, cyan_terracotta, daylight_detector, dropper, emerald, emerald_block, enchanted_golden_apple, ender_chest, firework_rocket, flower_pot, golden_carrot, gray_carpet, gray_terracotta, green_carpet, green_terracotta, hay_block, heavy_weighted_pressure_plate, hopper, hopper_minecart, item_frame, jungle_slab, jungle_stairs, lead, light_blue_carpet, light_blue_terracotta, light_gray_carpet, light_gray_terracotta, light_weighted_pressure_plate, lime_carpet, lime_terracotta, magenta_carpet, magenta_terracotta, mossy_cobblestone_wall, nether_brick_slab, oak_button, orange_carpet, orange_terracotta, pink_carpet, pink_terracotta, purple_carpet, purple_terracotta, quartz_block, quartz_pillar, quartz_slab, quartz_stairs, red_carpet, red_terracotta, redstone_block, sandstone_stairs, spruce_slab, spruce_stairs, tnt_minecart, trapped_chest, tripwire_hook, white_carpet, white_terracotta, writable_book, yellow_carpet, yellow_terracotta], 1 refused by the BLOCK-DATE gate: [golden_apple]; REMOVED-RECIPE recipes supplied: [minecraft:enchanted_golden_apple, minecraft:golden_apple, minecraft:golden_apple, minecraft:arrow, minecraft:white_wool, minecraft:leather_helmet, minecraft:leather_chestplate, minecraft:leather_leggings, minecraft:leather_boots]
 
 **Structures:** restricted to [historical_experience:historical_village, minecraft:fortress, minecraft:mineshaft, minecraft:stronghold]
 

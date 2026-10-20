@@ -55,6 +55,18 @@ class ReleaseGearedMobsAndToolsTest {
     }
 
     @Test
+    @DisplayName("the redstone lamp is Release 1.2.1 content, so Release 1.2.5 crafts it")
+    void redstoneLampDate() {
+        // minecraft.wiki, Redstone Lamp history: "1.2.1 (12w07a) Added redstone lamps"; Release 1.2.5 is this
+        // project's profile for that line.
+        assertTrue(HistoricalCraftingEra.isRefused(P + "release_1_1", "minecraft:redstone_lamp", null),
+            "Release 1.1 predates the lamp");
+        assertFalse(HistoricalCraftingEra.isRefused(P + "release_1_2_5", "minecraft:redstone_lamp", null),
+            "Release 1.2.5 is the 1.2.1 baseline and had the lamp");
+        assertFalse(HistoricalCraftingEra.isRefused(P + "release_1_3", "minecraft:redstone_lamp", null));
+    }
+
+    @Test
     @DisplayName("compass is Alpha 1.1.0 and clock is Alpha 1.2.0, as the creative catalogue already said")
     void compassAndClockDates() {
         assertTrue(HistoricalCraftingEra.isRefused(P + "alpha_1_0_1", "minecraft:compass", null));

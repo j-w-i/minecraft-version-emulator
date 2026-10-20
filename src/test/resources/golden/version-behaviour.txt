@@ -6110,7 +6110,7 @@ gameplay.HistoricalCraftingEra.firstVersion(minecraft:red_terracotta)|-=historic
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:red_wool)|-=historical_experience:beta_1_2
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:redstone)|-=null
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:redstone_block)|-=historical_experience:release_1_3
-gameplay.HistoricalCraftingEra.firstVersion(minecraft:redstone_lamp)|-=historical_experience:release_1_3
+gameplay.HistoricalCraftingEra.firstVersion(minecraft:redstone_lamp)|-=historical_experience:release_1_2_5
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:redstone_torch)|-=historical_experience:alpha_1_0_1
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:repeater)|-=historical_experience:beta_1_3
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:sandstone)|-=historical_experience:beta_1_2
@@ -6651,7 +6651,7 @@ gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:red_terracotta)|*
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:red_wool)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTFFFFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:redstone)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:redstone_block)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
-gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:redstone_lamp)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
+gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:redstone_lamp)|*=TTTTTTTTTTFFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:redstone_torch)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:repeater)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTFFFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:sandstone)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTFFFFFTFFF
@@ -6922,7 +6922,7 @@ gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:red_terracotta)|*
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:red_wool)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTFFFFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:redstone)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:redstone_block)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
-gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:redstone_lamp)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
+gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:redstone_lamp)|*=TTTTTTTTTTFFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:redstone_torch)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:repeater)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTFFFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:sandstone)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTFFFFFTFFF
