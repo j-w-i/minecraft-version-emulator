@@ -1,3 +1,21 @@
+# Current work — 2026-10-21 / Test-and-docs audit: every "implemented" row is backed, and the handoff is written down
+
+With the last implementable audit item shipped, this round audited the records themselves rather than adding features:
+
+- **every test class named in the status board exists** (28/28), and the probe script the board refers to exists;
+- **no test file is assertion-free**: a scan for `@Test` files with no `assert*`/`fail`/`assertThrows` found none;
+- **every relative link in the status board resolves**, and every research artefact it references exists;
+- the open list had one duplicated item (spawn weights appeared as both an evidence gap and a mechanism gap); consolidated
+  into the evidence row, which also now carries the pre-1.9 AI note;
+- **"Where to continue"** added: how the document and `PROGRESS.md` fit together, the two lessons that cost real time (a
+  probe that exercises one code path can be confidently wrong - the `blockId = null` crafting-gate mistake; and a mixin
+  is only verified when its class loads), and the three scripts that do the runtime work plus the rule that the block
+  table is edited in its generator, not the generated Java.
+
+Final verification of this HEAD: `./gradlew cleanTest test` - **159 suites, 828 tests, 0 failures**; dedicated server
+boots to `Done (2.839s)` with zero mixin errors; tree committed.
+
+---
 # Current work — 2026-10-21 / Gap 31: pressure plates take three blocks before Beta 1.3
 
 The last recipe-shape item. The row is on the Pressure Plate page itself, in the Beta section: "Pressure plates now

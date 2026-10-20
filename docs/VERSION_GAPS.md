@@ -51,7 +51,7 @@ The full evidence for every finding stays in the four era documents:
 | Item | Why open |
 | --- | --- |
 | Player armour/damage formulas, mob attack values | Need client jars; the era audit marked them UNKNOWN |
-| Spawn weights, pack sizes, light thresholds | Not in any extracted artifact; the spawner keeps modern weights |
+| Spawn weights, pack sizes, light thresholds, pre-1.9 AI | Not in any extracted artifact; the spawner keeps modern weights, and the 13 existing mob gates are the modelled AI subset |
 | Pre-1.3.1 XP curve | The wiki only says 1.3.1 "adjusted" it; no table found |
 | Critical-hit formula at exactly 1.6.x | The wiki's own history asks "1.6 or 1.7?" |
 | Pre3 frame: glistering melon / fire charge dates | The audit could not move them from Pre3 |
@@ -65,7 +65,6 @@ The full evidence for every finding stays in the four era documents:
 | Potion recipes | Needs a per-potion brewing table per version; nothing in the corpus maps to modern potion components yet |
 | Achievements ABOVE Beta 1.5 | The era's own sixteen (and later ten) achievements need a designed mapping to modern advancement ids; the corpus says the full list "needs a per-page audit". The modern advancement set is still shown there |
 | Boat PHYSICS and controls; pre-1.4 maps | Boats still need their physics study (v1.0.6_01 break-on-impact-at-speed, lower inertia from 13w16b, control scheme), which is a simulation change rather than a rule; maps need a dynamic item id (the pre-1.4 map is one item, not the empty/filled pair), which the recipe mechanism cannot express yet |
-| Spawn weights and pre-1.9 AI | Research first; the 13 existing mob gates are the modelled subset |
 
 ### Verified only by unit test, not at runtime
 
@@ -99,3 +98,21 @@ The golden snapshot, version matrix and fact sheet are regenerated as part of ev
 prove is listed in "Verified only by unit test, not at runtime" above - most importantly that no client has yet been
 driven to press F3 in a historical world, so the debug overlay's *appearance* is unverified even though its hook and
 logic are.
+
+
+## Where to continue
+
+The work is tracked by this document plus `PROGRESS.md` (newest first). Each implemented row names the test that pins it,
+and the four verification routes above are the ones to use. Two lessons cost time and are worth keeping in mind:
+
+1. **A probe that only exercises one code path can be confidently wrong.** The crafting-gate finding was initially
+   reported backwards because the probe passed `blockId = null`; the game always passes the result block. Check how the
+   real call site calls a rule before measuring it.
+2. **A mixin is only verified when its class loads.** Unit tests cannot see an invalid injection descriptor; a
+   dedicated-server boot catches server-side hooks, and `-PclientMixinCheck=<class>` catches client ones. Three defects
+   in this project's recent history were found that way and nowhere else.
+
+The scripts that do the runtime work are `scripts/verify-release-height.ps1` (build limits, per build) and
+`scripts/rcon.py` (drive a running server: `/hex status`, summon/kill/damage probes). `scripts/generate-1211-block-availability.py`
+regenerates the block-date table - edit its `TIMELINE` entries rather than the generated Java, and re-run
+`scripts/apply-licence-headers.py` afterwards.
