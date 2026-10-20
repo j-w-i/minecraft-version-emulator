@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Milestones;
+
 import net.historicalexperience.version.DropRule;
 
 import net.minecraft.server.level.ServerLevel;
@@ -165,8 +167,7 @@ public final class HistoricalLootRules {
     /** Sheep meat arrived in Release 1.8; ordinary/unknown worlds must retain their own table. */
     public static boolean usesLegacySheepDrops(String profileId) {
         return profileId != null && net.historicalexperience.version.HistoricalVersions.byId(profileId)
-            .map(version -> version.chronology() < net.historicalexperience.version.HistoricalVersions.chronology(
-                net.historicalexperience.version.HistoricalVersions.ERA_RELEASE, 1, 8, 0))
+            .map(version -> version.isBefore(net.historicalexperience.version.Milestones.RELEASE_1_8))
             .orElse(false);
     }
 

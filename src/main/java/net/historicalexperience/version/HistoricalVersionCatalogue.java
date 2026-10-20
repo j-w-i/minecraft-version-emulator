@@ -59,19 +59,24 @@ public final class HistoricalVersionCatalogue {
      * <p>The base offsets are shared with {@code HistoricalVersions}, which is what makes a catalogue entry's
      * chronology and a declared profile's chronology the same number rather than two schemes that agree by luck.
      */
-    public enum Era {
-        INDDEV("Indev", 200_000),
-        INFDEV("Infdev", 300_000),
-        ALPHA("Alpha", 400_000),
-        BETA("Beta", 500_000),
-        RELEASE("Release", 600_000),
+    /**
+     * The selector's display group. NOT a historical era: {@link Era} is that, and this one adds a SNAPSHOTS group for
+     * the snapshot overlays, which are Release profiles with a patch. It used to be called Era and shadowed the real
+     * one inside this file.
+     */
+    public enum Group {
+        INDEV("Indev", Era.INDEV.base()),
+        INFDEV("Infdev", Era.INFDEV.base()),
+        ALPHA("Alpha", Era.ALPHA.base()),
+        BETA("Beta", Era.BETA.base()),
+        RELEASE("Release", Era.RELEASE.base()),
         // UI group for overlays on Release profiles, not another terrain era/chronology.
-        SNAPSHOTS("Snapshots", 600_000);
+        SNAPSHOTS("Snapshots", Era.RELEASE.base());
 
         private final String displayName;
         private final int base;
 
-        Era(String displayName, int base) {
+        Group(String displayName, int base) {
             this.displayName = displayName;
             this.base = base;
         }
@@ -121,7 +126,7 @@ public final class HistoricalVersionCatalogue {
     public record Entry(
         String key,
         String targetName,
-        Era era,
+        Group era,
         int order,
         Status status,
         String emulated,
@@ -197,12 +202,12 @@ public final class HistoricalVersionCatalogue {
     }
 
     /** The eras, in chronological order, for a screen to group by. */
-    public static List<Era> eras() {
-        return List.of(Era.values());
+    public static List<Group> eras() {
+        return List.of(Group.values());
     }
 
     /** The versions in one era, chronological. */
-    public static List<Entry> entriesIn(Era era) {
+    public static List<Entry> entriesIn(Group era) {
         return ENTRIES.stream().filter(entry -> entry.era() == era).toList();
     }
 
@@ -248,65 +253,65 @@ public final class HistoricalVersionCatalogue {
         //
         // Indev 20100223 is dated the same way (200_000 + 223 = 200_223) and is the oldest entry here. It is the
         // project's only FINITE profile: 256x256x128 with the world border Moderner Beta's own indev preset ships.
-        entries.add(new Entry("historical_experience:indev_latest", "Indev 20100223", Era.INDDEV,
-            chronologyOf("historical_experience:indev_latest", Era.INDDEV, 0, 2, 23), Status.IMPLEMENTED, "", "",
+        entries.add(new Entry("historical_experience:indev_latest", "Indev 20100223", Group.INDEV,
+            chronologyOf("historical_experience:indev_latest", Group.INDEV, 0, 2, 23), Status.IMPLEMENTED, "", "",
             false));
-        entries.add(new Entry("historical_experience:infdev_420", "Infdev 20100420", Era.INFDEV,
-            chronologyOf("historical_experience:infdev_420", Era.INFDEV, 0, 4, 20), Status.IMPLEMENTED, "", "", false));
-        entries.add(new Entry("historical_experience:infdev_611", "Infdev 20100611", Era.INFDEV,
-            chronologyOf("historical_experience:infdev_611", Era.INFDEV, 0, 6, 11), Status.IMPLEMENTED, "", "", false));
-        entries.add(new Entry("historical_experience:alpha", "Alpha v1.1.2_01", Era.ALPHA,
-            chronologyOf("historical_experience:alpha", Era.ALPHA, 1, 1, 2), Status.IMPLEMENTED, "Alpha 1.1.2_01",
+        entries.add(new Entry("historical_experience:infdev_420", "Infdev 20100420", Group.INFDEV,
+            chronologyOf("historical_experience:infdev_420", Group.INFDEV, 0, 4, 20), Status.IMPLEMENTED, "", "", false));
+        entries.add(new Entry("historical_experience:infdev_611", "Infdev 20100611", Group.INFDEV,
+            chronologyOf("historical_experience:infdev_611", Group.INFDEV, 0, 6, 11), Status.IMPLEMENTED, "", "", false));
+        entries.add(new Entry("historical_experience:alpha", "Alpha v1.1.2_01", Group.ALPHA,
+            chronologyOf("historical_experience:alpha", Group.ALPHA, 1, 1, 2), Status.IMPLEMENTED, "Alpha 1.1.2_01",
             "achieved; not one of the planned Alpha targets", false));
 
         // The planned matrix. A target that is already implemented carries the profile that represents it and
         // says so; a target that is not carries the reason it cannot be chosen.
-        planned(entries, Era.ALPHA, "Alpha 1.0.1", 1, 0, 1, "historical_experience:alpha_1_0_1", null);
-        planned(entries, Era.ALPHA, "Alpha 1.0.4", 1, 0, 4, "historical_experience:alpha_1_0_4", null);
-        planned(entries, Era.ALPHA, "Alpha 1.0.6", 1, 0, 6, "historical_experience:alpha_1_0_6", null);
-        planned(entries, Era.ALPHA, "Alpha 1.0.11", 1, 0, 11, "historical_experience:alpha_1_0_11", null);
-        planned(entries, Era.ALPHA, "Alpha 1.0.14", 1, 0, 14, "historical_experience:alpha_1_0_14", null);
-        planned(entries, Era.ALPHA, "Alpha 1.0.17", 1, 0, 17, "historical_experience:alpha_1_0_17", null);
-        planned(entries, Era.ALPHA, "Alpha 1.1.0", 1, 1, 0, "historical_experience:alpha_1_1_0", null);
+        planned(entries, Group.ALPHA, "Alpha 1.0.1", 1, 0, 1, "historical_experience:alpha_1_0_1", null);
+        planned(entries, Group.ALPHA, "Alpha 1.0.4", 1, 0, 4, "historical_experience:alpha_1_0_4", null);
+        planned(entries, Group.ALPHA, "Alpha 1.0.6", 1, 0, 6, "historical_experience:alpha_1_0_6", null);
+        planned(entries, Group.ALPHA, "Alpha 1.0.11", 1, 0, 11, "historical_experience:alpha_1_0_11", null);
+        planned(entries, Group.ALPHA, "Alpha 1.0.14", 1, 0, 14, "historical_experience:alpha_1_0_14", null);
+        planned(entries, Group.ALPHA, "Alpha 1.0.17", 1, 0, 17, "historical_experience:alpha_1_0_17", null);
+        planned(entries, Group.ALPHA, "Alpha 1.1.0", 1, 1, 0, "historical_experience:alpha_1_1_0", null);
         // Alpha v1.2.2a is the BANNER build for the Alpha 1.2 line, chosen by the owner: it is a clone of 1.2.0
         // plus the F4 portal-spawn debug key, which 1.2.0 provably does not have. It is an IMPLEMENTED EXTRA and not a
         // planned target, the same as both Infdev builds and the Alpha v1.1.2_01 profile: the plan does not name it,
         // so counting it would overstate the plan's coverage, but it must stay selectable. 1.2.0 remains selectable
         // too, for anyone who wants the build without the key.
-        entries.add(new Entry("historical_experience:alpha_1_2_2a", "Alpha v1.2.2a", Era.ALPHA,
-            chronologyOf("historical_experience:alpha_1_2_2a", Era.ALPHA, 1, 2, 2), Status.IMPLEMENTED,
+        entries.add(new Entry("historical_experience:alpha_1_2_2a", "Alpha v1.2.2a", Group.ALPHA,
+            chronologyOf("historical_experience:alpha_1_2_2a", Group.ALPHA, 1, 2, 2), Status.IMPLEMENTED,
             "Alpha v1.2.2a", "clone of Alpha v1.2.0 with the F4 portal-spawn debug key", false));
-        planned(entries, Era.ALPHA, "Alpha 1.2.0", 1, 2, 0, "historical_experience:alpha_1_2_0", null);
+        planned(entries, Group.ALPHA, "Alpha 1.2.0", 1, 2, 0, "historical_experience:alpha_1_2_0", null);
 
-        planned(entries, Era.BETA, "Beta 1.0", 1, 0, 0, "historical_experience:beta_1_0", null);
-        planned(entries, Era.BETA, "Beta 1.2", 1, 2, 0, "historical_experience:beta_1_2", null);
-        planned(entries, Era.BETA, "Beta 1.3", 1, 3, 0, "historical_experience:beta_1_3", null);
-        planned(entries, Era.BETA, "Beta 1.4", 1, 4, 0, "historical_experience:beta_1_4", null);
-        planned(entries, Era.BETA, "Beta 1.5", 1, 5, 0, "historical_experience:beta_1_5", null);
-        planned(entries, Era.BETA, "Beta 1.6", 1, 6, 0, "historical_experience:beta_1_6", null);
-        planned(entries, Era.BETA, "Beta 1.7", 1, 7, 0, "historical_experience:beta_1_7_3", "Beta 1.7.3");
-        planned(entries, Era.BETA, "Beta 1.8", 1, 8, 0, "historical_experience:beta_1_8_1", "Beta 1.8.1");
-        planned(entries, Era.BETA, "Beta 1.9 Prerelease 1", 1, 9, 1, "historical_experience:beta_1_9_pre_1", null);
-        planned(entries, Era.BETA, "Beta 1.9 Prerelease 2", 1, 9, 2, "historical_experience:beta_1_9_pre_2", null);
-        planned(entries, Era.BETA, "Beta 1.9 Prerelease 3", 1, 9, 3, "historical_experience:beta_1_9_pre_3",
+        planned(entries, Group.BETA, "Beta 1.0", 1, 0, 0, "historical_experience:beta_1_0", null);
+        planned(entries, Group.BETA, "Beta 1.2", 1, 2, 0, "historical_experience:beta_1_2", null);
+        planned(entries, Group.BETA, "Beta 1.3", 1, 3, 0, "historical_experience:beta_1_3", null);
+        planned(entries, Group.BETA, "Beta 1.4", 1, 4, 0, "historical_experience:beta_1_4", null);
+        planned(entries, Group.BETA, "Beta 1.5", 1, 5, 0, "historical_experience:beta_1_5", null);
+        planned(entries, Group.BETA, "Beta 1.6", 1, 6, 0, "historical_experience:beta_1_6", null);
+        planned(entries, Group.BETA, "Beta 1.7", 1, 7, 0, "historical_experience:beta_1_7_3", "Beta 1.7.3");
+        planned(entries, Group.BETA, "Beta 1.8", 1, 8, 0, "historical_experience:beta_1_8_1", "Beta 1.8.1");
+        planned(entries, Group.BETA, "Beta 1.9 Prerelease 1", 1, 9, 1, "historical_experience:beta_1_9_pre_1", null);
+        planned(entries, Group.BETA, "Beta 1.9 Prerelease 2", 1, 9, 2, "historical_experience:beta_1_9_pre_2", null);
+        planned(entries, Group.BETA, "Beta 1.9 Prerelease 3", 1, 9, 3, "historical_experience:beta_1_9_pre_3",
             null);
-        planned(entries, Era.BETA, "Beta 1.9 Prerelease 4", 1, 9, 4, "historical_experience:beta_1_9_pre_4", null);
-        planned(entries, Era.BETA, "Beta 1.9 Prerelease 5", 1, 9, 5, "historical_experience:beta_1_9_pre_5", null);
-        planned(entries, Era.BETA, "Beta 1.9 Prerelease 6", 1, 9, 6, "historical_experience:beta_1_9_pre_6", null);
+        planned(entries, Group.BETA, "Beta 1.9 Prerelease 4", 1, 9, 4, "historical_experience:beta_1_9_pre_4", null);
+        planned(entries, Group.BETA, "Beta 1.9 Prerelease 5", 1, 9, 5, "historical_experience:beta_1_9_pre_5", null);
+        planned(entries, Group.BETA, "Beta 1.9 Prerelease 6", 1, 9, 6, "historical_experience:beta_1_9_pre_6", null);
 
-        planned(entries, Era.RELEASE, "Release 1.0", 1, 0, 0, "historical_experience:release_1_0_0", null);
-        planned(entries, Era.RELEASE, "Release 1.1", 1, 1, 0, "historical_experience:release_1_1", null);
-        planned(entries, Era.RELEASE, "Release 1.2", 1, 2, 0, "historical_experience:release_1_2_5",
+        planned(entries, Group.RELEASE, "Release 1.0", 1, 0, 0, "historical_experience:release_1_0_0", null);
+        planned(entries, Group.RELEASE, "Release 1.1", 1, 1, 0, "historical_experience:release_1_1", null);
+        planned(entries, Group.RELEASE, "Release 1.2", 1, 2, 0, "historical_experience:release_1_2_5",
             "Release 1.2.5");
-        planned(entries, Era.RELEASE, "Release 1.3", 1, 3, 0, "historical_experience:release_1_3", null);
-        planned(entries, Era.RELEASE, "Release 1.4", 1, 4, 0, "historical_experience:release_1_4", null);
-        planned(entries, Era.RELEASE, "Release 1.5", 1, 5, 0, "historical_experience:release_1_5", null);
-        planned(entries, Era.RELEASE, "Release 1.6", 1, 6, 0, "historical_experience:release_1_6_4",
+        planned(entries, Group.RELEASE, "Release 1.3", 1, 3, 0, "historical_experience:release_1_3", null);
+        planned(entries, Group.RELEASE, "Release 1.4", 1, 4, 0, "historical_experience:release_1_4", null);
+        planned(entries, Group.RELEASE, "Release 1.5", 1, 5, 0, "historical_experience:release_1_5", null);
+        planned(entries, Group.RELEASE, "Release 1.6", 1, 6, 0, "historical_experience:release_1_6_4",
             "Release 1.6.4");
 
         for (var patch : HistoricalSnapshotPatches.all()) {
             var baseline = HistoricalVersions.byId(patch.baseProfileId()).orElseThrow();
-            entries.add(new Entry(patch.id(), patch.displayName(), Era.SNAPSHOTS, baseline.chronology(),
+            entries.add(new Entry(patch.id(), patch.displayName(), Group.SNAPSHOTS, baseline.chronology(),
                 Status.IMPLEMENTED, "", "", false));
         }
         entries.sort(Comparator.comparingInt(Entry::order).thenComparing(Entry::targetName));
@@ -321,7 +326,7 @@ public final class HistoricalVersionCatalogue {
      * renumbered later. An implemented target uses the profile's own id instead, because that is what worlds
      * already persist.
      */
-    private static void planned(List<Entry> entries, Era era, String targetName, int major, int minor,
+    private static void planned(List<Entry> entries, Group era, String targetName, int major, int minor,
             int patch, String representedBy, String emulatedBuild) {
         String key = representedBy != null ? representedBy : plannedKey(era, major, minor, patch);
         Status status = representedBy != null ? Status.IMPLEMENTED : Status.FUTURE;
@@ -340,12 +345,12 @@ public final class HistoricalVersionCatalogue {
      * a world's metadata or a menu selection is resolved. When the version is implemented, this entry gains a
      * {@code representedBy} profile and the key becomes that profile's id, which is what worlds persist.
      */
-    private static String plannedKey(Era era, int major, int minor, int patch) {
+    private static String plannedKey(Group era, int major, int minor, int patch) {
         String eraPart = era.name().toLowerCase(java.util.Locale.ROOT);
 
         // Beta 1.9's prereleases use the registry's existing pre_N convention (beta_1_9_pre_3), so a planned key
         // lines up with the id it will become.
-        if (era == Era.BETA && major == 1 && minor == 9 && patch > 0) {
+        if (era == Group.BETA && major == 1 && minor == 9 && patch > 0) {
             return "historical_experience:planned_beta_1_9_pre_" + patch;
         }
 
@@ -364,7 +369,7 @@ public final class HistoricalVersionCatalogue {
      * registry hand-writes at least one chronology (the Alpha profile) that no formula covering its display name
      * would reproduce.
      */
-    private static int order(Era era, int major, int minor, int patch) {
+    private static int order(Group era, int major, int minor, int patch) {
         return era.chronologyBase() + major * 1_000 + minor * 100 + patch;
     }
 
@@ -374,7 +379,7 @@ public final class HistoricalVersionCatalogue {
      * <p>This is what makes "an implemented entry's order is its registry chronology" true rather than merely
      * plausible, and it is asserted by a test.
      */
-    private static int chronologyOf(String versionId, Era era, int major, int minor, int patch) {
+    private static int chronologyOf(String versionId, Group era, int major, int minor, int patch) {
         if (versionId != null) {
             HistoricalVersion declared = HistoricalVersions.byId(versionId).orElse(null);
             if (declared != null) {

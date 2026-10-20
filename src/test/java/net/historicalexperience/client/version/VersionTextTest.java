@@ -52,7 +52,7 @@ class VersionTextTest {
      * name, summary() is the future note), so a synthetic entry exercises exactly the real path.
      */
     private static HistoricalVersionCatalogue.Entry planned() {
-        return new HistoricalVersionCatalogue.Entry("test:planned", "Beta 1.3", HistoricalVersionCatalogue.Era.BETA, 0,
+        return new HistoricalVersionCatalogue.Entry("test:planned", "Beta 1.3", HistoricalVersionCatalogue.Group.BETA, 0,
             HistoricalVersionCatalogue.Status.FUTURE, "", "the terrain for this build is not implemented yet", true);
     }
 

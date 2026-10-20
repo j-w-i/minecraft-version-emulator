@@ -12516,13 +12516,13 @@ version.HistoricalVersions.atOrAfter(chronology).size|historical_experience:beta
 version.HistoricalVersions.before(chronology).size|historical_experience:beta_1_6=18
 version.HistoricalVersions.atOrAfter(chronology).size|historical_experience:alpha=24
 version.HistoricalVersions.before(chronology).size|historical_experience:alpha=10
-version.HistoricalVersionCatalogue.eras()|-=[INDDEV,INFDEV,ALPHA,BETA,RELEASE,SNAPSHOTS]
+version.HistoricalVersionCatalogue.eras()|-=[INDEV,INFDEV,ALPHA,BETA,RELEASE,SNAPSHOTS]
 version.HistoricalVersionCatalogue.entries().size|-=36
 version.HistoricalVersionCatalogue.implemented().size|-=36
 version.HistoricalVersionCatalogue.plannedTargets().size|-=29
 version.HistoricalVersionCatalogue.implementedExtras().size|-=7
 version.HistoricalVersionCatalogue.future().size|-=0
-version.HistoricalVersionCatalogue.entry[0]|historical_experience:indev_latest=targetName=Indev 20100223 era=INDDEV order=200223 status=IMPLEMENTED emulated= target=false selectable=true futureNote.length=0
+version.HistoricalVersionCatalogue.entry[0]|historical_experience:indev_latest=targetName=Indev 20100223 era=INDEV order=200223 status=IMPLEMENTED emulated= target=false selectable=true futureNote.length=0
 version.HistoricalVersionCatalogue.entry[1]|historical_experience:infdev_420=targetName=Infdev 20100420 era=INFDEV order=300420 status=IMPLEMENTED emulated= target=false selectable=true futureNote.length=0
 version.HistoricalVersionCatalogue.entry[2]|historical_experience:infdev_611=targetName=Infdev 20100611 era=INFDEV order=300611 status=IMPLEMENTED emulated= target=false selectable=true futureNote.length=0
 version.HistoricalVersionCatalogue.entry[3]|historical_experience:alpha_1_0_1=targetName=Alpha 1.0.1 era=ALPHA order=401001 status=IMPLEMENTED emulated= target=true selectable=true futureNote.length=0
@@ -12558,7 +12558,7 @@ version.HistoricalVersionCatalogue.entry[32]|historical_experience:snapshot_12w4
 version.HistoricalVersionCatalogue.entry[33]|historical_experience:release_1_4=targetName=Release 1.4 era=RELEASE order=601400 status=IMPLEMENTED emulated= target=true selectable=true futureNote.length=0
 version.HistoricalVersionCatalogue.entry[34]|historical_experience:release_1_5=targetName=Release 1.5 era=RELEASE order=601500 status=IMPLEMENTED emulated= target=true selectable=true futureNote.length=0
 version.HistoricalVersionCatalogue.entry[35]|historical_experience:release_1_6_4=targetName=Release 1.6 era=RELEASE order=601604 status=IMPLEMENTED emulated=Release 1.6.4 target=true selectable=true futureNote.length=0
-version.HistoricalVersionCatalogue.entriesIn(INDDEV)|-=[historical_experience:indev_latest]
+version.HistoricalVersionCatalogue.entriesIn(INDEV)|-=[historical_experience:indev_latest]
 version.HistoricalVersionCatalogue.entriesIn(INFDEV)|-=[historical_experience:infdev_420,historical_experience:infdev_611]
 version.HistoricalVersionCatalogue.entriesIn(ALPHA)|-=[historical_experience:alpha_1_0_1,historical_experience:alpha_1_0_4,historical_experience:alpha_1_0_6,historical_experience:alpha_1_0_11,historical_experience:alpha_1_0_14,historical_experience:alpha_1_0_17,historical_experience:alpha_1_1_0,historical_experience:alpha,historical_experience:alpha_1_2_0,historical_experience:alpha_1_2_2a]
 version.HistoricalVersionCatalogue.entriesIn(BETA)|-=[historical_experience:beta_1_0,historical_experience:beta_1_2,historical_experience:beta_1_3,historical_experience:beta_1_4,historical_experience:beta_1_5,historical_experience:beta_1_6,historical_experience:beta_1_7_3,historical_experience:beta_1_8_1,historical_experience:beta_1_9_pre_1,historical_experience:beta_1_9_pre_2,historical_experience:beta_1_9_pre_3,historical_experience:beta_1_9_pre_4,historical_experience:beta_1_9_pre_5,historical_experience:beta_1_9_pre_6]

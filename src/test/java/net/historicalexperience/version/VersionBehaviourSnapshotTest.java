@@ -842,7 +842,7 @@ class VersionBehaviourSnapshotTest {
                     + " emulated=" + e.emulated() + " target=" + e.target() + " selectable=" + e.selectable()
                     + " futureNote.length=" + e.futureNote().length());
             }
-            for (HistoricalVersionCatalogue.Era era : HistoricalVersionCatalogue.eras()) {
+            for (HistoricalVersionCatalogue.Group era : HistoricalVersionCatalogue.eras()) {
                 probe(L, c + "entriesIn(" + era + ")|-", () -> HistoricalVersionCatalogue.entriesIn(era).stream()
                     .map(HistoricalVersionCatalogue.Entry::key).toList());
             }

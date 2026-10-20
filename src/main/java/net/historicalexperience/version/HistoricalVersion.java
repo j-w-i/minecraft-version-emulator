@@ -95,6 +95,21 @@ public record HistoricalVersion(
         }
     }
 
+    /** Whether this version is strictly earlier than a position on the timeline. */
+    public boolean isBefore(Milestone boundary) {
+        return this.chronology < boundary.key();
+    }
+
+    /** Whether this version is at or after a position on the timeline. */
+    public boolean isAtOrAfter(Milestone boundary) {
+        return this.chronology >= boundary.key();
+    }
+
+    /** Whether this version lies in {@code [from, until)}. */
+    public boolean isWithin(Milestone from, Milestone until) {
+        return isAtOrAfter(from) && isBefore(until);
+    }
+
     /** The historical family this version belongs to, derived from its chronology key. */
     public Era family() {
         return Era.of(this.chronology);

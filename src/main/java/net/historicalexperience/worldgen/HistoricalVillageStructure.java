@@ -193,7 +193,7 @@ public class HistoricalVillageStructure extends Structure {
             .orElse(alias);
         var version = net.historicalexperience.version.HistoricalVersions.byId(versionId).orElse(null);
 
-        if (version == null || version.chronology() < HistoricalVillageRules.BETA_1_9_PRE_1_CHRONOLOGY) {
+        if (version == null || version.isBefore(net.historicalexperience.version.Milestones.BETA_1_9_PRE_1)) {
             return;
         }
 

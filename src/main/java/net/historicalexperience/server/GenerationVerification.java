@@ -761,8 +761,9 @@ public final class GenerationVerification {
                 }
             }
         }
-        if (versionId != null && net.historicalexperience.version.HistoricalVersions.byId(versionId)
-                .orElseThrow().chronology() < HistoricalSpawnRules.NETHER_ENDERMAN_CHRONOLOGY && candidates.contains("minecraft:enderman")) {
+        if (versionId != null && !net.historicalexperience.version.Features.active(
+                net.historicalexperience.version.Feature.NO_NETHER_ENDERMEN, versionId)
+                && candidates.contains("minecraft:enderman")) {
             rejectedCandidates.add("minecraft:enderman");
         }
         Map<String, Long> failures = new TreeMap<>();

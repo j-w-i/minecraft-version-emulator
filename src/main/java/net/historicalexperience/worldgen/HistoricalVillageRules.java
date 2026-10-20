@@ -217,7 +217,7 @@ public final class HistoricalVillageRules {
         HistoricalVersion version = HistoricalVersions.byId(versionId).orElseThrow(
             () -> new IllegalArgumentException(versionId + " is not a declared historical version, so "
                 + "the village boundary cannot be answered for it"));
-        return version.chronology() >= BETA_1_8_1_CHRONOLOGY;
+        return version.isAtOrAfter(Milestones.BETA_1_8_1);
     }
 
     /**
@@ -233,7 +233,7 @@ public final class HistoricalVillageRules {
             return false;
         }
         return HistoricalVersions.byRevisionAlias(alias)
-            .map(version -> version.chronology() >= BETA_1_8_1_CHRONOLOGY)
+            .map(version -> version.isAtOrAfter(Milestones.BETA_1_8_1))
             .orElse(false);
     }
 

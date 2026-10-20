@@ -525,7 +525,7 @@ public final class HistoricalVillagePieces {
         synchronized void spawnResidents(WorldGenLevel level, BoundingBox clip) {
             if (versionId == null) return;
             var version = net.historicalexperience.version.HistoricalVersions.byId(versionId).orElse(null);
-            if (version == null || version.chronology() < HistoricalVillageRules.BETA_1_9_PRE_1_CHRONOLOGY) return;
+            if (version == null || version.isBefore(net.historicalexperience.version.Milestones.BETA_1_9_PRE_1)) return;
             var positions = residentPositions();
             for (int i = 0; i < positions.size(); i++) {
                 if ((residentMask & (1 << i)) != 0) continue;
@@ -536,7 +536,7 @@ public final class HistoricalVillagePieces {
                 villager.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0.0F, 0.0F);
                 villager.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), net.minecraft.world.entity.MobSpawnType.STRUCTURE, null);
                 var profession = net.minecraft.world.entity.npc.VillagerProfession.NONE;
-                if (version.chronology() >= HistoricalVillageRules.RELEASE_1_3_CHRONOLOGY) {
+                if (version.isAtOrAfter(net.historicalexperience.version.Milestones.RELEASE_1_3)) {
                     var random = RandomSource.create(level.getSeed() ^ pos.asLong());
                     var ids = HistoricalVillageRules.RELEASE_1_3_PROFESSIONS;
                     profession = net.minecraft.core.registries.BuiltInRegistries.VILLAGER_PROFESSION
@@ -1199,8 +1199,7 @@ public final class HistoricalVillagePieces {
         private ResourceKey<LootTable> blacksmithLootTable() {
             String version = versionId == null ? "" : versionId;
             boolean horseArmour = net.historicalexperience.version.HistoricalVersions.byId(version)
-                .map(entry -> entry.chronology()
-                    >= net.historicalexperience.version.Milestones.RELEASE_1_6_1.key())
+                .map(entry -> entry.isAtOrAfter(net.historicalexperience.version.Milestones.RELEASE_1_6_1))
                 .orElse(false);
             return horseArmour ? BLACKSMITH_LOOT_TABLE : BLACKSMITH_LOOT_TABLE_EARLY;
         }

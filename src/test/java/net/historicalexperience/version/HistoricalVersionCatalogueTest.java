@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 import net.historicalexperience.version.HistoricalVersionCatalogue.Entry;
-import net.historicalexperience.version.HistoricalVersionCatalogue.Era;
+import net.historicalexperience.version.HistoricalVersionCatalogue.Group;
 import net.historicalexperience.version.HistoricalVersionCatalogue.Status;
 
 /**
@@ -47,14 +47,14 @@ class HistoricalVersionCatalogueTest {
 
         assertEquals(29, planned.size(), "the expansion target is twenty-nine versions and the catalogue covers "
             + "every one, so the selector never grows with the plan");
-        assertEquals(8, planned.stream().filter(entry -> entry.era() == Era.ALPHA).count(),
+        assertEquals(8, planned.stream().filter(entry -> entry.era() == Group.ALPHA).count(),
             "the plan names eight Alpha versions");
-        assertEquals(14, planned.stream().filter(entry -> entry.era() == Era.BETA).count(),
+        assertEquals(14, planned.stream().filter(entry -> entry.era() == Group.BETA).count(),
             "the plan names fourteen Beta versions, prereleases included");
-        assertEquals(7, planned.stream().filter(entry -> entry.era() == Era.RELEASE).count(),
+        assertEquals(7, planned.stream().filter(entry -> entry.era() == Group.RELEASE).count(),
             "the plan names seven Release versions");
 
-        List<String> prereleases = HistoricalVersionCatalogue.entriesIn(Era.BETA).stream()
+        List<String> prereleases = HistoricalVersionCatalogue.entriesIn(Group.BETA).stream()
             .map(Entry::targetName)
             .filter(name -> name.contains("Prerelease"))
             .toList();
@@ -131,7 +131,7 @@ class HistoricalVersionCatalogueTest {
             if (entry.snapshotPatch().isPresent()) {
                 assertEquals(entry.snapshotPatch().get().baseProfileId(), entry.version().id());
                 assertFalse(HistoricalVersions.byId(entry.key()).isPresent(), "patches must not manufacture terrain profiles");
-                assertEquals(Era.SNAPSHOTS, entry.era());
+                assertEquals(Group.SNAPSHOTS, entry.era());
                 assertTrue(entry.displayName().contains("patch"));
             } else assertTrue(HistoricalVersions.byId(entry.key()).isPresent(),
                 entry.key() + " must be a registry id unless it explicitly describes a snapshot overlay");
@@ -196,13 +196,13 @@ class HistoricalVersionCatalogueTest {
 
     @Test
     void orderIsChronologicalAcrossAndWithinEras() {
-        List<Era> expected = List.of(Era.INDDEV, Era.INFDEV, Era.ALPHA, Era.BETA, Era.RELEASE, Era.SNAPSHOTS);
+        List<Group> expected = List.of(Group.INDEV, Group.INFDEV, Group.ALPHA, Group.BETA, Group.RELEASE, Group.SNAPSHOTS);
 
         assertEquals(expected, HistoricalVersionCatalogue.eras(), "eras are ordered oldest first");
-        assertSame(Era.INDDEV, HistoricalVersionCatalogue.entries().get(0).era(),
+        assertSame(Group.INDEV, HistoricalVersionCatalogue.entries().get(0).era(),
             "the oldest implemented version is Indev 20100223, the project's only finite profile");
 
-        for (Era era : expected) {
+        for (Group era : expected) {
             List<Entry> inEra = HistoricalVersionCatalogue.entriesIn(era);
             for (int index = 1; index < inEra.size(); index++) {
                 assertTrue(inEra.get(index - 1).order() < inEra.get(index).order(),
@@ -226,7 +226,7 @@ class HistoricalVersionCatalogueTest {
         }
     }
 
-    private static long countIn(Era era) {
+    private static long countIn(Group era) {
         return HistoricalVersionCatalogue.entriesIn(era).stream()
             .filter(entry -> entry.status() == Status.IMPLEMENTED || !entry.targetName().contains("Infdev"))
             .count();

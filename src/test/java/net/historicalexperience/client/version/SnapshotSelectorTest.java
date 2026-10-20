@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SnapshotSelectorTest {
     @Test void snapshotTabHasExactlyTheExplicitPatchesAndNoFakeTerrainProfiles() {
-        var entries = HistoricalVersionCatalogue.entriesIn(HistoricalVersionCatalogue.Era.SNAPSHOTS);
+        var entries = HistoricalVersionCatalogue.entriesIn(HistoricalVersionCatalogue.Group.SNAPSHOTS);
         assertEquals(HistoricalSnapshotPatches.all().stream().map(HistoricalSnapshotPatches.Patch::id).collect(java.util.stream.Collectors.toSet()),
             entries.stream().map(HistoricalVersionCatalogue.Entry::key).collect(java.util.stream.Collectors.toSet()));
         for (var entry : entries) {

@@ -24,7 +24,7 @@ import java.util.function.Predicate;
 import net.historicalexperience.version.HistoricalVersionCatalogue;
 import net.historicalexperience.version.VersionOverview;
 import net.historicalexperience.version.HistoricalVersionCatalogue.Entry;
-import net.historicalexperience.version.HistoricalVersionCatalogue.Era;
+import net.historicalexperience.version.HistoricalVersionCatalogue.Group;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -116,10 +116,10 @@ public class HistoricalVersionScreen extends Screen {
 
     private final Screen lastScreen;
     private final Context context;
-    private final Era initialEra;
+    private final Group initialEra;
     private final String initialKey;
 
-    private Era shownEra;
+    private Group shownEra;
     private String highlightedKey = "";
     private VersionList list;
     private MultiLineTextWidget details;
@@ -167,7 +167,7 @@ public class HistoricalVersionScreen extends Screen {
         this.initialKey = context.initialKey();
         this.initialEra = HistoricalVersionCatalogue.byKey(this.initialKey)
             .map(Entry::era)
-            .orElse(Era.BETA);
+            .orElse(Group.BETA);
         this.shownEra = this.initialEra;
     }
 
@@ -188,8 +188,8 @@ public class HistoricalVersionScreen extends Screen {
         int eraX = (this.width - eraRowWidth) / 2;
 
         int index = 0;
-        for (Era era : eras) {
-            final Era target = era;
+        for (Group era : eras) {
+            final Group target = era;
             boolean current = era == this.shownEra;
 
             // The current era is marked rather than disabled. Disabling it made the row read as four greyed-out
@@ -284,7 +284,7 @@ public class HistoricalVersionScreen extends Screen {
         graphics.drawCenteredString(this.font, this.title, this.width / 2, 12, 0xFFFFFFFF);
     }
 
-    private void showEra(Era era) {
+    private void showEra(Group era) {
         this.shownEra = era;
         // Rebuilding is the simplest correct answer to a changed era: the era buttons' labels and the list's
         // contents both change, and going through init() keeps one layout code path rather than two.
@@ -557,7 +557,7 @@ public class HistoricalVersionScreen extends Screen {
             super(minecraft, width, height, y, itemHeight);
         }
 
-        private void populate(Era era) {
+        private void populate(Group era) {
             clearEntries();
             for (HistoricalVersionCatalogue.Entry entry : HistoricalVersionCatalogue.entriesIn(era)) {
                 addEntry(new VersionRow(entry));

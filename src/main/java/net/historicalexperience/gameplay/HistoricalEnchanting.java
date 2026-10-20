@@ -113,7 +113,7 @@ public final class HistoricalEnchanting {
      */
     public static boolean usesOldTableRules(String versionId) {
         HistoricalVersion version = HistoricalVersions.byId(versionId).orElse(null);
-        return version != null && version.chronology() < MODERN_ENCHANTING_FROM;
+        return version != null && version.isBefore(Milestones.RELEASE_1_8);
     }
 
     /** Every enchantment this table knows, with the chronology it arrived at, for tests and diagnostics. */

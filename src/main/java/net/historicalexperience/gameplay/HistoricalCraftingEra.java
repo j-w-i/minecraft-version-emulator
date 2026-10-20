@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Milestones;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -300,7 +302,7 @@ public final class HistoricalCraftingEra {
      * declared version reaches it - if one ever does, that test fails and the boundary has to be written properly.
      */
     public static int colouredBedsChronology() {
-        return 602_200;
+        return Milestones.RELEASE_1_12.key();
     }
 
     /** Every bed item in the modern game, which is the family the substitution above covers. */

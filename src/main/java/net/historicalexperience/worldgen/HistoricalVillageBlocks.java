@@ -237,18 +237,15 @@ public final class HistoricalVillageBlocks {
         }
         HistoricalVersion version = HistoricalVersions.byId(versionId).orElseThrow(
             () -> new IllegalArgumentException("unknown historical version " + versionId));
-        int chronology = version.chronology();
         // Carrots and potatoes are Release 1.4.2 (12w34a), NOT Beta 1.8 as an earlier draft of this file
         // said. Release 1.6.4 is the only declared profile at or after that boundary, so it is the only one
         // whose village grows them; Beta 1.8.1 through Release 1.2.5 grew wheat alone.
-        int release164Chronology = HistoricalVersions.byId("historical_experience:release_1_6_4")
-            .orElseThrow().chronology();
-        boolean carrotsAndPotatoes = chronology >= release164Chronology;
+        boolean carrotsAndPotatoes = version.isAtOrAfter(Milestones.RELEASE_1_6_4);
         // Sandstone stairs are not in the Beta 1.8.1 extraction and first appear in the 1.6.4 set, so no
         // earlier village may place them. The era's stone stair is cobblestone stairs, which the Beta 1.8.1
         // palette does register, so that is the substitution: a desert building gets the same stair every
         // other building in that version used.
-        boolean sandstoneStairs = chronology >= release164Chronology;
+        boolean sandstoneStairs = version.isAtOrAfter(Milestones.RELEASE_1_6_4);
         // The brewing stand arrives in Beta 1.9 Prerelease 3, per the research: "Beta 1.9 Prerelease 3 |
         // brewing stand (brewing listed at 30 seconds; a reduced set of 25 potions/31 combinations)". Prerelease 2
         // has potions - glass bottles, spider eyes, blaze powder, fermented spider eye, magma cream - so this
@@ -256,7 +253,7 @@ public final class HistoricalVillageBlocks {
         // support that, and the difference is visible: a Pre2 village would place a block the build did not have.
         // Noted rather than hidden: the research records potions at Pre2 with the stand at Pre3, which is a tension
         // in the sources, and this follows what the research states.
-        boolean brewingStand = chronology >= HistoricalVillageRules.BETA_1_9_PRE_3_CHRONOLOGY;
+        boolean brewingStand = version.isAtOrAfter(Milestones.BETA_1_9_PRE_3);
 
         Map<String, String> blocks = new LinkedHashMap<>(COMMON);
         if (!sandstoneStairs) {
@@ -286,7 +283,7 @@ public final class HistoricalVillageBlocks {
         // of the port's shape, so the answer is computed even though it is false everywhere today.
         HistoricalVersion version = HistoricalVersions.byId(versionId).orElseThrow(
             () -> new IllegalArgumentException("unknown historical version " + versionId));
-        return version.chronology() >= Milestones.RELEASE_1_9.key();
+        return version.isAtOrAfter(Milestones.RELEASE_1_9);
     }
 
     /**

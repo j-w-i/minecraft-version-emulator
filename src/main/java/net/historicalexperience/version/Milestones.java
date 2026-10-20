@@ -32,6 +32,7 @@ public final class Milestones {
     private Milestones() {
     }
 
+    public static final Milestone ALPHA_1_0_1 = Milestone.of(Era.ALPHA, 1, 0, 1, "Alpha v1.0.1");
     public static final Milestone ALPHA_1_1_0 = Milestone.of(Era.ALPHA, 1, 1, 0, "Alpha 1.1.0");
     public static final Milestone ALPHA_1_2_0 = Milestone.of(Era.ALPHA, 1, 2, 0, "Alpha 1.2.0");
     public static final Milestone BETA_1_2 = Milestone.of(Era.BETA, 1, 2, 0, "Beta 1.2");
@@ -73,6 +74,8 @@ public final class Milestones {
     public static final Milestone RELEASE_1_8 = Milestone.of(Era.RELEASE, 1, 8, 0, "Release 1.8");
     /** The 16w20a snapshot lands in 1.10; the first release in which endermen spawn in the Nether. */
     public static final Milestone RELEASE_1_10 = Milestone.of(Era.RELEASE, 1, 10, 0, "Release 1.10");
+    /** Release 1.12, where coloured beds arrive. Above every declared build. */
+    public static final Milestone RELEASE_1_12 = Milestone.of(Era.RELEASE, 1, 12, 0, "Release 1.12");
     /** The first key of the Release family: the upper bound of everything Alpha and Beta. */
     public static final Milestone START_OF_RELEASE = Milestone.ofKey(Era.RELEASE.base(), "start of the Release family");
 }

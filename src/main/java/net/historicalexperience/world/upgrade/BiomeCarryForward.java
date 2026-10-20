@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.world.upgrade;
 
+import net.historicalexperience.version.Milestones;
+
 import java.util.Map;
 import net.historicalexperience.version.HistoricalVersion;
 import net.historicalexperience.version.HistoricalVersions;
@@ -53,26 +55,6 @@ public final class BiomeCarryForward {
     /** The plains name of the late beta generation, used when no early-release counterpart exists. */
     public static final String LATE_BETA_PLAINS = "moderner_beta:late_beta_plains";
 
-    /**
-     * The first destination whose biomes are Beta plains: Alpha v1.2.0, the Halloween Update.
-     *
-     * <p>Before this build the game has no biome generation at all - both it and every Infdev and Indev profile use one
-     * placeholder, {@code moderner_beta:alpha}. So a world upgraded to Alpha v1.1.2_01 or anything earlier lands on
-     * {@code moderner_beta:alpha}, which is the owner's correction: "if i upgrade from infdev to alpha before 1.2 it
-     * should go to alpha rather than beta plains". Beta plains belongs to Alpha v1.2.0 and later, not to Alpha 1.0 or
-     * 1.1.
-     */
-    private static final int ALPHA_PLAINS_FROM =
-        HistoricalVersions.chronology(HistoricalVersions.ERA_ALPHA, 1, 2, 0);
-
-    /** The destination changes generation here: Beta 1.8.1, the Adventure Update. */
-    private static final int LATE_BETA_FROM =
-        HistoricalVersions.chronology(HistoricalVersions.ERA_BETA, 1, 8, 1);
-
-    /** And again here: Release 1.0, where the early-release naming takes over. */
-    private static final int EARLY_RELEASE_FROM =
-        HistoricalVersions.chronology(HistoricalVersions.ERA_RELEASE, 1, 0, 0);
-
     /** The one biome of the pre-biome builds: Infdev, Indev and Alpha before v1.2.0. */
     public static final String ALPHA_BIOME = "moderner_beta:alpha";
 
@@ -100,14 +82,13 @@ public final class BiomeCarryForward {
         if (destination == null) {
             return null;
         }
-        int chronology = destination.chronology();
-        if (chronology < ALPHA_PLAINS_FROM) {
+        if (destination.isBefore(Milestones.ALPHA_1_2_0)) {
             return Generation.ALPHA_ONLY;
         }
-        if (chronology < LATE_BETA_FROM) {
+        if (destination.isBefore(Milestones.BETA_1_8_1)) {
             return Generation.BETA_PLAINS_ONLY;
         }
-        return chronology < EARLY_RELEASE_FROM ? Generation.LATE_BETA : Generation.EARLY_RELEASE;
+        return destination.isBefore(Milestones.RELEASE_1_0) ? Generation.LATE_BETA : Generation.EARLY_RELEASE;
     }
 
     /**
