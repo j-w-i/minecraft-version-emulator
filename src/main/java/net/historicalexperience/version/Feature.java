@@ -246,6 +246,17 @@ public enum Feature {
         "The golden apple is crafted from eight blocks of gold and an apple. minecraft.wiki, Golden Apple: added "
         + "Infdev 20100227 with that recipe; Release 1.1 replaced the gold blocks with gold nuggets."),
 
+    /** The arrow's <b>iron-tip</b> recipe, which modern Minecraft no longer has. */
+    ARROW_IRON_TIP_RECIPE(Domain.PLAYER, FeatureWindow.between(Milestones.ALPHA_1_0_1, Milestones.ALPHA_1_0_14),
+        "Arrows are crafted with an iron ingot tip rather than flint. minecraft.wiki, Arrow history, Alpha v1.0.14: "
+        + "'The tip in crafting is now made from flint rather than iron ingots'."),
+
+    /** Wool's <b>nine-string</b> recipe, which modern Minecraft no longer has. */
+    WOOL_NINE_STRING_RECIPE(Domain.PLAYER, FeatureWindow.between(Milestones.ALPHA_1_0_1, Milestones.BETA_1_7),
+        "A wool block is crafted from nine string. minecraft.wiki, Wool history: '1.6.6 The crafting recipe of wool "
+        + "has been changed, reducing the amount of string required from 9 to 4 pieces'; the Beta 1.7 profile is the "
+        + "first declared version after it."),
+
     /** The golden apple's <b>gold-nugget</b> recipe, which modern Minecraft no longer has. */
     GOLDEN_APPLE_GOLD_NUGGET_RECIPE(Domain.PLAYER,
         FeatureWindow.between(Milestones.RELEASE_1_1, Milestones.RELEASE_1_9),

@@ -6429,7 +6429,7 @@ gameplay.HistoricalCraftingEra.existedBy164(minecraft:yellow_wool)|*=T
 gameplay.HistoricalCraftingEra.isRefused(block=null).inputs|*=historical_experience:beta_1_7_3 historical_experience:beta_1_8_1 historical_experience:beta_1_9_pre_1 historical_experience:beta_1_9_pre_2 historical_experience:beta_1_9_pre_4 historical_experience:beta_1_9_pre_5 historical_experience:beta_1_9_pre_6 historical_experience:beta_1_9_pre_3 historical_experience:release_1_0_0 historical_experience:release_1_1 historical_experience:release_1_2_5 historical_experience:release_1_6_4 historical_experience:indev_latest historical_experience:infdev_420 historical_experience:infdev_611 historical_experience:alpha_1_0_1 historical_experience:alpha_1_0_4 historical_experience:alpha_1_0_6 historical_experience:alpha_1_0_11 historical_experience:alpha_1_0_14 historical_experience:alpha_1_0_17 historical_experience:alpha_1_1_0 historical_experience:alpha_1_2_0 historical_experience:alpha_1_2_2a historical_experience:release_1_3 historical_experience:release_1_4 historical_experience:release_1_5 historical_experience:beta_1_0 historical_experience:beta_1_2 historical_experience:beta_1_3 historical_experience:beta_1_4 historical_experience:beta_1_5 historical_experience:beta_1_6 historical_experience:alpha null moderner_beta:beta example:not_a_version
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:activator_rail)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:anvil)|*=TTTTTTTTTTTFTTTTTTTTTTTTTFFTTTTTTTFFF
-gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:arrow)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:arrow)|*=FFFFFFFFFFFFFFFTTTTFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:beacon)|*=TTTTTTTTTTTFTTTTTTTTTTTTTFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:birch_planks)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:birch_slab)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
@@ -6685,7 +6685,7 @@ gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:tripwire_hook)|*=
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:white_bed)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTFFFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:white_carpet)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTTTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:white_terracotta)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTTTTTTTTTFFF
-gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:white_wool)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
+gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:white_wool)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:wooden_axe)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:wooden_hoe)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:wooden_pickaxe)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
@@ -6700,7 +6700,7 @@ gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:yellow_wool)|*=FF
 gameplay.HistoricalCraftingEra.isRefused(block=item).inputs|*=historical_experience:beta_1_7_3 historical_experience:beta_1_8_1 historical_experience:beta_1_9_pre_1 historical_experience:beta_1_9_pre_2 historical_experience:beta_1_9_pre_4 historical_experience:beta_1_9_pre_5 historical_experience:beta_1_9_pre_6 historical_experience:beta_1_9_pre_3 historical_experience:release_1_0_0 historical_experience:release_1_1 historical_experience:release_1_2_5 historical_experience:release_1_6_4 historical_experience:indev_latest historical_experience:infdev_420 historical_experience:infdev_611 historical_experience:alpha_1_0_1 historical_experience:alpha_1_0_4 historical_experience:alpha_1_0_6 historical_experience:alpha_1_0_11 historical_experience:alpha_1_0_14 historical_experience:alpha_1_0_17 historical_experience:alpha_1_1_0 historical_experience:alpha_1_2_0 historical_experience:alpha_1_2_2a historical_experience:release_1_3 historical_experience:release_1_4 historical_experience:release_1_5 historical_experience:beta_1_0 historical_experience:beta_1_2 historical_experience:beta_1_3 historical_experience:beta_1_4 historical_experience:beta_1_5 historical_experience:beta_1_6 historical_experience:alpha null moderner_beta:beta example:not_a_version
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:activator_rail)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:anvil)|*=TTTTTTTTTTTFTTTTTTTTTTTTTFFTTTTTTTFFF
-gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:arrow)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:arrow)|*=FFFFFFFFFFFFFFFTTTTFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:beacon)|*=TTTTTTTTTTTFTTTTTTTTTTTTTFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:birch_planks)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:birch_slab)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
@@ -6956,7 +6956,7 @@ gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:tripwire_hook)|*=
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:white_bed)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTFFFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:white_carpet)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTTTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:white_terracotta)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTTTTTTTTTFFF
-gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:white_wool)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
+gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:white_wool)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:wooden_axe)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:wooden_hoe)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:wooden_pickaxe)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF

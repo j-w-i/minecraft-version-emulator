@@ -133,9 +133,27 @@ public final class RemovedRecipes {
             "minecraft:gold_nugget", "minecraft:gold_nugget", "minecraft:gold_nugget"),
         "minecraft:golden_apple", 1, Feature.GOLDEN_APPLE_GOLD_NUGGET_RECIPE, true);
 
+    /** The arrow before Alpha v1.0.14: an iron ingot above a stick above a feather, four arrows. */
+    public static final Removed ARROW_IRON_TIP = new Removed(
+        "arrow_from_iron_ingot",
+        1, 3,
+        List.of("minecraft:iron_ingot", "minecraft:stick", "minecraft:feather"),
+        "minecraft:arrow", 4, Feature.ARROW_IRON_TIP_RECIPE, true);
+
+    /** Wool before Beta 1.6.6: nine string in a square, one wool block. */
+    public static final Removed WOOL_FROM_NINE_STRING = new Removed(
+        "white_wool_from_nine_string",
+        3, 3,
+        List.of(
+            "minecraft:string", "minecraft:string", "minecraft:string",
+            "minecraft:string", "minecraft:string", "minecraft:string",
+            "minecraft:string", "minecraft:string", "minecraft:string"),
+        "minecraft:white_wool", 1, Feature.WOOL_NINE_STRING_RECIPE, true);
+
     /** Every removed recipe, for tests and reports. */
     public static List<Removed> all() {
-        return List.of(ENCHANTED_GOLDEN_APPLE, GOLDEN_APPLE_GOLD_BLOCK, GOLDEN_APPLE_GOLD_NUGGET);
+        return List.of(ENCHANTED_GOLDEN_APPLE, GOLDEN_APPLE_GOLD_BLOCK, GOLDEN_APPLE_GOLD_NUGGET,
+            ARROW_IRON_TIP, WOOL_FROM_NINE_STRING);
     }
 
     /** Whether this version had any removed recipe at all. */

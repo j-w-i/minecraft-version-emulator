@@ -1,3 +1,29 @@
+# Current work — 2026-10-21 / Gap 4: arrow and wool recipes (audit A-12, A-13)
+
+Two more recipes modern Minecraft no longer has, both with their own window and both refusing the modern shape so it
+cannot remain a second way to craft the item:
+
+- **Arrows, iron tip**: `[Alpha v1.0.1, Alpha v1.0.14)`, 1x3 iron ingot + stick + feather → 4 arrows. minecraft.wiki,
+  Arrow history, Alpha v1.0.14: "The tip in crafting is now made from flint rather than iron ingots". Alpha v1.0.14
+  and later keep the modern flint recipe. New milestone `ALPHA_1_0_14` because the boundary build was not previously
+  a milestone.
+- **Wool, nine string**: `[Alpha v1.0.1, Beta 1.7)`, 3x3 nine string → one white wool. minecraft.wiki, Wool history:
+  "1.6.6 The crafting recipe of wool has been changed, reducing the amount of string required from 9 to 4 pieces";
+  Beta 1.7.3 is the first declared version after that change, so it keeps the modern four-string recipe.
+
+Both are `RemovedRecipes` entries with `refuseModernRecipe = true`, and both features are described in
+`FeatureBoundaryTest`. `ArrowAndWoolRecipeTest` pins the windows, the shapes and the gate; one older allow-list test was
+updated deliberately (arrows are no longer in the vanilla sweep because the supplied shape replaces the registry one).
+
+**Evidence:** `./gradlew test` — **774 tests, 0 failures**. Golden (two new features), matrix and facts regenerated.
+
+**Still open in this audit item:** slab/ladder/pressure-plate output counts; the stone slab substitution
+(`smooth_stone_slab` 3 cobblestone → 3, refused as "Beta 1.3" while the 1.14 `stone_slab` is craftable); sheep shearing
+should yield **2-4** wool for Beta 1.7+ against the modern 1-3 (needs a hook on the modern shear path, not the punch
+path this project already intercepts); golden apple effects for Release 1.1-1.5 (Regeneration I, 5 s) and 1.6.4 (10 s);
+`redstone_lamp` still refused in Release 1.2.5 by the item allow-list; `oak_slab` still dated 1.6.4.
+
+---
 # Current work — 2026-10-21 / Gap 3: golden apple recipes and a thorough Beta 1.8.1 drop pass
 
 Owner asked for thoroughness after the 1.8 drop defect, on the fair grounds that one found-by-testing bug means

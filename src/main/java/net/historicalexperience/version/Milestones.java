@@ -33,6 +33,9 @@ public final class Milestones {
     }
 
     public static final Milestone ALPHA_1_0_1 = Milestone.of(Era.ALPHA, 1, 0, 1, "Alpha v1.0.1");
+    /** Alpha v1.0.14: the arrow recipe switches from iron to flint, and chickens arrive. */
+    public static final Milestone ALPHA_1_0_14 = Milestone.of(Era.ALPHA, 1, 0, 14, "Alpha v1.0.14");
+
     public static final Milestone ALPHA_1_1_0 = Milestone.of(Era.ALPHA, 1, 1, 0, "Alpha 1.1.0");
     public static final Milestone ALPHA_1_2_0 = Milestone.of(Era.ALPHA, 1, 2, 0, "Alpha 1.2.0");
     public static final Milestone BETA_1_2 = Milestone.of(Era.BETA, 1, 2, 0, "Beta 1.2");

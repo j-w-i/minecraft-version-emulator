@@ -126,10 +126,15 @@ class HistoricalCraftingEraTest {
         }
         // What Alpha genuinely had is still there.
         for (String old : List.of("oak_planks", "stick", "crafting_table", "chest", "furnace", "torch", "wooden_sword",
-                "iron_pickaxe", "diamond_chestplate", "bow", "arrow", "ladder", "oak_door", "tnt", "rail", "minecart",
+                "iron_pickaxe", "diamond_chestplate", "bow", "ladder", "oak_door", "tnt", "rail", "minecart",
                 "bucket", "flint_and_steel")) {
             assertTrue(craftable.contains(old), old + " must stay craftable in Alpha 1.0.1");
         }
+        // Arrows are deliberately absent from that list: the vanilla (flint) recipe is refused, and the iron-tip
+        // shape a 1.0.1 world actually used is supplied by RemovedRecipes, which is not part of the registry sweep
+        // this test walks. A player can still craft arrows - just with the era's ingredients.
+        assertTrue(RemovedRecipes.replacesModernRecipe(ALPHA, "minecraft:arrow"),
+            "Alpha 1.0.1 crafts the iron-tip arrow");
     }
 
     @Test

@@ -140,6 +140,8 @@ class FeatureBoundaryTest {
         // No declared version is at or after Release 1.9, so the nugget window is "from Release 1.1" for
         // every declared version; the enchanted apple is described the same way for the same reason.
         FROM.put(Feature.GOLDEN_APPLE_GOLD_NUGGET_RECIPE, P + "release_1_1");
+        BETWEEN.put(Feature.ARROW_IRON_TIP_RECIPE, new String[] {P + "alpha_1_0_1", P + "alpha_1_0_14"});
+        BETWEEN.put(Feature.WOOL_NINE_STRING_RECIPE, new String[] {P + "alpha_1_0_1", P + "beta_1_7_3"});
         // The stance outlives the reduction: Prerelease 1 and 2 still have the reduction, Prerelease 3 does not.
         BETWEEN.put(Feature.SWORD_BLOCK_FALL_PROTECTION, new String[] {P + "beta_1_8_1", P + "beta_1_9_pre_3"});
 
