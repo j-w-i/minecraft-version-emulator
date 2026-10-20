@@ -128,6 +128,74 @@ public final class HistoricalLootRules {
             List.of(new ExtraDrop("minecraft:zombified_piglin", "minecraft:rotten_flesh", 2, false))
     );
 
+    /**
+     * Mobs that drop NOTHING in a version, where the modern table would otherwise give them something.
+     *
+     * <p>research/version-transitions.json, from the project's own sourced build records:
+     * <ul>
+     *   <li>ghast - "Blaze rods, ghast tears and Nether wart are obtainable but have no use yet" at Beta 1.9
+     *       Prerelease 1, and "Nether fortresses (two blaze spawners), nether bricks/stairs/fences, Nether wart, blaze
+     *       rods and ghast tears arrive" for the same build. So a ghast dropped nothing at all from Alpha v1.2.0 (when
+     *       ghasts arrive) through Beta 1.7.3, while the modern table gives it a tear and gunpowder.</li>
+     *   <li>squid - "Squid (10 health) drop ink sacs" is Beta 1.2. Squid itself is Beta 1.2 content, so this row mainly
+     *       covers a summoned squid in an earlier world; it is here so the answer cannot depend on reachability.</li>
+     * </ul>
+     *
+     * <p>A separate map rather than an empty {@link DropRule} list, because the model must distinguish "no rule, use the
+     * modern table" from "this mob dropped nothing" - conflating them is what left the modern tear in Alpha worlds.
+     */
+    /** Lazy, because building it at class-initialisation time would ask the version registry that builds this class. */
+    private static volatile Map<String, java.util.Set<String>> noDrops;
+
+    private static Map<String, java.util.Set<String>> noDrops() {
+        Map<String, java.util.Set<String>> built = noDrops;
+        if (built == null) {
+            synchronized (HistoricalLootRules.class) {
+                built = noDrops;
+                if (built == null) {
+                    java.util.Set<String> beforePre1 = new java.util.HashSet<>();
+                    for (var version : net.historicalexperience.version.HistoricalVersions.all()) {
+                        if (version.isBefore(net.historicalexperience.version.Milestones.BETA_1_9_PRE_1)) {
+                            beforePre1.add(version.id());
+                        }
+                    }
+                    built = Map.of("minecraft:ghast", java.util.Set.copyOf(beforePre1));
+                    noDrops = built;
+                }
+            }
+        }
+        return built;
+    }
+
+    /**
+     * Mobs that drop NOTHING in a version, where the modern table would otherwise give them something.
+     *
+     * <p>research/version-transitions.json, the project's own sourced build records: Beta 1.9 Prerelease 1 is where
+     * "blaze rods, ghast tears and Nether wart are obtainable but have no use yet", and its fortress row says those
+     * items "arrive" there. So a ghast dropped nothing from Alpha v1.2.0 (when ghasts arrive) through Beta 1.7.3,
+     * while the modern table gives it a ghast tear and gunpowder. (Squid ink sacs are Beta 1.2, but squid is Beta 1.2
+     * content too, so there is no earlier declared build whose squid could drop anything.)
+     *
+     * <p>A separate answer rather than an empty rule list, because "no rule, use the modern table" and "this mob
+     * dropped nothing" are different facts; conflating them is what left the modern tear in pre-Pre1 worlds.
+     */
+    public static boolean dropsNothing(String profileId, String entityTypeId) {
+        if (profileId == null || entityTypeId == null) {
+            return false;
+        }
+        var profiles = noDrops().get(entityTypeId);
+        return profiles != null && profiles.contains(profileId);
+    }
+
+    /** Every profile with at least one no-drop rule, for reports and tests. */
+    public static java.util.Set<String> profilesWithNoDrops() {
+        java.util.Set<String> out = new java.util.TreeSet<>();
+        for (var profiles : noDrops().values()) {
+            out.addAll(profiles);
+        }
+        return out;
+    }
+
     /** The second pools a version declares for an entity, or empty. */
     public static List<ExtraDrop> extraFor(String profileId, String entityTypeId) {
         if (profileId != null && profileId.endsWith(":beta_1_8_1")) {

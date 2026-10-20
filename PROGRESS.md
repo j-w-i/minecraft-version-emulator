@@ -1,3 +1,28 @@
+# Current work — 2026-10-21 / Gap 19: "dropped nothing" is now expressible, and runtime-proven
+
+The audit listed the ghast as dropping modern items in Alpha and Beta. Checking the project's own build records changed
+the date: ghast tears are **Beta 1.9 Prerelease 1** content ("blaze rods, ghast tears and Nether wart are obtainable
+but have no use yet"; the fortress row says they "arrive" there), not Beta 1.7 as I had earlier assumed.
+
+- `HistoricalLootRules.dropsNothing(profile, entity)` now answers "this mob dropped nothing in this version", which is
+  a different fact from "no rule, use the modern table". The helper checks it before the rule lookup and returns an
+  empty table. The rule set is built lazily: computing it in the static initialiser would have asked the version
+  registry that constructs this class - a real init cycle I hit and fixed.
+- Ghast drops nothing for every declared build before Pre1.
+- Squid ink sacs are Beta 1.2, but squid is Beta 1.2 content too, so there is no earlier declared build to suppress for.
+
+**Runtime evidence** (a probe, not a unit test): a server at `historical_experience:beta_1_7_3` had a ghast summoned and
+killed with RCON - `execute if entity @e[type=minecraft:item]` answered **Test failed** and `data get entity` found no
+item. Positive control in the same world: a zombie killed instead produced `{count: 1, id: "minecraft:feather"}`. So the
+suppression is real and drops still happen.
+
+**Evidence:** `./gradlew cleanTest test` - **805 tests, 0 failures**; docs status board updated (the ghast row moved from
+mechanism-missing to implemented); golden, matrix and facts regenerated.
+
+**Still open:** conditional second drops with a probability (the music-disc rule), potion effect tables, achievements,
+the Pre3 item form, slab counts/substitution, boats/maps/signs, pre-1.9 AI, hardcore gate, and the evidence-missing list.
+
+---
 # Current work — 2026-10-21 / Gap 18: the client mixin is verified in a real client
 
 The debug-overlay mixin (audit A-06, no coordinates before Alpha v1.2.3) was unit-tested but unverified: a dedicated

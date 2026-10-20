@@ -260,6 +260,12 @@ public final class HistoricalMobLootHelper {
             return LootTable.EMPTY;
         }
 
+        // A mob that dropped NOTHING in this version must not fall through to the modern table. Checked first,
+        // because "no rule for this entity" and "an explicit empty drop" are different answers.
+        if (HistoricalLootRules.dropsNothing(profile, entityTypeId)) {
+            return LootTable.EMPTY;
+        }
+
         // The version's OWN rule decides the item. The global LOOT_MAP below is built once from Beta 1.7.3's
         // tables, so using it here made Beta 1.8.1's chicken and cow resolve to the 1.7.3 feather and leather
         // tables: the Adventure Update's raw chicken and beef never dropped. Keyed lookup is per version.
