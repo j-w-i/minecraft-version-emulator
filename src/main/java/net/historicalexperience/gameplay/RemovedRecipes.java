@@ -211,6 +211,7 @@ public final class RemovedRecipes {
             GOLDEN_APPLE_GOLD_NUGGET, ARROW_IRON_TIP, WOOL_FROM_NINE_STRING, SIGN_ONE));
         all.addAll(CLOTH_ARMOUR);
         all.addAll(LEGACY_COUNTS);
+        all.addAll(HistoricalPressurePlates.recipes());
         return List.copyOf(all);
     }
 

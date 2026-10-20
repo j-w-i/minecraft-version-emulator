@@ -6613,7 +6613,7 @@ gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:oak_door)|*=FFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:oak_fence)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:oak_fence_gate)|*=TFFFFFFFFFFFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:oak_planks)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:oak_pressure_plate)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
+gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:oak_pressure_plate)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTFFFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:oak_sign)|*=TTTTTTTTTTTFTTFTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:oak_slab)|*=TTTTTTTTTTFFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:oak_stairs)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
@@ -6673,7 +6673,7 @@ gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:stone_bricks)|*=T
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:stone_button)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:stone_hoe)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:stone_pickaxe)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:stone_pressure_plate)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
+gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:stone_pressure_plate)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTFFFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:stone_shovel)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:stone_sword)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:sugar)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTFFFFFTFFF
@@ -6884,7 +6884,7 @@ gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:oak_door)|*=FFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:oak_fence)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:oak_fence_gate)|*=TFFFFFFFFFFFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:oak_planks)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:oak_pressure_plate)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
+gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:oak_pressure_plate)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTFFFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:oak_sign)|*=TTTTTTTTTTTFTTFTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:oak_slab)|*=TTTTTTTTTTFFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:oak_stairs)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
@@ -6944,7 +6944,7 @@ gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:stone_bricks)|*=T
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:stone_button)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:stone_hoe)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:stone_pickaxe)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:stone_pressure_plate)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
+gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:stone_pressure_plate)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTFFFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:stone_shovel)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:stone_sword)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:sugar)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTFFFFFTFFF

@@ -256,6 +256,18 @@ public enum Feature {
         "A player-broken boat drops the boat item from Release 1.3 (12w27a) until the drop changes again in Release "
         + "1.9; fall damage still drops three planks and two sticks."),
 
+    /**
+     * Pressure plates are crafted from THREE blocks, not two.
+     *
+     * <p>minecraft.wiki, Pressure Plate history, Beta 1.3: "Pressure plates now require only two wood planks/stone to
+     * craft; previous versions required three (this recipe now creates slabs)." The OUTPUT count before that is not
+     * stated by any row, so the supplied shapes yield one - the modern figure - and that assumption is recorded in
+     * {@code HistoricalPressurePlates}.
+     */
+    PRESSURE_PLATE_THREE_BLOCKS(Domain.PLAYER, FeatureWindow.before(Milestones.BETA_1_3),
+        "Pressure plates take three planks or stone before Beta 1.3 (minecraft.wiki: 'now require only two wood "
+        + "planks/stone ... previous versions required three')."),
+
     /** No attack cooldown. */
     NO_ATTACK_COOLDOWN(Domain.COMBAT, FeatureWindow.allDeclared(),
         "The 1.9 attack cooldown: attacks are always at full strength. Every declared version predates Release 1.9, so the window is every declared version. Upstream tweak: DISABLE_ATTACK_COOLDOWN."),

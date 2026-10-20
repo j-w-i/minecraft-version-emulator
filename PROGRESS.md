@@ -1,3 +1,22 @@
+# Current work — 2026-10-21 / Gap 31: pressure plates take three blocks before Beta 1.3
+
+The last recipe-shape item. The row is on the Pressure Plate page itself, in the Beta section: "Pressure plates now
+require only two wood planks/stone to craft; previous versions required three (this recipe now creates slabs)."
+
+- Feature `PRESSURE_PLATE_THREE_BLOCKS` `before(Beta 1.3)`.
+- Two supplied shapes behind it (`HistoricalPressurePlates`): three oak planks in a row, and three of the era's stone
+  (today's smooth stone) in a row, each yielding one plate; the modern two-block shapes are refused in the window.
+- **The output count is recorded as an assumption.** The wiki row states the INGREDIENT count and no row states the
+  pre-change output, so the shapes yield one - the modern figure - rather than an invented number. A test that only
+  checked the shape would not catch a wrong output, which is exactly why the assumption is in the class comment and the
+  status board rather than only in a commit message.
+
+This closes the "could not be sourced" list from the recipe counts round.
+
+**Evidence:** `./gradlew cleanTest test` - **828 tests, 0 failures**; `PressurePlateTest` pins the window, the refusal
+and that each shape is three of one block; golden, matrix and facts regenerated.
+
+---
 # Current work — 2026-10-21 / Gap 30: a player-broken boat drops the boat item from Release 1.3
 
 Boats were the last "needs a mechanic study" item. The drop half turned out to be implementable after all: the cause IS
