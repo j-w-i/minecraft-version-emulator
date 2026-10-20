@@ -1,3 +1,24 @@
+# Current work — 2026-10-21 / Consolidation: HEAD verified, and the status board now describes the routes honestly
+
+Before spending the remaining rounds on the last blocked items, HEAD was re-verified end to end:
+
+- working tree clean; last commit `0eda070`;
+- `./gradlew cleanTest test` - **156 suites, 823 tests, 0 failures** (the board still said 802);
+- dedicated server boots to `Done (2.727s)` with **zero** mixin errors;
+- a plain client launch reaches `Setting user` / LWJGL initialisation with no mixin or injection errors;
+- the status board's "Verification counts" paragraph became **"How the work is verified"**: the four routes (unit tests,
+  server boot, RCON probes on real worlds, client class-load probes), what each one proved in this tree, and - in the
+  table directly above - what none of them proves yet. The stale row claiming mixin application was generally
+  unverified was corrected: application has been probed for every client-side hook added, and what remains unproven is
+  end-to-end BEHAVIOUR on a live action (a scripted player breaking a block, pressing F3, placing a potion).
+
+No code changed in this round. It exists so the document and the tree cannot disagree about what is done.
+
+**Next:** boats are the largest remaining implementable item with wiki rows already in hand (v1.0.6_01
+break-on-impact-at-speed, 12w27a drop change, 13w16b physics); after that the remaining list is evidence-missing or needs
+a mechanism the project does not have.
+
+---
 # Current work — 2026-10-21 / Gap 28: the era's stone slab is the right block (audit A-11)
 
 The audit's clearest identity bug: the era's stone slab - today's **smooth_stone_slab** - was refused as "Beta 1.3",

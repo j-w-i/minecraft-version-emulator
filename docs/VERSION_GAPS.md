@@ -71,7 +71,7 @@ The full evidence for every finding stays in the four era documents:
 | Item | What is missing |
 | --- | --- |
 | Client mixin BEHAVIOUR (not application) | `-PclientMixinCheck` has now proven the debug-overlay mixin APPLIES in a real client (`CLIENTMIXINCHECK loaded DebugScreenOverlay ... its mixins applied`), and the filtering is unit-tested; what is still unproven is the in-game appearance with F3 pressed in a historical world |
-| Mixin-application claims generally | A dedicated-server boot is the check, and it has already caught two real defects the tests could not (an invalid injection on a void method, and a wrong descriptor) |
+| End-to-end BEHAVIOUR of hooks that only run on a specific live action (breaking a block with a real player, opening a screen, placing a potion in a stand) | Application is verified by the boot and client probes, and the logic by unit tests; what is not driven end-to-end is the in-game action itself, which needs a scripted player rather than a class-load probe |
 
 ## What is checked and correct (do not re-audit)
 
@@ -82,7 +82,19 @@ sandstone and lapis exclusions surviving in the newest `_era_ores` presets; ench
 the pre-redraw End frame's four textures and both models routed from the pinned pack; the enchanted golden apple across
 1.3–1.6.4.
 
-## Verification counts
+## How the work is verified
 
-`./gradlew test` — **802 tests, 0 failures**. The dedicated server boots with zero mixin errors. The golden snapshot,
-version matrix and fact sheet are regenerated as part of each change.
+Every implemented row above is pinned by a test, and the claims were checked by four independent routes, each matched to
+what it can actually see:
+
+| Route | Proves | Evidence in this tree |
+| --- | --- | --- |
+| Unit tests | the decision logic: windows, dates, filters, loot sets, constants | 156 suites, **823 tests, 0 failures** |
+| Dedicated server boot | server-side mixin APPLICATION and world behaviour | boots to `Done (~2.7s)` with zero mixin errors; two real defects were caught this way that the tests could not see (an invalid injection descriptor on a void method, and a null `overworld()` at `SERVER_STARTING`) |
+| RCON probes on real worlds | player-visible outcomes: build limits, drops, hardcore, brewing | `scripts/verify-release-height.ps1` (five builds, 0..255 with y=256/-1 out of world); ghast dropped nothing with a zombie/feather control; a skeleton-killed creeper dropped Gunpowder + Disc 13 while a player kill dropped Gunpowder only; hardcore read `effective=false` in Beta 1.7.3 and `true` in Release 1.6.4 |
+| Client class-load probes | client-side mixin application (`CLIENTMIXINCHECK`) | debug overlay, achievements, block-break delay, brewing stand, regeneration and instant-health effect classes all report "its mixins applied" |
+
+The golden snapshot, version matrix and fact sheet are regenerated as part of every change. What each route does NOT
+prove is listed in "Verified only by unit test, not at runtime" above - most importantly that no client has yet been
+driven to press F3 in a historical world, so the debug overlay's *appearance* is unverified even though its hook and
+logic are.
