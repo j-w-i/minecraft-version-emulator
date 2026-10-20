@@ -579,8 +579,7 @@ public final class LegacyCatalog {
             key(Era.ALPHA.base(), 1, 0, 1), "moderner_beta:alpha",
             new VersionRules(
                 true,
-                HistoricalSpawnRules.ALPHA_1_0_1_MOBS,
-                java.util.Map.of(),
+                HistoricalSpawnRules.ALPHA_1_0_1_MOBS, HistoricalLootRules.PRE_BETA_1_8_BY_ENTITY,
                 HistoricalFoodRules.ALPHA_1_1_2_HEAL_POINTS,
                 false,
                 false,
@@ -608,8 +607,7 @@ public final class LegacyCatalog {
             key(Era.ALPHA.base(), 1, 0, 4),
             new VersionRules(
                 true,
-                HistoricalSpawnRules.ALPHA_1_0_1_MOBS,
-                java.util.Map.of(),
+                HistoricalSpawnRules.ALPHA_1_0_1_MOBS, HistoricalLootRules.PRE_BETA_1_8_BY_ENTITY,
                 HistoricalFoodRules.ALPHA_1_1_2_HEAL_POINTS,
                 false,
                 false,
@@ -661,8 +659,7 @@ public final class LegacyCatalog {
             key(Era.ALPHA.base(), 1, 0, 6), "moderner_beta:alpha",
             new VersionRules(
                 true,
-                HistoricalSpawnRules.ALPHA_1_0_1_MOBS,
-                java.util.Map.of(),
+                HistoricalSpawnRules.ALPHA_1_0_1_MOBS, HistoricalLootRules.PRE_BETA_1_8_BY_ENTITY,
                 HistoricalFoodRules.ALPHA_1_1_2_HEAL_POINTS,
                 false,
                 false,
@@ -686,8 +683,7 @@ public final class LegacyCatalog {
             key(Era.ALPHA.base(), 1, 0, 11), "moderner_beta:alpha",
             new VersionRules(
                 true,
-                HistoricalSpawnRules.ALPHA_1_0_11_MOBS,
-                java.util.Map.of(),
+                HistoricalSpawnRules.ALPHA_1_0_11_MOBS, HistoricalLootRules.PRE_BETA_1_8_BY_ENTITY,
                 HistoricalFoodRules.ALPHA_1_1_2_HEAL_POINTS,
                 false,
                 false,
@@ -714,8 +710,7 @@ public final class LegacyCatalog {
             key(Era.ALPHA.base(), 1, 0, 14), "moderner_beta:alpha",
             new VersionRules(
                 true,
-                HistoricalSpawnRules.ALPHA_1_0_14_MOBS,
-                java.util.Map.of(),
+                HistoricalSpawnRules.ALPHA_1_0_14_MOBS, HistoricalLootRules.PRE_BETA_1_8_BY_ENTITY,
                 HistoricalFoodRules.ALPHA_1_1_2_HEAL_POINTS,
                 false,
                 false,
@@ -739,8 +734,7 @@ public final class LegacyCatalog {
             key(Era.ALPHA.base(), 1, 0, 17), "moderner_beta:alpha",
             new VersionRules(
                 true,
-                HistoricalSpawnRules.ALPHA_1_1_2_MOBS,
-                java.util.Map.of(),
+                HistoricalSpawnRules.ALPHA_1_1_2_MOBS, HistoricalLootRules.PRE_BETA_1_8_BY_ENTITY,
                 HistoricalFoodRules.ALPHA_1_1_2_HEAL_POINTS,
                 false,
                 false,
@@ -760,8 +754,7 @@ public final class LegacyCatalog {
             key(Era.ALPHA.base(), 1, 1, 0), "moderner_beta:alpha",
             new VersionRules(
                 true,
-                HistoricalSpawnRules.ALPHA_1_1_2_MOBS,
-                java.util.Map.of(),
+                HistoricalSpawnRules.ALPHA_1_1_2_MOBS, HistoricalLootRules.PRE_BETA_1_8_BY_ENTITY,
                 HistoricalFoodRules.ALPHA_1_1_2_HEAL_POINTS,
                 false,
                 false,
@@ -793,8 +786,7 @@ public final class LegacyCatalog {
             key(Era.ALPHA.base(), 1, 2, 0), "moderner_beta:alpha",
             new VersionRules(
                 true,
-                HistoricalSpawnRules.ALPHA_1_2_0_MOBS,
-                java.util.Map.of(),
+                HistoricalSpawnRules.ALPHA_1_2_0_MOBS, HistoricalLootRules.PRE_BETA_1_8_BY_ENTITY,
                 HistoricalFoodRules.ALPHA_1_1_2_HEAL_POINTS,
                 false,
                 false,
@@ -884,8 +876,7 @@ public final class LegacyCatalog {
             key(Era.RELEASE.base(), 1, 3, 0), "moderner_beta:release_1_2_5",
             new VersionRules(
                 true,
-                HistoricalSpawnRules.RELEASE_1_2_MOBS,
-                java.util.Map.of(),
+                HistoricalSpawnRules.RELEASE_1_2_MOBS, HistoricalLootRules.PRE_BETA_1_8_BY_ENTITY,
                 java.util.Map.of(),
                 true,
                 true,
@@ -954,8 +945,7 @@ public final class LegacyCatalog {
             key(Era.BETA.base(), 1, 0, 0), "moderner_beta:beta",
             new VersionRules(
                 true,
-                HistoricalSpawnRules.BETA_1_0_MOBS,
-                java.util.Map.of(),
+                HistoricalSpawnRules.BETA_1_0_MOBS, HistoricalLootRules.PRE_BETA_1_8_BY_ENTITY,
                 java.util.Map.of(),
                 // Beta 1.0 predates all of these. Experience, sprinting and the hunger system all arrive with the
                 // Adventure Update in Beta 1.8, and I initially set them true by reflex - three tests failed on it
@@ -1000,8 +990,7 @@ public final class LegacyCatalog {
             key(Era.BETA.base(), 1, 2, 0), "moderner_beta:beta",
             new VersionRules(
                 true,
-                HistoricalSpawnRules.BETA_1_2_MOBS,
-                java.util.Map.of(),
+                HistoricalSpawnRules.BETA_1_2_MOBS, HistoricalLootRules.PRE_BETA_1_8_BY_ENTITY,
                 java.util.Map.of(),
                 false,
                 false,
@@ -1042,8 +1031,7 @@ public final class LegacyCatalog {
             key(Era.BETA.base(), 1, 3, 0), "moderner_beta:beta",
             new VersionRules(
                 true,
-                HistoricalSpawnRules.BETA_1_3_MOBS,
-                java.util.Map.of(),
+                HistoricalSpawnRules.BETA_1_3_MOBS, HistoricalLootRules.PRE_BETA_1_8_BY_ENTITY,
                 java.util.Map.of(),
                 false,
                 false,
@@ -1078,8 +1066,7 @@ public final class LegacyCatalog {
             key(Era.BETA.base(), 1, 4, 0), "moderner_beta:beta",
             new VersionRules(
                 true,
-                HistoricalSpawnRules.BETA_1_4_MOBS,
-                java.util.Map.of(),
+                HistoricalSpawnRules.BETA_1_4_MOBS, HistoricalLootRules.PRE_BETA_1_8_BY_ENTITY,
                 java.util.Map.of(),
                 false,
                 false,
@@ -1101,8 +1088,7 @@ public final class LegacyCatalog {
             key(Era.BETA.base(), 1, 5, 0), "moderner_beta:beta",
             new VersionRules(
                 true,
-                HistoricalSpawnRules.BETA_1_5_MOBS,
-                java.util.Map.of(),
+                HistoricalSpawnRules.BETA_1_5_MOBS, HistoricalLootRules.PRE_BETA_1_8_BY_ENTITY,
                 java.util.Map.of(),
                 false,
                 false,
@@ -1123,8 +1109,7 @@ public final class LegacyCatalog {
             key(Era.BETA.base(), 1, 6, 0), "moderner_beta:beta",
             new VersionRules(
                 true,
-                HistoricalSpawnRules.BETA_1_6_MOBS,
-                java.util.Map.of(),
+                HistoricalSpawnRules.BETA_1_6_MOBS, HistoricalLootRules.PRE_BETA_1_8_BY_ENTITY,
                 java.util.Map.of(),
                 false,
                 false,
@@ -1332,7 +1317,7 @@ public final class LegacyCatalog {
             new VersionRules(
                 true,
                 HistoricalSpawnRules.ALPHA_1_1_2_MOBS,
-                java.util.Map.of(),
+                HistoricalLootRules.PRE_BETA_1_8_BY_ENTITY,
                 HistoricalFoodRules.ALPHA_1_1_2_HEAL_POINTS,
                 false,
                 false,

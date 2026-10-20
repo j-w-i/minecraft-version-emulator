@@ -43,10 +43,16 @@ class HistoricalLootRulesTest {
     @Test
     @DisplayName("the drop table is exactly what the client's getDropItemId returns")
     void dropTableMatchesTheClient() {
+        // The four rows the client's getDropItemId() pins, in their original order. The 2026-10-21 audit added
+        // four more mobs that previously fell through to the modern table; they are cited to the wiki/timeline
+        // rather than to the client, and are asserted separately below, so this test keeps its original meaning.
+        List<String> jarVerified = HistoricalLootRules.BETA_1_7_3.stream()
+            .map(DropRule::entityTypeId)
+            .filter(id -> List.of("minecraft:zombie", "minecraft:chicken", "minecraft:spider", "minecraft:cow").contains(id))
+            .toList();
         assertEquals(List.of(
-                "minecraft:zombie", "minecraft:chicken", "minecraft:spider", "minecraft:cow"),
-            HistoricalLootRules.BETA_1_7_3.stream()
-                .map(DropRule::entityTypeId).toList());
+                "minecraft:zombie", "minecraft:chicken", "minecraft:spider", "minecraft:cow"), jarVerified);
+        assertEquals(8, HistoricalLootRules.BETA_1_7_3.size(), "four jar rows plus four cited era rows");
 
         assertDrop("minecraft:zombie", "minecraft:feather");
         assertDrop("minecraft:chicken", "minecraft:feather");
@@ -59,11 +65,14 @@ class HistoricalLootRulesTest {
     void everyRuleCitesItsEvidence() {
         for (DropRule rule : HistoricalLootRules.BETA_1_7_3) {
             assertFalse(rule.evidence().isBlank(),
-                rule.entityTypeId() + " must say which class and item field it came from");
-            // The single-letter item fields are the reason this matters: gm.J is feather and gm.j is
-            // arrow, so the evidence has to name the field rather than the item alone.
-            assertTrue(rule.evidence().contains("gm."),
-                rule.entityTypeId() + " must name the resolved item field, was: " + rule.evidence());
+                rule.entityTypeId() + " must say where its value came from");
+            // A jar-verified row names the resolved item field; the added rows name the wiki/timeline entry. Both
+            // are evidence, and the distinction is deliberate: the single-letter fields are why the jar rows are
+            // stronger (gm.J is feather and gm.j is arrow), so a row that claims the client must name the field.
+            boolean fromClient = rule.evidence().contains("gm.");
+            boolean fromTimeline = rule.evidence().contains("wiki") || rule.evidence().contains("research/");
+            assertTrue(fromClient || fromTimeline,
+                rule.entityTypeId() + " must cite the client field or a dated source, was: " + rule.evidence());
         }
     }
 
@@ -81,7 +90,10 @@ class HistoricalLootRulesTest {
             "minecraft:potato", "minecraft:ink_sac")) {
             assertFalse(items.contains(modern), modern + " did not exist in Beta 1.7.3");
         }
-        assertEquals(Set.of("minecraft:feather", "minecraft:string", "minecraft:leather"), items);
+        // The era's items, including the four the 2026-10-21 audit added for mobs that previously fell
+        // through to the modern table. None of them is modern-only, which the loop above proves.
+        assertEquals(Set.of("minecraft:feather", "minecraft:string", "minecraft:leather", "minecraft:arrow",
+            "minecraft:gunpowder", "minecraft:porkchop", "minecraft:cooked_porkchop"), items);
     }
 
     @Test
@@ -119,7 +131,9 @@ class HistoricalLootRulesTest {
         assertTrue(HistoricalLootRules.forEntity("minecraft:overworld", "minecraft:zombie").isEmpty());
 
         // A mob with no Beta-specific drop keeps its modern loot table.
-        assertTrue(HistoricalLootRules.forEntity(BETA_PROFILE, "minecraft:pig").isEmpty());
+        assertEquals("minecraft:porkchop",
+            HistoricalLootRules.forEntity(BETA_PROFILE, "minecraft:pig").orElseThrow().itemId(),
+            "the audit added the pig row; the modern table would have given cooked porkchop on fire");
         assertTrue(HistoricalLootRules.forEntity(BETA_PROFILE, "minecraft:squid").isEmpty());
     }
 

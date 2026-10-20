@@ -19,7 +19,7 @@
 
 **Drops:** zombie -> feather (0..2); spider -> string (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 4 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:mushroom_stew=10, minecraft:cooked_porkchop=8}
+**Food:** 4 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:mushroom_stew=10, minecraft:porkchop=3, minecraft:bread=5}
 
 **Enchantments:** none
 
@@ -47,7 +47,7 @@
 
 **Drops:** zombie -> feather (0..2); spider -> string (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -75,7 +75,7 @@
 
 **Drops:** zombie -> feather (0..2); spider -> string (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -92,7 +92,7 @@
 ## Alpha v1.0.1 (`historical_experience:alpha_1_0_1`)
 
 - family ALPHA, key 401001, revisions 4
-- rules: no hunger, no sprinting, no experience, no structures, 6 spawns allowed, drops modern, 6 direct food heals
+- rules: no hunger, no sprinting, no experience, no structures, 6 spawns allowed, 8 drop rules, 6 direct food heals
 - evidence: Seecret Friday 3, 2 July 2010. Redstone ore and dust, redstone torches, levers, buttons, pressure plates and iron doors; monster spawners stop dropping as items. Mob set derived from the Alpha v1.1.2_01 client registry minus slimes (Alpha 1.0.11) and chickens (Alpha 1.0.14), per research/version-transitions.json. Food table shared with Alpha v1.1.2_01 because no edible item was added between them. Gold and diamond ore frequency per this build is NOT implemented: see research/implementation-coverage.md.
 
 **Features active (57):** `NO_SKELETON_STRAFING`, `NO_CRITICAL_HITS`, `NO_ANIMAL_PANIC`, `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `PUNCH_SHEARS`, `OLD_TOOL_DURABILITY`, `INSTANT_BOW`, `ARROW_SPEED`, `INVINCIBLE_BOW`, `INSTANT_AIR`, `INSTANT_BONE_MEAL`, `PUNCH_TNT`, `GRASS_SEEDS`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `OLD_SWORD_DAMAGE`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_SNEAKING`, `NO_BREWING`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `NO_NETHER`, `UNSTACKABLE_FOOD`, `NO_OFFHAND`, `OLD_LIGHTING_ENGINE`, `NO_SMOOTH_LIGHTING`, `OLD_FOG`, `LOW_CLOUDS`, `OLD_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `FLAT_SKY_COLOUR`, `ALPHA_STARS`, `NO_WEATHER`, `LEFT_CLICK_USE`, `NO_ITEM_TOOLTIPS`, `NO_ATTRIBUTE_TOOLTIPS`, `VERSION_LABEL`, `NO_COLOUR_MAPS`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
@@ -101,9 +101,9 @@
 
 **Spawns:** 6 allowed: [minecraft:creeper, minecraft:pig, minecraft:sheep, minecraft:skeleton, minecraft:spider, minecraft:zombie]
 
-**Drops:** modern drop tables
+**Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -120,7 +120,7 @@
 ## Alpha v1.0.4 (`historical_experience:alpha_1_0_4`)
 
 - family ALPHA, key 401004, revisions 4
-- rules: no hunger, no sprinting, no experience, no structures, 6 spawns allowed, drops modern, 6 direct food heals
+- rules: no hunger, no sprinting, no experience, no structures, 6 spawns allowed, 8 drop rules, 6 direct food heals
 - evidence: Seecret Friday 4, 9 July 2010. Snow and ice blocks, selectable winter-mode worlds, and mob physics changed so jumps became shorter. Snow layers existed in terrain but were not obtainable as an item, so generated snow is not normal harvest here. Mob set and food table shared with Alpha 1.0.1: no mob or edible item is added between the two builds.
 
 **Features active (57):** `NO_SKELETON_STRAFING`, `NO_CRITICAL_HITS`, `NO_ANIMAL_PANIC`, `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `PUNCH_SHEARS`, `OLD_TOOL_DURABILITY`, `INSTANT_BOW`, `ARROW_SPEED`, `INVINCIBLE_BOW`, `INSTANT_AIR`, `INSTANT_BONE_MEAL`, `PUNCH_TNT`, `GRASS_SEEDS`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `OLD_SWORD_DAMAGE`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_SNEAKING`, `NO_BREWING`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `NO_NETHER`, `UNSTACKABLE_FOOD`, `NO_OFFHAND`, `OLD_LIGHTING_ENGINE`, `NO_SMOOTH_LIGHTING`, `OLD_FOG`, `LOW_CLOUDS`, `OLD_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `FLAT_SKY_COLOUR`, `ALPHA_STARS`, `NO_WEATHER`, `LEFT_CLICK_USE`, `NO_ITEM_TOOLTIPS`, `NO_ATTRIBUTE_TOOLTIPS`, `VERSION_LABEL`, `NO_COLOUR_MAPS`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
@@ -129,9 +129,9 @@
 
 **Spawns:** 6 allowed: [minecraft:creeper, minecraft:pig, minecraft:sheep, minecraft:skeleton, minecraft:spider, minecraft:zombie]
 
-**Drops:** modern drop tables
+**Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -148,7 +148,7 @@
 ## Alpha v1.0.6 (`historical_experience:alpha_1_0_6`)
 
 - family ALPHA, key 401006, revisions 4
-- rules: no hunger, no sprinting, no experience, no structures, 6 spawns allowed, drops modern, 6 direct food heals
+- rules: no hunger, no sprinting, no experience, no structures, 6 spawns allowed, 8 drop rules, 6 direct food heals
 - evidence: Seecret Friday 5, 16 July 2010. Cactus, boats, mixed tree sizes and throwable snowballs; leaf decay removed, sapling drop chance cut from 10% to 5%, and the snow-block recipe costs four snowballs while breaking yields six. Those three are recorded as not implemented. Mob set and food table shared with Alpha 1.0.1: no mob or edible item is added between them.
 
 **Features active (58):** `NO_SKELETON_STRAFING`, `NO_CRITICAL_HITS`, `NO_ANIMAL_PANIC`, `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `PUNCH_SHEARS`, `OLD_TOOL_DURABILITY`, `SNOWBALL_SURPLUS`, `INSTANT_BOW`, `ARROW_SPEED`, `INVINCIBLE_BOW`, `INSTANT_AIR`, `INSTANT_BONE_MEAL`, `PUNCH_TNT`, `GRASS_SEEDS`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `OLD_SWORD_DAMAGE`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_SNEAKING`, `NO_BREWING`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `NO_NETHER`, `UNSTACKABLE_FOOD`, `NO_OFFHAND`, `OLD_LIGHTING_ENGINE`, `NO_SMOOTH_LIGHTING`, `OLD_FOG`, `LOW_CLOUDS`, `OLD_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `FLAT_SKY_COLOUR`, `ALPHA_STARS`, `NO_WEATHER`, `LEFT_CLICK_USE`, `NO_ITEM_TOOLTIPS`, `NO_ATTRIBUTE_TOOLTIPS`, `VERSION_LABEL`, `NO_COLOUR_MAPS`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
@@ -157,9 +157,9 @@
 
 **Spawns:** 6 allowed: [minecraft:creeper, minecraft:pig, minecraft:sheep, minecraft:skeleton, minecraft:spider, minecraft:zombie]
 
-**Drops:** modern drop tables
+**Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -176,7 +176,7 @@
 ## Alpha v1.0.11 (`historical_experience:alpha_1_0_11`)
 
 - family ALPHA, key 401011, revisions 4
-- rules: no hunger, no sprinting, no experience, no structures, 8 spawns allowed, drops modern, 6 direct food heals
+- rules: no hunger, no sprinting, no experience, no structures, 8 spawns allowed, 8 drop rules, 6 direct food heals
 - evidence: Clay, sugar cane, paper, books, bricks and slimes. Cows are present because they arrive in Alpha v1.0.8, so this is the first declared Alpha build with cows AND the last without chickens (1.0.14). The slime date is inference rather than citation and the reasoning is recorded in HistoricalSpawnRules.ALPHA_1_0_11_MOBS. Food table shared with Alpha 1.0.1: no edible item is added between them.
 
 **Features active (57):** `NO_SKELETON_STRAFING`, `NO_CRITICAL_HITS`, `NO_ANIMAL_PANIC`, `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `PUNCH_SHEARS`, `OLD_TOOL_DURABILITY`, `INSTANT_BOW`, `ARROW_SPEED`, `INVINCIBLE_BOW`, `INSTANT_AIR`, `INSTANT_BONE_MEAL`, `PUNCH_TNT`, `GRASS_SEEDS`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `OLD_SWORD_DAMAGE`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_SNEAKING`, `NO_BREWING`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `NO_NETHER`, `UNSTACKABLE_FOOD`, `NO_OFFHAND`, `OLD_LIGHTING_ENGINE`, `NO_SMOOTH_LIGHTING`, `OLD_FOG`, `LOW_CLOUDS`, `OLD_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `FLAT_SKY_COLOUR`, `ALPHA_STARS`, `NO_WEATHER`, `LEFT_CLICK_USE`, `NO_ITEM_TOOLTIPS`, `NO_ATTRIBUTE_TOOLTIPS`, `VERSION_LABEL`, `NO_COLOUR_MAPS`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
@@ -185,9 +185,9 @@
 
 **Spawns:** 8 allowed: [minecraft:cow, minecraft:creeper, minecraft:pig, minecraft:sheep, minecraft:skeleton, minecraft:slime, minecraft:spider, minecraft:zombie]
 
-**Drops:** modern drop tables
+**Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -204,7 +204,7 @@
 ## Alpha v1.0.14 (`historical_experience:alpha_1_0_14`)
 
 - family ALPHA, key 401014, revisions 4
-- rules: no hunger, no sprinting, no experience, no structures, 8 spawns allowed, drops modern, 6 direct food heals
+- rules: no hunger, no sprinting, no experience, no structures, 8 spawns allowed, 8 drop rules, 6 direct food heals
 - evidence: Chickens and eggs, jukeboxes and music discs (from dungeon chests, or when a skeleton kills a creeper), furnace and chest minecarts, three non-ambient music tracks, and a revised title logo. Obsidian blast resistance rises to 1,200 and music plays throughout the world rather than only as ambience. SLIME NATURAL SPAWNING IS DISABLED in this build due to a reported spawn-limit miscalculation - a bug, not a design, and NOT a permanent removal. Dungeon generator iterations increase from 4 to 8, shifting decorator RNG; recorded as not implemented because the terrain authority does not expose it. Food table shared with Alpha 1.0.1: no edible item is added between them.
 
 **Features active (57):** `NO_SKELETON_STRAFING`, `NO_CRITICAL_HITS`, `NO_ANIMAL_PANIC`, `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `PUNCH_SHEARS`, `OLD_TOOL_DURABILITY`, `INSTANT_BOW`, `ARROW_SPEED`, `INVINCIBLE_BOW`, `INSTANT_AIR`, `INSTANT_BONE_MEAL`, `PUNCH_TNT`, `GRASS_SEEDS`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `OLD_SWORD_DAMAGE`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_SNEAKING`, `NO_BREWING`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `NO_NETHER`, `UNSTACKABLE_FOOD`, `NO_OFFHAND`, `OLD_LIGHTING_ENGINE`, `NO_SMOOTH_LIGHTING`, `OLD_FOG`, `LOW_CLOUDS`, `OLD_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `FLAT_SKY_COLOUR`, `ALPHA_STARS`, `NO_WEATHER`, `LEFT_CLICK_USE`, `NO_ITEM_TOOLTIPS`, `NO_ATTRIBUTE_TOOLTIPS`, `VERSION_LABEL`, `NO_COLOUR_MAPS`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
@@ -213,9 +213,9 @@
 
 **Spawns:** 8 allowed: [minecraft:chicken, minecraft:cow, minecraft:creeper, minecraft:pig, minecraft:sheep, minecraft:skeleton, minecraft:spider, minecraft:zombie]
 
-**Drops:** modern drop tables
+**Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -232,7 +232,7 @@
 ## Alpha v1.0.17 (`historical_experience:alpha_1_0_17`)
 
 - family ALPHA, key 401017, revisions 4
-- rules: no hunger, no sprinting, no experience, no structures, 9 spawns allowed, drops modern, 6 direct food heals
+- rules: no hunger, no sprinting, no experience, no structures, 9 spawns allowed, 8 drop rules, 6 direct food heals
 - evidence: Oak fences, the spider jockey, a working multiplayer day/night cycle, pigs, chickens and slimes brought to multiplayer, milk buckets that can be emptied, and chickens that no longer take fall damage and glide downward. Slime spawning is BACK, because 1.0.14 disabled it as a bug and the research says not to infer a permanent removal. This build also had a transient defect - broken or invisible inventory icons - which the deltas record as a short-lived client fault rather than a stable mechanic, so it is deliberately NOT reproduced. Food table shared with Alpha 1.0.1: no edible item is added between them.
 
 **Features active (57):** `NO_SKELETON_STRAFING`, `NO_CRITICAL_HITS`, `NO_ANIMAL_PANIC`, `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `PUNCH_SHEARS`, `OLD_TOOL_DURABILITY`, `INSTANT_BOW`, `ARROW_SPEED`, `INVINCIBLE_BOW`, `INSTANT_AIR`, `INSTANT_BONE_MEAL`, `PUNCH_TNT`, `GRASS_SEEDS`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `OLD_SWORD_DAMAGE`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_SNEAKING`, `NO_BREWING`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `NO_NETHER`, `UNSTACKABLE_FOOD`, `NO_OFFHAND`, `OLD_LIGHTING_ENGINE`, `NO_SMOOTH_LIGHTING`, `OLD_FOG`, `LOW_CLOUDS`, `OLD_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `FLAT_SKY_COLOUR`, `ALPHA_STARS`, `NO_WEATHER`, `LEFT_CLICK_USE`, `NO_ITEM_TOOLTIPS`, `NO_ATTRIBUTE_TOOLTIPS`, `VERSION_LABEL`, `NO_COLOUR_MAPS`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
@@ -241,9 +241,9 @@
 
 **Spawns:** 9 allowed: [minecraft:chicken, minecraft:cow, minecraft:creeper, minecraft:pig, minecraft:sheep, minecraft:skeleton, minecraft:slime, minecraft:spider, minecraft:zombie]
 
-**Drops:** modern drop tables
+**Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -260,7 +260,7 @@
 ## Alpha v1.1.0 (`historical_experience:alpha_1_1_0`)
 
 - family ALPHA, key 401100, revisions 4
-- rules: no hunger, no sprinting, no experience, no structures, 9 spawns allowed, drops modern, 6 direct food heals
+- rules: no hunger, no sprinting, no experience, no structures, 9 spawns allowed, 8 drop rules, 6 direct food heals
 - evidence: The compass, pointing to world spawn; a shared client/server inventory; inventory persisted on a multiplayer server; player location persisted on disconnect; chests, signs and furnaces working in multiplayer; and an experimental switch that enables monsters in multiplayer. Monster spawners stop rendering the mob they contain. Adds no mob, so the spawn set is Alpha 1.0.17's. The multiplayer monster switch is described as EXPERIMENTAL and is not evidence of parity with singleplayer AI, which is recorded rather than smoothed over. This is also the build that makes SNEAKING possible: this project's sneak boundary is Alpha 1.1.0, supplied by the owner, and it lands exactly here. Food table shared with Alpha 1.0.1.
 
 **Features active (56):** `NO_SKELETON_STRAFING`, `NO_CRITICAL_HITS`, `NO_ANIMAL_PANIC`, `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `PUNCH_SHEARS`, `OLD_TOOL_DURABILITY`, `INSTANT_BOW`, `ARROW_SPEED`, `INVINCIBLE_BOW`, `INSTANT_AIR`, `INSTANT_BONE_MEAL`, `PUNCH_TNT`, `GRASS_SEEDS`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `OLD_SWORD_DAMAGE`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_BREWING`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `NO_NETHER`, `UNSTACKABLE_FOOD`, `NO_OFFHAND`, `OLD_LIGHTING_ENGINE`, `NO_SMOOTH_LIGHTING`, `OLD_FOG`, `LOW_CLOUDS`, `OLD_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `FLAT_SKY_COLOUR`, `ALPHA_STARS`, `NO_WEATHER`, `LEFT_CLICK_USE`, `NO_ITEM_TOOLTIPS`, `NO_ATTRIBUTE_TOOLTIPS`, `VERSION_LABEL`, `NO_COLOUR_MAPS`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
@@ -269,9 +269,9 @@
 
 **Spawns:** 9 allowed: [minecraft:chicken, minecraft:cow, minecraft:creeper, minecraft:pig, minecraft:sheep, minecraft:skeleton, minecraft:slime, minecraft:spider, minecraft:zombie]
 
-**Drops:** modern drop tables
+**Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -288,7 +288,7 @@
 ## Alpha v1.1.2_01 (`historical_experience:alpha`)
 
 - family ALPHA, key 401102, revisions 4
-- rules: no hunger, no sprinting, no experience, no structures, 9 spawns allowed, drops modern, 6 direct food heals
+- rules: no hunger, no sprinting, no experience, no structures, 9 spawns allowed, 8 drop rules, 6 direct food heals
 - evidence: RESEARCHED from the Alpha v1.1.2_01 client (sha1 daa4b9f192d2c260837d3b98c39432324da28e86, 897164 bytes, verified against Mojang's own version metadata before use): the natural-spawn set (entity registry class ew, 20 registrations = 10 mobs + 8 non-mob entities + the base classes Mob and Monster; ghasts, zombie pigmen, squid and wolves absent as UTF-8 constants anywhere in the jar) and all six direct food heals (health field ge.E, heal method ge.b(int), food class oj with bowl-returning subclass ap; each value proved from the jar's own recipe, drop or smelting table). Still INFERRED by monotonicity between the verified Beta 1.7.3 and Beta 1.8.1 boundaries: no hunger, no sprinting, no experience, no structures. NOT researched and therefore still modern: mob drops, ore distribution, decoration. See research/prebeta-registries.json.
 
 **Features active (56):** `NO_SKELETON_STRAFING`, `NO_CRITICAL_HITS`, `NO_ANIMAL_PANIC`, `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `PUNCH_SHEARS`, `OLD_TOOL_DURABILITY`, `INSTANT_BOW`, `ARROW_SPEED`, `INVINCIBLE_BOW`, `INSTANT_AIR`, `INSTANT_BONE_MEAL`, `PUNCH_TNT`, `GRASS_SEEDS`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `OLD_SWORD_DAMAGE`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_BREWING`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `NO_NETHER`, `UNSTACKABLE_FOOD`, `NO_OFFHAND`, `OLD_LIGHTING_ENGINE`, `NO_SMOOTH_LIGHTING`, `OLD_FOG`, `LOW_CLOUDS`, `OLD_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `FLAT_SKY_COLOUR`, `ALPHA_STARS`, `NO_WEATHER`, `LEFT_CLICK_USE`, `NO_ITEM_TOOLTIPS`, `NO_ATTRIBUTE_TOOLTIPS`, `VERSION_LABEL`, `NO_COLOUR_MAPS`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
@@ -297,9 +297,9 @@
 
 **Spawns:** 9 allowed: [minecraft:chicken, minecraft:cow, minecraft:creeper, minecraft:pig, minecraft:sheep, minecraft:skeleton, minecraft:slime, minecraft:spider, minecraft:zombie]
 
-**Drops:** modern drop tables
+**Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -316,7 +316,7 @@
 ## Alpha v1.2.0 (`historical_experience:alpha_1_2_0`)
 
 - family ALPHA, key 401200, revisions 5
-- rules: no hunger, no sprinting, no experience, no structures, 10 spawns allowed, drops modern, 6 direct food heals
+- rules: no hunger, no sprinting, no experience, no structures, 10 spawns allowed, 8 drop rules, 6 direct food heals
 - evidence: The Halloween Update: the Nether, reachable through a player-built obsidian portal, with netherrack, soul sand and glowstone; pumpkins and jack-o'-lanterns; clocks; the fishing rod and raw fish; ghasts and zombie pigmen, the pigmen neutral until attacked and then retaliating as a group; twelve listed biomes with biome-coloured terrain, of which Ice Desert is listed but unused; six music tracks; and an Overworld:Nether distance mapping of 8:1. Monoliths cease and the bottom layer becomes all bedrock. Nether water evaporates. Slime natural spawning is REMOVED from the mob spawning code - not described as a bug this time, so it is taken at face value - and the selectable winter world mode is REMOVED in favour of biome-based weather. NOT implemented: the biome count and biome-coloured terrain, because Moderner Beta ships NO Alpha 1.2.0 preset and the closest, moderner_beta:alpha, is the 1.1.2-era terrain; the depth-noise scale change from 100 to 200, which the research itself labels low-confidence and development-preview; and the fishing rate, whose semantics the research records as unverified. Terrain therefore comes from moderner_beta:alpha. Food table shared with Alpha 1.0.1: no edible item is added between them.
 
 **Features active (55):** `NO_SKELETON_STRAFING`, `NO_CRITICAL_HITS`, `NO_ANIMAL_PANIC`, `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `PUNCH_SHEARS`, `OLD_TOOL_DURABILITY`, `INSTANT_BOW`, `ARROW_SPEED`, `INVINCIBLE_BOW`, `INSTANT_AIR`, `INSTANT_BONE_MEAL`, `PUNCH_TNT`, `GRASS_SEEDS`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `OLD_SWORD_DAMAGE`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_BREWING`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `UNSTACKABLE_FOOD`, `NO_OFFHAND`, `OLD_LIGHTING_ENGINE`, `NO_SMOOTH_LIGHTING`, `OLD_FOG`, `LOW_CLOUDS`, `OLD_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `FLAT_SKY_COLOUR`, `ALPHA_STARS`, `NO_WEATHER`, `LEFT_CLICK_USE`, `NO_ITEM_TOOLTIPS`, `NO_ATTRIBUTE_TOOLTIPS`, `VERSION_LABEL`, `OLD_FOLIAGE_COLOUR_MAP`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
@@ -325,9 +325,9 @@
 
 **Spawns:** 10 allowed: [minecraft:chicken, minecraft:cow, minecraft:creeper, minecraft:ghast, minecraft:pig, minecraft:sheep, minecraft:skeleton, minecraft:spider, minecraft:zombie, minecraft:zombified_piglin]
 
-**Drops:** modern drop tables
+**Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -344,7 +344,7 @@
 ## Alpha v1.2.2a (`historical_experience:alpha_1_2_2a`)
 
 - family ALPHA, key 401202, revisions 5
-- rules: no hunger, no sprinting, no experience, no structures, 10 spawns allowed, drops modern, 6 direct food heals
+- rules: no hunger, no sprinting, no experience, no structures, 10 spawns allowed, 8 drop rules, 6 direct food heals
 - evidence: The Halloween Update: the Nether, reachable through a player-built obsidian portal, with netherrack, soul sand and glowstone; pumpkins and jack-o'-lanterns; clocks; the fishing rod and raw fish; ghasts and zombie pigmen, the pigmen neutral until attacked and then retaliating as a group; twelve listed biomes with biome-coloured terrain, of which Ice Desert is listed but unused; six music tracks; and an Overworld:Nether distance mapping of 8:1. Monoliths cease and the bottom layer becomes all bedrock. Nether water evaporates. Slime natural spawning is REMOVED from the mob spawning code - not described as a bug this time, so it is taken at face value - and the selectable winter world mode is REMOVED in favour of biome-based weather. NOT implemented: the biome count and biome-coloured terrain, because Moderner Beta ships NO Alpha 1.2.0 preset and the closest, moderner_beta:alpha, is the 1.1.2-era terrain; the depth-noise scale change from 100 to 200, which the research itself labels low-confidence and development-preview; and the fishing rate, whose semantics the research records as unverified. Terrain therefore comes from moderner_beta:alpha. Food table shared with Alpha 1.0.1: no edible item is added between them.
 
 **Features active (56):** `NO_SKELETON_STRAFING`, `NO_CRITICAL_HITS`, `NO_ANIMAL_PANIC`, `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `PUNCH_SHEARS`, `OLD_TOOL_DURABILITY`, `INSTANT_BOW`, `ARROW_SPEED`, `INVINCIBLE_BOW`, `INSTANT_AIR`, `INSTANT_BONE_MEAL`, `PUNCH_TNT`, `GRASS_SEEDS`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `OLD_SWORD_DAMAGE`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_BREWING`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `UNSTACKABLE_FOOD`, `NO_OFFHAND`, `F4_PORTAL_KEY`, `OLD_LIGHTING_ENGINE`, `NO_SMOOTH_LIGHTING`, `OLD_FOG`, `LOW_CLOUDS`, `OLD_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `FLAT_SKY_COLOUR`, `ALPHA_STARS`, `NO_WEATHER`, `LEFT_CLICK_USE`, `NO_ITEM_TOOLTIPS`, `NO_ATTRIBUTE_TOOLTIPS`, `VERSION_LABEL`, `OLD_FOLIAGE_COLOUR_MAP`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
@@ -353,9 +353,9 @@
 
 **Spawns:** 10 allowed: [minecraft:chicken, minecraft:cow, minecraft:creeper, minecraft:ghast, minecraft:pig, minecraft:sheep, minecraft:skeleton, minecraft:spider, minecraft:zombie, minecraft:zombified_piglin]
 
-**Drops:** modern drop tables
+**Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 6 declared direct heals: {minecraft:apple=4, minecraft:mushroom_stew=10, minecraft:golden_apple=42, minecraft:cooked_porkchop=8, minecraft:porkchop=3, minecraft:bread=5}
+**Food:** 6 declared direct heals: {minecraft:bread=5, minecraft:porkchop=3, minecraft:cooked_porkchop=8, minecraft:golden_apple=42, minecraft:mushroom_stew=10, minecraft:apple=4}
 
 **Enchantments:** none
 
@@ -372,7 +372,7 @@
 ## Beta 1.0 (`historical_experience:beta_1_0`)
 
 - family BETA, key 501000, revisions 6
-- rules: no hunger, no sprinting, no experience, structures, 11 spawns allowed, drops modern, no direct food healing
+- rules: no hunger, no sprinting, no experience, structures, 11 spawns allowed, 8 drop rules, no direct food healing
 - evidence: Item-name tooltips, cape and deadmau5 ear support, leaf decay REINTRODUCED with different behaviour from its pre-Beta form, throwable eggs at stack size 16 with a 12.5% chicken spawn chance, and a server-side functional inventory. Lava lakes replace neighbouring blocks with stone, the grassland/sand biome boundary is MISALIGNED until Beta 1.3, and the Nether is inherited with no strongholds, villages or mineshafts. Armour-slot outlines are removed, crafting-grid slots no longer hold items, and tools on the ground stop repairing themselves. No mob is added here.
 
 **Features active (55):** `NO_SKELETON_STRAFING`, `NO_CRITICAL_HITS`, `NO_ANIMAL_PANIC`, `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `PUNCH_SHEARS`, `OLD_TOOL_DURABILITY`, `INSTANT_BOW`, `ARROW_SPEED`, `INVINCIBLE_BOW`, `INSTANT_AIR`, `INSTANT_BONE_MEAL`, `PUNCH_TNT`, `GRASS_SEEDS`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `OLD_SWORD_DAMAGE`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_BREWING`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `UNSTACKABLE_FOOD`, `NO_OFFHAND`, `OLD_LIGHTING_ENGINE`, `NO_SMOOTH_LIGHTING`, `OLD_FOG`, `LOW_CLOUDS`, `OLD_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `FLAT_SKY_COLOUR`, `ALPHA_STARS`, `NO_WEATHER`, `LEFT_CLICK_USE`, `LEGACY_TOOLTIP_BOX`, `NO_ATTRIBUTE_TOOLTIPS`, `VERSION_LABEL`, `OLD_FOLIAGE_COLOUR_MAP`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
@@ -381,7 +381,7 @@
 
 **Spawns:** 11 allowed: [minecraft:chicken, minecraft:cow, minecraft:creeper, minecraft:ghast, minecraft:pig, minecraft:sheep, minecraft:skeleton, minecraft:slime, minecraft:spider, minecraft:zombie, minecraft:zombified_piglin]
 
-**Drops:** modern drop tables
+**Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
 **Food:** no declared heal table; EFFECTIVE healing falls back to the pre-1.8 table (9 items, see researchedHeal) - eating heals
 
@@ -400,7 +400,7 @@
 ## Beta 1.2 (`historical_experience:beta_1_2`)
 
 - family BETA, key 501200, revisions 6
-- rules: no hunger, no sprinting, no experience, no structures, 11 spawns allowed, drops modern, no direct food healing
+- rules: no hunger, no sprinting, no experience, no structures, 11 spawns allowed, 8 drop rules, no direct food healing
 - evidence: Charcoal, note blocks, dyes and coloured wool, sugar, dispensers, bone and bone meal, sandstone, birch and spruce logs and leaves, cake, and lapis lazuli with its block and ore. The squid arrive, with 10 health and an ink sac, no sounds yet, and milkable in this build - which is recorded as a quirk rather than reproduced. Sugar cane is renamed from reeds and the crafting table from workbench; tool durability rises across the board, wood 33 to 59, stone 65 to 131, iron 129 to 250, diamond 1025 to 1561; skeletons start dropping bones; spiders climb walls; sheep can be dyed; bone meal fertilises saplings and wheat. World generation adds birch trees to forests, replaces oak with spruce in taiga, and introduces lapis ore - whose frequency and height were adjusted in Beta 1.2_02, which must NOT be backdated into this build. Cocoa beans and brown wool are registry content obtainable only by external tools here, so they are recorded rather than given a survival route. IMPLEMENTED: the tool durability table this entry used to record as missing is applied by HistoricalToolDurability, so wood 33, stone 65, iron 129 and diamond 1025 hold for every declared version older than this one and this build itself gets the raised values.
 
 **Features active (53):** `NO_SKELETON_STRAFING`, `NO_CRITICAL_HITS`, `NO_ANIMAL_PANIC`, `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `PUNCH_SHEARS`, `INSTANT_BOW`, `ARROW_SPEED`, `INVINCIBLE_BOW`, `INSTANT_AIR`, `INSTANT_BONE_MEAL`, `PUNCH_TNT`, `GRASS_SEEDS`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `OLD_SWORD_DAMAGE`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_BREWING`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `UNSTACKABLE_FOOD`, `NO_OFFHAND`, `OLD_LIGHTING_ENGINE`, `NO_SMOOTH_LIGHTING`, `OLD_FOG`, `LOW_CLOUDS`, `OLD_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `FLAT_SKY_COLOUR`, `ALPHA_STARS`, `NO_WEATHER`, `LEFT_CLICK_USE`, `LEGACY_TOOLTIP_BOX`, `NO_ATTRIBUTE_TOOLTIPS`, `VERSION_LABEL`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
@@ -409,7 +409,7 @@
 
 **Spawns:** 11 allowed: [minecraft:chicken, minecraft:cow, minecraft:creeper, minecraft:ghast, minecraft:pig, minecraft:sheep, minecraft:skeleton, minecraft:spider, minecraft:squid, minecraft:zombie, minecraft:zombified_piglin]
 
-**Drops:** modern drop tables
+**Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
 **Food:** no declared heal table; EFFECTIVE healing falls back to the pre-1.8 table (9 items, see researchedHeal) - eating heals
 
@@ -428,7 +428,7 @@
 ## Beta 1.3 (`historical_experience:beta_1_3`)
 
 - family BETA, key 501300, revisions 5
-- rules: no hunger, no sprinting, no experience, no structures, 12 spawns allowed, drops modern, no direct food healing
+- rules: no hunger, no sprinting, no experience, no structures, 12 spawns allowed, 8 drop rules, no direct food healing
 - evidence: Beds with sleeping and time skip, redstone repeaters, cobblestone, wood and sandstone slabs, a smooth stone slab that is present but unobtainable, the 'Skull on Fire' painting, world seed and name selection with multiple world slots, and a smooth-lighting engine. Sandstone now generates under naturally generated sand; the grassland/sand biome boundary Beta 1.0 left misaligned is FIXED here; stone slabs move to the stone recipe and double slabs drop two; the stone pressure plate recipe drops from three materials to two; gunpowder is renamed from sulphur; powered redstone dust darkens with distance from its source; and squid swim in 3D instead of sitting on the bottom, and can no longer be milked - a Beta 1.2 quirk this build REMOVES. SLIMES SPAWN AGAIN, having been removed from the spawning code in Alpha 1.2.0. Bed respawn-point reset is explicitly NOT in this build; it arrives bugged in Beta 1.4.
 
 **Features active (53):** `NO_SKELETON_STRAFING`, `NO_CRITICAL_HITS`, `NO_ANIMAL_PANIC`, `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `PUNCH_SHEARS`, `INSTANT_BOW`, `ARROW_SPEED`, `INVINCIBLE_BOW`, `INSTANT_AIR`, `INSTANT_BONE_MEAL`, `PUNCH_TNT`, `GRASS_SEEDS`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `OLD_SWORD_DAMAGE`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_BREWING`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `UNSTACKABLE_FOOD`, `NO_OFFHAND`, `OLD_LIGHTING_ENGINE`, `OLD_SMOOTH_LIGHTING`, `OLD_FOG`, `LOW_CLOUDS`, `OLD_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `FLAT_SKY_COLOUR`, `ALPHA_STARS`, `NO_WEATHER`, `LEFT_CLICK_USE`, `LEGACY_TOOLTIP_BOX`, `NO_ATTRIBUTE_TOOLTIPS`, `VERSION_LABEL`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
@@ -437,7 +437,7 @@
 
 **Spawns:** 12 allowed: [minecraft:chicken, minecraft:cow, minecraft:creeper, minecraft:ghast, minecraft:pig, minecraft:sheep, minecraft:skeleton, minecraft:slime, minecraft:spider, minecraft:squid, minecraft:zombie, minecraft:zombified_piglin]
 
-**Drops:** modern drop tables
+**Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
 **Food:** no declared heal table; EFFECTIVE healing falls back to the pre-1.8 table (9 items, see researchedHeal) - eating heals
 
@@ -456,7 +456,7 @@
 ## Beta 1.4 (`historical_experience:beta_1_4`)
 
 - family BETA, key 501400, revisions 4
-- rules: no hunger, no sprinting, no experience, structures, 13 spawns allowed, drops modern, no direct food healing
+- rules: no hunger, no sprinting, no experience, structures, 13 spawns allowed, 8 drop rules, no direct food healing
 - evidence: Adds the WOLF - neutral, common in taiga, 10 health, tamed with bones at a 1/3 chance per bone, defending its owner and going angry when the owner or the owner's wolves are hit, its tail showing health, feedable raw pork, and DROPPING NOTHING when killed. Also cookies (healing 1 health and stacking to 8, the first stackable food), the April Fools locked chest, bed spawn-position reset - added here but BUGGED, only applying on 'Leave bed' and only working for multiplayer - partly implemented achievement infrastructure, the E inventory key, a changeable GUI scale, faster wheat growth, spiders no longer trampling crops, spider sounds REMOVED, the zombie/spider one-block-above damage bug fixed, and ladders holding position while sneaking. NO terrain generator change.
 
 **Features active (53):** `NO_SKELETON_STRAFING`, `NO_CRITICAL_HITS`, `NO_ANIMAL_PANIC`, `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `PUNCH_SHEARS`, `INSTANT_BOW`, `ARROW_SPEED`, `INVINCIBLE_BOW`, `INSTANT_AIR`, `INSTANT_BONE_MEAL`, `PUNCH_TNT`, `GRASS_SEEDS`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `OLD_SWORD_DAMAGE`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_BREWING`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `UNSTACKABLE_FOOD`, `NO_OFFHAND`, `OLD_LIGHTING_ENGINE`, `OLD_SMOOTH_LIGHTING`, `OLD_FOG`, `LOW_CLOUDS`, `OLD_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `FLAT_SKY_COLOUR`, `ALPHA_STARS`, `NO_WEATHER`, `LEFT_CLICK_USE`, `LEGACY_TOOLTIP_BOX`, `NO_ATTRIBUTE_TOOLTIPS`, `VERSION_LABEL`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
@@ -465,7 +465,7 @@
 
 **Spawns:** 13 allowed: [minecraft:chicken, minecraft:cow, minecraft:creeper, minecraft:ghast, minecraft:pig, minecraft:sheep, minecraft:skeleton, minecraft:slime, minecraft:spider, minecraft:squid, minecraft:wolf, minecraft:zombie, minecraft:zombified_piglin]
 
-**Drops:** modern drop tables
+**Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
 **Food:** no declared heal table; EFFECTIVE healing falls back to the pre-1.8 table (9 items, see researchedHeal) - eating heals
 
@@ -484,7 +484,7 @@
 ## Beta 1.5 (`historical_experience:beta_1_5`)
 
 - family BETA, key 501500, revisions 4
-- rules: no hunger, no sprinting, no experience, structures, 13 spawns allowed, drops modern, no direct food healing
+- rules: no hunger, no sprinting, no experience, structures, 13 spawns allowed, 8 drop rules, no direct food healing
 - evidence: Adds WEATHER - natural rain, snowfall and thunderstorms with their own sounds - plus birch and spruce saplings, detector rails, powered rails that need redstone and accelerate minecarts, cobweb (present but obtainable only by inventory editing, slowing players and mobs and dropping string when broken with a sword), and sixteen achievements and statistics with their UI. Unarmed damage rises 1 -> 2 health points; saplings smelt 0.5 items each; redstone wire can be placed on snow; the ladder recipe yields 2; lightning creates fire and turns struck pigs into zombie pigmen and struck creepers into charged creepers; wolves become more common outside taiga and forest. NO mob is added and there is NO new base generator.
 
 **Features active (52):** `NO_SKELETON_STRAFING`, `NO_CRITICAL_HITS`, `NO_ANIMAL_PANIC`, `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `PUNCH_SHEARS`, `INSTANT_BOW`, `ARROW_SPEED`, `INVINCIBLE_BOW`, `INSTANT_AIR`, `INSTANT_BONE_MEAL`, `PUNCH_TNT`, `GRASS_SEEDS`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `OLD_SWORD_DAMAGE`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_BREWING`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `UNSTACKABLE_FOOD`, `NO_OFFHAND`, `OLD_LIGHTING_ENGINE`, `OLD_SMOOTH_LIGHTING`, `OLD_FOG`, `LOW_CLOUDS`, `OLD_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `FLAT_SKY_COLOUR`, `BETA_STARS`, `LEFT_CLICK_USE`, `LEGACY_TOOLTIP_BOX`, `NO_ATTRIBUTE_TOOLTIPS`, `VERSION_LABEL`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
@@ -493,7 +493,7 @@
 
 **Spawns:** 13 allowed: [minecraft:chicken, minecraft:cow, minecraft:creeper, minecraft:ghast, minecraft:pig, minecraft:sheep, minecraft:skeleton, minecraft:slime, minecraft:spider, minecraft:squid, minecraft:wolf, minecraft:zombie, minecraft:zombified_piglin]
 
-**Drops:** modern drop tables
+**Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
 **Food:** no declared heal table; EFFECTIVE healing falls back to the pre-1.8 table (9 items, see researchedHeal) - eating heals
 
@@ -512,7 +512,7 @@
 ## Beta 1.6 (`historical_experience:beta_1_6`)
 
 - family BETA, key 501600, revisions 3
-- rules: no hunger, no sprinting, no experience, structures, 13 spawns allowed, drops modern, no direct food healing
+- rules: no hunger, no sprinting, no experience, structures, 13 spawns allowed, 8 drop rules, no direct food healing
 - evidence: Adds the map item, the wooden trapdoor, dead bush (deserts only, placeable only on sand), and SHORT GRASS AND FERNS as naturally generated vegetation - grass patches on most grassy-soil biomes, ferns only in swamps and rainforests. Also Nether support in multiplayer with the view-distance and allow-nether server properties, and grass/foliage colour-map files that exist but are initially not read. A bed placed in the Nether EXPLODES; fire spread is severely slowed and no longer spreads infinitely; ice regenerates without snow; mushrooms spread slowly; below a layer of source blocks water no longer behaves as source; the player dismounts from a boat or minecart entering a portal, fixing the portal-ride crash; the ten-tick missed-swing cooldown is REMOVED; and public Beta 1.6 fixes the ore-generation quadrant bias that made some ores at least 50% more common to the south-east. NO mob is added and there is NO new base generator. The unreleased Test Build 3's randomised vegetation and its clay x=z coordinate defect are NOT this build.
 
 **Features active (51):** `NO_SKELETON_STRAFING`, `NO_CRITICAL_HITS`, `NO_ANIMAL_PANIC`, `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `PUNCH_SHEARS`, `INSTANT_BOW`, `ARROW_SPEED`, `INVINCIBLE_BOW`, `INSTANT_AIR`, `INSTANT_BONE_MEAL`, `PUNCH_TNT`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `OLD_SWORD_DAMAGE`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_BREWING`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `UNSTACKABLE_FOOD`, `NO_OFFHAND`, `OLD_LIGHTING_ENGINE`, `OLD_SMOOTH_LIGHTING`, `OLD_FOG`, `LOW_CLOUDS`, `OLD_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `FLAT_SKY_COLOUR`, `BETA_STARS`, `LEFT_CLICK_USE`, `LEGACY_TOOLTIP_BOX`, `NO_ATTRIBUTE_TOOLTIPS`, `VERSION_LABEL`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
@@ -521,7 +521,7 @@
 
 **Spawns:** 13 allowed: [minecraft:chicken, minecraft:cow, minecraft:creeper, minecraft:ghast, minecraft:pig, minecraft:sheep, minecraft:skeleton, minecraft:slime, minecraft:spider, minecraft:squid, minecraft:wolf, minecraft:zombie, minecraft:zombified_piglin]
 
-**Drops:** modern drop tables
+**Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
 **Food:** no declared heal table; EFFECTIVE healing falls back to the pre-1.8 table (9 items, see researchedHeal) - eating heals
 
@@ -540,7 +540,7 @@
 ## Beta 1.7.3 (`historical_experience:beta_1_7_3`)
 
 - family BETA, key 501703, revisions 11
-- rules: no hunger, no sprinting, no experience, no structures, 13 spawns allowed, 4 drop rules, 9 direct food heals
+- rules: no hunger, no sprinting, no experience, no structures, 13 spawns allowed, 8 drop rules, 9 direct food heals
 - evidence: Entity registry, item registry and ore parameters/vein verified from the b1.7.3 client (sha1 43db9b498cb67058d2e12d394e6507722e71bb45); see research/beta173-entity-types.json, research/beta173-ore-parameters-parent-reviewed.json and research/beta173-ore-vein-geometry.json
 
 **Features active (48):** `NO_SKELETON_STRAFING`, `NO_CRITICAL_HITS`, `NO_ANIMAL_PANIC`, `NO_MONSTER_SUN_AVOIDANCE`, `OLD_SKELETON_DROPS`, `NO_ANIMAL_BREEDING`, `NO_ANIMAL_TEMPTING`, `NO_BABY_ANIMALS`, `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `INSTANT_BOW`, `ARROW_SPEED`, `INVINCIBLE_BOW`, `INSTANT_AIR`, `INSTANT_BONE_MEAL`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `OLD_SWORD_DAMAGE`, `NO_REAL_ENCHANTING`, `NO_ENCHANTING`, `NO_BREWING`, `INERT_END_PORTAL`, `HIDDEN_XP_LEVEL`, `UNSTACKABLE_FOOD`, `NO_OFFHAND`, `OLD_LIGHTING_ENGINE`, `OLD_SMOOTH_LIGHTING`, `OLD_FOG`, `LOW_CLOUDS`, `OLD_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `FLAT_SKY_COLOUR`, `BETA_STARS`, `LEFT_CLICK_USE`, `LEGACY_TOOLTIP_BOX`, `NO_ATTRIBUTE_TOOLTIPS`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
@@ -549,9 +549,9 @@
 
 **Spawns:** 13 allowed: [minecraft:chicken, minecraft:cow, minecraft:creeper, minecraft:ghast, minecraft:pig, minecraft:sheep, minecraft:skeleton, minecraft:slime, minecraft:spider, minecraft:squid, minecraft:wolf, minecraft:zombie, minecraft:zombified_piglin]
 
-**Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2)
+**Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
-**Food:** 9 declared direct heals: {minecraft:cooked_porkchop=8, minecraft:bread=5, minecraft:mushroom_stew=10, minecraft:cooked_cod=5, minecraft:cod=2, minecraft:apple=4, minecraft:golden_apple=42, minecraft:porkchop=3, minecraft:cookie=1}
+**Food:** 9 declared direct heals: {minecraft:cookie=1, minecraft:porkchop=3, minecraft:apple=4, minecraft:golden_apple=42, minecraft:cod=2, minecraft:cooked_cod=5, minecraft:mushroom_stew=10, minecraft:bread=5, minecraft:cooked_porkchop=8}
 
 **Enchantments:** none
 
@@ -848,7 +848,7 @@
 ## Release 1.3 (`historical_experience:release_1_3`)
 
 - family RELEASE, key 601300, revisions 3
-- rules: hunger, sprinting, experience, structures, 22 spawns allowed, drops modern, no direct food healing
+- rules: hunger, sprinting, experience, structures, 22 spawns allowed, 8 drop rules, no direct food healing
 - evidence: Adds no mob: its deltas are tripwire, the ender chest, emeralds and villager trading, cocoa pods, the desert pyramid and jungle temple, Large Biomes, adventure mode and XP from mining ores. So the spawn set is Release 1.2.5's, which already carries the ocelot and iron golem.
 
 **Features active (29):** `NO_MONSTER_ITEM_PICKUP`, `NO_MONSTER_GEAR`, `NO_MONSTER_ENCHANTS`, `NO_BABY_ZOMBIES`, `NO_ATTACK_COOLDOWN`, `NO_SWEEP_ATTACK`, `NO_SWIMMING`, `OLD_ZOMBIE_ARMS`, `NO_TOOL_SHAPING`, `OLD_FISHING_LOOT`, `INSTANT_BONE_MEAL`, `NO_FISHING_EXPERIENCE`, `ORE_DROPS_AS_BLOCKS`, `OLD_SWORD_BLOCKING`, `BETA_EXHAUSTION_COSTS`, `BETA_REGENERATION`, `BETA_SPRINT_JUMP_EXHAUSTION`, `BETA_FOOD_HUNGER_VALUES`, `BETA_CRITICAL_HIT_FORMULA`, `NO_OFFHAND`, `LEGACY_ENCHANTED_GOLDEN_APPLE`, `OLD_ENDER_CHEST_MODEL`, `FLAT_DROPPED_ITEMS`, `NO_RECIPE_BOOK`, `LEFT_CLICK_USE`, `NO_ATTRIBUTE_TOOLTIPS`, `BOSS_HEALTH_CAPTION`, `ORIGINAL_DRAGON_FIGHT`, `NO_NETHER_ENDERMEN`
@@ -857,7 +857,7 @@
 
 **Spawns:** 22 allowed: [minecraft:blaze, minecraft:cave_spider, minecraft:chicken, minecraft:cow, minecraft:creeper, minecraft:enderman, minecraft:ghast, minecraft:iron_golem, minecraft:magma_cube, minecraft:mooshroom, minecraft:ocelot, minecraft:pig, minecraft:sheep, minecraft:silverfish, minecraft:skeleton, minecraft:slime, minecraft:spider, minecraft:squid, minecraft:villager, minecraft:wolf, minecraft:zombie, minecraft:zombified_piglin]
 
-**Drops:** modern drop tables
+**Drops:** zombie -> feather (0..2); chicken -> feather (0..2); spider -> string (0..2); cow -> leather (0..2); creeper -> gunpowder (0..2); skeleton -> arrow (0..2); pig -> porkchop (0..2)
 
 **Food:** hunger values only (see BETA_FOOD_HUNGER_VALUES); eating does not heal directly
 

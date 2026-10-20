@@ -1,3 +1,35 @@
+# Current work — 2026-10-21 / Gap implementation 1: mob drop tables (audit G1), wired
+
+Owner instruction: implement everything the four era audits found. Goal `goal-93bd997b`, backlog in
+[docs/VERSION_GAPS.md](<docs/VERSION_GAPS.md>).
+
+**Done in this slice.** The pre-Beta-1.8 drop table is now applied to every version that needs it:
+
+- `HistoricalLootRules.PRE_BETA_1_8` — zombie→feather, skeleton→arrow, creeper→gunpowder, spider→string,
+  pig→porkchop, cow→leather, chicken→feather, zombie pigman→cooked porkchop (0–1). Every row carries its
+  `research/feature-timeline.json` citation; the model's one-item-per-mob limit is stated (bones Beta 1.2, spider eyes
+  Beta 1.8, ghast tears Beta 1.7, chicken's early leather) rather than faked.
+- Wired into the **10 Alpha profiles and Beta 1.0–1.6** (16 declarations) plus the Alpha v1.1.2_01 helper, which had
+  been sharing the Indev table and so gave cows and chickens the modern drops.
+- **Beta 1.7.3's jar-verified table extended** with the four mobs that previously fell through to vanilla (skeleton,
+  creeper, pig, zombie pigman), cited to the timeline; the four jar rows keep their `gm.` field evidence and the test
+  now distinguishes the two evidence classes instead of requiring every row to be from the client.
+- **Sheep death wool corrected** to Beta 1.7 → Release 1.8 (previous slice); Alpha/Beta 1.0–1.6 sheep no longer drop
+  wool on death.
+- Fixed a wrong edit of my own before it landed: the first wiring script changed the Infdev helper instead of the Alpha
+  helper, which the golden snapshot caught as Infdev gaining cow/chicken rules; both helpers are now correct and the
+  facts sheet confirms Indev/Infdev keep the 5-row Indev table while Alpha/Beta use the 8-row one.
+
+**Evidence:** `./gradlew test` — **133 suites, 761 tests, 0 failures**. Golden snapshot diff was 330 lines, reviewed and
+entirely within `HistoricalLootRules`/`VersionRules.mobDrops`/`replacesLoot` (no other behaviour moved). `VERSION_MATRIX.md`
+and `version-facts.md` regenerated. Three older tests that encoded the four-row table and the old sheep window were
+updated deliberately, with comments saying why.
+
+**Still open from this audit item:** ghast (should drop nothing before Beta 1.7 — the model cannot express "no drop" for
+a mob inside a replaced table), squid ink sac before Beta 1.2, spider jockey/skeleton bones as secondary drops, and the
+creeper music-disc condition. Recorded, not guessed.
+
+---
 # Current work — 2026-10-21 / Per-version fidelity audit: every declared version, every domain
 
 Owner request: *"Run some deep research and figure out if there is ANYTHING missing per version, be as in depth as

@@ -68,7 +68,17 @@ public final class HistoricalLootRules {
         new DropRule("minecraft:spider", "minecraft:string", 3,
             "cn.j() returns gm.I, assigned from the item named \"string\""),
         new DropRule("minecraft:cow", "minecraft:leather", 3,
-            "bx.j() returns gm.aD, assigned from the item named \"leather\"")
+            "bx.j() returns gm.aD, assigned from the item named \"leather\""),
+        // Added by the 2026-10-21 version audit: the jar extraction above named four mobs, and the rest fell
+        // through to the modern table. These are the same era values as PRE_BETA_1_8, cited to the timeline rows.
+        new DropRule("minecraft:skeleton", "minecraft:arrow", 3,
+            "wiki Skeleton, 20100219: 0-2 arrows; bones are Beta 1.2, which this one-item model cannot add"),
+        new DropRule("minecraft:creeper", "minecraft:gunpowder", 3,
+            "wiki Creeper: gunpowder; the Indev artifact table records the same selector"),
+        new DropRule("minecraft:pig", "minecraft:porkchop", 3,
+            "wiki Pig, 20100219: 0-2 raw porkchops; cooked-on-fire is Beta 1.5"),
+        new DropRule("minecraft:zombified_piglin", "minecraft:cooked_porkchop", 2,
+            "research/historical-features.json: zombie pigmen dropped 0-1 cooked porkchop before Beta 1.8")
     );
 
     /**

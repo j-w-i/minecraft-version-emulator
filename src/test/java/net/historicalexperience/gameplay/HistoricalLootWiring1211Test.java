@@ -114,6 +114,11 @@ class HistoricalLootWiring1211Test {
             "Beta 1.7.3's drops are verified from its own client and must be applied");
         assertTrue(replaces.contains("historical_experience:beta_1_8_1"),
             "Beta 1.8.1's drops are the Adventure Update's replacements");
+        // The 2026-10-21 audit wired the pre-Beta-1.8 table into every Alpha and Beta 1.0-1.6 profile, so the
+        // set now includes them; Release profiles still keep the modern tables because theirs were never
+        // researched and the audit found them broadly correct.
+        assertTrue(replaces.stream().filter(id -> id.contains(":alpha")).count() >= 10,
+            "every declared Alpha profile has its own drop table now: " + replaces);
         assertFalse(replaces.contains("historical_experience:release_1_6_4"),
             "Release 1.6.4's drops were never researched, so it must keep the modern ones rather than "
                 + "borrow a neighbouring version's");
@@ -134,10 +139,13 @@ class HistoricalLootWiring1211Test {
         // chicken rule of it would be requiring an invented drop for a mob that cannot appear. A version that spawns
         // chicken still gets checked, because Beta 1.7.3's and Beta 1.8.1's spawn sets contain it.
         for (String profile : replaces) {
-            Set<String> spawnable = net.historicalexperience.version.HistoricalVersions.byId(profile)
-                .orElseThrow(() -> new AssertionError(profile + " replaces loot but is not a declared version"))
-                .rules()
-                .allowedNaturalSpawns();
+            // Only the pre-Beta-1.8 table is shared by many versions; Beta 1.8.1 keeps its own four provisional
+            // rows, so requiring it to cover the pre-1.8 table would be requiring invented 1.8 drops.
+            var declared = net.historicalexperience.version.HistoricalVersions.byId(profile).orElseThrow();
+            if (!declared.isBefore(net.historicalexperience.version.Milestones.BETA_1_8)) {
+                continue;
+            }
+            Set<String> spawnable = declared.rules().allowedNaturalSpawns();
             for (DropRule rule : HistoricalLootRules.BETA_1_7_3) {
                 if (!spawnable.contains(rule.entityTypeId())) {
                     continue;
