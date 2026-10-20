@@ -370,6 +370,16 @@ public enum Feature {
         "A cake slice heals 3 health (18 for the whole cake), because these builds have no hunger bar. Cake arrives "
         + "in Beta 1.2 and food starts filling hunger in Beta 1.8."),
 
+    /**
+     * The debug overlay does not show coordinates yet.
+     *
+     * <p>minecraft.wiki, Debug screen history: "v1.2.3: The coordinates have been added to the debug screen." So the
+     * two Alpha profiles before that build showed the overlay without them. (The same page dates the F3 hold to
+     * v1.1.1 and the lagometer to v1.2.0; those are input/feature differences this gate does not model.)
+     */
+    NO_DEBUG_COORDINATES(Domain.RENDERING, FeatureWindow.before(Milestones.ALPHA_1_2_3),
+        "The debug screen has no coordinate readout before Alpha v1.2.3."),
+
     /** Inert end portal. */
     INERT_END_PORTAL(Domain.BLOCKS, FeatureWindow.before(Milestones.BETA_1_9_PRE_4),
         "The End portal does nothing when completed before Beta 1.9 Prerelease 4: Prerelease 3 adds the frame and eye of ender but the portal block has no function."),

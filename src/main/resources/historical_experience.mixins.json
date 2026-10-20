@@ -154,6 +154,7 @@
     "client.InventoryScreenHistoricalOffhandMixin",
     "client.InventoryShieldSlotMixin",
     "client.KeyboardInputHistoricalJumpMixin",
-    "client.GuiHistoricalExperienceLevelMixin"
+    "client.GuiHistoricalExperienceLevelMixin",
+    "client.DebugScreenOverlayHistoricalCoordinatesMixin"
   ]
 }

@@ -1,3 +1,28 @@
+# Current work — 2026-10-21 / Gap 15: no coordinates on the debug overlay before Alpha v1.2.3 (A-06)
+
+minecraft.wiki, Debug screen history (raw wikitext, fetched 2026-10-21): "v1.2.3: The coordinates have been added to the
+debug screen." The same page dates the F3 hold to v1.1.1 and the lagometer to v1.2.0; those are input/feature
+differences this gate does not model, and they are recorded rather than implied.
+
+- Feature `NO_DEBUG_COORDINATES` `before(Alpha v1.2.3)`, with a new `ALPHA_1_2_3` milestone.
+- The filtering is pure and unit-tested: `HistoricalDebugScreen.filter(versionId, lines)` drops the line whose
+  untranslated label begins `XYZ:` and leaves every other line in order; `HistoricalDebugScreenTest` pins both the
+  window and the filtering, and asserts that a normal version's list is returned untouched (same instance).
+- One client mixin, `DebugScreenOverlayHistoricalCoordinatesMixin`, `@ModifyReturnValue` on
+  `DebugScreenOverlay.getGameInformation`.
+
+**Verification limit, stated plainly:** this is a CLIENT mixin, and a dedicated server never loads
+`DebugScreenOverlay`, so the server boot that verified the last two mixins cannot verify this one. The hook's target and
+return type were read from the mapped class with javap, and the logic is unit-tested, but mixin application itself
+needs a client launch. That is the difference between "tested" and "verified", and it stays on the open list until a
+client run happens.
+
+**Evidence:** `./gradlew test` - **802 tests, 0 failures**; golden, matrix and facts regenerated.
+
+**Still open:** potion strengths, XP curve/sources, achievements, block-break delay, boats, maps, signs, stone-slab
+substitution, slab/ladder/plate output counts, the Pre3 frame item form, and a client launch to confirm the debug hook.
+
+---
 # Current work — 2026-10-21 / Gap 14: the redstone lamp is Release 1.2.1 content
 
 minecraft.wiki, Redstone Lamp history (raw wikitext, fetched 2026-10-21): "1.2.1 (12w07a) Added redstone lamps". The

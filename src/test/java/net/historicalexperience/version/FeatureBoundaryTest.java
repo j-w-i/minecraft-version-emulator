@@ -74,6 +74,9 @@ class FeatureBoundaryTest {
         BETWEEN.put(Feature.COOKIE_STACKS_EIGHT, new String[] {P + "beta_1_4", P + "beta_1_8_1"});
         BETWEEN.put(Feature.BETA_DAMAGE_BUG, new String[] {P + "beta_1_5", P + "beta_1_8_1"});
         BETWEEN.put(Feature.CAKE_SLICE_HEALS, new String[] {P + "beta_1_2", P + "beta_1_8_1"});
+        // Alpha v1.2.3 is not a declared version; the newest declared build before it is Alpha 1.2.2a and the
+        // next is Beta 1.0, so Beta 1.0 is the boundary that expresses "before v1.2.3" for declared builds.
+        BEFORE.put(Feature.NO_DEBUG_COORDINATES, P + "beta_1_0");
         BEFORE.put(Feature.NO_ANIMAL_TEMPTING, P + "beta_1_9_pre_2");
         BEFORE.put(Feature.NO_BABY_ANIMALS, P + "beta_1_9_pre_3");
         // Release 1.4.2 is not declared, but Release 1.4 IS its stable baseline, so it is the boundary rather than

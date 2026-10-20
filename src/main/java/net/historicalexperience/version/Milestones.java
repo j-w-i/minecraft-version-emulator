@@ -62,6 +62,9 @@ public final class Milestones {
 
     /** The oldest declared Infdev build; the start of the era this project's flat-sky rule covers. */
     public static final Milestone INFDEV_20100420 = Milestone.ofKey(300_420, "Infdev 20100420");
+    /** Alpha v1.2.3: the debug screen starts showing coordinates. */
+    public static final Milestone ALPHA_1_2_3 = Milestone.of(Era.ALPHA, 1, 2, 3, "Alpha v1.2.3");
+
     public static final Milestone BETA_1_0 = Milestone.of(Era.BETA, 1, 0, 0, "Beta 1.0");
     public static final Milestone BETA_1_3 = Milestone.of(Era.BETA, 1, 3, 0, "Beta 1.3");
     /** Beta 1.4: cookies, and wolves. */
