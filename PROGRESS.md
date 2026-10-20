@@ -1,3 +1,29 @@
+# Current work — 2026-10-21 / Gap 30: a player-broken boat drops the boat item from Release 1.3
+
+Boats were the last "needs a mechanic study" item. The drop half turned out to be implementable after all: the cause IS
+available, just not where the drops happen.
+
+minecraft.wiki, Boat history, 12w27a (Release 1.3): "Boats now drop their item instead of 3 oak planks and 2 sticks if
+broken by a player. Instead, it needs to fall certain heights to drop 3 oak wood planks and 2 sticks." 15w51a (Release
+1.9) changed it again, above every declared build - so Release 1.3 through 1.6.4 drop the **boat item** on a player
+break, while fall damage keeps the planks-and-sticks drop.
+
+Vanilla spawns the planks in `Boat.remove(RemovalReason)`, which says only KILLED, not why. The cause is still known one
+level up in `VehicleEntity.destroy(DamageSource)`, so:
+
+- `BOAT_DROP_ITEM_ON_PLAYER_BREAK` (`from(Release 1.3)`);
+- one hook on `VehicleEntity.destroy(DamageSource)`: when the removing source is a player and the version is gated, the
+  vanilla body is cancelled and replaced with the boat item plus a DISCARDED removal - DISCARDED does not
+  `shouldDestroy()`, so the plank path never runs. A fall removal keeps the vanilla path.
+- Client-verified: `CLIENTMIXINCHECK loaded VehicleEntity ... its mixins applied`.
+
+**Still open for boats:** the PHYSICS and control scheme (v1.0.6_01 break-on-impact-at-speed, 13w16b lower inertia and
+removed strafe controls). Those are simulation changes, not rules, and are recorded as such.
+
+**Evidence:** `./gradlew cleanTest test` - **826 tests, 0 failures**; `BoatDropTest` pins the window; golden, matrix and
+facts regenerated.
+
+---
 # Current work — 2026-10-21 / Gap 29: six-slice cakes, and the cake-hunger conflict closed
 
 Boats were investigated first and left alone: the historical delta is break-on-impact-at-speed physics plus a

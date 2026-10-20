@@ -244,6 +244,18 @@ public enum Feature {
         "Cakes have six slices (12 hunger at 2 each, or 18 health at 3 each before hunger); the seventh slice is "
         + "14w27a, a Release 1.8 snapshot no declared build reaches."),
 
+    /**
+     * A boat broken by a player drops the boat item, not planks and sticks.
+     *
+     * <p>minecraft.wiki, Boat history, 12w27a: "Boats now drop their item instead of 3 oak planks and 2 sticks if
+     * broken by a player. Instead, it needs to fall certain heights to drop 3 oak wood planks and 2 sticks." 12w27a is
+     * a Release 1.3 snapshot, and 15w51a (Release 1.9) changed the drop again, so this covers Release 1.3 through
+     * 1.6.4 - every declared build from 1.3 on.
+     */
+    BOAT_DROP_ITEM_ON_PLAYER_BREAK(Domain.PLAYER, FeatureWindow.from(Milestones.RELEASE_1_3),
+        "A player-broken boat drops the boat item from Release 1.3 (12w27a) until the drop changes again in Release "
+        + "1.9; fall damage still drops three planks and two sticks."),
+
     /** No attack cooldown. */
     NO_ATTACK_COOLDOWN(Domain.COMBAT, FeatureWindow.allDeclared(),
         "The 1.9 attack cooldown: attacks are always at full strength. Every declared version predates Release 1.9, so the window is every declared version. Upstream tweak: DISABLE_ATTACK_COOLDOWN."),

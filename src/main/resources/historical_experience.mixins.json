@@ -97,7 +97,8 @@
     "common.BrewingStandHistoricalBrewTimeMixin",
     "common.RegenerationMobEffectHistoricalStrengthMixin",
     "common.HealOrHarmMobEffectHistoricalStrengthMixin",
-    "common.CakeBlockHistoricalSlicesMixin"
+    "common.CakeBlockHistoricalSlicesMixin",
+    "common.VehicleEntityHistoricalBoatDropMixin"
   ],
   "injectors": {
     "defaultRequire": 1
