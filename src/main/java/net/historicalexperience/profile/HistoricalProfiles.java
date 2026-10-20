@@ -395,7 +395,13 @@ public final class HistoricalProfiles {
                         + generationRevision);
             }
             boolean legacy = generationRevision == LEGACY_REVISION;
-            if (legacy == experimental) {
+            // Same rule as GenerationRevision: a numbered revision is experimental unless it is on the reviewed
+            // accepted list. Both invariants had to learn the list, or an accepted revision could not be built.
+            boolean accepted = !legacy
+                && net.historicalexperience.version.HistoricalVersion.ACCEPTED_REVISIONS
+                    .contains(String.valueOf(profile.generationPreset()));
+            boolean wronglyFlagged = legacy ? experimental : (!experimental && !accepted);
+            if (wronglyFlagged) {
                 throw new IllegalArgumentException(
                     "generation binding " + profile.generationPreset() + " declares revision "
                         + generationRevision + " with experimental=" + experimental

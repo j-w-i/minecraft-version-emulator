@@ -1522,8 +1522,11 @@ public final class LegacyCatalog {
             revisions.size(),
             alias(key + "_height_256"),
             previous.foundation(),
-            // Numbered revisions must be experimental until a world has actually been generated on them.
-            true,
+            // Release 1.2.5's height revision has been probed at runtime (scripts/verify-release-height.ps1: a
+            // dedicated server created a world on it, /hex status named this revision in all three generator slots,
+            // and RCON accepted setblock at y=127/128/255 while rejecting y=256 and y=-1), so it is ACCEPTED. The
+            // other four stay experimental until the same probe has been run on each.
+            !base.id().equals("historical_experience:release_1_2_5"),
             "256-height envelope: minecraft.wiki 12w07a raised the build limit from 128 to 256; the terrain "
                 + "generator did not change, so the same landscape is generated and the space above it is buildable. "
                 + "Everything else is this version's previous revision.",

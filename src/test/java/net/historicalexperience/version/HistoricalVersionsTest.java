@@ -152,8 +152,9 @@ class HistoricalVersionsTest {
                 if (revision.revision() == 0) {
                     continue;
                 }
-                assertTrue(revision.experimental(),
-                    revision.alias() + " is numbered and must be experimental until accepted");
+                boolean accepted = HistoricalVersion.ACCEPTED_REVISIONS.contains(revision.alias());
+                assertEquals(!accepted, revision.experimental(),
+                    revision.alias() + " must be experimental unless it is on the accepted list");
             }
         }
 

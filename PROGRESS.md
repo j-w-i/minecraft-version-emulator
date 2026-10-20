@@ -1,3 +1,34 @@
+# Current work — 2026-10-21 / Gap 16: the 256-height revision is VERIFIED at runtime, and acceptance becomes expressible
+
+The audit item G8 was implemented a few rounds ago but only unit-tested. This round generated a real world on it and
+asked the server where the world ends.
+
+**Probe (repeatable: `scripts/verify-release-height.ps1`).** A dedicated server was started with
+`level-type=historical_experience:release_1_2_5`, which points at the `_height_256` revision. Evidence:
+
+- `/hex status` reported `generation preset: historical_experience:release_1_2_5_height_256`, the newest revision as
+  `release_1_2_5_height_256`, and **all three** stored generator slots as that revision;
+- RCON `setblock` results: **y=0, y=1, y=127, y=128 and y=255 all "Changed the block"**, while **y=256 and y=-1 both
+  answered "That position is out of this world!"** - a genuine 0..255 envelope, not a 128 one;
+- the control probe for an older build is the same script with `-LevelType historical_experience:release_1_1
+  -ExpectedMaxY 127`.
+
+**An architectural gap found on the way, and fixed.** Both `GenerationRevision` and `GenerationBinding` enforced
+"a numbered revision must be experimental until it is accepted" - but nothing could express acceptance at all, so the
+flag could never legally become false even for a revision that had been probed. Added
+`HistoricalVersion.ACCEPTED_REVISIONS`, a small reviewed allow-list; the two invariants consult it, and
+`HistoricalVersionsTest` now asserts the flag equals "not on the accepted list". Release 1.2.5's height revision is on
+it after the probe; the other four stay experimental until each is probed. Two mistakes of mine surfaced while doing
+this and were caught by the suite: the binding compares a `HistoricalIdentifier`, not a String, and I initially trusted
+stale test XML instead of a clean run.
+
+**Evidence:** `./gradlew cleanTest test` - **802 tests, 0 failures**; the probe script exits 0 with a PASS transcript;
+golden, matrix and facts regenerated; `run/server.properties` is restored by the script's own finally block.
+
+**Still open:** the same probe for 1.3/1.4/1.5/1.6.4; client-launch verification for the client mixins; and the rest of
+the status board's evidence-missing and mechanism-missing lists.
+
+---
 # Current work — 2026-10-21 / Gap tracking: the audit document becomes a status board
 
 After fifteen implementation slices, docs/VERSION_GAPS.md still presented every audit finding as open and carried a

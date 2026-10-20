@@ -120,6 +120,21 @@ public record HistoricalVersion(
         return revisions().get(revisions().size() - 1);
     }
 
+    /**
+     * Revisions that have been ACCEPTED, i.e. generated in a real world and probed, so `experimental` may be false.
+     *
+     * <p>Before this list existed the record's invariant said a numbered revision "must be marked experimental until it
+     * is accepted", but there was no way to express acceptance at all - the flag could never legally become false. The
+     * 256-height revisions exposed that: one of them has now been created and probed at runtime, and the only correct
+     * value for its flag was the one the invariant forbade.
+     *
+     * <p>Deliberately a small, explicit, reviewed list rather than a judgement inside the constructor. An alias joins
+     * it when a dedicated server has generated a world on it and the probe named in its evidence passed; the list is
+     * what a reviewer checks, so accepting a revision is a visible act.
+     */
+    public static final java.util.Set<String> ACCEPTED_REVISIONS = java.util.Set.of(
+        "historical_experience:release_1_2_5_height_256");
+
     /** All owned recipe aliases of this version. */
     public Set<String> revisionAliases() {
         return revisions().stream().map(GenerationRevision::alias)
@@ -160,7 +175,11 @@ public record HistoricalVersion(
                 throw new IllegalArgumentException("description must not be blank for " + alias);
             }
             boolean legacy = revision == 0;
-            if (legacy == experimental) {
+            // An unnumbered original is never experimental; a numbered revision is experimental UNLESS it is on the
+            // reviewed accepted list, which is the only way the flag can be false without lying about its status.
+            boolean wronglyFlagged = legacy ? experimental
+                : (!experimental && !ACCEPTED_REVISIONS.contains(alias));
+            if (wronglyFlagged) {
                 throw new IllegalArgumentException(
                     "revision " + revision + " of " + alias + " declares experimental="
                         + experimental + "; the unnumbered original is not experimental and a numbered "
