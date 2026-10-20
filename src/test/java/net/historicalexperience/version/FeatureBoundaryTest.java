@@ -75,6 +75,7 @@ class FeatureBoundaryTest {
         BEFORE.put(Feature.LEGACY_SLAB_LADDER_COUNTS, P + "release_1_2_5");
         BEFORE.put(Feature.BLOCK_BREAK_DELAY, P + "release_1_3");
         BETWEEN.put(Feature.BREW_TIME_THIRTY_SECONDS, new String[] {P + "beta_1_9_pre_3", P + "release_1_1"});
+        BEFORE.put(Feature.PRE_1_6_1_POTION_STRENGTHS, P + "release_1_6_4");
         BEFORE.put(Feature.BUCKET_STACK_ONE, P + "release_1_3");
         BEFORE.put(Feature.NO_ENDER_DRAGON, P + "beta_1_9_pre_6");
         BETWEEN.put(Feature.END_FRAME_EYE_REPAIR, new String[] {P + "beta_1_9_pre_3", P + "beta_1_9_pre_4"});

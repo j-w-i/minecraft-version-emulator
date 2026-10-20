@@ -1,3 +1,36 @@
+# Current work — 2026-10-21 / Gap 27: pre-1.6.1 potion strengths, and the server-wide profile context that unblocked them
+
+Last round recorded potion strengths as blocked on two concrete things; this round removed both.
+
+**1. A server-wide profile context.** `HistoricalServerProfile` answers "which build is this server in" for code with no
+level, entity or player: the lifecycle records the world's profile once its historical state is resolved (and clears it
+for ordinary worlds), and the session version wins when present so a client predicting against an integrated server
+still answers for its own world. This is the pattern the hardcore gate needed, generalised so the next stateless-effect
+rule does not have to solve it again.
+
+**2. The strength constants, separated.** minecraft.wiki, Java Edition 1.6.1: "Instant Health nerfed by 33% (heals only
+4 health points/2 hearts at level I). Regeneration nerfed by 50% (takes 50 ticks/2.5 seconds to restore 1 health
+point/.5 heart at level I)." So before 1.6.1 the values are 6 and 25.
+
+- `PRE_1_6_1_POTION_STRENGTHS` `before(Release 1.6.1)`.
+- `HistoricalPotionStrengths` holds the constants and the decision (pure, unit-tested).
+- Two mixins by **target name**, because both effect classes are package-private: Regeneration's
+  `shouldApplyEffectTickThisTick` constant `50 -> 25`, and Instant Health's `iconst_4 -> 6` in both
+  `applyEffectTick` and `applyInstantenousEffect`. Only the 4 is changed; the class's `bipush 6` is Instant Damage's
+  amount and is untouched, which was the second blocker recorded last round.
+- Both mixins application-verified in a client (`CLIENTMIXINCHECK` on `RegenerationMobEffect` and
+  `HealOrHarmMobEffect`).
+
+**Mistake caught by the test:** my own window assertion listed Release 1.2.5 as "modern" when it is before 1.6.1, so the
+test failed against the correct code. Fixed the test, not the code.
+
+**Evidence:** `./gradlew cleanTest test` - **820 tests, 0 failures**; golden, matrix and facts regenerated; docs status
+board updated.
+
+**Still open:** potion RECIPES (needs a per-version brewing table the corpus does not have); and the rest of the status
+board's evidence-missing / mechanism-missing lists.
+
+---
 # Current work — 2026-10-21 / Gap 26: brewing takes 30 seconds before Release 1.1
 
 Release audit rows R10-10 / X-08 pointed at potions. The strengths half needs machinery the project does not have

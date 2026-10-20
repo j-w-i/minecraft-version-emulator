@@ -222,6 +222,17 @@ public enum Feature {
         "Brewing takes 600 ticks (30 s) rather than 400 (20 s) from Beta 1.9 Prerelease 3 until Release 1.1, when the "
         + "wiki records the reduction to 20 seconds."),
 
+    /**
+     * The pre-Release-1.6.1 potion strengths: Instant Health 6 at level I and Regeneration one health per 25 ticks.
+     *
+     * <p>minecraft.wiki, Java Edition 1.6.1: "Instant Health nerfed by 33% (heals only 4 health points/2 hearts at
+     * level I). Regeneration nerfed by 50% (takes 50 ticks/2.5 seconds to restore 1 health point/.5 heart at level
+     * I)." So every declared build before Release 1.6.1 uses the stronger values.
+     */
+    PRE_1_6_1_POTION_STRENGTHS(Domain.ITEMS, FeatureWindow.before(Milestones.RELEASE_1_6_1),
+        "Instant Health heals 6 and Regeneration ticks every 25 base before Release 1.6.1 (minecraft.wiki: nerfed by "
+        + "33% and 50% respectively in 1.6.1)."),
+
     /** No attack cooldown. */
     NO_ATTACK_COOLDOWN(Domain.COMBAT, FeatureWindow.allDeclared(),
         "The 1.9 attack cooldown: attacks are always at full strength. Every declared version predates Release 1.9, so the window is every declared version. Upstream tweak: DISABLE_ATTACK_COOLDOWN."),

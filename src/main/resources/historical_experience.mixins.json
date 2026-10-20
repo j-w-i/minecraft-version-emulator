@@ -94,7 +94,9 @@
     "common.PrimaryLevelDataHistoricalHardcoreMixin",
     "common.PlayerAdvancementsHistoricalMixin",
     "common.ServerPlayerGameModeHistoricalBreakDelayMixin",
-    "common.BrewingStandHistoricalBrewTimeMixin"
+    "common.BrewingStandHistoricalBrewTimeMixin",
+    "common.RegenerationMobEffectHistoricalStrengthMixin",
+    "common.HealOrHarmMobEffectHistoricalStrengthMixin"
   ],
   "injectors": {
     "defaultRequire": 1

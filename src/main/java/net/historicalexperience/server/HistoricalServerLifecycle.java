@@ -128,6 +128,7 @@ public final class HistoricalServerLifecycle {
 
     private static void onServerStarting(MinecraftServer server) {
         net.historicalexperience.gameplay.HistoricalHardcore.clear();
+        net.historicalexperience.gameplay.HistoricalServerProfile.clear();
         // Recovery now runs under LevelStorageAccess's session lock BEFORE getDataTag decodes the
         // generator. SERVER_STARTING is too late to change the loaded generator without a live swap.
         Path startupWorld = server.getWorldPath(LevelResource.ROOT);
@@ -187,6 +188,7 @@ public final class HistoricalServerLifecycle {
             ? String.valueOf(historical.profile().id())
             : establishedProfileId(store);
         if (gateProfile != null) {
+            net.historicalexperience.gameplay.HistoricalServerProfile.set(gateProfile);
             net.historicalexperience.gameplay.HistoricalHardcore.note(
                 (net.minecraft.world.level.storage.LevelData) server.getWorldData(), gateProfile);
         }
