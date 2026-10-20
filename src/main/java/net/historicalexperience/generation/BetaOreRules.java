@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.generation;
 
+import net.historicalexperience.version.OreRule;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,42 +55,6 @@ import java.util.concurrent.atomic.LongAdder;
  * emerald ore.
  */
 public final class BetaOreRules {
-    /**
-     * One ore population.
-     *
-     * @param name             the ore's short name, for diagnostics
-     * @param blockId          the block the vein writes
-     * @param size             the vein size argument
-     * @param attempts         how many veins are attempted per chunk
-     * @param originBoundA     first height draw, exclusive; zero when not drawn
-     * @param originBoundB     second height draw, exclusive; zero when not drawn. Lapis is the only
-     *                         rule that uses it, summing two {@code nextInt(16)} calls.
-     */
-    public record OreRule(
-        String name,
-        String blockId,
-        int size,
-        int attempts,
-        int originBoundA,
-        int originBoundB
-    ) {
-        /** The largest origin height this rule can draw. */
-        public int maxOriginY() {
-            return Math.max(0, originBoundA - 1) + Math.max(0, originBoundB - 1);
-        }
-
-        /**
-         * The largest y a vein from this rule can reach.
-         *
-         * <p>Derived from the verified algorithm rather than measured: the centre can sit up to two
-         * blocks above the origin ({@code nextInt(3) - 2}), and the radius never exceeds
-         * {@code (2 * size / 16) + 1}, so this is a generous but evidence-based ceiling.
-         */
-        public int maxReachableY() {
-            return maxOriginY() + 2 + (int) Math.ceil(2.0 * size / 16.0) + 1;
-        }
-    }
-
     /** The Beta 1.7.3 population, in the order the client attempted it. */
     public static final List<OreRule> BETA_1_7_3 = List.of(
         new OreRule("dirt", "minecraft:dirt", 32, 20, 128, 0),

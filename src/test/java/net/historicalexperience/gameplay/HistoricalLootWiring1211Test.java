@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.DropRule;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -130,7 +132,7 @@ class HistoricalLootWiring1211Test {
                 .orElseThrow(() -> new AssertionError(profile + " replaces loot but is not a declared version"))
                 .rules()
                 .allowedNaturalSpawns();
-            for (HistoricalLootRules.DropRule rule : HistoricalLootRules.BETA_1_7_3) {
+            for (DropRule rule : HistoricalLootRules.BETA_1_7_3) {
                 if (!spawnable.contains(rule.entityTypeId())) {
                     continue;
                 }

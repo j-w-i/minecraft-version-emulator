@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.generation;
 
+import net.historicalexperience.version.Exclusion;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,15 +73,6 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
  */
 public final class HistoricalFeatureExclusions {
     private static final Logger LOGGER = Logger.getLogger("historical_experience");
-
-    /**
-     * One excluded placed feature and the evidence for excluding it.
-     *
-     * @param featureId the placed feature registry identifier
-     * @param reason    why Beta 1.7.3 cannot have it, and which call site adds it
-     */
-    public record Exclusion(String featureId, String reason) {
-    }
 
     /**
      * Moderner Beta's Beta biomes reach these through two vanilla helpers:

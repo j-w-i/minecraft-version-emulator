@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.generation;
 
+import net.historicalexperience.version.Exclusion;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -64,7 +66,7 @@ class ReportedNetherContentExclusionsTest {
         // definition, and generation revisions are append-only, so the honest fix is a new revision rather than an
         // edit - tracked as work, not glossed over here.
         return revisions.get(revisions.size() - 1).excludedPlacedFeatures().stream()
-            .map(HistoricalFeatureExclusions.Exclusion::featureId)
+            .map(Exclusion::featureId)
             .collect(java.util.stream.Collectors.toSet());
     }
 

@@ -21,9 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.historicalexperience.generation.BetaOreRules;
-import net.historicalexperience.generation.HistoricalFeatureExclusions;
-import net.historicalexperience.gameplay.HistoricalLootRules;
 
 /**
  * One historical Minecraft version, with every rule the mod applies to it.
@@ -126,8 +123,8 @@ public record HistoricalVersion(
         String foundation,
         boolean experimental,
         String description,
-        List<HistoricalFeatureExclusions.Exclusion> excludedPlacedFeatures,
-        List<BetaOreRules.OreRule> orePopulation
+        List<Exclusion> excludedPlacedFeatures,
+        List<OreRule> orePopulation
     ) {
         public GenerationRevision {
             if (revision < 0) {
@@ -188,7 +185,7 @@ public record HistoricalVersion(
     public record VersionRules(
         boolean restrictsSpawns,
         Set<String> allowedNaturalSpawns,
-        Map<String, HistoricalLootRules.DropRule> mobDrops,
+        Map<String, DropRule> mobDrops,
         Map<String, Integer> foodHealPoints,
         boolean awardsExperience,
         boolean allowsSprinting,

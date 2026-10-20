@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.generation;
 
+import net.historicalexperience.version.Exclusion;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -65,7 +67,7 @@ class LapisIntroductionBoundaryTest {
     /** The ore features that only a revision placing its own ores may switch off. */
     private static java.util.List<String> excludedOreFeatures(String alias) {
         return HistoricalFeatureExclusions.runtimeExclusionsForAlias(alias).stream()
-            .map(HistoricalFeatureExclusions.Exclusion::featureId)
+            .map(Exclusion::featureId)
             .filter(id -> id.equals("minecraft:ore_coal_upper") || id.equals("minecraft:ore_iron_upper")
                 || id.equals("minecraft:ore_lapis") || id.equals("minecraft:ore_diamond")
                 || id.equals("minecraft:ore_redstone") || id.equals("minecraft:ore_gold"))

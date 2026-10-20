@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.generation;
 
+import net.historicalexperience.version.OreRule;
+
 import java.util.List;
 
 import net.minecraft.core.BlockPos;
@@ -72,8 +74,8 @@ public final class BetaOrePlacement {
      * @return the declared population, or the version's era population, or an empty list for an alias no
      *         declared version owns
      */
-    public static List<BetaOreRules.OreRule> populationForAlias(String rawAlias) {
-        List<BetaOreRules.OreRule> declared = BetaOreRules.forAlias(rawAlias);
+    public static List<OreRule> populationForAlias(String rawAlias) {
+        List<OreRule> declared = BetaOreRules.forAlias(rawAlias);
         if (!declared.isEmpty()) {
             return declared;
         }
@@ -104,7 +106,7 @@ public final class BetaOrePlacement {
         random.setDecorationSeed(level.getSeed(), chunkMinX, chunkMinZ);
 
         int placed = 0;
-        for (BetaOreRules.OreRule rule : rules) {
+        for (OreRule rule : rules) {
             Block block = BuiltInRegistries.BLOCK.getOptional(ResourceLocation.parse(rule.blockId()))
                 .orElse(null);
             if (block == null) {
@@ -123,7 +125,7 @@ public final class BetaOrePlacement {
     }
 
     /** Beta's height draw, including the two-draw sum that lapis uses. */
-    static int sampleOriginY(RandomSource random, BetaOreRules.OreRule rule) {
+    static int sampleOriginY(RandomSource random, OreRule rule) {
         int y = 0;
         if (rule.originBoundA() > 0) {
             y += random.nextInt(rule.originBoundA());
@@ -137,7 +139,7 @@ public final class BetaOrePlacement {
     private static int placeVein(
         WorldGenLevel level,
         RandomSource random,
-        BetaOreRules.OreRule rule,
+        OreRule rule,
         BlockState oreState,
         int x,
         int y,

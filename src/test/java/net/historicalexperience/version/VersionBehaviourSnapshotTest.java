@@ -936,7 +936,7 @@ class VersionBehaviourSnapshotTest {
         return out;
     }
 
-    private static String dropRule(Optional<HistoricalLootRules.DropRule> rule) {
+    private static String dropRule(Optional<DropRule> rule) {
         return rule.isEmpty() ? "none" : rule.get().entityTypeId() + "->" + rule.get().itemId()
             + " bound=" + rule.get().maxExclusiveCount() + " evidenceLen=" + rule.get().evidence().length();
     }

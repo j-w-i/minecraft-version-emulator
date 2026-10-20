@@ -17,6 +17,10 @@
  */
 package net.historicalexperience.generation;
 
+import net.historicalexperience.version.OreRule;
+
+import net.historicalexperience.version.Exclusion;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -39,7 +43,7 @@ class BetaOreRulesTest {
     @Test
     @DisplayName("the eight populations match the verified Beta 1.7.3 call sites")
     void parametersMatchTheVerifiedCallSites() {
-        List<BetaOreRules.OreRule> rules = BetaOreRules.BETA_1_7_3;
+        List<OreRule> rules = BetaOreRules.BETA_1_7_3;
         assertEquals(8, rules.size());
 
         // name, size, attempts, height draws - from research/beta173-ore-parameters-parent-reviewed.json
@@ -102,10 +106,10 @@ class BetaOreRulesTest {
     @Test
     @DisplayName("revision 5 also excludes the vanilla ore features it replaces")
     void revisionFiveExcludesVanillaOres() {
-        List<HistoricalFeatureExclusions.Exclusion> revision5 =
+        List<Exclusion> revision5 =
             HistoricalFeatureExclusions.forAlias(REVISION_5);
         Set<String> ids = revision5.stream()
-            .map(HistoricalFeatureExclusions.Exclusion::featureId)
+            .map(Exclusion::featureId)
             .collect(java.util.stream.Collectors.toSet());
 
         // Both halves are required: placing Beta ores without excluding vanilla's would roughly double
@@ -123,7 +127,7 @@ class BetaOreRulesTest {
 
         // Revision 4 keeps the smaller set: it never placed Beta ores, so it must not remove vanilla's.
         Set<String> revision4 = HistoricalFeatureExclusions.forAlias(REVISION_4).stream()
-            .map(HistoricalFeatureExclusions.Exclusion::featureId)
+            .map(Exclusion::featureId)
             .collect(java.util.stream.Collectors.toSet());
         assertFalse(revision4.contains("minecraft:ore_coal_lower"));
         assertEquals(15, revision4.size());
@@ -147,7 +151,7 @@ class BetaOreRulesTest {
         assertEquals("0", diagnostics.get("veinsAttempted"));
     }
 
-    private static BetaOreRules.OreRule rule(String name) {
+    private static OreRule rule(String name) {
         return BetaOreRules.BETA_1_7_3.stream()
             .filter(candidate -> candidate.name().equals(name))
             .findFirst()
@@ -155,7 +159,7 @@ class BetaOreRulesTest {
     }
 
     private static void assertRule(
-        BetaOreRules.OreRule rule,
+        OreRule rule,
         String name,
         String blockId,
         int size,

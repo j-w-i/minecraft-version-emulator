@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.generation;
 
+import net.historicalexperience.version.Exclusion;
+
 import static org.junit.jupiter.api.Assertions.*;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -102,7 +104,7 @@ class GenerationBackport1211Test {
             assertEquals(version, versionRecord.id().substring("historical_experience:".length()));
             var excluded = HistoricalFeatureExclusions
                 .runtimeExclusionsForAlias("historical_experience:" + aliasName).stream()
-                .map(HistoricalFeatureExclusions.Exclusion::featureId)
+                .map(Exclusion::featureId)
                 .collect(Collectors.toSet());
             for (String aquatic : Set.of("minecraft:kelp_cold", "minecraft:kelp_warm",
                     "minecraft:seagrass_cold", "minecraft:seagrass_deep", "minecraft:seagrass_deep_cold",
@@ -257,7 +259,7 @@ class GenerationBackport1211Test {
 
     @Test void runtimeExclusionsCoverUpperStoneVariantsButNotNonexistentNewPlants() {
         var excluded = HistoricalFeatureExclusions.runtimeExclusionsForAlias("historical_experience:beta_1_7_3_content_preview_9")
-            .stream().map(HistoricalFeatureExclusions.Exclusion::featureId).collect(Collectors.toSet());
+            .stream().map(Exclusion::featureId).collect(Collectors.toSet());
         for (String stone : Set.of("granite", "diorite", "andesite")) {
             assertTrue(excluded.contains("minecraft:ore_" + stone + "_upper"));
             assertTrue(excluded.contains("minecraft:ore_" + stone + "_lower"));

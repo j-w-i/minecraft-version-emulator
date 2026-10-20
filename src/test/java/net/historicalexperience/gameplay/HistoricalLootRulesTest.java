@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.DropRule;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -44,7 +46,7 @@ class HistoricalLootRulesTest {
         assertEquals(List.of(
                 "minecraft:zombie", "minecraft:chicken", "minecraft:spider", "minecraft:cow"),
             HistoricalLootRules.BETA_1_7_3.stream()
-                .map(HistoricalLootRules.DropRule::entityTypeId).toList());
+                .map(DropRule::entityTypeId).toList());
 
         assertDrop("minecraft:zombie", "minecraft:feather");
         assertDrop("minecraft:chicken", "minecraft:feather");
@@ -55,7 +57,7 @@ class HistoricalLootRulesTest {
     @Test
     @DisplayName("every rule cites the client field it was read from")
     void everyRuleCitesItsEvidence() {
-        for (HistoricalLootRules.DropRule rule : HistoricalLootRules.BETA_1_7_3) {
+        for (DropRule rule : HistoricalLootRules.BETA_1_7_3) {
             assertFalse(rule.evidence().isBlank(),
                 rule.entityTypeId() + " must say which class and item field it came from");
             // The single-letter item fields are the reason this matters: gm.J is feather and gm.j is
@@ -69,7 +71,7 @@ class HistoricalLootRulesTest {
     @DisplayName("no modern-only drop is in the table")
     void modernDropsAreAbsent() {
         Set<String> items = HistoricalLootRules.BETA_1_7_3.stream()
-            .map(HistoricalLootRules.DropRule::itemId)
+            .map(DropRule::itemId)
             .collect(java.util.stream.Collectors.toSet());
 
         // None of these exist in the Beta 1.7.3 item registry at all.
@@ -136,7 +138,7 @@ class HistoricalLootRulesTest {
     }
 
     private static void assertDrop(String entityTypeId, String itemId) {
-        HistoricalLootRules.DropRule rule =
+        DropRule rule =
             HistoricalLootRules.forEntity(BETA_PROFILE, entityTypeId).orElseThrow();
         assertEquals(itemId, rule.itemId(), entityTypeId + " must drop " + itemId);
     }

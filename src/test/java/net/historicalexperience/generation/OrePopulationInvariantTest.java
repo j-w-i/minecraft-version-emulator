@@ -6,6 +6,10 @@
  */
 package net.historicalexperience.generation;
 
+import net.historicalexperience.version.OreRule;
+
+import net.historicalexperience.version.Exclusion;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -52,13 +56,13 @@ class OrePopulationInvariantTest {
         for (HistoricalVersion version : HistoricalVersions.all()) {
             for (HistoricalVersion.GenerationRevision revision : version.revisions()) {
                 revisions++;
-                List<BetaOreRules.OreRule> effective = BetaOrePlacement.populationForAlias(revision.alias());
+                List<OreRule> effective = BetaOrePlacement.populationForAlias(revision.alias());
                 if (effective.isEmpty()) {
                     broken.add(revision.alias() + ": no population, declared or fallback");
                 } else if (effective.stream().noneMatch(rule -> rule.blockId().equals(DIAMOND_ORE))) {
                     broken.add(revision.alias() + ": population has no diamond: " + effective);
                 }
-                for (BetaOreRules.OreRule rule : effective) {
+                for (OreRule rule : effective) {
                     assertTrue(BetaOreRules.BETA_1_7_3.contains(rule),
                         revision.alias() + " resolved " + rule + ", which is not a verified Beta 1.7.3 rule");
                 }
@@ -81,7 +85,7 @@ class OrePopulationInvariantTest {
             "historical_experience:indev_latest",
             "historical_experience:indev_latest_with_ores",
             "historical_experience:release_1_2_5")) {
-            List<BetaOreRules.OreRule> effective = BetaOrePlacement.populationForAlias(alias);
+            List<OreRule> effective = BetaOrePlacement.populationForAlias(alias);
             assertFalse(effective.isEmpty(), alias + " must fall back to its era population");
             assertTrue(effective.stream().anyMatch(rule -> rule.blockId().equals(DIAMOND_ORE)),
                 alias + " must place diamond: " + effective);
@@ -126,7 +130,7 @@ class OrePopulationInvariantTest {
 
                 // The fallback population never contains an emerald rule: emerald is not part of the
                 // verified Beta 1.7.3 population and no declared revision adds one.
-                List<BetaOreRules.OreRule> effectivePopulation =
+                List<OreRule> effectivePopulation =
                     BetaOrePlacement.populationForAlias(revision.alias());
                 assertTrue(effectivePopulation.stream()
                         .noneMatch(rule -> rule.name().contains("emerald")),
@@ -179,7 +183,7 @@ class OrePopulationInvariantTest {
 
     private static Set<String> excludedIds(HistoricalVersion.GenerationRevision revision) {
         return revision.excludedPlacedFeatures().stream()
-            .map(HistoricalFeatureExclusions.Exclusion::featureId)
+            .map(Exclusion::featureId)
             .collect(Collectors.toSet());
     }
 }

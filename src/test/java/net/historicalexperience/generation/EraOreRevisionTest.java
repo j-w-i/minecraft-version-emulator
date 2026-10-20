@@ -17,6 +17,10 @@
  */
 package net.historicalexperience.generation;
 
+import net.historicalexperience.version.OreRule;
+
+import net.historicalexperience.version.Exclusion;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -67,7 +71,7 @@ class EraOreRevisionTest {
 
     private static Set<String> excludedIds(String alias) {
         return HistoricalFeatureExclusions.forAlias(alias).stream()
-            .map(HistoricalFeatureExclusions.Exclusion::featureId)
+            .map(Exclusion::featureId)
             .collect(Collectors.toSet());
     }
 
@@ -120,7 +124,7 @@ class EraOreRevisionTest {
         // the assertion that makes "do not invent vein sizes or counts" enforced rather than remembered.
         for (HistoricalVersion version : HistoricalVersions.all()) {
             for (HistoricalVersion.GenerationRevision revision : version.revisions()) {
-                for (BetaOreRules.OreRule rule : revision.orePopulation()) {
+                for (OreRule rule : revision.orePopulation()) {
                     assertTrue(BetaOreRules.BETA_1_7_3.contains(rule),
                         revision.alias() + " declares " + rule + ", which is not a verified Beta 1.7.3 rule");
                 }
@@ -130,12 +134,12 @@ class EraOreRevisionTest {
         // Release 1.2.5: the full eight (dirt, gravel, coal, iron, gold, redstone, diamond, lapis).
         assertEquals(8, latest("historical_experience:release_1_2_5").orePopulation().size());
         // Beta 1.0 predates lapis (Beta 1.2), so seven - and lapis is the one that is missing.
-        List<BetaOreRules.OreRule> betaOneZero = latest("historical_experience:beta_1_0").orePopulation();
+        List<OreRule> betaOneZero = latest("historical_experience:beta_1_0").orePopulation();
         assertEquals(7, betaOneZero.size());
         assertFalse(betaOneZero.stream().anyMatch(rule -> rule.name().equals("lapis")));
         assertTrue(betaOneZero.stream().anyMatch(rule -> rule.name().equals("redstone")));
         // Alpha v1.2.0 has redstone (Alpha v1.0.1) and no lapis.
-        List<BetaOreRules.OreRule> alpha = latest("historical_experience:alpha_1_2_0").orePopulation();
+        List<OreRule> alpha = latest("historical_experience:alpha_1_2_0").orePopulation();
         assertEquals(7, alpha.size());
         assertTrue(alpha.stream().anyMatch(rule -> rule.name().equals("redstone")));
         assertFalse(alpha.stream().anyMatch(rule -> rule.name().equals("lapis")));
@@ -143,7 +147,7 @@ class EraOreRevisionTest {
         // profile) and dirt/gravel.
         for (String id : List.of("historical_experience:indev_latest",
                 "historical_experience:infdev_420", "historical_experience:infdev_611")) {
-            List<BetaOreRules.OreRule> preAlpha = latest(id).orePopulation();
+            List<OreRule> preAlpha = latest(id).orePopulation();
             assertEquals(6, preAlpha.size(), id + " places exactly its six ores: " + preAlpha);
             assertFalse(preAlpha.stream().anyMatch(rule -> rule.name().equals("redstone")), id);
             assertFalse(preAlpha.stream().anyMatch(rule -> rule.name().equals("lapis")), id);

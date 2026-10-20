@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.generation;
 
+import net.historicalexperience.version.Exclusion;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -64,7 +66,7 @@ class PreReleaseNetherGatingTest {
     @DisplayName("every prerelease carries the 1.16 Nether feature exclusions, so none of it is ever placed")
     void prereleaseExclusionsCarryTheModernNetherFeatures() {
         Set<String> expected = HistoricalFeatureExclusions.MODERN_NETHER_CONTENT.stream()
-            .map(HistoricalFeatureExclusions.Exclusion::featureId)
+            .map(Exclusion::featureId)
             .collect(java.util.stream.Collectors.toSet());
 
         assertTrue(expected.contains("minecraft:ore_ancient_debris_large"),
@@ -76,7 +78,7 @@ class PreReleaseNetherGatingTest {
             // The exclusions live on the version's revisions, which is what generation actually reads.
             Set<String> carried = version.revisions().stream()
                 .flatMap(revision -> revision.excludedPlacedFeatures().stream())
-                .map(HistoricalFeatureExclusions.Exclusion::featureId)
+                .map(Exclusion::featureId)
                 .collect(java.util.stream.Collectors.toSet());
 
             for (String feature : expected) {

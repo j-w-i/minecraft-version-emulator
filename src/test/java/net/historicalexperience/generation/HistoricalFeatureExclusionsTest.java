@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.generation;
 
+import net.historicalexperience.version.Exclusion;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -80,10 +82,10 @@ class HistoricalFeatureExclusionsTest {
 
         // Revision 5's list is a strict superset: it must not have dropped anything revision 4 had.
         Set<String> revision4 = HistoricalFeatureExclusions.forAlias(REVISION_4).stream()
-            .map(HistoricalFeatureExclusions.Exclusion::featureId)
+            .map(Exclusion::featureId)
             .collect(Collectors.toSet());
         Set<String> revision5 = HistoricalFeatureExclusions.forAlias(REVISION_5).stream()
-            .map(HistoricalFeatureExclusions.Exclusion::featureId)
+            .map(Exclusion::featureId)
             .collect(Collectors.toSet());
         assertTrue(revision5.containsAll(revision4),
             "revision 5 must keep every revision 4 restriction, missing: "
@@ -105,11 +107,11 @@ class HistoricalFeatureExclusionsTest {
     @Test
     @DisplayName("every restriction names a placed feature and states why it is anachronistic")
     void everyRestrictionIsJustified() {
-        List<HistoricalFeatureExclusions.Exclusion> restrictions =
+        List<Exclusion> restrictions =
             HistoricalFeatureExclusions.BETA_1_7_3_RESTRICTIONS;
 
         assertFalse(restrictions.isEmpty());
-        for (HistoricalFeatureExclusions.Exclusion exclusion : restrictions) {
+        for (Exclusion exclusion : restrictions) {
             assertNotNull(exclusion.featureId());
             assertTrue(exclusion.featureId().contains(":"),
                 exclusion.featureId() + " must be a namespaced identifier");
@@ -119,7 +121,7 @@ class HistoricalFeatureExclusionsTest {
         }
 
         Set<String> ids = restrictions.stream()
-            .map(HistoricalFeatureExclusions.Exclusion::featureId)
+            .map(Exclusion::featureId)
             .collect(Collectors.toSet());
         assertEquals(restrictions.size(), ids.size(), "a feature must not be listed twice");
 
@@ -149,7 +151,7 @@ class HistoricalFeatureExclusionsTest {
     @DisplayName("ores Beta 1.7.3 actually had are never excluded for being modern-looking")
     void betaOresAreNotExcluded() {
         Set<String> ids = HistoricalFeatureExclusions.BETA_1_7_3_RESTRICTIONS.stream()
-            .map(HistoricalFeatureExclusions.Exclusion::featureId)
+            .map(Exclusion::featureId)
             .collect(Collectors.toSet());
 
         // Removing these would not make a world more historical, it would remove Beta's own ores.

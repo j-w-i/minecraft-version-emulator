@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.DropRule;
+
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 
@@ -55,23 +57,6 @@ import java.util.concurrent.atomic.LongAdder;
  * experience orb at all, so nothing may award experience in a world of that era.
  */
 public final class HistoricalLootRules {
-    /**
-     * One mob's drop for a version.
-     *
-     * @param entityTypeId      the modern entity type this applies to
-     * @param itemId            the item the version dropped, by its modern identifier
-     * @param maxExclusiveCount the count bound: the version dropped {@code random.nextInt} of this, so
-     *                          Beta's {@code nextInt(3)} is 3 and means 0 to 2 items
-     * @param evidence          the client class and item field the value was read from
-     */
-    public record DropRule(
-        String entityTypeId,
-        String itemId,
-        int maxExclusiveCount,
-        String evidence
-    ) {
-    }
-
     /** The verified Beta 1.7.3 drops, in a fixed order so reports and tests are stable. */
     public static final List<DropRule> BETA_1_7_3 = List.of(
         new DropRule("minecraft:zombie", "minecraft:feather", 3,

@@ -1441,7 +1441,7 @@ public final class HistoricalVersions {
         int chronology,
         String upstreamPreset,
         VersionRules rules,
-        List<HistoricalFeatureExclusions.Exclusion> modernContentExclusions
+        List<Exclusion> modernContentExclusions
     ) {
         HistoricalVersion base =
             terrainOnlyWithRules(id, displayName, era, chronology, upstreamPreset, rules, modernContentExclusions);
@@ -1540,7 +1540,7 @@ public final class HistoricalVersions {
      * runtime fallback used by an older revision that declares no population calls the same method - so
      * an old world and a newly created one cannot disagree about which ores an era had.
      */
-    public static List<BetaOreRules.OreRule> eraOrePopulation(HistoricalVersion version) {
+    public static List<OreRule> eraOrePopulation(HistoricalVersion version) {
         return BetaOreRules.eraPopulation(eraHasRedstoneOre(version), eraHasLapisOre(version));
     }
 
@@ -1575,7 +1575,7 @@ public final class HistoricalVersions {
         List<HistoricalVersion.GenerationRevision> revisions = new java.util.ArrayList<>(base.revisions());
         HistoricalVersion.GenerationRevision previous = revisions.get(revisions.size() - 1);
         boolean emerald = eraHasEmeraldOre(base);
-        List<BetaOreRules.OreRule> population = eraOrePopulation(base);
+        List<OreRule> population = eraOrePopulation(base);
         revisions.add(new HistoricalVersion.GenerationRevision(
             revisions.size(),
             alias(base.id().substring(base.id().indexOf(':') + 1) + "_era_ores"),
@@ -1667,9 +1667,9 @@ public final class HistoricalVersions {
         int chronology,
         String upstreamPreset,
         VersionRules rules,
-        List<HistoricalFeatureExclusions.Exclusion> modernContentExclusions
+        List<Exclusion> modernContentExclusions
     ) {
-        List<HistoricalFeatureExclusions.Exclusion> revisionTwoExclusions = modernContentExclusions != null
+        List<Exclusion> revisionTwoExclusions = modernContentExclusions != null
             ? modernContentExclusions
             : (chronology >= ERA_ALPHA
                 ? HistoricalFeatureExclusions.BEFORE_LAPIS_EXISTED
@@ -1767,7 +1767,7 @@ private static HistoricalVersion releaseTerrainOnlyWithRules(
         int chronology,
         String upstreamPreset,
         VersionRules rules,
-        List<HistoricalFeatureExclusions.Exclusion> modernContentExclusions
+        List<Exclusion> modernContentExclusions
     ) {
         return new HistoricalVersion(
             id,
@@ -1809,7 +1809,7 @@ private static HistoricalVersion releaseTerrainOnlyWithRules(
         String era,
         int chronology,
         String upstreamPreset,
-        List<HistoricalFeatureExclusions.Exclusion> modernContentExclusions
+        List<Exclusion> modernContentExclusions
     ) {
         String evidence = "TERRAIN ONLY. Generation inherits the real upstream " + upstreamPreset
             + " preset, with deepslate disabled and the cave-biome injection removed, on the project's "

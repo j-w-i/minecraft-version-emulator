@@ -17,6 +17,8 @@
  */
 package net.historicalexperience.generation;
 
+import net.historicalexperience.version.Exclusion;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -43,9 +45,9 @@ import org.junit.jupiter.api.Test;
  * bootstrapped registry. That is the opposite of the village style check, which needed one.
  */
 class ModernNetherExclusionTest {
-    private static Set<String> excludedIds(java.util.List<HistoricalFeatureExclusions.Exclusion> exclusions) {
+    private static Set<String> excludedIds(java.util.List<Exclusion> exclusions) {
         return exclusions.stream()
-            .map(HistoricalFeatureExclusions.Exclusion::featureId)
+            .map(Exclusion::featureId)
             .collect(Collectors.toSet());
     }
 
