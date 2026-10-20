@@ -71,6 +71,8 @@ class FeatureBoundaryTest {
         BEFORE.put(Feature.NO_ANIMAL_BREEDING, P + "beta_1_9_pre_2");
         BEFORE.put(Feature.NO_HARDCORE, P + "beta_1_9_pre_2");
         BEFORE.put(Feature.NO_ACHIEVEMENTS, P + "beta_1_5");
+        BEFORE.put(Feature.SIGN_RECIPE_ONE, P + "release_1_3");
+        BEFORE.put(Feature.BUCKET_STACK_ONE, P + "release_1_3");
         BEFORE.put(Feature.NO_ENDER_DRAGON, P + "beta_1_9_pre_6");
         BETWEEN.put(Feature.END_FRAME_EYE_REPAIR, new String[] {P + "beta_1_9_pre_3", P + "beta_1_9_pre_4"});
         BETWEEN.put(Feature.COOKIE_STACKS_EIGHT, new String[] {P + "beta_1_4", P + "beta_1_8_1"});

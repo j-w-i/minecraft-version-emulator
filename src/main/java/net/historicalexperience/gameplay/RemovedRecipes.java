@@ -171,10 +171,20 @@ public final class RemovedRecipes {
                 "minecraft:white_wool", "", "minecraft:white_wool"),
             "minecraft:leather_boots", 1, Feature.CLOTH_ARMOUR_RECIPE, true));
 
+    /** A sign before Release 1.3.1: six planks over a stick, ONE sign instead of three. */
+    public static final Removed SIGN_ONE = new Removed(
+        "oak_sign_from_planks_one",
+        3, 3,
+        List.of(
+            "minecraft:oak_planks", "minecraft:oak_planks", "minecraft:oak_planks",
+            "minecraft:oak_planks", "minecraft:oak_planks", "minecraft:oak_planks",
+            "", "minecraft:stick", ""),
+        "minecraft:oak_sign", 1, Feature.SIGN_RECIPE_ONE, true);
+
     /** Every removed recipe, for tests and reports. */
     public static List<Removed> all() {
         var all = new java.util.ArrayList<Removed>(List.of(ENCHANTED_GOLDEN_APPLE, GOLDEN_APPLE_GOLD_BLOCK,
-            GOLDEN_APPLE_GOLD_NUGGET, ARROW_IRON_TIP, WOOL_FROM_NINE_STRING));
+            GOLDEN_APPLE_GOLD_NUGGET, ARROW_IRON_TIP, WOOL_FROM_NINE_STRING, SIGN_ONE));
         all.addAll(CLOTH_ARMOUR);
         return List.copyOf(all);
     }

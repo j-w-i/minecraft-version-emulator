@@ -168,6 +168,26 @@ public enum Feature {
         + "Modern advancements are suppressed in those builds; the era's own achievement lists are a separate, open "
         + "mapping task above Beta 1.5."),
 
+    /**
+     * A sign recipe yields ONE sign, not three.
+     *
+     * <p>minecraft.wiki, Java Edition 1.3.1: "Signs: Stack up to 16 now. Crafting now gives 3 signs instead of 1."
+     * So Release 1.0.0, 1.1 and 1.2.5 craft one sign from six planks and a stick.
+     */
+    SIGN_RECIPE_ONE(Domain.PLAYER, FeatureWindow.before(Milestones.RELEASE_1_3),
+        "A sign recipe yields one sign; three arrive in Release 1.3.1 (minecraft.wiki: 'Crafting now gives 3 signs "
+        + "instead of 1')."),
+
+    /**
+     * An empty bucket stacks to ONE, not sixteen.
+     *
+     * <p>minecraft.wiki, Java Edition 1.3.1: "Empty buckets: Stack up to 16 now." So before that build a bucket was
+     * unstackable.
+     */
+    BUCKET_STACK_ONE(Domain.ITEMS, FeatureWindow.before(Milestones.RELEASE_1_3),
+        "Empty buckets do not stack; they stack to 16 from Release 1.3.1 (minecraft.wiki: 'Empty buckets: Stack up to "
+        + "16 now')."),
+
     /** No attack cooldown. */
     NO_ATTACK_COOLDOWN(Domain.COMBAT, FeatureWindow.allDeclared(),
         "The 1.9 attack cooldown: attacks are always at full strength. Every declared version predates Release 1.9, so the window is every declared version. Upstream tweak: DISABLE_ATTACK_COOLDOWN."),

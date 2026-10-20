@@ -6614,7 +6614,7 @@ gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:oak_fence)|*=FFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:oak_fence_gate)|*=TFFFFFFFFFFFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:oak_planks)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:oak_pressure_plate)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
-gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:oak_sign)|*=FFFFFFFFFFFFTTFFFFFFFFFFFFFFFFFFFFFFF
+gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:oak_sign)|*=TTTTTTTTTTTFTTFTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:oak_slab)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTFFFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:oak_stairs)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:oak_trapdoor)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTTTTFTFFF
@@ -6885,7 +6885,7 @@ gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:oak_fence)|*=FFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:oak_fence_gate)|*=TFFFFFFFFFFFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:oak_planks)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:oak_pressure_plate)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
-gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:oak_sign)|*=FFFFFFFFFFFFTTFFFFFFFFFFFFFFFFFFFFFFF
+gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:oak_sign)|*=TTTTTTTTTTTFTTFTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:oak_slab)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTFFFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:oak_stairs)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:oak_trapdoor)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTTTTFTFFF

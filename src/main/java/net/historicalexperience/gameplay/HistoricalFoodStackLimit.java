@@ -73,11 +73,20 @@ public final class HistoricalFoodStackLimit {
         return 1;
     }
 
-    /** True when this stack is food and the active version predates Beta 1.8. */
+    /**
+     * True when this stack must be limited: food before Beta 1.8, or an empty bucket before Release 1.3.1.
+     *
+     * <p>minecraft.wiki, Java Edition 1.3.1: "Empty buckets: Stack up to 16 now", so before it a bucket stacked to
+     * one. The method keeps its historical name because the six call sites and the bug narrative in this class's
+     * comment are all about it; the bucket case is the second rule the same hook answers.
+     */
     public static boolean foodDoesNotStack(ItemStack stack) {
-        return Features.active(Feature.UNSTACKABLE_FOOD)
-            && stack != null
-            && !stack.isEmpty()
-            && stack.has(DataComponents.FOOD);
+        if (stack == null || stack.isEmpty()) {
+            return false;
+        }
+        if (Features.active(Feature.UNSTACKABLE_FOOD) && stack.has(DataComponents.FOOD)) {
+            return true;
+        }
+        return Features.active(Feature.BUCKET_STACK_ONE) && stack.is(net.minecraft.world.item.Items.BUCKET);
     }
 }

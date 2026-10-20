@@ -1,3 +1,29 @@
+# Current work — 2026-10-21 / Gap 23: signs and buckets before Release 1.3.1
+
+Two sourced rows from the Release audit, both with the wiki line quoted in the code:
+
+- **Signs**: minecraft.wiki, Java Edition 1.3.1 - "Signs: Stack up to 16 now. Crafting now gives 3 signs instead of 1."
+  Release 1.0.0, 1.1 and 1.2.5 crafted ONE sign from six planks and a stick. Added `SIGN_RECIPE_ONE` and a
+  `RemovedRecipes` entry supplying the one-sign shape while refusing the modern three-sign recipe in that window.
+- **Empty buckets**: the same wiki row - "Empty buckets: Stack up to 16 now." Before 1.3.1 a bucket stacked to one.
+  The existing shared stack-limit hook (which already confines food pre-Beta-1.8) gained the bucket rule, so the six
+  call sites that keep client and server agreeing get it automatically. Its javadoc now records the second rule rather
+  than leaving the bucket case unexplained by the class name.
+
+**Mistake caught by the test, and how:** the first version of the sign entry was defined but never added to
+`RemovedRecipes.all()`, so the recipe was inert. The new test failed on exactly that assertion; the cause was a
+string replacement whose prefix did not match, which I had not asserted. Fixed, and the accidental duplicated javadoc
+line from the same edit removed.
+
+**Evidence:** `./gradlew cleanTest test` - **812 tests, 0 failures**; `SignAndBucketEraTest` pins the window, the recipe
+shape, the refusal and both stack sizes (bucket one before 1.3.1, modern after, bread still one pre-1.8); golden, matrix
+and facts regenerated.
+
+**Still open from the audit's inventory list:** the pre-1.4 map item (a single map item rather than the modern
+empty/filled pair and zoom), which needs a dynamic item id the recipe mechanism cannot express; boats; and
+block-break delay.
+
+---
 # Current work — 2026-10-21 / Gap 22: no achievements before Beta 1.5
 
 research/version-transitions.json carries a per-build "achievements" mechanic table, which corrected the audit note I
