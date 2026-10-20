@@ -17,9 +17,49 @@ Report invocation limitations honestly and continue feasible work with available
 Every substantial delegation identifies objective, file ownership, constraints, deliverables, acceptance tests, evidence, exclusions and handoff format. Parallel workers must not edit overlapping files. Parent reviews source/diffs and independently verifies significant claims.
 
 ## Architecture and invariants
-Moderner Beta is the terrain authority: do not recreate generation algorithms. Upstream inspection lives in ignored `.upstream/`; do not modify or vendor it without an ADR/license review. Active runtime is Fabric 1.21.1/Java 21 (Gradle may run on installed Java 25), with pinned Moderner Beta 5.0.0-alpha.4+1.21.1-fabric. The preserved 26.3 tree is a reference, not the current deliverable. Flashback is explicitly deferred by the owner. Published targets and source inspection do not establish runtime/replay compatibility. Keep modern registries, chunk storage, entities and protocol intact. Separate historical gameplay profiles from terrain preset IDs. Server owns enforcement; client is presentation/prediction only.
+Moderner Beta is the terrain authority: do not recreate generation algorithms. Upstream inspection lives in ignored `.upstream/`; do not modify or vendor it without an ADR/license review. Active runtime is Fabric 1.21.1/Java 21 (Gradle may run on installed Java 25), with pinned Moderner Beta 5.0.0-alpha.4+1.21.1-fabric. The 26.3 tree has been deleted; there is no reference tree. Flashback is explicitly deferred by the owner. Published targets and source inspection do not establish runtime/replay compatibility. Keep modern registries, chunk storage, entities and protocol intact. Separate historical gameplay from terrain preset IDs. Server owns enforcement; client is presentation/prediction only.
 
-Planned packages: `profile` immutable resolved profile/data; `world` persisted metadata and progression; `integration.modernerbeta` bounded adapter; `gameplay` server rules; `client` UI/visuals; `export` offline historical writers. Add only modules needed by a verified slice. No live generator-reference swapping. Upgrades require backups, drained generation and restart/transaction design with crash recovery before acceptance. Unsupported stored content is preserved, never silently deleted.
+**Read [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) before changing behaviour.** The refactor (2026-10) replaced scattered
+version checks with one version-driven system. The rules below are enforced by tests, not etiquette:
+
+- **One boundary, one place.** A historical difference is a `Feature` constant with a `FeatureWindow`
+  (`version/Feature.java`); a position on the timeline is a `Milestone` (`version/Milestones.java`). Nothing outside
+  `version/` may compare `.chronology()`, use `HistoricalVersions.ERA_*`/`chronology(...)`, or write an era offset out -
+  `ArchitectureLintTest` fails the build. The exception is a small allow-list of dated tables and era-name displays, each
+  named and justified in that test.
+- **Every feature is a deviation from modern behaviour**, so an ordinary, unknown or null version is inactive by
+  construction. Never add a per-predicate null default: that is exactly how ordinary worlds once had portals refused and
+  food capped at 1. A positive-sounding capability is `!Features.active(DEVIATION)` at the one caller that needs the name.
+- **Ask, do not compute.** `Features.active(Feature.X)` for the running world, `Features.active(Feature.X, version)` when
+  a version is at hand. There is deliberately no `Level` overload: world-aware code resolves the version through the
+  existing resolver, and worldgen resolves it from the **generator** (chunk generation precedes any player join, so the
+  session is not set there).
+- **`version` is pure.** It imports nothing from the rest of the mod except `legacy.LegacyCatalog`; the declarations and
+  the data they compose live in `legacy/`. Do not move gameplay or generation data back into the model.
+- **Generation revisions are append-only and persisted.** Never edit a published alias or renumber a revision: a change is
+  a new revision. Simulation rules are per version and apply to existing worlds; generation rules are per revision.
+- **Copy the code's boundary, not the history you prefer.** Where the code used a declared build as the proxy for a
+  boundary between builds, or where the evidence and the gate disagree, preserve the behaviour and record the
+  disagreement in the feature's evidence string. Correcting it is a separate, deliberate change with its own golden diff.
+- **Mixins intercept and delegate.** Gate handlers are one line; the mechanic stays in its package. Mixins live under
+  `mixin/client/**` or `mixin/common/**`; the shared list must contain nothing that touches a client class, each file's
+  `package` must match its directory, and json order must be preserved (equal priorities apply in config order).
+  `MixinConfigConsistencyTest` enforces all of this.
+- **Golden snapshot first.** `VersionBehaviourSnapshotTest` pins every pure version-keyed answer for all declared versions
+  and the ordinary inputs. Any intended change shows up as a reviewed diff via `HEX_GOLDEN_UPDATE=1`; an unintended one
+  fails. Never regenerate it without reading the diff.
+- **Docs that must not drift.** `docs/VERSION_MATRIX.md` is generated (`HEX_DOCS_UPDATE=1`); a stale file fails the tests.
+  Behaviour changes are recorded in `PROGRESS.md`; how to add a version or a feature is in `docs/ADDING_VERSIONS.md` and
+  `docs/ADDING_FEATURES.md`.
+
+Current packages: `version` (pure model: Era, Milestone(s), Feature, FeatureWindow, Features, ActiveVersion,
+HistoricalVersion(s), catalogue, snapshot patches); `legacy` (every version declaration plus the shared revision
+builders); `gameplay` server rules; `generation` generation content; `worldgen` villages and map settings;
+`integration.modernerbeta` bounded adapter; `world` (+`metadata`, `upgrade`) persistence, journal, recovery; `server`
+lifecycle and commands; `client` presentation; `mixin` split by side. No DI framework, event bus, reflection registry or
+plugin loader: declarations are plain Java. No live generator-reference swapping. Upgrades require backups, drained
+generation and restart/transaction design with crash recovery before acceptance. Unsupported stored content is preserved,
+never silently deleted.
 
 ### Historical generation-content compatibility (latest human refinement)
 Use the actual corresponding upstream Moderner Beta preset as the foundation and resolve its complete settings through supported integration; do not manually reconstruct equivalent terrain/noise/climate configurations or keep a parallel terrain database. Necessary, researched compatibility overrides are permitted to exclude demonstrably anachronistic content or restore missing historical features. Separate backend terrain, version-aware generated content, and gameplay; share the historical version registry. Prefer generation-time settings/datapacks; use narrowly scoped hooks only where configuration cannot express per-world restrictions. Never generate modern content and remove it afterward. Ordinary worlds must remain unaffected.

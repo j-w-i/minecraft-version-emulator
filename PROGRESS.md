@@ -1,3 +1,87 @@
+# Current work — 2026-10-20 / Version-driven architecture refactor: audit, migration, verification
+
+The codebase had grown 154 places where a version was compared by hand, 46 distinct boundaries written nine different
+ways, string-keyed gates, and a 1,912-line registry that mixed declarations with the data they compose. This entry
+records the refactor that replaced all of that with one version-driven system. Full design record:
+[docs/audit/](<docs/audit/>) (three audits, two independent reviews, and the contract v2 they forced);
+what the result is: [docs/ARCHITECTURE.md](<docs/ARCHITECTURE.md>), [docs/VERSION_SYSTEM.md](<docs/VERSION_SYSTEM.md>),
+[docs/VERSION_MATRIX.md](<docs/VERSION_MATRIX.md>) (generated), [docs/ADDING_VERSIONS.md](<docs/ADDING_VERSIONS.md>),
+[docs/ADDING_FEATURES.md](<docs/ADDING_FEATURES.md>).
+
+**Verified end state:** `./gradlew test` — **129 suites, 748 tests, 0 failures**. A dedicated server boots to
+`Done (2.736s)`, applies 145 mixins from the new layout with **0** `was not found`, **0** `PREPARE` failures and **0**
+client-class warnings, and loads the existing Beta 1.7.3 test world at its recorded revision 10
+([log](<logs/refactor-s7-server-boot.log>)).
+
+## What was found (evidence in the audits)
+
+- **Scattered version arithmetic**: 154 check sites, 46 boundaries, ~123 of them in `HistoricalGameplayTweaks`. The
+  same boundary was written as an id, a literal, `chronology(...)`, `byId(proxy)`, a string gate, an era string or a
+  `VersionWindow`; Beta 1.8 alone had five spellings that agreed only because no build sits between the values
+  ([version-checks](<docs/audit/version-checks.md>)).
+- **A reachable ordinary-world defect**, found by the audit and confirmed against the callers: `netherAvailable(null)`
+  and `foodStacks(null)` answered `false`, and their mixins cancel on `false`, so an ordinary world refused nether
+  portals and capped food at stack size 1. Five sibling predicates had already been fixed for this; these two were
+  missed.
+- **String-keyed gates** (a typo is a runtime throw or a silently-never-applies gate) and a `gateNames()` list that
+  covered 21 of 33 gates, so 12 were never walked by the all-versions test.
+- **The model depended on its consumers**: `HistoricalVersions` imported `gameplay`/`generation` for data, and the
+  carrier records it needs lived there too.
+- 22 probe/verification classes in the production tree; four client-dependent mixins in the common mixin list (three
+  logged `target was not found` on every dedicated server).
+
+## What was done
+
+| Step | Change | Evidence |
+| --- | --- | --- |
+| S0 | Golden snapshot of **every** pure version-keyed answer (12,930 lines) generated from the old code and committed | `VersionBehaviourSnapshotTest` |
+| S1 | The ordinary-world Nether/food fix, isolated; both food-stack paths share one rule | golden diff = exactly the 6 ordinary-input lines |
+| S2 | `Exclusion`, `OreRule`, `DropRule` moved into `version`; `HistoricalVersion` no longer imports gameplay/generation | lint |
+| S3 | `Era`, `Milestone`, `Milestones`, `Feature`, `FeatureWindow`, `FeatureSet`, `Features`, `ActiveVersion`; a differential test against the replaced rules; a 34-key chronology oracle; a fresh-JVM load-order test | `FeatureBoundaryTest`, `MilestonesTest`, `InitOrderTest` |
+| S4 | 60 sources and the mixins ask `Features.active(...)`; the 1,193-line gate class became ~90 lines; its research table survives as `FeatureBoundaryTest` | golden file lost only the 362 lines of deleted methods |
+| S5 | Client rendering, weather, left-click, creative, tooltips, label, colour maps, dragon fight and Nether endermen become windows; 27 more features declared once; literals become `Milestones` | golden unchanged |
+| S6 | `HistoricalVersions` 1,912 → 195 lines, lookups only; declarations move to `legacy/LegacyCatalog`; catalogue `Era` → `Group` | golden changed by 3 name-only lines |
+| S7 | Four client mixins reclassified; mixins split into `mixin/client` and `mixin/common` with json order preserved; the boot caught 8 package statements missed by the move (they sat on the licence comment's closing line) | dedicated-server boot above |
+| S8 | Documentation: ARCHITECTURE rewritten (the old 26.3 contract preserved in `docs/audit/`), VERSION_SYSTEM, ADDING_VERSIONS, ADDING_FEATURES, generated VERSION_MATRIX, AGENTS.md contract | `VersionMatrixTest` fails on a stale matrix |
+
+New enforcement, all in the normal test run: `ArchitectureLintTest` (no chronology comparisons or era arithmetic
+outside the model; the model does not depend on its consumers), `MixinConfigConsistencyTest` (common mixins are
+server-safe, json and files agree, package matches directory, apply order preserved), `VersionMatrixTest`,
+`FeatureBoundaryTest`, `InitOrderTest`.
+
+## What this refactor deliberately did NOT change
+
+Every proxy boundary, every table disagreement and every inferred rule is preserved as the code had it, and the
+disagreement is now written down in the feature's evidence string instead of being hidden in a class. Notably:
+
+- breeding/tempting/baby animals still share the Prerelease 3 boundary although the evidence dates the first two to
+  Prerelease 2 (`NO_ANIMAL_BREEDING`);
+- mob pickup/gear/enchants still use Release 1.6.4 as the proxy for 1.4.2, so Release 1.4 and 1.5 still lack them;
+- the four "introduced in" tables (blocks, items, creative catalogue, crafting) still disagree on ids such as
+  `nether_wart`, `end_stone`, `ender_pearl`, `sandstone_stairs`, `carrots` and `short_grass`. That is research to
+  settle, not refactoring to hide.
+
+## Open items (recorded, not fixed)
+
+1. **Four dating tables disagree** (above). Choose the sourced date per id, or state which table is authoritative and
+   why. `HistoricalBlockAvailability`, `HistoricalItemAvailability`, `HistoricalCreativeCatalog`, `HistoricalCraftingEra`.
+2. **`enchantingTableExists` was deleted as dead code** (no caller outside its tests). If a capability answer is ever
+   wanted, it is `!Features.active(Feature.NO_ENCHANTING, id)` **and** a decision about what an unknown version means.
+3. **No session before the first player joins.** The session is set on JOIN, so session-gated rules do not apply to
+   spawns during chunk generation; worldgen rules correctly resolve from the generator instead. Recorded, not changed.
+4. **Probe/verification classes still live in `server/` and `client/`** (22 classes) rather than a `verification`
+   package; the probe mixins are still on the production `ServerLevel.addEntity` path. The review's recommendation
+   (gate only the probe mixin, move the plain classes) is not implemented.
+5. **Licence header drift is pre-existing and unfixed**: `python scripts/apply-licence-headers.py --check` reports 72
+   files whose header is the short one-line form rather than the full boilerplate (e.g. `server/EarlyMobDropCapture.java`,
+   untouched since `b69f03f`). `LicenceComplianceTest` passes. Fixing it changes licence claims across 72 files, so it
+   needs a deliberate pass, not a refactor side effect.
+6. **`docs/ADDING-A-VERSION.md`** (73 KB, long-form checklist) predates this architecture; it is still the research
+   reference, and `docs/ADDING_VERSIONS.md` now gives the code-level flow. The two should be merged eventually.
+7. **Runtime coverage**: the boot proves mixin application and world loading. It does not prove rendering, and no probe
+   suite was run in this session; client-side visuals remain unit-verified only.
+
+---
 # Current work — 2026-10-19 / Ore heights, part 2: the fix now covers EVERY revision, not just new worlds
 
 The first pass fixed only each version's newest revision, so a world recorded on an older alias still generated modern ore heights (an audit found **64 of 138 revisions** unprotected: `beta_1_7_3` previews 1-4, every Beta 1.9 prerelease, every Release revision 0 and 1, `indev_latest` 0 and 3). Two code-level defaults close that without editing any stored revision data:
