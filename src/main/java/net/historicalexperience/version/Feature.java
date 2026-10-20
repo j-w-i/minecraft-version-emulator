@@ -145,6 +145,16 @@ public enum Feature {
         "A creeper killed by a skeleton drops a music disc: '13' and 'cat' from Alpha v1.0.14, every disc except '11' "
         + "from Release 1.1, and '11' plus 'wait' from Release 1.4.3."),
 
+    /**
+     * Hardcore mode does not exist yet: it arrives in Beta 1.9 Prerelease 2.
+     *
+     * <p>research/version-transitions.json, Prerelease 2's additions: "Hardcore mode (locks difficulty to Hard,
+     * permadeath)". So Beta 1.8.1 and Prerelease 1 cannot be in hardcore, whatever a level file says.
+     */
+    NO_HARDCORE(Domain.PLAYER, FeatureWindow.before(Milestones.BETA_1_9_PRE_2),
+        "Hardcore mode arrives in Beta 1.9 Prerelease 2 (research/version-transitions.json: 'Hardcore mode (locks "
+        + "difficulty to Hard, permadeath)'). The stored flag of an earlier level is preserved, not edited."),
+
     /** No attack cooldown. */
     NO_ATTACK_COOLDOWN(Domain.COMBAT, FeatureWindow.allDeclared(),
         "The 1.9 attack cooldown: attacks are always at full strength. Every declared version predates Release 1.9, so the window is every declared version. Upstream tweak: DISABLE_ATTACK_COOLDOWN."),

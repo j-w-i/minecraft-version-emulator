@@ -30,6 +30,7 @@ The full evidence for every finding stays in the four era documents:
 | cake | Healed nothing before hunger | 3 health per slice in Beta 1.2–1.7.3 through two redirects inside vanilla's own `CakeBlock.eat` | `CakeSliceHealTest` |
 | Beta damage bug | Damage one point low in Beta 1.5–1.7.3 | +1 to player melee attacks unless moving upwards, through one shared hook | `BetaDamageBugTest` |
 | redstone lamp | Refused in Release 1.2.5 although it is 1.2.1 content | Dated to Release 1.2.5 (wiki 12w07a) | `ReleaseGearedMobsAndToolsTest` |
+| **hardcore gate** | Hardcore was selectable and effective in every profile, though it arrives in Beta 1.9 Pre2 | `NO_HARDCORE` before Pre2, plus a `PrimaryLevelData.isHardcore` override fed by a gate noted at server start; the stored flag is preserved, only the answer changes. **Runtime-verified**: a hardcore-flagged Beta 1.7.3 world reports `effective=false`, a hardcore Release 1.6.4 world `effective=true` | `HardcoreGateTest`, `/hex status` probe |
 | **creeper discs** | A skeleton-killed creeper dropped no disc (and modern discs would have been wrong) | `HistoricalDiscDrops` picks from the version's eligible set (13/cat from v1.0.14; all but \"11\" from Release 1.1; plus \"11\"/\"wait\" from Release 1.5), and a kill hook adds it when the killer is a skeleton. **Runtime-verified**: skeleton-killed creeper dropped Gunpowder **and** Music Disc 13; a non-skeleton kill dropped Gunpowder only | `CreeperDiscDropTest`, RCON probe |
 | **no-drop mobs** | A ghast dropped the modern tear and gunpowder in Alpha and Beta even though ghast tears are Beta 1.9 Pre1 content | `HistoricalLootRules.dropsNothing` answers "this mob dropped nothing" separately from "no rule"; ghast drops nothing before Pre1. **Runtime-verified**: killed ghast in a Beta 1.7.3 world left no item entity, while a zombie killed in the same world dropped a feather | `NoDropEntitiesTest`, RCON probe |
 
@@ -57,7 +58,6 @@ The full evidence for every finding stays in the four era documents:
 | Boats, maps, signs, block-break delay | Each needs its own mechanic study; the audit recorded the deltas but not their rules |
 | Slab/ladder/pressure-plate output counts; stone-slab substitution | The count changes could not be sourced unambiguously, and the slab item mapping needs the substituted-result path |
 | Spawn weights and pre-1.9 AI | Research first; the 13 existing mob gates are the modelled subset |
-| Hardcore gate | Vanilla hardcore is selectable in every profile; whether the create-world flow exposes it was never exercised |
 
 ### Verified only by unit test, not at runtime
 

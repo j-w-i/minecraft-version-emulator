@@ -127,6 +127,7 @@ public final class HistoricalServerLifecycle {
     }
 
     private static void onServerStarting(MinecraftServer server) {
+        net.historicalexperience.gameplay.HistoricalHardcore.clear();
         // Recovery now runs under LevelStorageAccess's session lock BEFORE getDataTag decodes the
         // generator. SERVER_STARTING is too late to change the loaded generator without a live swap.
         Path startupWorld = server.getWorldPath(LevelResource.ROOT);
@@ -177,6 +178,29 @@ public final class HistoricalServerLifecycle {
                 failClosed(metadataFile, decision.reason());
             }
             default -> failClosed(metadataFile, "unhandled decision action " + decision.action());
+        }
+        // The levels are created AFTER SERVER_STARTING, so server.overworld() is null here; the WorldData object
+        // already exists and IS the PrimaryLevelData the hardcore mixin answers for. A NEW world establishes its
+        // metadata during this very hook, so the in-memory state can still be "Normal" - read the store as the
+        // fallback rather than leaving a first boot ungated.
+        String gateProfile = state instanceof HistoricalWorldState.Historical historical
+            ? String.valueOf(historical.profile().id())
+            : establishedProfileId(store);
+        if (gateProfile != null) {
+            net.historicalexperience.gameplay.HistoricalHardcore.note(
+                (net.minecraft.world.level.storage.LevelData) server.getWorldData(), gateProfile);
+        }
+    }
+
+    /** The profile id an established world's document names, or null when there is no readable entry. */
+    private static String establishedProfileId(HistoricalMetadataStore store) {
+        try {
+            if (!store.hasEntry()) {
+                return null;
+            }
+            return String.valueOf(store.read().profileId());
+        } catch (Exception unreadable) {
+            return null;
         }
     }
 

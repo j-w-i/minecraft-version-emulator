@@ -1,3 +1,37 @@
+# Current work — 2026-10-21 / Gap 21: the hardcore gate, runtime-proven in both directions
+
+Hardcore mode arrives in Beta 1.9 Prerelease 2 (research/version-transitions.json: "Hardcore mode (locks difficulty to
+Hard, permadeath)"), yet vanilla hardcore was selectable and effective in every profile. Implemented:
+
+- feature `NO_HARDCORE` `before(Pre2)`;
+- a `PrimaryLevelData.isHardcore` override that answers false for a gated build, and a small registry
+  (`HistoricalHardcore`) noted once at server start. The stored level flag is never edited - only the answer changes -
+  and `/hex status` now prints `hardcore: effective=...` so the decision is observable.
+
+Getting there took three runtime corrections, all caught by probing rather than by tests:
+
+1. The first version consulted `ActiveVersion.current()`, which is EMPTY on a dedicated server (the session is
+   client/world-join state), so nothing was gated.
+2. `PrimaryLevelData` has no server or level to resolve a version from, which is why the gate is noted by the lifecycle
+   instead.
+3. The lifecycle runs at `SERVER_STARTING`, where `server.overworld()` is **null** (levels are created afterwards) - the
+   first probe crashed the server with exactly that NPE. The note now uses `server.getWorldData()` (cast through
+   `LevelData`), and falls back to reading the metadata store because a NEW world establishes its metadata during the
+   same hook, so the in-memory state can still be "Normal" on first boot.
+
+**Runtime evidence** (`/hex status` over RCON, fresh hardcore-flagged worlds):
+
+- Beta 1.7.3: `Historical hardcore gate: profile=historical_experience:beta_1_7_3 gated=true stored=true` then
+  `hardcore: effective=false (this build predates hardcore; ...)`;
+- Release 1.6.4: `... gated=false stored=true` then `hardcore: effective=true`.
+
+**Evidence:** `./gradlew cleanTest test` - **809 tests, 0 failures**; golden, matrix and facts regenerated; docs status
+board updated.
+
+**Still open for this item:** the world-creation SCREEN still offers hardcore for a pre-Pre2 profile. Server authority
+stops hardcore behaviour, but hiding the option is a client screen change and is recorded rather than claimed.
+
+---
 # Current work — 2026-10-21 / Gap 20: the creeper's conditional music-disc drop
 
 The last loot shape that was missing was a CONDITIONAL drop: a disc only when a skeleton kills the creeper, from a set

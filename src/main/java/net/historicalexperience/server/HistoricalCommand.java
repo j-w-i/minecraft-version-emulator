@@ -139,7 +139,16 @@ public final class HistoricalCommand {
     }
 
     private static int status(CommandContext<CommandSourceStack> context) {
-        return report(context, HistoricalUpgradeService.describe(worldDirectory(context.getSource())));
+        var report = HistoricalUpgradeService.describe(worldDirectory(context.getSource()));
+        // Report the EFFECTIVE hardcore answer, not the stored flag: the mixin answers "false" for a build that
+        // predates hardcore, and this line is how a runtime probe can see that without reading the mixin.
+        boolean hardcore = context.getSource().getServer().overworld().getLevelData().isHardcore();
+        var details = new java.util.ArrayList<>(report.details());
+        boolean gated = net.historicalexperience.gameplay.HistoricalHardcore
+            .gated((net.minecraft.world.level.storage.LevelData) context.getSource().getServer().getWorldData());
+        details.add("hardcore: effective=" + hardcore
+            + (gated ? " (this build predates hardcore; any stored flag is preserved, not edited)" : ""));
+        return report(context, new HistoricalUpgradeService.Report(report.ok(), report.summary(), details));
     }
 
     private static int report(
