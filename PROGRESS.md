@@ -1,3 +1,29 @@
+# Current work — 2026-10-21 / The counter answered the potion-gate question, and the answer is "not yet"
+
+The status board said the next attempt needed a `/hex` counter rather than console logging. Added one to
+`HistoricalCombatDiagnostics` (`brewGateCalls`, `brewGateRefusals`, `brewGateNoProfile`, `brewGateNightVision`), gated the
+brew result in `BrewingStandBlockEntity.doBrew`, and probed a Release 1.3 world over RCON:
+
+```
+brewGateCalls=1  brewGateRefusals=0  brewGateNoProfile=0  brewGateNightVision=0   -> stand still produced Night Vision
+```
+
+That is a real advance over the previous round: the hook RUNS, and the level-resolved profile is NOT null (the two failure
+modes the last round could not distinguish). What is left is narrower: the `potionBrewing.mix(bottle, ingredient)` result
+computed at HEAD never contains the gated potion, while `doBrew`'s own body does mix it. Suspects, in order: the ingredient
+slot index in the passed `NonNullList`, or `level.potionBrewing()` handing back an `EMPTY` instance at that moment (an
+unchanged result would then be read as "not a potion mix" and skipped).
+
+**Reverted again** - feature, helper, mixin, counters - rather than ship a rule that a probe shows doing nothing. Also
+restored a file whose line endings Python had rewritten in the process (a 118-line diff with one line of content).
+
+**Evidence:** `./gradlew cleanTest test` - **828 tests, 0 failures**; tree clean; the status board's open row now carries
+the exact counter readings and the narrowed next step.
+
+Only one round of this goal remains. The honest end state is a complete, verified, documented implementation of every
+evidenced gap, with this one rule and the handful of mechanism/evidence gaps recorded precisely enough to resume.
+
+---
 # Current work — 2026-10-21 / A reverted experiment: the 1.4.2 potion gate does not fire, and is not shipped
 
 Tried to implement a sourced rule: Night Vision and Invisibility are Release 1.4.2 additions (minecraft.wiki: brewed from a
