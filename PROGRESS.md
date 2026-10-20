@@ -1,3 +1,26 @@
+# Current work — 2026-10-21 / Gap 22: no achievements before Beta 1.5
+
+research/version-transitions.json carries a per-build "achievements" mechanic table, which corrected the audit note I
+was working from ("none until 1.4"): Alpha v1.0.1 "through Beta 1.3" has none (matrix row "A"), **Beta 1.4** has trigger
+"infrastructure ... but the complete achievement set/UI arrives incrementally", and **Beta 1.5** introduces "16
+achievements and statistics" with "an achievement/statistics UI". So modern advancement toasts and the modern screen in
+a Beta 1.3/1.4 world are wrong content.
+
+- Feature `NO_ACHIEVEMENTS` `before(Beta 1.5)`.
+- `PlayerAdvancementsHistoricalMixin` cancels `award(...)` at HEAD, so nothing is recorded - filtering at the return
+  would still fill the advancement screen behind the suppressed toast. The version is resolved from the awarding
+  player's level, not from the empty server session.
+- Mixin application verified in a real client: `CLIENTMIXINCHECK loaded net.minecraft.server.PlayerAdvancements
+  (PlayerAdvancements) - its mixins applied`.
+
+**Deliberately not done:** the era's own achievement lists above Beta 1.5. Mapping sixteen Beta 1.5 achievements (and
+the later ten) onto modern advancement ids is a design table the corpus explicitly says "needs a per-page audit"; until
+then those versions keep the modern advancement set, recorded as an open gap rather than replaced with a guess.
+
+**Evidence:** `./gradlew cleanTest test` - **810 tests, 0 failures**; client probe line above; golden, matrix and facts
+regenerated; docs status board updated.
+
+---
 # Current work — 2026-10-21 / Gap 21: the hardcore gate, runtime-proven in both directions
 
 Hardcore mode arrives in Beta 1.9 Prerelease 2 (research/version-transitions.json: "Hardcore mode (locks difficulty to

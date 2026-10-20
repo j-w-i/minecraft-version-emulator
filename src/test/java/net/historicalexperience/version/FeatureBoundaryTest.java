@@ -70,6 +70,7 @@ class FeatureBoundaryTest {
         // first two to Prerelease 2. Preserved, and recorded in the feature's evidence.
         BEFORE.put(Feature.NO_ANIMAL_BREEDING, P + "beta_1_9_pre_2");
         BEFORE.put(Feature.NO_HARDCORE, P + "beta_1_9_pre_2");
+        BEFORE.put(Feature.NO_ACHIEVEMENTS, P + "beta_1_5");
         BEFORE.put(Feature.NO_ENDER_DRAGON, P + "beta_1_9_pre_6");
         BETWEEN.put(Feature.END_FRAME_EYE_REPAIR, new String[] {P + "beta_1_9_pre_3", P + "beta_1_9_pre_4"});
         BETWEEN.put(Feature.COOKIE_STACKS_EIGHT, new String[] {P + "beta_1_4", P + "beta_1_8_1"});

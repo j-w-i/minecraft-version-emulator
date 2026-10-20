@@ -155,6 +155,19 @@ public enum Feature {
         "Hardcore mode arrives in Beta 1.9 Prerelease 2 (research/version-transitions.json: 'Hardcore mode (locks "
         + "difficulty to Hard, permadeath)'). The stored flag of an earlier level is preserved, not edited."),
 
+    /**
+     * No achievements exist yet: they arrive with the statistics/achievement UI in Beta 1.5.
+     *
+     * <p>research/version-transitions.json, mechanic "achievements": absent from Alpha v1.0.1 "through Beta 1.3";
+     * Beta 1.4 has only trigger "infrastructure ... but the complete achievement set/UI arrives incrementally"; Beta
+     * 1.5 introduces "16 achievements and statistics" with "an achievement/statistics UI".
+     */
+    NO_ACHIEVEMENTS(Domain.PLAYER, FeatureWindow.before(Milestones.BETA_1_5),
+        "Achievements and their UI arrive in Beta 1.5 (research/version-transitions.json: 16 achievements and "
+        + "statistics, with the UI). Beta 1.4 has partial trigger infrastructure and Beta 1.3 and earlier none. "
+        + "Modern advancements are suppressed in those builds; the era's own achievement lists are a separate, open "
+        + "mapping task above Beta 1.5."),
+
     /** No attack cooldown. */
     NO_ATTACK_COOLDOWN(Domain.COMBAT, FeatureWindow.allDeclared(),
         "The 1.9 attack cooldown: attacks are always at full strength. Every declared version predates Release 1.9, so the window is every declared version. Upstream tweak: DISABLE_ATTACK_COOLDOWN."),

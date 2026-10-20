@@ -91,7 +91,8 @@
     "common.LivingEntityHistoricalDamageBugMixin",
     "common.CakeBlockHistoricalHealMixin",
     "common.LivingEntityHistoricalDiscDropMixin",
-    "common.PrimaryLevelDataHistoricalHardcoreMixin"
+    "common.PrimaryLevelDataHistoricalHardcoreMixin",
+    "common.PlayerAdvancementsHistoricalMixin"
   ],
   "injectors": {
     "defaultRequire": 1
