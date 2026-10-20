@@ -53,11 +53,26 @@ class EarlyMobDropFactsTest {
             assertTrue(HistoricalLootRules.forEntity(PROFILES.get(row.get("artifact").getAsString()), "minecraft:sheep").isEmpty());
         }
     }
-    @Test void sheepReplacementIsLimitedToKnownPre18Profiles() {
-        int boundary = HistoricalVersions.chronology(HistoricalVersions.ERA_RELEASE, 1, 8, 0);
-        for (var version : HistoricalVersions.all()) assertEquals(version.chronology() < boundary, HistoricalLootRules.usesLegacySheepDrops(version.id()));
-        for (String profile : PROFILES.values()) assertTrue(HistoricalLootRules.usesLegacySheepDrops(profile));
+    /**
+     * The death-wool window is Beta 1.7 to Release 1.8, not "everything before 1.8".
+     *
+     * <p>Corrected by the 2026-10-21 version audit: minecraft.wiki, Sheep, has the death drop arriving in Beta 1.7
+     * ("Sheep no longer drop wool when hit, albeit they drop one wool when being killed when they are unsheared"),
+     * so an Alpha or Beta 1.0-1.6 sheep must give nothing when killed. The old assertion encoded the wider window.
+     */
+    @Test void sheepDeathWoolWindowIsBeta17ToRelease18() {
+        int from = HistoricalVersions.byId("historical_experience:beta_1_7_3").orElseThrow().chronology();
+        int until = HistoricalVersions.chronology(HistoricalVersions.ERA_RELEASE, 1, 8, 0);
+        for (var version : HistoricalVersions.all()) {
+            boolean expected = version.chronology() >= from && version.chronology() < until;
+            org.junit.jupiter.api.Assertions.assertEquals(expected, HistoricalLootRules.usesLegacySheepDrops(version.id()),
+                version.id() + " sheep death wool");
+        }
+        // Beta 1.7.3 is the first declared build in the window; earlier declared builds are not.
+        assertTrue(HistoricalLootRules.usesLegacySheepDrops("historical_experience:beta_1_7_3"));
+        assertFalse(HistoricalLootRules.usesLegacySheepDrops("historical_experience:beta_1_6"));
     }
+
     @Test void ordinaryUnknownAndFutureSheepDoNotAcquireOldTables() {
         for (String profile : Arrays.asList(null, "minecraft:normal", "unknown", "historical_experience:release_1_8_9", "historical_experience:indev_latest_with_ores")) {
             assertFalse(HistoricalLootRules.usesLegacySheepDrops(profile));

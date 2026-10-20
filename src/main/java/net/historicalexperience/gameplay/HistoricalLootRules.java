@@ -135,6 +135,47 @@ public final class HistoricalLootRules {
             "wiki Spider, 20100219: spiders now drop 0-2 string")
     );
 
+    /**
+     * The pre-Beta-1.8 drop tables, for Alpha and Beta 1.0-1.6.
+     *
+     * <p>Every row is a VERIFIED row already recorded in {@code research/feature-timeline.json}, which carries
+     * the quote and URL for each: zombie 0-2 feathers (Indev 20100219, unchanged until the Beta 1.8 Pre-release),
+     * skeleton 0-2 arrows (bones are Beta 1.2 and are not expressible by this model, which allows one item per
+     * mob), creeper gunpowder, spider 0-2 string, pig 0-2 raw porkchop (cooked-on-fire is Beta 1.5), cow 0-2
+     * leather (cows from Alpha v1.0.8), chicken 0-2 feathers (chickens from Alpha v1.0.14; the early extra leather
+     * drop stopped at an unrecorded version and is not expressible here), and zombie pigman 0-1 cooked porkchop
+     * (pigmen from Alpha v1.2.0; the Beta 1.8 Pre-release added rotten flesh alongside it).
+     *
+     * <p>Sheep are deliberately absent: their death wool is a separate branch gated by
+     * {@link #usesLegacySheepDrops}, because before Beta 1.7 wool came from punching a sheep, not from killing it.
+     * Slime is absent because the modern table already drops 0-2 slimeballs from small slimes, which is the
+     * Alpha v1.0.11 behaviour. Ghast is absent: ghast tears arrive in Beta 1.7, so before it a ghast dropped
+     * nothing, and this model cannot yet express "nothing" for a mob inside a replaced table - recorded as an open
+     * item rather than silently leaving the modern tear and gunpowder in an Alpha world.
+     */
+    public static final List<DropRule> PRE_BETA_1_8 = List.of(
+        new DropRule("minecraft:creeper", "minecraft:gunpowder", 3,
+            "wiki Creeper: gunpowder since Indev; the Indev artifact table records the same selector"),
+        new DropRule("minecraft:zombie", "minecraft:feather", 3,
+            "wiki Zombie, 20100219: 0-2 feathers until the Beta 1.8 Pre-release added rotten flesh"),
+        new DropRule("minecraft:skeleton", "minecraft:arrow", 3,
+            "wiki Skeleton, 20100219: 0-2 arrows; bones arrive in Beta 1.2 and cannot be added as a second item here"),
+        new DropRule("minecraft:pig", "minecraft:porkchop", 3,
+            "wiki Pig, 20100219: 0-2 raw porkchops; cooked-on-fire is Beta 1.5"),
+        new DropRule("minecraft:spider", "minecraft:string", 3,
+            "wiki Spider, 20100219: 0-2 string; spider eyes are Beta 1.8"),
+        new DropRule("minecraft:cow", "minecraft:leather", 3,
+            "wiki Cow: cows arrive in Alpha v1.0.8 and drop leather; beef is Beta 1.8"),
+        new DropRule("minecraft:chicken", "minecraft:feather", 3,
+            "wiki Chicken: chickens arrive in Alpha v1.0.14 and drop feathers; raw chicken is Beta 1.8"),
+        new DropRule("minecraft:zombified_piglin", "minecraft:cooked_porkchop", 2,
+            "wiki Zombified Piglin / research/historical-features.json: 0-1 cooked porkchop before Beta 1.8")
+    );
+
+    /** The pre-Beta-1.8 table keyed by entity type id. */
+    public static final Map<String, DropRule> PRE_BETA_1_8_BY_ENTITY = PRE_BETA_1_8.stream()
+        .collect(java.util.stream.Collectors.toUnmodifiableMap(DropRule::entityTypeId, rule -> rule));
+
     /** Indev 20100223's drops keyed by entity type id. */
     public static final Map<String, DropRule> INDEV_20100223_BY_ENTITY = INDEV_20100223.stream()
         .collect(java.util.stream.Collectors.toUnmodifiableMap(
@@ -167,7 +208,8 @@ public final class HistoricalLootRules {
     /** Sheep meat arrived in Release 1.8; ordinary/unknown worlds must retain their own table. */
     public static boolean usesLegacySheepDrops(String profileId) {
         return profileId != null && net.historicalexperience.version.HistoricalVersions.byId(profileId)
-            .map(version -> version.isBefore(net.historicalexperience.version.Milestones.RELEASE_1_8))
+            .map(version -> !version.isBefore(net.historicalexperience.version.Milestones.BETA_1_7)
+            && version.isBefore(net.historicalexperience.version.Milestones.RELEASE_1_8))
             .orElse(false);
     }
 
