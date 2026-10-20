@@ -99,11 +99,17 @@ class EraOreRevisionTest {
                 || version.id().equals("historical_experience:beta_1_8_1")) {
                 continue;
             }
-            HistoricalVersion.GenerationRevision newest = version.revisions()
-                .get(version.revisions().size() - 1);
-            assertEquals("historical_experience:"
-                    + version.id().substring(version.id().indexOf(':') + 1) + "_era_ores",
-                newest.alias(), version.id() + " must end at its era-ore revision");
+            // The era-ore revision is looked up by name, not by position: a later revision (the 256-height one for
+            // the Release profiles) may sit after it, and append-only means that is allowed as long as THIS revision's
+            // stored recipe is unchanged.
+            String eraOreAlias = "historical_experience:"
+                + version.id().substring(version.id().indexOf(':') + 1) + "_era_ores";
+            HistoricalVersion.GenerationRevision newest = version.revisions().stream()
+                .filter(revision -> revision.alias().equals(eraOreAlias))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError(version.id() + " has no era-ore revision"));
+            assertTrue(version.latestRevision().placesOwnOres(),
+                version.id() + " newest revision must still place the era's own ores");
             assertTrue(newest.placesOwnOres(),
                 version.id() + " must place the era's own ores instead of vanilla's modern placement");
             assertTrue(newest.orePopulation().size() >= 6,
@@ -179,8 +185,10 @@ class EraOreRevisionTest {
         // world. It must keep DECLARING no population and keep its vanilla-ore list; the runtime fallback
         // and catch-all are code-level defaults, so the stored recipe stays exactly what it was.
         HistoricalVersion release = HistoricalVersions.byId("historical_experience:release_1_2_5").orElseThrow();
-        HistoricalVersion.GenerationRevision previous = release.revisions()
-            .get(release.revisions().size() - 2);
+        HistoricalVersion.GenerationRevision previous = release.revisions().stream()
+            .filter(revision -> revision.alias().equals(
+                "historical_experience:release_1_2_5_no_modern_content"))
+            .findFirst().orElseThrow();
         assertEquals("historical_experience:release_1_2_5_no_modern_content", previous.alias());
         assertEquals(List.of(), previous.orePopulation());
         assertFalse(excludedIds(previous.alias()).contains("minecraft:ore_diamond"));

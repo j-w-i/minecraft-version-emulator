@@ -1185,6 +1185,15 @@ public final class LegacyCatalog {
         }
 
 
+        // The raised build limit is a property of the world, not of the terrain: append it for the profiles whose
+        // own build had 256 after 12w07a, and leave Release 1.0/1.1 (and every earlier era) on 128.
+        for (int index = 0; index < versions.size(); index++) {
+            HistoricalVersion version = versions.get(index);
+            if (version.isAtOrAfter(net.historicalexperience.version.Milestones.RELEASE_1_2_5)) {
+                versions.set(index, withHeight256(version));
+            }
+        }
+
         List<HistoricalVersion> declared = List.copyOf(versions);
         checkUnique(declared);
         return declared;
@@ -1494,6 +1503,36 @@ public final class LegacyCatalog {
      * declared version is after its Infdev 20100320 restoration - see
      * {@link BetaOreRules#eraPopulation}.
      */
+    /**
+     * Appends the <b>256-height</b> revision, for the Release profiles that had the raised build limit.
+     *
+     * <p>minecraft.wiki, Java Edition 1.2.1 / 12w07a: the world height limit was raised from 128 to 256. The terrain
+     * generator itself was unchanged - the extra space was buildable air above the same 0..127 landscape - so this
+     * revision keeps the version's own foundation and ore population and only swaps the dimension type, whose
+     * {@code height}/{@code min_y} are what the engine enforces. Release 1.0 and 1.1 correctly keep the 128 envelope.
+     *
+     * <p>Revisions are append-only and a new world selects the newest one, so this adds a revision instead of editing
+     * the published ones; a world already recorded against a 128 revision keeps generating what it recorded.
+     */
+    private static HistoricalVersion withHeight256(HistoricalVersion base) {
+        List<HistoricalVersion.GenerationRevision> revisions = new java.util.ArrayList<>(base.revisions());
+        HistoricalVersion.GenerationRevision previous = revisions.get(revisions.size() - 1);
+        String key = base.id().substring(base.id().indexOf(':') + 1);
+        revisions.add(new HistoricalVersion.GenerationRevision(
+            revisions.size(),
+            alias(key + "_height_256"),
+            previous.foundation(),
+            // Numbered revisions must be experimental until a world has actually been generated on them.
+            true,
+            "256-height envelope: minecraft.wiki 12w07a raised the build limit from 128 to 256; the terrain "
+                + "generator did not change, so the same landscape is generated and the space above it is buildable. "
+                + "Everything else is this version's previous revision.",
+            previous.excludedPlacedFeatures(),
+            previous.orePopulation()));
+        return new HistoricalVersion(base.id(), base.displayName(), base.era(), base.chronology(), base.rules(),
+            revisions);
+    }
+
     private static HistoricalVersion withEraOres(HistoricalVersion base) {
         List<HistoricalVersion.GenerationRevision> revisions = new java.util.ArrayList<>(base.revisions());
         HistoricalVersion.GenerationRevision previous = revisions.get(revisions.size() - 1);

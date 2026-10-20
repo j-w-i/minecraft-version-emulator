@@ -1,20 +1,20 @@
 {
   "dimensions": {
     "minecraft:overworld": {
-      "type": "historical_experience:beta_1_7_3_overworld",
+      "type": "historical_experience:release_1_2_overworld",
       "generator": {
         "type": "moderner_beta:moderner_beta",
         "biome_source": {
           "type": "moderner_beta:moderner_beta",
           "cave_provider_settings": {
-            "moderner_beta:preset": "historical_experience:release_1_3_era_ores"
+            "moderner_beta:preset": "historical_experience:release_1_3_height_256"
           },
           "provider_settings": {
-            "moderner_beta:preset": "historical_experience:release_1_3_era_ores"
+            "moderner_beta:preset": "historical_experience:release_1_3_height_256"
           }
         },
         "provider_settings": {
-          "moderner_beta:preset": "historical_experience:release_1_3_era_ores"
+          "moderner_beta:preset": "historical_experience:release_1_3_height_256"
         }
       }
     },

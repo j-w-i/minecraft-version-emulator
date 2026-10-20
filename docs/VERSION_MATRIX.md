@@ -40,11 +40,11 @@ Oldest first. *Rules* are the version's own data (hunger, sprinting, experience,
 | `historical_experience:beta_1_9_pre_6` | BETA | 501906 | 3 | hunger, sprinting, experience, structures | 34 of 87 | 20 allowed |
 | `historical_experience:release_1_0_0` | RELEASE | 601000 | 3 | hunger, sprinting, experience, structures | 34 of 87 | 20 allowed |
 | `historical_experience:release_1_1` | RELEASE | 601100 | 3 | hunger, sprinting, experience, structures | 33 of 87 | 20 allowed |
-| `historical_experience:release_1_2_5` | RELEASE | 601205 | 3 | hunger, sprinting, experience, structures | 31 of 87 | 22 allowed |
-| `historical_experience:release_1_3` | RELEASE | 601300 | 3 | hunger, sprinting, experience, structures, 8 drop rules | 31 of 87 | 22 allowed |
-| `historical_experience:release_1_4` | RELEASE | 601400 | 3 | hunger, sprinting, experience, structures | 28 of 87 | 26 allowed |
-| `historical_experience:release_1_5` | RELEASE | 601500 | 3 | hunger, sprinting, experience, structures | 26 of 87 | 26 allowed |
-| `historical_experience:release_1_6_4` | RELEASE | 601604 | 3 | hunger, sprinting, experience, structures | 19 of 87 | 28 allowed |
+| `historical_experience:release_1_2_5` | RELEASE | 601205 | 4 | hunger, sprinting, experience, structures | 31 of 87 | 22 allowed |
+| `historical_experience:release_1_3` | RELEASE | 601300 | 4 | hunger, sprinting, experience, structures, 8 drop rules | 31 of 87 | 22 allowed |
+| `historical_experience:release_1_4` | RELEASE | 601400 | 4 | hunger, sprinting, experience, structures | 28 of 87 | 26 allowed |
+| `historical_experience:release_1_5` | RELEASE | 601500 | 4 | hunger, sprinting, experience, structures | 26 of 87 | 26 allowed |
+| `historical_experience:release_1_6_4` | RELEASE | 601604 | 4 | hunger, sprinting, experience, structures | 19 of 87 | 28 allowed |
 
 ## 2. Which features apply where
 

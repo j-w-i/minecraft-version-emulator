@@ -55,8 +55,17 @@ class GenerationBackport1211Test {
                 id.substring(id.indexOf(':') + 1) + ".json");
             var dimensions = preset.getAsJsonObject("dimensions");
             var overworld = dimensions.getAsJsonObject("minecraft:overworld");
-            assertEquals("historical_experience:beta_1_7_3_overworld", overworld.get("type").getAsString(),
-                id + " must use the reduced envelope");
+            // The reduced 0..127 envelope is correct for every era up to Release 1.1; 12w07a raised the limit to
+            // 256 in Release 1.2.1, so those profiles use the 256-height dimension type instead.
+            String expectedEnvelope = id.startsWith("historical_experience:release_1_2_5")
+                || id.startsWith("historical_experience:release_1_3")
+                || id.startsWith("historical_experience:release_1_4")
+                || id.startsWith("historical_experience:release_1_5")
+                || id.startsWith("historical_experience:release_1_6_4")
+                ? "historical_experience:release_1_2_overworld"
+                : "historical_experience:beta_1_7_3_overworld";
+            assertEquals(expectedEnvelope, overworld.get("type").getAsString(),
+                id + " must use " + expectedEnvelope);
 
             var generator = overworld.getAsJsonObject("generator");
             String alias = generator.getAsJsonObject("provider_settings")
@@ -199,7 +208,9 @@ class GenerationBackport1211Test {
     // its predecessor's settings preset, so thirty-one of the new files carry the envelope (the Indev copy does
     // not, for the same reason its predecessor does not). This count moves for the right reason: the measured
     // defect was a Release 1.2.5 world with diamond at y=1..72, and the fix is one new recipe per version.
-    assertEquals(132, reduced);
+    // 132 + 5 = 137: the 256-height revision copies its predecessor's settings preset, envelope included, for
+        // the five Release profiles whose build limit was raised. The envelope is terrain, not build limit.
+        assertEquals(137, reduced);
         assertFalse(Files.exists(DATA.resolve("minecraft/worldgen/noise_settings")));
         assertFalse(Files.exists(DATA.resolve("moderner_beta/worldgen/noise_settings")));
     }

@@ -1,3 +1,35 @@
+# Current work — 2026-10-21 / Gap 7: 256-height Release worlds (audit G8)
+
+minecraft.wiki, Java Edition 1.2.1 (12w07a): the build limit was raised from 128 to 256. Every Release preset in this
+project used `historical_experience:beta_1_7_3_overworld` (min_y 0, height 128), so a Release 1.2.5-1.6.4 world could
+not be built above y=127 even though the build had 256. Release 1.0/1.1 are correctly 128.
+
+Implemented as an **appended generation revision**, not an edit, because revisions are append-only and a new world
+selects the newest one:
+
+- new dimension type `historical_experience:release_1_2_overworld` (min_y 0, height 256, logical_height 256, the rest
+  identical to the 128 type);
+- `withHeight256` appends revision `<key>_height_256` for **release_1_2_5, 1_3, 1_4, 1_5 and 1_6_4**, copying the
+  previous revision's foundation, exclusions and ore population - only the engine-enforced envelope changes, because
+  the terrain generator did not change in 1.2.1, the space above it simply became buildable;
+- each new revision has a settings-preset mirror and a world preset, and the world-creation preset for those five
+  versions now names the height revision and the 256 dimension type, so the menu cannot hand a player the old envelope.
+- The revision is marked experimental, per the record invariant: numbered revisions stay experimental until a world has
+  actually been generated on them. **Runtime validation is therefore still pending** - the unit tests prove the data is
+  consistent and the presets resolve, not that a world boots to y=255.
+
+Tests updated deliberately, each with a comment: the era-ore tests now find the `_era_ores` revision **by alias**
+rather than by position (a later revision is allowed), the envelope-count assertion moves 132 -> 137 (five more settings
+presets carry the 128 terrain envelope, which is terrain and not build limit), and the world-creation test accepts the
+256 envelope for the raised-limit profiles. `ReleaseHeightTest` pins the revision, the dimension type and every preset.
+
+**Evidence:** `./gradlew test` — **783 tests, 0 failures**. Golden, matrix and facts regenerated.
+
+**Open:** runtime generation on a `release_1_2_5` world at the height revision (needed before the revision can be
+un-marked experimental); the five height revisions duplicate their predecessor's settings preset content, which is
+intentional but worth noting for a future reviewer.
+
+---
 # Current work — 2026-10-21 / Gap 6: Alpha cloth armour (audit A-14)
 
 Audit finding: in Alpha v1.0.1, v1.0.4 and v1.0.6 the only armour recipes are the modern **leather** ones, but leather
