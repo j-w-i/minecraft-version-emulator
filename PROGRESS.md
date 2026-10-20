@@ -1,3 +1,27 @@
+# Current work — 2026-10-21 / Gap 25: the five-tick block-break delay before Release 1.3.1
+
+Release audit row R10-26, with the wiki line: Java Edition 1.3.1 - "The 1/4 second (5 game tick) delay between block
+breaking has been removed for players in Survival." Modern Minecraft has no such delay, so every declared build before
+Release 1.3 (this project's 1.3.1 baseline) should refuse a second survival break within five ticks.
+
+- Feature `BLOCK_BREAK_DELAY` `before(Release 1.3)`.
+- `HistoricalBlockBreakDelay` holds the pure decision (`shouldRefuse(version, survival, now, lastBreak)`) and the
+  per-player last-break bookkeeping; `ServerPlayerGameModeHistoricalBreakDelayMixin` refuses at HEAD and records only a
+  break that actually happened (at RETURN), so a failed break does not start a cooldown. Creative players are exempt.
+- **Scope, stated as an inference:** the wiki documents the REMOVAL and no introduction, so the delay is applied to
+  every earlier declared build. That reasoning is written in the feature's evidence rather than being presented as a
+  dated fact.
+- Mixin application verified in a real client: `CLIENTMIXINCHECK loaded net.minecraft.server.level.ServerPlayerGameMode
+  (ServerPlayerGameMode) - its mixins applied`.
+
+**Also this round:** pressure plates were investigated first and left alone. The 1.3 row says plates "now require only
+two planks/stone ... previous versions required three", and modern plates are two-blocks-to-ONE-plate; nothing states what
+the pre-1.3 recipe OUTPUT was, so it stays recorded as UNKNOWN instead of being given a guessed count.
+
+**Evidence:** `./gradlew cleanTest test` - **817 tests, 0 failures**; `BlockBreakDelayTest` pins the five-tick boundary,
+the creative/first-break/ordinary exemptions and the bookkeeping; golden, matrix and facts regenerated.
+
+---
 # Current work — 2026-10-21 / Gap 24: slab and ladder output counts before Release 1.2.1
 
 This was on the "count changes could not be sourced" list, but the Release audit's own row (X-09) carries the wiki

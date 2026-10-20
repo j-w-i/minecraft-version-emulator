@@ -200,6 +200,17 @@ public enum Feature {
         + "yields 6 instead of 3', '3 ladders instead of 2'); Release 1.2.5 is the 1.2.1 baseline and has the larger "
         + "counts."),
 
+    /**
+     * A five-tick delay between breaking blocks, for survival players.
+     *
+     * <p>minecraft.wiki, Java Edition 1.3.1: "The 1/4 second (5 game tick) delay between block breaking has been
+     * removed for players in Survival." The removal is documented, no introduction is, so this is applied to every
+     * declared build before Release 1.3 - recorded as an inference from the absence of a later introduction row.
+     */
+    BLOCK_BREAK_DELAY(Domain.PLAYER, FeatureWindow.before(Milestones.RELEASE_1_3),
+        "Breaking blocks has a five-tick cooldown in survival before Release 1.3.1 (minecraft.wiki: 'The 1/4 second "
+        + "(5 game tick) delay between block breaking has been removed for players in Survival')."),
+
     /** No attack cooldown. */
     NO_ATTACK_COOLDOWN(Domain.COMBAT, FeatureWindow.allDeclared(),
         "The 1.9 attack cooldown: attacks are always at full strength. Every declared version predates Release 1.9, so the window is every declared version. Upstream tweak: DISABLE_ATTACK_COOLDOWN."),
