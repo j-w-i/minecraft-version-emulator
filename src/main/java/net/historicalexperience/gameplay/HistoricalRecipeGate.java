@@ -117,8 +117,4 @@ public final class HistoricalRecipeGate {
         return refusals;
     }
 
-    /** Which version-to-block pairs were refused, for the probe. */
-    public static Set<String> refusedPairs() {
-        return java.util.Collections.unmodifiableSet(REFUSED);
-    }
 }

@@ -353,8 +353,4 @@ public final class BiomeConversionRecord {
         }
     }
 
-    /** Whether a chunk existed before the conversion, by packed position. */
-    public static boolean wasConverted(java.util.Set<Long> convertedChunks, long packedChunkPos) {
-        return convertedChunks.contains(packedChunkPos);
-    }
 }

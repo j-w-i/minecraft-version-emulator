@@ -91,8 +91,4 @@ public final class HistoricalVillageStates {
         return block(id).defaultBlockState();
     }
 
-    /** Whether an id resolved, for diagnostics. */
-    public static boolean isDeclared(String id) {
-        return RESOLVED.containsKey(id);
-    }
 }

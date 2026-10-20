@@ -104,14 +104,6 @@ public final class HistoricalWorldTweaks {
         return availableFor2dItems(HistoricalClientRules.activeVersion()) && read(ITEM_2D_KEY, true);
     }
 
-    public static boolean setOld2dItems(boolean enabled) {
-        if (enabled && !availableFor2dItems(HistoricalClientRules.activeVersion())) {
-            return false;
-        }
-        write(ITEM_2D_KEY, enabled);
-        return true;
-    }
-
     // ---- Recipe book: added in 1.12, so absent from every declared version ---------------------------------
 
     /** The recipe book UI postdates every declared version, so its button is hidden in all historical profiles. */
@@ -127,11 +119,6 @@ public final class HistoricalWorldTweaks {
     /** Whether the separate recipe-book screen button should be hidden for the active world. */
     public static boolean recipeBookDisabled() {
         return shouldHideRecipeBookButton(HistoricalClientRules.activeVersion(), read(RECIPE_BOOK_KEY, true));
-    }
-
-    public static boolean setRecipeBookDisabled(boolean enabled) {
-        write(RECIPE_BOOK_KEY, enabled);
-        return true;
     }
 
     // ---- Universal sky colour: which colour the era's sky actually used -----------------------------------
@@ -208,15 +195,6 @@ public final class HistoricalWorldTweaks {
         };
     }
 
-    /** The colour the sky should be drawn in for the client's current version, or {@code null} to leave it alone. */
-    public static Integer skyColourOverride() {
-        HistoricalVersion version = HistoricalClientRules.activeVersion();
-        if (!availableForSkyColour(version) || !read(SKY_KEY, true)) {
-            return null;
-        }
-        return eraSkyColour(version);
-    }
-
     /**
      * Whether the sky option is on and this version has an era sky at all, which is what the client hook checks before
      * deciding between a flat colour and the era's temperature function.
@@ -228,14 +206,6 @@ public final class HistoricalWorldTweaks {
     /** Whether the sky option does anything for this version, which is every declared build below Beta 1.9. */
     public static boolean availableForSkyColour(HistoricalVersion version) {
         return skyEra(version) != SkyEra.NONE;
-    }
-
-    public static boolean setOldSkyColour(boolean enabled) {
-        if (enabled && !availableForSkyColour(HistoricalClientRules.activeVersion())) {
-            return false;
-        }
-        write(SKY_KEY, enabled);
-        return true;
     }
 
 }

@@ -1071,21 +1071,6 @@ public final class HistoricalFeatureExclusions {
     private static final LongAdder VETO_INVOCATIONS = new LongAdder();
     private static final Set<String> SEEN_BLOCK_IDS = ConcurrentHashMap.newKeySet();
 
-    /**
-     * True when the active historical version could not have had vines.
-     *
-     * <p>Vines need their own entry point because a decorator writes them through {@code placeVine}, which
-     * builds the vine state internally rather than handing one over - so there is no {@code BlockState} to
-     * inspect at the call site.
-     */
-    public static boolean shouldSuppressVines(WorldGenLevel level) {
-        if (level == null) {
-            return false;
-        }
-        String alias = activeHistoricalAlias(level);
-        return alias != null && isAnachronisticForAlias(alias, "minecraft:vine");
-    }
-
     /** The historical alias a world-generation level is running, or null for an ordinary world. */
     private static String activeHistoricalAlias(WorldGenLevel level) {
         try {

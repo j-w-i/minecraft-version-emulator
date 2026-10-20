@@ -86,16 +86,6 @@ public final class HistoricalVillageTypes {
                 HistoricalExperience.id("historical_village_piece"));
     }
 
-    /** The registry ids, so a report or a test can name what it checked. */
-    public static net.minecraft.resources.ResourceLocation structureTypeId() {
-        return HistoricalExperience.id("historical_village");
-    }
-
-    /** The piece type id. */
-    public static net.minecraft.resources.ResourceLocation pieceTypeId() {
-        return HistoricalExperience.id("historical_village_piece");
-    }
-
     /** The structure id the data file must declare. */
     public static net.minecraft.resources.ResourceLocation structureId() {
         return HistoricalExperience.id("historical_village");
@@ -106,13 +96,4 @@ public final class HistoricalVillageTypes {
         return HistoricalExperience.id("historical_villages");
     }
 
-    /** The biome tag a structure references, in the {@code #namespace:path} form the JSON needs. */
-    public static String biomeTagReference() {
-        return "#" + HistoricalExperience.MOD_ID + ":has_structure/historical_village";
-    }
-
-    /** The registry id of that biome tag. */
-    public static net.minecraft.resources.ResourceLocation biomeTagId() {
-        return HistoricalExperience.id("has_structure/historical_village");
-    }
 }

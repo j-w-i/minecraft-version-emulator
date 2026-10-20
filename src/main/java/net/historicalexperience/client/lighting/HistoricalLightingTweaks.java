@@ -46,14 +46,6 @@ public final class HistoricalLightingTweaks {    private static final String LEA
             && HistoricalClientOptions.get(LEAVES_KEY, true);
     }
 
-    public static boolean setOldLeavesLighting(boolean enabled) {
-        if (enabled && !availableFor(HistoricalClientRules.activeVersion())) {
-            return false;
-        }
-        HistoricalClientOptions.set(LEAVES_KEY, enabled);
-        return true;
-    }
-
     /**
      * Gate only: the complete water-lighting renderer/relight port is still pending.
      *
@@ -62,14 +54,6 @@ public final class HistoricalLightingTweaks {    private static final String LEA
     public static boolean oldWaterLighting() {
         return beforeNewEngine() && HistoricalOldLighting.toggle()
             && HistoricalClientOptions.get(WATER_KEY, true);
-    }
-
-    public static boolean setOldWaterLighting(boolean enabled) {
-        if (enabled && !availableFor(HistoricalClientRules.activeVersion())) {
-            return false;
-        }
-        HistoricalClientOptions.set(WATER_KEY, enabled);
-        return true;
     }
 
     public static boolean availableFor(HistoricalVersion version) {

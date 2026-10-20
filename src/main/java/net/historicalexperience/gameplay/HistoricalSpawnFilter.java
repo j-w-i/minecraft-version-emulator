@@ -51,9 +51,6 @@ public final class HistoricalSpawnFilter {
      * @param removed the entity type identifiers that were removed, in encounter order
      */
     public record Outcome(WeightedRandomList<MobSpawnSettings.SpawnerData> kept, List<String> removed) {
-        public boolean changedAnything() {
-            return !removed.isEmpty();
-        }
     }
 
     private HistoricalSpawnFilter() {

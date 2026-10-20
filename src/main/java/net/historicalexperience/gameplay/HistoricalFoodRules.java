@@ -237,17 +237,6 @@ public final class HistoricalFoodRules {
             .collect(java.util.stream.Collectors.toUnmodifiableSet());
     }
 
-    public static void recordHeal(String itemId, int points) {
-        HEALS_APPLIED.increment();
-        HEALTH_RESTORED.add(points);
-        HEALED_ITEMS.add(itemId);
-        HEALS_BY_ITEM.merge(itemId, 1, Integer::sum);
-    }
-
-    public static void recordEatGateOverride() {
-        EAT_GATE_OVERRIDES.increment();
-    }
-
     public static long healsApplied() {
         return HEALS_APPLIED.sum();
     }

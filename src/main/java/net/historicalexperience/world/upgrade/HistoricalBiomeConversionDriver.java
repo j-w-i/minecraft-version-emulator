@@ -147,16 +147,6 @@ public final class HistoricalBiomeConversionDriver {
         return CHUNKS_TOTAL.get();
     }
 
-    /** Region files processed so far. */
-    public static int regionsDone() {
-        return REGIONS_DONE.get();
-    }
-
-    /** Region files in the whole job. */
-    public static int regionsTotal() {
-        return REGIONS_TOTAL.get();
-    }
-
     /** Biome palette entries rewritten so far. */
     public static long entriesChanged() {
         return ENTRIES_CHANGED.get();

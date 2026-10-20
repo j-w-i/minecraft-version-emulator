@@ -84,19 +84,4 @@ public final class HistoricalChestTweaks {
             && ("chest".equals(path) || "trapped_chest".equals(path) || "ender_chest".equals(path));
     }
 
-    public static boolean setOldChest(boolean enabled) {
-        if (enabled && !availableForChest(HistoricalClientRules.activeVersion())) {
-            return false;
-        }
-        HistoricalClientOptions.set(CHEST_KEY, enabled);
-        return true;
-    }
-
-    public static boolean setOldEnderChest(boolean enabled) {
-        if (enabled && !availableForEnderChest(HistoricalClientRules.activeVersion())) {
-            return false;
-        }
-        HistoricalClientOptions.set(ENDER_CHEST_KEY, enabled);
-        return true;
-    }
 }

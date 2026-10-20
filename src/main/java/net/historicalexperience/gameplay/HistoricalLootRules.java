@@ -184,12 +184,6 @@ public final class HistoricalLootRules {
         DROPS_BY_ENTITY.merge(entityTypeId, 0, Integer::sum);
     }
 
-    /** Records one item dropped by the replacement. */
-    public static void recordDrop(String entityTypeId) {
-        DROPPED_ITEMS.increment();
-        DROPS_BY_ENTITY.merge(entityTypeId, 1, Integer::sum);
-    }
-
     /** Records one suppressed experience award. */
     public static void recordSuppressedExperience() {
         SUPPRESSED_EXPERIENCE.increment();
@@ -205,10 +199,6 @@ public final class HistoricalLootRules {
 
     public static long suppressedExperience() {
         return SUPPRESSED_EXPERIENCE.sum();
-    }
-
-    public static Set<String> replacedEntityTypes() {
-        return Set.copyOf(REPLACED_ENTITIES);
     }
 
     public static Map<String, Integer> dropsByEntity() {

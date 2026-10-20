@@ -166,11 +166,6 @@ public final class HistoricalTextureService {
         return downloader;
     }
 
-    /** Test hook: substitute the downloader (an in-memory fetcher) for the real HTTPS one. */
-    static synchronized void useDownloader(PackDownloader replacement) {
-        downloader = replacement;
-    }
-
     /** The dependency packs that are not currently usable, in layering order. */
     public static List<TextureSource> missingDependencies() {
         PackScanner.Result current = scan();

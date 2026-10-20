@@ -503,11 +503,6 @@ public final class GenerationUpgrade {
         return Optional.of(UpgradeRecovery.recover(worldDirectory));
     }
 
-    /** The files an upgrade backs up, exposed so a test can assert the list rather than trust it. */
-    public static List<String> backedUpFiles() {
-        return BACKED_UP_FILES;
-    }
-
     private static void requireConsistent(HistoricalMetadata metadata, long previousRevision)
             throws UpgradeException {
         if (metadata.revision() != previousRevision + 1) {

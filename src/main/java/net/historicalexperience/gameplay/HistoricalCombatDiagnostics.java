@@ -39,16 +39,8 @@ public final class HistoricalCombatDiagnostics {
     private HistoricalCombatDiagnostics() {
     }
 
-    public static void recordCooldownAnswer() {
-        COOLDOWN_ANSWERS.increment();
-    }
-
     public static void recordSweepCancel() {
         SWEEP_CANCELLED.increment();
-    }
-
-    public static void recordDamageRewrite() {
-        DAMAGE_REWRITES.increment();
     }
 
     public static void recordOrbRefused() {

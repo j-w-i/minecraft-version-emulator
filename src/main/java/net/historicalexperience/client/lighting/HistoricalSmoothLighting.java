@@ -139,11 +139,6 @@ public final class HistoricalSmoothLighting {
         }
     }
 
-    /** Forgets the cached value, so the next world re-reads the config. */
-    public static void resetCache() {
-        toggle = null;
-    }
-
     private static Path configPath() {
         return FabricLoader.getInstance().getConfigDir().resolve(TOGGLE_FILE);
     }

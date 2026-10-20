@@ -70,11 +70,6 @@ public final class HistoricalTextureConfig {
         HistoricalClientOptions.setString(SETUP_KEY, Integer.toString(SETUP_VERSION));
     }
 
-    /** Makes the first-run screen appear again on the next title screen. */
-    public static void resetSetup() {
-        HistoricalClientOptions.setString(SETUP_KEY, "0");
-    }
-
     private static int storedSetupVersion() {
         try {
             return Integer.parseInt(HistoricalClientOptions.getString(SETUP_KEY, "0").trim());

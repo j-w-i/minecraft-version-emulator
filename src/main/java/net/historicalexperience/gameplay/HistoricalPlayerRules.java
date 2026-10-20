@@ -80,14 +80,6 @@ public final class HistoricalPlayerRules {
         return !hasHunger(versionId);
     }
 
-    public static void recordSprintSuppression() {
-        SPRINT_SUPPRESSIONS.increment();
-    }
-
-    public static void recordHungerTickSuppression() {
-        HUNGER_TICK_SUPPRESSIONS.increment();
-    }
-
     public static long sprintSuppressions() {
         return SPRINT_SUPPRESSIONS.sum();
     }

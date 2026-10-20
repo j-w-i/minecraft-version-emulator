@@ -68,8 +68,4 @@ public record PackPin(TextureSource source, String projectSlug, String projectId
         return null;
     }
 
-    /** The project page a player can be pointed at. */
-    public String pageUrl() {
-        return "https://modrinth.com/resourcepack/" + projectSlug;
-    }
 }

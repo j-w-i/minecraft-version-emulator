@@ -82,11 +82,6 @@ public final class HistoricalColormaps {
     private HistoricalColormaps() {
     }
 
-    /** Which colour map names are currently being substituted, for diagnostics and the probe. */
-    public static String appliedDescription() {
-        return applied;
-    }
-
     /**
      * The grass table for the active version, or {@code null} when the game's own table should stand.
      *

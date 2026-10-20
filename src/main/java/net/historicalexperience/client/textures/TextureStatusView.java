@@ -93,10 +93,6 @@ public final class TextureStatusView {
         return client != null && client.getResourcePackRepository().getPack("programmer_art") != null;
     }
 
-    public static boolean allDependenciesPresent() {
-        return programmerArtPresent() && HistoricalTextureService.scan().usable().size() == 3;
-    }
-
     /** The version the stack is resolved from, as text, or a note that none is active. */
     public static Component versionLine() {
         HistoricalVersion version = HistoricalClientRules.activeVersion();

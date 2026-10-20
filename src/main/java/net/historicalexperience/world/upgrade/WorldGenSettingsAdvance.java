@@ -547,10 +547,4 @@ public final class WorldGenSettingsAdvance {
         }
     }
 
-    /** Every file this operation touches, so a backup can cover exactly that set. */
-    public static List<String> touchedFiles() {
-        List<String> files = new ArrayList<>();
-        files.add(FILE_NAME);
-        return List.copyOf(files);
-    }
 }

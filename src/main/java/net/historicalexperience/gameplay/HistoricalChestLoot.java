@@ -88,10 +88,6 @@ public final class HistoricalChestLoot {
         return Map.copyOf(REMOVED_BY_ITEM);
     }
 
-    public static Set<String> reportedProfiles() {
-        return Set.copyOf(REPORTED_PROFILES);
-    }
-
     /** Diagnostics as an ordered map, for verdict reporting. */
     public static Map<String, String> diagnostics() {
         Map<String, String> report = new java.util.LinkedHashMap<>();

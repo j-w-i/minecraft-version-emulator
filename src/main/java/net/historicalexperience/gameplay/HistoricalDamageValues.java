@@ -271,8 +271,4 @@ public final class HistoricalDamageValues {
         });
     }
 
-    /** The component this rewrite applies to, for callers that need to check before asking. */
-    public static boolean isAttributeComponent(Object component) {
-        return component == DataComponents.ATTRIBUTE_MODIFIERS;
-    }
 }
