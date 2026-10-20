@@ -107,8 +107,16 @@ public final class HistoricalItemAvailability {
         never("Bamboo is Release 1.14 content, and no declared version reaches it", "minecraft:bamboo");
         never("The glistering melon slice is a brewing ingredient from Release 1.0 at the earliest, and appears in no "
             + "declared version's loot", "minecraft:glistering_melon_slice");
-        never("The enchanted golden apple as a separate item is 1.9 content; before that the golden apple itself was "
-            + "the enchanted form", "minecraft:enchanted_golden_apple");
+        // CORRECTED 2026-10-21 after the owner reported that an enchanted golden apple could not be crafted in a
+        // Release 1.3 world. The earlier note here said the item itself was 1.9 content, which is wrong: minecraft.wiki,
+        // Enchanted Golden Apple, Java Edition history, has it added in 1.3.1 (12w21a) as a second golden-apple tier
+        // crafted from eight gold blocks, and made UNCRAFTABLE in 1.9 (15w44a), when it also entered chest loot. What is
+        // 1.9 is therefore its appearance in LOOT, which is the only thing this table decides - so the entry stands,
+        // and the reason now says what it actually means. Crafting it is RemovedRecipes' job.
+        never("The enchanted golden apple entered chest loot in 1.9 (15w44a), so no declared version's chests contain "
+            + "one. The ITEM is older - 1.3.1 - and is craftable from eight gold blocks in the versions that had the "
+            + "recipe; see RemovedRecipes and Feature.LEGACY_ENCHANTED_GOLDEN_APPLE.",
+            "minecraft:enchanted_golden_apple");
         never("Spectral arrows, tipped arrows, crossbows, shields, tridents, elytra, shulker boxes, totems, prismarine "
             + "crystals, heart of the sea, lodestones, netherite, sculk, amethyst, honey, glow berries, sweet berries, "
             + "kelp, turtle items, banners, the axe/hoe variants of gold and iron tools where they postdate the era, "

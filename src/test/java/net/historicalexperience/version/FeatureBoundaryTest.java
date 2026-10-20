@@ -110,6 +110,11 @@ class FeatureBoundaryTest {
         FROM.put(Feature.BETA_EXHAUSTION_COSTS, P + "beta_1_8_1");
         FROM.put(Feature.BETA_REGENERATION, P + "beta_1_8_1");
         FROM.put(Feature.OLD_ENDER_CHEST_MODEL, P + "release_1_3");
+        // The upper end of both windows is Release 1.9 (15w44a made the apple uncraftable), which is newer than every
+        // declared build - so among the declared set these are "from" windows. Release 1.6.1 (13w24b) added the
+        // Absorption and raises Regeneration to V; Release 1.6.4 is the first declared build at or after it.
+        FROM.put(Feature.LEGACY_ENCHANTED_GOLDEN_APPLE, P + "release_1_3");
+        FROM.put(Feature.ENCHANTED_GOLDEN_APPLE_ABSORPTION, P + "release_1_6_4");
 
         EXACTLY.put(Feature.END_PORTAL_FRAME_EXPLODES, P + "beta_1_9_pre_3");
         EXACTLY.put(Feature.END_PORTAL_FRAME_LIGHT_15, P + "beta_1_9_pre_3");

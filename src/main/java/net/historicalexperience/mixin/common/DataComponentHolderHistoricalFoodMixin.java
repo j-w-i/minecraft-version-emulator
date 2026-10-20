@@ -77,6 +77,32 @@ public interface DataComponentHolderHistoricalFoodMixin {
                 java.util.List.of(new FoodProperties.PossibleEffect(regeneration, 1.0F)));
         }
 
+        // The second tier of the golden apple - the item 1.13 renamed the enchanted golden apple. Its effects are the
+        // 1.3.1 set, with 13w24b's Absorption and Regeneration V from Release 1.6.1. It is 4 hunger, which is what the
+        // modern item already has, so only the effect list differs.
+        if (itemStack.is(net.minecraft.world.item.Items.ENCHANTED_GOLDEN_APPLE)
+            && Features.active(Feature.LEGACY_ENCHANTED_GOLDEN_APPLE, versionId)) {
+            boolean absorption = Features.active(Feature.ENCHANTED_GOLDEN_APPLE_ABSORPTION, versionId);
+            var effects = new java.util.ArrayList<FoodProperties.PossibleEffect>();
+            effects.add(new FoodProperties.PossibleEffect(new net.minecraft.world.effect.MobEffectInstance(
+                net.minecraft.world.effect.MobEffects.REGENERATION,
+                HistoricalFoodHelper.enchantedGoldenAppleRegenerationTicks(),
+                HistoricalFoodHelper.enchantedGoldenAppleRegenerationAmplifier(absorption)), 1.0F));
+            effects.add(new FoodProperties.PossibleEffect(new net.minecraft.world.effect.MobEffectInstance(
+                net.minecraft.world.effect.MobEffects.DAMAGE_RESISTANCE,
+                HistoricalFoodHelper.enchantedGoldenAppleResistanceTicks(), 0), 1.0F));
+            effects.add(new FoodProperties.PossibleEffect(new net.minecraft.world.effect.MobEffectInstance(
+                net.minecraft.world.effect.MobEffects.FIRE_RESISTANCE,
+                HistoricalFoodHelper.enchantedGoldenAppleFireResistanceTicks(), 0), 1.0F));
+            if (absorption) {
+                effects.add(new FoodProperties.PossibleEffect(new net.minecraft.world.effect.MobEffectInstance(
+                    net.minecraft.world.effect.MobEffects.ABSORPTION,
+                    HistoricalFoodHelper.enchantedGoldenAppleAbsorptionTicks(), 0), 1.0F));
+            }
+            return (T) new FoodProperties(food.nutrition(), food.saturation(), food.canAlwaysEat(),
+                food.eatSeconds(), food.usingConvertsTo(), java.util.List.copyOf(effects));
+        }
+
         if (!Features.active(Feature.BETA_FOOD_HUNGER_VALUES, versionId)) {
             return value;
         }

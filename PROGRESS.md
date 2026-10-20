@@ -1,3 +1,49 @@
+# Current work — 2026-10-21 / Enchanted golden apples are craftable again in Release 1.3 to 1.8
+
+Owner report: **"Why can't I craft egaps in 1.3.1 when they were added, crafting was removed in 1.9 no?"** The owner is
+right and the project was wrong.
+
+**The history** (minecraft.wiki, [Enchanted Golden Apple](https://minecraft.wiki/w/Enchanted_Golden_Apple), Java Edition
+history): added in **1.3.1 (12w21a)** as a second golden-apple tier, *"crafted with 8 blocks of gold and one apple"*,
+granting Resistance 5:00 + Fire Resistance 5:00 + Regeneration IV 0:30 and 4 hunger. **1.6.1 (13w24b)** added Absorption
+I and raised Regeneration to V. **1.9 (15w44a)** made it *uncraftable* and moved it into chest loot; **1.13 (17w47a)**
+renamed it and split the item ids.
+
+**Two defects, both fixed:**
+
+1. **No recipe existed.** Modern 1.21.1 has no gold-block recipe, and the project could only *filter* vanilla recipes or
+   replay the extracted Indev/Infdev recipe tables - so there was nothing to allow. New `gameplay/RemovedRecipes` supplies
+   recipes that modern Minecraft **removed**, assembled at lookup time exactly as `EarlyRecipeLookup` does (never patching
+   the global, client-synchronized registry). Its first member is the 8-gold-blocks-around-an-apple enchanted golden apple,
+   gated on `Feature.LEGACY_ENCHANTED_GOLDEN_APPLE` = `[Release 1.3, Release 1.9)`.
+2. **The gate refused the item everywhere.** `enchanted_golden_apple` was absent from `HistoricalCraftingEra`'s allow-list,
+   so `isRefused` returned true for every version. It is now allow-listed from `release_1_3`.
+
+**And the note that caused it was wrong.** `HistoricalItemAvailability` said the enchanted golden apple *"is 1.9 content;
+before that the golden apple itself was the enchanted form"*. It is not: the item is 1.3.1+, and what arrived in 1.9 is its
+appearance in **chest loot**. The entry (loot only) stands; its reason now says so, and points at the crafting path.
+
+**Effects, so the item is not merely craftable but correct.** `DataComponentHolderHistoricalFoodMixin` now gives the
+second-tier apple its 1.3.1 effect set - Regeneration IV 0:30, Resistance 5:00, Fire Resistance 5:00 - and, from Release
+1.6.1, Regeneration V plus Absorption I (`Feature.ENCHANTED_GOLDEN_APPLE_ABSORPTION`, 13w24b). Values are plain numbers in
+`HistoricalFoodHelper` so they are unit-testable without registries, as the existing Beta golden-apple values are.
+
+**Evidence:** `./gradlew test` - **131 suites, 757 tests, 0 failures**, including new
+`EnchantedGoldenAppleCraftingTest` (window, recipe shape, gate agreement, effect values, and that 13w24b's boundary falls
+between Release 1.5 and 1.6.4) and two new `FeatureBoundaryTest` windows. The golden snapshot changed by **one line**
+(the corrected loot-note evidence text) and **seven additions** (the new allow-list entry); everything else in the diff
+is reordering. Dedicated server boots to `Done (2.718s)` with 0 mixin failures
+([log](<logs/egapple-fix-server-boot.md>)). `docs/VERSION_MATRIX.md` regenerated.
+
+**Open item this creates: Absorption's duration is an assumption.** No source this project holds states how long the
+Absorption I from 13w24b lasts; the modern two minutes is used and marked as such in `HistoricalFoodHelper`. If a 1.6.1
+client artifact is ever extracted, replace it.
+
+**Not verified at runtime:** the recipe was verified as data (shape, window, gate) and the server boots with the hook
+applied, but no player crafted one in a live session - a crafting probe needs a player harness this project does not
+have yet. That is stated rather than claimed.
+
+---
 # Current work — 2026-10-20 / Version-driven architecture refactor: audit, migration, verification
 
 The codebase had grown 154 places where a version was compared by hand, 46 distinct boundaries written nine different

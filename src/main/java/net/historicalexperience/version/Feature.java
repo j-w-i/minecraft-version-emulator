@@ -282,6 +282,32 @@ public enum Feature {
     // difference holds; the client class that owns the rendering still decides HOW, and a user toggle is still a
     // separate condition that this table does not know about.
 
+    /**
+     * The second tier of the golden apple: the item modern Minecraft calls the enchanted golden apple.
+     *
+     * <p>minecraft.wiki, Enchanted Golden Apple, Java Edition history: <i>1.3.1 (12w21a): "Added a second tier of the
+     * golden apple that provides greater benefits, similar to the golden apple before 1.1. It grants Resistance
+     * (5 minutes) and Fire Resistance (5 minutes) in addition to Regeneration IV (30 seconds). However, it only
+     * restores 4 hunger points. It can be crafted with 8 blocks of gold and one apple."</i> It was named "Golden
+     * Apple" and merely glinted; 1.13 renamed it and split the ids.
+     *
+     * <p>1.9 (15w44a) made it <b>uncraftable</b> and moved it into chest loot, which is why the modern recipe does not
+     * exist and the project has to supply the pre-1.9 one - see {@code RemovedRecipes}.
+     */
+    LEGACY_ENCHANTED_GOLDEN_APPLE(Domain.PLAYER, FeatureWindow.between(Milestones.RELEASE_1_3, Milestones.RELEASE_1_9),
+        "The enchanted golden apple exists and is crafted from eight gold blocks and an apple. minecraft.wiki, "
+            + "Enchanted Golden Apple: added in 1.3.1 (12w21a), made uncraftable in 1.9 (15w44a), renamed and its id "
+            + "split in 1.13 (17w47a)."),
+    /**
+     * 13w24b's change to the second-tier golden apple: Absorption I added and Regeneration raised from IV to V.
+     *
+     * <p>minecraft.wiki, Enchanted Golden Apple: <i>1.6.1 (13w24b): "Enchanted golden apples now give the player
+     * Absorption I as well, and Regeneration IV has been updated to Regeneration V."</i> The Absorption DURATION is not
+     * given by any source this project holds; the modern two minutes is used and recorded as an assumption in
+     * {@code HistoricalFoodHelper}.
+     */
+    ENCHANTED_GOLDEN_APPLE_ABSORPTION(Domain.PLAYER, FeatureWindow.between(Milestones.RELEASE_1_6_1, Milestones.RELEASE_1_9),
+        "13w24b added Absorption I to the second-tier golden apple and raised its Regeneration from IV to V."),
     /** The round-robin lighting engine of the pre-Beta-1.8 clients. */
     OLD_LIGHTING_ENGINE(Domain.RENDERING, FeatureWindow.before(Milestones.BETA_1_8),
         "Round-robin lighting belongs to every declared build older than the Adventure Update. Ported from Nostalgic Tweaks' OLD_LIGHTING; the leaves and water light options are gated on the same boundary."),

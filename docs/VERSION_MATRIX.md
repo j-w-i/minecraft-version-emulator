@@ -11,40 +11,40 @@ Oldest first. *Rules* are the version's own data (hunger, sprinting, experience,
 
 | Version | Family | Key | Recipe revisions | Rules (from its own evidence) | Features | Spawns |
 |---|---|---|---|---|---|---|
-| `historical_experience:indev_latest` | INDEV | 200223 | 5 | no hunger, no sprinting, no experience, no structures, 5 drop rules, 4 food heals | 56 of 78 | 6 allowed |
-| `historical_experience:infdev_420` | INFDEV | 300420 | 5 | no hunger, no sprinting, no experience, no structures, 5 drop rules, 6 food heals | 57 of 78 | 6 allowed |
-| `historical_experience:infdev_611` | INFDEV | 300611 | 5 | no hunger, no sprinting, no experience, no structures, 5 drop rules, 6 food heals | 57 of 78 | 6 allowed |
-| `historical_experience:alpha_1_0_1` | ALPHA | 401001 | 4 | no hunger, no sprinting, no experience, no structures, 6 food heals | 57 of 78 | 6 allowed |
-| `historical_experience:alpha_1_0_4` | ALPHA | 401004 | 4 | no hunger, no sprinting, no experience, no structures, 6 food heals | 57 of 78 | 6 allowed |
-| `historical_experience:alpha_1_0_6` | ALPHA | 401006 | 4 | no hunger, no sprinting, no experience, no structures, 6 food heals | 58 of 78 | 6 allowed |
-| `historical_experience:alpha_1_0_11` | ALPHA | 401011 | 4 | no hunger, no sprinting, no experience, no structures, 6 food heals | 57 of 78 | 8 allowed |
-| `historical_experience:alpha_1_0_14` | ALPHA | 401014 | 4 | no hunger, no sprinting, no experience, no structures, 6 food heals | 57 of 78 | 8 allowed |
-| `historical_experience:alpha_1_0_17` | ALPHA | 401017 | 4 | no hunger, no sprinting, no experience, no structures, 6 food heals | 57 of 78 | 9 allowed |
-| `historical_experience:alpha_1_1_0` | ALPHA | 401100 | 4 | no hunger, no sprinting, no experience, no structures, 6 food heals | 56 of 78 | 9 allowed |
-| `historical_experience:alpha` | ALPHA | 401102 | 4 | no hunger, no sprinting, no experience, no structures, 6 food heals | 56 of 78 | 9 allowed |
-| `historical_experience:alpha_1_2_0` | ALPHA | 401200 | 5 | no hunger, no sprinting, no experience, no structures, 6 food heals | 55 of 78 | 10 allowed |
-| `historical_experience:alpha_1_2_2a` | ALPHA | 401202 | 5 | no hunger, no sprinting, no experience, no structures, 6 food heals | 56 of 78 | 10 allowed |
-| `historical_experience:beta_1_0` | BETA | 501000 | 6 | no hunger, no sprinting, no experience, structures | 55 of 78 | 11 allowed |
-| `historical_experience:beta_1_2` | BETA | 501200 | 6 | no hunger, no sprinting, no experience, no structures | 53 of 78 | 11 allowed |
-| `historical_experience:beta_1_3` | BETA | 501300 | 5 | no hunger, no sprinting, no experience, no structures | 53 of 78 | 12 allowed |
-| `historical_experience:beta_1_4` | BETA | 501400 | 4 | no hunger, no sprinting, no experience, structures | 53 of 78 | 13 allowed |
-| `historical_experience:beta_1_5` | BETA | 501500 | 4 | no hunger, no sprinting, no experience, structures | 52 of 78 | 13 allowed |
-| `historical_experience:beta_1_6` | BETA | 501600 | 3 | no hunger, no sprinting, no experience, structures | 51 of 78 | 13 allowed |
-| `historical_experience:beta_1_7_3` | BETA | 501703 | 11 | no hunger, no sprinting, no experience, no structures, 4 drop rules, 9 food heals | 48 of 78 | 13 allowed |
-| `historical_experience:beta_1_8_1` | BETA | 501801 | 3 | hunger, sprinting, experience, structures, 4 drop rules | 44 of 78 | 16 allowed |
-| `historical_experience:beta_1_9_pre_1` | BETA | 501901 | 3 | hunger, sprinting, experience, structures | 45 of 78 | 20 allowed |
-| `historical_experience:beta_1_9_pre_2` | BETA | 501902 | 3 | hunger, sprinting, experience, structures | 43 of 78 | 20 allowed |
-| `historical_experience:beta_1_9_pre_3` | BETA | 501903 | 3 | hunger, sprinting, experience, structures | 38 of 78 | 20 allowed |
-| `historical_experience:beta_1_9_pre_4` | BETA | 501904 | 3 | hunger, sprinting, experience, structures | 33 of 78 | 20 allowed |
-| `historical_experience:beta_1_9_pre_5` | BETA | 501905 | 3 | hunger, sprinting, experience, structures | 33 of 78 | 20 allowed |
-| `historical_experience:beta_1_9_pre_6` | BETA | 501906 | 3 | hunger, sprinting, experience, structures | 33 of 78 | 20 allowed |
-| `historical_experience:release_1_0_0` | RELEASE | 601000 | 3 | hunger, sprinting, experience, structures | 32 of 78 | 20 allowed |
-| `historical_experience:release_1_1` | RELEASE | 601100 | 3 | hunger, sprinting, experience, structures | 31 of 78 | 20 allowed |
-| `historical_experience:release_1_2_5` | RELEASE | 601205 | 3 | hunger, sprinting, experience, structures | 29 of 78 | 22 allowed |
-| `historical_experience:release_1_3` | RELEASE | 601300 | 3 | hunger, sprinting, experience, structures | 28 of 78 | 22 allowed |
-| `historical_experience:release_1_4` | RELEASE | 601400 | 3 | hunger, sprinting, experience, structures | 25 of 78 | 26 allowed |
-| `historical_experience:release_1_5` | RELEASE | 601500 | 3 | hunger, sprinting, experience, structures | 23 of 78 | 26 allowed |
-| `historical_experience:release_1_6_4` | RELEASE | 601604 | 3 | hunger, sprinting, experience, structures | 15 of 78 | 28 allowed |
+| `historical_experience:indev_latest` | INDEV | 200223 | 5 | no hunger, no sprinting, no experience, no structures, 5 drop rules, 4 food heals | 56 of 80 | 6 allowed |
+| `historical_experience:infdev_420` | INFDEV | 300420 | 5 | no hunger, no sprinting, no experience, no structures, 5 drop rules, 6 food heals | 57 of 80 | 6 allowed |
+| `historical_experience:infdev_611` | INFDEV | 300611 | 5 | no hunger, no sprinting, no experience, no structures, 5 drop rules, 6 food heals | 57 of 80 | 6 allowed |
+| `historical_experience:alpha_1_0_1` | ALPHA | 401001 | 4 | no hunger, no sprinting, no experience, no structures, 6 food heals | 57 of 80 | 6 allowed |
+| `historical_experience:alpha_1_0_4` | ALPHA | 401004 | 4 | no hunger, no sprinting, no experience, no structures, 6 food heals | 57 of 80 | 6 allowed |
+| `historical_experience:alpha_1_0_6` | ALPHA | 401006 | 4 | no hunger, no sprinting, no experience, no structures, 6 food heals | 58 of 80 | 6 allowed |
+| `historical_experience:alpha_1_0_11` | ALPHA | 401011 | 4 | no hunger, no sprinting, no experience, no structures, 6 food heals | 57 of 80 | 8 allowed |
+| `historical_experience:alpha_1_0_14` | ALPHA | 401014 | 4 | no hunger, no sprinting, no experience, no structures, 6 food heals | 57 of 80 | 8 allowed |
+| `historical_experience:alpha_1_0_17` | ALPHA | 401017 | 4 | no hunger, no sprinting, no experience, no structures, 6 food heals | 57 of 80 | 9 allowed |
+| `historical_experience:alpha_1_1_0` | ALPHA | 401100 | 4 | no hunger, no sprinting, no experience, no structures, 6 food heals | 56 of 80 | 9 allowed |
+| `historical_experience:alpha` | ALPHA | 401102 | 4 | no hunger, no sprinting, no experience, no structures, 6 food heals | 56 of 80 | 9 allowed |
+| `historical_experience:alpha_1_2_0` | ALPHA | 401200 | 5 | no hunger, no sprinting, no experience, no structures, 6 food heals | 55 of 80 | 10 allowed |
+| `historical_experience:alpha_1_2_2a` | ALPHA | 401202 | 5 | no hunger, no sprinting, no experience, no structures, 6 food heals | 56 of 80 | 10 allowed |
+| `historical_experience:beta_1_0` | BETA | 501000 | 6 | no hunger, no sprinting, no experience, structures | 55 of 80 | 11 allowed |
+| `historical_experience:beta_1_2` | BETA | 501200 | 6 | no hunger, no sprinting, no experience, no structures | 53 of 80 | 11 allowed |
+| `historical_experience:beta_1_3` | BETA | 501300 | 5 | no hunger, no sprinting, no experience, no structures | 53 of 80 | 12 allowed |
+| `historical_experience:beta_1_4` | BETA | 501400 | 4 | no hunger, no sprinting, no experience, structures | 53 of 80 | 13 allowed |
+| `historical_experience:beta_1_5` | BETA | 501500 | 4 | no hunger, no sprinting, no experience, structures | 52 of 80 | 13 allowed |
+| `historical_experience:beta_1_6` | BETA | 501600 | 3 | no hunger, no sprinting, no experience, structures | 51 of 80 | 13 allowed |
+| `historical_experience:beta_1_7_3` | BETA | 501703 | 11 | no hunger, no sprinting, no experience, no structures, 4 drop rules, 9 food heals | 48 of 80 | 13 allowed |
+| `historical_experience:beta_1_8_1` | BETA | 501801 | 3 | hunger, sprinting, experience, structures, 4 drop rules | 44 of 80 | 16 allowed |
+| `historical_experience:beta_1_9_pre_1` | BETA | 501901 | 3 | hunger, sprinting, experience, structures | 45 of 80 | 20 allowed |
+| `historical_experience:beta_1_9_pre_2` | BETA | 501902 | 3 | hunger, sprinting, experience, structures | 43 of 80 | 20 allowed |
+| `historical_experience:beta_1_9_pre_3` | BETA | 501903 | 3 | hunger, sprinting, experience, structures | 38 of 80 | 20 allowed |
+| `historical_experience:beta_1_9_pre_4` | BETA | 501904 | 3 | hunger, sprinting, experience, structures | 33 of 80 | 20 allowed |
+| `historical_experience:beta_1_9_pre_5` | BETA | 501905 | 3 | hunger, sprinting, experience, structures | 33 of 80 | 20 allowed |
+| `historical_experience:beta_1_9_pre_6` | BETA | 501906 | 3 | hunger, sprinting, experience, structures | 33 of 80 | 20 allowed |
+| `historical_experience:release_1_0_0` | RELEASE | 601000 | 3 | hunger, sprinting, experience, structures | 32 of 80 | 20 allowed |
+| `historical_experience:release_1_1` | RELEASE | 601100 | 3 | hunger, sprinting, experience, structures | 31 of 80 | 20 allowed |
+| `historical_experience:release_1_2_5` | RELEASE | 601205 | 3 | hunger, sprinting, experience, structures | 29 of 80 | 22 allowed |
+| `historical_experience:release_1_3` | RELEASE | 601300 | 3 | hunger, sprinting, experience, structures | 29 of 80 | 22 allowed |
+| `historical_experience:release_1_4` | RELEASE | 601400 | 3 | hunger, sprinting, experience, structures | 26 of 80 | 26 allowed |
+| `historical_experience:release_1_5` | RELEASE | 601500 | 3 | hunger, sprinting, experience, structures | 24 of 80 | 26 allowed |
+| `historical_experience:release_1_6_4` | RELEASE | 601604 | 3 | hunger, sprinting, experience, structures | 17 of 80 | 28 allowed |
 
 ## 2. Which features apply where
 
@@ -106,6 +106,8 @@ Oldest first. *Rules* are the version's own data (hunger, sprinting, experience,
 | `UNSTACKABLE_FOOD` | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | | | | | | | | | | | | | | |
 | `NO_OFFHAND` | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # |
 | `F4_PORTAL_KEY` | | | | | | | | | | | | | # | | | | | | | | | | | | | | | | | | | | | |
+| `LEGACY_ENCHANTED_GOLDEN_APPLE` | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | # | # | # | # |
+| `ENCHANTED_GOLDEN_APPLE_ABSORPTION` | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | # |
 | `OLD_LIGHTING_ENGINE` | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | | | | | | | | | | | | | | |
 | `OLD_SMOOTH_LIGHTING` | | | | | | | | | | | | | | | | # | # | # | # | # | | | | | | | | | | | | | | |
 | `NO_SMOOTH_LIGHTING` | # | # | # | # | # | # | # | # | # | # | # | # | # | # | # | | | | | | | | | | | | | | | | | | | |
@@ -191,6 +193,8 @@ Active when any window contains the version. `[from, until)` is half-open; `exac
 | `UNSTACKABLE_FOOD` | ITEMS | [-inf, Beta 1.8) | Food did not stack until Beta 1.8, the same boundary as the hunger meter and the rest of the Adventure Update. |
 | `NO_OFFHAND` | PLAYER | [-inf, Release 1.9) | The offhand slot arrived in Release 1.9; the newest declared version is Release 1.6.4, so no declared version has an offhand. |
 | `F4_PORTAL_KEY` | PLAYER | exact `historical_experience:alpha_1_2_2a` | Pressing F4 rebuilds a lit Nether portal in Alpha v1.2.2a ONLY. Both clients were hash-checked and decompiled: Alpha 1.2.0 has no F4 case, Alpha 1.2.2a calls the portal builder. An exact build, not a floor. |
+| `LEGACY_ENCHANTED_GOLDEN_APPLE` | PLAYER | [Release 1.3, Release 1.9) | The enchanted golden apple exists and is crafted from eight gold blocks and an apple. minecraft.wiki, Enchanted Golden Apple: added in 1.3.1 (12w21a), made uncraftable in 1.9 (15w44a), renamed and its id split in 1.13 (17w47a). |
+| `ENCHANTED_GOLDEN_APPLE_ABSORPTION` | PLAYER | [Release 1.6.1, Release 1.9) | 13w24b added Absorption I to the second-tier golden apple and raised its Regeneration from IV to V. |
 | `OLD_LIGHTING_ENGINE` | RENDERING | [-inf, Beta 1.8) | Round-robin lighting belongs to every declared build older than the Adventure Update. Ported from Nostalgic Tweaks' OLD_LIGHTING; the leaves and water light options are gated on the same boundary. |
 | `OLD_SMOOTH_LIGHTING` | RENDERING | [Beta 1.3, Beta 1.8) | Smooth lighting was introduced in Beta 1.3 and replaced by the new lighting in Beta 1.8. The version decides whether the engine is offered; the user toggle decides whether it is used. |
 | `NO_SMOOTH_LIGHTING` | RENDERING | [-inf, Beta 1.3) | Smooth lighting did not exist before Beta 1.3. While the historical lighting engine is on, the ambient-occlusion setting is answered false whatever the player chose. |

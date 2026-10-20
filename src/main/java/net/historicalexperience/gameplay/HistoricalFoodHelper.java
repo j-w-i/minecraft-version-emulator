@@ -118,6 +118,64 @@ public final class HistoricalFoodHelper {
         return GOLDEN_APPLE_BETA_REGENERATION_AMPLIFIER;
     }
 
+    // ---- The second-tier golden apple (the modern "enchanted golden apple"), 1.3.1 to 1.8 ---------------
+    //
+    // minecraft.wiki, Enchanted Golden Apple, Java Edition history:
+    //   1.3.1 (12w21a) "It grants Resistance (5 minutes) and Fire Resistance (5 minutes) in addition to
+    //                  Regeneration IV (30 seconds). However, it only restores 4 hunger points."
+    //   1.6.1 (13w24b) "now give the player Absorption I as well, and Regeneration IV has been updated to
+    //                  Regeneration V."
+    //   1.9   (15w37a) "now give Regeneration II (down from V) and Absorption IV (up from I) ... Regeneration
+    //                  duration decreased to 20 seconds." - so 1.9 is where the modern values start, and it is
+    //                  also where the item stopped being craftable (15w44a). Both are past every declared version.
+
+    /** 30 seconds, the Regeneration duration 1.3.1 states. */
+    private static final int EGAPPLE_LEGACY_REGENERATION_TICKS = 600;
+
+    /** Regeneration IV, as an amplifier (level - 1). */
+    private static final int EGAPPLE_LEGACY_REGENERATION_AMPLIFIER = 3;
+
+    /** Regeneration V, from 13w24b. */
+    private static final int EGAPPLE_ABSORPTION_REGENERATION_AMPLIFIER = 4;
+
+    /** Resistance and Fire Resistance were both five minutes from 1.3.1. */
+    private static final int EGAPPLE_LEGACY_RESISTANCE_TICKS = 6000;
+
+    /**
+     * Absorption I lasts two minutes, from the modern effect table.
+     *
+     * <p><b>Assumption, recorded rather than hidden:</b> 13w24b adds Absorption I to this apple but no source this
+     * project holds states its duration for that build, and the effect's own history page does not either. Two
+     * minutes is what the modern game uses for both apple tiers; the alternative - leaving Absorption out - would
+     * make a 1.6.4 apple measurably weaker than it was. See PROGRESS.md open items.
+     */
+    private static final int EGAPPLE_ABSORPTION_TICKS = 2400;
+
+    /** 30 seconds of Regeneration at the amplifier 1.3.1 gives (IV), or V from 13w24b. */
+    public static int enchantedGoldenAppleRegenerationTicks() {
+        return EGAPPLE_LEGACY_REGENERATION_TICKS;
+    }
+
+    /** Regeneration IV before 13w24b, V after it. */
+    public static int enchantedGoldenAppleRegenerationAmplifier(boolean absorptionChange) {
+        return absorptionChange ? EGAPPLE_ABSORPTION_REGENERATION_AMPLIFIER : EGAPPLE_LEGACY_REGENERATION_AMPLIFIER;
+    }
+
+    /** Resistance for five minutes, amplifier 0. */
+    public static int enchantedGoldenAppleResistanceTicks() {
+        return EGAPPLE_LEGACY_RESISTANCE_TICKS;
+    }
+
+    /** Fire Resistance for five minutes, amplifier 0. */
+    public static int enchantedGoldenAppleFireResistanceTicks() {
+        return EGAPPLE_LEGACY_RESISTANCE_TICKS;
+    }
+
+    /** Absorption I for two minutes; the duration is an assumption - see the constant. */
+    public static int enchantedGoldenAppleAbsorptionTicks() {
+        return EGAPPLE_ABSORPTION_TICKS;
+    }
+
     /** The pre-change hunger value for an item id, or null when there is none. */
     public static Integer betaHunger(String itemId) {
         return BETA_HUNGER.get(itemId);

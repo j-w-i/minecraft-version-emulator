@@ -218,6 +218,12 @@ class HistoricalCraftingEraTest {
                 dead.add(id);
             }
         }
+        // Recipes modern Minecraft REMOVED are supplied by RemovedRecipes, so they have no entry in the vanilla file.
+        // The check is still useful for every other id: it is what catches a typo in the allow-list.
+        java.util.Set<String> removedResults = RemovedRecipes.all().stream()
+            .map(RemovedRecipes.Removed::result)
+            .collect(java.util.stream.Collectors.toUnmodifiableSet());
+        dead.removeIf(removedResults::contains);
         // Items that exist only as results of smelting/stonecutting/other recipe types are not in the crafting file.
         dead.removeIf(id -> List.of("minecraft:glowstone", "minecraft:clay", "minecraft:sandstone",
             "minecraft:white_wool", "minecraft:snow_block", "minecraft:coal", "minecraft:iron_ingot",

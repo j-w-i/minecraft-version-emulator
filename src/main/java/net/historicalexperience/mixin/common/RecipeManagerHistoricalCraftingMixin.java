@@ -79,7 +79,18 @@ public abstract class RecipeManagerHistoricalCraftingMixin {
         String version = level instanceof net.minecraft.server.level.ServerLevel server
             ? net.historicalexperience.gameplay.HistoricalProfileLookup.profileIdForLevel(server)
             : ActiveVersion.current();
-        if (!net.historicalexperience.gameplay.EarlyGameplayRecipes.supports(version)) return;
+        if (!net.historicalexperience.gameplay.EarlyGameplayRecipes.supports(version)) {
+            // A recipe modern Minecraft REMOVED (the pre-1.9 enchanted golden apple) is supplied here, because the
+            // vanilla registry has nothing for the allow-list to permit.
+            if (type == RecipeType.CRAFTING
+                    && input instanceof net.minecraft.world.item.crafting.CraftingInput removedInput) {
+                var removed = net.historicalexperience.gameplay.RemovedRecipes.find(version, removedInput, level);
+                if (removed.isPresent()) {
+                    cir.setReturnValue((Optional) removed);
+                }
+            }
+            return;
+        }
         if (type == RecipeType.CRAFTING && input instanceof net.minecraft.world.item.crafting.CraftingInput crafting) {
             cir.setReturnValue((Optional) net.historicalexperience.gameplay.EarlyRecipeLookup.find(version, crafting, level));
         } else if (type != RecipeType.SMELTING) {

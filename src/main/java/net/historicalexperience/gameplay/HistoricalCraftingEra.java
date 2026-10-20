@@ -157,7 +157,10 @@ public final class HistoricalCraftingEra {
 
         // ---- Release 1.3+ ---------------------------------------------------------------------------------
         // BOUNDED ONLY (absent from the 1.2.5 palette, present in 1.6.4): the earliest declared version after 1.2.5.
-        from("release_1_3", "sandstone_stairs", "spruce_stairs", "birch_stairs", "jungle_stairs", "spruce_slab",
+        // The second golden-apple tier - the item 1.13 renamed the enchanted golden apple - arrives in Release 1.3.1
+        // (12w21a) and stops being craftable in 1.9 (15w44a). Its recipe no longer exists in modern Minecraft, so
+        // RemovedRecipes supplies the recipe; this entry is what stops the gate refusing the result.
+        from("release_1_3", "enchanted_golden_apple", "sandstone_stairs", "spruce_stairs", "birch_stairs", "jungle_stairs", "spruce_slab",
             "birch_slab", "jungle_slab", "emerald", "emerald_block", "ender_chest", "writable_book",
             "cobblestone_wall", "mossy_cobblestone_wall", "flower_pot", "tripwire_hook", "redstone_block",
             "light_weighted_pressure_plate", "heavy_weighted_pressure_plate", "trapped_chest", "hopper", "dropper",

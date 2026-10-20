@@ -4103,7 +4103,7 @@ gameplay.HistoricalItemAvailability.introducedIn(minecraft:echo_shard)|-=version
 gameplay.HistoricalItemAvailability.introducedIn(minecraft:elytra)|-=version=none chronology=2147483647 evidenceLen=385
 gameplay.HistoricalItemAvailability.introducedIn(minecraft:emerald)|-=version=release_1_3 chronology=601300 evidenceLen=67
 gameplay.HistoricalItemAvailability.introducedIn(minecraft:emerald_block)|-=version=release_1_3 chronology=601300 evidenceLen=67
-gameplay.HistoricalItemAvailability.introducedIn(minecraft:enchanted_golden_apple)|-=version=none chronology=2147483647 evidenceLen=120
+gameplay.HistoricalItemAvailability.introducedIn(minecraft:enchanted_golden_apple)|-=version=none chronology=2147483647 evidenceLen=274
 gameplay.HistoricalItemAvailability.introducedIn(minecraft:ender_pearl)|-=version=release_1_0_0 chronology=601000 evidenceLen=118
 gameplay.HistoricalItemAvailability.introducedIn(minecraft:fire_charge)|-=version=none chronology=2147483647 evidenceLen=385
 gameplay.HistoricalItemAvailability.introducedIn(minecraft:glistering_melon_slice)|-=version=none chronology=2147483647 evidenceLen=126
@@ -5961,6 +5961,7 @@ gameplay.HistoricalCraftingEra.firstVersion(minecraft:dispenser)|-=historical_ex
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:dropper)|-=historical_experience:release_1_3
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:emerald)|-=historical_experience:release_1_3
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:emerald_block)|-=historical_experience:release_1_3
+gameplay.HistoricalCraftingEra.firstVersion(minecraft:enchanted_golden_apple)|-=historical_experience:release_1_3
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:enchanting_table)|-=historical_experience:beta_1_9_pre_3
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:ender_chest)|-=historical_experience:release_1_3
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:ender_eye)|-=historical_experience:beta_1_9_pre_3
@@ -6229,6 +6230,7 @@ gameplay.HistoricalCraftingEra.existedBy164(minecraft:dispenser)|*=T
 gameplay.HistoricalCraftingEra.existedBy164(minecraft:dropper)|*=T
 gameplay.HistoricalCraftingEra.existedBy164(minecraft:emerald)|*=T
 gameplay.HistoricalCraftingEra.existedBy164(minecraft:emerald_block)|*=T
+gameplay.HistoricalCraftingEra.existedBy164(minecraft:enchanted_golden_apple)|*=T
 gameplay.HistoricalCraftingEra.existedBy164(minecraft:enchanting_table)|*=T
 gameplay.HistoricalCraftingEra.existedBy164(minecraft:ender_chest)|*=T
 gameplay.HistoricalCraftingEra.existedBy164(minecraft:ender_eye)|*=T
@@ -6499,6 +6501,7 @@ gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:dispenser)|*=FFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:dropper)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:emerald)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:emerald_block)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
+gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:enchanted_golden_apple)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:enchanting_table)|*=TTTTFFFFFFFFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:ender_chest)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:ender_eye)|*=TTTTFFFFFFFFTTTTTTTTTTTTFFFTTTTTTTFFF
@@ -6769,6 +6772,7 @@ gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:dispenser)|*=FFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:dropper)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTTTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:emerald)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:emerald_block)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
+gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:enchanted_golden_apple)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:enchanting_table)|*=TTTTFFFFFFFFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:ender_chest)|*=TTTTTTTTTTTFTTTTTTTTTTTTTTTTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:ender_eye)|*=TTTTFFFFFFFFTTTTTTTTTTTTFFFTTTTTTTFFF
@@ -7039,6 +7043,7 @@ gameplay.HistoricalCraftingEra.substitutedResult(minecraft:dispenser)|*=--------
 gameplay.HistoricalCraftingEra.substitutedResult(minecraft:dropper)|*=-------------------------------------
 gameplay.HistoricalCraftingEra.substitutedResult(minecraft:emerald)|*=-------------------------------------
 gameplay.HistoricalCraftingEra.substitutedResult(minecraft:emerald_block)|*=-------------------------------------
+gameplay.HistoricalCraftingEra.substitutedResult(minecraft:enchanted_golden_apple)|*=-------------------------------------
 gameplay.HistoricalCraftingEra.substitutedResult(minecraft:enchanting_table)|*=-------------------------------------
 gameplay.HistoricalCraftingEra.substitutedResult(minecraft:ender_chest)|*=-------------------------------------
 gameplay.HistoricalCraftingEra.substitutedResult(minecraft:ender_eye)|*=-------------------------------------
@@ -7309,6 +7314,7 @@ gameplay.HistoricalCraftingEra.showsPlainBedName(minecraft:dispenser)|*=FFFFFFFF
 gameplay.HistoricalCraftingEra.showsPlainBedName(minecraft:dropper)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.showsPlainBedName(minecraft:emerald)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.showsPlainBedName(minecraft:emerald_block)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+gameplay.HistoricalCraftingEra.showsPlainBedName(minecraft:enchanted_golden_apple)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.showsPlainBedName(minecraft:enchanting_table)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.showsPlainBedName(minecraft:ender_chest)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.showsPlainBedName(minecraft:ender_eye)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
