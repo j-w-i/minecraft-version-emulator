@@ -33,7 +33,7 @@ second-tier apple its 1.3.1 effect set - Regeneration IV 0:30, Resistance 5:00, 
 between Release 1.5 and 1.6.4) and two new `FeatureBoundaryTest` windows. The golden snapshot changed by **one line**
 (the corrected loot-note evidence text) and **seven additions** (the new allow-list entry); everything else in the diff
 is reordering. Dedicated server boots to `Done (2.718s)` with 0 mixin failures
-([log](<logs/egapple-fix-server-boot.md>)). `docs/VERSION_MATRIX.md` regenerated.
+([log](<logs/egapple-fix-server-boot.log>)). `docs/VERSION_MATRIX.md` regenerated.
 
 **Open item this creates: Absorption's duration is an assumption.** No source this project holds states how long the
 Absorption I from 13w24b lasts; the modern two minutes is used and marked as such in `HistoricalFoodHelper`. If a 1.6.1
