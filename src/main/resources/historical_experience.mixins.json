@@ -87,7 +87,8 @@
     "common.MenuHistoricalFoodStackMixin",
     "common.InventoryHistoricalFoodStackMixin",
     "common.PortalShapeHistoricalNetherMixin",
-    "common.NetherPortalBlockHistoricalNetherMixin"
+    "common.NetherPortalBlockHistoricalNetherMixin",
+    "common.LivingEntityHistoricalDamageBugMixin"
   ],
   "injectors": {
     "defaultRequire": 1

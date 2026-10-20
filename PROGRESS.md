@@ -1,3 +1,35 @@
+# Current work — 2026-10-21 / Gap 12: the Beta 1.5 damage bug, and a runtime-verified correction
+
+**The damage bug is implemented.** research/feature-timeline.json, Java Edition history: Beta 1.5 "All attacks from
+players now deal 1 more damage than intended unless the player is currently moving upwards in singleplayer"; Beta 1.8
+Pre-release "Player attacks no longer deal 1 more damage than intended". The same builds raised unarmed damage 1 -> 2 and
+lowered it back, so one extra point reproduces both statements without a second rule.
+
+- Feature `BETA_DAMAGE_BUG` `[Beta 1.5, Beta 1.8.1)`.
+- The decision is pure and unit-tested: `HistoricalDamageValues.betaDamageBugBonus(versionId, movingUpwards)`.
+- One shared mixin applies it at `LivingEntity.hurt(DamageSource, float)`, only when the source's DIRECT entity is a
+  player (so arrows are untouched, which is what "attacks" means) and the player is not moving upwards.
+
+**A round-9 defect the runtime caught, which the tests could not.** Booting a dedicated server after adding the mixin
+showed the earlier dragon work was broken: `EndDragonFight.findOrCreateDragon` is **void**, so the
+`CallbackInfoReturnable<EnderDragon>` injection I wrote was an invalid descriptor and crashed the server during mixin
+application:
+
+`InvalidInjectionException Invalid descriptor ... Expected (CallbackInfo)V but found (CallbackInfoReturnable)V`
+
+Every unit test passed, because none of them loads `EndDragonFight`. The injection is now a plain `CallbackInfo` with
+`cancel()`, which is what suppressing a void creation method means, and the server boots to `Done (2.749s)` with no
+mixin errors. This is recorded as a correction rather than edited out of history: the earlier entry's claim was based on
+tests alone, and the boot is the evidence that matters for a mixin.
+
+**Evidence:** `./gradlew test` - **798 tests, 0 failures**; dedicated server boots with 0 mixin failures; golden, matrix
+and facts regenerated.
+
+**Still open:** cake healing, potion strengths, XP curve/sources, achievements, block-break delay, boats, maps, signs,
+the F3 overlay, the stone-slab substitution, slab/ladder/plate counts, `redstone_lamp` in 1.2.5, and the Pre3 frame item
+form.
+
+---
 # Current work — 2026-10-21 / Gap 11: cookies stack to 8 (Beta 1.4-1.7.3)
 
 Before Beta 1.8 no food stacks - but the cookie is the documented exception: a Beta 1.7.3 cookie is the same item in a

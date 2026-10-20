@@ -51,11 +51,12 @@ public abstract class EndDragonFightHistoricalMixin {
      * dragon yet; returning null leaves the dimension generated and empty, which is what Pre4 and Pre5 were.
      */
     @Inject(method = "findOrCreateDragon", at = @At("HEAD"), cancellable = true)
-    private void historicalExperience$noDragonBeforePre6(
-            org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable<
-                net.minecraft.world.entity.boss.enderdragon.EnderDragon> callback) {
+    private void historicalExperience$noDragonBeforePre6(CallbackInfo callback) {
+        // findOrCreateDragon is VOID - it creates and registers the dragon as a side effect - so the injection is
+        // cancelled rather than made to return null. The first version of this used CallbackInfoReturnable and
+        // crashed a dedicated server at class application; the unit tests could not see that, the boot did.
         if (HistoricalDragonFight.noDragon(this.level)) {
-            callback.setReturnValue(null);
+            callback.cancel();
         }
     }
 

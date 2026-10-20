@@ -119,6 +119,20 @@ public enum Feature {
         + "1.4 and stacking to 8; Beta 1.8 made all food stack to 64. The Beta 1.7.3 client implements the cookie as "
         + "a dedicated item subclass whose only purpose is that stack size."),
 
+    /**
+     * Beta 1.5's damage bug: every player attack deals one more damage than intended, unless the player is moving
+     * upwards.
+     *
+     * <p>minecraft.wiki / research/feature-timeline.json, Java Edition history: Beta 1.5 "All attacks from players now
+     * deal {{hp|1}} more damage than intended unless the player is currently moving upwards in singleplayer"; Beta 1.8
+     * Pre-release "Player attacks no longer deal 1 more damage than intended". The same pair of builds raised unarmed
+     * damage from 1 to 2 and lowered it back, which the +1 reproduces for bare hands exactly.
+     */
+    BETA_DAMAGE_BUG(Domain.COMBAT, FeatureWindow.between(Milestones.BETA_1_5, Milestones.BETA_1_8_1),
+        "Every player attack in Beta 1.5 through Beta 1.7.3 deals one extra damage unless the player is moving "
+        + "upwards (a floating-point bug, not a design choice), fixed in the Beta 1.8 Pre-release. The same builds "
+        + "raised unarmed damage from 1 to 2, which the extra point reproduces without a second rule."),
+
     /** No attack cooldown. */
     NO_ATTACK_COOLDOWN(Domain.COMBAT, FeatureWindow.allDeclared(),
         "The 1.9 attack cooldown: attacks are always at full strength. Every declared version predates Release 1.9, so the window is every declared version. Upstream tweak: DISABLE_ATTACK_COOLDOWN."),

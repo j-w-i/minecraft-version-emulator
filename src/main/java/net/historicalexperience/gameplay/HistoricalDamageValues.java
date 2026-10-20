@@ -177,6 +177,20 @@ public final class HistoricalDamageValues {
      * eras, derived from the shape of the iron and diamond figures, because the wiki gives exact pre-Pre3 values
      * only for those two. It is recorded as an inference rather than presented as sourced.
      */
+    /**
+     * The extra damage a player attack deals in versions with the Beta 1.5 bug, or zero.
+     *
+     * <p>Pure on purpose: the mixin that applies it needs a live level and an entity, so the decision lives here where
+     * it can be asserted directly. The condition is the wiki's own - the bug applied unless the player was moving
+     * upwards.
+     */
+    public static float betaDamageBugBonus(String versionId, boolean movingUpwards) {
+        if (movingUpwards) {
+            return 0.0F;
+        }
+        return Features.active(Feature.BETA_DAMAGE_BUG, versionId) ? 1.0F : 0.0F;
+    }
+
     private static float eraAttackDamage(TieredItem tieredItem) {
         float tierBonus = tieredItem.getTier().getAttackDamageBonus();
         boolean beforeSwordNerf = Features.active(Feature.OLD_SWORD_DAMAGE);
