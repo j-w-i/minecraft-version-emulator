@@ -14,8 +14,11 @@
  */
 package net.historicalexperience.mixin;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.historicalexperience.version.ActiveVersion;
-import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.historicalexperience.gameplay.HistoricalPlayerRules;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -52,7 +55,7 @@ public abstract class LivingEntityHistoricalMovementMixin {
     private boolean historicalExperience$modifySprintingFlag(boolean sprinting) {
         String session = ActiveVersion.current();
         boolean canSprint = HistoricalPlayerRules.allowsSprinting(session);
-        boolean canSwim = !HistoricalGameplayTweaks.appliesTo("swim", session);
+        boolean canSwim = !Features.active(Feature.NO_SWIMMING, session);
 
         if (canSprint && canSwim) {
             return sprinting;

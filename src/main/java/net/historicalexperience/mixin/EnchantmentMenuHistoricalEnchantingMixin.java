@@ -17,9 +17,12 @@
  */
 package net.historicalexperience.mixin;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalEnchanting;
-import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
@@ -88,7 +91,7 @@ public abstract class EnchantmentMenuHistoricalEnchantingMixin implements Enchan
         cancellable = true)
     private void historicalExperience$clickForThisVersion(Player player, int id,
             CallbackInfoReturnable<Boolean> callback) {
-        if (HistoricalGameplayTweaks.enchantingDisabled(ActiveVersion.current())) {
+        if (Features.active(Feature.NO_ENCHANTING)) {
             // Before Prerelease 3 there is no usable table. false is what vanilla returns when a click does nothing,
             // so the client shows no enchantment and no level is taken.
             callback.setReturnValue(false);

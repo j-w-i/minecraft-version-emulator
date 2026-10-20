@@ -16,11 +16,14 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */package net.historicalexperience.mixin;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import java.util.List;
 import net.historicalexperience.version.ActiveVersion;
 import net.historicalexperience.gameplay.HistoricalEnchanting;
-import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.inventory.EnchantmentMenu;
 import net.minecraft.world.item.ItemStack;
@@ -56,7 +59,7 @@ public abstract class EnchantmentMenuHistoricalPoolMixin {
             // The modern table keeps the modern pool; only a pre-Release-1.8 world is narrowed.
             return rolled;
         }
-        if (HistoricalGameplayTweaks.placeholderEnchantmentTooltip(versionId)) {
+        if (Features.active(Feature.ENCHANTING_PLACEHOLDER, versionId)) {
             // Beta 1.9 Prerelease 3 applied NO enchantment of its own, because none existed yet, but it DID apply a
             // placeholder - the item gained the glint and a blue name, and the tooltip said "Enchanted!!".
             //

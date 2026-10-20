@@ -14,6 +14,10 @@
  */
 package net.historicalexperience.mixin;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.world.level.block.CropBlock;
@@ -42,6 +46,6 @@ public abstract class CropBlockHistoricalBonemealMixin {
 
     @ModifyReturnValue(method = "getBonemealAgeIncrease", at = @At("RETURN"))
     private int historicalExperience$instantBonemeal(int ageIncrease) {
-        return HistoricalGameplayTweaks.instantBonemeal() ? this.getMaxAge() : ageIncrease;
+        return Features.active(Feature.INSTANT_BONE_MEAL) ? this.getMaxAge() : ageIncrease;
     }
 }

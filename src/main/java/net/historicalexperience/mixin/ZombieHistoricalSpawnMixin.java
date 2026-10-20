@@ -14,9 +14,11 @@
  */
 package net.historicalexperience.mixin;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import net.historicalexperience.version.ActiveVersion;
-import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.world.entity.monster.Zombie;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -49,7 +51,7 @@ public abstract class ZombieHistoricalSpawnMixin {
             value = "INVOKE",
             target = "Lnet/minecraft/util/RandomSource;nextFloat()F"))
     private static float historicalExperience$modifyBabyZombieOdds(float nextFloat) {
-        if (HistoricalGameplayTweaks.appliesTo("babyZombie", ActiveVersion.current())) {
+        if (Features.active(Feature.NO_BABY_ZOMBIES)) {
             return 1.0F;
         }
         return nextFloat;

@@ -14,7 +14,10 @@
  */
 package net.historicalexperience.mixin;
 
-import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.minecraft.world.level.block.CocoaBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
@@ -37,7 +40,7 @@ public abstract class CocoaBlockHistoricalBonemealMixin {
                 + "Lnet/minecraft/world/level/block/state/BlockState;I)Z"),
         index = 1)
     private BlockState historicalExperience$instantCocoaGrowth(BlockState state) {
-        return HistoricalGameplayTweaks.instantBonemeal()
+        return Features.active(Feature.INSTANT_BONE_MEAL)
             ? state.setValue(CocoaBlock.AGE, CocoaBlock.MAX_AGE)
             : state;
     }

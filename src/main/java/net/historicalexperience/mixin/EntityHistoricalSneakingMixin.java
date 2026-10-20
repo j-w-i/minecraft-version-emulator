@@ -17,8 +17,10 @@
  */
 package net.historicalexperience.mixin;
 
-import net.historicalexperience.version.ActiveVersion;
-import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -45,7 +47,7 @@ public abstract class EntityHistoricalSneakingMixin {
     /** Vanilla: {@code setShiftKeyDown(boolean)}. */
     @Inject(method = "setShiftKeyDown(Z)V", at = @At("HEAD"), cancellable = true)
     private void historicalExperience$refuseSneaking(boolean sneaking, CallbackInfo callback) {
-        if (!HistoricalGameplayTweaks.sneakingAvailable(ActiveVersion.current())) {
+        if (Features.active(Feature.NO_SNEAKING)) {
             // Not even a release of the key, so the flag can never be left set by a version that had no crouch.
             callback.cancel();
         }

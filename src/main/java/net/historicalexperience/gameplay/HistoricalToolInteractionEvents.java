@@ -14,6 +14,10 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.historicalexperience.mixin.AxeAccess;
@@ -89,7 +93,7 @@ public final class HistoricalToolInteractionEvents {
     /** Registers the right-click-block handler. Called once from the mod initialiser. */
     public static void register() {
         UseBlockCallback.EVENT.register((player, level, hand, hitResult) -> {
-            if (!HistoricalGameplayTweaks.noToolShaping()) {
+            if (!Features.active(Feature.NO_TOOL_SHAPING)) {
                 return InteractionResult.PASS;
             }
 
@@ -145,7 +149,7 @@ public final class HistoricalToolInteractionEvents {
             ItemStack stack = player.getItemInHand(hand);
             if (hand != InteractionHand.MAIN_HAND
                     || !(stack.getItem() instanceof BowItem bow)
-                    || !HistoricalGameplayTweaks.instantBow()) {
+                    || !Features.active(Feature.INSTANT_BOW)) {
                 return InteractionResultHolder.pass(stack);
             }
             if (level.isClientSide()) {

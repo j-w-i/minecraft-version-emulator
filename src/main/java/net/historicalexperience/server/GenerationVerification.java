@@ -17,6 +17,10 @@
  */
 package net.historicalexperience.server;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import com.google.gson.GsonBuilder;
 import java.nio.file.Files;
 import java.util.LinkedHashMap;
@@ -565,9 +569,9 @@ public final class GenerationVerification {
         Map<String, Object> out = new LinkedHashMap<>();
 
         out.put("endPortalFrameExplodesGate",
-            net.historicalexperience.gameplay.HistoricalGameplayTweaks.endPortalFrameExplodes());
+            Features.active(Feature.END_PORTAL_FRAME_EXPLODES));
         out.put("silkTouchSpawnerDropGate",
-            net.historicalexperience.gameplay.HistoricalGameplayTweaks.silkySpawnerDrops());
+            Features.active(Feature.SILKY_SPAWNERS));
 
         out.put("endPortalFrame", dropReport(level,
             net.minecraft.world.level.block.Blocks.END_PORTAL_FRAME.defaultBlockState(), new BlockPos(24, 90, 24)));
@@ -591,7 +595,7 @@ public final class GenerationVerification {
         // one-build light override can be observed without the owner placing a frame and looking at it: the value
         // comes off the block STATE, so `getLightEmission` is the whole mechanism and there is nothing else to test.
         out.put("endPortalFrameLightGate",
-            net.historicalexperience.gameplay.HistoricalGameplayTweaks.endPortalFrameLightFifteen());
+            Features.active(Feature.END_PORTAL_FRAME_LIGHT_15));
         out.put("endPortalFrameLightLevel",
             net.minecraft.world.level.block.Blocks.END_PORTAL_FRAME.defaultBlockState().getLightEmission());
         // A control that must NOT move: if an unrelated block's light changed, the mixin is not scoped to the frame.
@@ -601,7 +605,7 @@ public final class GenerationVerification {
         // Alpha 1.0.6's free snowballs. Four everywhere else, six in that one build; the same call also proves the
         // recipe's modern cost, which is what makes the surplus a surplus rather than just a bigger number.
         out.put("snowballSurplusGate",
-            net.historicalexperience.gameplay.HistoricalGameplayTweaks.snowballSurplus());
+            Features.active(Feature.SNOWBALL_SURPLUS));
         out.put("snowBlock", dropReport(level,
             net.minecraft.world.level.block.Blocks.SNOW_BLOCK.defaultBlockState(), new BlockPos(32, 90, 32)));
 

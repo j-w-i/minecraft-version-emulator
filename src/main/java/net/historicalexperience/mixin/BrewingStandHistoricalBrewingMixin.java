@@ -17,8 +17,10 @@
  */
 package net.historicalexperience.mixin;
 
-import net.historicalexperience.version.ActiveVersion;
-import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
@@ -53,7 +55,7 @@ public abstract class BrewingStandHistoricalBrewingMixin {
     @Inject(method = "doBrew", at = @At("HEAD"), cancellable = true)
     private static void historicalExperience$refuseBrewing(Level level, BlockPos pos, NonNullList<ItemStack> items,
             CallbackInfo callback) {
-        if (!HistoricalGameplayTweaks.functionalBrewing(ActiveVersion.current())) {
+        if (Features.active(Feature.NO_BREWING)) {
             callback.cancel();
         }
     }

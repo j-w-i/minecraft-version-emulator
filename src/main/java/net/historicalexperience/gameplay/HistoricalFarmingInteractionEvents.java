@@ -14,6 +14,10 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.core.BlockPos;
@@ -62,7 +66,7 @@ public final class HistoricalFarmingInteractionEvents {
 
     public static void register() {
         UseBlockCallback.EVENT.register((player, level, hand, hitResult) -> {
-            if (level.isClientSide() || !HistoricalGameplayTweaks.grassSeeds()) {
+            if (level.isClientSide() || !Features.active(Feature.GRASS_SEEDS)) {
                 return InteractionResult.PASS;
             }
             BlockPos pos = hitResult.getBlockPos();
@@ -77,7 +81,7 @@ public final class HistoricalFarmingInteractionEvents {
         });
 
         AttackBlockCallback.EVENT.register((player, level, hand, pos, direction) -> {
-            if (!HistoricalGameplayTweaks.punchTnt()
+            if (!Features.active(Feature.PUNCH_TNT)
                     || player.isCrouching()
                     || !(level.getBlockState(pos).getBlock() instanceof TntBlock)) {
                 return InteractionResult.PASS;

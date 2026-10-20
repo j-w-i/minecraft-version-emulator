@@ -14,6 +14,10 @@
  */
 package net.historicalexperience.mixin;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -51,7 +55,7 @@ public abstract class FishingHookHistoricalMixin {
             target = "Lnet/minecraft/world/level/storage/loot/LootTable;getRandomItems("
                 + "Lnet/minecraft/world/level/storage/loot/LootParams;)Lit/unimi/dsi/fastutil/objects/ObjectArrayList;"))
     private ObjectArrayList<ItemStack> historicalExperience$rawFishOnly(ObjectArrayList<ItemStack> caught) {
-        if (!HistoricalGameplayTweaks.oldFishingLoot()) {
+        if (!Features.active(Feature.OLD_FISHING_LOOT)) {
             return caught;
         }
         // A fresh list rather than clear-and-add: the rolled list belongs to the loot table's caller.
@@ -66,6 +70,6 @@ public abstract class FishingHookHistoricalMixin {
             value = "INVOKE",
             target = "Lnet/minecraft/world/level/Level;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z"))
     private boolean historicalExperience$noFishingExperience(Level level, Entity entity) {
-        return !(entity instanceof ExperienceOrb && HistoricalGameplayTweaks.noFishingExperience());
+        return !(entity instanceof ExperienceOrb && Features.active(Feature.NO_FISHING_EXPERIENCE));
     }
 }

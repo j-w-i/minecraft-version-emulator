@@ -14,9 +14,11 @@
  */
 package net.historicalexperience.mixin;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.historicalexperience.client.render.MobArmHelper;
-import net.historicalexperience.version.ActiveVersion;
-import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.client.model.AnimationUtils;
 import net.minecraft.client.model.geom.ModelPart;
 import org.spongepowered.asm.mixin.Mixin;
@@ -54,7 +56,7 @@ public abstract class AnimationUtilsHistoricalArmBobMixin {
                 + "Lnet/minecraft/client/model/geom/ModelPart;Lnet/minecraft/client/model/geom/ModelPart;F)V"))
     private static void historicalExperience$onBobZombieArms(ModelPart leftArm, ModelPart rightArm,
             boolean isAggressive, float attackTime, float ageInTicks, CallbackInfo callback) {
-        if (HistoricalGameplayTweaks.appliesTo("mobArms", ActiveVersion.current())) {
+        if (Features.active(Feature.OLD_ZOMBIE_ARMS)) {
             MobArmHelper.applyStaticArms(rightArm, leftArm);
         }
     }

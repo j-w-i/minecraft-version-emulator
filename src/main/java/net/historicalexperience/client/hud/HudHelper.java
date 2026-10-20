@@ -14,6 +14,10 @@
  */
 package net.historicalexperience.client.hud;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.BufferUploader;
@@ -105,7 +109,7 @@ public final class HudHelper {
     public static boolean hideExperienceLevel() {
         String session = ActiveVersion.current();
         return session != null
-            && !net.historicalexperience.gameplay.HistoricalGameplayTweaks.experienceLevelShown(session);
+            && Features.active(Feature.HIDDEN_XP_LEVEL, session);
     }
 
     /** Upstream: {@code begin}. */

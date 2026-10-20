@@ -14,9 +14,11 @@
  */
 package net.historicalexperience.mixin;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.historicalexperience.client.inventory.HistoricalInventoryScreen;
-import net.historicalexperience.version.ActiveVersion;
-import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
@@ -94,6 +96,6 @@ public abstract class InventoryScreenHistoricalOffhandMixin extends AbstractCont
 
     /** The version gate that upstream expresses as a shield-position setting. */
     private static boolean historicalExperience$noOffHandInThisVersion() {
-        return HistoricalGameplayTweaks.offhandUnavailable(ActiveVersion.current());
+        return Features.active(Feature.NO_OFFHAND);
     }
 }

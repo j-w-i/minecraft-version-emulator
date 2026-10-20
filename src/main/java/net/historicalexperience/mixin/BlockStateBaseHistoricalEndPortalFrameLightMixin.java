@@ -17,7 +17,10 @@
  */
 package net.historicalexperience.mixin;
 
-import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import org.spongepowered.asm.mixin.Mixin;
@@ -68,6 +71,6 @@ public abstract class BlockStateBaseHistoricalEndPortalFrameLightMixin {
         if (state.getBlock() != Blocks.END_PORTAL_FRAME) {
             return light;
         }
-        return HistoricalGameplayTweaks.endPortalFrameLightFifteen() ? 15 : light;
+        return Features.active(Feature.END_PORTAL_FRAME_LIGHT_15) ? 15 : light;
     }
 }

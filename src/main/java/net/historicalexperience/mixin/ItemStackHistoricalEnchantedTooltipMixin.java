@@ -17,10 +17,12 @@
  */
 package net.historicalexperience.mixin;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import java.util.List;
 
-import net.historicalexperience.version.ActiveVersion;
-import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -70,7 +72,7 @@ public abstract class ItemStackHistoricalEnchantedTooltipMixin {
             net.minecraft.world.item.Item.TooltipContext context,
             net.minecraft.world.entity.player.Player player, net.minecraft.world.item.TooltipFlag flag,
             CallbackInfoReturnable<List<Component>> callback) {
-        if (!HistoricalGameplayTweaks.placeholderEnchantmentTooltip(ActiveVersion.current())) {
+        if (!Features.active(Feature.ENCHANTING_PLACEHOLDER)) {
             return;
         }
         if (!((Object) this instanceof ItemStack stack) || !stack.isEnchanted()) {

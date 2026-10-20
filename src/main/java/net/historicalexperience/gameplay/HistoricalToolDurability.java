@@ -17,6 +17,10 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import java.util.Map;
 
 /**
@@ -74,7 +78,7 @@ public final class HistoricalToolDurability {
      * undeclared version - and every one of those means "leave the modern value alone" rather than zero.
      */
     public static Integer durabilityFor(String versionId, String itemId) {
-        if (itemId == null || !HistoricalGameplayTweaks.appliesTo("toolDurability", versionId)) {
+        if (itemId == null || !Features.active(Feature.OLD_TOOL_DURABILITY, versionId)) {
             return null;
         }
         return BEFORE_BETA_1_2.get(itemId);

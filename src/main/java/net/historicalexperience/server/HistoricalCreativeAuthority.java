@@ -1,6 +1,10 @@
 /* SPDX-License-Identifier: LGPL-3.0-or-later */
 package net.historicalexperience.server;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.historicalexperience.gameplay.HistoricalCreativeGrants;
 import net.historicalexperience.gameplay.HistoricalCreativeRules;
 import net.historicalexperience.gameplay.HistoricalProfileLookup;
@@ -27,8 +31,7 @@ public final class HistoricalCreativeAuthority {
             resync(player); return true;
         }
         boolean unavailableOffhand = slot == 45 && !ItemStack.matches(owned, incoming)
-            && net.historicalexperience.gameplay.HistoricalGameplayTweaks.offhandUnavailable(
-                net.historicalexperience.version.HistoricalSnapshotPatches.baseProfileForSelection(selection).orElse(null));
+            && Features.active(Feature.NO_OFFHAND, net.historicalexperience.version.HistoricalSnapshotPatches.baseProfileForSelection(selection).orElse(null));
         if (!unavailableOffhand && !HistoricalCreativeGrants.rejectsWrite(selection, owned, incoming)) return false;
         resync(player);
         player.displayClientMessage(Component.literal("Unavailable creative grant. Existing stacks kept; use a chest or Survival inventory to move them."), true);

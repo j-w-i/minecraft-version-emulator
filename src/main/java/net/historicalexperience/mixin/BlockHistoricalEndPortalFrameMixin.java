@@ -17,7 +17,10 @@
  */
 package net.historicalexperience.mixin;
 
-import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import org.spongepowered.asm.mixin.Mixin;
@@ -57,7 +60,7 @@ public abstract class BlockHistoricalEndPortalFrameMixin {
         if (!((Object) this instanceof Block block) || !block.equals(Blocks.END_PORTAL_FRAME)) {
             return resistance;
         }
-        if (!HistoricalGameplayTweaks.endPortalFrameExplodes()) {
+        if (!Features.active(Feature.END_PORTAL_FRAME_EXPLODES)) {
             return resistance;
         }
         return DESTROYABLE_BY_EXPLOSION;

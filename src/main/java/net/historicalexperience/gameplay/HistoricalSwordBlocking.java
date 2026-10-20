@@ -14,7 +14,10 @@
  */
 package net.historicalexperience.gameplay;
 
-import net.historicalexperience.version.ActiveVersion;
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.player.Player;
@@ -63,7 +66,7 @@ public final class HistoricalSwordBlocking {
         // The ACTIVE SESSION, not the player's level: this has to answer the same way on the client, where the
         // level is a ClientLevel and a level-based question is always false. Asking the level here is what made
         // the stance invisible while the server still reduced its damage.
-        return HistoricalGameplayTweaks.swordBlockingEnabled(ActiveVersion.current())
+        return Features.active(Feature.OLD_SWORD_BLOCKING)
             && player.getMainHandItem().is(ItemTags.SWORDS);
     }
 

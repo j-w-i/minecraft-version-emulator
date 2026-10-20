@@ -17,9 +17,12 @@
  */
 package net.historicalexperience.client;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.historicalexperience.server.PortalSpawnRequest;
 import net.historicalexperience.version.HistoricalVersion;
 import org.lwjgl.glfw.GLFW;
@@ -80,7 +83,7 @@ public final class F4PortalKey {
     private static void request(net.minecraft.client.Minecraft client) {
         HistoricalVersion version = HistoricalClientRules.activeVersion();
         String versionId = version == null ? null : version.id();
-        if (!HistoricalGameplayTweaks.f4SpawnsPortal(versionId)) {
+        if (!Features.active(Feature.F4_PORTAL_KEY, versionId)) {
             // Every other version: the key does whatever it does today, which is nothing.
             return;
         }

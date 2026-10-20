@@ -17,8 +17,10 @@
  */
 package net.historicalexperience.mixin;
 
-import net.historicalexperience.version.ActiveVersion;
-import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
@@ -47,7 +49,7 @@ public abstract class NetherPortalBlockHistoricalNetherMixin {
     @Inject(method = "entityInside", at = @At("HEAD"), cancellable = true)
     private void historicalExperience$refusePortalTravel(BlockState state, Level level, BlockPos pos, Entity entity,
             CallbackInfo callback) {
-        if (!HistoricalGameplayTweaks.netherAvailable(ActiveVersion.current())) {
+        if (Features.active(Feature.NO_NETHER)) {
             callback.cancel();
         }
     }

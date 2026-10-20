@@ -17,6 +17,10 @@
  */
 package net.historicalexperience.server;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
@@ -140,9 +144,9 @@ public final class HistoricalUpgradeService {
             : session));
         if (session != null) {
             details.add("combat gates for this session: cooldownSuppressed="
-                + net.historicalexperience.gameplay.HistoricalGameplayTweaks.appliesTo("cooldown", session)
+                + Features.active(Feature.NO_ATTACK_COOLDOWN, session)
                 + " sweepSuppressed="
-                + net.historicalexperience.gameplay.HistoricalGameplayTweaks.appliesTo("sweep", session)
+                + Features.active(Feature.NO_SWEEP_ATTACK, session)
                 + " oldDamageValues="
                 + net.historicalexperience.version.ActiveVersion.isHistorical());
         }

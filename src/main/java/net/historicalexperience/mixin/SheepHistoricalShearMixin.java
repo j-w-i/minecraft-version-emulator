@@ -17,8 +17,11 @@
  */
 package net.historicalexperience.mixin;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.historicalexperience.version.ActiveVersion;
-import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -81,7 +84,7 @@ public abstract class SheepHistoricalShearMixin {
             return;
         }
 
-        if (!HistoricalGameplayTweaks.appliesTo("punchShear", ActiveVersion.current())) {
+        if (!Features.active(Feature.PUNCH_SHEARS)) {
             return;
         }
 

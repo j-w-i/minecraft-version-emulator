@@ -17,8 +17,10 @@
  */
 package net.historicalexperience.mixin;
 
-import net.historicalexperience.version.ActiveVersion;
-import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import org.spongepowered.asm.mixin.Mixin;
@@ -47,7 +49,7 @@ public abstract class ServerGamePacketListenerHistoricalOffhandMixin {
     @Inject(method = "handlePlayerAction", at = @At("HEAD"), cancellable = true)
     private void historicalExperience$refuseOffhandSwap(ServerboundPlayerActionPacket packet, CallbackInfo callback) {
         if (packet.getAction() == ServerboundPlayerActionPacket.Action.SWAP_ITEM_WITH_OFFHAND
-                && HistoricalGameplayTweaks.offhandUnavailable(ActiveVersion.current())) {
+                && Features.active(Feature.NO_OFFHAND)) {
             callback.cancel();
         }
     }

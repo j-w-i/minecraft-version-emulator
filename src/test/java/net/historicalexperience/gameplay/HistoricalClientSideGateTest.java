@@ -51,14 +51,16 @@ class HistoricalClientSideGateTest {
         String blocking = read("HistoricalSwordBlocking.java");
         String canBlock = blocking.substring(blocking.indexOf("public static boolean canBlock"));
 
-        assertTrue(canBlock.contains("ActiveVersion.current()"),
+        // Features.active(Feature) is the session form: it reads the active version, which is set on both sides.
+        // The named-version form takes a version argument and the level form does not exist.
+        assertTrue(canBlock.contains("Features.active(Feature.OLD_SWORD_BLOCKING)"),
             "canBlock must ask the active session: it is asked on the client, where a level-based question "
                 + "always answers false and the block becomes invisible");
         assertFalse(canBlock.contains("player.level()"),
             "canBlock must not ask the player's level: a client's level is a ClientLevel, so this is the exact "
                 + "line that made the block animation fail to play");
-        assertTrue(blocking.contains("ActiveVersion"),
-            "the session must be referenced at all");
+        assertTrue(blocking.contains("Features.active("),
+            "the feature facade must be referenced at all");
     }
 
     @Test

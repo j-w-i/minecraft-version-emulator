@@ -14,8 +14,11 @@
  */
 package net.historicalexperience.mixin;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.world.level.block.StemBlock;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -34,6 +37,6 @@ public abstract class StemBlockHistoricalBonemealMixin {
         method = "performBonemeal",
         at = @At(value = "INVOKE", target = "Ljava/lang/Math;min(II)I"))
     private int historicalExperience$instantStemGrowth(int age) {
-        return HistoricalGameplayTweaks.instantBonemeal() ? StemBlock.MAX_AGE : age;
+        return Features.active(Feature.INSTANT_BONE_MEAL) ? StemBlock.MAX_AGE : age;
     }
 }

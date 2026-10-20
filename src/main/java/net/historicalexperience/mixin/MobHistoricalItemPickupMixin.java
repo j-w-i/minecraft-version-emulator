@@ -14,9 +14,11 @@
  */
 package net.historicalexperience.mixin;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import net.historicalexperience.version.ActiveVersion;
-import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
@@ -54,7 +56,7 @@ public abstract class MobHistoricalItemPickupMixin {
                 + "Lnet/minecraft/world/entity/item/ItemEntity;)V"))
     private boolean historicalExperience$shouldPickupItem(Mob mob, ItemEntity itemEntity) {
         if (mob instanceof Monster) {
-            return !HistoricalGameplayTweaks.appliesTo("itemPickup", ActiveVersion.current());
+            return !Features.active(Feature.NO_MONSTER_ITEM_PICKUP);
         }
         return true;
     }

@@ -14,9 +14,12 @@
  */
 package net.historicalexperience.mixin;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.world.level.block.SaplingBlock;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -45,11 +48,11 @@ public abstract class SaplingBlockHistoricalBonemealMixin {
             target = "Lnet/minecraft/world/level/block/state/BlockState;getValue("
                 + "Lnet/minecraft/world/level/block/state/properties/Property;)Ljava/lang/Comparable;"))
     private Comparable<Integer> historicalExperience$skipToTree(Comparable<Integer> stage) {
-        return HistoricalGameplayTweaks.instantBonemeal() ? 4 : stage;
+        return Features.active(Feature.INSTANT_BONE_MEAL) ? 4 : stage;
     }
 
     @ModifyReturnValue(method = "isBonemealSuccess", at = @At("RETURN"))
     private boolean historicalExperience$noSaplingRoll(boolean success) {
-        return HistoricalGameplayTweaks.instantBonemeal() || success;
+        return Features.active(Feature.INSTANT_BONE_MEAL) || success;
     }
 }

@@ -17,6 +17,10 @@
  */
 package net.historicalexperience.gameplay;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -73,7 +77,7 @@ public final class HistoricalPortalSpawn {
      * @return true when a portal was placed, so a caller can report "nothing happened" honestly rather than silently
      */
     public static boolean spawnNear(ServerLevel level, ServerPlayer player) {
-        if (!HistoricalGameplayTweaks.f4SpawnsPortal(HistoricalProfileLookup.profileIdForLevel(level))) {
+        if (!Features.active(Feature.F4_PORTAL_KEY, HistoricalProfileLookup.profileIdForLevel(level))) {
             return false;
         }
         Direction.Axis axis = axisFor(player);

@@ -14,8 +14,11 @@
  */
 package net.historicalexperience.mixin;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.BowItem;
@@ -64,7 +67,7 @@ public abstract class ProjectileWeaponItemHistoricalInvincibleBowMixin {
     private boolean historicalExperience$bowIsInvincible(ItemStack itemStack, int amount, LivingEntity entity,
             EquipmentSlot slot) {
         if (itemStack.getItem() instanceof BowItem) {
-            return !HistoricalGameplayTweaks.invincibleBow();
+            return !Features.active(Feature.INVINCIBLE_BOW);
         }
         return true;
     }

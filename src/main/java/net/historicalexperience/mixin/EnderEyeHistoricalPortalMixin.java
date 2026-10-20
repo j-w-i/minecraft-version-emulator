@@ -17,8 +17,10 @@
  */
 package net.historicalexperience.mixin;
 
-import net.historicalexperience.version.ActiveVersion;
-import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.EnderEyeItem;
 import net.minecraft.world.item.context.UseOnContext;
@@ -52,7 +54,7 @@ public abstract class EnderEyeHistoricalPortalMixin {
     @Inject(method = "useOn", at = @At("HEAD"), cancellable = true)
     private void historicalExperience$refusePortalCompletion(UseOnContext context,
             CallbackInfoReturnable<InteractionResult> callback) {
-        if (!HistoricalGameplayTweaks.endPortalFunctional(ActiveVersion.current())) {
+        if (Features.active(Feature.INERT_END_PORTAL)) {
             callback.setReturnValue(InteractionResult.PASS);
         }
     }

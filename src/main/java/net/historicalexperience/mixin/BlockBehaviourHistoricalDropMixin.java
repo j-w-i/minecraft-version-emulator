@@ -14,9 +14,12 @@
  */
 package net.historicalexperience.mixin;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import java.util.List;
-import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
@@ -76,7 +79,7 @@ public abstract class BlockBehaviourHistoricalDropMixin {
     @ModifyReturnValue(method = "getDrops", at = @At(value = "RETURN", ordinal = 0))
     private List<ItemStack> historicalExperience$selfDropsWithoutLootTable(List<ItemStack> drops,
             BlockState blockState) {
-        if (!HistoricalGameplayTweaks.oreDropsAsBlocks()) {
+        if (!Features.active(Feature.ORE_DROPS_AS_BLOCKS)) {
             return drops;
         }
 
@@ -93,7 +96,7 @@ public abstract class BlockBehaviourHistoricalDropMixin {
         // `endPortalFrame: probeFailed: java.lang.UnsupportedOperationException` on Pre3 alone, which is also the
         // proof that the explosion really does route through this method. A mutable list is the fix; the two
         // mutation sites below were changed for the same reason, since a loot roll is not guaranteed mutable either.
-        if (blockState.is(Blocks.END_PORTAL_FRAME) && HistoricalGameplayTweaks.endPortalFrameExplodes()) {
+        if (blockState.is(Blocks.END_PORTAL_FRAME) && Features.active(Feature.END_PORTAL_FRAME_EXPLODES)) {
             return List.of(blockState.getBlock().asItem().getDefaultInstance());
         }
         return drops;
@@ -103,7 +106,7 @@ public abstract class BlockBehaviourHistoricalDropMixin {
     @ModifyReturnValue(method = "getDrops", at = @At(value = "RETURN", ordinal = 1))
     private List<ItemStack> historicalExperience$selfDrops(List<ItemStack> drops, BlockState blockState,
             LootParams.Builder params) {
-        if (!HistoricalGameplayTweaks.oreDropsAsBlocks()) {
+        if (!Features.active(Feature.ORE_DROPS_AS_BLOCKS)) {
             return drops;
         }
 
@@ -125,7 +128,7 @@ public abstract class BlockBehaviourHistoricalDropMixin {
         // reads it back, both verified by disassembling the mapped jar, so the Silk Touch test is a real one now.
         // The expensive registry lookup happens only for a spawner and only in the one build that drops it.
         if (blockState.is(Blocks.SPAWNER)) {
-            if (HistoricalGameplayTweaks.silkySpawnerDrops() && hasSilkTouch(params)) {
+            if (Features.active(Feature.SILKY_SPAWNERS) && hasSilkTouch(params)) {
                 return List.of(blockState.getBlock().asItem().getDefaultInstance());
             }
             // Not the build, or not the tool: a spawner yields nothing, which is what it still does today. Returning
@@ -143,7 +146,7 @@ public abstract class BlockBehaviourHistoricalDropMixin {
         // data/minecraft/recipe/snow_block.json is a 2x2 of snowballs and its loot table sets a count of four - so
         // the historical behaviour is exactly this one build returning six. The count is written here rather than in
         // the gate because the wiki quote states the number and the gate stays a yes/no question.
-        if (blockState.is(Blocks.SNOW_BLOCK) && HistoricalGameplayTweaks.snowballSurplus()) {
+        if (blockState.is(Blocks.SNOW_BLOCK) && Features.active(Feature.SNOWBALL_SURPLUS)) {
             return List.of(new ItemStack(Items.SNOWBALL, 6));
         }
 

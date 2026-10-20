@@ -14,8 +14,10 @@
  */
 package net.historicalexperience.mixin;
 
-import net.historicalexperience.version.ActiveVersion;
-import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
@@ -53,7 +55,7 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 public abstract class PlayerHistoricalCriticalHitMixin {
     @ModifyConstant(method = "attack", constant = @Constant(floatValue = 1.5F))
     private float historicalExperience$randomCriticalHit(float multiplier) {
-        if (HistoricalGameplayTweaks.betaCriticalHitFormula(ActiveVersion.current())) {
+        if (Features.active(Feature.BETA_CRITICAL_HIT_FORMULA)) {
             Player self = (Player) (Object) this;
             // 1..2, NOT 0..1. The formula is a bonus on top of the weapon's damage - "+0% to +100% of weapon
             // damage" - so a critical hit can never land for less than an ordinary one. Returning 0..1 made a

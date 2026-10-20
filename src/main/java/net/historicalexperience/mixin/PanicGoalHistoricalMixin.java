@@ -14,9 +14,11 @@
  */
 package net.historicalexperience.mixin;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import net.historicalexperience.version.ActiveVersion;
-import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.PanicGoal;
 import net.minecraft.world.entity.animal.Animal;
@@ -43,7 +45,7 @@ public abstract class PanicGoalHistoricalMixin {
     /** Upstream: {@code nt_mob_ai$modifyShouldPanic}. */
     @ModifyReturnValue(method = "shouldPanic", at = @At("RETURN"))
     private boolean historicalExperience$modifyShouldPanic(boolean shouldPanic) {
-        if (HistoricalGameplayTweaks.appliesTo("panic", ActiveVersion.current())
+        if (Features.active(Feature.NO_ANIMAL_PANIC)
             && this.mob instanceof Animal) {
             return false;
         }

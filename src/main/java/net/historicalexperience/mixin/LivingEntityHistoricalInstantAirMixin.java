@@ -14,6 +14,10 @@
  */
 package net.historicalexperience.mixin;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.world.entity.EntityType;
@@ -57,6 +61,6 @@ public abstract class LivingEntityHistoricalInstantAirMixin {
                 || livingEntity.getType() != EntityType.PLAYER) {
             return currentAir;
         }
-        return HistoricalGameplayTweaks.instantAir() ? livingEntity.getMaxAirSupply() : currentAir;
+        return Features.active(Feature.INSTANT_AIR) ? livingEntity.getMaxAirSupply() : currentAir;
     }
 }

@@ -17,7 +17,10 @@
  */
 package net.historicalexperience.gameplay;
 
-import net.historicalexperience.version.ActiveVersion;
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ItemStack;
@@ -58,7 +61,7 @@ public final class HistoricalFoodStackLimit {
 
     /** True when this stack is food and the active version predates Beta 1.8. */
     public static boolean foodDoesNotStack(ItemStack stack) {
-        return !HistoricalGameplayTweaks.foodStacks(ActiveVersion.current())
+        return Features.active(Feature.UNSTACKABLE_FOOD)
             && stack != null
             && !stack.isEmpty()
             && stack.has(DataComponents.FOOD);

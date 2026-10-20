@@ -14,9 +14,11 @@
  */
 package net.historicalexperience.mixin;
 
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import net.historicalexperience.version.ActiveVersion;
-import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
 import net.minecraft.world.entity.ai.goal.FleeSunGoal;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -36,7 +38,7 @@ public abstract class FleeSunGoalHistoricalMixin {
     /** Upstream: {@code nt_mob_ai$canFleeSun}. */
     @ModifyReturnValue(method = "canUse", at = @At("RETURN"))
     private boolean historicalExperience$canFleeSun(boolean canFleeSun) {
-        if (HistoricalGameplayTweaks.appliesTo("avoidSun", ActiveVersion.current())) {
+        if (Features.active(Feature.NO_MONSTER_SUN_AVOIDANCE)) {
             return false;
         }
         return canFleeSun;

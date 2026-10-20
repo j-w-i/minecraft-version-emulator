@@ -14,8 +14,10 @@
  */
 package net.historicalexperience.mixin;
 
-import net.historicalexperience.version.ActiveVersion;
-import net.historicalexperience.gameplay.HistoricalGameplayTweaks;
+import net.historicalexperience.version.Features;
+
+import net.historicalexperience.version.Feature;
+
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -65,7 +67,7 @@ public abstract class ClientLevelHistoricalAttackSoundMixin {
 
         // The 1.9-combat gate, shared with the cooldown and the sweep: no declared version is on the far side of
         // it, and the three cannot disagree about which versions had the modern attack sound set.
-        if (HistoricalGameplayTweaks.appliesTo("sweep", ActiveVersion.current())) {
+        if (Features.active(Feature.NO_SWEEP_ATTACK)) {
             callback.cancel();
         }
     }
