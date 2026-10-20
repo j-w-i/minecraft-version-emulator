@@ -211,6 +211,17 @@ public enum Feature {
         "Breaking blocks has a five-tick cooldown in survival before Release 1.3.1 (minecraft.wiki: 'The 1/4 second "
         + "(5 game tick) delay between block breaking has been removed for players in Survival')."),
 
+    /**
+     * Brewing takes 30 seconds instead of 20.
+     *
+     * <p>research/version-transitions.json, Beta 1.9 Prerelease 3: brewing "listed at 30 seconds"; minecraft.wiki,
+     * Java Edition 1.1: "Brewing - Reduced brewing time from 30 seconds to 20 seconds." So Prerelease 3 through
+     * Release 1.0 brew in 30 seconds and Release 1.1 and later in 20.
+     */
+    BREW_TIME_THIRTY_SECONDS(Domain.ITEMS, FeatureWindow.between(Milestones.BETA_1_9_PRE_3, Milestones.RELEASE_1_1),
+        "Brewing takes 600 ticks (30 s) rather than 400 (20 s) from Beta 1.9 Prerelease 3 until Release 1.1, when the "
+        + "wiki records the reduction to 20 seconds."),
+
     /** No attack cooldown. */
     NO_ATTACK_COOLDOWN(Domain.COMBAT, FeatureWindow.allDeclared(),
         "The 1.9 attack cooldown: attacks are always at full strength. Every declared version predates Release 1.9, so the window is every declared version. Upstream tweak: DISABLE_ATTACK_COOLDOWN."),

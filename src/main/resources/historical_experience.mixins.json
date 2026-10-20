@@ -93,7 +93,8 @@
     "common.LivingEntityHistoricalDiscDropMixin",
     "common.PrimaryLevelDataHistoricalHardcoreMixin",
     "common.PlayerAdvancementsHistoricalMixin",
-    "common.ServerPlayerGameModeHistoricalBreakDelayMixin"
+    "common.ServerPlayerGameModeHistoricalBreakDelayMixin",
+    "common.BrewingStandHistoricalBrewTimeMixin"
   ],
   "injectors": {
     "defaultRequire": 1

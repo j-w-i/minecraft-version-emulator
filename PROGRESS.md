@@ -1,3 +1,29 @@
+# Current work — 2026-10-21 / Gap 26: brewing takes 30 seconds before Release 1.1
+
+Release audit rows R10-10 / X-08 pointed at potions. The strengths half needs machinery the project does not have
+(see below); the brew-time half is bounded and sourced:
+
+- research/version-transitions.json, Beta 1.9 Prerelease 3: brewing is "listed at 30 seconds";
+- minecraft.wiki, Java Edition 1.1: "Brewing - Reduced brewing time from 30 seconds to 20 seconds."
+
+So Prerelease 3 through Release 1.0 brew in 600 ticks, and Release 1.1 onward in the modern 400.
+
+`BREW_TIME_THIRTY_SECONDS` `[Pre3, Release 1.1)` plus `BrewingStandHistoricalBrewTimeMixin`, a `@ModifyConstant` on
+the 400 in `BrewingStandBlockEntity.serverTick` (verified with javap: `sipush 400`). The constant is modified rather
+than the field corrected a tick later, because the same pass compares against it. The existing pre-Pre3 brewing cancel
+is untouched. Mixin application verified in a client:
+`CLIENTMIXINCHECK loaded net.minecraft.world.level.block.entity.BrewingStandBlockEntity ... its mixins applied`.
+
+**Deliberately not done - potion STRENGTHS (Instant Health 6 vs modern 4; Regeneration 1 HP per 25 vs 50 ticks):** the
+effect classes (`RegenerationMobEffect`, `HealOrHarmMobEffect`) are stateless singletons with no level, and on a
+dedicated server `ActiveVersion.current()` is empty, so there is nothing to resolve a version from. They need a
+server-wide profile context first, and Instant Health and Instant Damage share one class whose 4 and 6 constants must
+be separated before either is changed. Recorded with those two specific blockers rather than shipping a 50/50 guess.
+
+**Evidence:** `./gradlew cleanTest test` - **818 tests, 0 failures**; `BrewTimeTest` pins the window on both sides and
+the ordinary-world exemption; golden, matrix and facts regenerated.
+
+---
 # Current work — 2026-10-21 / Gap 25: the five-tick block-break delay before Release 1.3.1
 
 Release audit row R10-26, with the wiki line: Java Edition 1.3.1 - "The 1/4 second (5 game tick) delay between block
