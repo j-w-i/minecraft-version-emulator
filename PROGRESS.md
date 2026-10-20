@@ -1,3 +1,32 @@
+# Current work — 2026-10-21 / Gap 28: the era's stone slab is the right block (audit A-11)
+
+The audit's clearest identity bug: the era's stone slab - today's **smooth_stone_slab** - was refused as "Beta 1.3",
+while the modern **stone_slab** (a different 1.14 block) was craftable with the modern recipe.
+
+minecraft.wiki, Slab history, resolved the identity precisely:
+
+- "0.26 SURVIVAL TEST Added stone (now smooth stone) slabs" - so it predates every declared build;
+- 20100130: "Slabs have now received a crafting recipe: 3 slabs from 3 cobblestone";
+- Beta 1.3 "Added 'wooden' (now petrified oak), 'stone' (now cobblestone), and sandstone slabs" - the Beta 1.3 "stone"
+  slab is the DIFFERENT block now called cobblestone slab, which the allow-list already dates correctly.
+
+Changed:
+
+1. the block table dates `smooth_stone_slab` to the earliest declared build (generator entry moved, with the quote);
+2. the allow-list carries `smooth_stone_slab` instead of `stone_slab`; the 1.14 block is therefore refused in every
+   declared version by the existing "not in the 1.6.4 client" rule, not by special-casing;
+3. the documented 20100130 recipe (three cobblestone -> three slabs) is supplied before Release 1.2.1, with the modern
+   six-output recipe after it (the 1.2.1 count change), through the existing slab/ladder window.
+
+**Recorded as unknown:** whether the ingredient changed from cobblestone to stone before Release 1.2.1. The only
+documented recipe is the 20100130 one, so it is used for the whole window and the uncertainty is stated in the entry and
+the docs rather than a guess being baked into the other half.
+
+**Evidence:** `./gradlew cleanTest test` - **823 tests, 0 failures**; `StoneSlabTest` pins the block verdict, the refusal
+of the 1.14 block, the supplied shape and the window; one older count assertion updated (the legacy list grew by the stone
+slab); golden, matrix and facts regenerated.
+
+---
 # Current work — 2026-10-21 / Gap 27: pre-1.6.1 potion strengths, and the server-wide profile context that unblocked them
 
 Last round recorded potion strengths as blocked on two concrete things; this round removed both.

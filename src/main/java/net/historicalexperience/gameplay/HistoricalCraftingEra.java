@@ -94,7 +94,7 @@ public final class HistoricalCraftingEra {
     static {
         // ---- Present in every declared build (Classic/Indev/Infdev content) --------------------------------
         always("oak_planks", "stick", "crafting_table", "chest", "furnace", "torch", "ladder", "oak_door",
-            "oak_stairs", "cobblestone_stairs", "oak_fence", "oak_sign", "tnt", "stone_slab", "bookshelf",
+            "oak_stairs", "cobblestone_stairs", "oak_fence", "oak_sign", "tnt", "smooth_stone_slab", "bookshelf",
             "painting", "bow", "arrow", "bucket", "bowl", "mushroom_stew", "bread",
             "flint_and_steel", "coal", "diamond", "iron_ingot", "gold_ingot", "redstone", "white_wool",
             "diamond_block", "iron_block", "gold_block");

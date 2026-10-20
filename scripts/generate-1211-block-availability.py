@@ -233,7 +233,6 @@ TIMELINE = [
     # no date means no claim - and a bed is one of the most recognisable things a player would notice.
     (['minecraft:repeater',
       'minecraft:cobblestone_slab', 'minecraft:oak_slab', 'minecraft:sandstone_slab',
-      'minecraft:smooth_stone_slab',
       'minecraft:white_bed', 'minecraft:orange_bed', 'minecraft:magenta_bed', 'minecraft:light_blue_bed',
       'minecraft:yellow_bed', 'minecraft:lime_bed', 'minecraft:pink_bed', 'minecraft:gray_bed',
       'minecraft:light_gray_bed', 'minecraft:cyan_bed', 'minecraft:purple_bed', 'minecraft:blue_bed',
@@ -241,6 +240,13 @@ TIMELINE = [
      'historical_experience:beta_1_3',
      'feature-timeline blocks: beds, redstone repeaters and the cobblestone, wood and sandstone slabs all '
      'introduced Beta 1.3; the smooth stone slab is present in that build but explicitly unobtainable'),
+    # The era's "stone slab" is today's smooth stone slab: minecraft.wiki, Slab history, "0.26 SURVIVAL TEST Added
+    # stone (now smooth stone) slabs", and 20100130 gave it the recipe "3 slabs from 3 cobblestone". Beta 1.3's "stone"
+    # slab is the DIFFERENT block now called cobblestone slab. It was dated Beta 1.3 here, so an Alpha or Indev world
+    # refused the slab its own build had.
+    (['minecraft:smooth_stone_slab'], 'historical_experience:indev_latest',
+     'feature-timeline blocks: stone (now smooth stone) slabs introduced Classic 0.26 SURVIVAL TEST; the earliest '
+     'declared build already has them, and 20100130 documents the 3-cobblestone recipe'),
     (['minecraft:lapis_ore', 'minecraft:lapis_block'], 'historical_experience:beta_1_2',
      'feature-timeline blocks: lapis lazuli ore introduced Beta 1.2 (Beta 1.2_02 later adjusted its frequency and '
      'height and permitted bedrock-level generation, which must NOT be backdated into 1.2)'),

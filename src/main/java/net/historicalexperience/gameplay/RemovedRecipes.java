@@ -192,6 +192,12 @@ public final class RemovedRecipes {
         new Removed("sandstone_slab_from_three_sandstone", 3, 1,
             List.of("minecraft:sandstone", "minecraft:sandstone", "minecraft:sandstone"),
             "minecraft:sandstone_slab", 3, Feature.LEGACY_SLAB_LADDER_COUNTS, true),
+        // The era's stone slab before Release 1.2.1: minecraft.wiki, Slab history, 20100130 - "3 slabs from 3
+        // cobblestone". (Whether the ingredient later changed to stone before 1.2.1 is not established, so the only
+        // documented recipe is used for the whole window and that uncertainty is recorded.)
+        new Removed("smooth_stone_slab_from_three_cobblestone", 3, 1,
+            List.of("minecraft:cobblestone", "minecraft:cobblestone", "minecraft:cobblestone"),
+            "minecraft:smooth_stone_slab", 3, Feature.LEGACY_SLAB_LADDER_COUNTS, true),
         new Removed("ladder_from_seven_sticks_two", 3, 3,
             List.of(
                 "minecraft:stick", "", "minecraft:stick",

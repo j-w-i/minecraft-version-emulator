@@ -5221,7 +5221,7 @@ generation.HistoricalBlockAvailability.boundaryFor(minecraft:sandstone)|-=versio
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:sandstone_slab)|-=version=historical_experience:beta_1_3 timeline=true evidenceLen=320
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:sandstone_stairs)|-=version=historical_experience:release_1_6_4 timeline=false evidenceLen=101
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:short_grass)|-=version=historical_experience:beta_1_6 timeline=true evidenceLen=433
-generation.HistoricalBlockAvailability.boundaryFor(minecraft:smooth_stone_slab)|-=version=historical_experience:beta_1_3 timeline=true evidenceLen=213
+generation.HistoricalBlockAvailability.boundaryFor(minecraft:smooth_stone_slab)|-=version=historical_experience:indev_latest timeline=true evidenceLen=206
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:snow)|-=version=historical_experience:alpha_1_0_4 timeline=true evidenceLen=202
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:soul_sand)|-=version=historical_experience:beta_1_7_3 timeline=false evidenceLen=91
 generation.HistoricalBlockAvailability.boundaryFor(minecraft:spawner)|-=version=historical_experience:alpha_1_0_1 timeline=true evidenceLen=225
@@ -5367,7 +5367,7 @@ generation.HistoricalBlockAvailability.judge(minecraft:sandstone)|*=ALL,ALL,ALL,
 generation.HistoricalBlockAvailability.judge(minecraft:sandstone_slab)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ANA,ANA,ALL,ALL,ALL,ALL,ANA,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:sandstone_stairs)|*=ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,ANA,ANA,ANA,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:short_grass)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ALL,ANA,UNK,UNK,UNK
-generation.HistoricalBlockAvailability.judge(minecraft:smooth_stone_slab)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ANA,ANA,ALL,ALL,ALL,ALL,ANA,UNK,UNK,UNK
+generation.HistoricalBlockAvailability.judge(minecraft:smooth_stone_slab)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:snow)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ANA,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:soul_sand)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,ALL,ALL,ALL,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK
 generation.HistoricalBlockAvailability.judge(minecraft:spawner)|*=ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ANA,ANA,ANA,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,ALL,UNK,UNK,UNK
@@ -6117,6 +6117,7 @@ gameplay.HistoricalCraftingEra.firstVersion(minecraft:sandstone)|-=historical_ex
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:sandstone_slab)|-=historical_experience:beta_1_3
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:sandstone_stairs)|-=historical_experience:release_1_3
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:shears)|-=historical_experience:beta_1_7_3
+gameplay.HistoricalCraftingEra.firstVersion(minecraft:smooth_stone_slab)|-=null
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:snow_block)|-=historical_experience:alpha_1_0_4
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:spruce_planks)|-=historical_experience:release_1_2_5
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:spruce_slab)|-=historical_experience:release_1_3
@@ -6132,7 +6133,6 @@ gameplay.HistoricalCraftingEra.firstVersion(minecraft:stone_hoe)|-=null
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:stone_pickaxe)|-=null
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:stone_pressure_plate)|-=historical_experience:alpha_1_0_1
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:stone_shovel)|-=null
-gameplay.HistoricalCraftingEra.firstVersion(minecraft:stone_slab)|-=null
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:stone_sword)|-=null
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:sugar)|-=historical_experience:beta_1_2
 gameplay.HistoricalCraftingEra.firstVersion(minecraft:tnt)|-=null
@@ -6387,6 +6387,7 @@ gameplay.HistoricalCraftingEra.existedBy164(minecraft:sandstone)|*=T
 gameplay.HistoricalCraftingEra.existedBy164(minecraft:sandstone_slab)|*=T
 gameplay.HistoricalCraftingEra.existedBy164(minecraft:sandstone_stairs)|*=T
 gameplay.HistoricalCraftingEra.existedBy164(minecraft:shears)|*=T
+gameplay.HistoricalCraftingEra.existedBy164(minecraft:smooth_stone_slab)|*=T
 gameplay.HistoricalCraftingEra.existedBy164(minecraft:snow_block)|*=T
 gameplay.HistoricalCraftingEra.existedBy164(minecraft:spruce_planks)|*=T
 gameplay.HistoricalCraftingEra.existedBy164(minecraft:spruce_slab)|*=T
@@ -6403,7 +6404,6 @@ gameplay.HistoricalCraftingEra.existedBy164(minecraft:stone_hoe)|*=T
 gameplay.HistoricalCraftingEra.existedBy164(minecraft:stone_pickaxe)|*=T
 gameplay.HistoricalCraftingEra.existedBy164(minecraft:stone_pressure_plate)|*=T
 gameplay.HistoricalCraftingEra.existedBy164(minecraft:stone_shovel)|*=T
-gameplay.HistoricalCraftingEra.existedBy164(minecraft:stone_slab)|*=T
 gameplay.HistoricalCraftingEra.existedBy164(minecraft:stone_sword)|*=T
 gameplay.HistoricalCraftingEra.existedBy164(minecraft:sugar)|*=T
 gameplay.HistoricalCraftingEra.existedBy164(minecraft:tnt)|*=T
@@ -6658,6 +6658,7 @@ gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:sandstone)|*=FFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:sandstone_slab)|*=TTTTTTTTTTFFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:sandstone_stairs)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:shears)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTTTTTTFFF
+gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:smooth_stone_slab)|*=TTTTTTTTTTFFFFFTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:snow_block)|*=FFFFFFFFFFFFTTTTFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:spruce_planks)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:spruce_slab)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
@@ -6674,7 +6675,6 @@ gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:stone_hoe)|*=FFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:stone_pickaxe)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:stone_pressure_plate)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:stone_shovel)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:stone_slab)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:stone_sword)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:sugar)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTFFFFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=null)(minecraft:tnt)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
@@ -6929,6 +6929,7 @@ gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:sandstone)|*=FFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:sandstone_slab)|*=TTTTTTTTTTFFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:sandstone_stairs)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:shears)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTTTTTTTFFF
+gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:smooth_stone_slab)|*=TTTTTTTTTTFFFFFTTTTTTTTTFFFTTTTTTTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:snow_block)|*=FFFFFFFFFFFFTTTTFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:spruce_planks)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:spruce_slab)|*=TTTTTTTTTTTFTTTTTTTTTTTTFFFTTTTTTTFFF
@@ -6945,7 +6946,6 @@ gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:stone_hoe)|*=FFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:stone_pickaxe)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:stone_pressure_plate)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:stone_shovel)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:stone_slab)|*=FFFFFFFFFFFFTTTFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:stone_sword)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:sugar)|*=FFFFFFFFFFFFTTTTTTTTTTTTFFFTFFFFFTFFF
 gameplay.HistoricalCraftingEra.isRefused(block=item)(minecraft:tnt)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
@@ -7200,6 +7200,7 @@ gameplay.HistoricalCraftingEra.substitutedResult(minecraft:sandstone)|*=--------
 gameplay.HistoricalCraftingEra.substitutedResult(minecraft:sandstone_slab)|*=-------------------------------------
 gameplay.HistoricalCraftingEra.substitutedResult(minecraft:sandstone_stairs)|*=-------------------------------------
 gameplay.HistoricalCraftingEra.substitutedResult(minecraft:shears)|*=-------------------------------------
+gameplay.HistoricalCraftingEra.substitutedResult(minecraft:smooth_stone_slab)|*=-------------------------------------
 gameplay.HistoricalCraftingEra.substitutedResult(minecraft:snow_block)|*=-------------------------------------
 gameplay.HistoricalCraftingEra.substitutedResult(minecraft:spruce_planks)|*=minecraft:oak_planks,minecraft:oak_planks,minecraft:oak_planks,minecraft:oak_planks,minecraft:oak_planks,minecraft:oak_planks,minecraft:oak_planks,minecraft:oak_planks,minecraft:oak_planks,minecraft:oak_planks,-,-,minecraft:oak_planks,minecraft:oak_planks,minecraft:oak_planks,minecraft:oak_planks,minecraft:oak_planks,minecraft:oak_planks,minecraft:oak_planks,minecraft:oak_planks,minecraft:oak_planks,minecraft:oak_planks,minecraft:oak_planks,minecraft:oak_planks,-,-,-,minecraft:oak_planks,minecraft:oak_planks,minecraft:oak_planks,minecraft:oak_planks,minecraft:oak_planks,minecraft:oak_planks,minecraft:oak_planks,-,-,-
 gameplay.HistoricalCraftingEra.substitutedResult(minecraft:spruce_slab)|*=-------------------------------------
@@ -7216,7 +7217,6 @@ gameplay.HistoricalCraftingEra.substitutedResult(minecraft:stone_hoe)|*=--------
 gameplay.HistoricalCraftingEra.substitutedResult(minecraft:stone_pickaxe)|*=-------------------------------------
 gameplay.HistoricalCraftingEra.substitutedResult(minecraft:stone_pressure_plate)|*=-------------------------------------
 gameplay.HistoricalCraftingEra.substitutedResult(minecraft:stone_shovel)|*=-------------------------------------
-gameplay.HistoricalCraftingEra.substitutedResult(minecraft:stone_slab)|*=-------------------------------------
 gameplay.HistoricalCraftingEra.substitutedResult(minecraft:stone_sword)|*=-------------------------------------
 gameplay.HistoricalCraftingEra.substitutedResult(minecraft:sugar)|*=-------------------------------------
 gameplay.HistoricalCraftingEra.substitutedResult(minecraft:tnt)|*=-------------------------------------
@@ -7471,6 +7471,7 @@ gameplay.HistoricalCraftingEra.showsPlainBedName(minecraft:sandstone)|*=FFFFFFFF
 gameplay.HistoricalCraftingEra.showsPlainBedName(minecraft:sandstone_slab)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.showsPlainBedName(minecraft:sandstone_stairs)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.showsPlainBedName(minecraft:shears)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+gameplay.HistoricalCraftingEra.showsPlainBedName(minecraft:smooth_stone_slab)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.showsPlainBedName(minecraft:snow_block)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.showsPlainBedName(minecraft:spruce_planks)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.showsPlainBedName(minecraft:spruce_slab)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
@@ -7487,7 +7488,6 @@ gameplay.HistoricalCraftingEra.showsPlainBedName(minecraft:stone_hoe)|*=FFFFFFFF
 gameplay.HistoricalCraftingEra.showsPlainBedName(minecraft:stone_pickaxe)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.showsPlainBedName(minecraft:stone_pressure_plate)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.showsPlainBedName(minecraft:stone_shovel)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-gameplay.HistoricalCraftingEra.showsPlainBedName(minecraft:stone_slab)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.showsPlainBedName(minecraft:stone_sword)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.showsPlainBedName(minecraft:sugar)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 gameplay.HistoricalCraftingEra.showsPlainBedName(minecraft:tnt)|*=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF

@@ -217,6 +217,11 @@ public final class HistoricalBlockAvailability {
             "feature-timeline blocks: obsidian exists from Classic 0.28, natural formation from Indev; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:obsidian"});
+        // feature-timeline: feature-timeline blocks: stone (now smooth stone) slabs introduced Classic 0.26 SURVIVAL TEST; the earliest declared build already has them, and 20100130 documents the 3-cobblestone recipe
+        introduce("historical_experience:indev_latest", true,
+            "feature-timeline: feature-timeline blocks: stone (now smooth stone) slabs introduced Classic 0.26 SURVIVAL TEST; the earliest declared build already has them, and 20100130 documents the 3-cobblestone recipe",
+            new String[] {
+                "minecraft:smooth_stone_slab"});
         // feature-timeline blocks: sponge and glass introduced Classic 0.0.19a; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
         introduce("historical_experience:indev_latest", true,
             "feature-timeline blocks: sponge and glass introduced Classic 0.0.19a; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
@@ -327,16 +332,7 @@ public final class HistoricalBlockAvailability {
             "feature-timeline blocks: beds, redstone repeaters and the cobblestone, wood and sandstone slabs all introduced Beta 1.3; the smooth stone slab is present in that build but explicitly unobtainable; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
             new String[] {
                 "minecraft:repeater",
-                "minecraft:sandstone_slab"});
-        // feature-timeline: feature-timeline blocks: beds, redstone repeaters and the cobblestone, wood and sandstone slabs all introduced Beta 1.3; the smooth stone slab is present in that build but explicitly unobtainable
-        introduce("historical_experience:beta_1_3", true,
-            "feature-timeline: feature-timeline blocks: beds, redstone repeaters and the cobblestone, wood and sandstone slabs all introduced Beta 1.3; the smooth stone slab is present in that build but explicitly unobtainable",
-            new String[] {
-                "minecraft:smooth_stone_slab"});
-        // feature-timeline blocks: beds, redstone repeaters and the cobblestone, wood and sandstone slabs all introduced Beta 1.3; the smooth stone slab is present in that build but explicitly unobtainable; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted
-        introduce("historical_experience:beta_1_3", true,
-            "feature-timeline blocks: beds, redstone repeaters and the cobblestone, wood and sandstone slabs all introduced Beta 1.3; the smooth stone slab is present in that build but explicitly unobtainable; the palette-derived boundary was beta_1_7_3 and the earlier of the two is used so a block a version did have is not deleted",
-            new String[] {
+                "minecraft:sandstone_slab",
                 "minecraft:white_bed"});
         // feature-timeline: feature-timeline blocks: beds, redstone repeaters and the cobblestone, wood and sandstone slabs all introduced Beta 1.3; the smooth stone slab is present in that build but explicitly unobtainable
         introduce("historical_experience:beta_1_3", true,
