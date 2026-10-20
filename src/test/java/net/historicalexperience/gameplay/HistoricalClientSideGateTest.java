@@ -82,7 +82,7 @@ class HistoricalClientSideGateTest {
         java.util.List<String> offenders = new java.util.ArrayList<>();
         Path mixins = Path.of("src/main/java/net/historicalexperience/mixin");
 
-        try (java.util.stream.Stream<Path> files = Files.list(mixins)) {
+        try (java.util.stream.Stream<Path> files = Files.walk(mixins)) {
             for (Path file : files.filter(f -> f.toString().endsWith(".java")).toList()) {
                 String source = Files.readString(file);
                 java.util.regex.Matcher matcher = java.util.regex.Pattern

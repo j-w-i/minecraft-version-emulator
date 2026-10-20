@@ -15,7 +15,6 @@
     "LootTableHistoricalEarlyLeavesMixin",
     "EnchantmentMenuHistoricalPoolMixin",
     "EnchantmentMenuInvoker",
-    "EnchantmentScreenHistoricalMixin",
     "EnderDragonPhaseManagerHistoricalMixin",
     "DragonHoldingPatternHistoricalMixin",
     "EnderDragonVerticalDriveHistoricalMixin",
@@ -42,7 +41,6 @@
     "RangedBowAttackGoalHistoricalMixin",
     "LivingEntityEquipmentInvoker",
     "LivingEntityAttackTickerAccess",
-    "GuiAccess",
     "ServerLevelHistoricalOrbMixin",
     "ServerLevelHistoricalMobDropProbeMixin",
     "LivingEntityHistoricalMovementMixin",
@@ -71,7 +69,6 @@
     "PlayerHistoricalJumpExperienceMixin",
     "EnchantmentMenuHistoricalEnchantingMixin",
     "ItemStackHistoricalEnchantedTooltipMixin",
-    "ItemStackHistoricalAttributeTooltipMixin",
     "BrewingStandHistoricalBrewingMixin",
     "EnderEyeHistoricalPortalMixin",
     "ServerLevelHistoricalWeatherMixin",
@@ -84,7 +81,6 @@
     "SheepHistoricalShearMixin",
     "RecipeManagerHistoricalCraftingMixin",
     "CraftingRecipeHistoricalWoodMixin",
-    "RecipeToastHistoricalMixin",
     "ItemStackHistoricalBedNameMixin",
     "SlotHistoricalFoodStackMixin",
     "ContainerHistoricalFoodStackMixin",
@@ -96,7 +92,7 @@
   "injectors": {
     "defaultRequire": 1
   },
-  "client": [
+  "client": ["ItemStackHistoricalAttributeTooltipMixin","RecipeToastHistoricalMixin","GuiAccess","EnchantmentScreenHistoricalMixin",
     "PackRepositoryHistoricalTexturesMixin",
     "LoadingOverlayHistoricalQuietMixin",
     "ContainerScreenAccess",
