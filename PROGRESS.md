@@ -1,3 +1,34 @@
+# Current work — 2026-10-21 / The potion gate now works, and the cause was an argument order
+
+Two reverted rounds ended with a counter showing the hook ran (`brewGateCalls=1`), the profile resolved, and the computed
+result had no potion. The next diagnostic answered it in one probe by recording WHAT the gate computed:
+
+```
+brewLastIngredient=minecraft:golden_carrot   brewLastResult=none
+```
+
+`PotionBrewing.mix`'s FIRST parameter is the **ingredient** and the second is the **potion** - visible in its bytecode,
+where the first argument is tested against `Mix.ingredient` and the second argument's potion against `Mix.from`. I had
+called `mix(bottle, ingredient)`, so the bottle was being tested as an ingredient and the carrot as a potion, and the method
+returned the carrot unchanged - hence "no potion". Swapping to `mix(ingredient, bottle)` made the rule work immediately:
+
+| World | result in slot 0 | brewGateRefusals |
+| --- | --- | --- |
+| Release 1.3 | awkward potion (brew refused) | 1 |
+| Release 1.6.4 | night vision | 0 |
+
+Shipped: `NO_1_4_2_POTIONS` (`before(Release 1.4)`), `HistoricalPotionMixes` (pure, unit-tested), the `doBrew` gate, and the
+brew diagnostics in `/hex status` (`brewGateCalls`, `brewGateRefusals`, `brewGateNoProfile`, `brewLastIngredient`,
+`brewLastResult`) which are what made the bug findable at all.
+
+**Lesson recorded:** the two previous rounds' "cannot be shown to run" conclusions were themselves wrong about the
+mechanism - the hook ran all along; only the call was wrong. A counter that records the actual VALUES, not just counts,
+would have found this in round one.
+
+**Evidence:** `./gradlew cleanTest test` - **830 tests, 0 failures**; runtime probe above; golden, matrix and facts
+regenerated.
+
+---
 # Current work — 2026-10-21 / Closing the audit-implementation goal: what is done, and what is recorded instead
 
 The goal was to implement every gap the four era audits found, with a test and a citation each, and to record - not

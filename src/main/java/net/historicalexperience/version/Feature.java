@@ -268,6 +268,15 @@ public enum Feature {
         "Pressure plates take three planks or stone before Beta 1.3 (minecraft.wiki: 'now require only two wood "
         + "planks/stone ... previous versions required three')."),
 
+    /**
+     * Night Vision and Invisibility cannot be brewed before Release 1.4.2.
+     *
+     * <p>minecraft.wiki, Java Edition 1.4.2 additions: "Potion of Night Vision - Brewed by adding a golden carrot to an
+     * awkward potion"; "Potion of Invisibility - Brewed by adding a fermented spider eye to a potion of Night Vision".
+     */
+    NO_1_4_2_POTIONS(Domain.ITEMS, FeatureWindow.before(Milestones.RELEASE_1_4),
+        "Night Vision and Invisibility are unbrewable before Release 1.4.2 (minecraft.wiki: both are 1.4.2 additions)."),
+
     /** No attack cooldown. */
     NO_ATTACK_COOLDOWN(Domain.COMBAT, FeatureWindow.allDeclared(),
         "The 1.9 attack cooldown: attacks are always at full strength. Every declared version predates Release 1.9, so the window is every declared version. Upstream tweak: DISABLE_ATTACK_COOLDOWN."),

@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.LongAdder;
 
 /**
- * How many times each combat hook has actually run, so a rule that is correct but never called can be told
+ * How many times each diagnostic hook has actually run, so a rule that is correct but never called can be told
  * apart from one that is called and ignored.
  *
  * <p>This exists because the owner's report - cooldown, sweep and damage values all still modern - came with
@@ -35,6 +35,11 @@ public final class HistoricalCombatDiagnostics {
     private static final LongAdder SWEEP_CANCELLED = new LongAdder();
     private static final LongAdder DAMAGE_REWRITES = new LongAdder();
     private static final LongAdder ORBS_REFUSED = new LongAdder();
+    private static final LongAdder BREW_GATE_CALLS = new LongAdder();
+    private static final LongAdder BREW_GATE_REFUSALS = new LongAdder();
+    private static final LongAdder BREW_GATE_NO_PROFILE = new LongAdder();
+    private static volatile String BREW_LAST_INGREDIENT = "-";
+    private static volatile String BREW_LAST_RESULT = "-";
 
     private HistoricalCombatDiagnostics() {
     }
@@ -47,6 +52,24 @@ public final class HistoricalCombatDiagnostics {
         ORBS_REFUSED.increment();
     }
 
+    public static void recordBrewGateCall() {
+        BREW_GATE_CALLS.increment();
+    }
+
+    public static void recordBrewGateRefusal() {
+        BREW_GATE_REFUSALS.increment();
+    }
+
+    public static void recordBrewGateNoProfile() {
+        BREW_GATE_NO_PROFILE.increment();
+    }
+
+    /** Records what the gate actually saw, so a probe can read it from /hex status. */
+    public static void recordBrewMix(String ingredientId, String resultId) {
+        BREW_LAST_INGREDIENT = ingredientId;
+        BREW_LAST_RESULT = resultId;
+    }
+
     /** The counters, for /hex status. */
     public static Map<String, String> report() {
         Map<String, String> report = new LinkedHashMap<>();
@@ -54,6 +77,11 @@ public final class HistoricalCombatDiagnostics {
         report.put("sweepHookCancels", Long.toString(SWEEP_CANCELLED.sum()));
         report.put("damageHookRewrites", Long.toString(DAMAGE_REWRITES.sum()));
         report.put("orbsRefused", Long.toString(ORBS_REFUSED.sum()));
+        report.put("brewGateCalls", Long.toString(BREW_GATE_CALLS.sum()));
+        report.put("brewGateRefusals", Long.toString(BREW_GATE_REFUSALS.sum()));
+        report.put("brewGateNoProfile", Long.toString(BREW_GATE_NO_PROFILE.sum()));
+        report.put("brewLastIngredient", BREW_LAST_INGREDIENT);
+        report.put("brewLastResult", BREW_LAST_RESULT);
         return report;
     }
 }
