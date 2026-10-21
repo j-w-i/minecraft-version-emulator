@@ -99,7 +99,8 @@
     "common.HealOrHarmMobEffectHistoricalStrengthMixin",
     "common.CakeBlockHistoricalSlicesMixin",
     "common.VehicleEntityHistoricalBoatDropMixin",
-    "common.BrewingStandHistoricalPotionMixesMixin"
+    "common.BrewingStandHistoricalPotionMixesMixin",
+    "common.BoatHistoricalLandImpactMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -89,6 +89,7 @@ class FeatureBoundaryTest {
         BEFORE.put(Feature.NO_DEBUG_COORDINATES, P + "beta_1_0");
         FROM.put(Feature.CREEPER_DISC_DROPS, P + "alpha_1_0_14");
         FROM.put(Feature.BOAT_DROP_ITEM_ON_PLAYER_BREAK, P + "release_1_3");
+        FROM.put(Feature.BOAT_LAND_IMPACT_BREAKS, P + "alpha_1_0_6");
         BEFORE.put(Feature.NO_ANIMAL_TEMPTING, P + "beta_1_9_pre_2");
         BEFORE.put(Feature.NO_BABY_ANIMALS, P + "beta_1_9_pre_3");
         // Release 1.4.2 is not declared, but Release 1.4 IS its stable baseline, so it is the boundary rather than

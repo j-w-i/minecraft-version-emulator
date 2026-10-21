@@ -1,3 +1,31 @@
+# Current work — 2026-10-21 / The two follow-ups: the potion gate now ships, and boat impact is in
+
+**1. The 1.4.2 potion gate works** (previous entry has the root cause: `PotionBrewing.mix` takes `(ingredient, potion)`;
+I had it reversed, so the computed "result" was the carrot). Runtime-verified on dedicated worlds: a Release 1.3 stand
+kept its awkward potion (`brewGateRefusals=1`) while a Release 1.6.4 stand brewed night vision from identical inputs.
+`NO_1_4_2_POTIONS`, `HistoricalPotionMixes`, a `doBrew` gate and permanent `/hex` diagnostics are in the tree, with
+`PotionMixTest` pinning the window and the four variants.
+
+**2a. Boat land impact is implemented.** minecraft.wiki, Boat history: "v1.0.6_01 Boats now only break on impact with
+land at high speeds." Boats arrive in v1.0.6, so the rule covers every declared build that has them:
+`BOAT_LAND_IMPACT_BREAKS` (`from(Alpha 1.0.6)`), `HistoricalBoatImpact.shouldBreak` (land ahead + collision + speed),
+and a `Boat.tick` hook that removes with KILLED so the historical planks-and-sticks drop runs.
+
+Stated honestly: the wiki gives **no speed figure**, so `HIGH_SPEED` is an approximation documented in the class; and the
+hook is proven to RUN (`boatImpactCalls=88` in `/hex status`) but the break itself could not be driven by RCON - boats
+need player input, and NBT-granted motion is damped away - so this one needs a played test, which the owner has said they
+will do.
+
+**2b. Pre-1.9 AI: the sourced delta was already implemented, the rest has no evidence.** `NO_ANIMAL_PANIC` covers "cows
+run away when attacked" (Beta 1.8 Pre-release) and has been in the tree since the Nostalgic Tweaks work. The corpus is
+explicit that AI detail is unaudited - "no exact pathing/targeting detail", "modern AI/spawn conditions must not be
+substituted" - so the zombie-pathfinding improvement (12w03a) and the general "improved mob AI" rows cannot be modelled
+without inventing behaviour. Recorded, with the evidence quotes in the status board.
+
+**Evidence:** `./gradlew cleanTest test` - **833 tests, 0 failures**; golden, matrix and facts regenerated; two runtime
+probes above.
+
+---
 # Current work — 2026-10-21 / The potion gate now works, and the cause was an argument order
 
 Two reverted rounds ended with a counter showing the hook ran (`brewGateCalls=1`), the profile resolved, and the computed

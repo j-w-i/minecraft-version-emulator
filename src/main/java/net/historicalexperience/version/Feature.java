@@ -277,6 +277,17 @@ public enum Feature {
     NO_1_4_2_POTIONS(Domain.ITEMS, FeatureWindow.before(Milestones.RELEASE_1_4),
         "Night Vision and Invisibility are unbrewable before Release 1.4.2 (minecraft.wiki: both are 1.4.2 additions)."),
 
+    /**
+     * A boat that hits land at high speed breaks, from Alpha v1.0.6.
+     *
+     * <p>minecraft.wiki, Boat history: "v1.0.6_01 Boats now only break on impact with land at high speeds." Boats were
+     * added in v1.0.6, so this covers every declared build that has boats at all. The wiki gives no number for "high
+     * speed"; the threshold is a documented approximation (see {@code HistoricalBoatImpact.HIGH_SPEED}).
+     */
+    BOAT_LAND_IMPACT_BREAKS(Domain.PLAYER, FeatureWindow.from(Milestones.ALPHA_1_0_6),
+        "A boat that hits land while moving fast breaks (minecraft.wiki, Boat history v1.0.6_01: 'now only break on "
+        + "impact with land at high speeds'); the fall-damage break that modern boats have is unchanged."),
+
     /** No attack cooldown. */
     NO_ATTACK_COOLDOWN(Domain.COMBAT, FeatureWindow.allDeclared(),
         "The 1.9 attack cooldown: attacks are always at full strength. Every declared version predates Release 1.9, so the window is every declared version. Upstream tweak: DISABLE_ATTACK_COOLDOWN."),

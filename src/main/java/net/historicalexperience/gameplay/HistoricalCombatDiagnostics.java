@@ -35,6 +35,8 @@ public final class HistoricalCombatDiagnostics {
     private static final LongAdder SWEEP_CANCELLED = new LongAdder();
     private static final LongAdder DAMAGE_REWRITES = new LongAdder();
     private static final LongAdder ORBS_REFUSED = new LongAdder();
+    private static final LongAdder BOAT_IMPACT_CALLS = new LongAdder();
+    private static final LongAdder BOAT_IMPACT_BREAKS = new LongAdder();
     private static final LongAdder BREW_GATE_CALLS = new LongAdder();
     private static final LongAdder BREW_GATE_REFUSALS = new LongAdder();
     private static final LongAdder BREW_GATE_NO_PROFILE = new LongAdder();
@@ -50,6 +52,14 @@ public final class HistoricalCombatDiagnostics {
 
     public static void recordOrbRefused() {
         ORBS_REFUSED.increment();
+    }
+
+    public static void recordBoatImpactCall() {
+        BOAT_IMPACT_CALLS.increment();
+    }
+
+    public static void recordBoatImpactBreak() {
+        BOAT_IMPACT_BREAKS.increment();
     }
 
     public static void recordBrewGateCall() {
@@ -77,6 +87,8 @@ public final class HistoricalCombatDiagnostics {
         report.put("sweepHookCancels", Long.toString(SWEEP_CANCELLED.sum()));
         report.put("damageHookRewrites", Long.toString(DAMAGE_REWRITES.sum()));
         report.put("orbsRefused", Long.toString(ORBS_REFUSED.sum()));
+        report.put("boatImpactCalls", Long.toString(BOAT_IMPACT_CALLS.sum()));
+        report.put("boatImpactBreaks", Long.toString(BOAT_IMPACT_BREAKS.sum()));
         report.put("brewGateCalls", Long.toString(BREW_GATE_CALLS.sum()));
         report.put("brewGateRefusals", Long.toString(BREW_GATE_REFUSALS.sum()));
         report.put("brewGateNoProfile", Long.toString(BREW_GATE_NO_PROFILE.sum()));
